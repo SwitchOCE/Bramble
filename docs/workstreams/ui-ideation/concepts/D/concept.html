@@ -72,11 +72,11 @@ body.raised #bg{background:url(background.jpg) -1658px -30px/5236px 2945px no-re
 .tx b{font-weight:700;color:#fff8e6}
 .shoplabel{padding:5px 8px}
 .shoplabel .tr{margin:1px 0 3px}
-.boardlabel{text-align:center;padding:2px 8px 3px;transform:translateX(-50%);z-index:2}
-.boardlabel .kw{font-size:16px;line-height:19px;color:var(--text-lt2);font-weight:700;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:6px}
+.boardlabel{text-align:center;padding:1px 8px 2px;transform:translateX(-50%);z-index:2}
+.boardlabel .kw{font-size:18px;line-height:21px;color:var(--text-lt2);font-weight:700;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:6px}
 body.raised .boardlabel{padding:1px 8px 2px}
 body.raised .boardlabel .nm{line-height:20px}
-body.raised .boardlabel .kw{line-height:17px}
+body.raised .boardlabel .kw{line-height:20px}
 .pips{display:inline-flex;gap:3px}
 .pips i{width:10px;height:10px;border-radius:50%;border:2px solid #f2e6c8;display:block}
 .pips i.on{background:#f2e6c8}
@@ -86,9 +86,9 @@ body.raised .boardlabel .kw{line-height:17px}
 .slot{position:absolute}
 .slot svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 /* Renown: a labelled tab on the slot's shoulder, blue-violet glass, never gold */
-.rtab{position:absolute;height:24px;padding:0 7px;border:2.5px solid var(--lead);border-radius:4px;z-index:3;
+.rtab{position:absolute;height:27px;padding:0 7px;border:2.5px solid var(--lead);border-radius:4px;z-index:3;
   background:linear-gradient(175deg,#6a5cb8,#46398a 60%,#382d72);color:#fbf6ff;white-space:nowrap;
-  font-size:16px;line-height:19px;font-weight:700;display:flex;align-items:center;
+  font-size:18px;line-height:21px;font-weight:700;display:flex;align-items:center;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 2px 4px rgba(0,0,0,.6)}
 
 /* ---------- side lanes ---------- */
@@ -197,7 +197,8 @@ function card({folder,id,tier,atk,hp,h,x,y,spell=false,art=null,golden=false,chg
   a.style.clipPath=clip(ARTCLIP);c.append(a);
   const f=el("img","frame");f.src=A+"glass/frames/tier"+tier+".webp";c.append(f);
   if(!stats) return c;
-  const R=ROUND["tier"+tier];
+  const R=ROUND["tier"+tier], P=PRINTED[id];
+  if(P){const k=golden?2:1; chg={a:atk>P[0]*k?"up":null,h:hp>P[1]*k?"up":null,...Object.fromEntries(Object.entries(chg).filter(([,v])=>v))};}
   [["a",atk],["h",hp]].forEach(([key,v])=>{
     const [cx,cy]=R[key];
     c.append(statEl(key,v,d,String(v).length>1?fs:fs+1,chg[key],`left:${cx/5.6}%;top:${cy/10}%`));
@@ -208,6 +209,8 @@ function roundel(parent,kind,cx,cy,d,txt,fs,extra=""){
   return put(parent,"div","rd "+kind+(extra?" "+extra:""),`left:${cx-d/2}px;top:${cy-d/2}px;width:${d}px;height:${d}px;font-size:${fs}px`,`<span>${txt}</span>`)}
 function pips(n,left){return `<span class="pips">${Array.from({length:n},(_,i)=>`<i class="${i<left?"on":""}"></i>`).join("")}</span>`}
 
+// printed Attack and Health (src/content), for the changed-value mark
+const PRINTED={"famine-caller":[6,4],"squadron-leader":[4,9],"bell-ringer":[3,5],"granary-glutton":[5,7],"wing-commander":[8,14],"blackberry-sprawl":[4,8],"hedge-lancer":[6,12],"greatsword-bearer":[4,12],"briar-king":[8,16],"holly-knight":[5,12],"the-eighth-plague":[4,12],"weasel":[8,12],"gorger":[5,7],"dame-bodkin":[6,9],"home-guard":[3,11],"hayloft-aunt":[2,9],"sweetbriar":[3,7],"shrew-cutpurse":[2,4],"bramble-runner":[4,5]};
 const ICON={
   refresh:`<svg viewBox="0 0 40 40" width="40" height="40"><path d="M31 14 A12 12 0 1 0 32 24" fill="none" stroke="#f7eed6" stroke-width="4.5" stroke-linecap="round"/><path d="M33.5 5.5 L32.8 16 L23 13.6 Z" fill="#f7eed6"/></svg>`,
   freeze:`<svg viewBox="0 0 40 40" width="40" height="40"><g stroke="#f7eed6" stroke-linecap="round" fill="none"><path d="M20 4v32M6.1 12l27.8 16M6.1 28l27.8-16" stroke-width="3.6"/><path d="M15 6.5l5 4 5-4M15 33.5l5-4 5 4M5.3 17.3l6 2.7-1.3 6.4M34.7 22.7l-6-2.7 1.3-6.4M5.3 22.7l6-2.7-1.3-6.4M34.7 17.3l-6 2.7 1.3 6.4" stroke-width="2.6"/></g></svg>`,
@@ -232,7 +235,7 @@ const SHARPEN={spell:true,art:A+"glass/art/spell-sharpen.jpg",name:"Sharpen",tri
 // kw: the keyword line; for a unit with no keyword, a short cue in its place. charge: [total, left]
 const BOARD9=[
  {folder:"locust",id:"famine-caller",name:"Famine-caller",tier:3,atk:15,hp:11,renown:7,kw:"Dies: Tide +2"},
- {folder:"pigeon",id:"squadron-leader",name:"Squadron Leader",tier:3,atk:4,hp:9,kw:"Arms the unit ahead"},
+ {folder:"pigeon",id:"squadron-leader",name:"Squadron Leader",tier:3,atk:4,hp:9,kw:"Ahead: Sortie, +3 Attack"},
  {folder:"mouse",id:"bell-ringer",name:"Bell-ringer",tier:3,atk:5,hp:7,renown:2,kw:"Hand-me-down"},
  {folder:"locust",id:"granary-glutton",name:"Granary Glutton",tier:4,atk:7,hp:7,kw:"Eats sold Locusts"},
  {folder:"pigeon",id:"wing-commander",name:"Wing Commander",tier:5,atk:11,hp:17,renown:3,kw:"Sortie",charge:[4,4]},
@@ -288,12 +291,12 @@ function slotOutline(x,y,h,{filled=false,renown=0}={}){
   const sw=h*.56,pad=6;
   const sl=put(root,"div","slot",`left:${x-sw/2-pad}px;top:${y-pad}px;width:${sw+2*pad}px;height:${h+2*pad}px`);
   sl.innerHTML=`<svg viewBox="0 0 560 1000" preserveAspectRatio="none"><polygon points="280,0 560,170 560,830 280,1000 0,830 0,170" fill="${filled?"rgba(40,30,20,.16)":"rgba(40,30,20,.12)"}" stroke="#2a2118" stroke-dasharray="${filled?"none":"9 7"}" vector-effect="non-scaling-stroke" style="stroke-width:3px" stroke-linejoin="round"/></svg>`;
-  if(renown) put(root,"div","rtab",`left:${x-sw/2-40}px;top:${y+2}px`,`Renown ${renown}`);
+  if(renown) put(root,"div","rtab",`left:${x-sw/2-46}px;top:${y+2}px`,`Renown ${renown}`);
 }
 function unitOnBoard(u,x,y,h,opts={}){
   slotOutline(x,y,h,{filled:true,renown:u.renown});
   const c=card({...u,h,x,y,...opts});root.append(c);
-  const lab=put(root,"div","label boardlabel",`left:${x}px;top:${y+h+3}px`);
+  const lab=put(root,"div","label boardlabel",`left:${x}px;top:${y+h-4}px`);
   lab.innerHTML=`<div class="nm">${u.name}</div><div class="kw">${u.kw||""}${u.charge?pips(...(opts.charge||u.charge)):""}</div>`;
   return {c,lab};
 }
@@ -302,7 +305,7 @@ function lightTable(board){
   const T=put(root,"div","",`position:absolute;left:${CL}px;top:${TAB.top}px;width:${CR-CL}px;height:${TAB.bottom-TAB.top}px;border-radius:8px;
     background:linear-gradient(180deg,#5d3d22,#47301b);box-shadow:inset 0 0 0 2px #15100b,inset 0 0 0 4px rgba(255,214,160,.18),0 4px 10px rgba(0,0,0,.55)`);
   const G=put(T,"div","",`position:absolute;inset:9px;border:3px solid #15100b;border-radius:4px;overflow:hidden;
-    background:radial-gradient(ellipse 70% 80% at 50% 48%,#c4ad86,#ab9372 70%,#977e5f)`);
+    background:radial-gradient(ellipse 50% 62% at 50% 52%,#dcc79c 0%,#c4aa7e 38%,#93795a 72%,#5f4b32 100%);box-shadow:inset 0 0 90px rgba(25,16,8,.55)`);
   put(G,"div","",`position:absolute;inset:0;background:url(g/pane.jpg) center/320px auto;mix-blend-mode:soft-light;opacity:.55`);
   let q="";const H=TAB.bottom-TAB.top;
   for(let k=-14;k<=26;k++){const d=k*64;q+=`M${d} 0 L${d+H*.62} ${H} M${CR-CL-d} 0 L${CR-CL-d-H*.62} ${H} `}
@@ -396,7 +399,7 @@ function handTray(hand){
   put(T,"div","pane g-smoke",`inset:0`);
   put(T,"div","lab",`left:22px;top:46px;font-size:22px`,"Hand");
   put(T,"div","sub",`left:22px;top:76px;font-size:18px;line-height:20px`,`${hand.length} of 7`);
-  const x0=112, pw=(CR-CL-x0-10)/7, h=100, w=h*.56;
+  const x0=112, pw=(CR-CL-x0-10)/7, h=94, w=h*.56;
   for(let i=0;i<7;i++){
     const cx=x0+pw*i+pw/2, it=hand[i];
     if(!it){
@@ -404,9 +407,9 @@ function handTray(hand){
       s.innerHTML=`<svg viewBox="0 0 560 1000" preserveAspectRatio="none"><polygon points="280,0 560,170 560,830 280,1000 0,830 0,170" fill="rgba(0,0,0,.18)" stroke="rgba(230,217,188,.45)" stroke-dasharray="7 6" vector-effect="non-scaling-stroke" style="stroke-width:2px"/></svg>`;
       continue;
     }
-    T.append(card({...it,h,x:cx,y:10,d:25,fs:15}));
+    T.append(card({...it,h,x:cx,y:10,d:28,fs:18}));
     if(it.spell) roundel(T,"amber",cx-w/2-6,26,32,it.price,18);
-    put(T,"div","nm",`position:absolute;left:${cx-pw/2+2}px;width:${pw-4}px;top:114px;text-align:center;overflow:hidden`,it.name);
+    put(T,"div","nm",`position:absolute;left:${cx-pw/2+2}px;width:${pw-4}px;top:110px;text-align:center;overflow:hidden`,it.name);
   }
 }
 
@@ -510,7 +513,7 @@ function reserves(top){
   put(R,"div","lab",`left:16px;top:10px;font-size:20px`,"Reserves in hand");
   [{folder:"pigeon",id:"home-guard",tier:3,atk:3,hp:11,name:"Home Guard"},{folder:"mouse",id:"hayloft-aunt",tier:2,atk:2,hp:9,name:"Hayloft Aunt"}].forEach((u,i)=>{
     const cx=74+i*136;
-    R.append(card({...u,h:124,x:cx,y:42,d:27,fs:16}));
+    R.append(card({...u,h:124,x:cx,y:42,d:30,fs:18}));
     put(R,"div","nm",`position:absolute;left:${cx-66}px;width:132px;text-align:center;top:172px`,u.name);
   });
 }
@@ -639,8 +642,8 @@ function viewRead(){
    ${kw("Sortie","Attacks the enemy back row while it has units.")}
    ${kw("Charge 4","Works 4 times, then stops. Refills each fight.")}
    ${kw("Renown","The slot's bonus: +1/+1 for each.")}`;
-  P.querySelector("#sa").append(statEl("a",11,40,22,null,"left:50%;top:50%"));
-  P.querySelector("#sh").append(statEl("h",17,40,22,null,"left:50%;top:50%"));
+  P.querySelector("#sa").append(statEl("a",11,40,22,"up","left:50%;top:50%"));
+  P.querySelector("#sh").append(statEl("h",17,40,22,"up","left:50%;top:50%"));
 }
 const V={mid:()=>viewMid(),first:viewFirst,fight:viewFight,after:viewAfter,extra1:viewRead,extra2:viewFullHand};
 (V[view]||V.mid)();

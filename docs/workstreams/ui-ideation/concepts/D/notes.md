@@ -69,3 +69,11 @@ Row 26 is acted on: stats sit on pale stones, so gold means money only.
 15. "Watch again": done, listed as a flow suggestion.
 
 Non-blocking tier cue: not done; it adds a mark to every card face, which works against the minimal face. Hand stats are 15 px on small stones (above the 14 px floor, below 18).
+
+## Round 2 fixes
+
+1. Changed values in recruit: done. Any Attack or Health above the printed value carries the green chevron and green digits (Famine-caller 15/11 against 6/4), in every view, the reading panel included; damage keeps its crack and red notch.
+2. Hand and reserve stats: done, 18 px digits. Hand cards shrank from 100 to 94 px; reserves keep their size with larger stones.
+3. Renown tabs and effect lines: done, both 18 px. Labels now hang from the card's bottom tip, which keeps 9–11 px between a front-row label and the Renown tab below it and about 25 px above the fight's lead strip. Squadron Leader reads "Ahead: Sortie, +3 Attack".
+
+Non-blocking light table: half done. It now glows from below, brightest at the centre and dark at the edges. Not narrowed: the picture's own lit table lies under the margins, so narrowing would show that bright glass rather than bench, and the reading panel (`extra1`) docks in the right margin.

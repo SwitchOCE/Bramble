@@ -1,6 +1,6 @@
 # A · The great window, refit
 
-The shop and staggered 4+3 board live in the centre of a three-light window set in dark stone. The units keep their glass art and stats, with short captions below, tribes on the shoulder in recruit, and full rules in the left light.
+The shop and staggered 4+3 board live in the centre of a three-light window set in dark stone. The units keep their glass art and stats, with short captions below, tribe tabs in recruit, and full rules in the left light.
 
 ## Play and glance
 
@@ -55,3 +55,8 @@ Opened all four 1920×1080 renders. Checked alignment, icons, type, contrast (4.
 9. **Done** · The defeat capture shows six survivors and Briar King fallen. Used that capture for the survivor stats and turn-nine standings where it conflicts with the state sheet. Golden Gorger and Holly Knight sit beside the 10 + 3 explanation.
 10. **Done** · The only tutorial cue points to the highlighted first empty front slot.
 11. **Done** · Added owner-decision rows 20 and 40.
+
+## Round 2 fixes
+
+1. **Done** · Moved each Renown tab inside its slot surround at the upper-left shoulder, including fallen Briar King’s slot. The smallest gap between tab and plaque edges is 13.7 px.
+2. **Done** · Raised the three recruit back-row plaques to leave 11.5 px above the stone sill, with keyword clearance preserved. The back-row frames stay undistorted at their slightly smaller size.

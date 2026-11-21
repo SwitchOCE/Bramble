@@ -64,3 +64,9 @@ Round 1: all five views re-checked with crops; a script confirms no plate text o
 13. Done. Row 40 added to reversed rows; "Watch again" labelled a flow suggestion. A6 is no longer reversed: counters are now named plates.
 
 Non-blocking: tier cue on the card face not done (it would add a mark the frame already carries).
+
+## Round 2 fixes
+1. Done. The after view follows the recorded end of the turn-9 fight: Briar King fallen (dark, cracked, "Fell"), six survivors lit with their end stats (Gorger 38/57, Holly Knight 24/27, Greatsword Bearer 7/10, Weasel 9/2), both tallies at 1 of 7 killed, Compost 4 and Tide 4, and the lanterns in the recorded order (Dame Hoolet 23, Pipkin 21, Little King Wren 18, Old Mother Mousewife 18, March Hare 16, Hob Mumblecrust 16, you and Brother Bracken out). The plaque spells out "10 turn 9 + 3 big loss"; the numbered threat markers stay.
+2. Done. Card names and cues are 18 px and fit inside every plate (a script checks each view; none overflows). Shop plates are 164 wide, so the gold, tier-up, Refresh and Freeze moved 90 px left. Cues corrected against the card data: Sweetbriar "Compost in: +1/+1", Hedge Lancer "First attack: unhurt", and also Bell-ringer "Hand-me-downs +3". Squadron Leader ("Front: Sortie +3") and Blackberry Sprawl ("Grow 2") were shortened to fit. Tally labels and lantern names are 18 px. Dimmed states now dim the portraits and the plate glass, not the text: rank, health on ruby (about 8:1) and "Fell" keep full contrast.
+
+Non-blocking, both done: spell plates sit on the unit plates' baseline; the reading pane in extra1 ends above the Fight March Hare button.

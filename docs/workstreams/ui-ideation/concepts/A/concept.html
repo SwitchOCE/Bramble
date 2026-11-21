@@ -129,9 +129,9 @@ h1,h2,h3,strong,b{font-weight:700}
 .pips.supply i{border-radius:1px;background:#dce4dc}
 .board-slot{position:relative;aspect-ratio:560/1000;isolation:isolate}
 .slot-surround{position:absolute;inset:-5px;width:calc(100% + 10px);height:calc(100% + 10px);filter:drop-shadow(0 3px 3px #101512d9);pointer-events:none}
-.renown{position:absolute;left:50%;top:-4px;transform:translateX(-50%);display:flex;justify-content:center;align-items:center;gap:3px;padding:2px 6px;border-radius:3px;border:1px solid #a88d5b;box-shadow:0 0 0 2px #141a14;background:#263126;color:#f5dfb2;font:700 18px/1 var(--sans);white-space:nowrap;pointer-events:none}
+.renown{position:absolute;left:2px;top:18.5%;display:flex;align-items:center;gap:4px;padding:2px 5px;border-radius:3px;border:1px solid #a88d5b;box-shadow:0 0 0 2px #141a14;background:#263126;color:#f5dfb2;font:700 18px/1 var(--sans);white-space:nowrap;pointer-events:none}
 .tribe-tab{position:absolute;right:-1px;top:15px;padding:2px 7px 3px;border-radius:3px;border:1px solid #8e7957;box-shadow:0 0 0 2px #141a14;background:#263129;color:#f5e3bd;font:700 18px/1 var(--sans);pointer-events:none}
-.board-piece .tribe-tab{top:37px}
+.board-piece .tribe-tab{top:82px}
 .tutorial-target .slot-surround path{stroke:#b7e0cc;stroke-width:11px}
 .tutorial-target .empty-slot{filter:drop-shadow(0 0 7px #9bceb56b)}
 .card-caption{position:relative;margin-top:4px;text-align:center;min-height:43px;padding:3px 2px 2px;background:linear-gradient(90deg,#17231ffa,#202b23,#17231ffa);border-top:1px solid #907c54;border-bottom:1px solid #524935;box-shadow:0 1px #101711}
@@ -538,7 +538,7 @@ function boardRow(ids, renown, y, width, kind, {labels=true,battle=false,variant
           <path d="M280 9 552 174V826L280 991 8 826V174Z" fill="none" stroke="${renown[i] ? "#927c50" : "#4d5b48"}" stroke-width="11"/>
         </svg>
         ${art}
-        ${renown[i] ? `<span class="renown" aria-hidden="true">Renown ${renown[i]}</span>` : ""}
+        ${renown[i] ? `<span class="renown" aria-hidden="true"><span>Renown</span><b>${renown[i]}</b></span>` : ""}
       </div>
       ${id ? caption(id,{status}) : ""}
     </div>`;
@@ -551,7 +551,7 @@ function recruitBoard() {
   return `<section aria-label="Your board">
     <h2 class="sr-only">Your board</h2>
     ${boardRow(fronts,first ? [] : yourFrontRenown,493,134,"Front",{tutorial:first})}
-    ${boardRow(backs,first ? [] : yourBackRenown,761,134,"Back")}
+    ${boardRow(backs,first ? [] : yourBackRenown,760,127,"Back")}
     ${first ? `<p class="cue placed">Drag a unit here from the shop.${icon("arrow")}</p>` : ""}
   </section>`;
 }

@@ -44,7 +44,7 @@ body{font-family:"Alegreya Sans",sans-serif;color:var(--cream)}
 .e-tribe{border-radius:3px 3px 50% 50%/3px 3px 60% 60%}
 .e-tribe svg{fill:#fffaf0;stroke:none}
 .e-renown{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:3px;padding:1px 9px 1px 5px;height:26px;border-radius:13px;
-  background:linear-gradient(#f2cd6a,#c8922b);border:2px solid var(--lead);font:900 19px/1 Alegreya,serif;color:var(--ink);box-shadow:0 0 10px rgba(255,210,120,.45);z-index:3}
+  background:linear-gradient(#f2cd6a,#c8922b);border:2px solid var(--lead);font:900 19px/1 Alegreya,serif;color:var(--ink);box-shadow:0 0 10px rgba(255,210,120,.45);z-index:7}
 .e-renown svg{width:16px;height:16px;fill:#5a3a08;stroke:none}
 
 /* ---------- glass objects in the scene ---------- */
@@ -88,11 +88,12 @@ body{font-family:"Alegreya Sans",sans-serif;color:var(--cream)}
 .e-mark.e-has-n{margin-right:9px}
 .e-renown{padding:1px 5px 1px 3px;gap:1px;height:24px;font-size:17px}
 .e-renown svg{width:13px;height:13px}
-.e-np{position:absolute;height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;white-space:nowrap;overflow:hidden;
+.e-np{position:absolute;height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;white-space:nowrap;overflow:hidden;
   background:url(../../../../../assets/glass/ui/pane.jpg) center/220px,linear-gradient(175deg,#3a2c1f,#17110c 75%);background-blend-mode:multiply;
   border:3px solid var(--lead);border-radius:4px;box-shadow:0 0 0 1.5px #8d7247,inset 0 0 0 1px rgba(255,228,170,.16),0 3px 8px rgba(0,0,0,.65);z-index:2}
-.e-np b{font:900 17px/1 Alegreya,serif;color:var(--cream)}
-.e-np span{font:700 15px/1 "Alegreya Sans",sans-serif;color:var(--cream-dim)}
+.e-np b{font:900 18px/1 Alegreya,serif;color:var(--cream)}
+.e-np span{font:700 18px/1 "Alegreya Sans",sans-serif;color:var(--cream-dim)}
+.e-np.e-np-dim{background:linear-gradient(175deg,#1d1610,#0c0907 75%);box-shadow:0 0 0 1.5px #4a3b27,0 3px 8px rgba(0,0,0,.65)}
 .e-tag{position:absolute;width:36px;height:42px;background:var(--lead);clip-path:polygon(0 0,100% 0,100% 70%,50% 100%,0 70%);filter:drop-shadow(0 2px 3px rgba(0,0,0,.7));z-index:3}
 .e-tag-in{position:absolute;inset:3px 3px 4px;clip-path:polygon(0 0,100% 0,100% 70%,50% 100%,0 70%);display:grid;justify-items:center;padding-top:5px;
   background:url(../../../../../assets/glass/ui/pane.jpg) center/120px,linear-gradient(170deg,#ffe39a,#e3a93c 60%,#b17a1c);background-blend-mode:multiply;
@@ -101,11 +102,12 @@ body{font-family:"Alegreya Sans",sans-serif;color:var(--cream)}
 .e-tag-cream .e-tag-in{background:url(../../../../../assets/glass/ui/pane.jpg) center/120px,linear-gradient(170deg,#fff6de,#e8d8b2 60%,#c4b088);background-blend-mode:multiply}
 .e-card .e-spell-came{position:absolute;inset:3.4% 6%;background:linear-gradient(160deg,#d8b46a,#9a7334 50%,#c9a258)}
 .e-card .e-spell-art{inset:6.6% 11.5%;background-size:cover;background-position:center}
-.e-light{justify-content:flex-start;padding:0 40px 0 10px;gap:10px;border-radius:18px}
+.e-light{justify-content:flex-start;padding:0 32px 0 10px;gap:8px;border-radius:18px}
+.e-light.e-light-dim{background:linear-gradient(170deg,#211910,#0d0a07 70%);box-shadow:0 0 0 1.5px #4a3b27,0 4px 10px rgba(0,0,0,.65)}
 .e-light-next{box-shadow:0 0 0 2px #ffd77a,inset 0 0 0 1.5px rgba(255,228,170,.18),0 4px 10px rgba(0,0,0,.65)}
 .e-light-you{box-shadow:0 0 0 2px #e9e2d0,inset 0 0 0 1.5px rgba(255,228,170,.18),0 4px 10px rgba(0,0,0,.65)}
 .e-rank{flex:none;width:18px;text-align:center;font:900 19px/1 Alegreya,serif;color:var(--amber-hi)}
-.e-pname{flex:1;text-align:left;font:700 16px/1 "Alegreya Sans",sans-serif;color:var(--cream);white-space:nowrap}
+.e-pname{flex:1;text-align:left;font:700 18px/1 "Alegreya Sans",sans-serif;color:var(--cream);white-space:nowrap}
 .e-hp{flex:none;display:grid;place-items:center;width:30px;height:28px;font:900 18px/1 Alegreya,serif;color:#fff4dc;padding-top:2px;
   background:radial-gradient(circle at 40% 35%,var(--ruby-hi),var(--ruby) 70%);clip-path:polygon(50% 0,100% 22%,100% 78%,50% 100%,0 78%,0 22%)}
 .e-out{flex:none;font:700 16px/1 "Alegreya Sans",sans-serif;color:var(--cream-dim)}
@@ -116,7 +118,7 @@ body{font-family:"Alegreya Sans",sans-serif;color:var(--cream)}
 .e-ico{flex:none;width:22px;height:22px;fill:none;stroke:var(--cream);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .e-name{font:900 18px/1 Alegreya,serif;border:2.5px solid var(--lead);box-shadow:0 0 0 1.5px #8d7247;z-index:2;
   background:url(../../../../../assets/glass/ui/pane.jpg) center/200px,linear-gradient(175deg,#3a2c1f,#17110c 75%);background-blend-mode:multiply}
-.e-tally-label{position:absolute;transform:translateX(-50%);white-space:nowrap;font:700 16px/1 "Alegreya Sans",sans-serif;color:var(--cream);
+.e-tally-label{position:absolute;transform:translateX(-50%);white-space:nowrap;font:700 18px/1 "Alegreya Sans",sans-serif;color:var(--cream);
   padding:4px 8px;border-radius:5px;background:var(--plate);border:1.5px solid #5d4a33}
 .e-bead{position:absolute;transform:translate(-50%,-50%);width:32px;height:32px;border-radius:50%;display:grid;place-items:center;padding-top:2px;
   font:900 20px/1 Alegreya,serif;color:var(--ink);background:radial-gradient(circle at 38% 34%,#fff0b8,#f0b54a 60%,#b9821f);border:3px solid var(--lead);
@@ -128,6 +130,7 @@ body{font-family:"Alegreya Sans",sans-serif;color:var(--cream)}
   background:url(../../../../../assets/glass/ui/pane.jpg) center/300px,linear-gradient(170deg,#3e2f21,#17110c 70%);background-blend-mode:multiply;
   border:12px solid;border-image:repeating-linear-gradient(90deg,#c99a45 0 30px,#0c0a08 30px 34px,#8a5f22 34px 62px,#0c0a08 62px 66px,#b5823a 66px 96px,#0c0a08 96px 100px) 12;
   box-shadow:0 0 0 3px var(--lead),inset 0 0 0 3px var(--lead),inset 0 0 0 5px rgba(255,228,170,.14),0 10px 30px rgba(0,0,0,.75)}
+.e-sum{display:inline-grid;place-items:center;min-width:34px;height:30px;padding:2px 6px 0;border-radius:5px;background:#5c121a;border:2px solid var(--lead);box-shadow:0 0 0 1px #a0603a;font:900 20px/1 Alegreya,serif;color:#fff4dc}
 .e-why{display:flex;align-items:center;gap:10px;margin-top:12px}
 .e-why b{display:block;font:900 20px/1.1 Alegreya,serif}
 .e-why .e-bead-s{display:grid;font:900 18px/1 Alegreya,serif;color:var(--ink)}
@@ -239,16 +242,16 @@ function rng(seed){ return function(){ seed|=0; seed=seed+0x6D2B79F5|0; let t=Ma
 // name, the recruit cue, the fight cue (keyword first)
 const NAMES = {
   "famine-caller":["Famine-caller","Dies: Tide +2","Dies: Tide +2"],
-  "squadron-leader":["Squadron Leader","Front gets Sortie +3","Front gets Sortie"],
-  "bell-ringer":["Bell-ringer","Hand-me-down boost","Hand-me-down"],
+  "squadron-leader":["Squadron Leader","Front: Sortie +3","Front gets Sortie"],
+  "bell-ringer":["Bell-ringer","Hand-me-downs +3","Hand-me-down"],
   "granary-glutton":["Granary Glutton","Eats sold Locusts","Eat"],
   "wing-commander":["Wing Commander","Kills give Renown","Sortie, Charge 4"],
-  "blackberry-sprawl":["Blackberry Sprawl","Grows with Compost","Grow 2"],
-  "hedge-lancer":["Hedge Lancer","First hit is free","Fury 1"],
+  "blackberry-sprawl":["Blackberry Sprawl","Grow 2","Grow 2"],
+  "hedge-lancer":["Hedge Lancer","First attack: unhurt","Fury 1"],
   "bramble-runner":["Bramble Runner","Seed","Seed"],
   "home-guard":["Home Guard","Guard, Reserve","Guard, Reserve"],
   "hayloft-aunt":["Hayloft Aunt","Recruit: a Cousin","Hand-me-down"],
-  "sweetbriar":["Sweetbriar","Grows with Compost","Grows"],
+  "sweetbriar":["Sweetbriar","Compost in: +1/+1","Compost in: +1/+1"],
   "shrew-cutpurse":["Shrew Cutpurse","Pile on 1: +2 gold","Pile on 1"],
   "sentry":["Sentry","Supply 6: Renown","Supply 6"],
   "hedgerow-scout":["Hedgerow Scout","Hand-me-down","Hand-me-down"],
@@ -264,7 +267,7 @@ const NAMES = {
   "dame-bodkin":["Dame Bodkin","Pile on 2","Pile on 2"],
   "cousin":["Cousin","Hand-me-down","Hand-me-down"],
 };
-const SPELLS = {"spell-sharpen":["Sharpen","+2/+2 to a unit"],"spell-seek":["Seek","Discover a unit"]};
+const SPELLS = {"spell-sharpen":["Sharpen","+2/+2"],"spell-seek":["Seek","Discover a unit"]};
 
 function mark(kind, n, size){
   const [col, path] = KW[kind];
@@ -318,10 +321,10 @@ function placeCard(o, x, y, H, extra={}){
   if (extra.plate){
     const [name, cue] = o.spell ? SPELLS[o.art] : (()=>{ const n=NAMES[o.id]; return [n[0], extra.plate==="fight"?n[2]:n[1]]; })();
     const pw = extra.pw || 160;
-    const p = el("div","e-np",`left:${x+W/2-pw/2}px;top:${y+H+(o.spell?14:16)}px;width:${pw}px`,`<b>${name}</b><span>${cue}</span>`);
+    const p = el("div","e-np",`left:${x+W/2-pw/2}px;top:${extra.plateTop!=null?extra.plateTop:y+H+16}px;width:${pw}px`,`<b>${name}</b><span>${cue}</span>`);
     add(p,parent); made.push(p);
   }
-  if (extra.dim) made.forEach(m=>{ if(m!==c) m.style.filter=(m.style.filter||"")+" brightness(.45)"; });
+  if (extra.dim) made.forEach(m=>{ if(m===c) return; if(m.classList.contains("e-np")) m.classList.add("e-np-dim"); else m.style.filter=(m.style.filter||"")+" brightness(.45)"; });
   return c;
 }
 // a price: a leaded tag hung on the card's chain (a shape the stat discs do not have)
@@ -533,9 +536,8 @@ function treeLights(players, opts={}){
     if (st==="you") r.style.boxShadow="0 0 0 3px #e9e2d0,0 4px 10px rgba(0,0,0,.7)";
     if (dim) r.style.filter="brightness(.55)";
     const right = (st==="out" || hp<=0) ? `<span class="e-out">Out</span>` : `<span class="e-hp">${hp}</span>`;
-    const p = add(el("div","e-plate e-light"+(st==="next"?" e-light-next":st==="you"?" e-light-you":""),`left:1592px;top:${y-18}px;width:284px;height:36px`,
+    const p = add(el("div","e-plate e-light"+(st==="next"?" e-light-next":st==="you"?" e-light-you":"")+(dim?" e-light-dim":""),`left:1584px;top:${y-18}px;width:292px;height:36px`,
       `<span class="e-rank">${opts.noPlace?"–":i+1}</span><span class="e-pname">${PNAME[who]}</span>${right}`));
-    if (dim) p.style.filter="brightness(.6)";
   });
 }
 function systemTags(turn){
@@ -573,39 +575,39 @@ function hand(cards, count, H=190, x0=216){
 // ======================================================================
 // Shop (recruit): everything hangs from the bough
 // ======================================================================
-const SHOP_TOP = 132, SHOP_H = 236, SHOP_PITCH = 166, SPELL_H = 170;
+const SHOP_TOP = 132, SHOP_H = 236, SHOP_PITCH = 170, SPELL_H = 170, SHOP_X0 = 480, SHOP_PW = 164;
 function shopCluster(gold, tier, upCost, refresh, canUp){
   // gold: an amber roundel, quiet (no glow), a ring of panes round its centre
-  chain(445, 104);
+  chain(355, 104);
   const sp = Array.from({length:10},(_,a)=>{ const t=a*.62832, c=Math.cos(t), s=Math.sin(t);
-    return `<line x1="${(445+38*c).toFixed(1)}" y1="${(160+38*s).toFixed(1)}" x2="${(445+54*c).toFixed(1)}" y2="${(160+54*s).toFixed(1)}" stroke="#0c0a08" stroke-width="3.5"/>`; }).join("");
+    return `<line x1="${(355+38*c).toFixed(1)}" y1="${(160+38*s).toFixed(1)}" x2="${(355+54*c).toFixed(1)}" y2="${(160+54*s).toFixed(1)}" stroke="#0c0a08" stroke-width="3.5"/>`; }).join("");
   S(`<defs><radialGradient id="eAmb" cx=".42" cy=".36" r=".7"><stop offset="0" stop-color="#e9c77e"/><stop offset=".6" stop-color="#c28a36"/><stop offset="1" stop-color="#8a5a1c"/></radialGradient>
        <radialGradient id="eRing" cx=".5" cy=".5" r=".5"><stop offset=".6" stop-color="#8f6024"/><stop offset="1" stop-color="#5a3810"/></radialGradient></defs>
-     <circle cx="445" cy="160" r="54" fill="url(#eRing)" stroke="#0c0a08" stroke-width="6"/>${sp}
-     <circle cx="445" cy="160" r="38" fill="url(#eAmb)" stroke="#0c0a08" stroke-width="4"/>`);
-  add(el("div","",`position:absolute;left:405px;top:122px;width:80px;height:80px;display:grid;place-items:center;font:900 40px/1 Alegreya,serif;color:#1e1208;padding-top:4px`, gold));
-  S(`<line x1="445" y1="214" x2="445" y2="228" stroke="#0b0907" stroke-width="5"/><line x1="445" y1="214" x2="445" y2="228" stroke="#9a8a6a" stroke-width="2.4"/>`);
-  add(el("div","e-plate",`left:345px;top:228px;width:200px;height:72px;flex-direction:column;gap:5px`,
+     <circle cx="355" cy="160" r="54" fill="url(#eRing)" stroke="#0c0a08" stroke-width="6"/>${sp}
+     <circle cx="355" cy="160" r="38" fill="url(#eAmb)" stroke="#0c0a08" stroke-width="4"/>`);
+  add(el("div","",`position:absolute;left:315px;top:122px;width:80px;height:80px;display:grid;place-items:center;font:900 40px/1 Alegreya,serif;color:#1e1208;padding-top:4px`, gold));
+  S(`<line x1="355" y1="214" x2="355" y2="228" stroke="#0b0907" stroke-width="5"/><line x1="355" y1="214" x2="355" y2="228" stroke="#9a8a6a" stroke-width="2.4"/>`);
+  add(el("div","e-plate",`left:255px;top:228px;width:200px;height:72px;flex-direction:column;gap:5px`,
     `<div style="display:flex;align-items:center;gap:8px;font-family:Alegreya;font-weight:900;font-size:22px">Tier ${tier}<span style="color:var(--cream-dim)">→</span>${tier+1} ${coin(upCost,32,!canUp)}</div>`
     + (canUp?``:`<div style="font-size:16px;font-weight:700;color:var(--cream-dim)">${upCost-gold} gold short</div>`)));
   // refresh (its price inside) and freeze
-  add(el("div","e-plate",`left:345px;top:312px;width:200px;height:46px;justify-content:flex-start;padding:0 12px;border-radius:23px`,
+  add(el("div","e-plate",`left:255px;top:312px;width:200px;height:46px;justify-content:flex-start;padding:0 12px;border-radius:23px`,
     `<svg class="e-ico" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6"/><path d="M20 4v7h-7"/></svg><span style="flex:1;text-align:left">Refresh</span>${coin(refresh,30)}`));
-  add(el("div","e-plate",`left:345px;top:368px;width:200px;height:46px;justify-content:flex-start;padding:0 12px;border-radius:23px`,
+  add(el("div","e-plate",`left:255px;top:368px;width:200px;height:46px;justify-content:flex-start;padding:0 12px;border-radius:23px`,
     `<svg class="e-ico" viewBox="0 0 24 24"><path d="M12 2v20M3.3 7l17.4 10M3.3 17 20.7 7"/><path d="M9.5 3.5 12 6l2.5-2.5M9.5 20.5 12 18l2.5 2.5"/></svg><span style="flex:1;text-align:left">Freeze</span>`));
 }
 function shopRow(offers, spells, opts={}){
-  const W=SHOP_H*.56, x0=960-(4*SHOP_PITCH+W)/2;
+  const W=SHOP_H*.56, x0=SHOP_X0;
   offers.forEach((o,i)=>{
     const x = x0+i*SHOP_PITCH;
     chain(x+W/2, SHOP_TOP);
-    placeCard(o, x, SHOP_TOP, SHOP_H, {plate:"recruit", pw:156});
+    placeCard(o, x, SHOP_TOP, SHOP_H, {plate:"recruit", pw:SHOP_PW});
     priceTag(x+W/2, SHOP_TOP-38, o.price, o.price>opts.gold?"e-tag-short":"");
   });
   spells.forEach((s,i)=>{
-    const sw=SPELL_H*.56, x = x0+4*SHOP_PITCH+W+10 + i*112;
+    const sw=SPELL_H*.56, x = x0+4*SHOP_PITCH+W+28 + i*112;
     chain(x+sw/2, SHOP_TOP);
-    placeCard({spell:true, art:s.art, cost:s.cost, t:"neutral"}, x, SHOP_TOP, SPELL_H, {plate:"recruit", pw:104});
+    placeCard({spell:true, art:s.art, cost:s.cost, t:"neutral"}, x, SHOP_TOP, SPELL_H, {plate:"recruit", pw:104, plateTop:SHOP_TOP+SHOP_H+16});
     priceTag(x+sw/2, SHOP_TOP-38, s.cost);
   });
 }
@@ -686,7 +688,7 @@ async function viewFirst(){
   hand([], 0);
   endTurn("march_hare","March Hare", 40, 7, true);
   // the one tutorial cue: an overlay, nothing moves when it goes
-  const W=SHOP_H*.56, sx = 960-(4*SHOP_PITCH+W)/2 + SHOP_PITCH + W/2, sy = SHOP_TOP+SHOP_H+64;
+  const W=SHOP_H*.56, sx = SHOP_X0 + SHOP_PITCH + W/2, sy = SHOP_TOP+SHOP_H+64;
   const tx = pos[1][0]+BOARD_H*.28+20, ty = pos[1][1]+BOARD_H*.4;
   const cue = el("div","e-cue",`left:0;top:0;width:1920px;height:1080px;pointer-events:none`);
   cue.innerHTML = `<svg viewBox="0 0 1920 1080" style="position:absolute;inset:0">
@@ -723,18 +725,18 @@ async function viewFight(){
   const {W, oBack, oFront, mine:pos} = fightPos(), H=F_H;
   const foe = FOE.map(o=>({...o}));
   foe[1].hcur = 5; // Briar King took 15
-  [4,5,6].forEach((i,k)=>placeCard(foe[i], oBack[k][0], oBack[k][1], H, {plate:"fight"}));
-  [0,1,2,3].forEach(i=>placeCard(foe[i], oFront[i][0], oFront[i][1], H, {plate:"fight"}));
+  [4,5,6].forEach((i,k)=>placeCard(foe[i], oBack[k][0], oBack[k][1], H, {plate:"fight", pw:172}));
+  [0,1,2,3].forEach(i=>placeCard(foe[i], oFront[i][0], oFront[i][1], H, {plate:"fight", pw:172}));
   const mine = MINE_FIGHT.map(o=>o&&({...o})); mine[0].hcur = 7; // Thorns 4 back
   slotStone(pos[3][0],pos[3][1],W,H);
-  [4,5,6,1,2].forEach(i=> placeCard(mine[i], pos[i][0], pos[i][1], H, {plate:"fight"}));
+  [4,5,6,1,2].forEach(i=> placeCard(mine[i], pos[i][0], pos[i][1], H, {plate:"fight", pw:172}));
   // the attacker, lifted out of its slot, has struck Briar King and caught its Thorns
   const tx = oFront[1][0], ax = pos[0][0], ay = pos[0][1]-8;
   const ty = oFront[1][1]+H;
   S(`<path d="M${ax+W*.6} ${ay+6} Q ${ax+W*.9} ${ay-30}, ${tx+W*.3} ${ty-8}" stroke="#ffe29a" stroke-width="12" stroke-linecap="round" fill="none" opacity=".35"/>
      <path d="M${ax+W*.6} ${ay+6} Q ${ax+W*.9} ${ay-30}, ${tx+W*.3} ${ty-8}" stroke="#fff3c4" stroke-width="3.5" stroke-dasharray="3 9" stroke-linecap="round" fill="none"/>`);
   const n0 = ui.children.length;
-  placeCard(mine[0], ax, ay, H, {plate:"fight", filter:"brightness(1.12) drop-shadow(0 0 16px #fff1b0) "});
+  placeCard(mine[0], ax, ay, H, {plate:"fight", pw:172, filter:"brightness(1.12) drop-shadow(0 0 16px #fff1b0) "});
   [...ui.children].slice(n0).forEach((e,k)=>e.style.zIndex = k ? 6 : 5);
   add(el("div","e-splash",`left:${tx+W*.5}px;top:${oFront[1][1]+H*.42}px`,"−15"));
   add(el("div","e-splash",`left:${ax+W*.5}px;top:${ay+H*.4}px;width:92px;height:80px;font-size:32px`,"−4"));
@@ -756,21 +758,27 @@ async function viewAfter(){
   systemTags(9);
   const {W, oBack, oFront, mine:pos} = fightPos(), H=F_H;
   const foe = FOE.map(o=>({...o}));
-  foe[0].hcur=6; foe[1].hcur=11; foe[2].hcur=4; foe[3].hcur=9; foe[5].hcur=41;
-  // every enemy survived and stays lit; the three that beat you are ringed and numbered
+  // the recorded end of the turn-9 fight: Briar King fell, six survived with these stats
+  Object.assign(foe[0],{h:15,hcur:10}); Object.assign(foe[2],{a:24,h:27}); Object.assign(foe[4],{hcur:2});
+  Object.assign(foe[5],{hcur:57}); foe[3].hcur=14; foe[6].hcur=9;
+  // survivors stay lit; the three that beat you are ringed and numbered; Briar King is dark glass
   const key = {5:1, 4:2, 2:3};
   const at = i => i>=4 ? oBack[i-4] : oFront[i];
-  [4,5,6,0,1,2,3].forEach(i=> placeCard(foe[i], at(i)[0], at(i)[1], H, {plate:"fight", filter: (i in key) ? "drop-shadow(0 0 4px #ffe08a) drop-shadow(0 0 12px #ffc65a) " : ""}));
+  const fallen = (o,x,y,pw) => {
+    placeCard({...o, hcur:0, renown:null}, x, y, H, {plate:"fight", pw, filter:"grayscale(1) brightness(.38) ", dim:true});
+    S(`<g stroke="#0b0907" stroke-width="3.5" fill="none" stroke-linejoin="round">
+        <path d="M${x+W*.18} ${y+H*.22} l${W*.3} ${H*.16} l-${W*.12} ${H*.14} l${W*.42} ${H*.2}"/>
+        <path d="M${x+W*.86} ${y+H*.3} l-${W*.3} ${H*.2} l${W*.1} ${H*.22}"/></g>`);
+    add(el("div","e-fallen",`left:${x+W/2}px;top:${y+H*.5}px`,"Fell"));
+  };
+  [4,5,6,0,2,3].forEach(i=> placeCard(foe[i], at(i)[0], at(i)[1], H, {plate:"fight", pw:172, filter: (i in key) ? "drop-shadow(0 0 4px #ffe08a) drop-shadow(0 0 12px #ffc65a) " : ""}));
+  fallen(foe[1], at(1)[0], at(1)[1], 172);
   Object.entries(key).forEach(([i,n])=>{ const [x,y]=at(+i);
     add(el("div","e-bead",`left:${x+W-12}px;top:${y+H*.14}px`, n)); });
   // your clearing: every unit fell; each slot shows its unit as broken, unlit glass
   MINE_FIGHT.forEach((o,i)=>{ const [x,y]=pos[i];
     if (!o) { slotStone(x,y,W,H); return; }
-    placeCard({...o, hcur:0}, x, y, H, {plate:"fight", filter:"grayscale(1) brightness(.38) ", dim:true});
-    S(`<g stroke="#0b0907" stroke-width="3.5" fill="none" stroke-linejoin="round">
-        <path d="M${x+W*.18} ${y+H*.22} l${W*.3} ${H*.16} l-${W*.12} ${H*.14} l${W*.42} ${H*.2}"/>
-        <path d="M${x+W*.86} ${y+H*.3} l-${W*.3} ${H*.2} l${W*.1} ${H*.22}"/></g>`);
-    add(el("div","e-fallen",`left:${x+W/2}px;top:${y+H*.5}px`,"Fell"));
+    fallen(o, x, y, 172);
   });
   // the reckoning: a leaded plaque in the oak's shadow on the left
   const box = add(el("div","e-leaded",`left:196px;top:356px;width:398px`));
@@ -778,12 +786,14 @@ async function viewAfter(){
   const row = (n,id,name,what) => `<div class="e-why"><span class="e-bead e-bead-s">${n}</span>${chip(id)}<div><b>${name}</b><span>${what}</span></div></div>`;
   box.innerHTML = `
     <div style="display:flex;align-items:baseline;gap:14px"><span style="font:900 38px/1 Alegreya,serif">Big loss</span><span style="font:900 38px/1 Alegreya,serif;color:#ffa898">−13</span></div>
-    <div style="margin-top:8px;font:700 19px/1.2 'Alegreya Sans';color:var(--cream-dim)">Health 11 → 0. Out in 7th place.</div>
-    <div style="margin-top:16px;display:flex;align-items:center;gap:12px;font:700 20px/1.2 'Alegreya Sans'">You killed 0 of 7
-      <span class="e-tally" style="position:static;transform:none"><i></i><i></i><i></i><i></i><span class="e-bar"></span><i></i><i></i><i></i></span></div>
-    <div style="margin-top:6px;font:400 19px/1.3 'Alegreya Sans';color:var(--cream-dim)">4 kills make a small loss: −10.</div>
+    <div style="margin-top:10px;display:flex;align-items:center;gap:8px;font:700 20px/1 'Alegreya Sans'">
+      <span class="e-sum">10</span><span style="color:var(--cream-dim)">turn 9</span><b style="font:900 22px/1 Alegreya">+</b><span class="e-sum">3</span><span style="color:var(--cream-dim)">big loss</span></div>
+    <div style="margin-top:10px;font:700 19px/1.2 'Alegreya Sans';color:var(--cream-dim)">Health 11 → 0. Out in 7th place.</div>
+    <div style="margin-top:16px;display:flex;align-items:center;gap:12px;font:700 20px/1.2 'Alegreya Sans'">You killed 1 of 7
+      <span class="e-tally" style="position:static;transform:none"><i class="e-gone"></i><i></i><i></i><i></i><span class="e-bar"></span><i></i><i></i><i></i></span></div>
+    <div style="margin-top:6px;font:400 19px/1.3 'Alegreya Sans';color:var(--cream-dim)">4 kills make a small loss: 10, not 13.</div>
     <div style="margin-top:16px;padding-top:10px;border-top:2px solid #6b5436;font:700 17px/1 'Alegreya Sans';color:var(--cream-dim);letter-spacing:.06em">WHAT BEAT YOU</div>
-    ${row(1,"gorger","Gorger","golden, 38 / 68: killed 3")}
+    ${row(1,"gorger","Gorger","golden, 38 / 57 at the end: killed 3")}
     ${row(2,"weasel","Weasel","hit both reservists as they stepped in")}
     ${row(3,"holly-knight","Holly Knight","gave its front Briars Thorns 4")}
     <div style="display:flex;gap:12px;margin-top:20px">
@@ -791,11 +801,12 @@ async function viewAfter(){
       <div class="e-btn e-go" style="position:static;transform:none;flex:1.3;text-align:center;padding:12px 8px">See the standings</div></div>`;
   // fighters
   opponentCorner();
-  tallyAt(108, 296, 7, 0, "Small loss at 4 kills");
-  yourCorner(0, [], {dim:true});
+  tallyAt(108, 296, 7, 1, "Small loss at 4 kills");
+  yourCorner(0, [[HEAP,"Compost",4,"#6a5a2c"],[WAVE,"Tide",4,"#245a70"]], {dim:true});
   add(el("div","e-splash",`left:108px;top:980px`,"−13"));
   tallyAt(108, 836, 6, 6, "");
-  treeLights(PLAYERS9.map(p=>p[2]==="you"?[p[0],0,"you"]:p), {dim:true});
+  treeLights([["dame_hoolet",23],["pipkin",21],["little_king_wren",18],["old_mother_mousewife",18],
+    ["march_hare",16,"next"],["hob_mumblecrust",16],["dame_farthing",0,"you"],["brother_bracken",0,"out"]], {dim:true});
 }
 
 async function viewRead(){
@@ -804,14 +815,14 @@ async function viewRead(){
   add(el("div","",`position:absolute;inset:0;background:rgba(5,8,10,.55);z-index:8`));
   const lift = (o,x,y,H,extra) => { const before = ui.children.length; placeCard(o,x,y,H,extra);
     [...ui.children].slice(before).forEach(e=>e.style.zIndex=9); };
-  const W=SHOP_H*.56, x=960-(4*SHOP_PITCH+W)/2 + SHOP_PITCH;
-  lift(SHOP9[1], x, SHOP_TOP, SHOP_H, {plate:"recruit", pw:156, filter:"drop-shadow(0 0 14px #ffd77a) "});
+  const W=SHOP_H*.56, x=SHOP_X0 + SHOP_PITCH;
+  lift(SHOP9[1], x, SHOP_TOP, SHOP_H, {plate:"recruit", pw:SHOP_PW, filter:"drop-shadow(0 0 14px #ffd77a) "});
   priceTag(x+W/2, SHOP_TOP-38, 4).style.zIndex=9;
   const pos = boardPos(BOARD_H, BOARD_TOP);
   const ring = "drop-shadow(0 0 3px #ffe08a) drop-shadow(0 0 10px #ffc65a) ";
   lift(BOARD9[1], pos[1][0], pos[1][1], BOARD_H, {plate:"recruit", pw:172, filter:ring});
   lift(BOARD9[4], pos[4][0], pos[4][1], BOARD_H, {plate:"recruit", pw:172, filter:ring});
-  const pane = add(el("div","e-leaded",`left:1358px;top:384px;width:440px;z-index:10`));
+  const pane = add(el("div","e-leaded",`left:1358px;top:352px;width:440px;z-index:10`));
   pane.innerHTML = `
     <div style="display:flex;align-items:center;gap:12px">
       <span style="flex:none;width:36px;height:52px;background:url(${u("pigeon","home-guard")}) center/cover;clip-path:${HEX}"></span>
@@ -828,7 +839,7 @@ async function viewRead(){
 // layout check: report any plate whose text overflows it (read with --dump-dom)
 function checkOverflow(){
   const bad=[];
-  document.querySelectorAll(".e-np, .e-plate, .e-light").forEach(p=>{ if (p.scrollWidth > p.clientWidth+1) bad.push((p.textContent||"").trim().slice(0,30)); });
+  document.querySelectorAll(".e-np, .e-plate, .e-light").forEach(p=>{ if (p.scrollWidth > p.clientWidth+1) bad.push((p.textContent||"").trim().slice(0,30)+" "+p.scrollWidth+"/"+p.clientWidth); });
   document.body.dataset.overflow = bad.join(" | ") || "none";
 }
 const view = new URLSearchParams(location.search).get("view") || "mid";
