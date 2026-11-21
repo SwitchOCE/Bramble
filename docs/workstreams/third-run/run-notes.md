@@ -91,3 +91,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - **blue-c9** (`80b63def`: Sword-heir buy/keep bonus 25 → 50) against blue-c8: 1,000 games, gap −0.558 ± 0.143 (1.938 against 2.496). **Kept.** The match was clean; field now 12,500.
   - Tribe picks: none 53.6% (1.81), Locust 28.0% (2.61), Pigeon 17.4% (1.28), Badger 0.8%, Briar 0.2%; 4.8 in hand.
   - Sword-heir on the final board: blue-c8 4.4% of runs, blue-c9 40.6% (place 2.27 with it, 1.71 without), red-c3 0.2%. Interim report and method summary sent.
+- **blue-c10** (`4685dd3e`: combat evaluator samples up to 5 opponents instead of 3, 3 seeds each) against blue-c9: playing.
