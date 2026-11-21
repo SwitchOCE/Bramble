@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 """Apply the referee's retention policy to a completed, idle match."""
 import argparse
-from contextlib import contextmanager
 import csv
-import fcntl
 import gzip
 import json
-import math
 import os
 from pathlib import Path
 import re
@@ -34,54 +31,32 @@ def physical_path(path):
     return absolute
 
 
-@contextmanager
-def lock_directory(path):
-    fd = os.open(path, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
-    try:
-        fcntl.flock(fd, fcntl.LOCK_EX)
-        yield fd
-    finally:
-        os.close(fd)
-
-
 def checked_entries(root):
-    """Reject indirect paths and nested mounts before touching a tree's files."""
+    """Reject symlinks, other devices and special files before pruning."""
     device = root.stat().st_dev
-    mountinfo = Path("/proc/self/mountinfo")
-    mounts = set()
-    if mountinfo.is_file():
-        for line in mountinfo.read_text().splitlines():
-            mount = line.split()[4]
-            mounts.add(Path(re.sub(r"\\([0-7]{3})", lambda m: chr(int(m[1], 8)), mount)))
-    if root in mounts:
-        raise ValueError(f"{root}: mount point")
     entries = sorted(root.rglob("*"))
     for entry in entries:
-        if (entry.is_symlink() or entry in mounts or entry.stat().st_dev != device
+        if (entry.is_symlink() or entry.stat().st_dev != device
                 or not (entry.is_file() or entry.is_dir())):
-            raise ValueError(f"{entry}: unsupported file, symbolic link or mount")
+            raise ValueError(f"{entry}: unsupported file, symbolic link or device")
     return entries
 
 
-def keep_only(root, root_fd, files):
+def keep_only(root, files):
     checked_entries(root)
     manifests = {root / "summary.json", root / "summary.json.gz"}
     protected = files | manifests
     kept_dirs = {parent for path in files for parent in path.parents}
-    for directory, folders, names, fd in os.fwalk(".", topdown=False, dir_fd=root_fd):
-        base = root / directory
+    for directory, folders, names, fd in os.fwalk(root, topdown=False):
+        base = Path(directory)
         for name in names:
             if base / name not in protected:
                 os.unlink(name, dir_fd=fd)
         for name in folders:
             if base / name not in kept_dirs:
                 os.rmdir(name, dir_fd=fd)
-    # Leave a completion marker in place until a partially pruned match can be retried safely.
     for manifest in sorted(manifests - files):
-        try:
-            os.unlink(manifest.name, dir_fd=root_fd)
-        except FileNotFoundError:
-            pass
+        manifest.unlink(missing_ok=True)
 
 
 def read_summary(root):
@@ -99,33 +74,26 @@ def read_summary(root):
 def climb(root, summary, verdict, cut_verified):
     if verdict == "kept" and not cut_verified:
         raise ValueError("kept version: cut and verify its ghosts, then pass --cut-verified")
-    analysis = json.loads((root / "analysis.json").read_bytes())
-    timing = root / "timing.json"
-    score = analysis["score"]
+    files = {root / name for name in ("summary.json", "analysis.json", "timing.json")}
+    if any(not path.is_file() for path in files):
+        raise ValueError("climb requires summary.json, timing.json and analysis.json from league analyze")
+    score = json.loads((root / "analysis.json").read_bytes())["score"]
     gap, half_width = score["gap_red_minus_blue"], score["gap_ci95"]
-    games = summary["games"]
-    if (not timing.is_file() or analysis["games"] != games or analysis["seed_pairs"] != (games + 1) // 2
-            or any(analysis["bots"].get(team) != summary[team] for team in ("red", "blue"))
-            or not math.isfinite(gap) or not math.isfinite(half_width) or half_width < 0
-            or (games % 2 == 0 and not math.isclose(gap, summary["gap_red_minus_blue"], abs_tol=1e-9))):
-        raise ValueError("need timing.json and current analysis.json from league analyze")
     line = {
         "red": summary.get("red_label", summary["red"]),
         "blue": summary.get("blue_label", summary["blue"]),
         "seeds_sha256": summary["seeds_sha256"],
-        "games": games,
+        "games": summary["games"],
         "gap_red_minus_blue": gap,
         "gap_ci95": [gap - half_width, gap + half_width],
         "verdict": verdict,
     }
     destination = root / VERDICT
-    if destination.exists() and json.loads(destination.read_bytes()) != line:
-        raise ValueError("existing verdict disagrees with this result")
     with TemporaryDirectory(dir=root, prefix=".prune-") as staging:
         staged = Path(staging) / VERDICT
         staged.write_text(json.dumps(line, separators=(",", ":")) + "\n", encoding="utf-8")
         staged.replace(destination)
-    return {root / name for name in ("summary.json", "analysis.json", "timing.json", VERDICT)}
+    return files | {destination}
 
 
 def gzip_copy(source, destination):
@@ -217,74 +185,62 @@ def archive(root, summary, archive_dir, findings):
 
     build.mkdir(parents=True, exist_ok=True)
     destination = build / root.name
-    with lock_directory(build):
-        existing_bytes = sum(p.stat().st_size for p in checked_entries(build) if p.is_file())
-        if destination.exists():
-            if read_summary(destination) != summary or any(
-                    not (destination / "findings" / p.name).is_file()
-                    or (destination / "findings" / p.name).read_bytes() != p.read_bytes()
-                    for p in findings):
-                raise ValueError(f"{destination}: archive entry differs from this match or its findings")
-            if any((root / ("games.jsonl" + suffix)).is_file() for suffix in ("", ".gz")) and not all(
-                    (destination / name).is_file() for name in ("cards.csv", "tribes.csv")):
-                raise ValueError(f"{destination}: archive entry is missing tables")
-            if existing_bytes > BUILD_LIMIT:
-                raise ValueError(f"{build}: existing archive exceeds {BUILD_LIMIT:,} bytes")
-            return build
-        findings_bytes = sum(path.stat().st_size for path in findings)
-        with TemporaryDirectory(dir=root, prefix=".prune-") as staging:
-            stage = Path(staging) / "match"
-            stage.mkdir()
-            (stage / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
-            if (root / VERDICT).is_file():
-                shutil.copyfile(root / VERDICT, stage / VERDICT)
-            if any((root / ("games.jsonl" + suffix)).is_file() for suffix in ("", ".gz")):
-                write_tables(root, stage)
-            elif any(p.name in ("records", "shops.jsonl", "shops.jsonl.gz") for p in root.iterdir()):
-                raise ValueError("missing games log for archive tables")
-            total = existing_bytes + findings_bytes + sum(p.stat().st_size for p in stage.iterdir())
-            if total > BUILD_LIMIT:
-                raise ValueError(f"{build}: archive would be {total:,} bytes (limit {BUILD_LIMIT:,})")
-            if findings:
-                out = stage / "findings"
-                out.mkdir()
-                for path in findings:
-                    shutil.copyfile(path, out / path.name)
-                copied_bytes = sum(p.stat().st_size for p in out.iterdir())
-                if total - findings_bytes + copied_bytes > BUILD_LIMIT:
-                    raise ValueError(f"{build}: findings changed size and would exceed {BUILD_LIMIT:,} bytes")
-            # Publish the complete entry before removing any source file.
-            stage.rename(destination)
+    if destination.exists():
+        raise ValueError(f"{destination}: match name already archived")
+    existing_bytes = sum(p.stat().st_size for p in checked_entries(build) if p.is_file())
+    findings_bytes = sum(path.stat().st_size for path in findings)
+    with TemporaryDirectory(dir=root, prefix=".prune-") as staging:
+        stage = Path(staging) / "match"
+        stage.mkdir()
+        (stage / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+        if (root / VERDICT).is_file():
+            shutil.copyfile(root / VERDICT, stage / VERDICT)
+        if any((root / ("games.jsonl" + suffix)).is_file() for suffix in ("", ".gz")):
+            write_tables(root, stage)
+        elif any(p.name in ("records", "shops.jsonl", "shops.jsonl.gz") for p in root.iterdir()):
+            raise ValueError("missing games log for archive tables")
+        total = existing_bytes + findings_bytes + sum(p.stat().st_size for p in stage.iterdir())
+        if total > BUILD_LIMIT:
+            raise ValueError(f"{build}: archive would be {total:,} bytes (limit {BUILD_LIMIT:,})")
+        if findings:
+            out = stage / "findings"
+            out.mkdir()
+            for path in findings:
+                shutil.copyfile(path, out / path.name)
+            copied_bytes = sum(p.stat().st_size for p in out.iterdir())
+            if total - findings_bytes + copied_bytes > BUILD_LIMIT:
+                raise ValueError(f"{build}: findings changed size and would exceed {BUILD_LIMIT:,} bytes")
+        # Publish the complete entry before removing any source file.
+        stage.rename(destination)
     return build
 
 
 def prune(root, kind, *, verdict=None, cut_verified=False, archive_dir=None, findings=()):
     root = physical_path(root)
-    with lock_directory(root) as root_fd:
-        checked_entries(root)
-        summary = read_summary(root)
-        destination = root
-        if kind == "climb":
-            if verdict not in ("kept", "rejected"):
-                raise ValueError("climb requires --verdict kept or rejected")
-            files = climb(root, summary, verdict, cut_verified)
-        elif kind == "reading":
-            files = reading(root, summary)
-        elif kind == "field":
-            if not cut_verified:
-                raise ValueError("field: cut and verify the ghosts, then pass --cut-verified")
-            files = {root / "summary.json"}
-        elif kind == "old-build":
-            if archive_dir is None:
-                raise ValueError("old-build requires --archive-dir")
-            destination = archive(root, summary, Path(archive_dir), findings)
-            files = set()
-        else:
-            raise ValueError(f"unknown match kind {kind}")
-        if any(not path.is_file() for path in files):
-            raise ValueError("missing file on the keep list")
-        keep_only(root, root_fd, files)
-        return destination
+    checked_entries(root)
+    summary = read_summary(root)
+    destination = root
+    if kind == "climb":
+        if verdict not in ("kept", "rejected"):
+            raise ValueError("climb requires --verdict kept or rejected")
+        files = climb(root, summary, verdict, cut_verified)
+    elif kind == "reading":
+        files = reading(root, summary)
+    elif kind == "field":
+        if not cut_verified:
+            raise ValueError("field: cut and verify the ghosts, then pass --cut-verified")
+        files = {root / "summary.json"}
+    elif kind == "old-build":
+        if archive_dir is None:
+            raise ValueError("old-build requires --archive-dir")
+        destination = archive(root, summary, Path(archive_dir), findings)
+        files = set()
+    else:
+        raise ValueError(f"unknown match kind {kind}")
+    if any(not path.is_file() for path in files):
+        raise ValueError("missing file on the keep list")
+    keep_only(root, files)
+    return destination
 
 
 def main():
