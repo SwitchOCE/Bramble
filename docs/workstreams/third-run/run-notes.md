@@ -101,3 +101,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - **Red near a local maximum (06:30).** Red reports that since red-c3 it has probed every stopping number, tier-curve step, search setting and mechanic in practice, and found nothing beyond ±0.15. One card-table refit is still running. After that, red will ask for the stopping test on its kept version.
 - **Disk (06:35).** / rose from 62% to 68% in four hours, almost all of it practice output: red/out 12 GB, blue/out 6.7 GB. Both teams were asked to keep only summaries of finished practice runs.
   - Pruned: red/out 12 GB → 1.1 GB, blue/out 6.7 GB → 7 MB. Both kept every finished run's summary and scores.
+- **red-c9** (`ec276ce7`: card table refit from red-c3's on 5,000 games with each tribe held in turn; 95 cards move; adds a reservist value-floor option, off) against red-c3: playing.
