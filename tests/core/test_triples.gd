@@ -267,7 +267,7 @@ func test_7_3_6_generated_gain_triple_gives_reward_when_settled() -> void:
 	assert_eq(formed[0]["reward_uid"], reward.uid, "presentation associates the actual reward")
 
 
-func test_7_3_6_reward_lost_when_golden_fills_the_last_hand_space() -> void:
+func test_7_3_6_reward_waits_when_golden_fills_the_last_hand_space() -> void:
 	for i: int in 6:
 		p.hand.append(CoreKit.unit(game, "t1_plain", true))
 	for slot: int in [0, 2, 5]:
@@ -276,15 +276,16 @@ func test_7_3_6_reward_lost_when_golden_fills_the_last_hand_space() -> void:
 	assert_eq(_golden_of(&"t1_guard").slot, -1, "golden uses the last hand place")
 	assert_eq(p.hand.size(), 7)
 	assert_eq(_reward_count(), 0)
-	var lost: Array[Dictionary] = CoreKit.log_of(game, "card_lost")
-	assert_eq(lost.size(), 1)
-	assert_eq(lost[0]["id"], String(UnitLibrary.TRIPLE_REWARD_ID))
-	assert_eq(CoreKit.log_of(game, "triple")[0]["reward_uid"], -1)
+	assert_eq(p.waiting_pile.size(), 1)
+	var reward: Unit = p.waiting_pile[0]
+	assert_eq(reward.def.id, UnitLibrary.TRIPLE_REWARD_ID)
+	assert_eq(CoreKit.log_of(game, "triple")[0]["reward_uid"], reward.uid)
 	assert_eq(game.act(p.id, {"type": "play", "hand": 6, "slot": 0}), "")
-	assert_eq(_reward_count(), 0, "playing cannot recover the lost reward")
+	assert_true(p.waiting_pile.is_empty())
+	assert_eq(p.hand[6], reward)
 
 
-func test_7_3_7_board_fallback_loses_reward_through_normal_full_hand_path() -> void:
+func test_7_3_7_board_fallback_queues_reward_through_normal_full_hand_path() -> void:
 	for i: int in 7:
 		p.hand.append(CoreKit.unit(game, "t1_plain", true))
 	for slot: int in [1, 3, 5]:
@@ -293,8 +294,9 @@ func test_7_3_7_board_fallback_loses_reward_through_normal_full_hand_path() -> v
 	assert_eq(_golden_of(&"t1_guard").slot, 1)
 	assert_eq(p.hand.size(), 7)
 	assert_eq(_reward_count(), 0)
-	assert_eq(CoreKit.log_of(game, "card_lost")[0]["id"], String(UnitLibrary.TRIPLE_REWARD_ID))
-	assert_eq(CoreKit.log_of(game, "triple")[0]["reward_uid"], -1)
+	assert_eq(p.waiting_pile.size(), 1)
+	assert_eq(p.waiting_pile[0].def.id, UnitLibrary.TRIPLE_REWARD_ID)
+	assert_eq(CoreKit.log_of(game, "triple")[0]["reward_uid"], p.waiting_pile[0].uid)
 
 
 func _reward_count() -> int:

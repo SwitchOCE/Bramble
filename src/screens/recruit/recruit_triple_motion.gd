@@ -192,6 +192,12 @@ static func _unseen(card: Dictionary, stats_from: String) -> Dictionary:
 func _arrival_target(next: Dictionary, arrival: Dictionary) -> Dictionary:
 	var card: Dictionary = arrival["card"]
 	var kind: String = str(arrival["kind"])
+	if kind == "waiting_join":
+		for entry: Dictionary in _screen.targets_of("waiting_pile"):
+			var waiting: Dictionary = entry["card"]
+			if waiting.get("uid") == card.get("uid"):
+				return entry
+		return {}
 	var targets: Array[Dictionary] = _screen.targets_of("discover" if kind == "pick" else "shop")
 	if kind not in ["pick", "buy"]:
 		return {}
@@ -224,7 +230,7 @@ func _same_destinations(next: Dictionary) -> bool:
 
 
 static func _owned_entry(view: Dictionary, uid: int) -> Dictionary:
-	for kind: String in ["hand", "board"]:
+	for kind: String in ["hand", "board", "waiting_pile"]:
 		var cards: Array = view.get(kind, [])
 		for i: int in cards.size():
 			if cards[i] is Dictionary:
@@ -235,7 +241,7 @@ static func _owned_entry(view: Dictionary, uid: int) -> Dictionary:
 
 
 func _target_for(uid: int) -> Control:
-	for kind: String in ["hand", "board"]:
+	for kind: String in ["hand", "board", "waiting_pile"]:
 		for entry: Dictionary in _screen.targets_of(kind):
 			var card: Dictionary = entry["card"]
 			if GlassPieces.as_int(card.get("uid", -1)) == uid:

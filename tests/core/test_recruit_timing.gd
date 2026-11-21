@@ -73,17 +73,22 @@ func test_effect_adding_to_hand_recruits_once() -> void:
 	assert_eq(_triggers("mouse_piper"), 1)
 
 
-func test_lost_generated_unit_and_discover_pick_fire_nothing() -> void:
+func test_waiting_generated_unit_and_discover_pick_recruit_on_gain_only() -> void:
 	for i: int in 7:
 		p.hand.append(Kit.unit(game, "brock-cub", true))
 	var ctx := RecruitContext.new(game, game.recruit, p)
-	assert_null(ctx.give_card(&"harvest-piper", mouse))
+	assert_not_null(ctx.give_card(&"harvest-piper", mouse))
+	assert_eq(mouse.attack(), 9)
 	_offer("harvest-piper")
 	assert_eq(game.act(p.id, {"type": "pick", "index": 0}), "")
 	assert_true(p.discover_options.is_empty())
-	assert_eq(mouse.attack(), 4)
-	assert_eq(_triggers("mouse_piper"), 0)
-	assert_eq(Kit.log_of(game, "card_lost").size(), 2)
+	assert_eq(mouse.attack(), 14)
+	assert_eq(p.waiting_pile.size(), 2)
+	assert_eq(game.act(p.id, {"type": "sell", "hand": 0}), "")
+	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 1}), "")
+	assert_true(p.waiting_pile.is_empty())
+	assert_eq(_triggers("mouse_piper"), 2)
+	assert_eq(mouse.attack(), 14)
 
 
 func test_bought_third_copy_fires_only_the_golden_before_play() -> void:

@@ -160,19 +160,17 @@ func test_next_turn_clears_locks_and_order_counters() -> void:
 	assert_eq(game.act(p.id, {"type": "to_hand", "slot": 4}), "")
 
 
-func test_start_turn_gain_locks_only_if_the_card_reaches_hand() -> void:
+func test_start_turn_gain_locks_even_if_the_card_waits() -> void:
 	var runner: Unit = Kit.put(game, p, "needle-page", 0)
 	var id: StringName = &"core_test_start_turn_gift"
 	assert_true(game.registry.register(id, StartTurnGift.new()))
 	runner.mechanics.append(game.registry.bind(MechanicSpec.new(id), false, true))
 	for i: int in 7:
-		_hand("needle-page")
-	game.recruit.start_turn(p)
-	assert_false(runner.worked_this_turn, "a full-hand loss did no work")
-	p.hand.clear()
+		p.hand.append(Kit.unit(game, "needle-page", true))
 	game.recruit.start_turn(p)
 	assert_true(runner.worked_this_turn)
-	assert_eq(p.hand[0].def.id, &"hopper")
+	assert_eq(p.waiting_pile.size(), 1)
+	assert_eq(p.waiting_pile[0].def.id, &"hopper")
 
 
 func test_price_previews_and_refused_actions_do_not_lock() -> void:

@@ -426,7 +426,7 @@ Note: on 12 Nov the owner leaned toward TFT-style rarities, and asked to come ba
 
 **7.1.1** [BRAMBLE] The hand holds up to 7 cards. In the owner's words (16 Nov 2026): "I don't see any reason now that we've changed the UI it can't go to 7. I think 7's a good fit." (C14) *HSBG:* 10 (uncertain in HSBG — see rules.md §5.3).
 
-**7.1.2** [BG] A card gained while the hand is full is lost, unless the effect says it waits for space (uncertain in HSBG — see rules.md §5.3; keywords.md §C). Example: HSBG's Spellcraft.
+**7.1.2** [BRAMBLE] A card gained while the hand is full goes into an unlimited waiting pile that carries over between turns. When a hand place frees, the oldest waiting card joins the hand. Waiting cards can't be played, cast, sold or counted toward a triple. Recruit effects resolve when the card is gained (7.2.6). Decided by the owner, 21 Nov 2026.
 
 ### 7.2 Playing a unit
 
@@ -460,7 +460,7 @@ Note: the direction summary's open question 5 assumed bought units go straight t
 
 **7.3.5a** [PROPOSED] A golden keeps Supply N as printed: a triple adds the three copies' remaining Supply (11.7.5) and doesn't double it. An Active's cost and a cost such as Root N never double. *Why:* a triple already brings three copies' Supply. The owner's "Double them too" (7.3.5) named Charge and Pile on, not Supply.
 
-**7.3.6** [BRAMBLE] **Triple Reward.** When a triple forms, a Triple Reward spell is added to hand: Discover a unit from the tier above the player's current tier, or tier 6 if the player is at 6. Playing the golden unit gives nothing more. In the owner's words (17 Nov 2026): "Triples occur on recruit, not on play." (C15) *HSBG:* the reward comes when the golden minion is played (tier used at cast is uncertain in HSBG — see rules.md §9).
+**7.3.6** [BRAMBLE] **Triple Reward.** When a triple forms, the player gains a Triple Reward spell (7.1.2): Discover a unit from the tier above the player's current tier, or tier 6 if the player is at 6. Playing the golden unit gives nothing more. In the owner's words (17 Nov 2026): "Triples occur on recruit, not on play." (C15) *HSBG:* the reward comes when the golden minion is played (tier used at cast is uncertain in HSBG — see rules.md §9).
 
 **7.3.7** [PROPOSED] If a triple forms while the hand is full and all three copies were on the board, the golden goes into the vacated slot that comes first in reading order. *Why:* engine edge case; with Created copies counting, three board copies and a full hand is reachable.
 

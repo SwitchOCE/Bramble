@@ -259,15 +259,20 @@ func test_3_4_1_end_turn_resolves_every_open_and_waiting_discover() -> void:
 	assert_eq(p.hand.size(), 2, "both Discover picks entered the hand")
 
 
-func test_7_1_2_card_gained_into_a_full_hand_is_lost() -> void:
+func test_7_1_2_discover_pick_waits_for_hand_space() -> void:
 	for _i: int in 6:
 		p.hand.append(CoreKit.unit(game, "t1_plain", true))
 	p.hand.append(CoreKit.unit(game, "sp_seek"))
 	game.act(0, {"type": "play", "hand": 6, "slot": -1, "target": -1})
 	p.hand.append(CoreKit.unit(game, "t1_guard"))
+	var picked: StringName = p.discover_options[0]
 	assert_eq(game.act(0, {"type": "pick", "index": 0}), "")
 	assert_eq(p.hand.size(), 7)
-	assert_eq(CoreKit.log_of(game, "card_lost").size(), 1)
+	assert_eq(p.waiting_pile.size(), 1)
+	assert_eq(p.waiting_pile[0].def.id, picked)
+	assert_eq(game.act(0, {"type": "sell", "hand": 0}), "")
+	assert_eq(p.hand[6].def.id, picked)
+	assert_true(p.waiting_pile.is_empty())
 
 
 func test_legal_actions_are_all_accepted() -> void:

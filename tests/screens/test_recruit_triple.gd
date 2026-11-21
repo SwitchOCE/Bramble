@@ -158,7 +158,7 @@ func test_repeated_event_and_unrelated_state_preserve_age_without_replaying() ->
 	assert_eq(_screen._triple.get_child_count(), 0)
 
 
-func test_full_hand_three_board_copies_land_in_first_vacated_slot() -> void:
+func test_full_hand_board_triple_lands_the_golden_on_board_and_reward_in_pile() -> void:
 	var me: PlayerState = _flow.human()
 	me.remove_from_board(me.board[0])
 	me.hand.clear()
@@ -176,11 +176,16 @@ func test_full_hand_three_board_copies_land_in_first_vacated_slot() -> void:
 	assert_true(me.board[2].golden)
 	assert_null(me.board[5])
 	assert_null(me.board[6])
+	assert_eq(me.waiting_pile.size(), 1)
+	var waiting: Unit = me.waiting_pile[0]
+	assert_eq(waiting.def.id, UnitLibrary.TRIPLE_REWARD_ID)
 	var run: Dictionary = _screen._triple._runs[0]
-	assert_eq(GlassPieces.as_int(run["reward_uid"]), -1, "lost reward has no arrival")
+	assert_eq(GlassPieces.as_int(run["reward_uid"]), waiting.uid)
 	var reward: Control = run.get("reward")
-	assert_null(reward)
+	assert_same(reward, _screen.node_for("waiting_pile", 0))
+	assert_false(reward.visible, "the reward waits for its animation beat")
 	_screen.settle()
+	assert_true(reward.visible)
 	assert_true(_screen.node_for("board", 2).visible)
 	assert_eq(_screen.node_for("board", 2).position, _screen.slot_xy(2))
 	assert_eq(me.hand.size(), 7)
@@ -188,6 +193,15 @@ func test_full_hand_three_board_copies_land_in_first_vacated_slot() -> void:
 	assert_false(
 		me.hand.any(func(u: Unit) -> bool: return u.def.id == UnitLibrary.TRIPLE_REWARD_ID)
 	)
+	_flow.session.finish_round()
+	_flow.start_round()
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	_act({"type": "play", "hand": 0, "slot": 0})
+	_screen.settle()
+	var joined: Unit = me.hand.back()
+	assert_same(joined, waiting)
+	assert_null(_screen.node_for("waiting_pile", 0))
+	assert_true(_screen.node_for("hand", 6).visible)
 
 
 func test_gaining_a_golden_without_triple_event_does_not_animate() -> void:

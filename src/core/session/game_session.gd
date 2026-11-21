@@ -459,6 +459,7 @@ func _retire(each: PlayerState, place: int) -> void:
 	each.discover_options.clear()
 	each.discover_queue.clear()
 	each.hand.clear()
+	each.waiting_pile.clear()
 	log_event({"type": "eliminated", "player": each.id, "placement": place, "health": each.health})
 
 

@@ -101,7 +101,7 @@ static func restore_unit(saved: Dictionary, game: GameSession, slot: int = -1) -
 
 
 ## Replaces the fight state on the destination player. The payload's id is the source seat.
-## The destination keeps its own id. Only board/hand Unit.uid values need the UID offset.
+## The destination keeps its own id. Unit.uid values in each card zone need the UID offset.
 ## UID/seat-id audit: unit/player counters (including turn counters), effect parameters in
 ## grants/aura grants and standing effects, slot state and heap state contain neither ID.
 ## Heap entry id is a card id, and n and _next_n are heap-local sequence numbers.
@@ -124,6 +124,9 @@ static func restore_player(
 	for raw: Dictionary in hand:
 		var card: Unit = _restore_player_unit(raw, game, uid_offset)
 		owner.hand.append(card)
+	owner.waiting_pile.clear()
+	for raw: Dictionary in CoreUtil.to_array(saved.get("waiting_pile", [])):
+		owner.waiting_pile.append(_restore_player_unit(raw, game, uid_offset))
 	var slots: Array = saved["slots"]
 	for i: int in slots.size():
 		var raw: Dictionary = slots[i]
