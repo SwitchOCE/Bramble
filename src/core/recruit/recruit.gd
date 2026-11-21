@@ -13,6 +13,7 @@ extends RefCounted
 ##   {"type": "to_hand", "slot": int}               7.2.4-7.2.5
 ##   {"type": "end_turn"}                               3.4
 ## Buy/pick target -1 means the recruited unit itself; omit it to choose after gaining.
+## A pick that will wait must omit the target.
 ##   {"type": "recruit_target", "target": uid} resolves that pending choice.
 ## act() returns "" when the action was taken, otherwise why it is illegal (and changes nothing).
 
@@ -60,7 +61,7 @@ func _rules() -> Rules:
 ## 3.2.1 in order: gold, upgrade discount, refresh counter, shop refill, start-of-turn triggers.
 func start_turn(player: PlayerState, report: FightReport = null) -> void:
 	player.turn_ended = false
-	for unit: Unit in player.all_cards():
+	for unit: Unit in player.all_cards() + player.waiting_pile:
 		unit.worked_this_turn = false
 	var used: Array[Unit] = []
 	player.gold += _rules().income(player, session.round_number, used) + player.gold_next_turn
@@ -71,7 +72,7 @@ func start_turn(player: PlayerState, report: FightReport = null) -> void:
 		player.turns_waited += 1
 	player.refreshes_paid = 0
 	player.freezes_used = 0
-	for unit: Unit in player.all_cards():
+	for unit: Unit in player.all_cards() + player.waiting_pile:
 		unit.turn_counters.clear()
 	_fill_shop(player)
 	player.frozen = false
@@ -92,7 +93,9 @@ func end_turn(player: PlayerState) -> void:
 	notify(ctx, &"on_end_of_turn", [])
 	_resolve_discovers(player)
 	_settle(player)
-	for unit: Unit in player.all_cards():
+	# Settling End of Turn gifts can form a golden that needs a Recruit target.
+	_resolve_discovers(player)
+	for unit: Unit in player.all_cards() + player.waiting_pile:
 		unit.stats.end_turn()
 	if not player.frozen:
 		_clear_shop(player)
@@ -164,11 +167,7 @@ func _act_simple(player: PlayerState, kind: String, action: Dictionary) -> Strin
 		"upgrade":
 			return _upgrade(player)
 		"pick":
-			return _pick(
-				player,
-				CoreUtil.to_int(action.get("index", -1)),
-				CoreUtil.to_int(action.get("target", -2))
-			)
+			return _pick(player, action)
 		"end_turn":
 			end_turn(player)
 			return ""
@@ -265,7 +264,6 @@ func _play(player: PlayerState, hand_index: int, slot: int, target_uid: int) -> 
 		return ""
 	player.place(card, slot)
 	_log(player, {"type": "play", "uid": card.uid, "id": String(card.def.id), "slot": slot})
-	refresh_auras(player)
 	_settle(player)
 	return ""
 
@@ -483,9 +481,13 @@ func _upgrade(player: PlayerState) -> String:
 
 
 ## 6.2 take one Discover option and close the offer. The pick is Created (4.3.2).
-func _pick(player: PlayerState, index: int, target: int = -2) -> String:
+func _pick(player: PlayerState, action: Dictionary) -> String:
+	var index: int = CoreUtil.to_int(action.get("index", -1))
 	if index < 0 or index >= player.discover_options.size():
 		return "no such Discover option"
+	if action.has("target") and gain_waits(player):
+		return "choose a recruit target when the card joins your hand"
+	var target: int = CoreUtil.to_int(action.get("target", -2))
 	var card: UnitDef = session.library.get_card(player.discover_options[index])
 	var error: String = _gain_target_error(player, card, target)
 	if error != "":
@@ -509,7 +511,10 @@ func _resolve_discovers(player: PlayerState) -> void:
 			_recruit_unit(player, unit, -1)
 			_settle(player)
 		else:
-			_pick(player, 0, -1)
+			var pick: Dictionary = {"index": 0}
+			if not gain_waits(player):
+				pick["target"] = -1
+			_pick(player, pick)
 
 
 # --- Pieces mechanics use (through RecruitContext) -----------------------------------------------
@@ -581,17 +586,47 @@ func run_death_effects(ctx: RecruitContext, unit: Unit) -> void:
 			ctx.invoke(unit, bound, &"on_recruit_death")
 
 
-## 7.1.2: a card gained while the hand is full is lost.
+## Gains made by an action's effects queue behind older waiting cards, even if it freed space.
+func gain_waits(player: PlayerState) -> bool:
+	return not player.waiting_pile.is_empty() or player.hand.size() >= _rules().hand_limit(player)
+
+
+## 7.1.2/7.2.6: an ordinary gained card recruits only when it enters the hand.
+## Returns whether it entered the hand immediately.
 func _gain(player: PlayerState, unit: Unit, target: int = -2) -> bool:
-	if player.hand.size() >= _rules().hand_limit(player):
-		_log(player, {"type": "card_lost", "id": String(unit.def.id)})
-		return false
-	player.hand.append(unit)
-	_log(player, {"type": "gain", "uid": unit.uid, "id": String(unit.def.id)})
+	var waits: bool = gain_waits(player)
+	if waits:
+		player.waiting_pile.append(unit)
+	else:
+		player.hand.append(unit)
+	_log_gain(player, unit)
 	# Owner, 18 Nov: "Only the golden fires." The completing copy merges without recruiting.
-	if not _completes_triple(player, unit):
+	if not waits and not _completes_triple(player, unit):
 		_recruit_unit(player, unit, target)
-	return true
+	return not waits
+
+
+func _log_gain(player: PlayerState, unit: Unit) -> void:
+	_log(player, {"type": "gain", "uid": unit.uid, "id": String(unit.def.id)})
+
+
+## Fill vacancies in gain order. During a merge, the golden fills its reserved place before
+## the Recruit hooks run, so any cards those hooks give are gained after the joining cards.
+func _admit_waiting(player: PlayerState, golden: Unit = null) -> void:
+	var limit: int = _rules().hand_limit(player) - int(golden != null)
+	var recruits: Array[Unit] = []
+	while player.hand.size() < limit and not player.waiting_pile.is_empty():
+		var card: Unit = player.waiting_pile.pop_front()
+		player.hand.append(card)
+		_log(player, {"type": "waiting_join", "uid": card.uid, "id": String(card.def.id)})
+		if not _completes_triple(player, card):
+			recruits.append(card)
+	if golden != null:
+		player.hand.append(golden)
+		_log_gain(player, golden)
+		recruits.append(golden)
+	for unit: Unit in recruits:
+		_recruit_unit(player, unit)
 
 
 ## Called after insertion. Several gains may wait for the enclosing action to settle:
@@ -661,7 +696,8 @@ func _recruit_unit(player: PlayerState, unit: Unit, target: int = -2) -> void:
 		var hand_only: bool = (
 			effect.mechanic.recruit_target(effect.params) == Mechanic.Target.HAND_UNIT
 		)
-		if target < -1 and (not hand_only or recruit_targets(player, effect, unit).size() > 1):
+		var choices: int = recruit_targets(player, effect, unit).size()
+		if target < -1 and choices > (1 if hand_only else 0):
 			player.recruit_choices.append(unit)
 			return
 		if hand_only:
@@ -719,10 +755,23 @@ func _shop_view(player: PlayerState) -> Dictionary:
 # --- Triples and upkeep ---------------------------------------------------------------------------
 
 
-## After every action: triples form (7.3.1-7.3.2, after all summons) and auras are recomputed.
+## After action effects resolve, waiting cards join and triples form (7.1.2, 7.3.1-7.3.2).
 func _settle(player: PlayerState) -> void:
-	while player.recruit_choices.is_empty() and _combine_one(player):
-		pass
+	if not player.waiting_pile.is_empty() and player.hand.size() < _rules().hand_limit(player):
+		# A joining Recruit sees the auras and slot effects of the updated board.
+		refresh_auras(player)
+	while true:
+		_admit_waiting(player)
+		if not player.recruit_choices.is_empty():
+			var source: Unit = player.recruit_choices[0]
+			var effect: BoundMechanic = targeted_recruit(source.def, session.registry)
+			if not recruit_targets(player, effect, source).is_empty():
+				break
+			# Another hook or target choice can use the last eligible hand recipient.
+			player.recruit_choices.pop_front()
+			_recruit_unit(player, source, -1)
+		elif not _combine_one(player):
+			break
 	refresh_auras(player)
 
 
@@ -779,17 +828,18 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 	golden.stats.turn_attack = maxi(0, perm.x + turn.x) - golden.stats.perm_attack
 	golden.stats.turn_health = maxi(0, perm.y + turn.y) - golden.stats.perm_health
 	if player.hand.size() < _rules().hand_limit(player) or vacated.is_empty():
-		_gain(player, golden)
+		# The golden takes one place in the merge. Older gains fill any net vacancies.
+		_admit_waiting(player, golden)
 	else:
 		# 7.3.7: the golden takes the first vacated slot when hand has no room.
 		vacated.sort()
 		player.place(golden, vacated[0])
 		_recruit_unit(player, golden)
-	# 7.3.6: every formation grants its spell now, through the ordinary full-hand loss path.
+	# 7.3.6: every formation grants its spell now, through the ordinary gain path.
 	var reward: Unit = session.new_unit(
 		session.library.get_card(UnitLibrary.TRIPLE_REWARD_ID), false
 	)
-	var gained: bool = _gain(player, reward)
+	_gain(player, reward)
 	_log(
 		player,
 		{
@@ -797,7 +847,7 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 			"uid": golden.uid,
 			"id": String(golden.def.id),
 			"slot": golden.slot,
-			"reward_uid": reward.uid if gained else -1
+			"reward_uid": reward.uid
 		}
 	)
 

@@ -39,6 +39,7 @@ var _counts: RecruitCounts
 var _input: RecruitInput
 var _triple: RecruitTripleMotion
 var _turn_start: RecruitTurnStart
+var _waiting: RecruitWaitingPile
 var _last_turn: int = -1
 
 
@@ -58,6 +59,7 @@ func _ensure_stage() -> void:
 		_board = RecruitBoard.new(self)
 		_buttons = RecruitButtons.new(self)
 		_counts = RecruitCounts.new(self)
+		_waiting = RecruitWaitingPile.new(self)
 		_input = RecruitInput.new(self, _keeper, _board, _tips as RecruitTips)
 		_triple = RecruitTripleMotion.new(self)
 		_stage.add_child(_triple)
@@ -167,6 +169,7 @@ func show_state(new_state: Dictionary) -> void:
 				var card: Dictionary = new_state["board"][slot]
 				_keeper.quiet_numbers[card_key("board", slot, card)] = true
 	super(new_state)
+	_waiting.animate_hidden_arrivals(before)
 	_counts.after_state(before)
 	if not effects.is_empty() and is_inside_tree():
 		_turn_start.play(effects)
@@ -296,6 +299,7 @@ func _build() -> void:
 	_buttons.build_shop_buttons()
 	_board.want()
 	_want_hand()
+	_waiting.want_cards()
 	_keeper.leave_to = _leaving_places()
 	_place_cards()
 	_buttons.add_ability_targets()
@@ -303,6 +307,7 @@ func _build() -> void:
 	_input.light_aim()
 	_counts.build_hand_count()
 	_counts.build_reserve_limit()
+	_waiting.build_count()
 	_build_hero()
 	_buttons.build_end_turn()
 	var cards_button: CardsButton = CardsButton.new()
@@ -386,6 +391,9 @@ func _want_shop() -> void:
 
 func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 	var node: Control = super(kind, data, extra)
+	if kind == "waiting_pile":
+		var tint: float = _f(extra["waiting_tint"])
+		node.modulate = Color(tint, tint, tint)
 	if _b(extra.get("shop_price", false)):
 		# Unit controls size themselves in _ready; tags also need the size before entering the tree.
 		node.size = _spell_size() if node is GlassSpell else card_box()
@@ -456,7 +464,7 @@ func _place_cards() -> void:
 				tag.show()
 		if landing != null and _keeper.is_landing(landing) and target["kind"] != "hand":
 			_cards.move_child(landing, -1)
-		if target["kind"] == "hand":
+		if target["kind"] in ["hand", "waiting_pile"]:
 			# hand cards turn about their bottom middle: a new one is placed for that already, a
 			# carried one keeps where it is drawn
 			var node: Control = target["node"]
