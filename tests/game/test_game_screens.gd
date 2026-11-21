@@ -22,14 +22,14 @@ func test_the_screens_action_reaches_the_core_and_its_picker_is_used() -> void:
 func test_one_input_shows_the_result_and_the_next_moves_on() -> void:
 	var game := _game_in_fight()
 	var key := _space()
-	game._input(key)
+	get_viewport().push_input(key, true)
 	_check_game_slots(game)
 	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "the first input shows the result")
 	assert_true(game.fight.show_leaderboard, "with everyone's Health")
 	var moment: Dictionary = game.fight.state["moment"]
 	assert_true(moment.has("result"))
 	game._result_age = GameController.RESULT_GUARD
-	game._input(key)
+	get_viewport().push_input(key, true)
 	_check_game_slots(game)
 	assert_eq(game.phase, GameController.Phase.RECRUIT, "the second moves on at once")
 	assert_eq(game.flow.session.round_number, 2)
@@ -37,14 +37,11 @@ func test_one_input_shows_the_result_and_the_next_moves_on() -> void:
 	game.free()
 
 
-## The one rule, for Space and a click alike, at a fight's start, middle and end: the first input
+## The rule for the skip keys at a fight's start, middle and end: the first input
 ## while the fight plays shows the result, with every card in its place; with the result on
 ## screen, an input moves on, but not in the result's first moments (it is seen first).
-func test_skipping_is_one_rule_at_the_start_middle_and_end() -> void:
-	var click := InputEventMouseButton.new()
-	click.button_index = MOUSE_BUTTON_LEFT
-	click.pressed = true
-	for input: InputEvent in [_space(), click]:
+func test_skip_keys_work_at_the_start_middle_and_end() -> void:
+	for input: InputEvent in [_space(), _key(KEY_KP_ENTER)]:
 		for at: String in ["start", "middle", "end"]:
 			var game := _game_in_fight()
 			var steps: int = game.fight._replay.steps.size()
@@ -89,9 +86,9 @@ func test_skipping_is_one_rule_at_the_start_middle_and_end() -> void:
 			game.free()
 
 
-func _game_in_fight() -> GameController:
+func _game_in_fight(parent: Node = null) -> GameController:
 	var game := GameController.new()
-	add_child(game)
+	(self if parent == null else parent).add_child(game)
 	game.start(FlowFixture.live(GameContent.load_default(), 4))
 	_check_game_slots(game)
 	game.request({"type": "buy", "spell": false, "index": 0})
@@ -101,16 +98,14 @@ func _game_in_fight() -> GameController:
 	game.request({"type": "end_turn"})
 	_check_game_slots(game)
 	assert_eq(game.phase, GameController.Phase.FIGHT)
-	# past the fight's first moments, when a click on End turn's second half is still taken
+	# Past the guard at the start of the fight.
 	game._process(GameController.RESULT_GUARD)
 	_check_game_slots(game)
 	return game
 
 
-## Only Space, Enter and a left click skip: Alt (Alt+Tab), Shift, PrintScreen and Escape (the
-## pause panel) leave the fight playing; in the fight's first moments even Space does nothing,
-## so a double click on End turn never skips the fight unseen.
-func test_only_space_enter_and_a_click_skip_and_never_at_once() -> void:
+## Only the skip keys leave playback, and the guard lets its opening beat show.
+func test_enter_skips_and_space_respects_the_fight_guard() -> void:
 	var game := _game_in_fight()
 	for keycode: Key in [KEY_ALT, KEY_SHIFT, KEY_PRINT, KEY_ESCAPE, KEY_A]:
 		game._input(_key(keycode))
@@ -130,22 +125,64 @@ func test_only_space_enter_and_a_click_skip_and_never_at_once() -> void:
 	game.request({"type": "end_turn"})
 	_check_game_slots(game)
 	assert_eq(game.phase, GameController.Phase.FIGHT)
-	var click := InputEventMouseButton.new()
-	click.button_index = MOUSE_BUTTON_LEFT
-	click.pressed = true
-	game._input(click)
-	_check_game_slots(game)
-	assert_eq(game.phase, GameController.Phase.FIGHT, "a click as the fight starts does nothing")
 	game._input(_space())
 	_check_game_slots(game)
-	assert_eq(game.phase, GameController.Phase.FIGHT, "nor Space")
-	game._process(GameController.RESULT_GUARD)
-	_check_game_slots(game)
-	game._input(click)
-	_check_game_slots(game)
-	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "then a click skips")
+	assert_eq(game.phase, GameController.Phase.FIGHT, "Space respects the opening guard")
 	remove_child(game)
 	game.free()
+
+
+func test_only_the_skip_button_advances_the_fight_on_a_click() -> void:
+	# GUT's output panel covers part of the root viewport, including the right light.
+	var viewport := SubViewport.new()
+	viewport.size = Vector2i(1920, 1080)
+	add_child_autofree(viewport)
+	var game := _game_in_fight(viewport)
+	await wait_process_frames(2)
+	var stage: Transform2D = game.fight._stage.get_global_transform_with_canvas()
+	var button: Button = game.fight._skip_button
+	var skip_at: Vector2 = button.get_global_transform_with_canvas() * (button.size / 2.0)
+	var board_at: Vector2 = stage * (game.fight.unit_xy(0, 0) + game.fight.card_box() / 2.0)
+	var step: int = game.fight._step
+	game._fight_age = 0.0
+	_click_at(viewport, skip_at)
+	assert_eq(game.fight._step, step, "the button respects the opening guard")
+	game._process(GameController.RESULT_GUARD)
+	_click_at(viewport, board_at)
+	assert_eq(game.fight._step, step, "clicking the board leaves playback alone")
+
+	_mouse_button_at(viewport, skip_at, true)
+	assert_true(button.button_pressed, "the Skip button received the press")
+	# Playback can redraw the board between mouse-down and mouse-up.
+	game.fight.show_state(game.fight.state)
+	_mouse_button_at(viewport, skip_at, false)
+	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "the Skip button shows the result")
+	assert_false(button.visible, "Skip is hidden on the result")
+	game._process(GameController.RESULT_GUARD)
+	_click_at(viewport, stage * Vector2(960, 540))
+	_click_at(viewport, skip_at)
+	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "clicking the result leaves it showing")
+	game._process(GameController.AFTER_FIGHT)
+	assert_eq(game.phase, GameController.Phase.RECRUIT, "the result advances on its timer")
+	viewport.remove_child(game)
+	game.free()
+
+
+func _click_at(viewport: Viewport, at: Vector2) -> void:
+	_mouse_button_at(viewport, at, true)
+	_mouse_button_at(viewport, at, false)
+
+
+func _mouse_button_at(viewport: Viewport, at: Vector2, down: bool) -> void:
+	if down:
+		var motion := InputEventMouseMotion.new()
+		motion.position = at
+		viewport.push_input(motion, true)
+	var click := InputEventMouseButton.new()
+	click.button_index = MOUSE_BUTTON_LEFT
+	click.position = at
+	click.pressed = down
+	viewport.push_input(click, true)
 
 
 static func _key(keycode: Key) -> InputEventKey:

@@ -4,13 +4,10 @@ extends Control
 ## human's fight, then the next round, until the human is out or wins. It owns a GameFlow and
 ## draws its state through ViewAdapter; the screens hold no rules.
 ##   recruit: the player acts at their own pace; no turn timer in this build; End turn ends it
-##   fight: one rule for Space, Enter and a left click alike (other keys do nothing, so Alt+Tab
-##     or a screenshot never skips): while the fight plays, the input shows the result at once;
-##     with the result on screen, the next input moves on (else AFTER_FIGHT seconds). An input in
-##     the first RESULT_GUARD seconds of the fight or of the result is taken and does nothing, so
-##     a double click on End turn never skips the fight, and a press meant to skip never also
-##     moves on unseen. Escape opens the pause panel. With the result on
-##     screen the leaderboard shows everyone's Health and your counters after the round
+##   fight: Skip, Space or Enter shows the result. The result advances with Space or Enter,
+##     or after AFTER_FIGHT seconds. Both phases guard against skipping in their first
+##     RESULT_GUARD seconds. Escape opens the pause panel. The result's leaderboard shows
+##     everyone's Health and your counters after the round
 ##   end: once the human is out, the ghosts finish the game, and game_finished gives the places
 ## Autoplay (F8 in a debug build, or `autoplay` set): a test bot plays the human's turns and
 ## fights are skipped, to reach the end quickly when testing.
@@ -22,13 +19,12 @@ enum Phase { NONE, RECRUIT, PAST_BOARDS, FIGHT, AFTER_FIGHT, PLAY_OUT, OVER }
 
 const RECRUIT_SCENE: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 const FIGHT_SCENE: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
-## How long the result and the round's leaderboard stay without a click or key.
+## How long the result and the round's leaderboard stay without a key press.
 const AFTER_FIGHT: float = 2.5
 ## How long the result stays on screen before an input may move on, in seconds.
 const RESULT_GUARD: float = 0.4
-## The keys that skip a fight or move on from its result (with a left click).
+## The keys that skip a fight or move on from its result.
 const SKIP_KEYS: Array[Key] = [KEY_SPACE, KEY_ENTER, KEY_KP_ENTER]
-const SKIP_HINT: String = "Space or click to skip"
 ## Words while the ghosts finish a game the human is out of.
 const PLAY_OUT_WORDS: String = "The others play on"
 ## How long the ghosts may play on in one frame, in milliseconds.
@@ -80,6 +76,7 @@ func start(matched: GameFlow) -> void:
 	fight.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	fight.result_shown.connect(_on_playback_finished)
 	fight.playback_finished.connect(_on_playback_finished)
+	fight.skip_requested.connect(_skip_fight)
 	var tools: Control = GlassUi.stage(self)
 	tools.z_index = 8
 	_past_button = GlassUi.button(tools, "Past boards", Vector2(38, 218), 170, _open_past_boards)
@@ -139,15 +136,15 @@ func _end_round() -> void:
 	_past_boards.append(replay.steps[0]["state"])
 	_show_only(fight)
 	fight.show_leaderboard = false
+	fight.show_skip = true
 	fight.show_state(base)
-	_set_hint(true)
 	fight.play(replay)
 
 
 func _on_playback_finished() -> void:
 	if phase != Phase.FIGHT:
 		return
-	_set_hint(false)
+	fight.show_skip = false
 	phase = Phase.AFTER_FIGHT
 	_after_wait = AFTER_FIGHT
 	_result_age = 0.0
@@ -175,7 +172,7 @@ func _after_fight() -> void:
 			# the ghost lobby finishes over several frames, with the leaderboard showing it
 			phase = Phase.PLAY_OUT
 			fight.show_leaderboard = true
-			_set_hint(true, PLAY_OUT_WORDS)
+			_set_hint(true)
 			_show_play_out()
 			return
 		_finish()
@@ -247,7 +244,7 @@ func _close_past_boards() -> void:
 	_show_only(recruit)
 
 
-func _set_hint(on: bool, words: String = SKIP_HINT) -> void:
+func _set_hint(on: bool) -> void:
 	if _hint != null:
 		remove_child(_hint)
 		_hint.queue_free()
@@ -255,9 +252,9 @@ func _set_hint(on: bool, words: String = SKIP_HINT) -> void:
 	if not on:
 		return
 	_hint = GlassUi.stage(self)
-	_hint.name = "SkipHint"
+	_hint.name = "PlayOutHint"
 	_hint.z_index = 50
-	GlassUi.title(_hint, words, 960, 1040, 22, GlassUi.MUTED)
+	GlassUi.title(_hint, PLAY_OUT_WORDS, 960, 1040, 22, GlassUi.MUTED)
 
 
 func _process(delta: float) -> void:
@@ -287,7 +284,7 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	# The Compost is a live overlay: its scrollbar/card clicks must not skip the fight.
+	# The Compost is a live overlay and keeps its own input.
 	if (recruit != null and recruit._compost != null) or (fight != null and fight._compost != null):
 		return
 	var key: InputEventKey = event as InputEventKey
@@ -302,26 +299,24 @@ func _input(event: InputEvent) -> void:
 			return
 		if key.keycode in [KEY_ESCAPE, KEY_F11, KEY_TAB]:
 			return
-	var click: InputEventMouseButton = event as InputEventMouseButton
-	var skip: bool = (
-		(key != null and key.pressed and not key.echo and key.keycode in SKIP_KEYS)
-		or (click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT)
-	)
-	if not skip:
+	if key == null or not key.pressed or key.echo or key.keycode not in SKIP_KEYS:
 		return
 	if phase == Phase.FIGHT:
-		# to the result at once, every card already in its place; the next input moves on
 		get_viewport().set_input_as_handled()
-		if _fight_age < RESULT_GUARD:
-			return
-		fight.skip()
-		fight.settle()
-		_on_playback_finished()
+		_skip_fight()
 	elif phase == Phase.AFTER_FIGHT:
 		# handled first: the game's end takes this controller out of the tree
 		get_viewport().set_input_as_handled()
 		if _result_age >= RESULT_GUARD:
 			_after_fight()
+
+
+func _skip_fight() -> void:
+	if phase != Phase.FIGHT or _fight_age < RESULT_GUARD or fight._compost != null:
+		return
+	fight.skip()
+	fight.settle()
+	_on_playback_finished()
 
 
 ## Shows one screen. The hidden one is disabled too, so it gets no input (a hidden screen still
