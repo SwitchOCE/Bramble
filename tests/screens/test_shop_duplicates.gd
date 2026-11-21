@@ -4,6 +4,7 @@ extends GutTest
 
 const SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 const CoreKit := preload("res://tests/core/core_kit.gd")
+const MARK := RecruitDuplicates.Mark
 
 
 func after_each() -> void:
@@ -15,46 +16,28 @@ func _unit(id: String = "brock-cub", golden: bool = false) -> Dictionary:
 	return {"id": id, "golden": golden}
 
 
-func test_shop_pair_marks_both_mouse_offers_with_none_owned() -> void:
+func test_shop_pair_and_trio_stay_unmarked_with_none_owned() -> void:
 	var state: Dictionary = {
-		"shop_units": [_unit("hedgerow-scout"), _unit("hedgerow-scout"), null, _unit()],
+		"shop_units": [_unit(), _unit(), null],
 		"board": [null],
 		"hand": [{"id": "brock-cub", "spell": true}],
 	}
-	assert_eq(RecruitDuplicates.marks(state), {"shop": [1, 1, 0, 0], "board": [0], "hand": [0]})
+	assert_eq(RecruitDuplicates.marks(state), {"shop": [0, 0, 0], "board": [0], "hand": [0]})
+	state.shop_units[2] = _unit()
+	assert_eq(RecruitDuplicates.marks(state).shop, [0, 0, 0])
 
 
-func test_match_marks_only_the_shop_copy_for_either_owned_zone_and_ignores_spells() -> void:
+func test_one_owned_in_either_zone_marks_each_matching_shop_copy() -> void:
 	for zone: String in ["board", "hand"]:
 		var state: Dictionary = {
-			"shop_units": [_unit(), _unit("hedge-knight"), null],
+			"shop_units": [_unit(), _unit("hedge-knight"), _unit(), null],
 			"board": [null],
 			"hand": [],
 		}
-		assert_eq(RecruitDuplicates.marks(state).shop, [0, 0, 0])
 		state[zone] = [_unit(), {"id": "hedge-knight", "spell": true}]
 		var marks: Dictionary = RecruitDuplicates.marks(state)
-		assert_eq(marks.shop, [1, 0, 0])
+		assert_eq(marks.shop, [MARK.MATCH, MARK.NONE, MARK.MATCH, MARK.NONE])
 		assert_eq(marks[zone], [0, 0], "owned partners only glow for a triple")
-
-
-func test_triple_counts_shop_copies_with_zero_or_one_owned_and_marks_all_copies() -> void:
-	var state: Dictionary = {
-		"shop_units": [_unit(), _unit(), _unit(), null], "board": [], "hand": []
-	}
-	assert_eq(RecruitDuplicates.marks(state).shop, [2, 2, 2, 0], "three shop copies can combine")
-	state.shop_units[2] = null
-	for zone: String in ["board", "hand"]:
-		state[zone] = [_unit()]
-		var marks: Dictionary = RecruitDuplicates.marks(state)
-		assert_eq(marks.shop, [2, 2, 0, 0], "two offers plus one owned can combine")
-		assert_eq(marks[zone], [2])
-		state[zone] = []
-	state.hand = [_unit(), _unit()]
-	assert_eq(
-		RecruitDuplicates.marks(state).shop, [2, 2, 0, 0], "four copies still advertise a triple"
-	)
-	assert_eq(RecruitDuplicates.marks(state).hand, [2, 2])
 
 
 func test_owned_pair_with_an_empty_shop_gets_no_mark() -> void:
@@ -73,8 +56,7 @@ func test_owned_triple_gets_no_mark_from_vacancies_unrelated_offers_or_spells() 
 	assert_eq(RecruitDuplicates.marks(state), {"shop": [0, 0, 0], "board": [0], "hand": [0, 0]})
 
 
-func test_triple_marks_all_participants_across_board_and_hand_without_gold_or_legality_gate(
-) -> void:
+func test_two_owned_mark_matching_offers_and_both_owned_edges_even_without_gold() -> void:
 	for board_count: int in range(3):
 		var state: Dictionary = {
 			"shop_units": [_unit(), _unit(), _unit("hedge-knight")],
@@ -88,26 +70,29 @@ func test_triple_marks_all_participants_across_board_and_hand_without_gold_or_le
 			copy["bought_copies"] = 1 if i == 0 else 0
 			state["board" if i < board_count else "hand"].append(copy)
 		var marks: Dictionary = RecruitDuplicates.marks(state)
-		assert_eq(marks.shop, [2, 2, 1], "all four normal copies can contribute to a triple")
+		assert_eq(marks.shop, [MARK.TRIPLE, MARK.TRIPLE, MARK.MATCH])
 		assert_eq(marks.board.slice(0, 2), [0, 0], "owned copies outside the triple stay unmarked")
 		assert_eq(marks.hand[0], 0, "spells cannot triple")
-		assert_eq(marks.board.count(2) + marks.hand.count(2), 2, "both origins count (7.3.3)")
+		assert_eq(marks.board.count(MARK.OWNED_EDGE), board_count, "both origins count (7.3.3)")
+		assert_eq(marks.hand.count(MARK.OWNED_EDGE), 2 - board_count)
 
 
-func test_goldens_match_but_do_not_count_or_participate_in_normal_triples() -> void:
+func test_goldens_do_not_give_or_receive_owned_marks() -> void:
 	var state: Dictionary = {
 		"shop_units": [_unit(), _unit("brock-cub", true)],
 		"board": [_unit("brock-cub", true)],
 		"hand": [],
 	}
-	assert_eq(RecruitDuplicates.marks(state).shop, [1, 1], "golden ownership is still a match")
+	assert_eq(RecruitDuplicates.marks(state).shop, [MARK.NONE, MARK.NONE])
 	state.hand.append(_unit())
 	assert_eq(RecruitDuplicates.marks(state).shop, [1, 1], "golden plus normal is not two normals")
 	state.hand.append(_unit())
 	var marks: Dictionary = RecruitDuplicates.marks(state)
 	assert_eq(marks.shop, [2, 1], "a golden offer cannot complete a normal triple")
 	assert_eq(marks.board, [0], "owned goldens never get a match or triple glow")
-	assert_eq(marks.hand, [2, 2])
+	assert_eq(marks.hand, [MARK.OWNED_EDGE, MARK.OWNED_EDGE])
+	state.shop_units[0] = null
+	assert_eq(RecruitDuplicates.marks(state).hand, [0, 0], "a golden offer gives no owned edge")
 
 
 func _screen(state: Dictionary) -> RecruitScreen:
@@ -120,34 +105,50 @@ func _screen(state: Dictionary) -> RecruitScreen:
 
 func _mark(screen: RecruitScreen, kind: String, index: int) -> int:
 	var glow: GlassDuplicateGlow = screen.node_for(kind, index).get_node_or_null("DuplicateGlow")
-	return glow.mark if glow != null else RecruitDuplicates.Mark.NONE
+	return glow.mark if glow != null else MARK.NONE
 
 
-func test_live_buy_keeps_triple_preview_and_combination_removes_every_preview() -> void:
+func _act(flow: GameFlow, screen: RecruitScreen, action: Dictionary) -> void:
+	var first: int = flow.session.events.size()
+	var reason: String = flow.act(action)
+	assert_eq(reason, "", "the core takes %s" % JSON.stringify(action))
+	screen.show_state(ViewAdapter.recruit_state(flow, reason, flow.session.events.slice(first)))
+
+
+func test_buy_move_to_hand_sell_and_combine_update_the_marks() -> void:
 	var flow: GameFlow = FlowFixture.live(GameContent.load_default(), 3)
 	flow.start_round()
 	var me: PlayerState = flow.human()
 	CoreKit.put(flow.session, me, "brock-cub", 0)
-	me.shop_units = [&"brock-cub", &"brock-cub"]
+	me.shop_units = [&"brock-cub", &"brock-cub", &"brock-cub"]
 	me.gold = 20
 	var screen: RecruitScreen = _screen(ViewAdapter.recruit_state(flow))
-	assert_eq(_mark(screen, "shop", 0), 2)
-	assert_eq(_mark(screen, "board", 0), 2)
-	assert_eq(flow.session.act(0, {"type": "buy", "spell": false, "index": 0}), "")
-	screen.show_state(ViewAdapter.recruit_state(flow))
-	assert_eq(_mark(screen, "shop", 1), 2)
-	assert_eq(_mark(screen, "board", 0), 2)
-	assert_eq(_mark(screen, "hand", 0), 2)
-	for place: Array in [["shop", 1], ["board", 0], ["hand", 0]]:
-		var participant: Control = screen.node_for(str(place[0]), int(place[1]))
-		assert_true(
-			(participant.get_node("TripleFoil") as Control).visible,
-			"every triple zone has face foil"
-		)
-	assert_eq(flow.session.act(0, {"type": "buy", "spell": false, "index": 1}), "")
-	screen.show_state(ViewAdapter.recruit_state(flow))
+	assert_eq(_mark(screen, "shop", 0), MARK.MATCH)
+	assert_eq(_mark(screen, "shop", 1), MARK.MATCH)
+	assert_eq(_mark(screen, "board", 0), MARK.NONE)
+
+	_act(flow, screen, {"type": "buy", "index": 0})
+	assert_eq(_mark(screen, "shop", 1), MARK.TRIPLE)
+	assert_eq(_mark(screen, "board", 0), MARK.OWNED_EDGE)
+	assert_eq(_mark(screen, "hand", 0), MARK.OWNED_EDGE)
+	var foil: Control = screen.node_for("shop", 1).get_node("TripleFoil")
+	assert_true(foil.visible)
+	assert_false(screen.node_for("hand", 0).has_node("TripleFoil"))
+
+	_act(flow, screen, {"type": "to_hand", "slot": 0})
 	assert_null(screen.node_for("board", 0))
-	assert_eq(_mark(screen, "hand", 0), 0, "golden result carries no triple preview")
+	assert_eq(_mark(screen, "hand", 1), MARK.OWNED_EDGE, "the edge follows the moved copy")
+	assert_eq(_mark(screen, "shop", 1), MARK.TRIPLE, "moving preserves the owned count")
+
+	_act(flow, screen, {"type": "sell", "hand": 1})
+	assert_eq(_mark(screen, "hand", 0), MARK.NONE)
+	assert_eq(_mark(screen, "shop", 1), MARK.MATCH)
+	assert_false(foil.visible)
+
+	_act(flow, screen, {"type": "buy", "index": 1})
+	assert_eq(_mark(screen, "shop", 2), MARK.TRIPLE)
+	_act(flow, screen, {"type": "buy", "index": 2})
+	assert_eq(_mark(screen, "hand", 0), MARK.NONE, "golden result carries no triple preview")
 	assert_true(me.hand[0].golden)
 
 
@@ -160,24 +161,20 @@ func test_glow_updates_on_kept_cards_and_survives_hover_drag_and_target_light() 
 			board_index = i
 	var card: GlassCard = screen.node_for("board", board_index)
 	var glow: GlassDuplicateGlow = card.get_node("DuplicateGlow")
-	assert_eq(glow.mark, 2)
-	assert_true((card.get_node("TripleFoil") as Control).visible, "triple participants have foil")
+	assert_eq(glow.mark, MARK.OWNED_EDGE)
+	assert_false(card.has_node("TripleFoil"))
 	var shop: GlassDuplicateGlow = screen.node_for("shop", 3).get_node("DuplicateGlow")
-	var candidate: int = glow.candidate
+	var candidate: int = shop.candidate
 	glow.set_phase(GlassDuplicateGlow.PERIODS[candidate] / 2.0)
 	shop.set_phase(GlassDuplicateGlow.PERIODS[candidate] / 2.0)
 	var mat: ShaderMaterial = glow._layers[0].material as ShaderMaterial
 	var shop_mat: ShaderMaterial = shop._layers[0].material as ShaderMaterial
 	assert_almost_eq(
-		float(mat.get_shader_parameter("shadow_opacity")),
+		float(shop_mat.get_shader_parameter("shadow_opacity")),
 		GlassDuplicateGlow.FLOORS[candidate],
 		0.001
 	)
-	assert_eq(
-		mat.get_shader_parameter("shadow_opacity"),
-		shop_mat.get_shader_parameter("shadow_opacity"),
-		"all participants share the pulse"
-	)
+	assert_eq(mat.get_shader_parameter("shadow_opacity"), 1.0, "owned edge stays steady")
 	card.set_hot(true)
 	card.set_held(true)
 	screen._board.light("unit", [GlassPieces.as_int(state.board[board_index].uid)])
@@ -191,13 +188,10 @@ func test_glow_updates_on_kept_cards_and_survives_hover_drag_and_target_light() 
 	assert_same(screen.node_for("board", board_index), card, "unchanged owned card is kept")
 	assert_eq(_mark(screen, "board", board_index), 0, "the owned partner gets no match mark")
 	assert_false(glow.visible)
-	assert_false(
-		(card.get_node("TripleFoil") as Control).visible,
-		"owned partner loses both its rim and foil"
-	)
 	assert_eq(_mark(screen, "shop", 3), 1, "the shop copy keeps its match")
 	var shop_pair: GlassDuplicateGlow = screen.node_for("shop", 3).get_node("DuplicateGlow")
 	assert_true(shop_pair.visible)
+	assert_false((screen.node_for("shop", 3).get_node("TripleFoil") as Control).visible)
 	state = state.duplicate(true)
 	state.hand.append(owned_partner)
 	state.shop_units[3] = state.shop_units[0].duplicate(true)
@@ -207,7 +201,6 @@ func test_glow_updates_on_kept_cards_and_survives_hover_drag_and_target_light() 
 	)
 	assert_eq(_mark(screen, "hand", state.hand.size() - 1), 0)
 	assert_false(glow.visible)
-	assert_false((card.get_node("TripleFoil") as Control).visible)
 
 
 func test_noncombining_offers_only_match_and_adapter_exposes_the_definition_flag() -> void:
@@ -223,7 +216,7 @@ func test_noncombining_offers_only_match_and_adapter_exposes_the_definition_flag
 	assert_false(state.hand[0].combines)
 	var marks: Dictionary = RecruitDuplicates.marks(state)
 	assert_eq(marks.shop, [1], "noncombining offer is a match, never a triple")
-	assert_eq(marks.board.count(2), 0)
+	assert_eq(marks.board.count(MARK.OWNED_EDGE), 0)
 	assert_eq(marks.hand, [0], "noncombining owned copies get no match mark")
 	# Also exercise a noncombining offer against otherwise eligible owned entries.
 	state.board[0].combines = true

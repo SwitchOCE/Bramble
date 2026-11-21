@@ -13,6 +13,7 @@ const FOIL_PRICE: Rect2i = Rect2i(450, 457, 40, 40)
 const FOIL_CORNER: Rect2i = Rect2i(400, 195, 15, 15)
 const MATCH_FACE: Rect2i = Rect2i(1035, 250, 70, 90)
 const HALO_MATCH: Rect2i = Rect2i(985, 245, 12, 150)
+const UNMARKED_RIM: Rect2i = Rect2i(85, 245, 12, 150)
 const HALO_MOUSE_A: Rect2i = Rect2i(1285, 245, 12, 150)
 const HALO_MOUSE_B: Rect2i = Rect2i(1585, 245, 12, 150)
 var _glows: Array[GlassDuplicateGlow] = []
@@ -59,6 +60,8 @@ func _ready() -> void:
 	var values_match: Array[float] = []
 	var values_mouse_a: Array[float] = []
 	var values_mouse_b: Array[float] = []
+	var unmarked_rim: float = 0.0
+	var mice_unmarked: bool = true
 	var report: Dictionary = {
 		"phases": PHASES,
 		"a": values_a,
@@ -75,6 +78,7 @@ func _ready() -> void:
 		await RenderingServer.frame_post_draw
 		await RenderingServer.frame_post_draw
 		var shot: Image = get_viewport().get_texture().get_image()
+		unmarked_rim = _brightness(shot, UNMARKED_RIM)
 		shot.save_png(out.path_join("phase-%d.png" % i))
 		var current: Image = shot.get_region(NORMAL)
 		if normal == null:
@@ -87,6 +91,12 @@ func _ready() -> void:
 		values_match.append(_brightness(shot, HALO_MATCH))
 		values_mouse_a.append(_brightness(shot, HALO_MOUSE_A))
 		values_mouse_b.append(_brightness(shot, HALO_MOUSE_B))
+		mice_unmarked = (
+			mice_unmarked
+			and absf(values_mouse_a[i] - unmarked_rim) < 0.1
+			and absf(values_mouse_b[i] - unmarked_rim) < 0.1
+		)
+	report["unmarked_rim"] = unmarked_rim
 	report["foil"] = await _foil_pixels(out, freeze_foil)
 	var file: FileAccess = FileAccess.open(out.path_join("pixels.json"), FileAccess.WRITE)
 	file.store_string(JSON.stringify(report, " "))
@@ -100,10 +110,7 @@ func _ready() -> void:
 		and values_b.min() > 48.0
 		and values_match.min() > 60.0
 		and values_match.max() - values_match.min() < 0.1
-		and values_mouse_a.min() > 60.0
-		and values_mouse_b.min() > 60.0
-		and values_mouse_a.max() - values_mouse_a.min() < 0.1
-		and values_mouse_b.max() - values_mouse_b.min() < 0.1
+		and mice_unmarked
 		and report["normal_unchanged"] == true
 		and report["foil"]["passed"] == true
 	)
