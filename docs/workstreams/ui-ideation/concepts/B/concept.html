@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bramble — Concept B: Honeycomb</title>
+<style>
+@font-face {
+  font-family: 'Alegreya';
+  src: url('../../../../../assets/glass/fonts/Alegreya[wght].ttf') format('truetype');
+  font-weight: 400 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  src: url('../../../../../assets/glass/fonts/AlegreyaSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Alegreya Sans';
+  src: url('../../../../../assets/glass/fonts/AlegreyaSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: #080706;
+  font-family: 'Alegreya Sans', Georgia, serif;
+  color: #f6eedc;
+  -webkit-font-smoothing: antialiased;
+}
+
+#stage {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 900px 520px at 880px 330px, rgba(168, 122, 52, 0.22), transparent 72%),
+    radial-gradient(ellipse 960px 540px at 880px 760px, rgba(56, 118, 88, 0.22), transparent 72%),
+    radial-gradient(ellipse 520px 600px at 180px 540px, rgba(58, 76, 98, 0.16), transparent 75%),
+    radial-gradient(ellipse 500px 500px at 1780px 880px, rgba(214, 134, 28, 0.20), transparent 70%),
+    #0b0d0e;
+}
+
+#stage.view-fight, #stage.view-after {
+  background:
+    radial-gradient(ellipse 900px 500px at 960px 280px, rgba(162, 54, 42, 0.26), transparent 72%),
+    radial-gradient(ellipse 900px 500px at 880px 760px, rgba(56, 118, 88, 0.22), transparent 72%),
+    #0a0b0c;
+}
+
+/* Subtle backlit cathedral-glass texture across the entire window */
+#glass-tex {
+  position: absolute;
+  inset: 0;
+  background: url('../../../../../assets/glass/ui/pane.jpg') center / 420px 420px repeat;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Layers */
+#layer-quarry  { position: absolute; inset: 0; z-index: 2; }
+#layer-cells   { position: absolute; inset: 0; z-index: 10; }
+#layer-lead    { position: absolute; inset: 0; z-index: 20; pointer-events: none; }
+#layer-badges  { position: absolute; inset: 0; z-index: 25; pointer-events: none; }
+#layer-overlay { position: absolute; inset: 0; z-index: 30; pointer-events: none; }
+#layer-stone   { position: absolute; inset: 0; z-index: 40; pointer-events: none; }
+
+/* Base tall-hexagon cell geometry (W=151.2, H=270 -> exact 0.56 ratio) */
+.hcell {
+  position: absolute;
+  width: 151.2px;
+  height: 270px;
+  clip-path: polygon(50% 0%, 100% 17%, 100% 83%, 50% 100%, 0% 83%, 0% 17%);
+  overflow: hidden;
+}
+
+/* Unclipped wrapper for unit cards & cells that carry apex seals or glow */
+.hslot {
+  position: absolute;
+  width: 151.2px;
+  height: 270px;
+}
+
+/* Background quarry stained-glass panes */
+.q-pane {
+  position: absolute;
+  width: 151.2px;
+  height: 270px;
+  clip-path: polygon(50% 0%, 100% 17%, 100% 83%, 50% 100%, 0% 83%, 0% 17%);
+  background:
+    radial-gradient(circle at 38% 30%, rgba(164, 198, 206, 0.08), transparent 62%),
+    linear-gradient(155deg, #1b2226 0%, #12171a 52%, #0d1113 100%);
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.72);
+}
+.q-pane::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(58deg, transparent 0 26px, rgba(0, 0, 0, 0.24) 26px 28px),
+    repeating-linear-gradient(-58deg, transparent 0 26px, rgba(0, 0, 0, 0.24) 26px 28px),
+    url('../../../../../assets/glass/ui/pane.jpg') center / 240px 240px;
+  opacity: 0.34;
+  mix-blend-mode: multiply;
+}
+.q-pane.warm {
+  background:
+    radial-gradient(circle at 50% 35%, rgba(206, 152, 68, 0.14), transparent 65%),
+    linear-gradient(160deg, #241d16 0%, #161310 55%, #100e0c 100%);
+}
+.q-pane.moss {
+  background:
+    radial-gradient(circle at 50% 35%, rgba(86, 154, 108, 0.14), transparent 65%),
+    linear-gradient(160deg, #17231e 0%, #101815 55%, #0c1210 100%);
+}
+.q-pane.crimson {
+  background:
+    radial-gradient(circle at 50% 35%, rgba(176, 62, 48, 0.16), transparent 65%),
+    linear-gradient(160deg, #251514 0%, #170f0f 55%, #100b0b 100%);
+}
+.q-pane.edge-dim {
+  opacity: 0.68;
+}
+
+/* Empty recessed board / hand socket */
+.socket-cell {
+  background:
+    radial-gradient(ellipse 90px 140px at 50% 48%, rgba(42, 56, 54, 0.34), rgba(11, 14, 14, 0.92) 78%),
+    #0e1213;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.socket-cell.enemy-empty {
+  background:
+    radial-gradient(ellipse 90px 140px at 50% 48%, rgba(62, 34, 32, 0.34), rgba(14, 10, 10, 0.92) 78%),
+    #120c0c;
+}
+.socket-cell.hand-socket {
+  background:
+    radial-gradient(ellipse 84px 130px at 50% 50%, rgba(48, 62, 72, 0.24), rgba(12, 15, 18, 0.88) 78%),
+    #0f1316;
+}
+.socket-cell::after {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  clip-path: polygon(50% 0%, 100% 17%, 100% 83%, 50% 100%, 0% 83%, 0% 17%);
+  border: 2px solid rgba(196, 178, 138, 0.10);
+  box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+.socket-emblem {
+  width: 48px;
+  height: 48px;
+  opacity: 0.24;
+  color: #cbb996;
+}
+.socket-label {
+  margin-top: 6px;
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(214, 200, 170, 0.36);
+}
+
+/* ==================== UNIT CARD ==================== */
+.unit-card {
+  position: absolute;
+  inset: 0;
+  width: 151.2px;
+  height: 270px;
+}
+.unit-card.golden-unit {
+  filter: drop-shadow(0 0 12px rgba(255, 206, 74, 0.72));
+}
+.unit-card.attacker-active {
+  filter: drop-shadow(0 0 14px rgba(255, 198, 86, 0.85));
+}
+.unit-card.hand-dimmed {
+  opacity: 0.82;
+}
+.unit-card .uc-art {
+  position: absolute;
+  inset: 0;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  clip-path: polygon(50% 4.339%, 95.911% 18.365%, 95.911% 81.635%, 50% 95.661%, 4.089% 81.635%, 4.089% 18.365%);
+}
+.unit-card .uc-frame {
+  position: absolute;
+  inset: 0;
+  width: 151.2px;
+  height: 270px;
+  display: block;
+  pointer-events: none;
+}
+.unit-card .uc-golden-rim {
+  position: absolute;
+  inset: -2px;
+  width: 155.2px;
+  height: 274px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Leaded inscription band (titulus) — solves reading at a glance */
+.uc-titulus {
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  top: 130px; /* ~48.1% of 270 -> bottom ~177px (65.5%), cleanly above all tier discs! */
+  height: 47px;
+  background:
+    linear-gradient(180deg, rgba(20, 15, 11, 0.94) 0%, rgba(12, 9, 7, 0.96) 55%, rgba(17, 13, 9, 0.94) 100%);
+  border-top: 2px solid #4d3f2e;
+  border-bottom: 2px solid #3c3022;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 232, 182, 0.16),
+    0 2px 6px rgba(0, 0, 0, 0.82),
+    0 -2px 5px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 3px 2px;
+  z-index: 4;
+}
+.uc-name {
+  font-family: 'Alegreya Sans', Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: #fcf5e6;
+  text-shadow: 0 1px 2px #000;
+  white-space: nowrap;
+  max-width: 142px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.uc-cue {
+  font-family: 'Alegreya Sans', Georgia, serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: #f0d79e;
+  margin-top: 2px;
+  white-space: nowrap;
+  max-width: 142px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.uc-cue.kw-highlight {
+  color: #b8efb6;
+}
+
+/* Attack & Health discs */
+.uc-num {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  font-family: 'Alegreya', Georgia, serif;
+  font-weight: 900;
+  line-height: 1;
+  color: #160e07;
+  letter-spacing: -0.02em;
+  font-variant-numeric: lining-nums;
+  padding-top: 1px;
+  text-shadow: 0 0 3px rgba(255, 240, 200, 0.75);
+  z-index: 5;
+}
+.uc-num.hurt {
+  color: #8f0a0a;
+  text-shadow: 0 0 5px rgba(255, 240, 224, 0.98);
+}
+.uc-num.buffed {
+  color: #063812;
+  text-shadow: 0 0 5px rgba(232, 255, 224, 0.96);
+}
+
+/* Charge / Supply pips between the discs just beneath titulus */
+.uc-pips {
+  position: absolute;
+  left: 50%;
+  top: 181px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 3px;
+  padding: 2px 5px;
+  background: rgba(12, 10, 8, 0.84);
+  border: 1.5px solid #3f3428;
+  border-radius: 8px;
+  z-index: 6;
+}
+.uc-pip {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffffff, #dcd0b0);
+  border: 1px solid #14100c;
+  box-shadow: 0 0 3px rgba(255, 244, 210, 0.65);
+}
+
+/* Tribe diamond gem at lower centre between discs */
+.uc-tribe {
+  position: absolute;
+  left: 50%;
+  top: 233px;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  display: grid;
+  place-items: center;
+  z-index: 6;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+}
+.uc-tribe::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #14100c;
+  z-index: -2;
+}
+.uc-tribe-inner {
+  width: 19px;
+  height: 19px;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  display: grid;
+  place-items: center;
+}
+.uc-tribe svg {
+  width: 12px;
+  height: 12px;
+  stroke: #fff7e6;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Renown seal at upper crown of the cell (placed in elBadges ABOVE lead layer, strictly inside hex width!) */
+.renown-seal {
+  position: absolute;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 8px 2px 6px;
+  background: linear-gradient(180deg, #3f2e12 0%, #1d1407 100%);
+  border: 2px solid #dfb04a;
+  border-radius: 11px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 238, 178, 0.45);
+  white-space: nowrap;
+}
+.renown-seal svg {
+  width: 12px;
+  height: 12px;
+  fill: #ffd96a;
+  stroke: #332006;
+  stroke-width: 1;
+}
+.renown-seal span {
+  font-family: 'Alegreya Sans', Georgia, serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff0c4;
+  line-height: 1;
+}
+
+/* Decisive-threat crown in ?view=after (sits cleanly inside upper body, below Renown!) */
+.culprit-seal {
+  position: absolute;
+  transform: translateX(-50%);
+  padding: 2px 9px;
+  background: linear-gradient(180deg, #942016 0%, #520d08 100%);
+  border: 2px solid #f5be58;
+  border-radius: 9px;
+  font-family: 'Alegreya Sans', Georgia, serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff4da;
+  letter-spacing: 0.01em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+}
+
+/* Shop price medallion soldered onto bottom apex (placed in elBadges ABOVE lead layer!) */
+.price-coin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: url('assets/rd-amber.png') center / 118% auto, radial-gradient(circle at 35% 30%, #ffe694, #c5841d);
+  border: 3px solid #16100a;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.92), inset 0 1px 2px rgba(255, 245, 210, 0.65);
+  display: grid;
+  place-items: center;
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 21px;
+  font-weight: 900;
+  color: #160c04;
+  text-shadow: 0 1px 0 rgba(255, 240, 195, 0.65);
+}
+.price-coin.unaffordable {
+  filter: grayscale(0.75) brightness(0.72);
+  color: #ffd0cc;
+  text-shadow: 0 1px 2px #000;
+}
+.price-coin.hand-cost {
+  background: url('../../../../../assets/glass/ui/rd-cream.png') center / 118% auto, radial-gradient(circle at 35% 30%, #f8f0dc, #c4b594);
+  color: #16100a;
+}
+
+/* ==================== SPELL CARD (TRUE TALL HEX) ==================== */
+.spell-card {
+  position: absolute;
+  inset: 0;
+  width: 151.2px;
+  height: 270px;
+  clip-path: polygon(50% 0%, 100% 17%, 100% 83%, 50% 100%, 0% 83%, 0% 17%);
+  background: #141c29;
+}
+.spell-card .sp-art {
+  position: absolute;
+  inset: 8px;
+  clip-path: polygon(50% 0%, 100% 17%, 100% 83%, 50% 100%, 0% 83%, 0% 17%);
+  background-size: cover;
+  background-position: center 35%;
+}
+.spell-card .sp-frame {
+  position: absolute;
+  inset: 0;
+  width: 151.2px;
+  height: 270px;
+  pointer-events: none;
+  z-index: 3;
+}
+.spell-tag {
+  position: absolute;
+  left: 50%;
+  top: 24px;
+  transform: translateX(-50%);
+  padding: 1px 8px;
+  background: rgba(16, 26, 44, 0.92);
+  border: 1.5px solid #7ab3df;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #d6ecff;
+  z-index: 5;
+}
+
+/* ==================== LOBBY PLAYER CELL ==================== */
+.lobby-cell {
+  background:
+    radial-gradient(circle at 50% 34%, rgba(92, 114, 134, 0.25), rgba(14, 17, 21, 0.95) 76%),
+    #101418;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.lobby-cell.is-you {
+  background:
+    radial-gradient(circle at 50% 34%, rgba(74, 166, 114, 0.42), rgba(14, 24, 19, 0.95) 78%),
+    #102018;
+}
+.lobby-cell.is-next {
+  background:
+    radial-gradient(circle at 50% 34%, rgba(214, 140, 44, 0.36), rgba(26, 17, 10, 0.95) 78%),
+    #1c140c;
+}
+.lobby-cell.is-out {
+  background: #0d0e10;
+  filter: saturate(0.2) brightness(0.65);
+}
+.lobby-cell.fight-dim {
+  opacity: 0.42;
+  filter: saturate(0.45);
+}
+.lb-rank {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: #e9d9b4;
+  text-shadow: 0 1px 3px #000;
+  z-index: 4;
+}
+.lb-port {
+  margin-top: 34px;
+  width: 94px;
+  height: 94px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 3px solid #18130e;
+  box-shadow: 0 0 0 2px rgba(212, 186, 128, 0.45), 0 4px 10px rgba(0, 0, 0, 0.8);
+  position: relative;
+  z-index: 3;
+}
+.lobby-cell.is-you .lb-port {
+  box-shadow: 0 0 0 3px #7ae09b, 0 0 14px rgba(102, 224, 146, 0.55);
+}
+.lobby-cell.is-next .lb-port {
+  box-shadow: 0 0 0 3px #f0b148, 0 0 14px rgba(240, 177, 72, 0.55);
+}
+.lb-plaque {
+  margin-top: 8px;
+  width: 142px;
+  min-height: 46px;
+  padding: 4px 4px;
+  background: rgba(12, 10, 8, 0.88);
+  border-top: 1.5px solid #443a2e;
+  border-bottom: 1.5px solid #30281f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 4;
+}
+.lb-name {
+  font-family: 'Alegreya Sans', Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.05;
+  color: #faf2e2;
+  letter-spacing: -0.02em;
+}
+.lb-status {
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.lb-status.you  { color: #8af0a8; }
+.lb-status.next { color: #ffcf72; }
+.lb-status.out  { color: #c7b6b2; }
+
+.lb-hp {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: url('../../../../../assets/glass/ui/rd-ruby.png') center / 120% auto, radial-gradient(circle at 35% 30%, #d43838, #6b0d0d);
+  border: 3px solid #150e0a;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+  display: grid;
+  place-items: center;
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: #fff9ef;
+  text-shadow: 0 1px 3px #000;
+  z-index: 5;
+}
+.lobby-cell.is-out .lb-hp {
+  background: #232020;
+  color: #b4a9a5;
+  font-size: 15px;
+}
+
+/* ==================== ACTION & COUNTER CELLS ==================== */
+.ui-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 28px 10px;
+  position: relative;
+}
+.ui-cell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../../../../../assets/glass/ui/pane.jpg') center / 260px 260px;
+  opacity: 0.24;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+.ui-cell::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  clip-path: polygon(50% 0%, 100% 17%, 100% 83%, 50% 100%, 0% 83%, 0% 17%);
+  box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.7), inset 0 2px 0 rgba(255, 240, 200, 0.14);
+  pointer-events: none;
+}
+
+/* Gold Treasury */
+.cell-gold {
+  background:
+    radial-gradient(circle at 50% 42%, rgba(242, 186, 62, 0.42), rgba(74, 46, 12, 0.88) 70%, #261808 100%);
+}
+/* Upgrade */
+.cell-upgrade {
+  background:
+    radial-gradient(circle at 50% 40%, rgba(146, 94, 198, 0.36), rgba(36, 22, 54, 0.92) 72%, #180f24 100%);
+}
+.cell-upgrade.unaffordable {
+  background:
+    radial-gradient(circle at 50% 40%, rgba(92, 74, 108, 0.24), rgba(24, 20, 30, 0.94) 72%, #131018 100%);
+}
+/* Refresh */
+.cell-refresh {
+  background:
+    radial-gradient(circle at 50% 42%, rgba(56, 142, 192, 0.42), rgba(18, 44, 66, 0.92) 72%, #0e1e2e 100%);
+}
+/* Freeze */
+.cell-freeze {
+  background:
+    radial-gradient(circle at 50% 44%, rgba(124, 194, 232, 0.34), rgba(22, 46, 66, 0.92) 72%, #101e2b 100%);
+}
+/* Compost */
+.cell-compost {
+  background:
+    radial-gradient(circle at 50% 42%, rgba(96, 168, 72, 0.38), rgba(24, 48, 22, 0.92) 72%, #112210 100%);
+}
+/* Tide */
+.cell-tide {
+  background:
+    radial-gradient(circle at 50% 42%, rgba(196, 152, 56, 0.36), rgba(52, 38, 14, 0.92) 72%, #20170a 100%);
+}
+/* Quiet Archive / System */
+.cell-quiet {
+  background:
+    radial-gradient(circle at 50% 38%, rgba(84, 104, 114, 0.24), rgba(20, 25, 29, 0.94) 74%, #111518 100%);
+}
+/* Enemy Leader Cell in Fight */
+.cell-enemy-leader {
+  background:
+    radial-gradient(circle at 50% 38%, rgba(184, 64, 48, 0.40), rgba(44, 16, 14, 0.94) 74%, #1e0b0a 100%);
+}
+/* THE ONE ACTION ACCENT: END TURN / SKIP / PLAY AGAIN */
+.cell-primary-action {
+  background:
+    radial-gradient(circle at 50% 40%, #f7be4a 0%, #c97b16 48%, #7d4108 82%, #472204 100%);
+}
+.cell-primary-action::after {
+  box-shadow: inset 0 0 18px rgba(255, 236, 170, 0.45), inset 0 0 30px rgba(72, 28, 0, 0.65);
+}
+
+.ui-icon {
+  width: 38px;
+  height: 38px;
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 3;
+}
+.ui-big-num {
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 46px;
+  font-weight: 900;
+  line-height: 0.95;
+  color: #fff6df;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+  position: relative;
+  z-index: 3;
+}
+.ui-title {
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #fbf3e2;
+  text-shadow: 0 1px 3px #000;
+  position: relative;
+  z-index: 3;
+}
+.ui-sub {
+  margin-top: 4px;
+  font-family: 'Alegreya Sans', Georgia, serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #dfd0b0;
+  text-shadow: 0 1px 2px #000;
+  position: relative;
+  z-index: 3;
+}
+.ui-pill-cost {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 12px;
+  background: rgba(16, 11, 7, 0.82);
+  border: 2px solid #d49e38;
+  border-radius: 14px;
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: #ffe8a8;
+  position: relative;
+  z-index: 3;
+}
+.ui-pill-cost.unaffordable {
+  border-color: #b56565;
+  background: rgba(34, 16, 18, 0.9);
+  color: #ffbeb8;
+}
+
+/* Primary Action specifics */
+.end-income {
+  padding: 2px 10px;
+  background: rgba(24, 13, 4, 0.88);
+  border: 2px solid #ffe08a;
+  border-radius: 12px;
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: #ffe89e;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 3;
+}
+.end-port-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 8px;
+  z-index: 3;
+}
+.end-port {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 3px solid #1e1105;
+  box-shadow: 0 0 0 2px #ffe28c, 0 4px 10px rgba(0, 0, 0, 0.7);
+}
+.end-hp {
+  position: absolute;
+  right: -6px;
+  bottom: -4px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: url('../../../../../assets/glass/ui/rd-ruby.png') center / 120% auto, #9c1a1a;
+  border: 2px solid #160c05;
+  display: grid;
+  place-items: center;
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+}
+.end-btn-plaque {
+  width: 138px;
+  padding: 6px 4px;
+  background: linear-gradient(180deg, #241304 0%, #140a02 100%);
+  border: 2px solid #ffdf82;
+  border-radius: 6px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.75);
+  position: relative;
+  z-index: 3;
+}
+.end-btn-label {
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.05;
+  color: #fff3cf;
+}
+.end-btn-opp {
+  margin-top: 2px;
+  font-family: 'Alegreya Sans', Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.05;
+  color: #f4d084;
+}
+
+/* Cluster leaded headers soldered cleanly onto cluster edges */
+.cluster-tag {
+  position: absolute;
+  transform: translateX(-50%);
+  padding: 3px 12px;
+  background: linear-gradient(180deg, #221b14 0%, #120e0a 100%);
+  border: 2px solid #5e4c34;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 232, 178, 0.22);
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #e8d4a6;
+  white-space: nowrap;
+  border-radius: 4px;
+}
+.cluster-tag.battlefront {
+  border-color: #c97236;
+  background: linear-gradient(180deg, #331610 0%, #1a0b08 100%);
+  color: #ffe2b8;
+}
+
+/* ==================== FIRST-SESSION TUTORIAL OVERLAY ==================== */
+.tut-ribbon {
+  position: absolute;
+  left: 798px;
+  top: 616px;
+  padding: 12px 22px;
+  background: linear-gradient(180deg, #2b1d0d 0%, #170f07 100%);
+  border: 2.5px solid #f0b64a;
+  border-radius: 8px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.92), 0 0 18px rgba(240, 182, 74, 0.35);
+  font-family: 'Alegreya Sans', Georgia, serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff4d6;
+  white-space: nowrap;
+}
+.tut-ribbon strong {
+  color: #ffd56b;
+}
+
+/* ==================== AFTER-FIGHT AUTOPSY PLAQUE (?view=after) ==================== */
+/* Faceted hexagonal-corner stained-glass memorial window set cleanly right of Compost/Tide (x>=656) and left of Actions (x<=1552) */
+.after-plaque-wrap {
+  position: absolute;
+  left: 656px;
+  top: 586px;
+  width: 896px;
+  height: 394px;
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.92));
+}
+.after-plaque {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(32px 0%, calc(100% - 32px) 0%, 100% 32px, 100% calc(100% - 32px), calc(100% - 32px) 100%, 32px 100%, 0% calc(100% - 32px), 0% 32px);
+  background:
+    radial-gradient(ellipse 680px 240px at 50% 15%, rgba(148, 38, 28, 0.34), transparent 72%),
+    linear-gradient(180deg, rgba(22, 16, 14, 0.97) 0%, rgba(13, 11, 10, 0.99) 100%);
+  padding: 22px 34px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.after-plaque-frame {
+  position: absolute;
+  inset: 0;
+  width: 896px;
+  height: 394px;
+  pointer-events: none;
+}
+.after-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid rgba(188, 150, 96, 0.28);
+  padding-bottom: 12px;
+}
+.after-title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.after-title {
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 36px;
+  font-weight: 900;
+  color: #ffdfcc;
+  letter-spacing: 0.01em;
+}
+.after-place {
+  font-family: 'Alegreya Sans', Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #f0be70;
+}
+.after-dmg-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  background: linear-gradient(180deg, #5c1410 0%, #330a08 100%);
+  border: 2px solid #e06b58;
+  border-radius: 8px;
+}
+.after-dmg-num {
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 30px;
+  font-weight: 900;
+  color: #fff2ec;
+  line-height: 1;
+}
+.after-dmg-hp {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f5c8be;
+}
+
+.after-math {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: rgba(34, 24, 18, 0.88);
+  border: 1.5px solid rgba(206, 168, 108, 0.28);
+  border-radius: 6px;
+  font-size: 17px;
+  color: #f2e4c8;
+}
+.after-math .m-val {
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: #ff9e8a;
+  margin-left: 4px;
+}
+.after-math .m-op {
+  color: #bda884;
+  font-weight: 700;
+}
+
+.after-reasons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.after-card {
+  background: rgba(24, 20, 17, 0.92);
+  border: 1.5px solid #4a3b2a;
+  border-top: 3px solid #c97c38;
+  border-radius: 6px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.after-card.c-briar { border-top-color: #5ea84c; }
+.after-card.c-weasel { border-top-color: #7ea4d4; }
+.after-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.after-card-name {
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 19px;
+  font-weight: 800;
+  color: #fff2d6;
+}
+.after-card-stat {
+  font-family: 'Alegreya Sans', Georgia, serif;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 4px;
+  background: rgba(212, 162, 62, 0.18);
+  border: 1px solid rgba(212, 162, 62, 0.45);
+  color: #ffd982;
+  white-space: nowrap;
+}
+.after-card-body {
+  font-size: 15px;
+  line-height: 1.32;
+  color: #e4d8c0;
+}
+
+/* Outer carved stone window border */
+.stone-frame-svg {
+  width: 1920px;
+  height: 1080px;
+  display: block;
+}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="glass-tex"></div>
+  <div id="layer-quarry"></div>
+  <div id="layer-cells"></div>
+  <svg id="layer-lead" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+  <div id="layer-badges"></div>
+  <div id="layer-overlay"></div>
+  <svg id="layer-stone" class="stone-frame-svg" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+</div>
+
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  const VIEW = params.get('view') || 'mid';
+  const stage = document.getElementById('stage');
+  stage.classList.add('view-' + VIEW);
+
+  // ==================== EXACT HONEYCOMB GEOMETRY ====================
+  // Tall hexagon ratio: W / H = 151.2 / 270 = 0.560000 (matches tier1-6.webp 560x1000 exactly)
+  const W = 151.2;
+  const H = 270;
+  const DX = 156;
+  const DY = 230; // 0.83 * 270 + 5.9 -> uniform ~5px lead came on all 6 edges!
+  const X0 = 960;
+  const Y0 = 60;
+
+  function cellPos(r, k) {
+    const cx = X0 + k * DX;
+    const top = Y0 + r * DY;
+    return { left: cx - W / 2, top, cx, cy: top + H / 2 };
+  }
+
+  function hexVertices(r, k, pad = 0) {
+    const { left, top } = cellPos(r, k);
+    const w = W + pad * 2, h = H + pad * 2;
+    const x = left - pad, y = top - pad;
+    return [
+      [x + w * 0.5, y],
+      [x + w,       y + h * 0.17],
+      [x + w,       y + h * 0.83],
+      [x + w * 0.5, y + h],
+      [x,           y + h * 0.83],
+      [x,           y + h * 0.17],
+    ];
+  }
+
+  function ptsStr(verts) {
+    return verts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+  }
+
+  // Exact per-tier Attack & Health roundel geometry from assets/glass/card_data.json
+  const ROUNDELS = {
+    1: { a: [110.8, 778.5, 62.4], h: [448.8, 778.5, 62.4] },
+    2: { a: [115.2, 770.0, 63.4], h: [445.2, 770.0, 63.1] },
+    3: { a: [111.2, 758.5, 59.6], h: [448.0, 760.5, 60.0] },
+    4: { a: [107.5, 760.8, 59.9], h: [451.8, 760.2, 60.0] },
+    5: { a: [110.5, 751.0, 65.2], h: [448.0, 750.2, 65.1] },
+    6: { a: [110.0, 775.2, 58.4], h: [446.8, 775.2, 59.0] },
+  };
+
+  const TRIBES = {
+    briar:   { color: '#2e7d32', icon: '<path d="M12 20V10M12 12c-4 0-6-2.5-6-6 4 0 6 2.5 6 6zM12 10c0-3.5 2.5-6 6-6 0 3.5-2.5 6-6 6z"/>' },
+    pigeon:  { color: '#2b6ea3', icon: '<path d="M4 19C7 10 12 6 20 4c-1 7-5 12-16 15zM5 18l8-8"/>' },
+    mouse:   { color: '#a87918', icon: '<circle cx="12" cy="14" r="5.5"/><circle cx="7" cy="8" r="2.8"/><circle cx="17" cy="8" r="2.8"/>' },
+    locust:  { color: '#8a6b14', icon: '<path d="M4 18c2-6 5-9 8-9s6 3 8 9M9 9L6 4M15 9l3-5"/>' },
+    badger:  { color: '#a33329', icon: '<path d="M12 3l7 3v5c0 4.5-3 7.8-7 9.5C8 18.8 5 15.5 5 11V6z"/>' },
+    neutral: { color: '#5c6670', icon: '<path d="M12 4l7 8-7 8-7-8z"/>' },
+  };
+
+  const ASSET = '../../../../../assets/';
+  const elQuarry  = document.getElementById('layer-quarry');
+  const elCells   = document.getElementById('layer-cells');
+  const svgLead   = document.getElementById('layer-lead');
+  const elBadges  = document.getElementById('layer-badges');
+  const elOverlay = document.getElementById('layer-overlay');
+  const svgStone  = document.getElementById('layer-stone');
+
+  function svgEl(tag, attrs = {}) {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    return el;
+  }
+
+  function makeSlot(r, k) {
+    const p = cellPos(r, k);
+    const wrap = document.createElement('div');
+    wrap.className = 'hslot';
+    wrap.style.left = p.left.toFixed(1) + 'px';
+    wrap.style.top = p.top.toFixed(1) + 'px';
+    return wrap;
+  }
+
+  // ==================== 1. FULL BACKGROUND QUARRY HONEYCOMB ====================
+  // Tile r = -1 .. 4 so partial cells meet the stone frame seamlessly all around
+  const allCoords = [];
+  for (let r = -1; r <= 4; r++) {
+    const isOdd = (r & 1) !== 0; // r=0,2,4 even parity (k integers); r=-1,1,3 odd parity (k half-integers)
+    const kMin = isOdd ? -6.5 : -6;
+    const kMax = isOdd ? 6.5 : 6;
+    for (let k = kMin; k <= kMax; k += 1) {
+      allCoords.push([r, k]);
+      const p = cellPos(r, k);
+      const q = document.createElement('div');
+      q.className = 'q-pane';
+      if (r < 0 || r > 3 || k < -5.5 || k > 5.5) q.classList.add('edge-dim');
+      else if (VIEW === 'mid' || VIEW === 'first') {
+        if (r <= 1 && k >= -3.5 && k <= 2.5) q.classList.add('warm');
+        else if (r >= 2 && k >= -3 && k <= 1) q.classList.add('moss');
+      } else {
+        if (r <= 1 && k >= -3 && k <= 2) q.classList.add('crimson');
+        else if (r >= 2 && k >= -3 && k <= 1) q.classList.add('moss');
+      }
+      q.style.left = p.left.toFixed(1) + 'px';
+      q.style.top = p.top.toFixed(1) + 'px';
+      elQuarry.appendChild(q);
+    }
+  }
+
+  // ==================== 2. CARD & CELL BUILDERS ====================
+  function addUnitCell(r, k, u) {
+    const slot = makeSlot(r, k);
+    const card = document.createElement('div');
+    card.className = 'unit-card' +
+      (u.golden ? ' golden-unit' : '') +
+      (u.attacker ? ' attacker-active' : '') +
+      (u.handDim ? ' hand-dimmed' : '');
+
+    // Art clipped inside exact window polygon
+    const art = document.createElement('div');
+    art.className = 'uc-art';
+    art.style.backgroundImage = `url('${ASSET}units/${u.art}')`;
+    card.appendChild(art);
+
+    // Real undistorted tier frame
+    const fr = document.createElement('img');
+    fr.className = 'uc-frame';
+    fr.src = `${ASSET}glass/frames/tier${u.tier}.webp`;
+    fr.alt = '';
+    card.appendChild(fr);
+
+    // Golden double rim
+    if (u.golden) {
+      const gSvg = svgEl('svg', { class: 'uc-golden-rim', viewBox: '0 0 155.2 274' });
+      gSvg.appendChild(svgEl('polygon', {
+        points: '77.6,3 152.2,48 152.2,226 77.6,271 3,226 3,48',
+        fill: 'none', stroke: '#ffd65c', 'stroke-width': '5'
+      }));
+      card.appendChild(gSvg);
+    }
+
+    // Leaded inscription band (titulus)
+    const tit = document.createElement('div');
+    tit.className = 'uc-titulus';
+    const nm = document.createElement('div');
+    nm.className = 'uc-name';
+    nm.textContent = u.name;
+    const cue = document.createElement('div');
+    cue.className = 'uc-cue' + (u.cueHighlight ? ' kw-highlight' : '');
+    cue.textContent = u.cue;
+    tit.append(nm, cue);
+    card.appendChild(tit);
+
+    // Charge / Supply pips
+    if (u.pips && u.pips > 0) {
+      const pips = document.createElement('div');
+      pips.className = 'uc-pips';
+      for (let i = 0; i < u.pips; i++) {
+        const pip = document.createElement('span');
+        pip.className = 'uc-pip';
+        pips.appendChild(pip);
+      }
+      card.appendChild(pips);
+    }
+
+    // Exact per-tier Attack & Health roundel numbers
+    const rd = ROUNDELS[u.tier];
+    const mkNum = (val, [cx, cy, rad], cls) => {
+      const s = String(val);
+      const fs = Math.max(18, rad * (s.length > 1 ? 0.96 : 1.18) * (H / 1000));
+      const el = document.createElement('span');
+      el.className = 'uc-num ' + cls;
+      el.textContent = s;
+      el.style.left = (cx / 560 * 100).toFixed(2) + '%';
+      el.style.top  = (cy / 1000 * 100).toFixed(2) + '%';
+      el.style.fontSize = fs.toFixed(1) + 'px';
+      return el;
+    };
+    card.appendChild(mkNum(u.atk, rd.a, u.atkBuff ? 'buffed' : ''));
+    card.appendChild(mkNum(u.hp, rd.h, u.hurt ? 'hurt' : (u.hpBuff ? 'buffed' : '')));
+
+    // Tribe diamond gem
+    const tr = TRIBES[u.tribe] || TRIBES.neutral;
+    const gem = document.createElement('div');
+    gem.className = 'uc-tribe';
+    gem.innerHTML = `<div class="uc-tribe-inner" style="background:${tr.color}"><svg viewBox="0 0 24 24">${tr.icon}</svg></div>`;
+    card.appendChild(gem);
+
+    slot.appendChild(card);
+    elCells.appendChild(slot);
+
+    const p = cellPos(r, k);
+
+    // Renown slot seal (in elBadges ABOVE lead layer, tucked cleanly inside upper hex!)
+    if (u.renown && u.renown > 0) {
+      const ren = document.createElement('div');
+      ren.className = 'renown-seal';
+      ren.style.left = p.cx.toFixed(1) + 'px';
+      ren.style.top = (p.top + 20).toFixed(1) + 'px';
+      ren.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 2.5l2.8 5.8 6.4.8-4.7 4.4 1.2 6.3L12 16.7l-5.7 3.1 1.2-6.3L2.8 9.1l6.4-.8z"/></svg><span>Renown ${u.renown}</span>`;
+      elBadges.appendChild(ren);
+    }
+
+    // Decisive-threat crown (?view=after, tucked cleanly inside upper body!)
+    if (u.culprit) {
+      const cul = document.createElement('div');
+      cul.className = 'culprit-seal';
+      cul.style.left = p.cx.toFixed(1) + 'px';
+      cul.style.top = (p.top + (u.renown ? 48 : 22)).toFixed(1) + 'px';
+      cul.textContent = u.culprit;
+      elBadges.appendChild(cul);
+    }
+
+    // Shop price coin (soldered cleanly on bottom apex ABOVE lead layer!)
+    if (u.price !== undefined) {
+      const coin = document.createElement('div');
+      coin.className = 'price-coin' + (u.unaffordable ? ' unaffordable' : '');
+      coin.style.left = p.cx.toFixed(1) + 'px';
+      coin.style.top = (p.top + H - 10).toFixed(1) + 'px';
+      coin.textContent = u.price;
+      elBadges.appendChild(coin);
+    }
+  }
+
+  function addSpellCell(r, k, sp) {
+    const slot = makeSlot(r, k);
+    const card = document.createElement('div');
+    card.className = 'spell-card';
+
+    const art = document.createElement('div');
+    art.className = 'sp-art';
+    art.style.backgroundImage = `url('${ASSET}glass/art/${sp.art}')`;
+    card.appendChild(art);
+
+    // Stained-glass sapphire & silver-lead spell frame
+    const fr = svgEl('svg', { class: 'sp-frame', viewBox: '0 0 151.2 270' });
+    fr.innerHTML = `
+      <defs>
+        <linearGradient id="spg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#8ec7f0"/>
+          <stop offset="50%" stop-color="#2e679c"/>
+          <stop offset="100%" stop-color="#6fa8d8"/>
+        </linearGradient>
+      </defs>
+      <polygon points="75.6,3 148.2,47 148.2,223 75.6,267 3,223 3,47" fill="none" stroke="#120f0d" stroke-width="11"/>
+      <polygon points="75.6,5 146.2,48 146.2,222 75.6,265 5,222 5,48" fill="none" stroke="url(#spg)" stroke-width="5"/>
+      <polygon points="75.6,9 142.2,50 142.2,220 75.6,261 9,220 9,50" fill="none" stroke="#0d0b09" stroke-width="2.5"/>
+    `;
+    card.appendChild(fr);
+
+    const tag = document.createElement('div');
+    tag.className = 'spell-tag';
+    tag.textContent = 'Spell';
+    card.appendChild(tag);
+
+    const tit = document.createElement('div');
+    tit.className = 'uc-titulus';
+    tit.style.top = '156px';
+    tit.innerHTML = `<div class="uc-name">${sp.name}</div><div class="uc-cue">${sp.cue}</div>`;
+    card.appendChild(tit);
+
+    slot.appendChild(card);
+    elCells.appendChild(slot);
+
+    if (sp.price !== undefined) {
+      const p = cellPos(r, k);
+      const coin = document.createElement('div');
+      coin.className = 'price-coin' + (sp.inHand ? ' hand-cost' : '');
+      coin.style.left = p.cx.toFixed(1) + 'px';
+      coin.style.top = (p.top + H - 10).toFixed(1) + 'px';
+      coin.textContent = sp.price;
+      elBadges.appendChild(coin);
+    }
+  }
+
+  function addEmptySocket(r, k, opts = {}) {
+    const slot = makeSlot(r, k);
+    const cell = document.createElement('div');
+    cell.className = 'hcell socket-cell' +
+      (opts.enemy ? ' enemy-empty' : '') +
+      (opts.hand ? ' hand-socket' : '');
+
+    const icon = opts.hand
+      ? '<svg class="socket-emblem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l6 4v10l-6 4-6-4V7z"/></svg>'
+      : (opts.front
+        ? '<svg class="socket-emblem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v5c0 4.5-3 7.8-7 9.5C8 18.8 5 15.5 5 11V6z"/></svg>'
+        : '<svg class="socket-emblem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19C7 10 12 6 20 4c-1 7-5 12-16 15z"/></svg>');
+    cell.innerHTML = icon + (opts.label ? `<div class="socket-label">${opts.label}</div>` : '');
+    slot.appendChild(cell);
+    elCells.appendChild(slot);
+
+    if (opts.renown && opts.renown > 0) {
+      const p = cellPos(r, k);
+      const ren = document.createElement('div');
+      ren.className = 'renown-seal';
+      ren.style.left = p.cx.toFixed(1) + 'px';
+      ren.style.top = (p.top + 20).toFixed(1) + 'px';
+      ren.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 2.5l2.8 5.8 6.4.8-4.7 4.4 1.2 6.3L12 16.7l-5.7 3.1 1.2-6.3L2.8 9.1l6.4-.8z"/></svg><span>Renown ${opts.renown}</span>`;
+      elBadges.appendChild(ren);
+    }
+  }
+
+  function addLobbyCell(r, k, p, opts = {}) {
+    const slot = makeSlot(r, k);
+    const cell = document.createElement('div');
+    cell.className = 'hcell lobby-cell' +
+      (p.you ? ' is-you' : '') +
+      (p.next ? ' is-next' : '') +
+      (p.out ? ' is-out' : '') +
+      (opts.dim ? ' fight-dim' : '');
+
+    const statusHtml = p.you
+      ? '<div class="lb-status you">★ You</div>'
+      : (p.next ? `<div class="lb-status next">${opts.oppTag || '⚔ Next'}</div>` : (p.out ? '<div class="lb-status out">Out</div>' : ''));
+
+    cell.innerHTML = `
+      <div class="lb-rank">#${p.place}</div>
+      <div class="lb-port" style="background-image:url('${ASSET}glass/portraits/${p.port}')"></div>
+      <div class="lb-plaque">
+        <div class="lb-name">${p.name}</div>
+        ${statusHtml}
+      </div>
+      <div class="lb-hp">${p.out ? 'Out' : p.hp}</div>
+    `;
+    slot.appendChild(cell);
+    elCells.appendChild(slot);
+  }
+
+  function addUICell(r, k, cls, innerHtml) {
+    const slot = makeSlot(r, k);
+    const cell = document.createElement('div');
+    cell.className = 'hcell ui-cell ' + cls;
+    cell.innerHTML = innerHtml;
+    slot.appendChild(cell);
+    elCells.appendChild(slot);
+  }
+
+  // ==================== 3. GAME DATA FOR ALL FOUR VIEWS ====================
+  const LOBBY_T9 = [
+    { place: 1, name: 'Pipkin', hp: 31, port: 'pipkin.jpg' },
+    { place: 2, name: 'Old Mother Mousewife', hp: 28, port: 'old_mother_mousewife.jpg' },
+    { place: 3, name: 'Dame Hoolet', hp: 23, port: 'dame_hoolet.jpg' },
+    { place: 4, name: 'Little King Wren', hp: 18, port: 'little_king_wren.jpg' },
+    { place: 5, name: 'March Hare', hp: 16, port: 'march_hare.jpg', next: true },
+    { place: 6, name: 'Hob Mumblecrust', hp: 16, port: 'hob_mumblecrust.jpg' },
+    { place: 7, name: 'Dame Farthing', hp: 11, port: 'dame_farthing.jpg', you: true },
+    { place: 8, name: 'Brother Bracken', hp: 0, port: 'brother_bracken.jpg', out: true },
+  ];
+
+  const LOBBY_T1 = [
+    { place: 1, name: 'Dame Farthing', hp: 40, port: 'dame_farthing.jpg', you: true },
+    { place: 2, name: 'March Hare', hp: 40, port: 'march_hare.jpg', next: true },
+    { place: 3, name: 'Pipkin', hp: 40, port: 'pipkin.jpg' },
+    { place: 4, name: 'Old Mother Mousewife', hp: 40, port: 'old_mother_mousewife.jpg' },
+    { place: 5, name: 'Dame Hoolet', hp: 40, port: 'dame_hoolet.jpg' },
+    { place: 6, name: 'Little King Wren', hp: 40, port: 'little_king_wren.jpg' },
+    { place: 7, name: 'Hob Mumblecrust', hp: 40, port: 'hob_mumblecrust.jpg' },
+    { place: 8, name: 'Brother Bracken', hp: 40, port: 'brother_bracken.jpg' },
+  ];
+
+  const LOBBY_AFTER = [
+    { place: 1, name: 'Dame Hoolet', hp: 23, port: 'dame_hoolet.jpg' },
+    { place: 2, name: 'Pipkin', hp: 21, port: 'pipkin.jpg' },
+    { place: 3, name: 'Little King Wren', hp: 18, port: 'little_king_wren.jpg' },
+    { place: 4, name: 'Old Mother Mousewife', hp: 18, port: 'old_mother_mousewife.jpg' },
+    { place: 5, name: 'March Hare', hp: 16, port: 'march_hare.jpg', next: true },
+    { place: 6, name: 'Hob Mumblecrust', hp: 16, port: 'hob_mumblecrust.jpg' },
+    { place: 7, name: 'Dame Farthing', hp: 0, port: 'dame_farthing.jpg', you: true, out: true },
+    { place: 8, name: 'Brother Bracken', hp: 0, port: 'brother_bracken.jpg', out: true },
+  ];
+
+  const LOBBY_COORDS = [
+    [0, -5], [0, -4],
+    [1, -5.5], [1, -4.5],
+    [2, -5], [2, -4],
+    [3, -5.5], [3, -4.5],
+  ];
+
+  const MY_BOARD_T9 = {
+    front: [
+      { k: -2, name: 'Famine-caller', tribe: 'locust', tier: 3, atk: 15, hp: 11, atkBuff: true, hpBuff: true, renown: 7, art: 'locust/famine-caller.jpg', cue: 'Death: Tide +2' },
+      { k: -1, name: 'Squadron Leader', tribe: 'pigeon', tier: 3, atk: 4, hp: 9, art: 'pigeon/squadron-leader.jpg', cue: 'Ahead: Sortie +3A' },
+      { k:  0, name: 'Bell-ringer', tribe: 'mouse', tier: 3, atk: 5, hp: 7, atkBuff: true, hpBuff: true, renown: 2, art: 'mouse/bell-ringer.jpg', cue: 'Hand-me-down +3' },
+      { k:  1, name: 'Granary Glutton', tribe: 'locust', tier: 4, atk: 7, hp: 7, atkBuff: true, art: 'locust/granary-glutton.jpg', cue: 'Sell Locust → Eat' },
+    ],
+    back: [
+      { k: -1.5, name: 'Wing Commander', tribe: 'pigeon', tier: 5, atk: 11, hp: 17, atkBuff: true, hpBuff: true, renown: 3, pips: 4, art: 'pigeon/wing-commander.jpg', cue: 'Sortie · +3 Renown' },
+      { k: -0.5, name: 'Blackberry Sprawl', tribe: 'briar', tier: 3, atk: 4, hp: 8, art: 'thorn/blackberry-sprawl.jpg', cue: 'Grow 2' },
+      { k:  0.5, name: 'Hedge Lancer', tribe: 'badger', tier: 3, atk: 6, hp: 12, art: 'badger/hedge-lancer.jpg', cue: 'Fury 1 · No dmg 1st' },
+    ],
+  };
+
+  const SHOP_T9 = [
+    { k: -2.5, name: 'Bramble Runner', tribe: 'briar', tier: 1, atk: 4, hp: 5, price: 2, art: 'thorn/bramble-runner.jpg', cue: 'Seed → Compost' },
+    { k: -1.5, name: 'Home Guard', tribe: 'pigeon', tier: 3, atk: 3, hp: 11, price: 4, art: 'pigeon/home-guard.jpg', cue: 'Guard · Reserve' },
+    { k: -0.5, name: 'Hayloft Aunt', tribe: 'mouse', tier: 2, atk: 2, hp: 9, price: 3, art: 'mouse/hayloft-aunt.jpg', cue: 'Hand-me-down · +2/2' },
+    { k:  0.5, name: 'Sweetbriar', tribe: 'briar', tier: 2, atk: 3, hp: 7, price: 3, art: 'thorn/sweetbriar.jpg', cue: 'Compost → +1/+1' },
+    { k:  1.5, name: 'Shrew Cutpurse', tribe: 'mouse', tier: 2, atk: 2, hp: 4, price: 3, art: 'mouse/shrew-cutpurse.jpg', cue: 'Pile on 1 → +2g' },
+  ];
+
+  const SHOP_T1 = [
+    { k: -2.5, name: 'Sentry', tribe: 'pigeon', tier: 1, atk: 2, hp: 5, price: 2, pips: 6, art: 'pigeon/sentry.jpg', cue: 'Supply 6: +1 Renown' },
+    { k: -1.5, name: 'Hedgerow Scout', tribe: 'mouse', tier: 1, atk: 3, hp: 10, price: 2, art: 'mouse/hedgerow-scout.jpg', cue: 'Hand-me-down' },
+    { k: -0.5, name: 'Territorial', tribe: 'pigeon', tier: 1, atk: 5, hp: 7, price: 2, art: 'pigeon/territorial.jpg', cue: 'Reserve' },
+    { k:  0.5, name: 'Bumblebee', tribe: 'neutral', tier: 1, atk: 2, hp: 3, price: 2, art: 'shared/bumblebee.jpg', cue: 'Death: 4 to killer' },
+    { k:  1.5, name: 'Green Recruit', tribe: 'locust', tier: 1, atk: 2, hp: 2, price: 2, art: 'locust/green-recruit.jpg', cue: 'Death: 2/2 Hopper' },
+  ];
+
+  const ENEMY_BOARD_START = {
+    back: [
+      { k: -1, name: 'Weasel', tribe: 'neutral', tier: 5, atk: 9, hp: 13, renown: 1, pips: 6, art: 'shared/weasel.jpg', cue: 'Charge 6: Hit new' },
+      { k:  0, name: 'Gorger', tribe: 'locust', tier: 4, atk: 38, hp: 68, atkBuff: true, hpBuff: true, golden: true, art: 'locust/gorger.jpg', cue: 'Golden · 2× Eat' },
+      { k:  1, name: 'Dame Bodkin', tribe: 'mouse', tier: 5, atk: 6, hp: 9, art: 'mouse/dame-bodkin.jpg', cue: 'Pile on 2 · 2× dmg' },
+    ],
+    front: [
+      { k: -1.5, name: 'Greatsword Bearer', tribe: 'badger', tier: 4, atk: 7, hp: 15, renown: 3, art: 'badger/greatsword-bearer.jpg', cue: 'Squire · Overrun' },
+      { k: -0.5, name: 'Briar King', tribe: 'briar', tier: 6, atk: 12, hp: 20, renown: 4, art: 'thorn/briar-king.jpg', cue: 'Front Briars Grow 2', cueHighlight: true },
+      { k:  0.5, name: 'Holly Knight', tribe: 'briar', tier: 4, atk: 12, hp: 19, renown: 7, art: 'thorn/holly-knight.jpg', cue: 'Grow 2 · Thorns 4', cueHighlight: true },
+      { k:  1.5, name: 'The Eighth Plague', tribe: 'locust', tier: 5, atk: 6, hp: 14, renown: 2, art: 'locust/the-eighth-plague.jpg', cue: 'Ally dies: dmg foe' },
+    ],
+  };
+
+  const ENEMY_BOARD_AFTER = {
+    back: [
+      { k: -1, name: 'Weasel', tribe: 'neutral', tier: 5, atk: 9, hp: 2, hurt: true, renown: 1, pips: 6, art: 'shared/weasel.jpg', cue: 'Hit Home Guard' },
+      { k:  0, name: 'Gorger', tribe: 'locust', tier: 4, atk: 38, hp: 57, atkBuff: true, hurt: true, golden: true, culprit: '★ 3 Kills', art: 'locust/gorger.jpg', cue: 'Golden · 2× Eat' },
+      { k:  1, name: 'Dame Bodkin', tribe: 'mouse', tier: 5, atk: 6, hp: 9, art: 'mouse/dame-bodkin.jpg', cue: 'Pile on 2 · 2× dmg' },
+    ],
+    front: [
+      { k: -1.5, name: 'Greatsword Bearer', tribe: 'badger', tier: 4, atk: 7, hp: 10, hurt: true, renown: 3, art: 'badger/greatsword-bearer.jpg', cue: 'Squire · Overrun' },
+      null, // Briar King died (Renown 4 slot remains)
+      { k:  0.5, name: 'Holly Knight', tribe: 'briar', tier: 4, atk: 24, hp: 27, atkBuff: true, hurt: true, renown: 7, culprit: '★ +12/+12 Grow', art: 'thorn/holly-knight.jpg', cue: 'Grow 2 · Thorns 4', cueHighlight: true },
+      { k:  1.5, name: 'The Eighth Plague', tribe: 'locust', tier: 5, atk: 6, hp: 14, renown: 2, art: 'locust/the-eighth-plague.jpg', cue: 'Ally dies: dmg foe' },
+    ],
+  };
+
+  // ==================== 4. POPULATE CELLS FOR CURRENT VIEW ====================
+  function renderRecruit(isT1) {
+    // Left Wing: 8-player Lobby
+    const lobby = isT1 ? LOBBY_T1 : LOBBY_T9;
+    lobby.forEach((p, idx) => addLobbyCell(LOBBY_COORDS[idx][0], LOBBY_COORDS[idx][1], p));
+
+    // Economy (Left of Shop — both touch Shop Unit 1!)
+    addUICell(0, -3, 'cell-upgrade unaffordable', `
+      <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="#d8b8f0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 19V5M6 11l6-6 6 6"/><path d="M5 19h14" opacity="0.5"/>
+      </svg>
+      <div class="ui-title">Tier ${isT1 ? '1 → 2' : '5 → 6'}</div>
+      <div class="ui-pill-cost unaffordable">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        ${isT1 ? 8 : 23}
+      </div>
+      <div class="ui-sub">${isT1 ? '−1 next turn' : '−3 next turn'}</div>
+    `);
+
+    addUICell(1, -3.5, 'cell-gold', `
+      <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="#ffe494" stroke-width="2">
+        <circle cx="12" cy="12" r="9" fill="rgba(255,212,96,0.22)"/>
+        <path d="M12 6.5l1.8 3.7 3.7 1.8-3.7 1.8-1.8 3.7-1.8-3.7-3.7-1.8 3.7-1.8z" fill="#ffe494"/>
+      </svg>
+      <div class="ui-big-num">${isT1 ? 5 : 20}</div>
+      <div class="ui-title" style="margin-top:4px">Gold</div>
+    `);
+
+    // Shop Spells (Row 0, centred cleanly over the 5 Shop Units)
+    addSpellCell(0, -1, { name: 'Sharpen', art: 'spell-sharpen.jpg', price: 1, cue: '+2/+2 to a unit' });
+    addSpellCell(0,  0, { name: 'Sharpen', art: 'spell-sharpen.jpg', price: 1, cue: '+2/+2 to a unit' });
+
+    // Shop Units (Row 1)
+    (isT1 ? SHOP_T1 : SHOP_T9).forEach(u => addUnitCell(1, u.k, u));
+
+    // Shop Controls (Right of Shop — both touch Shop Unit 5!)
+    addUICell(0, 2, 'cell-freeze', `
+      <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="#c8ecff" stroke-width="2.1" stroke-linecap="round">
+        <path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1"/>
+        <path d="M9.5 4.5L12 7l2.5-2.5M9.5 19.5L12 17l2.5 2.5M4.5 9.5L7 12l-2.5 2.5M19.5 9.5L17 12l2.5 2.5"/>
+      </svg>
+      <div class="ui-title">Freeze</div>
+    `);
+
+    addUICell(1, 2.5, 'cell-refresh', `
+      <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="#bfe8ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 11a8 8 0 1 0-2.2 5.6"/><path d="M20 4v7h-7"/>
+      </svg>
+      <div class="ui-title">Refresh</div>
+      <div class="ui-pill-cost">1</div>
+      <div class="ui-sub">10 left</div>
+    `);
+
+    // Archive & System (Top-Right — quiet smoked slate)
+    addUICell(0, 4, 'cell-quiet', `
+      <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="#c6d0d6" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h6"/>
+      </svg>
+      <div class="ui-title">Past<br>Boards</div>
+    `);
+    addUICell(0, 5, 'cell-quiet', `
+      <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="#c6d0d6" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 3.5L15 7v10l-6 3.5L3 17V7z"/><path d="M15 7l6 3.5v8L15 22"/>
+      </svg>
+      <div class="ui-title">Cards</div>
+    `);
+    addUICell(1, 4.5, 'cell-quiet', `
+      <div class="ui-sub" style="margin-top:0;font-size:16px;text-transform:uppercase;letter-spacing:0.08em">Turn</div>
+      <div class="ui-big-num">${isT1 ? 1 : 9}</div>
+      <div class="ui-sub">Tier ${isT1 ? 1 : 5}</div>
+    `);
+    addUICell(1, 5.5, 'cell-quiet', `
+      <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="#c6d0d6" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3.5"/>
+        <path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/>
+      </svg>
+      <div class="ui-title">Menu</div>
+    `);
+
+    // Tribe Counters (Left of Board — hidden as "not yet" on Turn 1!)
+    if (!isT1) {
+      addUICell(2, -3, 'cell-compost', `
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="#c0f0a4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 19h18c-1-5-4-8-6-8-1 0-2 .7-2.5 1.5C12 10 10 8 8 8c-3 0-4.5 5-5 11z"/>
+        </svg>
+        <div class="ui-big-num">3</div>
+        <div class="ui-title" style="margin-top:4px">Compost</div>
+      `);
+      addUICell(3, -2.5, 'cell-tide', `
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="#ffe298" stroke-width="2.1" stroke-linecap="round">
+          <path d="M3 9c3-3 6 3 9 0s6 3 9 0M3 15c3-3 6 3 9 0s6 3 9 0"/>
+        </svg>
+        <div class="ui-big-num">+2</div>
+        <div class="ui-title" style="margin-top:4px">Tide</div>
+      `);
+    }
+
+    // Your Board (4 Front on Row 2, 3 Back on Row 3)
+    if (isT1) {
+      [-2, -1, 0, 1].forEach(k => addEmptySocket(2, k, { front: true, label: 'Front' }));
+      [-1.5, -0.5, 0.5].forEach(k => addEmptySocket(3, k, { front: false, label: 'Back' }));
+    } else {
+      MY_BOARD_T9.front.forEach(u => addUnitCell(2, u.k, u));
+      MY_BOARD_T9.back.forEach(u => addUnitCell(3, u.k, u));
+    }
+
+    // Hand / Reserve Wing (Right of Board)
+    if (isT1) {
+      addEmptySocket(2, 3, { hand: true });
+      addEmptySocket(2, 4, { hand: true });
+      addEmptySocket(3, 2.5, { hand: true });
+      addEmptySocket(3, 3.5, { hand: true });
+    } else {
+      addSpellCell(2, 3, { name: 'Seek', art: 'spell-seek.jpg', price: 3, inHand: true, cue: 'Discover a unit' });
+      addEmptySocket(2, 4, { hand: true });
+      addEmptySocket(3, 2.5, { hand: true });
+      addEmptySocket(3, 3.5, { hand: true });
+    }
+
+    // Hand cluster tag nestled cleanly centred inside the empty breathing quarry cell (1, +3.5) above Hand!
+    const hPos = cellPos(1, 3.5);
+    const hTag = document.createElement('div');
+    hTag.className = 'cluster-tag';
+    hTag.style.left = hPos.cx.toFixed(1) + 'px';
+    hTag.style.top = (hPos.cy + 44) + 'px';
+    hTag.textContent = isT1 ? 'Hand 0 / 7' : 'Hand 1 / 7';
+    elBadges.appendChild(hTag);
+
+    // THE ONE PRIMARY ACCENT: END TURN (bottom-right cell 3, +5.5)
+    addUICell(3, 5.5, 'cell-primary-action', `
+      <div class="end-income">${isT1 ? '+7g next' : '+19g next'}</div>
+      <div class="end-port-wrap">
+        <div class="end-port" style="background-image:url('${ASSET}glass/portraits/march_hare.jpg')"></div>
+        <div class="end-hp">${isT1 ? 40 : 16}</div>
+      </div>
+      <div class="end-btn-plaque">
+        <div class="end-btn-label">End Turn</div>
+        <div class="end-btn-opp">March Hare</div>
+      </div>
+    `);
+
+    // First-session removable tutorial cue (?view=first ONLY)
+    if (isT1) {
+      const fromP = cellPos(1, -1.5);
+      const toP   = cellPos(2, -2);
+      const tSvg = svgEl('svg', { width: '1920', height: '1080', viewBox: '0 0 1920 1080', style: 'position:absolute;inset:0' });
+      tSvg.innerHTML = `
+        <defs>
+          <marker id="arr" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+            <path d="M1,1 L11,6 L1,11 z" fill="#ffd466"/>
+          </marker>
+          <filter id="tglow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <path d="M ${fromP.cx},${fromP.cy + 40} Q ${fromP.cx - 45},${(fromP.cy + toP.cy)/2 + 12} ${toP.cx + 10},${toP.cy - 28}"
+              fill="none" stroke="#ffd466" stroke-width="5" stroke-dasharray="10 7"
+              marker-end="url(#arr)" filter="url(#tglow)"/>
+      `;
+      elOverlay.appendChild(tSvg);
+      const rib = document.createElement('div');
+      rib.className = 'tut-ribbon';
+      rib.innerHTML = 'Drag a unit across the seam to buy &amp; place (<strong>2 gold</strong>)';
+      elOverlay.appendChild(rib);
+    }
+  }
+
+  function renderFight(isAfter) {
+    // Left Wing: Lobby (dimmed in fight, live standings in after)
+    const lobby = isAfter ? LOBBY_AFTER : LOBBY_T9;
+    lobby.forEach((p, idx) => {
+      const dim = !isAfter && !p.you && !p.next;
+      addLobbyCell(LOBBY_COORDS[idx][0], LOBBY_COORDS[idx][1], p, {
+        dim,
+        oppTag: isAfter ? '⚔ Foe' : '⚔ Fighting'
+      });
+    });
+
+    // Enemy Leader Cell flanking March Hare's board (0, -3)
+    addUICell(0, -3, 'cell-enemy-leader', `
+      <div class="lb-port" style="margin-top:0;width:82px;height:82px;background-image:url('${ASSET}glass/portraits/march_hare.jpg');box-shadow:0 0 0 3px #e8845a"></div>
+      <div class="ui-title" style="margin-top:8px">March Hare</div>
+      <div class="ui-pill-cost" style="margin-top:6px;border-color:#e06854;color:#ffd8cc">16 HP</div>
+      <div class="ui-sub">Compost 12</div>
+    `);
+
+    // Enemy Board (Row 0 = Back 3, Row 1 = Front 4)
+    const eBoard = isAfter ? ENEMY_BOARD_AFTER : ENEMY_BOARD_START;
+    eBoard.back.forEach(u => addUnitCell(0, u.k, u));
+    eBoard.front.forEach((u, idx) => {
+      const ks = [-1.5, -0.5, 0.5, 1.5];
+      if (u) addUnitCell(1, u.k, u);
+      else addEmptySocket(1, ks[idx], { enemy: true, front: true, renown: 4 });
+    });
+
+    // System cells top-right (stable positions!)
+    addUICell(1, 4.5, 'cell-quiet', `
+      <div class="ui-sub" style="margin-top:0;font-size:16px;text-transform:uppercase;letter-spacing:0.08em">Turn</div>
+      <div class="ui-big-num">9</div>
+      <div class="ui-sub">${isAfter ? 'Defeat' : 'Fight'}</div>
+    `);
+    addUICell(1, 5.5, 'cell-quiet', `
+      <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="#c6d0d6" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3.5"/>
+        <path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/>
+      </svg>
+      <div class="ui-title">Menu</div>
+    `);
+
+    // Your Counters (stable positions! Compost 4 after selling Granary Glutton; Tide 4 after Famine-caller died in After)
+    addUICell(2, -3, 'cell-compost', `
+      <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="#c0f0a4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 19h18c-1-5-4-8-6-8-1 0-2 .7-2.5 1.5C12 10 10 8 8 8c-3 0-4.5 5-5 11z"/>
+      </svg>
+      <div class="ui-big-num">4</div>
+      <div class="ui-title" style="margin-top:4px">Compost</div>
+    `);
+    addUICell(3, -2.5, 'cell-tide', `
+      <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="#ffe298" stroke-width="2.1" stroke-linecap="round">
+        <path d="M3 9c3-3 6 3 9 0s6 3 9 0M3 15c3-3 6 3 9 0s6 3 9 0"/>
+      </svg>
+      <div class="ui-big-num">+${isAfter ? 4 : 2}</div>
+      <div class="ui-title" style="margin-top:4px">Tide</div>
+    `);
+
+    if (!isAfter) {
+      // Your Board at fight start (Slot 3 empty, Blackberry Sprawl grew to 8/12, Famine-caller first attacker!)
+      const fightFront = [
+        { ...MY_BOARD_T9.front[0], attacker: true },
+        MY_BOARD_T9.front[1],
+        MY_BOARD_T9.front[2],
+      ];
+      fightFront.forEach(u => addUnitCell(2, u.k, u));
+      addEmptySocket(2, 1, { front: true, label: 'Open' });
+
+      const fightBack = [
+        MY_BOARD_T9.back[0],
+        { ...MY_BOARD_T9.back[1], atk: 8, hp: 12, atkBuff: true, hpBuff: true },
+        MY_BOARD_T9.back[2],
+      ];
+      fightBack.forEach(u => addUnitCell(3, u.k, u));
+
+      // Your 4 Hand / Reserve Units waiting in the right Reserve wing!
+      addUnitCell(2, 3, { name: 'Home Guard', tribe: 'pigeon', tier: 3, atk: 3, hp: 11, art: 'pigeon/home-guard.jpg', cue: 'Reserve · Guard', cueHighlight: true });
+      addUnitCell(2, 4, { name: 'Hayloft Aunt', tribe: 'mouse', tier: 2, atk: 2, hp: 9, handDim: true, art: 'mouse/hayloft-aunt.jpg', cue: 'Hand-me-down' });
+      addUnitCell(3, 2.5, { name: 'Cousin', tribe: 'mouse', tier: 1, atk: 2, hp: 2, handDim: true, art: 'mouse/cousin.jpg', cue: 'Hand-me-down' });
+      addUnitCell(3, 3.5, { name: 'Hedge Lancer', tribe: 'badger', tier: 3, atk: 6, hp: 12, handDim: true, art: 'badger/hedge-lancer.jpg', cue: 'Fury 1 · No dmg 1st' });
+
+      const hPos = cellPos(1, 3.5);
+      const hTag = document.createElement('div');
+      hTag.className = 'cluster-tag';
+      hTag.style.left = hPos.cx.toFixed(1) + 'px';
+      hTag.style.top = (hPos.cy + 44) + 'px';
+      hTag.textContent = 'Reserve · 4/7';
+      elBadges.appendChild(hTag);
+
+      // First-strike indicator centred cleanly inside empty quarry cell (1, -2.5) left of Greatsword Bearer!
+      const fsPos = cellPos(1, -2.5);
+      const bfTag = document.createElement('div');
+      bfTag.className = 'cluster-tag battlefront';
+      bfTag.style.left = fsPos.cx.toFixed(1) + 'px';
+      bfTag.style.top = (fsPos.cy - 14) + 'px';
+      bfTag.textContent = '⚔ 1st Strike';
+      elBadges.appendChild(bfTag);
+
+      // Curved leaded strike arrow from Famine-caller's upper-right edge to Greatsword Bearer's lower point (never crossing discs!)
+      const atkP = cellPos(2, -2);
+      const tgtP = cellPos(1, -1.5);
+      const sSvg = svgEl('svg', { width: '1920', height: '1080', viewBox: '0 0 1920 1080', style: 'position:absolute;inset:0' });
+      sSvg.innerHTML = `
+        <defs>
+          <marker id="sarr" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+            <path d="M1,1 L11,6 L1,11 z" fill="#ffd466"/>
+          </marker>
+          <filter id="sglow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <path d="M ${atkP.cx + 46},${atkP.top + 38} Q ${atkP.cx + 62},${atkP.top + 6} ${tgtP.cx + 2},${tgtP.top + H - 14}"
+              fill="none" stroke="#ffd466" stroke-width="4.5" stroke-dasharray="8 6"
+              marker-end="url(#sarr)" filter="url(#sglow)"/>
+      `;
+      elOverlay.appendChild(sSvg);
+
+      // Primary Action Cell (same cell 3, +5.5): Skip
+      addUICell(3, 5.5, 'cell-primary-action', `
+        <svg class="ui-icon" style="width:46px;height:46px" viewBox="0 0 24 24" fill="#fff3cf" stroke="#1c0d02" stroke-width="1.2">
+          <path d="M4 5l8 7-8 7V5zm9 0l8 7-8 7V5z"/>
+        </svg>
+        <div class="end-btn-plaque" style="margin-top:8px">
+          <div class="end-btn-label">Skip Fight</div>
+          <div class="end-btn-opp">Space</div>
+        </div>
+      `);
+    } else {
+      // ?view=after: Empty lower board sockets behind the leaded memorial plaque (no hidden Renown clipping!)
+      addEmptySocket(2, -2, { front: true });
+      addEmptySocket(2, -1, { front: true });
+      addEmptySocket(2,  0, { front: true });
+      addEmptySocket(2,  1, { front: true });
+      addEmptySocket(3, -1.5, { front: false });
+      addEmptySocket(3, -0.5, { front: false });
+      addEmptySocket(3,  0.5, { front: false });
+
+      // Secondary action cells beside Play Again
+      addUICell(2, 5, 'cell-quiet', `
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="#d4dce0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12l9-8 9 8"/><path d="M5 10v10h14V10"/>
+        </svg>
+        <div class="ui-title">Start<br>Screen</div>
+      `);
+      addUICell(3, 4.5, 'cell-quiet', `
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="#d4dce0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h6"/>
+        </svg>
+        <div class="ui-title">Past<br>Boards</div>
+      `);
+
+      // Primary Action Cell (same cell 3, +5.5): Play Again
+      addUICell(3, 5.5, 'cell-primary-action', `
+        <svg class="ui-icon" style="width:44px;height:44px" viewBox="0 0 24 24" fill="none" stroke="#fff3cf" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 11a8 8 0 1 0-2.2 5.6"/><path d="M20 4v7h-7"/>
+        </svg>
+        <div class="end-btn-plaque" style="margin-top:8px">
+          <div class="end-btn-label">Play Again</div>
+          <div class="end-btn-opp">New Match</div>
+        </div>
+      `);
+
+      // Why You Lost — Faceted Leaded-Glass Memorial Window set cleanly right of Compost/Tide
+      const wrap = document.createElement('div');
+      wrap.className = 'after-plaque-wrap';
+      wrap.innerHTML = `
+        <div class="after-plaque">
+          <div class="after-head">
+            <div class="after-title-group">
+              <div class="after-title">Defeat</div>
+              <div class="after-place">Out in 7th Place · Turn 9 vs March Hare</div>
+            </div>
+            <div class="after-dmg-pill">
+              <div class="after-dmg-num">−13 HP</div>
+              <div class="after-dmg-hp">11 → 0</div>
+            </div>
+          </div>
+          <div class="after-math">
+            <span>Round 9 base loss (Turn + 1, cap 10):<span class="m-val">−10</span></span>
+            <span class="m-op">+</span>
+            <span>Heavy defeat (6 enemy units survived):<span class="m-val">−3</span></span>
+            <span class="m-op">=</span>
+            <span><strong>Total:<span class="m-val">−13</span></strong></span>
+          </div>
+          <div class="after-reasons">
+            <div class="after-card">
+              <div class="after-card-head">
+                <div class="after-card-name">Golden Gorger</div>
+                <div class="after-card-stat">38 / 57 left</div>
+              </div>
+              <div class="after-card-body">Grew +28/+54 from eating sold units. Absorbed 4 attacks and cleared 3 of your warband alone.</div>
+            </div>
+            <div class="after-card c-briar">
+              <div class="after-card-head">
+                <div class="after-card-name">Holly Knight + King</div>
+                <div class="after-card-stat">24 / 27 left</div>
+              </div>
+              <div class="after-card-body">Briar King gave Grow 2 (+12/+12 from 12 Compost) while Holly Knight dealt 4 Thorns back per hit.</div>
+            </div>
+            <div class="after-card c-weasel">
+              <div class="after-card-head">
+                <div class="after-card-name">Open Slot + Weasel</div>
+                <div class="after-card-stat">9 / 2 left</div>
+              </div>
+              <div class="after-card-body">Selling Granary Glutton left slot 3 open; Weasel hit Home Guard for 9 as it stepped in from Reserve.</div>
+            </div>
+          </div>
+        </div>
+        <svg class="after-plaque-frame" viewBox="0 0 896 394">
+          <polygon points="32,3 864,3 893,32 893,362 864,391 32,391 3,362 3,32" fill="none" stroke="#0d0a07" stroke-width="10"/>
+          <polygon points="32,4 864,4 892,32 892,362 864,390 32,390 4,362 4,32" fill="none" stroke="#a68046" stroke-width="3.2"/>
+          <polygon points="35,9 861,9 887,35 887,359 861,385 35,385 9,359 9,35" fill="none" stroke="#0b0806" stroke-width="2"/>
+        </svg>
+      `;
+      elOverlay.appendChild(wrap);
+    }
+  }
+
+  if (VIEW === 'mid') renderRecruit(false);
+  else if (VIEW === 'first') renderRecruit(true);
+  else if (VIEW === 'fight') renderFight(false);
+  else if (VIEW === 'after') renderFight(true);
+
+  // ==================== 5. MASTER LEADED LATTICE & CLUSTER SEAMS ====================
+  // A. Standard hammered-lead cames around every cell in the entire lattice
+  const leadGroup = svgEl('g');
+  const pewterGroup = svgEl('g');
+  for (const [r, k] of allCoords) {
+    const pts = ptsStr(hexVertices(r, k, 2.4));
+    leadGroup.appendChild(svgEl('polygon', {
+      points: pts,
+      fill: 'none',
+      stroke: '#0b0806',
+      'stroke-width': '5.5',
+      'stroke-linejoin': 'round'
+    }));
+    pewterGroup.appendChild(svgEl('polygon', {
+      points: pts,
+      fill: 'none',
+      stroke: 'rgba(175, 158, 128, 0.14)',
+      'stroke-width': '1.2',
+      'stroke-linejoin': 'round'
+    }));
+  }
+  svgLead.append(leadGroup, pewterGroup);
+
+  // B. Heavy Double-Lead Zigzag Cluster Mullions
+  function drawZigzagPath(points, strokeColor, outerWidth, innerColor, innerWidth, glowColor = null) {
+    const d = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
+    if (glowColor) {
+      svgLead.appendChild(svgEl('path', {
+        d, fill: 'none', stroke: glowColor, 'stroke-width': outerWidth + 8,
+        'stroke-linecap': 'round', 'stroke-linejoin': 'round', opacity: '0.32'
+      }));
+    }
+    svgLead.appendChild(svgEl('path', {
+      d, fill: 'none', stroke: strokeColor, 'stroke-width': outerWidth,
+      'stroke-linecap': 'round', 'stroke-linejoin': 'round'
+    }));
+    svgLead.appendChild(svgEl('path', {
+      d, fill: 'none', stroke: innerColor, 'stroke-width': innerWidth,
+      'stroke-linecap': 'round', 'stroke-linejoin': 'round'
+    }));
+  }
+
+  // 1) Horizontal Market / Battlefront zigzag mullion between Row 1 and Row 2 (from k=-3.5 to k=+5.5)
+  const hSeamPts = [];
+  for (let k = -3.5; k <= 5.5; k += 1) {
+    const v = hexVertices(1, k, 2.4);
+    if (hSeamPts.length === 0) hSeamPts.push(v[4]); // lower-left shoulder
+    hSeamPts.push(v[3]); // bottom peak
+    hSeamPts.push(v[2]); // lower-right shoulder
+  }
+  const isFight = VIEW === 'fight' || VIEW === 'after';
+  drawZigzagPath(
+    hSeamPts,
+    '#0a0705', 11,
+    isFight ? '#d46b42' : '#c49b4d', 3,
+    isFight ? '#e65a35' : '#e0aa42'
+  );
+
+  // 2) Vertical Lobby zigzag mullion separating Lobby (cols -5.5..-4) from Playfield (cols -3.5..+5.5)
+  const vLobbyPts = [];
+  const v0 = hexVertices(0, -4, 2.4);
+  const v1 = hexVertices(1, -4.5, 2.4);
+  const v2 = hexVertices(2, -4, 2.4);
+  const v3 = hexVertices(3, -4.5, 2.4);
+  vLobbyPts.push(v0[0], v0[1], v0[2], v1[1], v1[2], v2[1], v2[2], v3[1], v3[2], v3[3]);
+  drawZigzagPath(vLobbyPts, '#0a0705', 11, '#786852', 2.6);
+
+  // 3) Glowing Synergy / Active Adjacency Seams (showing what shared edges mean!)
+  if (VIEW === 'mid') {
+    // Wing Commander (3, -1.5) touching Famine-caller (2, -2) & Squadron Leader (2, -1)
+    const wc = hexVertices(3, -1.5, 2.4);
+    drawZigzagPath([wc[5], wc[0], wc[1]], '#1a1408', 6, '#e2b85c', 2.4, '#ffcf64');
+    // Compost 3 (2, -3) & Tide 2 (3, -2.5) touching Famine-caller (2, -2)
+    const fc = hexVertices(2, -2, 2.4);
+    drawZigzagPath([fc[5], fc[4], fc[3]], '#0d1a0d', 6, '#84cc66', 2.2, '#78e058');
+  } else if (VIEW === 'fight') {
+    // Briar King (1, -0.5) & Holly Knight (1, +0.5) sharing vertical emerald Thorns/Grow seam!
+    const bk = hexVertices(1, -0.5, 2.4);
+    drawZigzagPath([bk[1], bk[2]], '#0c1c0d', 7, '#6ee364', 3.0, '#62f255');
+    // Active first-attacker glow perimeter on Famine-caller (2, -2)
+    const fc = hexVertices(2, -2, 2.4);
+    drawZigzagPath([...fc, fc[0]], '#241404', 7, '#ffd262', 3.0, '#ffbf38');
+  }
+
+  // ==================== 6. OUTER CARVED STONE WINDOW FRAME ====================
+  svgStone.innerHTML = `
+    <defs>
+      <pattern id="stonePat" width="384" height="384" patternUnits="userSpaceOnUse">
+        <image href="${ASSET}glass/ui/stone.jpg" width="384" height="384"/>
+      </pattern>
+      <linearGradient id="rimShade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0b0907" stop-opacity="0.72"/>
+        <stop offset="50%" stop-color="#14110e" stop-opacity="0.45"/>
+        <stop offset="100%" stop-color="#070504" stop-opacity="0.82"/>
+      </linearGradient>
+    </defs>
+    <!-- Carved stone perimeter frame with subtle chamfered corners -->
+    <path fill-rule="evenodd" fill="url(#stonePat)"
+      d="M0,0 H1920 V1080 H0 Z M18,34 L34,18 H1886 L1902,34 V1046 L1886,1062 H34 L18,1046 Z"/>
+    <path fill-rule="evenodd" fill="url(#rimShade)"
+      d="M0,0 H1920 V1080 H0 Z M18,34 L34,18 H1886 L1902,34 V1046 L1886,1062 H34 L18,1046 Z"/>
+    <!-- Heavy inner lead channel meeting the stone -->
+    <path fill="none" stroke="#090705" stroke-width="8"
+      d="M18,34 L34,18 H1886 L1902,34 V1046 L1886,1062 H34 L18,1046 Z"/>
+    <path fill="none" stroke="rgba(204,184,146,0.22)" stroke-width="1.5"
+      d="M22,36 L36,22 H1884 L1898,36 V1044 L1884,1058 H36 L22,1044 Z"/>
+  `;
+})();
+</script>
+</body>
+</html>
