@@ -58,3 +58,20 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - **blue-c6** (`8039682d`: capped whole-card fight-value adjustments to buys and keeps; free-slot threshold back to c4's 1, stopping neighbours 0 and 2) against blue-c4: 1,000 games, gap −0.936 ± 0.230 (2.702 against 3.638). **Kept.** The match was clean. Method summary sent to red.
   - **Switch fix `14f28bdf`** (blue, after the tag): it removes a broad search disable on Pile on and Hand-me-down boards, so those switches now only annotate reports. Read by the referee: with the switches at 0, play is unchanged. Switch tests of blue-c6 use `14f28bdf`.
   - blue-c6 field cut: 10,500 runs, verified. Tribe picks: Locust 50.0% (3.20), none 34.4% (2.16), Pigeon 15.2% (2.28), Mouse 0.4%; 4.6 in hand. It moved from Pigeon to Locust once it valued cards from fights. Interim report sent.
+
+### Harness bug: stale bot builds (21 Nov, 22:35–22:52)
+
+- **Found.** A head-to-head of red-c2 against blue-c6 showed red-c2 at 4.09. Two replays of red-c2 against red-c1 then showed it about 1 place *behind* red-c1, on today's field and on a copy of the field as it was when red-c2 was kept.
+- **Cause.** `git archive` stamps files with their commit time. With cargo 1.100's build-dir layout (`target/release/build/<pkg>/<hash>/out/`), `cargo clean -p` leaves the artifacts in place. Cargo then rebuilds a crate only if a file is newer than its last compile. So a tag committed before that crate's last compile plays whatever was compiled last; here that was the red stub, compiled at 21:42:30 during blue-c4's match.
+- **Audit of the 8 climbing matches.** Each NEW tag was committed after its crate's last compile, so each was built fresh. Each CUR side's placement matches that version's other results. **No climbing verdict or field cut is affected.** Only the head-to-head and the two replays (all referee checks) played the stub.
+- **Fix.** `climb_match.sh` now touches every bot file after extraction. After the build it stops unless both team crates' rlibs are newer than a marker made just before the touch.
+  - Proved by a 400-game replay of red-c2 against red-c1: −0.615 ± 0.334 (2.630 against 3.245), in line with its keep match.
+  - `head_to_head.sh` has the same guard. The invalid outputs were deleted.
+- **Head-to-head, red-c2 against blue-c6** (fixed build, climbing field of 10,500 runs): 1,000 games, red 2.636, blue 2.952, gap −0.316 ± 0.244. **Red ahead.** The match was clean and is pruned to its summary.
+
+## Daily report, 21 Nov (sent to the owner)
+
+- Kept: red-c1 and red-c2 (2 of 2 hand-ins); blue-c2, blue-c4 and blue-c6 (3 of 6).
+- Gap: red-c2 places 0.32 ± 0.24 better than blue-c6 in the same lobbies.
+- Stopping test: not started for either bot. Both are still climbing, and both have written STOPPING.md.
+- Harness bug found and fixed (stale builds). No team verdict was affected.

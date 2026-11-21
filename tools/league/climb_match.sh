@@ -58,11 +58,22 @@ grep -q "$colour-cur" "$lg/Cargo.toml" "$lg/bots/registry/Cargo.toml" "$lg/bots/
 # 3. The crate rules for the new tag, before anything of it is built.
 "$checker" check-crate "$lg/bots/$colour" --name "$colour"
 
-# 4. A forced rebuild of both team crates (Cargo rebuilds by file time).
+# 4. A forced rebuild of both team crates. Cargo rebuilds by file time, `git archive` stamps files
+#    with the commit time, and with cargo 1.100's build-dir layout `cargo clean -p` leaves the
+#    artifacts in place. So touch every bot file, then check both crates were really recompiled.
 cd "$lg"
+mkdir -p "$out_root"
+marker=$(mktemp "$out_root/.build-marker.XXXXXX")
+sleep 1
+find "bots/$colour" "bots/$colour-cur" -type f -exec touch {} +
 cargo update -q --offline --workspace
 cargo clean -q -p "$colour" -p "$colour-cur" -p league-bots -p league
 CARGO_BUILD_JOBS=4 timeout -k 10 1200 taskset -c "$cores" cargo build -q --offline --release -p league
+for crate in "$colour" "${colour}_cur"; do
+  [[ -n $(find target -name "lib${crate}-*.rlib" -newer "$marker" -print -quit) ]] \
+    || { echo "crate $crate was not recompiled" >&2; rm -f "$marker"; exit 1; }
+done
+rm -f "$marker"
 
 # 5. Fresh seeds and secret, kept with the match.
 mkdir -p "$out"
