@@ -6,6 +6,8 @@ Approved by the owner, 21 Nov 2026: "Approve the plan. I recommend I agree with 
 
 A match keeps only what balance decisions need, tens of MB at most while its data is in use, and a couple of MB per build once the build is old (README.md's keep list). Replays and ghosts work exactly as today.
 
+**Size while in use (owner, 21 Nov):** a balance-reading match is about 84 KB a game while its data is in use, so about 250 MB for a 2,900-game match, more than the "tens of MB" first estimated. The owner: "I'm okay accepting the recommendation where it has a larger size and trimming it or rather removing it once the report's written. That's fine". Once its report is written, `prune_match.py --kind reading-done` shrinks it to the findings (about 200 KB).
+
 ## Steps
 
 1. **A prune script, run by the referee after each match.** It takes a match folder and its kind (climb or stopping test, balance reading, field cut, old build) and leaves exactly what README.md's table keeps. For a balance-reading match it gzips (`gzip -n`) what is kept, and trims the decision log to the chosen move at each decision, dropping the list of legal moves. For an old build it writes the findings folder (at most 2 MB) as CSV from the existing `tools/league/analysis` reports (`cards.py`, `tribes.py`). The referee brief calls it after every match. **Proof:** run on a copy of a real match for each kind; list what is left and its size; the trimmed decision log still gives the same `cards.py` and `tribes.py` output. **Checkpoint for the owner:** `du -sh /data/*` and one old build's folder.
