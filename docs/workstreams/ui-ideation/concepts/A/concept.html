@@ -43,27 +43,28 @@ h1,h2,h3,strong,b{font-weight:700}
 .counter{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;min-height:37px;background:#1e2925;border:1px solid #776a4c;box-shadow:0 0 0 2px #111614;border-radius:4px;font:700 18px/1 var(--sans)}
 .counter .glyph{width:17px;height:17px;color:#d3bd86}
 .counter b{font:800 22px/1 var(--serif)}
-.reader{top:305px;height:346px;padding:17px 15px 14px;text-align:left;border-radius:9px 9px 4px 4px}
+.reader{top:311px;height:263px;display:flex;flex-direction:column;padding:12px 15px 10px;text-align:left;border-radius:9px 9px 4px 4px}
 .reader::before,.reader::after{content:"";position:absolute;left:13px;right:13px;height:1px;background:linear-gradient(90deg,#75603b,transparent 45%,#75603b);pointer-events:none}
 .reader::before{top:5px}.reader::after{bottom:5px}
-.reader-title{display:flex;align-items:center;gap:10px;padding-bottom:11px;border-bottom:1px solid #7e71536c}
+.reader-title{display:flex;align-items:center;gap:10px;padding-bottom:8px;border-bottom:1px solid #7e71536c}
 .reader-title .glyph{color:#ddc395}
-.reader-content{height:calc(100% - 32px);padding:11px 1px 4px;overflow:auto;scrollbar-color:#9c8a67 #18221e;scrollbar-width:thin}
+.reader-content{flex:1;min-height:0;padding:8px 1px 3px;overflow:auto;scrollbar-color:#9c8a67 #18221e;scrollbar-width:thin}
 .reader-content h3{font:760 27px/1.02 var(--serif);color:#fff0d0;margin-bottom:5px}
-.reader-content .meta{font:700 18px/1.1 var(--sans);color:#dbca9f;margin-bottom:9px}
-.reader-content .rules{font-size:20px;line-height:1.15}
-.reader-content .help{color:#e1d8bf;font-size:18px;line-height:1.12;margin-top:9px;padding-top:8px;border-top:1px solid #71674f7a}
+.reader-content .meta{font:700 18px/1.1 var(--sans);color:#dbca9f;margin-bottom:7px}
+.reader-content .rules{font-size:20px;line-height:1.1}
+.reader-content .help{color:#e1d8bf;font-size:18px;line-height:1.1;margin-top:6px;padding-top:5px;border-top:1px solid #71674f7a}
 .reader-content .help b{color:#f7dfaa}
 .reader-content .help .glyph,.effect .glyph{height:16px;width:16px;margin-right:4px;color:#e9c486}
 .reader-content .effect+.effect{margin-top:4px}
-.hand{top:679px}
+.reader-more{align-self:stretch;min-height:31px;margin-top:5px;border-top:1px solid #7e71536c;color:#f2d7aa;text-align:left;font:700 18px/1 var(--sans)}
+.hand{top:588px}
 .light-heading{height:39px;display:flex;align-items:center;justify-content:space-between;padding:0 5px 10px;border-bottom:1px solid #9c875674}
 .light-heading strong{font:790 23px/1 var(--serif);color:#ecdbad}
-.hand-tray{position:relative;height:258px;margin-top:14px}
-.hand-slot{position:absolute;width:56px;aspect-ratio:560/1000}
-.hand-label{position:absolute;left:0;width:100%;top:103px;text-align:center;font-size:18px;font-weight:700}
+.hand-tray{position:relative;height:351px;margin-top:10px}
+.hand-slot{position:absolute;width:72px;aspect-ratio:560/1000}
+.hand-label{position:absolute;left:50%;bottom:1px;transform:translateX(-50%);padding:1px 7px;border:1px solid #87714d;border-radius:3px;background:#13211c;font-size:18px;font-weight:700;pointer-events:none}
 .hand-slot .unit-stat{font-size:18px;width:23px;height:23px}
-.game-menu{top:987px}
+.game-menu{top:1002px}
 .game-menu summary{cursor:pointer;list-style:none}
 .game-menu summary::-webkit-details-marker{display:none}
 .game-menu .plate-button{width:100%;justify-content:space-between}
@@ -80,12 +81,14 @@ h1,h2,h3,strong,b{font-weight:700}
 .purse .coin{width:26px;height:26px}
 .purse .gold-word{font-size:18px;color:#e0cc9d}
 .shop-controls .plate-button{width:100%;padding:0 9px}
-.upgrade{margin-top:11px}
+.upgrade-group{margin-top:11px;padding-bottom:6px;border-bottom:1px solid #9d855962}
+.refresh-button{margin-top:9px;flex-direction:column;gap:3px;padding-block:5px!important}
+.refresh-title{display:flex;align-items:center;gap:5px}
 .readout{font-size:18px;line-height:1.1;color:#e3d3b2}
-.upgrade-meta{display:grid;gap:2px;margin:6px 1px 11px}
+.upgrade-meta{display:grid;gap:2px;margin:6px 1px 0}
 .upgrade-meta .glyph{width:15px;height:15px;color:#e6ce9a}
 .upgrade-shortfall{color:#f0c7b1}
-.refresh-meta{text-align:left;margin:0 1px 7px}
+.refresh-meta{font:400 18px/1.05 var(--sans)}
 #freeze{margin-top:10px}
 .plate-button{display:flex;align-items:center;justify-content:center;gap:6px;min-height:47px;padding:0 13px;border:1px solid #8e7853;border-radius:5px;background:linear-gradient(168deg,#394034,#222e28 47%,#18221f 49%,#222c24);box-shadow:0 0 0 2px #101410,inset 0 2px #bfa47432,inset 0 -2px #0b1510,0 4px 6px #0a0d0a9c;font:730 20px/1 var(--serif);text-align:center}
 .plate-button .glyph{color:#e4cb95}
@@ -94,12 +97,14 @@ h1,h2,h3,strong,b{font-weight:700}
 .plate-button[aria-disabled=true] .coin{color:#fff0d8;background:linear-gradient(135deg,#55383b,#39272b);border-color:#9b7365}
 .coin{display:inline-grid;place-items:center;min-width:25px;height:25px;padding:0 3px;flex:none;border-radius:50%;background:radial-gradient(ellipse at 31% 24%,#f5df99,#c39b55 64%,#a27842);border:1px solid #f7dca1;box-shadow:0 0 0 1px #211812,inset 0 0 0 2px #75532d55;color:#2b1d13;font:850 19px/1 var(--serif)}
 .coin .glyph{width:15px;height:15px;fill:currentColor;stroke:none}
-.spell-light{top:155px;left:1435px;width:130px;text-align:center}
-.spell-pair{display:flex;justify-content:center;gap:9px;margin-top:13px}
-.spell-offer{width:54px;display:grid;justify-items:center;gap:6px}
-.spell-offer .card-face{width:54px}
-.spell-caption{padding-top:12px;font:730 22px/1 var(--serif)}
-.spell-effect{margin-top:3px;font-size:18px;color:#e4d7b8}
+.spell-light{top:165px;left:1364px;width:201px;text-align:center}
+.spell-pair{display:flex;justify-content:center;gap:9px;margin-top:14px}
+.spell-offer{width:91px;display:grid;justify-items:center;gap:11px}
+.spell-offer .card-face{width:90px}
+.spell-caption{width:100%;padding:5px 1px 2px;border-top:1px solid #907c54;background:#202b23;font:740 20px/1 var(--serif)}
+.spell-effect{min-height:39px;margin-top:3px;font:400 18px/1.04 var(--sans);color:#e6d6b4}
+.spell-card .card-frame{clip-path:url(#spell-rim)}
+.spell-card .card-art{clip-path:polygon(50% 3.7%,96% 17.8%,96% 82.2%,50% 96.3%,4% 82.2%,4% 17.8%)}
 .shop-offer,.board-piece{position:absolute;width:var(--w);top:var(--y);left:calc(var(--x) - var(--w)/2)}
 .card-face{position:relative;display:block;width:100%;aspect-ratio:560/1000;isolation:isolate;filter:drop-shadow(0 5px 5px #060808a6)}
 .card-art,.card-frame,.slot-layer{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
@@ -116,29 +121,42 @@ h1,h2,h3,strong,b{font-weight:700}
 .unit-stat.hp{--stat-shape:polygon(13% 5%,87% 5%,94% 50%,83% 76%,50% 100%,17% 76%,6% 50%)}
 .unit-stat.hp::before{background:#dcaa96}.unit-stat.hp::after{background:#472731}
 .unit-stat.wounded{color:#ffd0bf}
-.mark-row{position:absolute;left:50%;bottom:0;transform:translateX(-50%);display:flex;align-items:center;gap:3px}
+.mark-row{position:absolute;left:50%;bottom:2px;transform:translateX(-50%);display:flex;align-items:center;gap:3px}
 .mark{display:flex;align-items:center;justify-content:center;gap:2px;min-width:23px;min-height:23px;padding:0 3px;border-radius:12px;border:1px solid #ae9b6f;box-shadow:0 0 0 2px #120e0d;background:#1c2523;font-weight:700;font-size:18px;color:#ffe3ac}
 .mark .glyph{width:15px;height:15px}
 .pips{position:absolute;left:50%;top:65.5%;transform:translateX(-50%);display:flex;gap:4px}
 .pips i{display:block;width:9px;height:9px;border:1px solid #fff4d9;box-shadow:0 0 0 2px #1a1413;background:#ece5c6;border-radius:50%}
 .pips.supply i{border-radius:1px;background:#dce4dc}
-.renown{position:absolute;left:50%;top:-4px;transform:translateX(-50%);display:flex;justify-content:center;align-items:center;gap:4px;min-width:89px;padding:2px 6px 1px;border-radius:4px;border:1px solid #af9360;box-shadow:0 0 0 2px #0d1512;background:#2f3427;color:#f5dfb2;font:700 18px/1.1 var(--sans);white-space:nowrap;pointer-events:none}
-.renown .glyph{width:13px;height:13px}
-.card-caption{position:relative;margin-top:4px;text-align:center;min-height:49px;padding:4px 2px 3px;background:linear-gradient(90deg,#17231ffa,#202b23,#17231ffa);border-top:1px solid #907c54;border-bottom:1px solid #524935;box-shadow:0 1px #101711}
+.board-slot{position:relative;aspect-ratio:560/1000;isolation:isolate}
+.slot-surround{position:absolute;inset:-5px;width:calc(100% + 10px);height:calc(100% + 10px);filter:drop-shadow(0 3px 3px #101512d9);pointer-events:none}
+.renown{position:absolute;left:50%;top:-4px;transform:translateX(-50%);display:flex;justify-content:center;align-items:center;gap:3px;padding:2px 6px;border-radius:3px;border:1px solid #a88d5b;box-shadow:0 0 0 2px #141a14;background:#263126;color:#f5dfb2;font:700 18px/1 var(--sans);white-space:nowrap;pointer-events:none}
+.tribe-tab{position:absolute;right:-1px;top:15px;padding:2px 7px 3px;border-radius:3px;border:1px solid #8e7957;box-shadow:0 0 0 2px #141a14;background:#263129;color:#f5e3bd;font:700 18px/1 var(--sans);pointer-events:none}
+.board-piece .tribe-tab{top:37px}
+.tutorial-target .slot-surround path{stroke:#b7e0cc;stroke-width:11px}
+.tutorial-target .empty-slot{filter:drop-shadow(0 0 7px #9bceb56b)}
+.card-caption{position:relative;margin-top:4px;text-align:center;min-height:43px;padding:3px 2px 2px;background:linear-gradient(90deg,#17231ffa,#202b23,#17231ffa);border-top:1px solid #907c54;border-bottom:1px solid #524935;box-shadow:0 1px #101711}
 .card-caption::before,.card-caption::after{content:"";position:absolute;top:-3px;left:-1px;width:5px;height:5px;transform:rotate(45deg);background:#a48b5b;border:1px solid #32291d}
 .card-caption::after{left:auto;right:-1px}
 .caption-title{display:flex;justify-content:center;align-items:center;gap:6px;min-height:24px;font:770 21px/1 var(--serif);white-space:nowrap}
-.caption-title .coin{min-width:23px;height:23px}
-.caption-effect{color:#e6d6b4;font:400 18px/1.03 var(--sans)}
-.shop-offer .card-caption{margin-top:4px}
-.board-piece .card-caption{margin-top:1px}
-.board-piece .caption-title{font-size:20px}
+.caption-effect{color:#e6d6b4;font:400 18px/1.04 var(--sans)}
+.shop-offer .card-caption{margin-top:8px;display:grid;justify-items:center;grid-template-rows:22px 40px 25px;gap:0;padding:3px 3px 2px}
+.shop-offer .caption-title{font-size:20px}
+.shop-offer .caption-effect{align-self:start}
+.board-piece .card-caption{width:152px;margin:8px auto 0;left:50%;transform:translateX(-50%)}
+.board-piece .caption-title{font-size:19px;min-height:20px}
+.battle-piece .card-caption{width:153px}
+.battle-piece .caption-title{font-size:18px}
+.board-piece .unit-stat{font-size:22px;width:25.5%}
+.battle-piece .unit-stat{font-size:19px;width:26%}
+.slot-state{font:700 18px/1.04 var(--sans);color:#deedd2}
+.fallen .slot-state{color:#f1c8b1}
+.fallen .empty-slot .slot-layer path:first-child{fill:#2e2a29;stroke:#201615}
+.fallen .fallen-mark{display:grid;place-items:center;position:absolute;top:39%;left:26%;width:48%;aspect-ratio:1;border:1px solid #8d6256;border-radius:50%;background:#302422;color:#edc0aa}
+.fallen .fallen-mark .glyph{width:25px;height:25px}
 .slot-layer{overflow:visible}
-.row-key{left:878px;width:164px;padding:3px 0;background:linear-gradient(90deg,transparent,#1b2a23 24% 76%,transparent);text-align:center;font:710 19px/1 var(--serif);letter-spacing:.08em;color:#ead6ab}
-.front-key{top:507px}.back-key{top:935px;left:352px;width:162px}
-.back-key::after,.front-key::after{content:"";width:44px;height:1px;background:#9b875e;display:block;margin:6px auto}
-.cue{top:591px;left:877px;width:166px;padding:14px 13px;border-radius:6px;text-align:center;color:#fff3da;background:#323127;border:1px solid #ab9064;box-shadow:0 0 0 3px #131b16;font:700 19px/1.14 var(--sans)}
-.cue::before{content:"";position:absolute;top:-15px;left:calc(50% - 1px);height:14px;border-left:2px dotted #c6ad76}
+.row-key{left:376px;width:130px;padding:7px 9px;background:linear-gradient(90deg,#1b2a23 64%,transparent);border-left:2px solid #9c8860;text-align:left;font:710 19px/1 var(--serif);color:#ead6ab}
+.cue{top:621px;left:376px;width:135px;padding:10px 10px;border-radius:4px;text-align:left;color:#e8f6e4;background:#223932;border:1px solid #87ad99;box-shadow:0 0 0 3px #131b16;font:700 19px/1.12 var(--sans)}
+.cue .glyph{position:absolute;width:24px;height:24px;right:-26px;top:calc(50% - 12px);color:#c9ead8;filter:drop-shadow(0 1px 1px #071814)}
 .roster{top:158px}
 .roster .light-heading{justify-content:center}
 .roster-list{margin:13px 0 0;padding:0;list-style:none;display:grid;gap:6px}
@@ -164,27 +182,17 @@ h1,h2,h3,strong,b{font-weight:700}
 .fight-profile{top:160px;text-align:center}
 .fight-profile .portrait{margin:16px auto 11px;width:120px;height:120px;border-width:4px}
 .fight-profile .section-name{margin:8px 0 9px}
-.fight-you{top:755px}
-.fight-you .counters{margin-top:18px}
 .fight-skip{top:931px}
-.fight-row-key{left:347px;width:132px;color:#ead8b6}
-.fight-row-key.far{top:149px;left:374px}
-.fight-row-key.near{top:647px;left:546px}
-.fight-row-key.enemy-front{top:404px;left:546px}
-.fight-row-key.your-back{top:940px;left:374px}
-.fight-centre{position:absolute;left:886px;top:501px;width:148px;text-align:center;z-index:2}
-.fight-centre .plate-button{min-height:50px;display:flex;background:linear-gradient(165deg,#36362a,#1d2722)}
+.fight-centre{position:absolute;left:904px;top:542px;width:112px;text-align:center;z-index:2}
+.fight-centre .plate-button{min-height:38px;display:flex;background:linear-gradient(165deg,#36362a,#1d2722)}
 .fight-centre .glyph{width:25px;height:25px}
-.fight .game-menu{top:987px}
-.after .left-top .player{margin-top:11px}
 .after .roster{top:158px}
 .after-action{top:906px}
 .after-action .secondary-actions{margin-top:19px;display:flex;gap:9px}
 .secondary-actions .plate-button{flex:1;padding:0 8px;white-space:nowrap}
 .after-echo{opacity:.47}
-.after-board-title{top:71px;left:720px;width:480px;text-align:center;font:720 30px/1 var(--serif);text-shadow:0 2px 3px #151412;z-index:2}
-.after .fight-centre{left:844px;width:232px}
-.result{position:absolute;left:651px;top:597px;width:618px;min-height:363px;padding:23px 38px 30px;text-align:center;isolation:isolate;z-index:3;filter:drop-shadow(0 8px 19px #060807cb)}
+.after .fight-centre{left:838px;top:550px;width:244px}
+.result{position:absolute;left:651px;top:610px;width:618px;min-height:390px;padding:23px 38px 30px;text-align:center;isolation:isolate;z-index:3;filter:drop-shadow(0 8px 19px #060807cb)}
 .result::before,.result::after{content:"";position:absolute;inset:0;z-index:-3;clip-path:polygon(5% 0,95% 0,100% 10%,100% 90%,95% 100%,5% 100%,0 90%,0 10%);background:linear-gradient(160deg,#b49360,#534131 20%,#8d714c 50%,#4f4030 72%,#b49360)}
 .result::after{inset:3px;z-index:-2;background:radial-gradient(ellipse at 50% 0,#5b3634,#322722 62%,#202521)}
 .result-seams{width:100%;height:100%;position:absolute;inset:0;z-index:-1;pointer-events:none}
@@ -196,12 +204,18 @@ h1,h2,h3,strong,b{font-weight:700}
 .loss-stat span{font-size:19px;color:#f0d5b7}
 .loss-detail{font-size:19px;color:#fae6c9;line-height:1.18;margin-top:12px}
 .loss-detail + .loss-detail{margin-top:5px}
+.loss-threats{margin:13px 0 0;padding:11px 0 0;border-top:1px solid #ad8c627d;list-style:none;display:grid;gap:5px;font-size:18px;color:#f5dfc4}
 </style>
 </head>
 <body>
 <main id="stage" class="stage">
 <h1 class="sr-only">Bramble</h1>
 <div class="window" id="window-art" aria-hidden="true"></div>
+<svg width="0" height="0" class="placed" aria-hidden="true"><defs>
+  <clipPath id="spell-rim" clipPathUnits="objectBoundingBox">
+    <path clip-rule="evenodd" d="M.5 0L1 .17V.83L.5 1L0 .83V.17Z M.5 .046L.935 .193V.807L.5 .954L.065 .807V.193Z"/>
+  </clipPath>
+</defs></svg>
 <div id="screen"></div>
 </main>
 <script>
@@ -220,6 +234,7 @@ const symbols = {
   heart:'<path d="M12 21 4 13C-1 7 5 2 9 5l3 3 3-3c4-3 10 2 5 8z"/>',
   spark:'<path d="M12 1c1.5 6 4.5 9 11 11-6.5 2-9.5 5-11 11C10.5 17 7.5 14 1 12 7.5 10 10.5 7 12 1Z"/>',
   arrow:'<path d="M4 12h15m-6-6 6 6-6 6"/>',
+  fallen:'<path d="m6 6 12 12M18 6 6 18"/>',
   up:'<path d="M6 13l6-6 6 6M6 19l6-6 6 6"/>',
   refresh:'<path d="M20 11a8 8 0 1 0-1 5m-4-5h5V6"/>',
   freeze:'<path d="M12 2v20M3.3 7l17.4 10M3.3 17 20.7 7M9 4l3 3 3-3M9 20l3-3 3 3"/>',
@@ -305,7 +320,7 @@ function windowArt() {
     "M345 693Q534 676 649 732T957 755","M1575 693Q1386 676 1271 732T963 755"
   ];
   const rails = edgePaths.map(d=>`<path d="${d}" fill="none" stroke="#121b16" stroke-width="4"/><path d="${d}" fill="none" stroke="#927748" stroke-opacity=".4" stroke-width="1"/>`).join("");
-  const transom = recruit ? 490 : 529;
+  const transom = recruit ? 484 : 550;
   return `<svg viewBox="0 0 1920 1080" width="1920" height="1080" xmlns="http://www.w3.org/2000/svg">
   <defs>
     ${profiles.map(([name,d])=>`<clipPath id="clip-${name}"><path d="${d}"/></clipPath>`).join("")}
@@ -371,27 +386,27 @@ function add(id,folder,name,tribe,tier,attack,health,summary,rules,extra={}) {
 add("bramble-runner","thorn","Bramble Runner","Briar",1,4,5,"Seeds Compost on death","Seed.",{price:2,marks:[["seed","Seed"]],helps:[["Seed","When this dies, add a copy of it to your Compost."]]});
 add("home-guard","pigeon","Home Guard","Pigeon",3,3,11,"Guard · Reserve","Guard. Reserve.",{price:4,marks:[["shield","Guard"],["reserve","Reserve"]],helps:[["Guard","Enemies must attack this first."],["Reserve","In a fight, steps from your hand into a slot a friendly unit died in. Your Guard post first, up to 2 per fight."]]});
 add("hayloft-aunt","mouse","Hayloft Aunt","Mouse",2,2,9,"Recruits a Cousin","Hand-me-down. Recruit: Add a Cousin to your hand.",{price:3,marks:[["handdown","Hand-me-down"]],helps:[["Hand-me-down","When this dies, the nearest friendly Mouse gains its Attack this fight."],["Cousin","A 2/2 Mouse with Hand-me-down."]]});
-add("sweetbriar","thorn","Sweetbriar","Briar",2,3,7,"+1/+1 per Compost","Whenever a unit goes into your Compost, gain +1/+1 permanently.",{price:3});
+add("sweetbriar","thorn","Sweetbriar","Briar",2,3,7,"+1/+1 when a unit enters your Compost","Whenever a unit goes into your Compost, gain +1/+1 permanently.",{price:3});
 add("shrew-cutpurse","mouse","Shrew Cutpurse","Mouse",2,2,4,"+2 gold on Pile on","Pile on 1. After this piles on, gain 2 gold.",{price:3,marks:[["pile","Pile on 1",1]],helps:[["Pile on","After another friendly Mouse attacks, Hit its target. Works once for Pile on 1."]]});
 add("famine-caller","locust","Famine-caller","Locust",3,15,11,"Tide +2 on death","When this dies, Tide +2.",{renown:7,helps:[["Stats","6 Attack, 4 Health before Tide (+2 Attack) and slot Renown (+7/+7)."],["Tide","Your Locusts have this much extra Attack for the rest of the game."]]});
-add("squadron-leader","pigeon","Squadron Leader","Pigeon",3,4,9,"Grants Sortie +3 Atk","The units in front of this have Sortie and +3 Attack.",{helps:[["Sortie","Attacks the enemy back row while it has units."]]});
+add("squadron-leader","pigeon","Squadron Leader","Pigeon",3,4,9,"Gives Sortie · +3 Atk","The units in front of this have Sortie and +3 Attack.",{helps:[["Sortie","Attacks the enemy back row while it has units."]]});
 add("bell-ringer","mouse","Bell-ringer","Mouse",3,5,7,"Hand-me-down +3","Hand-me-down. Your Hand-me-downs give +3 more Attack.",{renown:2,marks:[["handdown","Hand-me-down"]],helps:[["Hand-me-down","When this dies, the nearest friendly Mouse gains its Attack this fight."],["Stats","3 Attack, 5 Health before slot Renown (+2/+2)."]]});
 add("granary-glutton","locust","Granary Glutton","Locust",4,7,7,"Eats sold Locusts","Whenever you sell a Locust, this eats it.",{helps:[["Stats","5 Attack, 7 Health before Tide (+2 Attack)."]]});
-add("wing-commander","pigeon","Wing Commander","Pigeon",5,11,17,"Sortie kills → 3 Renown","Sortie. Charge 4: After one of your Pigeons with Sortie kills, give its slot 3 Renown.",{renown:3,pips:4,marks:[["sortie","Sortie"]],helps:[["Sortie","Attacks the enemy back row while it has units."],["Charge","Works this many times, then stops. Refills each fight."],["Stats","8 Attack, 14 Health before slot Renown (+3/+3)."]]});
+add("wing-commander","pigeon","Wing Commander","Pigeon",5,11,17,"Sortie kill: +3 Renown","Sortie. Charge 4: After one of your Pigeons with Sortie kills, give its slot 3 Renown.",{renown:3,pips:4,marks:[["sortie","Sortie"]],helps:[["Sortie","Attacks the enemy back row while it has units."],["Charge","Works this many times, then stops. Refills each fight."],["Stats","8 Attack, 14 Health before slot Renown (+3/+3)."]]});
 add("blackberry-sprawl","thorn","Blackberry Sprawl","Briar",3,4,8,"Grow 2 · Compost","Grow 2.",{marks:[["grow","Grow 2",2]],helps:[["Grow 2","At the start of the fight, gain +2/+2 for every 2 units in your Compost."]]});
-add("hedge-lancer","badger","Hedge Lancer","Badger",3,6,12,"Fury 1 · Safe first attack","Fury 1. The first time this attacks each fight, it takes no damage.",{marks:[["flame","Fury 1",1]],helps:[["Fury 1","Whenever this attacks or is attacked, gain +1 Attack, and +1 more for each unit you're outnumbered by."]]});
-add("sentry","pigeon","Sentry","Pigeon",1,2,5,"Gives slot 1 Renown","Supply 6: At the end of your turn, give this slot 1 Renown.",{price:2,pips:6,supply:true,helps:[["Supply","Works this many times in all, then never again."],["Renown","The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."]]});
+add("hedge-lancer","badger","Hedge Lancer","Badger",3,6,12,"First attack is safe","Fury 1. The first time this attacks each fight, it takes no damage.",{marks:[["flame","Fury 1",1]],helps:[["Fury 1","Whenever this attacks or is attacked, gain +1 Attack, and +1 more for each unit you're outnumbered by."]]});
+add("sentry","pigeon","Sentry","Pigeon",1,2,5,"Gives slot 1 Renown","Supply 6: At the end of your turn, give this slot 1 Renown.",{price:2,pips:6,supply:true,helps:[["Supply","Works this many times in total."],["Renown","The unit here gets +1/+1 per Renown at fight start. Reservists get it too."]]});
 add("hedgerow-scout","mouse","Hedgerow Scout","Mouse",1,3,10,"Hand-me-down","Hand-me-down.",{price:2,marks:[["handdown","Hand-me-down"]],helps:[["Hand-me-down","When this dies, the nearest friendly Mouse gains its Attack this fight."]]});
 add("territorial","pigeon","Territorial","Pigeon",1,5,7,"Reserve","Reserve.",{price:2,marks:[["reserve","Reserve"]],helps:[["Reserve","In a fight, steps from your hand into a slot a friendly unit died in. Your Guard post first, up to 2 per fight."]]});
 add("bumblebee","shared","Bumblebee","Neutral",1,2,3,"Stings its killer for 4","When this dies, deal 4 damage to the unit that killed it.",{price:2});
 add("green-recruit","locust","Green Recruit","Locust",1,2,2,"Hopper on death","When this dies, summon a Hopper.",{price:2});
 add("greatsword-bearer","badger","Greatsword Bearer","Badger",4,7,15,"Grants Overrun","Squire. The units in front of this have Overrun.",{renown:3,marks:[["pawn","Squire"]]});
-add("briar-king","thorn","Briar King","Briar",6,12,20,"Front Briars gain Grow 2","Your other front-row Briars have Grow 2.",{renown:4,marks:[["thorns","Thorns 4",4]]});
-add("holly-knight","thorn","Holly Knight","Briar",4,12,19,"Front Briars gain Thorns","Your front-row Briars have +1 Thorns for every 3 units in your Compost.",{renown:7,marks:[["grow","Grow 2",2]]});
-add("the-eighth-plague","locust","The Eighth Plague","Locust",5,6,14,"Damages on ally death","After a friendly unit dies, deal damage to a random enemy equal to the number of friendly units that died this fight.",{renown:2});
-add("weasel","shared","Weasel","Neutral",5,9,13,"Hits enemy summons","Charge 6: After an enemy is summoned, Hit it.",{renown:1,pips:6,helps:[["Charge","Works this many times, then stops. Refills each fight."]]});
-add("gorger","locust","Gorger","Locust",4,38,68,"Eats units you sell","The first 2 times you sell a unit each turn, this eats it.",{golden:true});
-add("dame-bodkin","mouse","Dame Bodkin","Mouse",5,6,9,"Double damage on Pile on","Pile on 2. Your Mice's pile-on hits deal double damage.",{marks:[["pile","Pile on 2",2]]});
+add("briar-king","thorn","Briar King","Briar",6,12,20,"Briars gain Grow 2","Your other front-row Briars have Grow 2.",{renown:4,marks:[["thorns","Thorns 4",4]]});
+add("holly-knight","thorn","Holly Knight","Briar",4,12,19,"Briars gain Thorns","Your front-row Briars have +1 Thorns for every 3 units in your Compost.",{renown:7,marks:[["grow","Grow 2",2]]});
+add("the-eighth-plague","locust","The Eighth Plague","Locust",5,6,14,"Hits when allies fall","After a friendly unit dies, deal damage to a random enemy equal to the number of friendly units that died this fight.",{renown:2});
+add("weasel","shared","Weasel","Neutral",5,9,13,"Hits summons","Charge 6: After an enemy is summoned, Hit it.",{renown:1,pips:6,helps:[["Charge","Works this many times, then stops. Refills each fight."]]});
+add("gorger","locust","Gorger","Locust",4,38,68,"Grows from sales","The first 2 times you sell a unit each turn, this eats it.",{golden:true});
+add("dame-bodkin","mouse","Dame Bodkin","Mouse",5,6,9,"Doubles Pile on hits","Pile on 2. Your Mice's pile-on hits deal double damage.",{marks:[["pile","Pile on 2",2]]});
 add("cousin","mouse","Cousin","Mouse",1,2,2,"Hand-me-down","Hand-me-down.",{marks:[["handdown","Hand-me-down"]]});
 add("sharpen","spell","Sharpen","Spell",1,null,null,"+2/+2 to an ally","Give a friendly unit +2/+2.",{price:1,image:"spell-sharpen"});
 add("seek","spell","Seek","Spell",2,null,null,"Discover a unit","Discover a unit.",{price:3,image:"spell-seek"});
@@ -429,40 +444,46 @@ const portrait = (key) => `<img class="portrait" src="${asset}glass/portraits/${
 const health = (amount) => `<span class="health" aria-label="${amount} Health">${icon("heart")}${amount}</span>`;
 const coin = (amount) => `<span class="coin" aria-label="${amount} gold">${amount}</span>`;
 const bracket = (txt,classes="") => `<span class="plate-button ${classes}">${txt}</span>`;
-function counters(compost) {
-  return `<div class="counters"><button type="button" class="counter" data-read="compost">${icon("heap")} Compost <b>${compost}</b></button><button type="button" class="counter" data-read="tide">${icon("wave")} Tide <b>2</b></button></div>`;
+const playerCompost = first ? 0 : recruit ? 3 : 4;
+const playerTide = first ? 0 : after ? 4 : 2;
+function counters() {
+  return `<div class="counters"><button type="button" class="counter" data-read="compost">${icon("heap")} Compost <b>${playerCompost}</b></button><button type="button" class="counter" data-read="tide">${icon("wave")} Tide <b>${playerTide}</b></button></div>`;
 }
 function profile(player,hpValue,tag="") {
   return `<div class="player">${portrait(player[1])}<div><h2>${player[0]}</h2><div class="player-meta">${health(hpValue)} ${tag}</div></div></div>`;
 }
-function emptySlot(label) {
-  return `<div class="card-face empty-slot" role="img" aria-label="${label}">
-    <svg class="slot-layer" viewBox="0 0 560 1000" aria-hidden="true">
-      <path d="M280 9 551 173V826L280 991 9 826V173Z" fill="#1d2a25" fill-opacity=".79" stroke="#0b1611" stroke-width="14"/>
-      <path d="M280 30 532 183V815L280 970 28 815V183Z" fill="none" stroke="#89754f" stroke-opacity=".79" stroke-width="4"/>
-      <path d="M280 47 515 191V807L280 953 45 807V191Z" fill="none" stroke="#53634d" stroke-width="3"/>
-      <path d="M280 422 324 500 280 578 236 500Z M280 447 305 500 280 553 255 500Z" fill="none" stroke="#7a825e" stroke-opacity=".66" stroke-width="5"/>
-    </svg>
-  </div>`;
+function emptySlot(label, fallenId = null) {
+  const picture = `<svg class="slot-layer" viewBox="0 0 560 1000" aria-hidden="true">
+    <path d="M280 9 551 173V826L280 991 9 826V173Z" fill="#1d2a25" fill-opacity=".79" stroke="#0b1611" stroke-width="14"/>
+    <path d="M280 30 532 183V815L280 970 28 815V183Z" fill="none" stroke="#89754f" stroke-opacity=".79" stroke-width="4"/>
+    <path d="M280 47 515 191V807L280 953 45 807V191Z" fill="none" stroke="#53634d" stroke-width="3"/>
+    <path d="M280 422 324 500 280 578 236 500Z M280 447 305 500 280 553 255 500Z" fill="none" stroke="#7a825e" stroke-opacity=".66" stroke-width="5"/>
+  </svg>`;
+  return fallenId
+    ? `<button type="button" class="card-face empty-slot" data-card="${fallenId}" aria-label="${label}" aria-controls="read-content" aria-pressed="false">${picture}<span class="fallen-mark">${icon("fallen")}</span></button>`
+    : `<div class="card-face empty-slot" role="img" aria-label="${label}">${picture}</div>`;
 }
 function cardFace(id, override={}) {
   const c = {...cards[id],...override};
   const coords = roundels[c.tier];
-  const image = c.folder === "spell" ? `glass/art/${c.image}.jpg` : `units/${c.folder}/${id}.jpg`;
+  const spell = c.folder === "spell";
+  const image = spell ? `glass/art/${c.image}.jpg` : `units/${c.folder}/${id}.jpg`;
   const marks = c.marks?.map(([glyph,name,n])=>`<span class="mark" aria-hidden="true" title="${name}">${icon(glyph)}${n ?? ""}</span>`).join("") ?? "";
   const stat = (value,x,y,cls) => `<span class="unit-stat ${cls}" style="left:${x}%;top:${y}%">${value}</span>`;
-  const label = [c.name,c.golden && "Golden",`Tier ${c.tier}`, c.attack != null && `${atta(c)} Attack, ${hp(c)} Health`,c.marks?.map(markName).join(", "),c.renown && `Renown ${c.renown}`].filter(Boolean).join(", ");
-  return `<button type="button" class="card-face ${c.golden ? "golden" : ""}" data-card="${id}" aria-label="${label}" aria-controls="read-content" aria-pressed="false">
+  const label = [c.name,c.golden && "Golden",c.tribe,`Tier ${c.tier}`,c.attack != null && `${atta(c)} Attack, ${hp(c)} Health`,c.status,c.marks?.map(markName).join(", "),c.renown && `Slot Renown ${c.renown}`].filter(Boolean).join(", ");
+  return `<button type="button" class="card-face ${spell ? "spell-card" : ""} ${c.golden ? "golden" : ""}" data-card="${id}" aria-label="${label}" aria-controls="read-content" aria-pressed="false">
     <img class="card-art" src="${asset + image}" alt=""><img class="card-frame" src="${asset}glass/frames/tier${c.tier}.webp" alt="">
-    ${c.attack == null ? "" : stat(atta(c), coords[0],coords[1],"atk") + stat(hp(c),coords[2],coords[3],c.wounded ? "hp wounded" : "hp")}
+    ${spell ? "" : stat(atta(c),coords[0],coords[1],"atk") + stat(hp(c),coords[2],coords[3],c.wounded ? "hp wounded" : "hp")}
     ${marks ? `<span class="mark-row">${marks}</span>` : ""}
     ${c.pips ? `<span aria-hidden="true" class="pips ${c.supply?"supply":""}">${"<i></i>".repeat(c.pips)}</span>` : ""}
-    ${c.renown ? `<span aria-hidden="true" class="renown">${icon("star")} Renown ${c.renown}</span>` : ""}
+    ${recruit && !spell ? `<span class="tribe-tab" aria-hidden="true">${c.tribe}</span>` : ""}
   </button>`;
 }
-function caption(id, withPrice) {
+function caption(id, {withPrice=false,status=null} = {}) {
   const c = cards[id];
-  return `<div class="card-caption"><div class="caption-title">${c.name}${withPrice ? coin(c.price) : ""}</div><p class="caption-effect">${c.summary}</p></div>`;
+  return `<div class="card-caption"><div class="caption-title">${c.golden ? "Golden " : ""}${c.name}</div>
+    ${status ? `<p class="slot-state">${status}</p>` : `<p class="caption-effect">${c.summary}</p>`}
+    ${withPrice ? coin(c.price) : ""}</div>`;
 }
 function placement(x,y,w) {
   return `style="--x:${x}px;--y:${y}px;--w:${w}px"`;
@@ -473,69 +494,88 @@ function shop() {
     <div class="placed shop-label"><h2 class="section-name">Shop</h2></div>
     <div class="placed shop-controls">
       <div class="purse"><span class="coin">${icon("spark")}</span><strong>${gold}</strong><span class="gold-word">Gold</span></div>
-      <button class="plate-button upgrade" aria-disabled="true" aria-label="Upgrade from tier ${tier} to tier ${tier+1}, costs ${upgrade} gold, need ${upgrade-gold} more gold">${icon("up")} Upgrade ${coin(upgrade)}</button>
-      <div class="readout upgrade-meta"><span>Tier ${tier} → ${tier+1}</span><span class="upgrade-shortfall">Need ${upgrade-gold} more gold</span><span>${icon("stall")} −${first?1:3} next turn</span></div>
-      <div class="readout refresh-meta">10 at this price</div>
-      <button class="plate-button" aria-label="Refresh for 1 gold">${icon("refresh")} Refresh ${coin(1)}</button>
+      <div class="upgrade-group">
+        <button class="plate-button upgrade" aria-disabled="true" aria-describedby="upgrade-meta" aria-label="Upgrade for ${upgrade} gold">${icon("up")} Upgrade ${coin(upgrade)}</button>
+        <div class="readout upgrade-meta" id="upgrade-meta"><span>Tier ${tier} → ${tier+1}</span><span class="upgrade-shortfall">Need ${upgrade-gold} more gold</span><span>${icon("stall")} −${first?1:3} next turn</span></div>
+      </div>
+      <button class="plate-button refresh-button" aria-label="Refresh for 1 gold, 10 at this price"><span class="refresh-title">${icon("refresh")} Refresh ${coin(1)}</span><span class="readout refresh-meta">10 at this price</span></button>
       <button class="plate-button" id="freeze" type="button" aria-pressed="false">${icon("freeze")} <span>Freeze</span></button>
     </div>
-    ${offers.map((id,i)=>`<div class="shop-offer" ${placement(584+i*188,110,175)}>${cardFace(id)}${caption(id,true)}</div>`).join("")}
+    ${offers.map((id,i)=>`<div class="shop-offer" ${placement(574+i*174,99,155)}>${cardFace(id)}${caption(id,{withPrice:true})}</div>`).join("")}
     <section class="placed spell-light" aria-label="Shop spells">
       <h3 class="cap">Spells</h3>
-      <div class="spell-pair">${[0,1].map(()=>`<div class="spell-offer">${cardFace("sharpen")}${coin(1)}</div>`).join("")}</div>
-      <p class="spell-caption">Sharpen</p><p class="spell-effect">+2/+2 to an ally</p>
+      <div class="spell-pair">${[0,1].map(()=>`<div class="spell-offer">${cardFace("sharpen")}
+        <div class="spell-caption">Sharpen<p class="spell-effect">+2/+2 to an ally</p></div>${coin(1)}</div>`).join("")}</div>
     </section>
   </section>`;
 }
-function boardRow(ids, positions, y, w, kind, options={}) {
-  return ids.map((id,i)=>{
-    const {captioned=false,echo=false,variants={}} = options;
-    const art = id ? cardFace(id,variants[id]) : emptySlot(`${kind} ${i+1}, empty`);
-    return `<div class="board-piece ${echo ? "after-echo" : ""}" ${placement(positions[i],y,w)}>${art}${captioned&&id?caption(id,false):""}</div>`;
+const spacing = 240, boardCentre = 960;
+const yourFrontRenown = [7,0,2,0], yourBackRenown = [3,0,0];
+const enemyFrontRenown = [3,4,7,2], enemyBackRenown = [1,0,0];
+const fightStart = {"blackberry-sprawl":{fightAttack:8,fightHealth:12}};
+const fightEnd = {
+  "greatsword-bearer":{fightHealth:10,wounded:true},
+  "briar-king":{fallen:true},
+  "holly-knight":{fightAttack:24,fightHealth:27,marks:[]},
+  "weasel":{fightHealth:2,wounded:true},
+  "gorger":{fightHealth:57,wounded:true},
+  "dame-bodkin":{marks:[]}
+};
+function boardRow(ids, renown, y, width, kind, {labels=true,battle=false,variants={},outcome=false,tutorial=false}={}) {
+  const name = `${kind} row`;
+  const pieces = ids.map((id,i)=>{
+    const x = boardCentre + spacing * (i - (ids.length-1)/2);
+    const state = variants[id] ?? {};
+    const status = outcome ? (state.fallen ? "Fell" : "Survived") : null;
+    const slotName = `${name} slot ${i+1}${renown[i] ? `, Renown ${renown[i]}` : ""}`;
+    const art = id && !state.fallen
+      ? cardFace(id,{...state,status,renown:renown[i]})
+      : emptySlot(state.fallen ? `${slotName}, ${cards[id].name} fell` : `${slotName}, empty`,state.fallen ? id : null);
+    const highlighted = tutorial && i === 0;
+    return `<div class="board-piece ${battle ? "battle-piece" : ""} ${state.fallen ? "fallen" : ""}" ${placement(x,y,width)}>
+      <div class="board-slot ${highlighted ? "tutorial-target" : ""}">
+        <svg class="slot-surround" viewBox="0 0 560 1000" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M280 9 552 174V826L280 991 8 826V174Z" fill="none" stroke="${renown[i] ? "#927c50" : "#4d5b48"}" stroke-width="11"/>
+        </svg>
+        ${art}
+        ${renown[i] ? `<span class="renown" aria-hidden="true">Renown ${renown[i]}</span>` : ""}
+      </div>
+      ${id ? caption(id,{status}) : ""}
+    </div>`;
   }).join("");
+  return `${labels ? `<div class="placed row-key" style="top:${y+Math.round(width*.62)}px">${name}</div>` : ""}${pieces}`;
 }
-const frontPositions = [438,786,1134,1482], backPositions = [612,960,1308];
 function recruitBoard() {
   const fronts = first ? Array(4).fill(null) : yourFront;
   const backs = first ? Array(3).fill(null) : yourBack;
   return `<section aria-label="Your board">
     <h2 class="sr-only">Your board</h2>
-    <div class="placed row-key front-key">Front row</div>
-    <div class="placed row-key back-key">Back row</div>
-    ${boardRow(fronts,frontPositions,526,168,"Front slot",{captioned:true})}
-    ${boardRow(backs,backPositions,705,168,"Back slot",{captioned:true})}
-    ${first ? '<p class="cue placed">Drag a unit from the shop to an empty slot.</p>' : ""}
+    ${boardRow(fronts,first ? [] : yourFrontRenown,493,134,"Front",{tutorial:first})}
+    ${boardRow(backs,first ? [] : yourBackRenown,761,134,"Back")}
+    ${first ? `<p class="cue placed">Drag a unit here from the shop.${icon("arrow")}</p>` : ""}
   </section>`;
 }
 function fightBoard() {
-  const front = after ? Array(4).fill(null) : [...yourFront.slice(0,3),null];
-  const back = after ? Array(3).fill(null) : yourBack;
-  const bottomVariants = {"blackberry-sprawl":{fightAttack:8,fightHealth:12}};
+  const front = [...yourFront.slice(0,3),null];
+  const opponent = {battle:true,variants:after ? fightEnd : {},outcome:after};
   return `<section aria-label="March Hare's board">
-    ${after ? '<h2 class="placed after-board-title">March Hare’s starting board</h2>' : '<h2 class="sr-only">March Hare’s board</h2>'}
-    <div class="placed row-key fight-row-key far">Back row</div>
-    <div class="placed row-key fight-row-key enemy-front">Front row</div>
-    ${boardRow(enemyBack,backPositions,after ? 106 : 81,160,"Back slot")}
-    ${boardRow(enemyFront,frontPositions,233,160,"Front slot")}
+    <h2 class="sr-only">March Hare’s board</h2>
+    ${boardRow(enemyBack,enemyBackRenown,61,110,"Back",opponent)}
+    ${boardRow(enemyFront,enemyFrontRenown,289,110,"Front",opponent)}
   </section>
-  <div class="fight-centre" aria-hidden="true">${bracket(`${icon("swords")} ${after ? "Fight ended" : "Fight"}`)}</div>
-  <section aria-label="Your board">
+  <div class="fight-centre">${bracket(`${icon("swords")} ${after ? "March Hare’s board" : "Fight"}`)}</div>
+  ${after ? "" : `<section aria-label="Your board">
     <h2 class="sr-only">Your board</h2>
-    ${after ? "" : '<div class="placed row-key fight-row-key near">Front row</div><div class="placed row-key fight-row-key your-back">Back row</div>'}
-    ${boardRow(front,frontPositions,548,160,"Front slot",{echo:after})}
-    ${boardRow(back,backPositions,747,160,"Back slot",{echo:after,variants:bottomVariants})}
-  </section>`;
+    ${boardRow(front,yourFrontRenown,562,110,"Front",{battle:true})}
+    ${boardRow(yourBack,yourBackRenown,797,110,"Back",{battle:true,variants:fightStart})}
+  </section>`}`;
 }
 function hand() {
   const ids = first ? [] : ["seek"];
+  const positions = [[10,0],[92,0],[174,0],[51,109],[133,109],[10,218],[174,218]];
   return `<section class="side hand" aria-label="Hand, ${ids.length} of 7">
     <div class="light-heading"><h2 class="section-name">Hand</h2><strong>${ids.length}/7</strong></div>
-    <div class="hand-tray">${Array.from({length:7},(_,i)=>{
-      const firstRow = i < 4;
-      const x = firstRow ? i*63+5 : (i-4)*63+36.5;
-      const y = firstRow ? 0 : 127;
-      return `<div class="hand-slot" style="top:${y}px;left:${x}px">${ids[i] ? cardFace(ids[i]) + `<span class="hand-label">${cards[ids[i]].name}</span>` : emptySlot("Empty hand slot")}</div>`;
-    }).join("")}</div>
+    <div class="hand-tray">${positions.map(([x,y],i)=>`<div class="hand-slot" style="top:${y}px;left:${x}px">${ids[i] ? cardFace(ids[i]) + `<span class="hand-label">${cards[ids[i]].name}</span>` : emptySlot("Empty hand slot")}</div>`).join("")}</div>
   </section>`;
 }
 function menu() {
@@ -543,13 +583,13 @@ function menu() {
   return `<details class="side game-menu"><summary class="plate-button">Game ${icon("menu")}</summary><div class="game-menu-content">${entries.map(x=>`<button type="button">${x}</button>`).join("")}</div></details>`;
 }
 function standings() {
-  const players = first ? [self,enemy,roster[0],roster[1],roster[2],roster[3],roster[5],roster[7]] :
-    after ? [enemy,roster[2],roster[5],roster[0],roster[1],roster[3],self,roster[7]] : roster;
-  return `<section class="side right roster" aria-label="${after ? "Final standings" : "Standings"}">
-    <div class="light-heading"><h2 class="section-name">${after ? "Final standings" : "Standings"}</h2></div>
+  const endOfTurn = [[...roster[2]],["Pipkin","pipkin",21],roster[3],["Old Mother Mousewife","old_mother_mousewife",18],enemy,roster[5],["Dame Farthing","dame_farthing",0],roster[7]];
+  const players = first ? [self,enemy,roster[0],roster[1],roster[2],roster[3],roster[5],roster[7]] : after ? endOfTurn : roster;
+  return `<section class="side right roster" aria-label="${after ? "Turn 9 standings" : "Standings"}">
+    <div class="light-heading"><h2 class="section-name">${after ? "Turn 9 standings" : "Standings"}</h2></div>
     <ol class="roster-list">${players.map(([name,key,amount],i)=>{
       const isSelf = key === self[1], isNext = key === enemy[1] && !after;
-      const hpValue = first ? 40 : after ? (i === 0 ? 16 : 0) : amount;
+      const hpValue = first ? 40 : amount;
       const out = hpValue === null || hpValue === 0;
       const status = isNext ? "Next fight" : isSelf ? "You" : "";
       const rank = first ? "–" : i+1;
@@ -571,7 +611,8 @@ function turnAction() {
 function reader() {
   return `<section class="side reader seamed" aria-label="Card details">
     <div class="reader-title">${icon("glass")} <h2 class="cap">Card details</h2></div>
-    <div class="reader-content" id="read-content" aria-live="polite" aria-atomic="true"></div>
+    <div class="reader-content" id="read-content" tabindex="0" aria-label="Card rules" aria-live="polite" aria-atomic="true"></div>
+    <button type="button" class="reader-more" aria-controls="read-content" hidden>More rules ↓</button>
   </section>`;
 }
 function defeat() {
@@ -587,7 +628,11 @@ function defeat() {
       <p class="loss-stat"><b>11 → 0</b><span>Your Health</span></p>
     </div>
     <p class="loss-detail">Your board was wiped out.</p>
-    <p class="loss-detail"><b>10 turn damage + 3 for a heavy loss.</b><br>March Hare kept more than half their starting units.</p>
+    <p class="loss-detail"><b>10 turn damage + 3 for a heavy loss.</b><br>6 of 7 survived, over half of March Hare’s board.</p>
+    <ul class="loss-threats" aria-label="Enemy threats">
+      <li><b>Golden Gorger</b> · 38 Attack with 57 Health left</li>
+      <li><b>Holly Knight</b> · Rose from 12 to 24 Attack</li>
+    </ul>
   </section>`;
 }
 function fightOpponent() {
@@ -602,13 +647,12 @@ function bottomAction() {
     : `<div class="side right fight-skip"><a class="action-button" href="?view=after">${icon("skip")} Skip</a></div>`;
 }
 const selfHealth = first ? 40 : after ? 0 : 11;
-screen.innerHTML = recruit
-  ? `<section class="side left-top"><p class="turn">Turn ${first?1:9}</p>${profile(self,selfHealth,"You")}${first?"":counters(3)}</section>
-      ${reader()}${shop()}${recruitBoard()}${hand()}${standings()}${turnAction()}${menu()}`
-  : `<section class="side left-top"><p class="turn">Turn 9</p>${after ? profile(self,selfHealth,"Eliminated") : ""}</section>
-      ${reader()}${fightBoard()}
-      ${after ? defeat()+standings() : `<section class="side fight-you">${profile(self,selfHealth,"You")}${counters(4)}</section>`+fightOpponent()}
-      ${bottomAction()}${menu()}`;
+const leftProfile = `<section class="side left-top" aria-label="Dame Farthing">
+  <p class="turn">Turn ${first?1:9}</p>${profile(self,selfHealth,after?"Eliminated":"You")}${counters()}
+</section>`;
+screen.innerHTML = leftProfile + reader() + (recruit
+  ? shop()+recruitBoard()+hand()+standings()+turnAction()+menu()
+  : fightBoard()+(after ? defeat()+standings() : fightOpponent())+bottomAction()+menu());
 
 const defaultCard = recruit ? offers[0] : after ? "gorger" : "greatsword-bearer";
 let pinned = null;
@@ -618,12 +662,11 @@ function renderRead(id) {
   visible = id;
   const pane = document.getElementById("read-content");
   const card = cards[id];
-  const inCombat = view === "fight";
   if (!card) {
     const isCompost = id === "compost";
     pane.innerHTML = isCompost
-      ? `<h3>Compost</h3><div class="meta">${inCombat?4:3} units · Newest first</div><p class="rules">${inCombat?"Granary Glutton<br>":""}Old Campaigner<br>Blackthorn Sapling<br>Blackthorn Sapling</p><p class="help">Units you bought go here when you sell them.</p>`
-      : '<h3>Tide</h3><div class="meta">+2 Attack</div><p class="rules">Your Locusts have this much extra Attack for the rest of the game.</p>';
+      ? `<h3>Compost</h3><div class="meta">${playerCompost} units</div>${playerCompost ? `<p class="rules">${playerCompost===4?"Granary Glutton<br>":""}Old Campaigner<br>Blackthorn Sapling<br>Blackthorn Sapling</p>` : ""}<p class="help">Units you bought go here when you sell them.</p>`
+      : `<h3>Tide</h3><div class="meta">+${playerTide} Attack</div><p class="rules">Your Locusts have this much extra Attack for the rest of the game.</p>`;
   } else {
     const use = locationMeta(id);
     const cost = card.price && (use === "offer" || use === "hand") ? ` · ${card.price} gold` : "";
@@ -635,14 +678,33 @@ function renderRead(id) {
       return term ? icon(keywordIcons[term]) : "";
     };
     const notes = card.helps ?? [];
-    const context = id === "gorger" && after
-      ? '<p class="help"><b>38 Attack · 68 Health at the start.</b> March Hare’s largest unit began in the back row.</p>' : "";
+    const context = after && id === "gorger"
+      ? '<p class="help"><b>38 Attack · 57 Health remaining.</b> Started with 68 Health.</p>'
+      : after && id === "holly-knight"
+        ? '<p class="help"><b>24 Attack · 27 Health remaining.</b> It opened at 12 Attack and 19 Health.</p>' : "";
     pane.innerHTML = `<h3>${card.golden ? "Golden " : ""}${card.name}</h3><p class="meta">${card.tribe} · Tier ${card.tier}${cost}</p>
       ${effectLines.map(line=>`<p class="rules effect">${keyword(line)}${line}</p>`).join("")}${context}
       ${notes.map(([term,rule])=>`<p class="help">${keyword(term)}<b>${term}</b> · ${rule}</p>`).join("")}${sale}`;
   }
   pane.scrollTop = 0;
+  updateReaderOverflow();
 }
+const pane = document.getElementById("read-content");
+const more = document.querySelector(".reader-more");
+const atEndOfRules = () => pane.scrollTop + pane.clientHeight >= pane.scrollHeight - 1;
+function updateReaderOverflow() {
+  more.hidden = true;
+  more.hidden = pane.scrollHeight <= pane.clientHeight;
+  refreshReaderControl();
+}
+function refreshReaderControl() {
+  more.textContent = atEndOfRules() ? "Top of rules ↑" : "More rules ↓";
+}
+pane.addEventListener("scroll",refreshReaderControl);
+more.addEventListener("click",() => {
+  pane.scrollTop = atEndOfRules() ? 0 : pane.scrollTop + Math.max(1,pane.clientHeight - 26);
+});
+document.fonts.ready.then(updateReaderOverflow);
 const inspectors = [...document.querySelectorAll("[data-card],[data-read]")];
 for (const node of inspectors) {
   const id = node.dataset.card ?? node.dataset.read;

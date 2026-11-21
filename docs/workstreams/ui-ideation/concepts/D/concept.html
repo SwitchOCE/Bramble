@@ -10,38 +10,36 @@
 @font-face{font-family:"Alegreya Sans";src:url(../../../../../assets/glass/fonts/AlegreyaSans-Bold.ttf);font-weight:700}
 :root{
   --lead:#15100b;
-  --ink:#22170c; --ink-2:#47331f; --ink-3:#5a412a;
-  --text-lt:#f7eed6; --text-lt2:#eadfc4;
+  --ink:#22170c; --ink-2:#47331f;
+  --text-lt:#f7eed6; --text-lt2:#e6d9bc; --text-lt3:#d6c29b;
   --stone:#5b5146;
+  --hurt:#a10f0a; --up:#1b5a17;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:1920px;height:1080px;overflow:hidden;background:#1c140e}
-body{position:relative;font-family:"Alegreya Sans",sans-serif;color:var(--ink)}
+body{position:relative;font-family:"Alegreya Sans",sans-serif;color:var(--text-lt)}
 
-/* ---------- the scene: the commissioned picture (background.jpg) ---------- */
+/* ---------- the scene: the commissioned picture (background.jpg), unchanged ---------- */
 #bg{position:absolute;inset:0;overflow:hidden;background:url(background.jpg) 0 0/1920px 1080px no-repeat}
 #bg::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(ellipse 80% 75% at 50% 45%,rgba(0,0,0,0) 62%,rgba(0,0,0,.38) 100%)}
-/* fight: the camera lifts to the window; the wood's light fills the frame, the wall is stone */
-body.raised #bg{background:url(background.jpg) -1658px -30px/5236px 2945px no-repeat;filter:saturate(1.05) brightness(1.02)}
+body.raised #bg{background:url(background.jpg) -1658px -30px/5236px 2945px no-repeat}
 .jamb{position:absolute;top:0;bottom:0;width:330px;background:url(g/stone.jpg) center/280px auto,var(--stone);
   box-shadow:inset 0 0 0 3px rgba(0,0,0,.45),inset 0 0 40px rgba(0,0,0,.55)}
 .jamb::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.35) 0 3px,transparent 3px 96px)}
 
 /* ---------- glass panes in lead ---------- */
 .pane{position:absolute;border:4px solid var(--lead);border-radius:6px;
-  box-shadow:inset 0 0 0 1px rgba(255,240,210,.16),inset 0 12px 18px rgba(255,255,255,.07),0 3px 8px rgba(0,0,0,.55)}
+  box-shadow:inset 0 1px 0 rgba(255,236,200,.22),inset 0 0 0 1px rgba(255,228,180,.10),inset 0 -8px 14px rgba(0,0,0,.22),0 3px 8px rgba(0,0,0,.55)}
 .pane::after{content:"";position:absolute;inset:0;border-radius:3px;pointer-events:none;
-  background:url(g/pane.jpg) center/300px auto;mix-blend-mode:soft-light;opacity:.5}
-.g-cream{background:linear-gradient(170deg,#f8f0d8,#ecdfbb 65%,#e2d2a7)}
-.g-blue{background:linear-gradient(160deg,#2f5f8b,#173550)}
-.g-green{background:linear-gradient(160deg,#355f30,#1c381a)}
-.g-frost{background:linear-gradient(160deg,#d7e9f1,#9cc0d2 70%,#86adc2)}
-.g-dark{background:linear-gradient(160deg,#352d25,#1c1712)}
-.g-lit{background:radial-gradient(ellipse 90% 120% at 40% 30%,#fffae6,#f8e3a0 45%,#e8bb5c 100%)}
+  background:url(g/pane.jpg) center/300px auto;mix-blend-mode:soft-light;opacity:.45}
+/* the one quiet tone every control, row and plaque shares: smoky umber glass */
+.g-smoke,.label{background:linear-gradient(172deg,#4d4033,#3a2f25 55%,#2b221a)}
+.g-lit{background:radial-gradient(ellipse 90% 120% at 40% 30%,#fffae6,#f8e3a0 45%,#e8bb5c 100%);color:var(--ink)}
 .accent{box-shadow:inset 0 0 0 1px rgba(255,255,255,.6),0 0 0 2px rgba(255,238,176,.6),0 0 30px 8px rgba(255,216,120,.6),0 4px 10px rgba(0,0,0,.6)}
+.marked{outline:2px solid #e9dcbd;outline-offset:-8px}
 
-/* roundel: a round of glass in a lead ring */
+/* roundel: a round of glass in a lead ring (money: amber; Health: ruby) */
 .rd{position:absolute;border-radius:50%;display:grid;place-items:center;
   font-family:Alegreya,serif;font-weight:900;color:#1a0f05;line-height:1;
   background-size:118% auto;background-position:center;
@@ -53,73 +51,79 @@ body.raised #bg{background:url(background.jpg) -1658px -30px/5236px 2945px no-re
 .rd.cream{background-image:url(g/rd-cream.png)}
 .rd.short{background-image:url(g/rd-clear.png);filter:brightness(.8)}
 
-/* ---------- cards (art, real tier frame, numbers on the frame's discs) ---------- */
+/* ---------- cards ---------- */
 .card{position:absolute;filter:drop-shadow(0 5px 7px rgba(0,0,0,.55))}
 .card .art{position:absolute;inset:0;background-size:100% 100%}
-.card .frame{position:absolute;inset:0;width:100%;height:100%}
-.card .num{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center;
-  font-family:Alegreya,serif;font-weight:900;line-height:1;color:#150e08;letter-spacing:-.02em;
-  font-variant-numeric:lining-nums;padding-top:.04em;text-shadow:0 0 .12em rgba(255,240,200,.75)}
-.card .num.hurt{color:#a10f0a}
-.card .num.stat{border-radius:50%;background:radial-gradient(circle at 40% 30%,#ffffff,#f1ede2 50%,#c9c1b0);
-  box-shadow:0 0 0 2.5px #15100b,0 2px 3px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.55);text-shadow:none;padding-top:.06em}
-.card .spell-lead{position:absolute;inset:0;width:100%;height:100%}
+.card .frame,.card .spell-lead{position:absolute;inset:0;width:100%;height:100%}
 .card.golden{filter:drop-shadow(0 0 3px #ffe27a) drop-shadow(0 0 12px rgba(255,214,90,.9)) drop-shadow(0 5px 7px rgba(0,0,0,.5))}
+/* stats: Attack on a pale six-sided stone, Health on a pale round one; both sit in the frame's disc zone */
+.stat{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center}
+.stat svg.shape{position:absolute;inset:-2px;width:calc(100% + 4px);height:calc(100% + 4px);overflow:visible}
+.stat b{position:relative;font-family:Alegreya,serif;font-weight:900;line-height:1;color:#150e08;letter-spacing:-.03em;padding-top:.08em;font-variant-numeric:lining-nums}
+.stat.hurt b{color:var(--hurt)}
+.stat.up b{color:var(--up)}
 
-/* ---------- painted labels: lettering in grisaille on pale glass ---------- */
-.label{position:absolute;border:3px solid var(--lead);border-radius:4px;
-  background:linear-gradient(175deg,#faf3de,#efe3c3 70%,#e6d8b0);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.5),0 2px 5px rgba(0,0,0,.4)}
-.nm{font-family:Alegreya,serif;font-weight:800;font-size:19px;line-height:22px;color:var(--ink);white-space:nowrap}
-.tr{font-size:14px;line-height:16px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
-.tx{font-size:16px;line-height:19px;color:var(--ink)}
-.tx b{font-weight:700}
-.shoplabel{padding:7px 9px}
-.shoplabel .tr{margin:3px 0 4px}
-.boardlabel{text-align:center;padding:2px 6px 3px;transform:translateX(-50%)}
-.boardlabel .nm{font-size:18px;line-height:21px}
-.boardlabel .kw{font-size:15px;line-height:17px;color:var(--ink-2);font-weight:700;white-space:nowrap}
+/* ---------- painted labels: tinted glass in lead ---------- */
+.label{position:absolute;border:3px solid var(--lead);border-radius:4px;color:var(--text-lt);
+  box-shadow:inset 0 1px 0 rgba(255,236,200,.3),inset 0 0 0 1px rgba(255,228,180,.10),inset 0 -6px 10px rgba(0,0,0,.25),0 3px 6px rgba(0,0,0,.5)}
+.nm{font-family:Alegreya,serif;font-weight:800;font-size:18px;line-height:21px;color:var(--text-lt);white-space:nowrap}
+.tr{font-size:14px;line-height:16px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-lt3);font-weight:700}
+.tx{font-size:18px;line-height:21px;color:var(--text-lt2)}
+.tx b{font-weight:700;color:#fff8e6}
+.shoplabel{padding:5px 8px}
+.shoplabel .tr{margin:1px 0 3px}
+.boardlabel{text-align:center;padding:2px 8px 3px;transform:translateX(-50%);z-index:2}
+.boardlabel .kw{font-size:16px;line-height:19px;color:var(--text-lt2);font-weight:700;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:6px}
+body.raised .boardlabel{padding:1px 8px 2px}
+body.raised .boardlabel .nm{line-height:20px}
+body.raised .boardlabel .kw{line-height:17px}
+.pips{display:inline-flex;gap:3px}
+.pips i{width:10px;height:10px;border-radius:50%;border:2px solid #f2e6c8;display:block}
+.pips i.on{background:#f2e6c8}
 
-/* ---------- the shop window: lead bars across the picture's window ---------- */
+/* ---------- window, table, slots ---------- */
 .bar{position:absolute;background:linear-gradient(90deg,#0d0906,#3b3127 45%,#0d0906);box-shadow:0 0 4px rgba(0,0,0,.5)}
-.light.frost{background:linear-gradient(180deg,rgba(225,240,250,.78),rgba(205,228,242,.65))}
 .slot{position:absolute}
 .slot svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.renown{position:absolute;width:38px;height:38px;transform:rotate(45deg);border:3px solid var(--lead);
-  background:linear-gradient(135deg,#fff3b6,#f2c542 45%,#c98d14);box-shadow:0 2px 4px rgba(0,0,0,.6),inset 0 0 0 1px rgba(255,255,255,.5);z-index:2}
-.renown span{position:absolute;inset:0;transform:rotate(-45deg);display:grid;place-items:center;
-  font-family:Alegreya,serif;font-weight:900;font-size:21px;color:#1b1004;padding-top:2px}
+/* Renown: a labelled tab on the slot's shoulder, blue-violet glass, never gold */
+.rtab{position:absolute;height:24px;padding:0 7px;border:2.5px solid var(--lead);border-radius:4px;z-index:3;
+  background:linear-gradient(175deg,#6a5cb8,#46398a 60%,#382d72);color:#fbf6ff;white-space:nowrap;
+  font-size:16px;line-height:19px;font-weight:700;display:flex;align-items:center;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 2px 4px rgba(0,0,0,.6)}
 
 /* ---------- side lanes ---------- */
 .ctl{position:absolute}
 .ctl .lab{position:absolute;font-family:Alegreya,serif;font-weight:800;font-size:22px;line-height:24px;color:var(--text-lt);text-shadow:0 1px 2px rgba(0,0,0,.8);white-space:nowrap}
 .ctl .sub{position:absolute;font-size:16px;line-height:18px;color:var(--text-lt2);text-shadow:0 1px 2px rgba(0,0,0,.9);white-space:nowrap}
 .icon{position:absolute}
-.ctl.dim .pane{filter:saturate(.35) brightness(.8)}
-.plate{position:absolute;height:50px;display:flex;align-items:center;gap:10px;padding:0 14px 0 10px}
-.plate .lab{position:static;font-family:Alegreya,serif;font-weight:800;font-size:20px;color:var(--ink)}
-.plate .val{margin-left:auto;font-family:Alegreya,serif;font-weight:900;font-size:26px;color:var(--ink)}
+.ctl.dim .pane{filter:saturate(.5) brightness(.85)}
+.plate{position:absolute;height:52px;display:flex;align-items:center;gap:10px;padding:0 14px 0 10px}
+.plate .lab{position:static;font-size:20px}
+.plate .val{margin-left:auto;font-family:Alegreya,serif;font-weight:900;font-size:26px;color:var(--text-lt);display:flex;align-items:center;gap:6px}
 .plate svg{display:block}
+.chg{font-family:"Alegreya Sans",sans-serif;font-size:18px;font-weight:700;color:#cdeeb6;display:flex;align-items:center;gap:3px}
 .portrait{position:absolute;border-radius:50%;background-size:cover;background-position:center;
   box-shadow:0 0 0 5px var(--lead),0 0 0 8px #74624a,0 0 0 11px var(--lead),0 6px 14px rgba(0,0,0,.7)}
 .portrait.sm{box-shadow:0 0 0 3px var(--lead),0 0 0 5px #74624a,0 0 0 7px var(--lead),0 3px 6px rgba(0,0,0,.6)}
-.prow .place{position:absolute;font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-lt2);text-shadow:0 1px 2px #000}
+.prow .place{position:absolute;font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-lt3);text-shadow:0 1px 2px #000}
 .prow .pn{position:absolute;font-family:Alegreya,serif;font-weight:800;font-size:19px;line-height:21px;color:var(--text-lt);text-shadow:0 1px 2px #000}
-.prow.you .pn,.prow.you .place,.prow.next .pn,.prow.next .place{color:var(--ink);text-shadow:none}
+.prow.marked-row .place{color:#fff3d6}
 .prow.out:not(.you){filter:saturate(.2) brightness(.75)}
 .prow .outw{position:absolute;font-weight:700;font-size:16px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-lt2)}
 .btnlab{position:absolute;font-family:Alegreya,serif;font-weight:900;color:var(--ink);white-space:nowrap}
 .btnlab.lt{color:var(--text-lt);font-weight:800;text-shadow:0 1px 2px rgba(0,0,0,.8)}
 
 /* ---------- fight ---------- */
-.panel{position:absolute;border:6px solid var(--lead);border-radius:4px;
-  box-shadow:0 0 0 5px #6a5e50,0 0 0 9px var(--lead),0 12px 26px rgba(0,0,0,.55)}
+.panel{position:absolute;border:6px solid var(--lead);border-radius:4px;overflow:hidden;
+  box-shadow:0 0 0 4px #6a5e50,0 0 0 7px var(--lead),0 12px 26px rgba(0,0,0,.55)}
+/* the quarry field: warm frosted glass, soft lines, so the pieces are the brightest thing */
 .panel .q{position:absolute;inset:0;
   background:
-   repeating-linear-gradient(60deg,rgba(28,22,16,.5) 0 2px,transparent 2px 52px),
-   repeating-linear-gradient(-60deg,rgba(28,22,16,.5) 0 2px,transparent 2px 52px),
-   linear-gradient(180deg,rgba(252,250,236,.55),rgba(236,244,220,.45))}
-.transom{position:absolute;background:url(g/stone.jpg) center/280px auto,var(--stone);box-shadow:inset 0 0 0 3px rgba(0,0,0,.5),0 4px 10px rgba(0,0,0,.5)}
+   repeating-linear-gradient(60deg,rgba(45,34,22,.20) 0 2px,transparent 2px 52px),
+   repeating-linear-gradient(-60deg,rgba(45,34,22,.20) 0 2px,transparent 2px 52px),
+   linear-gradient(180deg,rgba(168,150,118,.86),rgba(150,133,103,.88))}
+.panel .q::after{content:"";position:absolute;inset:0;background:url(g/pane.jpg) center/300px auto;mix-blend-mode:soft-light;opacity:.5}
+.transom{position:absolute;background:url(g/stone.jpg) center/280px auto,var(--stone);box-shadow:inset 0 0 0 3px rgba(0,0,0,.5),0 4px 10px rgba(0,0,0,.5);z-index:1}
 .splash{position:absolute;font-family:Alegreya,serif;font-weight:900;font-size:46px;color:#fff3e0;
   text-shadow:0 0 3px #6e0000,0 0 9px #6e0000,0 2px 0 #3a0000;transform:translate(-50%,-50%);z-index:7}
 </style>
@@ -132,9 +136,11 @@ body.raised #bg{background:url(background.jpg) -1658px -30px/5236px 2945px no-re
 const A = "../../../../../assets/";
 const ROUND={"tier1":{"a":[110.8,778.5,62.4],"h":[448.8,778.5,62.4]},"tier2":{"a":[115.2,770.0,63.4],"h":[445.2,770.0,63.1]},"tier3":{"a":[111.2,758.5,59.6],"h":[448.0,760.5,60.0]},"tier4":{"a":[107.5,760.8,59.9],"h":[451.8,760.2,60.0]},"tier5":{"a":[110.5,751.0,65.2],"h":[448.0,750.2,65.1]},"tier6":{"a":[110.0,775.2,58.4],"h":[446.8,775.2,59.0]}};
 const ARTCLIP=[[280.0,43.4],[537.1,183.7],[537.1,816.3],[280.0,956.6],[22.9,816.3],[22.9,183.7]];
-const OUTLINE=[[280,0],[560,170],[560,830],[280,1000],[0,830],[0,170]];
+const SPELLIN=[[280,76],[506,208],[506,792],[280,924],[54,792],[54,208]];
+const SPELLOUT=[[280,14],[546,174],[546,826],[280,986],[14,826],[14,174]];
 const pct=(x,y)=>`${(x/560*100).toFixed(3)}% ${(y/1000*100).toFixed(3)}%`;
 const clip=pts=>`polygon(${pts.map(([x,y])=>pct(x,y)).join(",")})`;
+const pts=p=>p.map(q=>q.join(",")).join(" ");
 const root=document.getElementById("root");
 const view=(new URLSearchParams(location.search).get("view"))||"mid";
 function el(tag,cls,css,html){const e=document.createElement(tag);if(cls)e.className=cls;if(css)e.style.cssText=css;if(html!=null)e.innerHTML=html;return e}
@@ -145,59 +151,91 @@ const CX=960;                 // every zone shares this centre line
 const CL=336, CR=1584;        // the window and the light table share these edges
 const LL=24, LW=284;          // left lane
 const RL=1612, RW=284;        // right lane
-const WIN={top:14,bottom:410};
-const TAB={top:438,bottom:900};
-const BENCH={top:922,bottom:1064};
+const WIN={top:14,bottom:356};   // the shop window
+const TAB={top:362,bottom:922};  // the light table (and, in the lanes, "you" and the players list)
+const LOW={top:930,bottom:1072}; // the bench front: hand; menu and Turn at left; the one button at right
+
+/* ---------- stats ---------- */
+function statShape(kind){
+  return kind==="a"
+   ?`<svg class="shape" viewBox="0 0 100 100"><polygon points="27,4 73,4 98,50 73,96 27,96 2,50" fill="#dfe6ec" stroke="#15100b" stroke-width="9" stroke-linejoin="round"/><polygon points="31,14 69,14 86,44 14,44" fill="rgba(255,255,255,.55)"/></svg>`
+   :`<svg class="shape" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45.5" fill="#f6e9d8" stroke="#15100b" stroke-width="9"/><ellipse cx="44" cy="30" rx="26" ry="13" fill="rgba(255,255,255,.6)"/></svg>`;
+}
+// a change carries a mark as well as a colour: a notch below for damage, a chevron above for a gain
+function changeMark(chg,d){
+  if(!chg) return "";
+  const w=Math.round(d*.66),h=Math.round(d*.44);
+  return chg==="hurt"
+   ?`<svg class="crk" viewBox="0 0 100 100" style="position:absolute;inset:0;width:100%;height:100%"><path d="M58 8 L46 34 L60 52 L42 76 L50 94" fill="none" stroke="#15100b" stroke-width="7" stroke-linejoin="round" opacity=".55"/></svg><svg style="position:absolute;left:50%;top:78%;margin-left:${-w/2}px;overflow:visible" width="${w}" height="${h}" viewBox="0 0 20 13"><path d="M1.5 1.5 L10 11.5 L18.5 1.5 Z" fill="#d02a20" stroke="#15100b" stroke-width="2.4" stroke-linejoin="round"/></svg>`
+   :`<svg style="position:absolute;left:50%;bottom:78%;margin-left:${-w/2}px;overflow:visible" width="${w}" height="${h}" viewBox="0 0 20 13"><path d="M1.5 11.5 L10 1.5 L18.5 11.5 Z" fill="#46a83c" stroke="#15100b" stroke-width="2.4" stroke-linejoin="round"/></svg>`;
+}
+function statEl(kind,v,d,fs,chg,css=""){
+  return el("span","stat "+kind+(chg?" "+chg:""),`width:${d}px;height:${d}px;${css}`,statShape(kind)+changeMark(chg,d)+`<b style="font-size:${fs}px">${v}</b>`);
+}
 
 /* ---------- a card ---------- */
-function card({folder,id,tier,atk,hp,h,x,y,spell=false,art=null,golden=false,hurt=false,minD=36,stats=true}){
+function card({folder,id,tier,atk,hp,h,x,y,spell=false,art=null,golden=false,chg={},d=30,fs=18,stats=true}){
   const w=h*0.56;
   const c=el("div","card"+(golden?" golden":""),`left:${x-w/2}px;top:${y}px;width:${w}px;height:${h}px`);
   const a=el("div","art");a.style.backgroundImage=`url(${art||A+"units/"+folder+"/"+id+".jpg"})`;
   if(spell){
-    a.style.clipPath=clip(OUTLINE);a.style.backgroundSize="cover";a.style.backgroundPosition="center 40%";c.append(a);
-    c.insertAdjacentHTML("beforeend",`<svg class="spell-lead" viewBox="0 0 560 1000" preserveAspectRatio="none"><polygon points="280,12 549,176 549,824 280,988 11,824 11,176" fill="none" stroke="#15100b" stroke-width="24" stroke-linejoin="round"/><polygon points="280,12 549,176 549,824 280,988 11,824 11,176" fill="none" stroke="rgba(255,240,210,.4)" stroke-width="4" stroke-linejoin="round"/></svg>`);
+    // a spell's own leaded edge: lead, a band of sea-green glass, lead, jewels at the points; no stat wells
+    c.insertAdjacentHTML("beforeend",`<svg class="spell-lead" viewBox="0 0 560 1000" preserveAspectRatio="none">
+      <defs><linearGradient id="sb${y}${x|0}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5fb3a8"/><stop offset=".5" stop-color="#2d7c7a"/><stop offset="1" stop-color="#1d4e58"/></linearGradient></defs>
+      <polygon points="${pts(SPELLOUT)}" fill="url(#sb${y}${x|0})"/></svg>`);
+    a.style.clipPath=clip(SPELLIN);a.style.backgroundSize="cover";a.style.backgroundPosition="center 40%";c.append(a);
+    const cuts=SPELLOUT.map((p,i)=>`M${p[0]} ${p[1]} L${SPELLIN[i][0]} ${SPELLIN[i][1]}`).join(" ")+" M280 14 L280 76 M14 500 L54 500 M546 500 L506 500";
+    const jewel=(cx,cy)=>`<circle cx="${cx}" cy="${cy}" r="25" fill="#e9f6f0" stroke="#15100b" stroke-width="10"/><circle cx="${cx-6}" cy="${cy-7}" r="8" fill="rgba(255,255,255,.9)"/>`;
+    c.insertAdjacentHTML("beforeend",`<svg class="spell-lead" viewBox="0 0 560 1000" preserveAspectRatio="none">
+      <path d="${cuts}" stroke="#15100b" stroke-width="12" fill="none"/>
+      <polygon points="${pts(SPELLOUT)}" fill="none" stroke="#15100b" stroke-width="24" stroke-linejoin="round"/>
+      <polygon points="${pts(SPELLIN)}" fill="none" stroke="#15100b" stroke-width="16" stroke-linejoin="round"/>
+      <polygon points="${pts(SPELLOUT)}" fill="none" stroke="rgba(255,240,210,.35)" stroke-width="3" stroke-linejoin="round" transform="translate(0,4)"/>
+      ${jewel(280,45)}${jewel(280,955)}${jewel(34,500)}${jewel(526,500)}</svg>`);
     return c;
   }
   a.style.clipPath=clip(ARTCLIP);c.append(a);
   const f=el("img","frame");f.src=A+"glass/frames/tier"+tier+".webp";c.append(f);
   if(!stats) return c;
-  const R=ROUND["tier"+tier],k=h/1000;
-  [["a",atk,""],["h",hp,hurt?" hurt":""]].forEach(([key,v,extra])=>{
-    const [cx,cy,r]=R[key],s=String(v),d=Math.max(2*r*k,minD),fs=d*(s.length>1?.56:.66);
-    put(c,"span","num stat"+extra,`left:${cx/5.6}%;top:${cy/10}%;font-size:${fs.toFixed(1)}px;width:${d}px;height:${d}px`,s)});
+  const R=ROUND["tier"+tier];
+  [["a",atk],["h",hp]].forEach(([key,v])=>{
+    const [cx,cy]=R[key];
+    c.append(statEl(key,v,d,String(v).length>1?fs:fs+1,chg[key],`left:${cx/5.6}%;top:${cy/10}%`));
+  });
   return c;
 }
 function roundel(parent,kind,cx,cy,d,txt,fs,extra=""){
   return put(parent,"div","rd "+kind+(extra?" "+extra:""),`left:${cx-d/2}px;top:${cy-d/2}px;width:${d}px;height:${d}px;font-size:${fs}px`,`<span>${txt}</span>`)}
+function pips(n,left){return `<span class="pips">${Array.from({length:n},(_,i)=>`<i class="${i<left?"on":""}"></i>`).join("")}</span>`}
 
 const ICON={
   refresh:`<svg viewBox="0 0 40 40" width="40" height="40"><path d="M31 14 A12 12 0 1 0 32 24" fill="none" stroke="#f7eed6" stroke-width="4.5" stroke-linecap="round"/><path d="M33.5 5.5 L32.8 16 L23 13.6 Z" fill="#f7eed6"/></svg>`,
-  freeze:`<svg viewBox="0 0 40 40" width="40" height="40"><g stroke="#123047" stroke-linecap="round" fill="none"><path d="M20 4v32M6.1 12l27.8 16M6.1 28l27.8-16" stroke-width="3.6"/><path d="M15 6.5l5 4 5-4M15 33.5l5-4 5 4M5.3 17.3l6 2.7-1.3 6.4M34.7 22.7l-6-2.7 1.3-6.4M5.3 22.7l6-2.7-1.3-6.4M34.7 17.3l-6 2.7 1.3 6.4" stroke-width="2.6"/></g></svg>`,
+  freeze:`<svg viewBox="0 0 40 40" width="40" height="40"><g stroke="#f7eed6" stroke-linecap="round" fill="none"><path d="M20 4v32M6.1 12l27.8 16M6.1 28l27.8-16" stroke-width="3.6"/><path d="M15 6.5l5 4 5-4M15 33.5l5-4 5 4M5.3 17.3l6 2.7-1.3 6.4M34.7 22.7l-6-2.7 1.3-6.4M5.3 22.7l6-2.7-1.3-6.4M34.7 17.3l-6 2.7 1.3 6.4" stroke-width="2.6"/></g></svg>`,
   upgrade:`<svg viewBox="0 0 40 40" width="40" height="40"><polygon points="20,3 35,11.5 35,28.5 20,37 5,28.5 5,11.5" fill="none" stroke="#f7eed6" stroke-width="3.2" stroke-linejoin="round"/><path d="M12.5 22 L20 14.5 L27.5 22" fill="none" stroke="#f7eed6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 16 V29" stroke="#f7eed6" stroke-width="4" stroke-linecap="round"/></svg>`,
   gold:`<svg viewBox="0 0 40 40" width="40" height="40"><g stroke="#15100b" stroke-width="2.4"><ellipse cx="20" cy="30" rx="14" ry="5.5" fill="#c98a1c"/><ellipse cx="20" cy="23" rx="14" ry="5.5" fill="#e0a53a"/><ellipse cx="20" cy="16" rx="14" ry="5.5" fill="#f3c65a"/></g><ellipse cx="17" cy="15" rx="6" ry="1.8" fill="rgba(255,250,220,.8)"/></svg>`,
   menu:`<svg viewBox="0 0 40 40" width="34" height="34"><g stroke="#f7eed6" stroke-width="4" stroke-linecap="round"><path d="M9 12h22M9 20h22M9 28h22"/></g></svg>`,
   skip:`<svg viewBox="0 0 40 40" width="34" height="34"><path d="M6 9 L19 20 L6 31Z M20 9 L33 20 L20 31Z" fill="#f7eed6" stroke="#f7eed6" stroke-width="2" stroke-linejoin="round"/></svg>`,
   replay:`<svg viewBox="0 0 40 40" width="32" height="32"><path d="M9 14 A12 12 0 1 1 8 24" fill="none" stroke="#f7eed6" stroke-width="4.5" stroke-linecap="round"/><path d="M6.5 5.5 L7.2 16 L17 13.6 Z" fill="#f7eed6"/></svg>`,
-  compost:`<svg viewBox="0 0 40 40" width="32" height="32"><path d="M4 33 Q20 6 36 33 Z" fill="#7a5229" stroke="#15100b" stroke-width="2.5" stroke-linejoin="round"/><path d="M14 24 q4 -7 8 0 M21 17 q3 -9 9 -6" fill="none" stroke="#2c5a20" stroke-width="3" stroke-linecap="round"/></svg>`,
-  tide:`<svg viewBox="0 0 40 40" width="32" height="32"><path d="M3 22 q6 -8 12 0 t12 0 t12 0 M3 31 q6 -8 12 0 t12 0 t12 0" fill="none" stroke="#4f5f10" stroke-width="3.6" stroke-linecap="round"/><path d="M20 3 l5 11 h-10z" fill="#4f5f10"/></svg>`,
+  compost:`<svg viewBox="0 0 40 40" width="32" height="32"><path d="M4 33 Q20 6 36 33 Z" fill="#9a6a38" stroke="#15100b" stroke-width="2.5" stroke-linejoin="round"/><path d="M14 24 q4 -7 8 0 M21 17 q3 -9 9 -6" fill="none" stroke="#8fd16f" stroke-width="3" stroke-linecap="round"/></svg>`,
+  tide:`<svg viewBox="0 0 40 40" width="32" height="32"><path d="M3 22 q6 -8 12 0 t12 0 t12 0 M3 31 q6 -8 12 0 t12 0 t12 0" fill="none" stroke="#c9d77a" stroke-width="3.6" stroke-linecap="round"/><path d="M20 3 l5 11 h-10z" fill="#c9d77a"/></svg>`,
 };
 
 /* ---------- the turn-9 state (map/state.md) ---------- */
 const SHOP9=[
  {folder:"thorn",id:"bramble-runner",name:"Bramble Runner",tribe:"Briar",tier:1,atk:4,hp:5,price:2,text:"<b>Seed.</b>"},
  {folder:"pigeon",id:"home-guard",name:"Home Guard",tribe:"Pigeon",tier:3,atk:3,hp:11,price:4,text:"<b>Guard.</b><br><b>Reserve.</b>"},
- {folder:"mouse",id:"hayloft-aunt",name:"Hayloft Aunt",tribe:"Mouse",tier:2,atk:2,hp:9,price:3,text:"<b>Hand-me-down.</b><br>Recruit: Add a Cousin to your hand."},
+ {folder:"mouse",id:"hayloft-aunt",name:"Hayloft Aunt",tribe:"Mouse",tier:2,atk:2,hp:9,price:3,text:"<b>Hand-me-down.</b> Recruit: Add a Cousin to your hand."},
  {folder:"thorn",id:"sweetbriar",name:"Sweetbriar",tribe:"Briar",tier:2,atk:3,hp:7,price:3,text:"Whenever a unit goes into your Compost, gain +1/+1 permanently."},
- {folder:"mouse",id:"shrew-cutpurse",name:"Shrew Cutpurse",tribe:"Mouse",tier:2,atk:2,hp:4,price:3,text:"<b>Pile on 1.</b><br>After this piles on, gain 2 gold."},
+ {folder:"mouse",id:"shrew-cutpurse",name:"Shrew Cutpurse",tribe:"Mouse",tier:2,atk:2,hp:4,price:3,text:"<b>Pile on 1.</b> After this piles on, gain 2 gold."},
 ];
 const SHARPEN={spell:true,art:A+"glass/art/spell-sharpen.jpg",name:"Sharpen",tribe:"Spell",price:1,text:"Give a friendly unit +2/+2."};
+// kw: the keyword line; for a unit with no keyword, a short cue in its place. charge: [total, left]
 const BOARD9=[
- {folder:"locust",id:"famine-caller",name:"Famine-caller",tier:3,atk:15,hp:11,renown:7,kw:""},
- {folder:"pigeon",id:"squadron-leader",name:"Squadron Leader",tier:3,atk:4,hp:9,kw:""},
+ {folder:"locust",id:"famine-caller",name:"Famine-caller",tier:3,atk:15,hp:11,renown:7,kw:"Dies: Tide +2"},
+ {folder:"pigeon",id:"squadron-leader",name:"Squadron Leader",tier:3,atk:4,hp:9,kw:"Arms the unit ahead"},
  {folder:"mouse",id:"bell-ringer",name:"Bell-ringer",tier:3,atk:5,hp:7,renown:2,kw:"Hand-me-down"},
- {folder:"locust",id:"granary-glutton",name:"Granary Glutton",tier:4,atk:7,hp:7,kw:""},
- {folder:"pigeon",id:"wing-commander",name:"Wing Commander",tier:5,atk:11,hp:17,renown:3,kw:"Sortie · Charge 4"},
+ {folder:"locust",id:"granary-glutton",name:"Granary Glutton",tier:4,atk:7,hp:7,kw:"Eats sold Locusts"},
+ {folder:"pigeon",id:"wing-commander",name:"Wing Commander",tier:5,atk:11,hp:17,renown:3,kw:"Sortie",charge:[4,4]},
  {folder:"thorn",id:"blackberry-sprawl",name:"Blackberry Sprawl",tier:3,atk:4,hp:8,kw:"Grow 2"},
  {folder:"badger",id:"hedge-lancer",name:"Hedge Lancer",tier:3,atk:6,hp:12,kw:"Fury 1"},
 ];
@@ -205,8 +243,8 @@ const PLAYERS9=[
  {p:1,n:"Pipkin",f:"pipkin",hp:31},
  {p:2,n:"Old Mother Mousewife",f:"old_mother_mousewife",hp:28},
  {p:3,n:"Dame Hoolet",f:"dame_hoolet",hp:23},
- {p:4,n:"Little King Wren",f:"little_king_wren",hp:18,note:"Beat you on turn 8"},
- {p:5,n:"March Hare",f:"march_hare",hp:16,next:true},
+ {p:4,n:"Little King Wren",f:"little_king_wren",hp:18},
+ {p:5,n:"March Hare",f:"march_hare",hp:16,tag:"Next"},
  {p:6,n:"Hob Mumblecrust",f:"hob_mumblecrust",hp:16},
  {p:7,n:"Dame Farthing",f:"dame_farthing",hp:11,you:true},
  {p:8,n:"Brother Bracken",f:"brother_bracken",hp:0,out:true},
@@ -215,8 +253,10 @@ const ORD=["","1st","2nd","3rd","4th","5th","6th","7th","8th"];
 
 /* ---------- recruit pieces ---------- */
 // the shop: each offer stands in its own light of the window, its label painted on the band below
-function shopWindow(items,{frozen=false}={}){
-  const UW=180,SW=137,BAR=10,MULL=24;
+function shopWindow(items){
+  const UW=180,SW=137,BAR=10,MULL=24,SH=182,SY=24,LT=216;
+  // warm frost over the picture's window, so the offers are brighter than the wood behind them
+  put(root,"div","",`position:absolute;left:${CL}px;top:${WIN.top}px;width:${CR-CL}px;height:${WIN.bottom-WIN.top}px;background:linear-gradient(180deg,rgba(132,112,80,.66),rgba(106,88,62,.72))`);
   const widths=items.map(it=>it.spell?SW:UW);
   const total=widths.reduce((a,b)=>a+b,0)+BAR*(items.length-2)+MULL;
   let x=CL+(CR-CL-total)/2; const out=[];
@@ -229,156 +269,172 @@ function shopWindow(items,{frozen=false}={}){
       x+=gap;
     }
     const cx=x+wd/2;
-    if(frozen) put(root,"div","light frost",`position:absolute;left:${x}px;top:${WIN.top}px;width:${wd}px;height:${WIN.bottom-WIN.top}px`);
-    const h=it.spell?184:212, y=it.spell?44:30;
-    root.append(it.spell?card({spell:true,art:it.art,h,x:cx,y}):card({...it,h,x:cx,y}));
-    roundel(root,"amber",cx-h*.28-4,y+h*.17-6,46,it.price,25);
-    const lab=put(root,"div","label shoplabel",`left:${x+6}px;top:254px;width:${wd-12}px;height:148px`);
+    root.append(it.spell?card({spell:true,art:it.art,h:SH,x:cx,y:SY}):card({...it,h:SH,x:cx,y:SY,d:29}));
+    roundel(root,"amber",cx-SH*.28-2,SY+SH*.17-4,44,it.price,24);
+    const lab=put(root,"div","label shoplabel",`left:${x+5}px;top:${LT}px;width:${wd-10}px;height:${WIN.bottom-4-LT}px`);
     lab.innerHTML=`<div class="nm">${it.name}</div><div class="tr">${it.tribe}</div><div class="tx">${it.text}</div>`;
     out.push({x,w:wd,cx}); x+=wd;
   });
-  // a lead saddle bar across the window, above the labels
-  put(root,"div","bar",`left:${CL}px;top:246px;width:${CR-CL}px;height:6px;background:linear-gradient(180deg,#0d0906,#3b3127 45%,#0d0906)`);
+  // a lead saddle bar across the window, above the labels; a stone sill below it
+  put(root,"div","bar",`left:${CL}px;top:${LT-9}px;width:${CR-CL}px;height:6px;background:linear-gradient(180deg,#0d0906,#3b3127 45%,#0d0906)`);
   return out;
 }
 
-const BH=172, PITCH=184;
+const BH=216, PITCH=192;
 const FRONT=[CX-1.5*PITCH,CX-.5*PITCH,CX+.5*PITCH,CX+1.5*PITCH];
 const BACK=[CX-PITCH,CX,CX+PITCH];
-function slotOutline(x,y,h,filled){
-  const sw=h*.56,pad=7;
+const ROW={front:TAB.top+10,back:TAB.top+284};
+function slotOutline(x,y,h,{filled=false,renown=0}={}){
+  const sw=h*.56,pad=6;
   const sl=put(root,"div","slot",`left:${x-sw/2-pad}px;top:${y-pad}px;width:${sw+2*pad}px;height:${h+2*pad}px`);
-  sl.innerHTML=`<svg viewBox="0 0 560 1000" preserveAspectRatio="none"><polygon points="280,0 560,170 560,830 280,1000 0,830 0,170" fill="${filled?"rgba(60,50,40,.10)":"rgba(60,50,40,.07)"}" stroke="#2a2118" stroke-dasharray="${filled?"none":"9 7"}" vector-effect="non-scaling-stroke" style="stroke-width:3px" stroke-linejoin="round"/></svg>`;
+  sl.innerHTML=`<svg viewBox="0 0 560 1000" preserveAspectRatio="none"><polygon points="280,0 560,170 560,830 280,1000 0,830 0,170" fill="${filled?"rgba(40,30,20,.16)":"rgba(40,30,20,.12)"}" stroke="#2a2118" stroke-dasharray="${filled?"none":"9 7"}" vector-effect="non-scaling-stroke" style="stroke-width:3px" stroke-linejoin="round"/></svg>`;
+  if(renown) put(root,"div","rtab",`left:${x-sw/2-40}px;top:${y+2}px`,`Renown ${renown}`);
 }
 function unitOnBoard(u,x,y,h,opts={}){
-  slotOutline(x,y,h,true);
+  slotOutline(x,y,h,{filled:true,renown:u.renown});
   const c=card({...u,h,x,y,...opts});root.append(c);
-  const lab=put(root,"div","label boardlabel",`left:${x}px;top:${y+h+5}px`);
-  lab.innerHTML=`<div class="nm">${u.name}</div>`+(u.kw?`<div class="kw">${u.kw}</div>`:"");
-  if(u.renown){const r=put(root,"div","renown",`left:${x-h*.28-20}px;top:${y+h*.17-20}px`);r.innerHTML=`<span>${u.renown}</span>`}
+  const lab=put(root,"div","label boardlabel",`left:${x}px;top:${y+h+3}px`);
+  lab.innerHTML=`<div class="nm">${u.name}</div><div class="kw">${u.kw||""}${u.charge?pips(...(opts.charge||u.charge)):""}</div>`;
   return {c,lab};
 }
-// the cartoon: the panel's full-size drawing, in charcoal under the glass, that the pieces are laid on
-function cartoon(){
-  const x0=FRONT[0]-122,x1=FRONT[3]+122,y0=TAB.top+6,y1=TAB.bottom-4;
-  const c="rgba(70,60,50,.42)";
-  let q="";
-  for(let k=-12;k<=12;k++){const d=k*64;q+=`M${x0+d} ${y0} L${x0+d+(y1-y0)*.62} ${y1} M${x1-d} ${y0} L${x1-d-(y1-y0)*.62} ${y1} `}
-  root.insertAdjacentHTML("beforeend",`<svg style="position:absolute;left:0;top:0;pointer-events:none" width="1920" height="1080">
-   <defs><clipPath id="cc"><rect x="${x0+14}" y="${y0+14}" width="${x1-x0-28}" height="${y1-y0-28}" rx="6"/></clipPath></defs>
-   <g clip-path="url(#cc)"><path d="${q}" stroke="rgba(70,60,50,.16)" stroke-width="1.5" fill="none"/></g>
-   <rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" rx="10" fill="none" stroke="${c}" stroke-width="2.5"/>
-   <rect x="${x0+14}" y="${y0+14}" width="${x1-x0-28}" height="${y1-y0-28}" rx="6" fill="none" stroke="${c}" stroke-width="1.5"/>
-   ${[[x0+7,y0+7],[x1-7,y0+7],[x0+7,y1-7],[x1-7,y1-7]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="13" fill="rgba(235,240,245,.9)" stroke="${c}" stroke-width="2.5"/><circle cx="${x}" cy="${y}" r="5" fill="none" stroke="${c}" stroke-width="1.5"/>`).join("")}
-  </svg>`);
-}
+// the light table, laid over the picture's: an oak rim, warm frosted glass, the cartoon's soft lines
 function lightTable(board){
-  cartoon();
-  const FT=TAB.top+12, BT=FT+BH+52;
-  FRONT.forEach((x,i)=>board[i]?unitOnBoard(board[i],x,FT,BH):slotOutline(x,FT,BH,false));
-  BACK.forEach((x,i)=>board[i+4]?unitOnBoard(board[i+4],x,BT,BH):slotOutline(x,BT,BH,false));
+  const T=put(root,"div","",`position:absolute;left:${CL}px;top:${TAB.top}px;width:${CR-CL}px;height:${TAB.bottom-TAB.top}px;border-radius:8px;
+    background:linear-gradient(180deg,#5d3d22,#47301b);box-shadow:inset 0 0 0 2px #15100b,inset 0 0 0 4px rgba(255,214,160,.18),0 4px 10px rgba(0,0,0,.55)`);
+  const G=put(T,"div","",`position:absolute;inset:9px;border:3px solid #15100b;border-radius:4px;overflow:hidden;
+    background:radial-gradient(ellipse 70% 80% at 50% 48%,#c4ad86,#ab9372 70%,#977e5f)`);
+  put(G,"div","",`position:absolute;inset:0;background:url(g/pane.jpg) center/320px auto;mix-blend-mode:soft-light;opacity:.55`);
+  let q="";const H=TAB.bottom-TAB.top;
+  for(let k=-14;k<=26;k++){const d=k*64;q+=`M${d} 0 L${d+H*.62} ${H} M${CR-CL-d} 0 L${CR-CL-d-H*.62} ${H} `}
+  G.insertAdjacentHTML("beforeend",`<svg style="position:absolute;left:0;top:0" width="${CR-CL}" height="${H}"><path d="${q}" stroke="rgba(55,42,28,.16)" stroke-width="1.5" fill="none"/></svg>`);
+  FRONT.forEach((x,i)=>board[i]?unitOnBoard(board[i],x,ROW.front,BH):slotOutline(x,ROW.front,BH));
+  BACK.forEach((x,i)=>board[i+4]?unitOnBoard(board[i+4],x,ROW.back,BH):slotOutline(x,ROW.back,BH));
 }
 
 function shopControls({gold,income,tier,up,upShort,upNext,refresh,refreshLeft}){
-  // Gold
-  const g=put(root,"div","ctl",`left:${LL}px;top:22px;width:${LW}px;height:88px`);
-  put(g,"div","pane g-dark",`inset:0`);
-  put(g,"div","icon",`left:14px;top:22px`,ICON.gold);
-  put(g,"div","lab",`left:68px;top:16px`,"Gold");
-  put(g,"div","sub",`left:68px;top:46px`,`+${income} next turn`);
-  roundel(g,"amber",LW-42,44,64,gold,32);
-  // Upgrade
-  const u=put(root,"div","ctl"+(upShort?" dim":""),`left:${LL}px;top:122px;width:${LW}px;height:96px`);
-  put(u,"div","pane g-blue",`inset:0`);
-  put(u,"div","icon",`left:16px;top:20px`,ICON.upgrade);
+  const g=put(root,"div","ctl",`left:${LL}px;top:${WIN.top}px;width:${LW}px;height:82px`);
+  put(g,"div","pane g-smoke",`inset:0`);
+  put(g,"div","icon",`left:14px;top:20px`,ICON.gold);
+  put(g,"div","lab",`left:68px;top:14px`,"Gold");
+  put(g,"div","sub",`left:68px;top:44px`,`+${income} next turn`);
+  roundel(g,"amber",LW-40,41,58,gold,30);
+  const u=put(root,"div","ctl"+(upShort?" dim":""),`left:${LL}px;top:${WIN.top+90}px;width:${LW}px;height:96px`);
+  put(u,"div","pane g-smoke",`inset:0`);
+  put(u,"div","icon",`left:16px;top:22px`,ICON.upgrade);
   put(u,"div","lab",`left:68px;top:12px`,"Upgrade");
   put(u,"div","sub",`left:68px;top:40px`,`Tier ${tier} → ${tier+1}`);
   put(u,"div","sub",`left:68px;top:62px`,upShort?`${upShort} short · −${upNext} next turn`:`−${upNext} next turn`);
-  roundel(u,"amber",LW-38,40,50,up,25,upShort?"short":"");
-  // Refresh
-  const r=put(root,"div","ctl",`left:${LL}px;top:230px;width:${LW}px;height:80px`);
-  put(r,"div","pane g-green",`inset:0`);
-  put(r,"div","icon",`left:16px;top:20px`,ICON.refresh);
-  put(r,"div","lab",`left:68px;top:12px`,"Refresh");
-  put(r,"div","sub",`left:68px;top:42px`,`${refreshLeft} left at this price`);
-  roundel(r,"amber",LW-38,40,50,refresh,25);
-  // Freeze
-  const f=put(root,"div","ctl",`left:${LL}px;top:322px;width:${LW}px;height:80px`);
-  put(f,"div","pane g-frost",`inset:0`);
-  put(f,"div","icon",`left:16px;top:20px`,ICON.freeze);
-  put(f,"div","lab",`left:68px;top:27px;color:#0f2638;text-shadow:0 1px 0 rgba(255,255,255,.55)`,"Freeze");
+  roundel(u,"amber",LW-36,38,48,up,24,upShort?"short":"");
+  const r=put(root,"div","ctl",`left:${LL}px;top:${WIN.top+194}px;width:${LW}px;height:76px`);
+  put(r,"div","pane g-smoke",`inset:0`);
+  put(r,"div","icon",`left:16px;top:18px`,ICON.refresh);
+  put(r,"div","lab",`left:68px;top:11px`,"Refresh");
+  put(r,"div","sub",`left:68px;top:40px`,`${refreshLeft} left at this price`);
+  roundel(r,"amber",LW-36,38,48,refresh,24);
+  const f=put(root,"div","ctl",`left:${LL}px;top:${WIN.top+278}px;width:${LW}px;height:${WIN.bottom-WIN.top-278}px`);
+  put(f,"div","pane g-smoke",`inset:0`);
+  put(f,"div","icon",`left:16px;top:12px`,ICON.freeze);
+  put(f,"div","lab",`left:68px;top:20px`,"Freeze");
 }
 
-function youBlock({hp,counters,top,height,name="Dame Farthing",extra=null}){
-  const S=put(root,"div","ctl",`left:${LL}px;top:${top}px;width:${LW}px;height:${height}px`);
-  const pd=150;
-  const nl=put(S,"div","label",`left:${LW/2}px;transform:translateX(-50%);top:0;padding:4px 14px;white-space:nowrap`,`<div class="nm" style="font-size:21px">${name}</div>`);
-  const p=put(S,"div","portrait",`left:${LW/2-pd/2}px;top:52px;width:${pd}px;height:${pd}px`);p.style.backgroundImage=`url(${A}glass/portraits/dame_farthing.jpg)`;
-  roundel(S,"ruby",LW/2+56,52+pd-18,62,hp,32);
+// you: the same block, in the same place, in every phase
+function youBlock({hp,counters}){
+  const S=put(root,"div","ctl",`left:${LL}px;top:${TAB.top}px;width:${LW}px;height:${TAB.bottom-TAB.top}px`);
+  const pd=180,pt=96;
+  put(S,"div","label",`left:${LW/2}px;transform:translateX(-50%);top:38px;padding:5px 16px;white-space:nowrap`,`<div class="nm" style="font-size:21px;line-height:24px">Dame Farthing</div>`);
+  const p=put(S,"div","portrait",`left:${LW/2-pd/2}px;top:${pt}px;width:${pd}px;height:${pd}px`);p.style.backgroundImage=`url(${A}glass/portraits/dame_farthing.jpg)`;
+  roundel(S,"ruby",LW/2+66,pt+pd-20,66,hp,34);
   counters.forEach((c,i)=>{
-    const pl=put(S,"div","plate pane g-cream",`left:24px;width:${LW-48}px;top:${232+i*60}px`);
-    pl.innerHTML=`${ICON[c.icon]}<span class="lab">${c.name}</span><span class="val">${c.val}</span>`;
+    const pl=put(S,"div","plate pane g-smoke",`left:22px;width:${LW-44}px;top:${pt+pd+44+i*62}px`);
+    pl.innerHTML=`${ICON[c.icon]}<span class="lab">${c.name}</span><span class="val">${c.chg?`<span class="chg"><svg width="14" height="10" viewBox="0 0 20 12"><path d="M1 11 L10 1 L19 11 Z" fill="#3f9a37" stroke="#15100b" stroke-width="2.2" stroke-linejoin="round"/></svg>+${c.chg}</span>`:""}${c.val}</span>`;
   });
   return S;
 }
 
-function playersList(players,{top=WIN.top,bottom=TAB.bottom}={}){
-  const rowH=Math.floor((bottom-top+8)/8);
+// all eight players, always; one marked row (Next, Fighting, Beat you) and your own row carry a word and a pale edge
+function playersList(players){
+  const top=WIN.top,bottom=TAB.bottom,rowH=(bottom-top+8)/8;
   players.forEach((pl,i)=>{
-    const r=put(root,"div","ctl prow"+(pl.you?" you":"")+(pl.next?" next":"")+(pl.out?" out":""),`left:${RL}px;top:${top+i*rowH}px;width:${RW}px;height:${rowH-8}px`);
-    put(r,"div","pane "+(pl.you?"g-cream":pl.next?"g-lit":"g-dark"),`inset:0`+(pl.next?";box-shadow:inset 0 0 0 1px rgba(255,255,255,.55),0 3px 8px rgba(0,0,0,.5)":""));
+    const mk=pl.you||pl.tag;
+    const r=put(root,"div","ctl prow"+(pl.you?" you":"")+(pl.out?" out":"")+(mk?" marked-row":""),`left:${RL}px;top:${top+i*rowH}px;width:${RW}px;height:${rowH-8}px`);
+    put(r,"div","pane g-smoke"+(mk?" marked":""),`inset:0`);
     const ph=rowH-8, pd=64;
-    const p=put(r,"div","portrait sm",`left:14px;top:${(ph-pd)/2}px;width:${pd}px;height:${pd}px`);p.style.backgroundImage=`url(${A}glass/portraits/${pl.f}.jpg)`;
+    const p=put(r,"div","portrait sm",`left:16px;top:${(ph-pd)/2}px;width:${pd}px;height:${pd}px`);p.style.backgroundImage=`url(${A}glass/portraits/${pl.f}.jpg)`;
     const pos=ORD[pl.p]||"";
-    const tag=pl.you?["You",pos].filter(Boolean).join(" · "):pl.next?["Next",pos].filter(Boolean).join(" · "):pos;
-    put(r,"div","place",`left:94px;top:${ph/2-30}px`,tag);
-    put(r,"div","pn",`left:94px;top:${ph/2-10}px;width:${RW-94-64}px`,pl.n);
-    if(pl.out) put(r,"div","outw",`right:16px;top:${ph/2-9}px`+(pl.you?";color:var(--ink)":""),"Out");
-    else roundel(r,"ruby",RW-34,ph/2,46,pl.hp,23);
+    const tag=[pl.you?"You":pl.tag,pos].filter(Boolean).join(" · ");
+    put(r,"div","place",`left:96px;top:${ph/2-31}px`,tag);
+    put(r,"div","pn",`left:96px;top:${ph/2-10}px;width:${RW-96-64}px`,pl.n);
+    if(pl.out) put(r,"div","outw",`right:18px;top:${ph/2-9}px`,"Out");
+    else roundel(r,"ruby",RW-36,ph/2,46,pl.hp,23);
   });
 }
 
-function endTurn({opp,face,lit=true}){
-  const E=put(root,"div","ctl",`left:${RL}px;top:${BENCH.top}px;width:${RW}px;height:${BENCH.bottom-BENCH.top}px`);
-  put(E,"div","pane g-lit"+(lit?" accent":""),`inset:0`);
-  const p=put(E,"div","portrait sm",`left:16px;top:26px;width:90px;height:90px`);p.style.backgroundImage=`url(${A}glass/portraits/${face}.jpg)`;
-  put(E,"div","btnlab",`left:124px;top:34px;font-size:32px;line-height:34px`,"End turn");
-  put(E,"div","",`position:absolute;left:125px;top:76px;font-size:18px;font-weight:700;color:var(--ink-2)`,`Fight ${opp}`);
+// bottom right: the one lit pane (End turn; See results after a defeat). Skip in a fight is quiet.
+function bigButton({lit=true,face=null,word,sub=null,icon=null}){
+  const E=put(root,"div","ctl",`left:${RL}px;top:${LOW.top}px;width:${RW}px;height:${LOW.bottom-LOW.top}px`);
+  put(E,"div","pane "+(lit?"g-lit accent":"g-smoke"),`inset:0`);
+  if(face){const p=put(E,"div","portrait sm",`left:18px;top:26px;width:90px;height:90px`);p.style.backgroundImage=`url(${A}glass/portraits/${face}.jpg)`;}
+  if(icon) put(E,"div","icon",`left:28px;top:54px`,ICON[icon]);
+  const lx=face?126:icon?80:0;
+  put(E,"div","btnlab"+(lit?"":" lt"),`left:${lx}px;${face||icon?"":"right:0;text-align:center;"}top:${sub?34:48}px;font-size:32px;line-height:34px`,word);
+  if(sub) put(E,"div","",`position:absolute;left:${lx+1}px;top:76px;font-size:18px;font-weight:700;color:${lit?"var(--ink-2)":"var(--text-lt2)"}`,sub);
 }
 
-function menuAndTurn(turn,{top=BENCH.top,word=null}={}){
-  const M=put(root,"div","ctl",`left:${LL}px;top:${top}px;width:${LW}px;height:${BENCH.bottom-BENCH.top}px`);
-  const b=put(M,"div","pane g-dark",`left:0;top:${word?20:38}px;width:66px;height:66px`);
-  put(b,"div","icon",`left:12px;top:12px`,ICON.menu);
-  const t=put(M,"div","pane g-dark",`left:80px;top:${word?20:38}px;width:${LW-80}px;height:66px`);
-  put(t,"div","lab",`left:18px;top:${word?6:16}px;font-size:24px`,`Turn ${turn}`);
-  if(word) put(t,"div","sub",`left:18px;top:34px`,word);
+// bottom left, every phase: the menu and the Turn plate
+function menuAndTurn(turn,word){
+  const M=put(root,"div","ctl",`left:${LL}px;top:${LOW.top}px;width:${LW}px;height:${LOW.bottom-LOW.top}px`);
+  const b=put(M,"div","pane g-smoke",`left:0;top:34px;width:74px;height:74px`);
+  put(b,"div","icon",`left:16px;top:16px`,ICON.menu);
+  const t=put(M,"div","pane g-smoke",`left:86px;top:34px;width:${LW-86}px;height:74px`);
+  put(t,"div","lab",`left:18px;top:8px;font-size:24px;line-height:26px`,`Turn ${turn}`);
+  put(t,"div","sub",`left:18px;top:38px`,word);
 }
 
+// the hand: pieces set aside on the bench front, seven places
 function handTray(hand){
-  const T=put(root,"div","ctl",`left:${CL}px;top:${BENCH.top}px;width:${CR-CL}px;height:${BENCH.bottom-BENCH.top}px`);
-  put(T,"div","pane g-dark",`inset:0;opacity:.94`);
-  put(T,"div","lab",`left:24px;top:56px`,`Hand ${hand.length}/7`);
-  let x=150;
-  hand.forEach(it=>{
-    T.append(card({...it,h:118,x:x+34,y:12}));
-    roundel(T,"amber",x+12,30,38,it.price,21);
-    const lab=put(T,"div","label shoplabel",`left:${x+80}px;top:20px;width:236px;height:102px`);
-    lab.innerHTML=`<div class="nm">${it.name}</div><div class="tr">${it.tribe}</div><div class="tx">${it.text}</div>`;
-    x+=340;
-  });
+  const T=put(root,"div","ctl",`left:${CL}px;top:${LOW.top}px;width:${CR-CL}px;height:${LOW.bottom-LOW.top}px`);
+  put(T,"div","pane g-smoke",`inset:0`);
+  put(T,"div","lab",`left:22px;top:46px;font-size:22px`,"Hand");
+  put(T,"div","sub",`left:22px;top:76px;font-size:18px;line-height:20px`,`${hand.length} of 7`);
+  const x0=112, pw=(CR-CL-x0-10)/7, h=100, w=h*.56;
+  for(let i=0;i<7;i++){
+    const cx=x0+pw*i+pw/2, it=hand[i];
+    if(!it){
+      const s=put(T,"div","slot",`left:${cx-w/2}px;top:10px;width:${w}px;height:${h}px`);
+      s.innerHTML=`<svg viewBox="0 0 560 1000" preserveAspectRatio="none"><polygon points="280,0 560,170 560,830 280,1000 0,830 0,170" fill="rgba(0,0,0,.18)" stroke="rgba(230,217,188,.45)" stroke-dasharray="7 6" vector-effect="non-scaling-stroke" style="stroke-width:2px"/></svg>`;
+      continue;
+    }
+    T.append(card({...it,h,x:cx,y:10,d:25,fs:15}));
+    if(it.spell) roundel(T,"amber",cx-w/2-6,26,32,it.price,18);
+    put(T,"div","nm",`position:absolute;left:${cx-pw/2+2}px;width:${pw-4}px;top:114px;text-align:center;overflow:hidden`,it.name);
+  }
 }
 
 /* ---------- views ---------- */
-function viewMid(){
+function recruitFrame(){
+  menuAndTurn(9,"Recruit");
+  bigButton({face:"march_hare",word:"End turn",sub:"Fight March Hare"});
+}
+function viewMid(hand){
   shopWindow([...SHOP9,SHARPEN,SHARPEN]);
   shopControls({gold:20,income:19,tier:5,up:23,upShort:3,upNext:3,refresh:1,refreshLeft:10});
   lightTable(BOARD9);
-  youBlock({hp:11,top:TAB.top+6,height:420,counters:[{icon:"compost",name:"Compost",val:3},{icon:"tide",name:"Tide",val:2}]});
+  youBlock({hp:11,counters:[{icon:"compost",name:"Compost",val:3},{icon:"tide",name:"Tide",val:2}]});
   playersList(PLAYERS9);
-  endTurn({opp:"March Hare",face:"march_hare"});
-  menuAndTurn(9);
-  handTray([{spell:true,art:A+"glass/art/spell-seek.jpg",name:"Seek",tribe:"Spell",price:3,text:"Discover a unit."}]);
+  recruitFrame();
+  handTray(hand||[{spell:true,art:A+"glass/art/spell-seek.jpg",name:"Seek",price:3}]);
+}
+// extra2: the same turn with a full hand, to show the tray holds seven
+function viewFullHand(){
+  viewMid([
+    {spell:true,art:A+"glass/art/spell-seek.jpg",name:"Seek",price:3},
+    {folder:"pigeon",id:"home-guard",name:"Home Guard",tier:3,atk:3,hp:11},
+    {folder:"mouse",id:"hayloft-aunt",name:"Hayloft Aunt",tier:2,atk:2,hp:9},
+    {folder:"thorn",id:"sweetbriar",name:"Sweetbriar",tier:2,atk:3,hp:7},
+    {folder:"mouse",id:"shrew-cutpurse",name:"Shrew Cutpurse",tier:2,atk:2,hp:4},
+    {folder:"thorn",id:"blackberry-sprawl",name:"Blackberry Sprawl",tier:3,atk:4,hp:8},
+    {folder:"locust",id:"granary-glutton",name:"Granary Glutton",tier:4,atk:7,hp:7},
+  ]);
 }
 
 const SHOP1=[
@@ -392,27 +448,22 @@ function viewFirst(){
   const lights=shopWindow([...SHOP1,SHARPEN,SHARPEN]);
   shopControls({gold:5,income:7,tier:1,up:8,upShort:3,upNext:1,refresh:1,refreshLeft:10});
   lightTable([null,null,null,null,null,null,null]);
-  youBlock({hp:40,top:TAB.top+6,height:420,counters:[]});
-  const ps=[{n:"Dame Farthing",f:"dame_farthing",you:true},{n:"March Hare",f:"march_hare",next:true},{n:"Pipkin",f:"pipkin"},{n:"Old Mother Mousewife",f:"old_mother_mousewife"},{n:"Dame Hoolet",f:"dame_hoolet"},{n:"Little King Wren",f:"little_king_wren"},{n:"Hob Mumblecrust",f:"hob_mumblecrust"},{n:"Brother Bracken",f:"brother_bracken"}].map(p=>({...p,hp:40,p:0}));
-  playersListFirst(ps);
-  endTurn({opp:"March Hare",face:"march_hare",lit:false}); // while the tutorial cue shows, it holds the one accent
-  menuAndTurn(1);
+  youBlock({hp:40,counters:[]});
+  ORD.fill("");  // turn 1: everyone level, so no places yet; same rows, same places on screen
+  playersList([{n:"Dame Farthing",f:"dame_farthing",you:true},{n:"March Hare",f:"march_hare",tag:"Next"},{n:"Pipkin",f:"pipkin"},{n:"Old Mother Mousewife",f:"old_mother_mousewife"},{n:"Dame Hoolet",f:"dame_hoolet"},{n:"Little King Wren",f:"little_king_wren"},{n:"Hob Mumblecrust",f:"hob_mumblecrust"},{n:"Brother Bracken",f:"brother_bracken"}].map(p=>({...p,hp:40})));
+  menuAndTurn(1,"Recruit");
+  bigButton({lit:false,face:"march_hare",word:"End turn",sub:"Fight March Hare"}); // while the tutorial cue shows, it holds the one accent
   handTray([]);
   tutorialCue(lights[1]);
 }
-function playersListFirst(ps){
-  // turn 1: everyone is level, so no places yet; same rows, same places on screen
-  ORD.splice(0,ORD.length,"","","","","","","","","");
-  playersList(ps.map(p=>({...p,p:0})));
-}
-// the one tutorial cue: a lit ring round one offer and one painted line on the empty table. It is a layer on top; removing it moves nothing.
+// the one tutorial cue: a lit ring round one offer, a dotted path, and one lit line on the empty table. A layer on top; removing it moves nothing.
 function tutorialCue(L){
   const T=put(root,"div","",`position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;z-index:20`);
   put(T,"div","",`position:absolute;left:${L.x-4}px;top:${WIN.top+2}px;width:${L.w+8}px;height:${WIN.bottom-WIN.top-2}px;border-radius:8px;border:6px solid #ffd45c;box-shadow:0 0 0 3px #15100b,0 0 26px 10px rgba(255,214,110,.95),inset 0 0 26px rgba(255,220,120,.7)`);
-  const sx=L.cx, sy=WIN.bottom+2, ex=FRONT[1]+10, ey=TAB.top+120;
-  T.insertAdjacentHTML("beforeend",`<svg style="position:absolute;left:0;top:0" width="1920" height="1080"><path d="M${sx} ${sy} C ${sx} ${sy+60}, ${ex} ${ey-90}, ${ex} ${ey-14}" fill="none" stroke="#15100b" stroke-width="12" stroke-dasharray="1 16" stroke-linecap="round"/><path d="M${sx} ${sy} C ${sx} ${sy+60}, ${ex} ${ey-90}, ${ex} ${ey-14}" fill="none" stroke="#fff3b8" stroke-width="7" stroke-dasharray="1 16" stroke-linecap="round"/><path d="M${ex-13} ${ey-22} L${ex} ${ey} L${ex+13} ${ey-22} Z" fill="#fff7d2" stroke="#15100b" stroke-width="2"/></svg>`);
-  const p=put(T,"div","label",`left:${CX}px;transform:translateX(-50%);top:${TAB.top+190}px;padding:12px 26px;white-space:nowrap;box-shadow:0 0 18px 5px rgba(255,238,160,.8),0 2px 5px rgba(0,0,0,.4)`);
-  p.innerHTML=`<div class="nm" style="font-size:26px;line-height:30px">Drag a unit onto your board to buy it.</div>`;
+  const sx=L.cx, sy=WIN.bottom+2, ex=FRONT[1], ey=ROW.front+96;
+  T.insertAdjacentHTML("beforeend",`<svg style="position:absolute;left:0;top:0" width="1920" height="1080"><path d="M${sx} ${sy} C ${sx} ${sy+50}, ${ex} ${ey-80}, ${ex} ${ey-14}" fill="none" stroke="#15100b" stroke-width="12" stroke-dasharray="1 16" stroke-linecap="round"/><path d="M${sx} ${sy} C ${sx} ${sy+50}, ${ex} ${ey-80}, ${ex} ${ey-14}" fill="none" stroke="#fff3b8" stroke-width="7" stroke-dasharray="1 16" stroke-linecap="round"/><path d="M${ex-13} ${ey-22} L${ex} ${ey} L${ex+13} ${ey-22} Z" fill="#fff7d2" stroke="#15100b" stroke-width="2"/></svg>`);
+  const p=put(T,"div","label g-lit",`left:${CX}px;transform:translateX(-50%);top:${ROW.back+60}px;padding:12px 26px;white-space:nowrap;box-shadow:0 0 18px 5px rgba(255,238,160,.8),0 2px 5px rgba(0,0,0,.4)`);
+  p.innerHTML=`<div class="nm" style="font-size:26px;line-height:30px;color:var(--ink)">Drag a unit onto your board to buy it.</div>`;
 }
 
 /* ---------- the fight: your finished panel raised to the light against theirs ---------- */
@@ -420,175 +471,179 @@ const OPP=[
  {folder:"badger",id:"greatsword-bearer",name:"Greatsword Bearer",tier:4,atk:7,hp:15,renown:3,kw:"Squire"},
  {folder:"thorn",id:"briar-king",name:"Briar King",tier:6,atk:12,hp:20,renown:4,kw:"Gives Grow 2"},
  {folder:"thorn",id:"holly-knight",name:"Holly Knight",tier:4,atk:12,hp:19,renown:7,kw:"Grow 2"},
- {folder:"locust",id:"the-eighth-plague",name:"The Eighth Plague",tier:5,atk:6,hp:14,renown:2,kw:""},
- {folder:"shared",id:"weasel",name:"Weasel",tier:5,atk:9,hp:13,renown:1,kw:"Charge 6"},
- {folder:"locust",id:"gorger",name:"Gorger",tier:4,atk:38,hp:68,golden:true,kw:"Golden"},
+ {folder:"locust",id:"the-eighth-plague",name:"The Eighth Plague",tier:5,atk:6,hp:14,renown:2,kw:"Avenges deaths"},
+ {folder:"shared",id:"weasel",name:"Weasel",tier:5,atk:9,hp:13,renown:1,kw:"Hits summons",charge:[6,6]},
+ {folder:"locust",id:"gorger",name:"Gorger",tier:4,atk:38,hp:68,golden:true,kw:"Eats a sold unit"},
  {folder:"mouse",id:"dame-bodkin",name:"Dame Bodkin",tier:5,atk:6,hp:9,kw:"Pile on 2"},
 ];
 const MINE=[
- {folder:"locust",id:"famine-caller",name:"Famine-caller",tier:3,atk:15,hp:11,renown:7,kw:""},
- {folder:"pigeon",id:"squadron-leader",name:"Squadron Leader",tier:3,atk:4,hp:9,kw:""},
- {folder:"mouse",id:"bell-ringer",name:"Bell-ringer",tier:3,atk:5,hp:7,renown:2,kw:"Hand-me-down"},
- null,
- {folder:"pigeon",id:"wing-commander",name:"Wing Commander",tier:5,atk:11,hp:17,renown:3,kw:"Sortie · Charge 4"},
- {folder:"thorn",id:"blackberry-sprawl",name:"Blackberry Sprawl",tier:3,atk:8,hp:12,kw:"Grow 2"},
- {folder:"badger",id:"hedge-lancer",name:"Hedge Lancer",tier:3,atk:6,hp:12,kw:"Fury 1"},
+ BOARD9[0],BOARD9[1],BOARD9[2],null,BOARD9[4],
+ {...BOARD9[5],atk:8,hp:12},
+ BOARD9[6],
 ];
-const FH=176;
-const OPP_PANEL={top:14,bottom:500}, MY_PANEL={top:556,bottom:1066};
-const FY={oppBack:28,oppFront:262,myFront:574,myBack:806};
+const FH=200; // card height and label height in a fight
+const OPP_PANEL={top:4,bottom:528}, MY_PANEL={top:548,bottom:1074};
+const FY={oppBack:11,oppFront:263,myFront:556,myBack:808};
 
 function fightFrame(){
   document.body.classList.add("raised");
   put(root,"div","jamb",`left:0`); put(root,"div","jamb",`right:0`);
   put(root,"div","panel",`left:${CL}px;top:${OPP_PANEL.top}px;width:${CR-CL}px;height:${OPP_PANEL.bottom-OPP_PANEL.top}px`).append(el("div","q"));
   put(root,"div","panel",`left:${CL}px;top:${MY_PANEL.top}px;width:${CR-CL}px;height:${MY_PANEL.bottom-MY_PANEL.top}px`).append(el("div","q"));
-  put(root,"div","transom",`left:${CL-14}px;top:${OPP_PANEL.bottom+10}px;width:${CR-CL+28}px;height:${MY_PANEL.top-OPP_PANEL.bottom-20}px`);
+  // the central lead strip, clear of the enemy front row's labels
+  put(root,"div","transom",`left:${CL-12}px;top:${OPP_PANEL.bottom+6}px;width:${CR-CL+24}px;height:${MY_PANEL.top-OPP_PANEL.bottom-8}px`);
 }
-function emptyFightSlot(x,y){slotOutline(x,y,FH,false)}
-function sideFighter({name,face,hp,top,counters=[]},lane){
-  const S=put(root,"div","ctl",`left:${lane}px;top:${top}px;width:${LW}px;height:480px`);
-  put(S,"div","label",`left:${LW/2}px;transform:translateX(-50%);top:14px;padding:4px 14px;white-space:nowrap`,`<div class="nm" style="font-size:21px">${name}</div>`);
-  const pd=150;
-  const p=put(S,"div","portrait",`left:${LW/2-pd/2}px;top:66px;width:${pd}px;height:${pd}px`);p.style.backgroundImage=`url(${A}glass/portraits/${face}.jpg)`;
-  roundel(S,"ruby",LW/2+56,66+pd-18,62,hp,32);
-  counters.forEach((c,i)=>{
-    const pl=put(S,"div","plate pane g-cream",`left:24px;width:${LW-48}px;top:${246+i*60}px`);
-    pl.innerHTML=`${ICON[c.icon]}<span class="lab">${c.name}</span><span class="val">${c.val}</span>`;
+function fightUnit(u,x,y,opts={}){return unitOnBoard(u,x,y,FH,opts)}
+function shards(x,y){
+  const w0=FH*.56;
+  root.insertAdjacentHTML("beforeend",`<svg style="position:absolute;left:${x-w0/2}px;top:${y}px;z-index:2" width="${w0}" height="${FH}" viewBox="0 0 560 1000">
+   <g stroke="#1a130d" stroke-width="12" stroke-linejoin="round">
+    <polygon points="20,830 140,690 230,880 280,990" fill="rgba(150,180,205,.75)"/>
+    <polygon points="540,180 410,250 500,430 540,410" fill="rgba(215,170,80,.75)"/>
+    <polygon points="372,860 470,750 540,830 470,905" fill="rgba(120,165,110,.75)"/>
+    <polygon points="120,420 230,360 260,470 160,520" fill="rgba(160,90,140,.7)"/></g></svg>`);
+}
+// your reserves in hand, which can step into an emptied slot: real Attack and Health, names at 18 px
+function reserves(top){
+  const R=put(root,"div","ctl",`left:${LL}px;top:${top}px;width:${LW}px;height:${WIN.bottom-top}px`);
+  put(R,"div","pane g-smoke",`inset:0`);
+  put(R,"div","lab",`left:16px;top:10px;font-size:20px`,"Reserves in hand");
+  [{folder:"pigeon",id:"home-guard",tier:3,atk:3,hp:11,name:"Home Guard"},{folder:"mouse",id:"hayloft-aunt",tier:2,atk:2,hp:9,name:"Hayloft Aunt"}].forEach((u,i)=>{
+    const cx=74+i*136;
+    R.append(card({...u,h:124,x:cx,y:42,d:27,fs:16}));
+    put(R,"div","nm",`position:absolute;left:${cx-66}px;width:132px;text-align:center;top:172px`,u.name);
   });
-  return S;
 }
-// the stakes, on the transom between the panels: kills so far against the 4 that make it a small loss, and what a loss costs now
-function stakes(html,width=600,left=null){
-  const P=put(root,"div","label",`left:${left??CX-width/2}px;top:${OPP_PANEL.bottom+4}px;width:${width}px;height:52px;display:flex;align-items:center;justify-content:center;gap:22px;z-index:9`);
-  P.innerHTML=html;
+// the stakes: kills so far against the 4 that make it a small loss, and what a loss costs now
+function stakesPlaque(){
+  const P=put(root,"div","label",`left:${LL}px;top:${WIN.top}px;width:${LW}px;height:136px;padding:12px 16px`);
+  P.innerHTML=`
+   <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="nm" style="font-size:22px;line-height:26px">If you lose</span><b style="font-family:Alegreya,serif;font-size:38px;line-height:40px;color:#ffd9cf">−13</b></div>
+   <div style="height:2px;background:rgba(255,236,200,.25);margin:8px 0 9px"></div>
+   <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="nm" style="font-size:20px">Kills 0 of 4</span><span class="tx">4 kills: −10</span></div>`;
 }
 function viewFight(){
   fightFrame();
-  OPP.slice(4).forEach((u,i)=>unitOnBoard(u,BACK[i],FY.oppBack,FH));
-  [0,1,3].forEach(i=>unitOnBoard(OPP[i],FRONT[i],FY.oppFront,FH));
-  [1,2].forEach(i=>unitOnBoard(MINE[i],FRONT[i],FY.myFront,FH));
-  emptyFightSlot(FRONT[3],FY.myFront);
-  MINE.slice(4).forEach((u,i)=>unitOnBoard(u,BACK[i],FY.myBack,FH));
-  // the first blow: Holly Knight is lifted toward your panel and strikes Famine-caller
-  const fc=unitOnBoard({...MINE[0]},FRONT[0],FY.myFront,FH,{hp:0,hurt:true});
-  crack(FRONT[0],FY.myFront,FH);
-  const hk=unitOnBoard({...OPP[2]},FRONT[2],FY.oppFront,FH,{hp:4,hurt:true});
+  OPP.slice(4).forEach((u,i)=>fightUnit(u,BACK[i],FY.oppBack));
+  [0,1,3].forEach(i=>fightUnit(OPP[i],FRONT[i],FY.oppFront));
+  [1,2].forEach(i=>fightUnit(MINE[i],FRONT[i],FY.myFront));
+  slotOutline(FRONT[3],FY.myFront,FH);
+  MINE.slice(4).forEach((u,i)=>fightUnit(u,BACK[i],FY.myBack,i===1?{chg:{a:"up",h:"up"}}:{}));
+  // the first blow: Holly Knight struck Famine-caller, which breaks out of its slot (Renown stays on the slot)
+  slotOutline(FRONT[0],FY.myFront,FH,{renown:7});
+  shards(FRONT[0],FY.myFront);
+  const hk=fightUnit(OPP[2],FRONT[2],FY.oppFront,{hp:4,chg:{h:"hurt"}});
   hk.c.style.filter="drop-shadow(0 0 4px #fff7d0) drop-shadow(0 0 18px rgba(255,240,170,.95)) drop-shadow(0 12px 12px rgba(0,0,0,.5))";
-  const x1=FRONT[2]-52,y1=FY.oppFront+FH*.72,x2=FRONT[0]+58,y2=FY.myFront+42;
+  const x1=FRONT[2]-56,y1=FY.oppFront+FH*.72,x2=FRONT[0]+40,y2=FY.myFront+60;
   root.insertAdjacentHTML("beforeend",`<svg style="position:absolute;left:0;top:0;z-index:10;pointer-events:none" width="1920" height="1080">
-    <path d="M${x1} ${y1} C ${x1-90} ${y1+120}, ${x2+150} ${y2-70}, ${x2+12} ${y2-6}" fill="none" stroke="#15100b" stroke-width="11" stroke-linecap="round"/>
-    <path d="M${x1} ${y1} C ${x1-90} ${y1+120}, ${x2+150} ${y2-70}, ${x2+12} ${y2-6}" fill="none" stroke="#fff6d2" stroke-width="6" stroke-linecap="round"/>
-    <path d="M${x2+4} ${y2-26} L${x2-6} ${y2+8} L${x2+30} ${y2+2} Z" fill="#fff6d2" stroke="#15100b" stroke-width="2.5" stroke-linejoin="round"/></svg>`);
-  put(root,"div","splash",`left:${FRONT[0]}px;top:${FY.myFront+FH*.45}px`,"−12");
-  put(root,"div","splash",`left:${FRONT[2]}px;top:${FY.oppFront+FH*.45}px`,"−15");
-  stakes(`<span class="nm">Kills 0 of 4</span><span style="width:3px;height:30px;background:var(--lead)"></span><span class="nm">If you lose: −13</span><span class="tx" style="color:var(--ink-2)">−10 with 4 kills</span>`,520,CR-520-24);
-  sideFighter({name:"Dame Farthing",face:"dame_farthing",hp:11,top:MY_PANEL.top,counters:[{icon:"compost",name:"Compost",val:4},{icon:"tide",name:"Tide",val:2}]},LL);
-  sideFighter({name:"March Hare",face:"march_hare",hp:16,top:OPP_PANEL.top},RL);
-  // reserves in hand that can step into an emptied slot
-  const R=put(root,"div","ctl",`left:${LL}px;top:${MY_PANEL.top+368}px;width:${LW}px;height:132px`);
-  put(R,"div","pane g-dark",`inset:0`);
-  put(R,"div","sub",`left:14px;top:10px;font-weight:700`,"Reserves in hand");
-  [["pigeon","home-guard",3,3,11,"Home Guard"],["mouse","hayloft-aunt",2,2,9,"Hayloft Aunt"]].forEach(([f,id,t,a,h,n],i)=>{
-    R.append(card({folder:f,id,tier:t,atk:a,hp:h,h:84,x:40+i*136,y:36,stats:false}));
-    put(R,"div","sub",`left:${70+i*136}px;top:58px;width:70px;white-space:normal;font-size:16px;line-height:18px`,n.replace(" ","<br>"));
-  });
-  menuAndTurn(9,{top:OPP_PANEL.top,word:"Fight"});
-  const S=put(root,"div","ctl",`left:${RL}px;top:${MY_PANEL.bottom-74}px;width:${RW}px;height:74px`);
-  put(S,"div","pane g-dark",`inset:0`);
-  put(S,"div","icon",`left:20px;top:20px`,ICON.skip);
-  put(S,"div","lab",`left:68px;top:24px;font-size:24px`,"Skip");
-  put(S,"div","sub",`right:18px;top:28px`,"Space");
-}
-function crack(x,y,h){
-  const w0=h*.56;
-  root.insertAdjacentHTML("beforeend",`<svg style="position:absolute;left:${x-w0/2}px;top:${y}px;z-index:3;pointer-events:none" width="${w0}" height="${h}" viewBox="0 0 560 1000">
-   <g fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M300 300 L230 400 L262 500 L170 590 L200 700 M262 500 L380 580 L360 680 M230 400 L110 360 M300 300 L420 280 L470 200" stroke="#120c08" stroke-width="18"/>
-   <path d="M300 300 L230 400 L262 500 L170 590 L200 700 M262 500 L380 580 L360 680 M230 400 L110 360 M300 300 L420 280 L470 200" stroke="rgba(255,250,235,.95)" stroke-width="5"/></g></svg>`);
-}
-function shards(x,y){
-  const w0=FH*.56;
-  root.insertAdjacentHTML("beforeend",`<svg style="position:absolute;left:${x-w0/2}px;top:${y}px" width="${w0}" height="${FH}" viewBox="0 0 560 1000">
-   <g stroke="#1a130d" stroke-width="12" stroke-linejoin="round">
-    <polygon points="0,830 120,700 210,880 280,1000" fill="rgba(150,180,205,.55)"/>
-    <polygon points="560,170 430,250 520,430 560,410" fill="rgba(215,170,80,.55)"/>
-    <polygon points="372,860 470,750 560,830 470,905" fill="rgba(120,165,110,.55)"/></g></svg>`);
+    <path d="M${x1} ${y1} C ${x1-90} ${y1+150}, ${x2+170} ${y2-90}, ${x2+14} ${y2-8}" fill="none" stroke="#15100b" stroke-width="11" stroke-linecap="round"/>
+    <path d="M${x1} ${y1} C ${x1-90} ${y1+150}, ${x2+170} ${y2-90}, ${x2+14} ${y2-8}" fill="none" stroke="#fff6d2" stroke-width="6" stroke-linecap="round"/>
+    <path d="M${x2+6} ${y2-28} L${x2-6} ${y2+8} L${x2+32} ${y2+2} Z" fill="#fff6d2" stroke="#15100b" stroke-width="2.5" stroke-linejoin="round"/></svg>`);
+  put(root,"div","splash",`left:${FRONT[0]}px;top:${FY.myFront+FH*.5}px`,"−12");
+  put(root,"div","splash",`left:${FRONT[2]+2}px;top:${FY.oppFront+FH*.42}px`,"−15");
+  stakesPlaque();
+  reserves(WIN.top+144);
+  youBlock({hp:11,counters:[{icon:"compost",name:"Compost",val:4},{icon:"tide",name:"Tide",val:4,chg:"2"}]});
+  playersList(PLAYERS9.map(p=>p.tag?{...p,tag:"Fighting"}:p));
+  menuAndTurn(9,"Fight");
+  bigButton({lit:false,icon:"skip",word:"Skip",sub:null});
 }
 
 /* ---------- after the fight: what broke your panel, and why −13 ---------- */
+// their board as the fight left it (baseline shot fight-mid-t9-result-defeat): Briar King broke, the rest stood
+const OPP_END=[
+ {...OPP[0],hp:10,chg:{h:"hurt"}},
+ null,
+ {...OPP[2],atk:24,hp:27,chg:{a:"up",h:"up"}},
+ OPP[3],
+ {...OPP[4],hp:2,chg:{h:"hurt"}},
+ {...OPP[5],hp:57,chg:{h:"hurt"}},
+ OPP[6],
+];
 function viewAfter(){
   fightFrame();
-  OPP.slice(4).forEach((u,i)=>unitOnBoard(u,BACK[i],FY.oppBack,FH));
-  OPP.slice(0,4).forEach((u,i)=>unitOnBoard(u,FRONT[i],FY.oppFront,FH));
+  OPP_END.slice(4).forEach((u,i)=>fightUnit(u,BACK[i],FY.oppBack,{chg:u.chg||{}}));
+  OPP_END.slice(0,4).forEach((u,i)=>u?fightUnit(u,FRONT[i],FY.oppFront,{chg:u.chg||{}}):(slotOutline(FRONT[i],FY.oppFront,FH,{renown:4}),shards(FRONT[i],FY.oppFront)));
   // the three that did most are marked 1 to 3, matching the list
-  [[BACK[1],FY.oppBack],[FRONT[1],FY.oppFront],[FRONT[2],FY.oppFront]].forEach(([x,y],i)=>{
-    roundel(root,"cream",x+FH*.28+6,y+FH*.17-8,40,i+1,22).style.zIndex=4;
+  [[BACK[1],FY.oppBack],[FRONT[2],FY.oppFront],[FRONT[1],FY.oppFront]].forEach(([x,y],i)=>{
+    roundel(root,"cream",x+FH*.28+8,y+FH*.17-6,40,i+1,22).style.zIndex=4;
   });
-  [[CL+60,FY.myFront+10],[CL+150,FY.myBack+40],[CR-150,FY.myFront+20],[CR-62,FY.myBack+30]].forEach(([x,y])=>shards(x,y));
-  // the reckoning, set over your empty panel
-  const P=put(root,"div","pane g-cream",`left:${CX-480}px;top:${MY_PANEL.top+38}px;width:960px;height:428px;z-index:8;box-shadow:0 0 0 5px #6a5e50,0 0 0 9px var(--lead),0 14px 30px rgba(0,0,0,.6)`);
-  const row=(a,b,big)=>`<div style="display:flex;justify-content:space-between;align-items:baseline;font-size:${big?21:19}px;line-height:24px;${big?"font-weight:700;margin-top:10px":"padding:9px 0 7px;border-bottom:2px solid rgba(21,16,11,.3)"}"><span>${a}</span><b style="font-family:Alegreya,serif;font-size:${big?28:23}px;${big?"color:#7a0d10":""}">${b}</b></div>`;
+  [[CL+70,FY.myFront+20],[CL+150,FY.myBack+30],[CR-150,FY.myFront+10],[CR-70,FY.myBack+20]].forEach(([x,y])=>shards(x,y));
+  // the reckoning, set over your emptied panel
+  const P=put(root,"div","label",`left:${CX-470}px;top:${MY_PANEL.top+46}px;width:940px;height:420px;z-index:8;padding:0;box-shadow:inset 0 1px 0 rgba(255,236,200,.3),0 0 0 5px #6a5e50,0 0 0 9px var(--lead),0 14px 30px rgba(0,0,0,.6)`);
+  const beat=(n,html)=>`<div class="rd cream" style="position:relative;width:34px;height:34px;font-size:20px"><span>${n}</span></div><div>${html}</div>`;
   P.innerHTML=`
-   <div style="position:absolute;left:32px;top:22px;font-family:Alegreya,serif;font-weight:900;font-size:40px;line-height:44px">Out in 7th</div>
-   <div style="position:absolute;left:34px;top:72px;font-size:19px;color:var(--ink-2)">March Hare broke all of your units and lost none.</div>
-   <div style="position:absolute;left:32px;top:118px;width:396px">
-     <div class="tr" style="font-size:15px">Why −13</div>
-     ${row("Lost on turn 9","10")}
-     ${row("Big loss: 0 kills of the 4 needed","+3")}
-     ${row("Health 11 → 0","−13",true)}
-   </div>
-   <div style="position:absolute;left:478px;top:118px;width:450px">
+   <div style="position:absolute;left:34px;top:22px;font-family:Alegreya,serif;font-weight:900;font-size:40px;line-height:44px">Out in 7th</div>
+   <div class="tx" style="position:absolute;left:36px;top:74px;font-size:19px">March Hare broke all of your units. You broke one: Briar King.</div>
+   <div style="position:absolute;left:34px;top:116px;width:872px">
      <div class="tr" style="font-size:15px">What beat you</div>
-     <div style="display:grid;grid-template-columns:36px 1fr;gap:10px 10px;margin-top:10px;font-size:18px;line-height:21px;align-items:start">
-       <div class="rd cream" style="position:relative;width:32px;height:32px;font-size:19px"><span>1</span></div><div><b>Gorger</b>, golden, 38/68. Its Health is more than your whole board's Attack.</div>
-       <div class="rd cream" style="position:relative;width:32px;height:32px;font-size:19px"><span>2</span></div><div><b>Briar King</b>, 12/20. Gives their front-row Briars Grow 2.</div>
-       <div class="rd cream" style="position:relative;width:32px;height:32px;font-size:19px"><span>3</span></div><div><b>Holly Knight</b>, 12/19, on a slot with 7 Renown.</div>
+     <div class="tx" style="display:grid;grid-template-columns:38px 1fr;gap:10px 12px;margin-top:10px;align-items:center">
+       ${beat(1,"<b>Gorger</b>, golden, 38/68 at the start. Its Health was more than your whole board's Attack.")}
+       ${beat(2,"<b>Holly Knight</b>, on a slot with 7 Renown. It grew from 12/19 to 24/27 during the fight.")}
+       ${beat(3,"<b>Briar King</b>, 12/20 at the start. It gave their Briars Grow 2 before you broke it.")}
      </div>
    </div>
-   <div style="position:absolute;left:32px;right:32px;top:296px;height:2px;background:rgba(21,16,11,.3)"></div>
-   <div style="position:absolute;left:32px;top:310px;display:flex;gap:40px;font-size:19px">
-     <span><b style="font-family:Alegreya,serif;font-size:21px">Their board</b>&nbsp; 90 Attack · 158 Health</span>
-     <span><b style="font-family:Alegreya,serif;font-size:21px">Your board</b>&nbsp; 49 Attack · 68 Health</span>
+   <div style="position:absolute;left:34px;right:34px;top:282px;height:2px;background:rgba(255,236,200,.25)"></div>
+   <div class="tr" style="position:absolute;left:34px;top:296px;font-size:15px">At the start of the fight</div>
+   <div class="tx" style="position:absolute;left:34px;top:318px;display:flex;gap:40px">
+     <span><b style="font-family:Alegreya,serif;font-size:20px">Their board</b>&nbsp; 90 Attack · 158 Health</span>
+     <span><b style="font-family:Alegreya,serif;font-size:20px">Your board</b>&nbsp; 49 Attack · 68 Health</span>
    </div>`;
-  const b1=put(P,"div","pane g-dark",`left:32px;top:350px;width:250px;height:58px`);
-  put(b1,"div","icon",`left:16px;top:9px`,ICON.replay);
-  put(b1,"div","btnlab lt",`left:62px;top:12px;font-size:23px`,"Watch again");
-  const b2=put(P,"div","pane g-lit accent",`right:32px;top:350px;width:260px;height:58px`);
-  put(b2,"div","btnlab",`left:0;right:0;text-align:center;top:12px;font-size:25px`,"See results");
-  stakes(`<span class="nm" style="font-size:23px">Defeat</span><span style="width:3px;height:30px;background:var(--lead)"></span><span class="nm">Kills 0 of 4</span>`,420);
-  sideFighter({name:"Dame Farthing",face:"dame_farthing",hp:0,top:MY_PANEL.top,counters:[{icon:"compost",name:"Compost",val:4},{icon:"tide",name:"Tide",val:2}]},LL);
-  sideFighter({name:"March Hare",face:"march_hare",hp:16,top:OPP_PANEL.top},RL);
-  menuAndTurn(9,{top:OPP_PANEL.top,word:"Fight over"});
-  // the standings as this fight leaves them
-  playersList(PLAYERS9.map(p=>p.you?{...p,hp:0,out:true,you:true}:{...p,next:false}),{top:300,bottom:MY_PANEL.bottom});
+  const b1=put(P,"div","pane g-smoke",`right:34px;top:340px;width:236px;height:56px`);
+  put(b1,"div","icon",`left:16px;top:8px`,ICON.replay);
+  put(b1,"div","btnlab lt",`left:60px;top:11px;font-size:23px`,"Watch again");
+  // left lane top: why −13
+  const W=put(root,"div","label",`left:${LL}px;top:${WIN.top}px;width:${LW}px;height:${WIN.bottom-WIN.top}px;padding:16px 18px`);
+  const row=(a,b,last)=>`<div class="tx" style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:10px 0 9px;${last?"":"border-bottom:2px solid rgba(255,236,200,.22)"}"><span>${a}</span><b style="font-family:Alegreya,serif;font-size:24px">${b}</b></div>`;
+  W.innerHTML=`<div class="nm" style="font-size:26px;line-height:30px;margin-bottom:6px">Why −13</div>
+    ${row("Lost on turn 9","10")}
+    ${row("Big loss: 1 kill of 4","+3")}
+    <div class="tx" style="display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;font-weight:700;color:#fff8e6"><span>Health 11 → 0</span><b style="font-family:Alegreya,serif;font-size:32px;color:#ffd9cf">−13</b></div>
+    <div class="tx" style="margin-top:22px;padding-top:14px;border-top:2px solid rgba(255,236,200,.22);font-size:16px;line-height:19px;color:var(--text-lt3)">A loss costs the turn number + 1. Fewer than 4 kills adds 3.</div>`;
+  youBlock({hp:0,counters:[{icon:"compost",name:"Compost",val:4},{icon:"tide",name:"Tide",val:4}]});
+  menuAndTurn(9,"Fight over");
+  // the standings as the turn-9 fights left them
+  playersList([
+   {p:1,n:"Dame Hoolet",f:"dame_hoolet",hp:23},
+   {p:2,n:"Pipkin",f:"pipkin",hp:21},
+   {p:3,n:"Little King Wren",f:"little_king_wren",hp:18},
+   {p:4,n:"Old Mother Mousewife",f:"old_mother_mousewife",hp:18},
+   {p:5,n:"March Hare",f:"march_hare",hp:16,tag:"Beat you"},
+   {p:6,n:"Hob Mumblecrust",f:"hob_mumblecrust",hp:16},
+   {p:7,n:"Dame Farthing",f:"dame_farthing",hp:0,you:true,out:true},
+   {p:8,n:"Brother Bracken",f:"brother_bracken",hp:0,out:true},
+  ]);
+  bigButton({word:"See results"});
 }
 
-/* ---------- extra1: reading a card. Click any card; its full reading docks at the right end of the light table ---------- */
+/* ---------- extra1: reading a card. Click any card; its full reading docks inside the light table, clear of every slot ---------- */
 function viewRead(){
   viewMid();
-  // the chosen piece: Wing Commander (back row, left)
-  const x=BACK[0], y=TAB.top+12+BH+52, sw=BH*.56;
-  root.insertAdjacentHTML("beforeend",`<svg style="position:absolute;left:${x-sw/2-12}px;top:${y-12}px;z-index:1;pointer-events:none" width="${sw+24}" height="${BH+24}" viewBox="0 0 ${sw+24} ${BH+24}"><polygon points="${(sw+24)/2},3 ${sw+21},${BH*.17+12} ${sw+21},${BH*.83+12} ${(sw+24)/2},${BH+21} 3,${BH*.83+12} 3,${BH*.17+12}" fill="none" stroke="#15100b" stroke-width="7" stroke-linejoin="round"/><polygon points="${(sw+24)/2},3 ${sw+21},${BH*.17+12} ${sw+21},${BH*.83+12} ${(sw+24)/2},${BH+21} 3,${BH*.83+12} 3,${BH*.17+12}" fill="none" stroke="#fffaf0" stroke-width="3.5" stroke-linejoin="round"/></svg>`);
-  const P=put(root,"div","label",`left:${CR-262}px;top:${TAB.top+8}px;width:254px;height:${TAB.bottom-TAB.top-16}px;padding:12px 14px;z-index:12;box-shadow:0 0 0 1px rgba(255,255,255,.5),0 8px 18px rgba(0,0,0,.45)`);
-  const kw=(n,t)=>`<div style="margin-top:9px"><div class="tx"><b>${n}</b></div><div class="tx" style="font-size:15px;line-height:18px;color:var(--ink-2)">${t}</div></div>`;
+  const x=BACK[0], y=ROW.back, sw=BH*.56, P2=12;
+  root.insertAdjacentHTML("beforeend",`<svg style="position:absolute;left:${x-sw/2-P2}px;top:${y-P2}px;z-index:1;pointer-events:none" width="${sw+2*P2}" height="${BH+2*P2}"><polygon points="${sw/2+P2},3 ${sw+2*P2-3},${BH*.17+P2} ${sw+2*P2-3},${BH*.83+P2} ${sw/2+P2},${BH+2*P2-3} 3,${BH*.83+P2} 3,${BH*.17+P2}" fill="none" stroke="#15100b" stroke-width="8" stroke-linejoin="round"/><polygon points="${sw/2+P2},3 ${sw+2*P2-3},${BH*.17+P2} ${sw+2*P2-3},${BH*.83+P2} ${sw/2+P2},${BH+2*P2-3} 3,${BH*.83+P2} 3,${BH*.17+P2}" fill="none" stroke="#fffaf0" stroke-width="4" stroke-linejoin="round"/></svg>`);
+  const L=1340, R=CR-14;
+  const P=put(root,"div","label",`left:${L}px;top:${TAB.top+14}px;width:${R-L}px;height:${TAB.bottom-TAB.top-28}px;padding:14px 16px;z-index:12`);
+  const kw=(n,t)=>`<div style="margin-top:10px"><div class="tx"><b>${n}</b></div><div class="tx" style="font-size:16px;line-height:19px">${t}</div></div>`;
   P.innerHTML=`
-   <div class="nm" style="font-size:23px;line-height:26px">Wing Commander</div>
+   <div class="nm" style="font-size:24px;line-height:27px">Wing Commander</div>
    <div class="tr" style="margin-top:3px">Pigeon · Tier 5</div>
-   <div style="display:flex;gap:10px;align-items:center;margin-top:10px">
-     <div class="rd" style="position:relative;width:40px;height:40px;font-size:22px;background:radial-gradient(circle at 40% 30%,#ffffff,#f1ede2 50%,#c9c1b0)"><span>11</span></div>
-     <div class="rd" style="position:relative;width:40px;height:40px;font-size:22px;background:radial-gradient(circle at 40% 30%,#ffffff,#f1ede2 50%,#c9c1b0)"><span>17</span></div>
-     <div class="tx" style="font-size:15px;line-height:18px">Printed 8/14<br>Renown +3/+3</div>
+   <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
+     <span id="sa" style="position:relative;width:40px;height:40px"></span><span id="sh" style="position:relative;width:40px;height:40px"></span>
+     <div class="tx" style="font-size:16px;line-height:19px">Printed 8/14<br>Renown +3/+3</div>
    </div>
-   <div style="height:2px;background:rgba(21,16,11,.3);margin:12px 0 8px"></div>
+   <div style="height:2px;background:rgba(255,236,200,.25);margin:14px 0 10px"></div>
    <div class="tx"><b>Sortie.</b></div>
-   <div class="tx" style="margin-top:4px"><b>Charge 4:</b> After one of your Pigeons with Sortie kills, give its slot 3 Renown.</div>
-   <div style="height:2px;background:rgba(21,16,11,.3);margin:12px 0 0"></div>
+   <div class="tx" style="margin-top:6px"><b>Charge 4:</b> After one of your Pigeons with Sortie kills, give its slot 3 Renown.</div>
+   <div class="tx" style="margin-top:8px;display:flex;gap:8px;align-items:center">4 of 4 left ${pips(4,4)}</div>
+   <div style="height:2px;background:rgba(255,236,200,.25);margin:14px 0 0"></div>
    ${kw("Sortie","Attacks the enemy back row while it has units.")}
    ${kw("Charge 4","Works 4 times, then stops. Refills each fight.")}
    ${kw("Renown","The slot's bonus: +1/+1 for each.")}`;
+  P.querySelector("#sa").append(statEl("a",11,40,22,null,"left:50%;top:50%"));
+  P.querySelector("#sh").append(statEl("h",17,40,22,null,"left:50%;top:50%"));
 }
-const V={mid:viewMid,first:viewFirst,fight:viewFight,after:viewAfter,extra1:viewRead};
-(V[view]||viewMid)();
+const V={mid:()=>viewMid(),first:viewFirst,fight:viewFight,after:viewAfter,extra1:viewRead,extra2:viewFullHand};
+(V[view]||V.mid)();
 document.body.dataset.view=view;
 </script>
 </body>

@@ -1,36 +1,37 @@
 # Concept E: Glass in the forest
 
-The screen is one stained-glass clearing at dusk: the shop hangs from a bough, your board stands on the moss, the other players are lights in the trees, with no frames. Each card glows with its tribe's light and carries a tribe crest, so the card face stays art, Attack, Health and marks.
+One stained-glass clearing at dusk: the shop hangs from a bough, your board stands on the moss, the other players are lights in the trees. Each card has a tribe crest and a leaded name plate; the frame alone shows tier.
 
 ## Flow
-- **Recruit:** gold, tier-up, Refresh and Freeze hang at the bough's left. End turn is the next opponent's lantern on the path. A click opens a reading pane (`extra1`).
-- **Fight:** the shop is gone. Both fighters are on the left, each with a **tally**: one hexagon per starting unit, with a bar at half (small or big loss).
-- **End:** a reckoning stands in your empty clearing: the loss and why it was big ("killed 0 of 7; 4 make a small loss"), and **What beat you**, three enemy units numbered on the board.
+- **Recruit:** gold, tier-up, Refresh and Freeze hang at the bough's left; prices are tags on each chain. End turn ("Fight March Hare") is the next opponent's lantern. A click opens a reading pane (`extra1`).
+- **Fight:** both fighters on the left, each with a labelled **tally**: one hexagon per starting unit, a bar at half.
+- **End:** a leaded plaque: the loss, why it was big, and **What beat you**, three enemy units numbered on the board.
 
 ## Glance count
-- Recruit: **22** (today 23). Added tribe crest and light, and the seven players' lights. Refresh stock is now *not yet*, the discount *reach*, and Past fights and Cards are one Journal.
-- Fight: **12** (today 9). Added the tally, the hand and the dimmed lights.
+- Recruit: **23** (today 23). Added crest, name plates, players' lights. Refresh stock is *not yet*, the discount *reach*; Past fights and Cards are one Journal.
+- Fight: **13** (today 9). Added tally, name plates, hand, dimmed lights.
 
 ## Judged things
 1. **Look:** a painted glass background, and every control a leaded glass object in it.
-2. **Reading:** matching light and crest show pairings (Hayloft Aunt's mouse pink matches Bell-ringer). Opponents' place and health always show. Rules text is one click away.
+2. **Reading:** name plates and crests show pairings (Hayloft Aunt's mouse crest matches Bell-ringer). Opponents' name, place and health always show.
 
 ## Owner decisions reversed
 - 14, 37: no frames; the scene separates areas.
 - 20: a tribe crest is on the card.
-- 36, 51: card sizes differ (270, 300, 200, 250).
+- 36, 51: card sizes differ (shop 236, board 254, spells 170, fight 196, hand 186–190).
 - 43, 50: spells hang beside the units, as tall hexagons.
 - 45: the refresh count shows at 3 left.
 - 47: "3 gold short" replaces the discount.
 - 48: the controls are on one side, with tier-up under the gold.
 - 55: the hand shows in the fight.
-- 71: the reading pane is under the card.
-- A1, A3, A4, A6: no stone window; both fighters on the left; the leaderboard always shows; counters are roundels.
+- 40: every player's name shows beside their lantern, not only on hover.
+- 71: the reading pane docks beside the board, not under the card.
+- A1, A3, A4: no stone window; both fighters on the left; the leaderboard always shows.
 
 ## Suggestions
 - Suggestion for the owner: one Journal for Past fights and Cards.
-- Suggestion for the owner: record a fight log so What beat you can be computed. Its lines here are illustrative.
-- Suggestion for the owner: lanterns tinted by an opponent's main tribe, if allowed (reverses 40).
+- Suggestion for the owner: a fight log so What beat you can be computed (lines here are illustrative).
+- Suggestion for the owner (flow): "Watch again" after a fight replays it from the result plaque.
 - Suggestion for the owner: the bough gains lanterns per shop tier (46).
 - No rules changes.
 
@@ -38,13 +39,28 @@ The screen is one stained-glass clearing at dusk: the shop hangs from a bough, y
 Battlegrounds, Root, Dorfromantik, Glass Masquerade, Inscryption, TFT.
 
 ## Weakest point
-The tribe light competes with the tier frame colour. Price coins still look like stat discs (26). An unknown card costs a click.
+Name plates make the clearing busier than round 0. Fight cards shrank 22%, not 10–15%.
 
 ## Quality pass
 Checked per view: alignment, icons, text size, contrast, overlaps, spacing, one accent, card ratio.
 
-Not fixed:
-- Hand card numbers are 14–17 px.
-- Lantern threads pass behind the lanterns above.
+Round 1: all five views re-checked with crops; a script confirms no plate text overflows. Not fixed: nothing known.
 
 **Not judged:** motion, timing, hover feel and sound can't be judged from stills.
+
+## Round 1 fixes
+1. Done. Every shop card, spell and board unit has a lead-set name plate with one short cue; in the fight, name and keyword. Shop 270→236 (−13%), board 300→254 (−15%), spells 190→170 (−11%). Rows don't overlap at a full board: the back row's top point sits in the gap between front plates. Fight cards went 250→196 (−22%), more than asked, to fit two boards with plates.
+2. Done. Prices are pennant-shaped leaded tags hung on each card's chain; grey when you can't afford it.
+3. Done. Tribe halos removed; the crest stays; every card has the same soft white glow.
+4. Done. Name plate beside each lantern with rank (19 px) and health (18 px, cream on ruby) or "Out"; each lantern hangs from its own twig. End turn reads "Fight March Hare".
+5. Done. "Fight March Hare" is the one brightly lit button; the gold medallion has no glow and darker amber.
+6. Done. "Compost 3" and "Tide 2" are named plates in recruit and fight; "Dame Farthing" plate over the portrait (March Hare too in the fight).
+7. Done. The log tray is fully on screen with Seek whole; hand stats 18 px or more; count badges 22 px with 16 px numbers and their own spacing.
+8. Done. Refresh is a full-width button with its cost inside.
+9. Done. The bough and log are cut into leaded bark panes with seams and real glass mottle.
+10. Done. Enemy rows are spaced so marks clear the Renown leaves; both tallies are labelled ("Small loss at 4 kills", "Their small loss at 3").
+11. Done. Result plaque and reading pane have a lead edge, a segmented amber glass border and pane texture. The reading pane docks right, clear of Home Guard, Squadron Leader and Wing Commander, which are lifted above the veil and ringed. Enemies stay lit; your fallen units are dark, cracked and marked "Fell"; the three threats glow and carry numbered beads; lights show your health as 0 / Out.
+12. Done. Spells have a lead edge and an amber came line; the art fills its hexagon at its own proportions.
+13. Done. Row 40 added to reversed rows; "Watch again" labelled a flow suggestion. A6 is no longer reversed: counters are now named plates.
+
+Non-blocking: tier cue on the card face not done (it would add a mark the frame already carries).

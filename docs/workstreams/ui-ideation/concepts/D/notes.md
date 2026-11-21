@@ -1,20 +1,20 @@
 # D. The glazier's bench
 
-**Concept.** You are a glazier in a woodland workshop: glass for sale stands in the window, your panel lies on a lit light table. Names and rules are painted on pale glass under each piece, so nothing needs opening.
+**Concept.** You are a glazier in a woodland workshop: glass for sale stands in the window, your panel lies on a light table. Names and rules are painted on tinted glass under each piece.
 
-**Route:** more around the card; the face stays minimal, a label under it carries name and rules (shop) or name and keywords (board, fight).
+**Route:** more around the card; the face stays minimal, a label under it carries name and rules (shop) or name and keyword or a short cue (board, fight).
 
 ## Flow
 
-Recruit: buy from window to table or hand; spend from the left lane; End turn (the one lit pane) names your opponent. A clicked piece's reading docks on the table (`?view=extra1`). Fight: both panels hang in the window; the transom shows kills and what a loss costs. End: a plaque gives why −13, the three pieces that beat you, both boards' totals, standings.
+Recruit: buy from window to table or hand; spend from the left lane; End turn (the one lit pane) names your opponent. A clicked piece's reading docks inside the table (`extra1`); `extra2` shows a full hand. Fight: both panels hang in the window; a plaque shows kills and what a loss costs. End: why −13, the three pieces that beat you, starting totals, standings. Menu and Turn stay bottom left, the one button bottom right.
 
 ## Glance tier
 
-Recruit **22** (today 23): adds shop labels, board labels, player list; drops keyword marks, Charge pips, Past boards, Cards, cog (one menu). Fight **12** (today 9): adds name labels, stakes plaque, reserves.
+Recruit **23** (today 23): adds shop labels, board labels, player list; drops keyword marks, Past boards, Cards, cog (one menu). Fight **15** (today 9): adds name labels, stakes plaque, reserves, player list, change marks.
 
 ## The two judged things
 
-1. Look: the commissioned scene; every control a leaded pane, every number a glass roundel.
+1. Look: the commissioned scene; every control a leaded pane, every number glass.
 2. Reading: the shop needs 0 hovers (was up to 12); all eight players always listed; every fighting unit named.
 
 ## Owner decisions reversed
@@ -23,29 +23,49 @@ Recruit **22** (today 23): adds shop labels, board labels, player list; drops ke
 - 23: keyword words replace marks.
 - 24: no type line.
 - 36: unit size differs by zone.
-- 38: Renown is a diamond on the slot's shoulder.
-- 40: player list always on.
+- 38: Renown is a "Renown N" tab on the slot's shoulder, not above the card.
+- 40: player list always on, fights included.
 - 42, 43, 50: prices are coins at each piece's shoulder; spells are tall hexes in the unit row.
 - 47: discount in words, no icon.
 - 48: "+19 next turn" under Gold.
 - 51: cards under 250 px.
 - 55: fight shows reserves in hand.
-- 71: readings dock on the table.
+- 71: readings dock in the table.
 - 73, 74: cog, Cards, Past boards in one menu.
 - A1, A4 (agents' choices): reversed.
 
-Row 26 is acted on: stats sit on pale roundels, so gold means money only.
+Row 26 is acted on: stats sit on pale stones, so gold means money only.
 
 ## Suggestions for the owner
 
 - The stakes plaque in fights and the "why −13" plaque after (rule 10.1.1 unchanged).
-- The shop window gains lights as tier rises (row 46).
+- "Watch again" after a fight: a flow suggestion; today's game has no replay.
 - Click a player to see the last board of theirs you saw.
 
 **Learns from:** Inscryption, Backpack Battles, Wildfrost, Battlegrounds, Glass Masquerade.
 
-**Weakest point:** board cards are 172 px (today about 240), so the art is less of a hero.
+**Weakest point:** board cards are 216 px in recruit and 200 px in fights (today about 240), so the art is less of a hero.
 
-**Visual pass.** Checked alignment, shared centre line and edges, text sizes (stats moved to 36 px roundels; the frames' own discs gave 10–12 px digits), contrast, one accent (in `first` the tutorial cue holds it), undistorted frames, each view alone. Not fixed: spells have no real frame (stand-in outline); "what beat you" is reasoned from the boards, as the build keeps no fight log; opponents' end stats are their starting ones.
+**Visual pass.** Checked alignment, edges, text sizes, contrast, one accent (in `first` the tutorial cue holds it), undistorted frames, each view alone. Not fixed: "what beat you" is reasoned from the boards; the build keeps no fight log.
 
 **Not judged:** motion, timing, hover feel and sound cannot be judged from stills.
+
+## Round 1 fixes
+
+1. One accent: done. Gold, Upgrade, Refresh, Freeze, the Next and You rows and every plaque share one smoky glass; only End turn (See results after) is lit. The first-turn cue keeps its lit ring and lit line.
+2. Window, table, quarry field: done. Warm frost laid over the picture's window and a warm frosted table with an oak rim and soft lines; the fight's field is the same. Labels and plaques are tinted glass in lead. Enemy front labels now clear the central lead strip by about 20 px.
+3. Board height: done. Shop cards 182 px, labels trimmed; board cards 216 px in recruit. Fights reach 200 px, the nearest that fits two labelled panels in 1080 px.
+4. Shop rules text: done, 18 px.
+5. Stats: done. Stones sized to the frame's disc zone (about 30 px, 18 px digits), never gold; Attack is six-sided, Health round. A loss adds a crack and a red notch; a gain a green chevron.
+6. Renown: done. A blue-violet "Renown N" tab on the slot's shoulder; shown on emptied slots (yours in `fight`, Briar King's in `after`).
+7. Cues: done. Famine-caller "Dies: Tide +2", Squadron Leader "Arms the unit ahead", Granary Glutton "Eats sold Locusts", The Eighth Plague "Avenges deaths", Gorger "Eats a sold unit", Weasel "Hits summons". Charge as pips, filled = left.
+8. Spells: done. Own leaded edge: lead, sea-green band, lead, four jewels; no stat wells.
+9. Hand: done. Seven marked places; `extra2` fills all seven.
+10. Reserves: done. Real Attack and Health, 18 px names; the stakes plaque reads "Kills 0 of 4" at 20 px and "4 kills: −10" at 18 px.
+11. Side columns: done. Left holds stakes, reserves and you; right holds the player list (March Hare marked "Fighting") and Skip.
+12. Menu and Turn: done, bottom left in every view.
+13. After: done. Standings as the turn-9 result shot shows them (Dame Hoolet 23 … you out 7th). Numbered links and 10 + 3 kept; starting values say so. Flag: that shot shows Briar King broken, so the recap says 1 kill of 4, not state.md's "keeps all seven"; still a big loss, still −13.
+14. Reading panel: done, docked inside the table's right end, clear of every slot.
+15. "Watch again": done, listed as a flow suggestion.
+
+Non-blocking tier cue: not done; it adds a mark to every card face, which works against the minimal face. Hand stats are 15 px on small stones (above the 14 px floor, below 18).
