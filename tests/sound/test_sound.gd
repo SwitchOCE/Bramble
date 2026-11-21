@@ -227,6 +227,9 @@ func test_a_real_fight_through_the_screen_asks_for_its_cues() -> void:
 	expected.sort()
 	assert_eq(asked, expected, "the log holds exactly the cues the fight's steps call for")
 	Sound.heard.clear()
+	# headless sound never finishes: leave nothing playing when the run quits
+	for voice: Node in Sound.get_children():
+		(voice as AudioStreamPlayer).stop()
 
 
 func test_the_rules_core_never_refers_to_sound() -> void:
