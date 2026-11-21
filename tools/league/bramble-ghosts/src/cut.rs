@@ -330,16 +330,17 @@ fn parse_line<T: serde::de::DeserializeOwned>(line: &str, number: usize) -> Resu
 }
 
 fn card_fingerprints(root: &Path, recipe: &Recipe) -> Result<BTreeMap<String, String>, String> {
-    // UnitLibrary embeds this raw data entry in with_system_cards and exposes only its
-    // parsed definition. Hash the raw entry, like the entries in units.json.
-    let triple_reward = serde_json::json!({
-        "id": UnitLibrary::TRIPLE_REWARD_ID, "name": "Triple Reward", "kind": "spell",
-        "tier": 1, "cost": 0, "offered": false, "effects": [{"mechanic": "triple_reward"}]
-    });
-    let mut cards = BTreeMap::from([(
-        UnitLibrary::TRIPLE_REWARD_ID.into(),
-        fingerprint(triple_reward)?,
-    )]);
+    // Fingerprint the engine's own raw entries, like the entries in units.json.
+    let system: Vec<Value> =
+        serde_json::from_str(UnitLibrary::SYSTEM_CARDS).map_err(|e| e.to_string())?;
+    let mut cards = BTreeMap::new();
+    for entry in system {
+        let id = entry["id"]
+            .as_str()
+            .ok_or("system card without an id")?
+            .to_owned();
+        cards.insert(id, fingerprint(entry)?);
+    }
     let files = recipe.paths.iter().map(|folder| {
         resolve(root, &RecordReplay::content_folder(root, folder)).join("units.json")
     });
@@ -381,6 +382,23 @@ fn fingerprint(mut entry: Value) -> Result<String, String> {
 mod tests {
     use super::*;
     use bramble_engine::ToState;
+
+    // The same value is pinned in tests/core/test_ghost_run_writer.gd, so both cutters
+    // give Triple Reward the fingerprint GDScript's UnitLibrary.SYSTEM_CARDS gives it.
+    #[test]
+    fn triple_reward_fingerprint_is_the_engines_own_entry() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+        let recipe = Recipe {
+            kind: "game".into(),
+            paths: Vec::new(),
+            tribes: Vec::new(),
+        };
+        let cards = card_fingerprints(&root, &recipe).unwrap();
+        assert_eq!(
+            cards.get(UnitLibrary::TRIPLE_REWARD_ID).map(String::as_str),
+            Some("369b9d3c1b948dba")
+        );
+    }
 
     #[test]
     fn every_single_tribe_lobby_offers_and_fingerprints_the_shared_cards() {

@@ -54,6 +54,7 @@ fights_run() {
 }
 step fights-run fights_run
 step fights-compare python3 bramble-fight/compare.py --require-trace "$data/fights/gd.jsonl" "$out"/fights-rust-*.jsonl
+step fight-logs proof/fight_logs.sh "$data/fights/cases.jsonl" "$out/fight-logs" 10000 "$(( jobs < 3 ? jobs : 3 ))"
 # The workspace tests include bot games. Require the record and fight comparisons first.
 if (( !fail )); then
   step test env LEAGUE_DATA="$data" CARGO_BUILD_JOBS="$jobs" cargo test --offline --locked --release --workspace
