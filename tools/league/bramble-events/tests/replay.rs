@@ -8,7 +8,7 @@ use bramble_engine::{
     game::game_content::GameContent,
 };
 use serde_json::{Value, json};
-use std::{fs, path::PathBuf, process::Command, rc::Rc};
+use std::{collections::HashMap, fs, path::PathBuf, process::Command, rc::Rc};
 
 struct TestMatch(PathBuf);
 
@@ -78,7 +78,9 @@ fn replays_gorger_sales_from_board_and_hand() {
     );
     let seed = 107;
     let game = content.borrow().new_session(seed, &Array::new());
-    let mut expected = [None, None];
+    // Board sale, hand sale of a unit that never entered the board, and hand sale after board play.
+    let mut expected = [None, None, None];
+    let mut first_board = HashMap::new();
     let mut bot = SimpleBot::new(&Rng::derive(seed, "proof"));
     while !game.borrow().over {
         GameSession::start_round(&game);
@@ -87,6 +89,9 @@ fn replays_gorger_sales_from_board_and_hand() {
         for seat in seats.iter_live() {
             let player = game.borrow().player(seat);
             for _ in 0..120 {
+                for unit in player.borrow().board_units().iter_live() {
+                    first_board.entry(unit.borrow().uid).or_insert(round);
+                }
                 if player.borrow().turn_ended {
                     break;
                 }
@@ -95,12 +100,18 @@ fn replays_gorger_sales_from_board_and_hand() {
                     if action.get("type").as_text() != "sell" {
                         return None;
                     }
-                    let from_hand = usize::from(action.has("hand"));
-                    if expected[from_hand].is_some() {
+                    let event = gorger_sale(&player, &action, round, seat)?;
+                    let uid = event["eaten"]["uid"].as_i64().unwrap();
+                    let first = first_board.get(&uid).copied();
+                    let case = match (action.has("hand"), first) {
+                        (false, _) => 0,
+                        (true, None) => 1,
+                        (true, Some(_)) => 2,
+                    };
+                    if expected[case].is_some() {
                         return None;
                     }
-                    let event = gorger_sale(&player, &action, round, seat)?;
-                    expected[from_hand] = Some(event);
+                    expected[case] = Some((event, first));
                     Some(action)
                 });
                 let action = sale.unwrap_or_else(|| bot.choose(&game, &player));
@@ -139,7 +150,9 @@ fn replays_gorger_sales_from_board_and_hand() {
         .map(|line| serde_json::from_str(line).unwrap())
         .collect();
 
-    for eat in expected.map(|event| event.expect("record contains a Gorger feeding sale")) {
+    for (eat, first) in
+        expected.map(|event| event.expect("record contains each kind of Gorger feeding sale"))
+    {
         assert!(rows.contains(&eat), "missing reconstructed eat {eat}");
         let sale = rows
             .iter()
@@ -152,9 +165,11 @@ fn replays_gorger_sales_from_board_and_hand() {
             sale["fed"][0],
             json!({"type": "eat", "eater": eat["eater"], "gain": eat["gain"]})
         );
-        if eat["eaten"]["slot"] == -1 {
-            assert_eq!(sale["board_since_round"], Value::Null);
-            assert_eq!(sale["rounds_on_board"], 0);
-        }
+        let round = eat["round"].as_i64().unwrap();
+        assert_eq!(sale["board_since_round"], json!(first));
+        assert_eq!(
+            sale["rounds_on_board"],
+            json!(first.map_or(0, |first| round - first))
+        );
     }
 }

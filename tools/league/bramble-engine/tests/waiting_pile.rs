@@ -1,11 +1,13 @@
-//! State, action results, and event order against the GDScript waiting-pile oracle.
+//! State, action results, and event order against the GDScript recruit oracle.
 use bramble_engine::core::{
+    bots::simple_bot::SimpleBot,
     ghosts::ghost_run::GhostRun,
     mechanics::{mechanic::Mechanic, mechanic_params::MechanicParamsRef},
     records::{fight_snapshot::FightSnapshot, record_state::RecordState},
     recruit::{player_state::PlayerStateRef, recruit::Recruit, recruit_context::RecruitContext},
     session::game_session::{GameSession, GameSessionRef},
     units::unit::UnitRef,
+    util::rng::Rng,
 };
 use bramble_engine::game::game_content::GameContent;
 use bramble_engine::util::godot_json;
@@ -180,6 +182,18 @@ fn run_step(game: &GameSessionRef, player: &PlayerStateRef, step: &[Variant]) ->
                 .grant(game.borrow().registry.as_ref().unwrap(), &arg.as_text());
         }
         "offer" => player.borrow_mut().discover_options = Array::from([arg.as_text()]),
+        "shop_unit" => player.borrow().shop_units.borrow_mut()[0] = arg.as_text(),
+        "shop_spell" => player.borrow().shop_spells.borrow_mut()[0] = arg.as_text(),
+        "worked" => {
+            let unit = player
+                .borrow()
+                .board
+                .get(arg.as_i64() as usize)
+                .flatten()
+                .unwrap();
+            unit.borrow_mut().worked_this_turn = true;
+        }
+        "gold" => player.borrow_mut().gold = arg.as_i64(),
         "act" => {
             let action = arg.as_dict().duplicate();
             if index >= 0 {
@@ -192,6 +206,14 @@ fn run_step(game: &GameSessionRef, player: &PlayerStateRef, step: &[Variant]) ->
             return GameSession::act(game, 0, &action).into();
         }
         "legal" => {
+            if arg.as_text() == "all" {
+                let actions = game.borrow().legal_actions(0);
+                return format!(
+                    "{:x}",
+                    Sha256::digest(godot_json::stringify(&actions.to_state()))
+                )
+                .into();
+            }
             let actions: Array<Dictionary> = game
                 .borrow()
                 .legal_actions(0)
@@ -199,6 +221,11 @@ fn run_step(game: &GameSessionRef, player: &PlayerStateRef, step: &[Variant]) ->
                 .filter(|a| matches!(a.get("type").as_text().as_str(), "pick" | "recruit_target"))
                 .collect();
             return actions.to_state();
+        }
+        "bot" => {
+            let action = SimpleBot::new(&Rng::derive(42, "proof")).choose(game, player);
+            let result = GameSession::act(game, 0, &action);
+            return state_dict! {"action" => &action, "result" => &result};
         }
         "settle" => {
             let recruit = game.borrow().recruit.clone().unwrap();

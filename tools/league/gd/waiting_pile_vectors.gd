@@ -107,6 +107,14 @@ func _step(game: GameSession, p: PlayerState, step: Array) -> Variant:
 			last.grant(game.registry, StringName(str(arg)))
 		"offer":
 			p.discover_options = [StringName(str(arg))]
+		"shop_unit":
+			p.shop_units[0] = StringName(str(arg))
+		"shop_spell":
+			p.shop_spells[0] = StringName(str(arg))
+		"worked":
+			p.board[CoreUtil.to_int(arg)].worked_this_turn = true
+		"gold":
+			p.gold = CoreUtil.to_int(arg)
 		"act":
 			var action: Dictionary = CoreUtil.to_dict(arg).duplicate()
 			if index >= 0:
@@ -115,10 +123,14 @@ func _step(game: GameSession, p: PlayerState, step: Array) -> Variant:
 				action["target"] = p.hand[-index - 2].uid
 			return game.act(0, action)
 		"legal":
-			# Keep only picks and Recruit choices at checkpoints that inspect the offered actions.
+			if str(arg) == "all":
+				return JSON.stringify(game.legal_actions(0)).sha256_text()
 			return game.legal_actions(0).filter(
 				func(a: Dictionary) -> bool: return a.type in ["pick", "recruit_target"]
 			)
+		"bot":
+			var action: Dictionary = SimpleBot.new(Rng.derive(42, "proof")).choose(game, p)
+			return {"action": action, "result": game.act(0, action)}
 		"settle":
 			game.recruit._settle(p)
 		"auras":

@@ -42,7 +42,7 @@ func choose(session: GameSession, player: PlayerState) -> Dictionary:
 			if held.has(CoreUtil.to_int(action["hand"])):
 				continue
 			score += _row_pref(player, action)
-		if action["type"] == "sell" and score > 0.0 and not held.is_empty():
+		if action["type"] == "sell" and action.has("slot") and score > 0.0 and not held.is_empty():
 			var sold: Unit = player.board[CoreUtil.to_int(action["slot"])]
 			if not _has_replacement(player, held, sold):
 				score = -1.0

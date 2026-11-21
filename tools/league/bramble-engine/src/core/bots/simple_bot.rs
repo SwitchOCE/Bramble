@@ -82,6 +82,7 @@ impl SimpleBot {
             "play" => self._play_score(player, action),
             "buy" => self._buy_score(session, player, action),
             "sell" if action.has("slot") => self._sell_score(player, action.get("slot").as_i64()),
+            "sell" => self._hand_sell_score(player, action.get("hand").as_i64()),
             "ability" => 2.0,
             _ => -1.0,
         }
@@ -120,13 +121,25 @@ impl SimpleBot {
             .hand
             .get(action.get("hand").as_i64() as usize)
             .expect("hand card");
-        let card = card.borrow();
-        let mut score = if card.is_spell() {
+        let mut score = if card.borrow().is_spell() {
             45.0
         } else {
-            50.0 + card.def.as_ref().unwrap().borrow().tier as f64
+            50.0 + card.borrow().def.as_ref().unwrap().borrow().tier as f64
         };
         let slot = action.get("slot").as_i64();
+        if CoreUtil::to_bool(&action.get_or("swap", false.into())) {
+            let other = player
+                .board
+                .get(slot as usize)
+                .flatten()
+                .expect("swap unit");
+            let improvement = Self::_swap_worth(&card) - Self::_swap_worth(&other);
+            return if improvement > 0.0 {
+                40.0 + improvement / (1.0 + improvement)
+            } else {
+                -1.0
+            };
+        }
         if slot >= 0 {
             score -= slot as f64 * 0.1;
         }
@@ -134,6 +147,13 @@ impl SimpleBot {
             score += target.borrow().attack() as f64 * 0.001;
         }
         score
+    }
+    // Use the units' own stats so a slot's bonuses or a board aura can't reverse a swap.
+    pub fn _swap_worth(unit: &UnitRef) -> f64 {
+        let unit = unit.borrow();
+        let tier = unit.def.as_ref().unwrap().borrow().tier + if unit.golden { 2 } else { 0 };
+        let stats = unit.stats.as_ref().unwrap().borrow();
+        tier as f64 * 10.0 + (stats.own_attack() + stats.own_health()) as f64 * 0.1
     }
     pub fn _buy_score(
         &self,
@@ -182,7 +202,8 @@ impl SimpleBot {
         {
             return if held > 0 { 15.0 * held as f64 } else { -1.0 };
         }
-        40.0 + Self::_worth(&card) * 0.1 + 15.0 * held as f64
+        let on_board = if action.has("slot") { 0.01 } else { 0.0 };
+        40.0 + Self::_worth(&card) * 0.1 + 15.0 * held as f64 + on_board
     }
     pub fn _sell_score(&self, player: &PlayerStateRef, slot: i64) -> f64 {
         let player = player.borrow();
@@ -201,6 +222,20 @@ impl SimpleBot {
             }
         }
         -1.0
+    }
+    // Sell a hand unit the full board will never take, such as one a swap sent back.
+    pub fn _hand_sell_score(&self, player: &PlayerStateRef, index: i64) -> f64 {
+        let player = player.borrow();
+        let unit = player.hand.get(index as usize).expect("hand unit");
+        if unit.borrow().is_spell() || !player.empty_slots().is_empty() {
+            return -1.0;
+        }
+        if Self::_weakest(&player)
+            .is_none_or(|weakest| Self::_swap_worth(&unit) > Self::_swap_worth(&weakest))
+        {
+            return -1.0;
+        }
+        35.0
     }
     pub fn _weakest(player: &PlayerState) -> Option<UnitRef> {
         let mut weakest = None;

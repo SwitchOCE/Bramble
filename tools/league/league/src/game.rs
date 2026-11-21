@@ -580,11 +580,13 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
                         if card.is_empty() {
                             continue;
                         }
-                        let buyable = view.legal().iter().any(|a| {
-                            *a == Action::Buy {
-                                spell,
-                                index: i as i64,
-                            }
+                        let buyable = view.legal().iter().any(|action| match *action {
+                            Action::Buy { spell: row, index }
+                            | Action::BuyTarget {
+                                spell: row, index, ..
+                            } => row == spell && index == i as i64,
+                            Action::BuyBoard { index, .. } => !spell && index == i as i64,
+                            _ => false,
                         });
                         offers.push(
                             json!({"card": card, "spell": spell, "index": i, "buyable": buyable}),
@@ -657,18 +659,18 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
             }));
         }
         if result.is_empty()
-            && let (
-                Action::Buy { spell, index } | Action::BuyTarget { spell, index, .. },
-                Some(shop),
-            ) = (&typed, seat.shop.as_mut())
+            && typed.kind() == "buy"
+            && let Some(shop) = seat.shop.as_mut()
         {
-            let row = if *spell {
+            let spell = matches!(action.get("spell"), Variant::Bool(true));
+            let index = action.get("index").as_i64();
+            let row = if spell {
                 &mut shop.expect_spells
             } else {
                 &mut shop.expect_units
             };
-            let card = row[*index as usize].clone();
-            row[*index as usize] = String::new();
+            let card = row[index as usize].clone();
+            row[index as usize] = String::new();
             shop.value["bought"]
                 .as_array_mut()
                 .expect("bought list")
@@ -711,23 +713,36 @@ fn legal_entry(action: &Action, me: &league_api::Me) -> Value {
             json!({"type": "pick", "index": index, "target": target, "card": at(&me.discover_options, *index)})
         }
         Action::RecruitTarget { target } => json!({"type": "recruit_target", "target": target}),
-        Action::Buy { spell, index } | Action::BuyTarget { spell, index, .. } => {
-            let (row, prices) = if *spell {
+        Action::Buy { .. } | Action::BuyTarget { .. } | Action::BuyBoard { .. } => {
+            let (spell, index, target, slot) = match *action {
+                Action::Buy { spell, index } => (spell, index, -1, None),
+                Action::BuyTarget {
+                    spell,
+                    index,
+                    target,
+                } => (spell, index, target, None),
+                Action::BuyBoard {
+                    index,
+                    slot,
+                    target,
+                } => (false, index, target, Some(slot)),
+                _ => unreachable!(),
+            };
+            let (row, prices) = if spell {
                 (&me.shop_spells, &me.spell_prices)
             } else {
                 (&me.shop_units, &me.unit_prices)
             };
-            let price = usize::try_from(*index)
+            let price = usize::try_from(index)
                 .ok()
                 .and_then(|i| prices.get(i))
                 .copied();
-            let target = if let Action::BuyTarget { target, .. } = action {
-                *target
-            } else {
-                -1
-            };
-            json!({"type": "buy", "spell": spell, "index": index, "target": target,
-                   "card": at(row, *index), "price": price})
+            let mut entry = json!({"type": "buy", "spell": spell, "index": index, "target": target,
+                   "card": at(row, index), "price": price});
+            if let Some(slot) = slot {
+                entry["slot"] = json!(slot);
+            }
+            entry
         }
         Action::Sell { slot } => {
             let card = usize::try_from(*slot)
@@ -748,6 +763,12 @@ fn legal_entry(action: &Action, me: &league_api::Me) -> Value {
                 .ok()
                 .and_then(|i| unit(me.hand.get(i)));
             json!({"type": "play", "hand": hand, "slot": slot, "target": target, "card": card})
+        }
+        Action::Swap { hand, slot } => {
+            let card = usize::try_from(*hand)
+                .ok()
+                .and_then(|i| unit(me.hand.get(i)));
+            json!({"type": "play", "hand": hand, "slot": slot, "target": -1, "swap": true, "card": card})
         }
         Action::Ability {
             uid,
@@ -1097,7 +1118,7 @@ mod tests {
     use std::cell::RefCell;
 
     // GDScript's seed-1001 prefix through turn two, from tests/core/test_async_session.gd.
-    const LIVE_REFERENCE: &str = "0e86cc29fdaa120e4cd4f504f61766f8be37b79b5d514a77aaa1a6dc6f8944c9";
+    const LIVE_REFERENCE: &str = "4b2b45f86988d2202b709419f58f0c9135df8c4d09e0c6edaba61b24d140b59f";
 
     #[test]
     fn eight_live_seats_match_the_format_three_reference() {

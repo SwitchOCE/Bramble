@@ -58,5 +58,51 @@
     ["board", "needle-page", 0], ["hand", "brock-cub*", 7],
     ["give", "harvest-piper", 0], ["give", "sp_sharpen"], ["stamp"],
     ["restore"], ["offer", "bumblebee"], ["end"], ["start"], ["act", {"type":"sell","hand":0}], ["retire"]
+  ],
+  "full_hand_board_buy_queues_recruit_gain": [
+    ["board", "needle-page", 0], ["hand", "brock-cub*", 7], ["give", "sp_seek"],
+    ["shop_unit", "hayloft-aunt"], ["shop_spell", "sp_sharpen"], ["legal", "all"],
+    ["act", {"type":"buy","index":0}],
+    ["act", {"type":"buy","index":0,"slot":0}],
+    ["act", {"type":"buy","index":0,"slot":7}],
+    ["act", {"type":"buy","spell":true,"index":0,"slot":1}],
+    ["act", {"type":"buy","index":0,"slot":1}],
+    ["act", {"type":"sell","hand":4}]
+  ],
+  "full_hand_board_buy_completes_triple": [
+    ["board", "needle-page", 0], ["board", "harvest-piper", 2], ["board", "harvest-piper", 4],
+    ["hand", "brock-cub*", 7], ["shop_unit", "harvest-piper"],
+    ["act", {"type":"buy","index":0,"slot":5}]
+  ],
+  "full_hand_board_buy_opens_target_choice": [
+    ["board", "needle-page", 0], ["hand", "brock-cub*", 7],
+    ["shop_unit", "quartermaster"], ["legal", "all"],
+    ["act", {"type":"buy","index":0,"slot":1}], ["legal"],
+    ["act", {"type":"recruit_target"}, 0], ["act", {"type":"recruit_target"}, -6]
+  ],
+  "full_hand_swap_keeps_waiting_and_refreshes_auras": [
+    ["board", "needle-page", 0], ["board", "squadron-leader", 4],
+    ["hand", "brock-cub*", 3], ["hand", "harvest-piper"], ["hand", "brock-cub*", 3],
+    ["auras"], ["give", "sp_seek"], ["give", "cousin"],
+    ["act", {"type":"play","hand":3,"slot":4,"swap":true}],
+    ["act", {"type":"play","hand":3,"slot":2}]
+  ],
+  "swap_leaves_a_preexisting_triple_unsettled": [
+    ["board", "harvest-piper", 0], ["board", "harvest-piper", 1], ["board", "needle-page", 4],
+    ["hand", "harvest-piper"], ["act", {"type":"play","hand":0,"slot":4,"swap":true}]
+  ],
+  "swap_refuses_worked_unit_and_invalid_slots": [
+    ["board", "lance-corporal", 4], ["worked", 4],
+    ["hand", "needle-page"], ["hand", "sp_sharpen"], ["legal", "all"],
+    ["act", {"type":"play","hand":0,"slot":4}],
+    ["act", {"type":"play","hand":0,"slot":4,"swap":true}],
+    ["act", {"type":"play","hand":0,"slot":5,"swap":true}],
+    ["act", {"type":"play","hand":1,"slot":4,"swap":true}]
+  ],
+  "simple_bot_uses_own_stats_then_sells_the_outgoing_hand_unit": [
+    ["board", "needle-page", 0], ["board", "brock-cub*", 1], ["board", "brock-cub*", 2],
+    ["board", "brock-cub*", 3], ["board", "squadron-leader", 4], ["board", "brock-cub*", 5],
+    ["board", "brock-cub*", 6], ["hand", "bramble-runner"], ["auras"], ["gold", 0],
+    ["bot"], ["bot"]
   ]
 }

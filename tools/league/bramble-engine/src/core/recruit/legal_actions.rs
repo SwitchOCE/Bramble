@@ -58,7 +58,7 @@ impl LegalActions {
                     out.push(action! { "type" => "pick", "index" => i as i64 });
                 } else {
                     let card = library.borrow().get_card(&id).expect("discover card");
-                    Self::_gains(session, player, &card, "pick", i as i64, false, &out);
+                    Self::_gains(session, player, &card, "pick", i as i64, false, None, &out);
                 }
             }
             return out;
@@ -103,9 +103,8 @@ impl LegalActions {
         out: &Array<T>,
     ) {
         let rules = session.borrow().rules.as_ref().unwrap().clone();
-        if player.borrow().hand.len() as i64 >= rules.borrow().hand_limit(player) {
-            return;
-        }
+        let hand_room = (player.borrow().hand.len() as i64) < rules.borrow().hand_limit(player);
+        let empty = player.borrow().empty_slots();
         for spell in [false, true] {
             let shop = if spell {
                 player.borrow().shop_spells.clone()
@@ -125,7 +124,23 @@ impl LegalActions {
                     rules.borrow().unit_price(player, &card, None)
                 };
                 if player.borrow().gold >= price {
-                    Self::_gains(session, player, &card, "buy", i as i64, spell, out);
+                    if hand_room {
+                        Self::_gains(session, player, &card, "buy", i as i64, spell, None, out);
+                    }
+                    if !spell {
+                        for slot in empty.iter_live() {
+                            Self::_gains(
+                                session,
+                                player,
+                                &card,
+                                "buy",
+                                i as i64,
+                                spell,
+                                Some(slot),
+                                out,
+                            );
+                        }
+                    }
                 }
             }
         }
@@ -136,30 +151,41 @@ impl LegalActions {
         out: &Array<T>,
     ) {
         let recruit = session.borrow().recruit.as_ref().unwrap().clone();
-        let empty = player.borrow().empty_slots();
+        let slot_count = session
+            .borrow()
+            .geometry
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .slot_count;
         let hand_size = player.borrow().hand.len();
         for i in 0..hand_size {
             let card = player.borrow().hand.get(i).unwrap();
+            if !card.borrow().is_spell() {
+                for slot in 0..slot_count {
+                    let swap = player.borrow().board.get(slot as usize).flatten().is_some();
+                    if Recruit::play_slot_error(&recruit, player, slot, swap).is_empty() {
+                        if swap {
+                            out.push(action! { "type" => "play", "hand" => i as i64, "slot" => slot, "target" => -1_i64, "swap" => true });
+                        } else {
+                            out.push(action! { "type" => "play", "hand" => i as i64, "slot" => slot, "target" => -1_i64 });
+                        }
+                    }
+                }
+                continue;
+            }
             let kind = Recruit::play_target_of(&recruit, &card);
             let mut choices = Array::from([-1_i64]);
             if kind != Target::None {
                 let targets = Recruit::targets_for(&recruit, player, kind, Some(&card));
                 if !targets.is_empty() {
                     choices = targets;
-                } else if card.borrow().is_spell() {
+                } else {
                     continue;
                 }
             }
-            if card.borrow().is_spell() {
-                for target in choices.borrow().iter() {
-                    out.push(action! { "type" => "play", "hand" => i as i64, "slot" => -1_i64, "target" => *target });
-                }
-                continue;
-            }
-            for slot in empty.borrow().iter() {
-                for target in choices.borrow().iter() {
-                    out.push(action! { "type" => "play", "hand" => i as i64, "slot" => *slot, "target" => *target });
-                }
+            for target in choices.iter_live() {
+                out.push(action! { "type" => "play", "hand" => i as i64, "slot" => -1_i64, "target" => target });
             }
         }
     }
@@ -235,6 +261,7 @@ impl LegalActions {
         kind: &'static str,
         index: i64,
         spell: bool,
+        slot: Option<i64>,
         out: &Array<T>,
     ) {
         let targets = Array::from([-1_i64]);
@@ -245,7 +272,9 @@ impl LegalActions {
                 .extend(Recruit::recruit_targets(player, Some(&effect), None).iter_live());
         }
         for target in targets.iter_live() {
-            if kind == "buy" {
+            if let Some(slot) = slot {
+                out.push(action! { "type" => "buy", "spell" => spell, "index" => index, "slot" => slot, "target" => target });
+            } else if kind == "buy" {
                 out.push(action! { "type" => "buy", "spell" => spell, "index" => index, "target" => target });
             } else {
                 out.push(action! { "type" => "pick", "index" => index, "target" => target });

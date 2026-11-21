@@ -33,6 +33,8 @@ pub struct Recruit {
     pub _effect_rng: Dictionary<RngRef, i64>,
 }
 impl Recruit {
+    pub const WORKED_ERROR: &'static str = "Worked this turn: stays for the fight.";
+
     fn _session(recruit: &RecruitRef) -> GameSessionRef {
         recruit
             .borrow()
@@ -217,6 +219,7 @@ impl Recruit {
                 CoreUtil::to_bool(&action.get_or("spell", false.into())),
                 action.get_or("index", (-1).into()).as_i64(),
                 action.get_or("target", (-2).into()).as_i64(),
+                action.get_or("slot", (-1).into()).as_i64(),
             ),
             "sell" => Self::_sell(
                 recruit,
@@ -233,6 +236,7 @@ impl Recruit {
                 action.get_or("hand", (-1).into()).as_i64(),
                 action.get_or("slot", (-1).into()).as_i64(),
                 action.get_or("target", (-1).into()).as_i64(),
+                CoreUtil::to_bool(&action.get_or("swap", false.into())),
             ),
             "recruit_target" => Self::_choose_recruit_target(
                 recruit,
@@ -274,13 +278,14 @@ impl Recruit {
         }
     }
 
-    // 4.2: buy a unit or spell from the shop into the hand.
+    // 4.2: buy into the hand, or buy a unit directly onto an empty board slot.
     pub fn _buy(
         recruit: &RecruitRef,
         player: &PlayerStateRef,
         spell: bool,
         index: i64,
         target: i64,
+        slot: i64,
     ) -> String {
         let shop = if spell {
             player.borrow().shop_spells.clone()
@@ -293,10 +298,25 @@ impl Recruit {
         {
             return "no card in that shop slot".into();
         }
-        if player.borrow().hand.len() as i64 >= Self::_rules(recruit).borrow().hand_limit(player) {
+        let game = Self::_session(recruit);
+        if slot != -1 {
+            if spell
+                || !game
+                    .borrow()
+                    .geometry
+                    .as_ref()
+                    .expect("geometry")
+                    .borrow()
+                    .is_valid(slot)
+                || player.borrow().board.get(slot as usize).flatten().is_some()
+            {
+                return "choose an empty slot".into();
+            }
+        } else if player.borrow().hand.len() as i64
+            >= Self::_rules(recruit).borrow().hand_limit(player)
+        {
             return "hand is full".into();
         }
-        let game = Self::_session(recruit);
         let card = game
             .borrow()
             .library
@@ -327,7 +347,16 @@ impl Recruit {
         let unit = game.borrow_mut().new_unit(&card, false);
         unit.borrow_mut().bought_copies = 1;
         Self::_log(recruit,player,&crate::state_dict!{"type"=>"buy","uid"=>&unit.borrow().uid,"id"=>&card.borrow().id,"price"=>&price}.as_dict());
-        Self::_gain(recruit, player, &unit, target);
+        if slot == -1 {
+            Self::_gain(recruit, player, &unit, target);
+        } else {
+            player.borrow_mut().place(&unit, slot);
+            Self::_log_gain(recruit, player, &unit);
+            if !Self::_completes_triple(player, &unit) {
+                Self::refresh_auras(recruit, player);
+                Self::_recruit_unit(recruit, player, &unit, target);
+            }
+        }
         Self::_settle(recruit, player);
         String::new()
     }
@@ -381,13 +410,14 @@ impl Recruit {
         String::new()
     }
 
-    // 7.2 play a unit into a chosen empty slot, or 6.1.5 cast a spell.
+    // 7.2 play a unit into a chosen slot (swapping its occupant), or 6.1.5 cast a spell.
     pub fn _play(
         recruit: &RecruitRef,
         player: &PlayerStateRef,
         hand_index: i64,
         slot: i64,
         target_uid: i64,
+        swap: bool,
     ) -> String {
         if hand_index < 0 || hand_index as usize >= player.borrow().hand.len() {
             return "no card at that hand position".into();
@@ -397,7 +427,7 @@ impl Recruit {
             .hand
             .get(hand_index as usize)
             .expect("hand card");
-        let error = Self::_play_error(recruit, player, &card, slot, target_uid);
+        let error = Self::_play_error(recruit, player, &card, slot, target_uid, swap);
         if !error.is_empty() {
             return error;
         }
@@ -407,22 +437,39 @@ impl Recruit {
         } else {
             None
         };
-        player
-            .borrow()
-            .hand
-            .borrow_mut()
-            .remove(hand_index as usize);
-        let game = Self::_session(recruit);
-        let mut ctx = RecruitContext::new(&game, recruit, player);
-        ctx.target_index = if kind != Target::None { target_uid } else { -1 };
         if card.borrow().is_spell() {
+            player
+                .borrow()
+                .hand
+                .borrow_mut()
+                .remove(hand_index as usize);
+            let game = Self::_session(recruit);
+            let mut ctx = RecruitContext::new(&game, recruit, player);
+            ctx.target_index = if kind != Target::None { target_uid } else { -1 };
             Self::_cast(recruit, &mut ctx, &card, target.as_ref());
             return String::new();
+        }
+        let other = player.borrow().board.get(slot as usize).flatten();
+        if let Some(other) = &other {
+            player.borrow_mut().remove_from_board(other);
+            player.borrow().hand.borrow_mut()[hand_index as usize] = other.clone();
+            let def = other.borrow().def.clone().expect("unit definition");
+            Self::_log(recruit, player, &crate::state_dict!{"type"=>"to_hand","uid"=>&other.borrow().uid,"id"=>&def.borrow().id,"slot"=>&slot}.as_dict());
+        } else {
+            player
+                .borrow()
+                .hand
+                .borrow_mut()
+                .remove(hand_index as usize);
         }
         player.borrow_mut().place(&card, slot);
         let def = card.borrow().def.as_ref().expect("unit definition").clone();
         Self::_log(recruit,player,&crate::state_dict!{"type"=>"play","uid"=>&card.borrow().uid,"id"=>&def.borrow().id,"slot"=>&slot}.as_dict());
-        Self::_settle(recruit, player);
+        if other.is_none() {
+            Self::_settle(recruit, player);
+        } else {
+            Self::refresh_auras(recruit, player);
+        }
         String::new()
     }
     pub fn _cast(
@@ -449,27 +496,24 @@ impl Recruit {
         Self::_settle(recruit, &player);
     }
 
-    // 7.2.1-7.2.2 a unit needs an empty slot; a card that aims needs a target of its kind when one
-    // exists (a friendly unit, a slot, a shop unit), and a spell that aims can't be cast without.
+    // 7.2.1-7.2.2 a unit needs a slot it can play into. A spell that aims needs a valid target.
     pub fn _play_error(
         recruit: &RecruitRef,
         player: &PlayerStateRef,
         card: &UnitRef,
         slot: i64,
         target: i64,
+        swap: bool,
     ) -> String {
-        let game = Self::_session(recruit);
-        let geometry = game
-            .borrow()
-            .geometry
-            .as_ref()
-            .expect("session geometry")
-            .clone();
-        if !card.borrow().is_spell()
-            && (!geometry.borrow().is_valid(slot)
-                || player.borrow().board.get(slot as usize).flatten().is_some())
-        {
-            return "choose an empty slot".into();
+        if card.borrow().is_spell() {
+            if swap {
+                return "no unit at that hand position".into();
+            }
+        } else {
+            let error = Self::play_slot_error(recruit, player, slot, swap);
+            if !error.is_empty() {
+                return error;
+            }
         }
         let kind = Self::play_target_of(recruit, card);
         if kind == Target::None {
@@ -492,6 +536,36 @@ impl Recruit {
         } else {
             "not a valid target".into()
         }
+    }
+
+    // An explicit swap keeps older play actions (including refusals) replayable.
+    pub fn play_slot_error(
+        recruit: &RecruitRef,
+        player: &PlayerStateRef,
+        slot: i64,
+        swap: bool,
+    ) -> String {
+        let geometry = Self::_session(recruit)
+            .borrow()
+            .geometry
+            .clone()
+            .expect("geometry");
+        if !geometry.borrow().is_valid(slot) {
+            return "choose an empty slot".into();
+        }
+        let unit = player.borrow().board.get(slot as usize).flatten();
+        if unit.is_some() != swap {
+            return if swap {
+                "no unit in that slot"
+            } else {
+                "choose an empty slot"
+            }
+            .into();
+        }
+        if swap && unit.expect("unit in swap slot").borrow().worked_this_turn {
+            return Self::WORKED_ERROR.into();
+        }
+        String::new()
     }
 
     // What playing this card aims at: the first of its mechanics that aims decides.
@@ -730,7 +804,7 @@ impl Recruit {
             return "no unit in that slot".into();
         };
         if unit.borrow().worked_this_turn {
-            return "Worked this turn: stays for the fight.".into();
+            return Self::WORKED_ERROR.into();
         }
         if player.borrow().hand.len() as i64 >= Self::_rules(recruit).borrow().hand_limit(player) {
             return "hand is full".into();
