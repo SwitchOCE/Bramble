@@ -1,5 +1,5 @@
-# Pull requests: the quality gate (scripts/check.sh), skipped when only docs or the art/research
-# tools changed (scripts/docs_only.sh). PRs labelled "exports", and manual runs: export builds too
+# Pull requests: the quality gate (scripts/check.sh), skipped when only docs, the art/research
+# tools or the large-files list changed (scripts/docs_only.sh). PRs labelled "exports", and manual runs: export builds too
 # (Linux, Windows, Android APK, Android AAB through Gradle) via scripts/export_smoke.sh. Every
 # version and checksum comes from tools/versions.env.
 name: CI

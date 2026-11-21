@@ -97,7 +97,7 @@ Session B should show no warning and a full `setup.log`. Session C should show `
 
 ## 3. CI on GitHub
 
-- **Every PR** that touches more than docs and the art/research tools runs `check.sh` on `ubuntu-24.04`.
+- **Every PR** that touches more than docs, the art/research tools and the list of large files (`tools/assets/manifest.tsv`) runs `check.sh` on `ubuntu-24.04`. The list is in `scripts/docs_only.sh`.
 - **Exports** run when a PR carries the `exports` label, or from **Actions → CI → Run workflow**. They build Linux, Windows, the APK and the AAB, and keep the builds as artifacts for 3 days.
 - Actions minutes are free while the repo is public.
 

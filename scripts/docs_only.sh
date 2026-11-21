@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Reads changed file paths on stdin, one per line. Exit 0 if every one is docs or an art or
-# research tool, which the quality gate doesn't read; exit 1 if any isn't, or if none are given.
+# Reads changed file paths on stdin, one per line. Exit 0 if every one is docs, an art or research
+# tool, or the list of large files kept in R2, none of which the quality gate reads; exit 1 if any
+# isn't, or if none are given.
 # CI uses it to decide whether a pull request needs check.sh. By hand:
 #   git diff --name-only origin/dev...HEAD | ./scripts/docs_only.sh
 set -uo pipefail
@@ -10,7 +11,7 @@ while IFS= read -r path || [ -n "$path" ]; do
   [ -n "$path" ] || continue
   count=$((count + 1))
   case "$path" in
-    docs/* | *.md | tools/art/* | tools/research/* | tools/folio/*) ;;
+    docs/* | *.md | tools/art/* | tools/research/* | tools/folio/* | tools/assets/manifest.tsv) ;;
     *)
       echo "not docs only: $path"
       exit 1
