@@ -137,37 +137,6 @@ static func counter_plate(name: String, value: String, icon: String) -> GlassBox
 	return plate
 
 
-## A small economy readout, using the existing cream counter plate, type and gold coin.
-static func gold_readout(
-	caption: String, signed_amount: String, line_icon: String = ""
-) -> GlassBox:
-	var plate: GlassBox = counter_plate(caption, signed_amount, "")
-	if line_icon != "":
-		var label: GlassText = plate.get_node("Name")
-		var icon: TextureRect = TextureRect.new()
-		icon.name = "Icon"
-		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		icon.size = Vector2(24, 24)
-		icon.position = Vector2(label.position.x, (PLATE_H - icon.size.y) / 2.0)
-		icon.texture = GlassPieces.icon(
-			line_icon, GlassPieces.rule_colour("stage", ".chipv", "color"), 24, 2.4
-		)
-		var shift: float = icon.size.x - label.size.x
-		(plate.get_node("Value") as Control).position.x += shift
-		plate.box_size.x += shift
-		plate.remove_child(label)
-		label.free()
-		plate.add_child(icon)
-	var coin: GoldCoin = GoldCoin.make(-1, PLATE_EMBLEM)
-	coin.position = Vector2(
-		plate.box_size.x - PLATE_PAD + PLATE_GAP, (PLATE_H - PLATE_EMBLEM) / 2.0
-	)
-	plate.box_size.x += PLATE_GAP + PLATE_EMBLEM
-	plate.add_child(coin)
-	plate.refresh()
-	return plate
-
-
 ## STAND-IN (polish.html .lb .out .port): a player who is out, their portrait grey and dark.
 static func out_portrait(portrait: String, side: float, rules: Array) -> GlassBox:
 	var box: GlassBox = make_portrait(portrait, side, rules)

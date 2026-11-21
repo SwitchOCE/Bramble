@@ -58,7 +58,7 @@ func build_end_turn() -> void:
 		# A2 in after.js: (1846, 900), relative to the portrait at (1734, 930).
 		var at: Vector2 = port.position + Vector2(112.0, -30.0)
 		var right: float = _screen._stage.size.x
-		var badge: GlassBox = _income_badge(income, right - at.x)
+		var badge: GlassBox = _income_badge(income)
 		badge.position = Vector2(minf(at.x, right - badge.box_size.x), at.y)
 		_screen._front.add_child(badge)
 	_screen._targets.append(
@@ -72,8 +72,9 @@ func build_end_turn() -> void:
 	)
 
 
-## A2's .rd.incbadge: a 30 px cream plate, with a 21 px value and a 26 px coin.
-static func _income_badge(income: int, room: float) -> GlassBox:
+## A2's .rd.incbadge: a 30 px cream plate, with a 21 px value and a 26 px coin, padded 8 px
+## left and 4 px right.
+static func _income_badge(income: int) -> GlassBox:
 	var height: float = 30.0
 	var value: GlassText = GlassText.new()
 	value.name = "Value"
@@ -94,8 +95,7 @@ static func _income_badge(income: int, room: float) -> GlassBox:
 	]
 	value.position = Vector2(badge.border_width + 8.0, (height - value.size.y) / 2.0)
 	coin.position = Vector2(value.position.x + value.size.x + 4.0, (height - coin.size.y) / 2.0)
-	var minimum: float = coin.position.x + coin.size.x + badge.border_width
-	badge.box_size = Vector2(clampf(room, minimum, minimum + 4.0), height)
+	badge.box_size = Vector2(coin.position.x + coin.size.x + 4.0 + badge.border_width, height)
 	badge.radii = Vector4.ONE * badge.box_size.y / 2.0
 	badge.refresh()
 	badge.add_child(value)
