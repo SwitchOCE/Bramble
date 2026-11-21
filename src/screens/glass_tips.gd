@@ -458,6 +458,7 @@ func _layout_details(target: Dictionary) -> void:
 	var places: Array[Vector2] = KeywordLayout.arrange(
 		card_rect, words_rect, tip.position, _source_rect(source), sizes, protected
 	)
+	assert(not places.is_empty(), "Grouped keyword panes must fit clear of the card and controls")
 	if not places.is_empty():
 		tip.position = places[0]
 	if fixed_keywords:
