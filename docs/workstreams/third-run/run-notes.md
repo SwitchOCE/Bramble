@@ -75,3 +75,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - Gap: red-c2 places 0.32 ± 0.24 better than blue-c6 in the same lobbies.
 - Stopping test: not started for either bot. Both are still climbing, and both have written STOPPING.md.
 - Harness bug found and fixed (stale builds). No team verdict was affected.
+- **Ghost Build Orchestrator, on the build trap:** its dev tools aren't exposed. make_field.sh and smoke_final_bots.sh build from the working tree, and the Windows and export scripts use no cargo. Only the league-only official_match.sh and practice_match.sh share the trap, and this run doesn't use them.
