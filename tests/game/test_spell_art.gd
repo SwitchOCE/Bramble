@@ -25,5 +25,7 @@ func test_the_art_map_is_outside_the_rules_files() -> void:
 	for id: String in CardArt.SPELLS:
 		assert_true(content.library.has(StringName(id)), "%s is a card" % id)
 		assert_ne(
-			content.art_for(id), CardArt.SPELLS[id], "%s's picture is not in the rules files" % id
+			content.art_for(id),
+			str(CardArt.SPELLS[id]),
+			"%s's picture is not in the rules files" % id
 		)
