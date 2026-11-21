@@ -29,7 +29,7 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 
 | Team | Kept | Since | Verdict line |
 |---|---|---|---|
-| red | red-c2 | 21 Nov | red-c2 vs red-c1: 1,000 games, gap −0.452 ± 0.217 (2.432 against 2.884) |
+| red | red-c3 | 21 Nov | red-c3 vs red-c2: 1,000 games, gap −0.338 ± 0.165 (2.450 against 2.788) |
 | blue | blue-c6 | 21 Nov | blue-c6 vs blue-c4: 1,000 games, gap −0.936 ± 0.230 (2.702 against 3.638) |
 
 ## Log
@@ -76,3 +76,8 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - Stopping test: not started for either bot. Both are still climbing, and both have written STOPPING.md.
 - Harness bug found and fixed (stale builds). No team verdict was affected.
 - **Ghost Build Orchestrator, on the build trap:** its dev tools aren't exposed. make_field.sh and smoke_final_bots.sh build from the working tree, and the Windows and export scripts use no cargo. Only the league-only official_match.sh and practice_match.sh share the trap, and this run doesn't use them.
+- **red-c3** (`5179a2c0`: levels one round later; tier 2 at round 5, 3 at 8, 4 at 11, 5 at 13) against red-c2: 1,000 games, gap −0.338 ± 0.165 (2.450 against 2.788). **Kept.** The match was clean, and it was the first played with the rebuild guard. Field now 11,000.
+  - Tribe picks: Locust 86.2% (2.10), none 8.8%, Briar 3.0%, Pigeon 1.8%, Mouse 0.2%; 2.5 in hand. Interim report sent, and the method summary to blue.
+- **Busy machine, 23:51.** Load average 30 on 6 cores from other sessions: a `league match` in the sound-engine worktree and several Godot review and test runs. Match wall time went from 0.27 to 1.09 s a game.
+  - Results are unaffected: the bot clock is per-thread CPU time, and there were no clock-outs or faults.
+  - Not stopped. The owner was asked whether to pause (brief section 8 lists a busy machine).
