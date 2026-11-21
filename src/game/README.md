@@ -21,8 +21,8 @@ defines the view data.
 2. **Recruit.** The player acts at their own pace. The next opponent's portrait and health are
    shown. End turn starts combat.
 3. **Fight.** Each ghost brings its recorded board for the current round. If its run ended
-   earlier, it brings its last board. The lobby fights and applies damage normally. Space,
-   Enter or a click can skip the player's playback to the result. **Past boards** in recruit lets
+   earlier, it brings its last board. The lobby fights and applies damage normally. The Skip
+   button or Space skips the player's playback to the result; a click elsewhere does not. **Past boards** in recruit lets
    the player browse the starting boards of the fights they played.
 4. **End.** If the human is eliminated, the remaining ghosts play out for the final eight
    placements. The player's record is cut and saved in `user://ghosts` with source kind

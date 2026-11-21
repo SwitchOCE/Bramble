@@ -187,7 +187,7 @@ func test_a_click_on_the_cog_in_a_fight_opens_the_panel_and_does_not_skip() -> v
 	var game: GameController = main.get_node("Game")
 	game.request({"type": "end_turn"})
 	assert_eq(game.phase, GameController.Phase.FIGHT)
-	# past the fight's first moments, when a click anywhere else skips it
+	# Past the opening guard so both inputs exercise the normal fight controls.
 	game._process(GameController.RESULT_GUARD)
 	var cog: SettingsCog = main.get("cog")
 	_real_click(_cog_middle(cog))
@@ -195,7 +195,12 @@ func test_a_click_on_the_cog_in_a_fight_opens_the_panel_and_does_not_skip() -> v
 	assert_eq(game.phase, GameController.Phase.FIGHT, "the fight is not skipped")
 	main.call("toggle_pause")
 	_real_click(Vector2(960, 540))
-	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "a click elsewhere still skips")
+	assert_eq(game.phase, GameController.Phase.FIGHT, "a click on the board leaves it playing")
+	var space := InputEventKey.new()
+	space.keycode = KEY_SPACE
+	space.pressed = true
+	get_viewport().push_input(space, true)
+	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "Space still skips")
 
 
 func test_the_cog_does_nothing_while_a_card_is_held() -> void:
