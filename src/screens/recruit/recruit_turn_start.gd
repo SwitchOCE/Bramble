@@ -8,6 +8,8 @@ const LIFT: float = 14.0
 const WARM: Color = Color(1.18, 1.13, 1.06)
 const AMBER: Color = Color("ffd678")
 
+static var _disc: Texture2D
+
 var _screen: RecruitScreen
 var _timeline: Tween
 var _poses: Dictionary = {}
@@ -305,18 +307,76 @@ func _gain_tag(words: String, ink: Color, pane: Color) -> Control:
 
 
 func _renown_star(amount: int) -> Control:
-	var star: TextureRect = TextureRect.new()
+	# protos.js starEl (.fxstar): a 60 px gold disc, its light at 38% 30%, a 3 px dark rim and a
+	# warm glow, with the Renown star drawn in dark line at two thirds of its size
+	var star: Control = Control.new()
 	star.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	star.texture = KeywordStyle.icon("Renown")
-	star.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	star.size = Vector2.ONE * 60
 	star.name = "RenownGain"
+	var disc: Texture2D = _star_disc()
+	star.draw.connect(
+		func() -> void:
+			var mid: Vector2 = star.size / 2.0
+			var r: float = star.size.x / 2.0
+			# box-shadow 0 0 18px rgba(255,200,80,.85), 0 3px 5px rgba(0,0,0,.6)
+			for i: int in 6:
+				var k: float = (i + 1) / 6.0
+				star.draw_circle(mid, r + 18.0 * k, Color(1.0, 0.784, 0.314, 0.14 * (1.0 - k)))
+			star.draw_circle(mid + Vector2(0, 3), r + 1.0, Color(0, 0, 0, 0.35))
+			star.draw_texture_rect(disc, Rect2(Vector2.ZERO, star.size), false)
+	)
 	# protos.js starEl (.fxstar em): the Renown it carries at its lower right, 26 px
 	var label: GlassText = _words("+%d" % amount, Color("ffe08a"), 26, 5.0)
 	label.position = star.size + Vector2(22.0, 10.0) - label.size
 	star.add_child(label)
 	_add_effect(star)
 	return star
+
+
+## The .fxstar disc, drawn once at twice its size: radial-gradient(circle at 38% 30%, #fff6c4,
+## #ffcf3d 55%, #c98a10) out to the farthest corner, a 3 px #16120e rim, and the Renown star in
+## dark line at two thirds of its size.
+static func _star_disc() -> Texture2D:
+	if _disc != null:
+		return _disc
+	var side: int = 120
+	var image: Image = Image.create(side, side, false, Image.FORMAT_RGBA8)
+	var mid: Vector2 = Vector2.ONE * side / 2.0
+	var light: Vector2 = Vector2(0.38, 0.30) * side
+	var reach: float = (Vector2.ONE * side - light).length()
+	var r: float = side / 2.0
+	for y: int in side:
+		for x: int in side:
+			var at: Vector2 = Vector2(x + 0.5, y + 0.5)
+			var d: float = at.distance_to(mid)
+			var k: float = at.distance_to(light) / reach
+			var c: Color = (
+				Color("fff6c4").lerp(Color("ffcf3d"), k / 0.55)
+				if k < 0.55
+				else Color("ffcf3d").lerp(Color("c98a10"), (k - 0.55) / 0.45)
+			)
+			c = c.lerp(Color("16120e"), clampf(d - (r - 6.0) + 0.5, 0.0, 1.0))
+			c.a = clampf(r - d + 0.5, 0.0, 1.0)
+			image.set_pixel(x, y, c)
+	var mark: Image = _star_line()
+	var inset: int = roundi(side * 0.17)
+	mark.resize(side - 2 * inset, side - 2 * inset, Image.INTERPOLATE_LANCZOS)
+	image.blend_rect(mark, Rect2i(Vector2i.ZERO, mark.get_size()), Vector2i(inset, inset))
+	image.generate_mipmaps()
+	_disc = ImageTexture.create_from_image(image)
+	return _disc
+
+
+static func _star_line() -> Image:
+	var spec: Dictionary = KeywordStyle.entry("Renown")
+	var svg: String = (
+		'<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24"'
+		+ ' fill="none" stroke="#16120e" stroke-width="2.4" stroke-linecap="round"'
+		+ ' stroke-linejoin="round">%s</svg>' % KeywordStyle.data()["icons"][spec["icon"]]
+	)
+	var image: Image = Image.new()
+	image.load_svg_from_string(svg)
+	return image
 
 
 static func _words(words: String, ink: Color, px: float = 30, stroke: float = 3.0) -> GlassText:
