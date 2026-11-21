@@ -325,10 +325,7 @@ func test_a_hand_swap_previews_then_moves_both_units() -> void:
 	assert_true(resting.visible, "the unit itself lifts: no copy in its place")
 	await get_tree().create_timer(0.2).timeout
 	assert_almost_eq(
-		resting.position.y,
-		_screen.slot_xy(0).y - RecruitMotion.SWAP_LIFT,
-		1.0,
-		"lifted 12 px"
+		resting.position.y, _screen.slot_xy(0).y - RecruitMotion.SWAP_LIFT, 1.0, "lifted 12 px"
 	)
 	_move(_slot_middle(3))
 	assert_null(_screen._board._swap_unit)

@@ -84,7 +84,7 @@ func _ready_line() -> String:
 func _hover_allowed() -> bool:
 	return (
 		_input == null
-		or (not _input.is_busy() and not _turn_start.active() and not _motion.active())
+		or (not _input.is_busy() and not _turn_start.active() and not _motion.moving_cards())
 	)
 
 

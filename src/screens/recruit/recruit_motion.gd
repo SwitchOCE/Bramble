@@ -46,6 +46,8 @@ const HOP_TIME: float = 0.2
 ## Drawn over the cards, under nothing (a flying card is the top of the stage).
 const FLYING_Z: int = 8
 
+static var _sweep_code: Shader
+
 var _screen: RecruitScreen
 var _timeline: GlassTimeline
 ## The last action the screen asked for, to tell a refresh from a new turn's shop.
@@ -54,6 +56,9 @@ var _asked: Dictionary = {}
 var _old_shop: Array[Dictionary] = []
 ## A waiting card that flies to the stack: its count pops as it lands.
 var _pop_for: Control
+## Whether this timeline moves cards (a refresh, a swap, a join): no hover detail meanwhile. A
+## count or a button's flash leaves hover alone.
+var _cards_moving: bool = false
 
 
 func _init(screen: RecruitScreen) -> void:
@@ -76,6 +81,11 @@ func _tl() -> GlassTimeline:
 
 func active() -> bool:
 	return _timeline != null and _timeline.running()
+
+
+## Whether cards are on their way somewhere (the hover detail waits).
+func moving_cards() -> bool:
+	return _cards_moving and active()
 
 
 ## The screen is about to ask for an action (its new state comes back from the handler).
@@ -114,6 +124,7 @@ func before_state(before: Dictionary, new_state: Dictionary) -> void:
 func after_state(before: Dictionary) -> void:
 	var action: Dictionary = _asked
 	_asked = {}
+	_cards_moving = false
 	var state: Dictionary = _screen.state
 	if before.is_empty() or not _screen._keeper.animate or not _screen.is_inside_tree():
 		_drop_old_shop()
@@ -125,6 +136,7 @@ func after_state(before: Dictionary) -> void:
 	)
 	var spend_at: float = 0.0
 	if not _old_shop.is_empty():
+		_cards_moving = true
 		_refresh(before)
 		spend_at = AFTER_CLICK
 	if tier_up:
@@ -377,9 +389,6 @@ func _sweep(at: float) -> void:
 	_tl().call_at(at + SWEEP_TIME, band.queue_free)
 
 
-static var _sweep_code: Shader
-
-
 ## stage .sweep: a horizontal gradient, clear to rgba(255,236,180,.6) to clear, screened over the
 ## shop and blurred 8 px (its top and bottom edges soften).
 static func _sweep_shader() -> Shader:
@@ -392,7 +401,7 @@ void fragment() {
 	float across = 1.0 - abs(UV.x * 2.0 - 1.0);
 	float edge = smoothstep(0.0, 0.06, UV.y) * smoothstep(0.0, 0.06, 1.0 - UV.y);
 	float a = 0.6 * across * edge * COLOR.a;
-	COLOR = vec4(vec3(1.0, 0.925, 0.706) * a, a);
+	COLOR = vec4(vec3(1.0, 0.925, 0.706), a);
 }
 """
 	return _sweep_code
@@ -442,6 +451,7 @@ func _swap(before: Dictionary, action: Dictionary) -> void:
 			continue
 		var node: Control = target["node"]
 		var index: int = target["index"]
+		_cards_moving = true
 		_screen._keeper.stop(node)
 		var place: Vector3 = _screen.hand_place(index, hand.size())
 		var foot: Vector2 = Vector2(node.size.x / 2.0, node.size.y)
@@ -509,6 +519,7 @@ func _join(before: Dictionary) -> void:
 			staying.append(target)
 	if joining.is_empty():
 		return
+	_cards_moving = true
 	var left: int = old_hand.size() - staying.size()
 	if left > 0:
 		for j: int in staying.size():
