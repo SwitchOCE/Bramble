@@ -84,6 +84,15 @@ Pairing works: the same bot's two games against the same 7 ghosts correlate at 0
 
 - **The total.** Each bot needs a stopping test at its first maximum and after each of its 2 restarts: up to 6 tests, plus the per-tribe and mechanic-off matches. Run one after another on 4 cores that is roughly **50–70 hours per balance round** before any retests, and it repeats after every balance change. The early stop above roughly halves it.
 
+### What a match keeps (approved by the owner, 21 Nov)
+
+The League Data and Storage session's keep list, which the owner approved ("Okay, I approve your recommendations"), applying the owner's rule in section 11. All big output goes on `/data`, never `/`. No `reports.jsonl`. The referee deletes as it goes, not at the end.
+
+- **Climbing and stopping-test matches** decide only whether a change is kept. Run the decision first (`league analyze`, `check_ghost_match.py`), then keep `summary.json`, `analysis.json`, `timing.json` and a one-line verdict (bot versions, seeds sha, games, mean-place gap, 95% interval, kept or not). Delete the rest at once. **A kept version's match is cut into the climbing field and verified first**, then its raw files go.
+- **Balance-reading matches** (a match the balance orchestrator names as the data for a tuning decision, and the stopping test's per-tribe and rework matches until their report is written): keep the raw files gzipped until that tuning PR merges or the report is written, then keep only the findings.
+- **Field-cut matches:** after `bramble-ghosts cut` and `verify` pass, delete `records/` and the raw logs; keep `summary.json`.
+- **When a build is old** (its rules hash is no longer on `dev`): one folder per build, at most 2 MB: the findings reports, each reading match's `summary.json`, the per-card, round and tribe tables as CSV, and the stopping-test verdict lines. Everything else for that build goes.
+
 ## 10. The team brief (same for both, apart from the colour)
 
 *[To be written into `tools/league/bots/<colour>/THIRD-RUN.md` in each clone once the owner approves.]*
