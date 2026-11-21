@@ -203,6 +203,14 @@ On the mock-up: "The card browser is excellent as well ... No complaints. Happy 
 - **Tips on loading and transition screens.** "Just backlog that ... We'll just leave that unresolved."
 - **The lock keyword.** A unit that "bounces off your board into your hand after a fight. And look, I'm not sure if we need it yet. The lock keyword can stay in the backlog for now."
 
+## 11. Keyword looks on cards
+
+**Wanted.** Not now. The owner, 21 Nov, on the fix round's keyword looks (each keyword drawn on the card in lead and glass: wards, flames, axe blades, roots and so on): "The keyword stuff I don't like. It's too busy. I deny all changes to 10. We'll revisit that. It can go into the backlog. We'll keep the small marks for now and iterate later."
+
+**Bar:** none yet. The rejected sheet is `docs/design/mockups/fix-round-20-nov/keywords/` (shows what was too busy).
+
+**Ask first:** everything. Bring a new, quieter direction to the owner before building any of it.
+
 ## Not covered yet
 
 From the map of 17 Nov, still to go through with the owner: the window that doesn't fit the screen; buying by dragging onto a slot, the drop mode, chips or plates; fight pacing; the open rules ("after fight", effect order, the twelve build calls, which rules win); balance feedback and card checks; sound; the way of working.

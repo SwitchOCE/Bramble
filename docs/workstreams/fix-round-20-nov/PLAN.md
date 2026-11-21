@@ -1,28 +1,30 @@
-# Fix round, 20 Nov 2026: plan for the owner to approve
+# Fix round, 20 Nov 2026: the plan
 
-A proposal, not decided. Written by the orchestrator on 20 Nov 2026 against `dev` at 5d697e07, the branch the owner's builds come from. The recommendation page (link in the PR) holds the before shots, the mock-ups, the art and the design proposals this plan refers to. The owner approves steps one at a time.
+Written by the orchestrator on 20 Nov 2026 against `dev`. Approved by the owner on 21 Nov, with the changes below. The recommendation page (https://claude.ai/artifact/LuKsXGPJzCxSkneGpM8kAc) holds the before shots, the mock-ups, the art and the design proposals this plan refers to.
+
+**The owner's answers, 21 Nov** (dictated, relayed by the assurance session; question numbers are the page's item numbers): "For the Bramble fix round document, question six: I want B for all images. For question seven, I want option A but the tooltip under the gold value displacing it and having it be asymmetrical in terms of like the gaps between the buttons on each side of the screen, I don't like so the plus 13 next turn maybe just the end turn button shows like a little plus X gold icon next to the person you're going to fight in the top right corner of the profile picture of the next opponent So, set *[probably \"instead\"]* of that little line. So basically option A except with some adjustment Question nine of the tooltips. I think I like the option one. Option one is my pick The keyword stuff I don't like. It's too busy. I deny all changes to 10. We'll revisit that. It can go into the backlog. We'll keep the small marks for now and iterate later. So, option 10, question 10, we're not doing But option 11, I accept all changes I accept all the other proposals from that document. All other proposals I approve"
 
 **Base: `dev`.** `main` is 214 commits behind dev. Everything here lands on dev through PRs; nothing goes to `main` without the owner's say-so.
 
 ## The owner's decisions, one line each
 
-1. Hand overflow: a waiting pile next to the hand (recommended), or let the hand go over 7? Is there a limit on the pile (proposed: none)?
-2. Buying straight onto the board with a full hand, and swapping a hand card with a board unit: OK as rules? Should the bots get both moves now (proposed: yes, so league balance plays the same game)?
-3. Skip: a "Skip" button, with Space still skipping; clicks elsewhere do nothing. OK?
-4. Duplicate and triple marks: count only cards you own. Keep the faint edge on the copies you own?
-5. Art: choose A or B for each of the 16 cards (12 new Mouse and Pigeon units, 3 spells, the Triple Reward). "All A" is the default if you'd rather not pick each.
-6. Shop layout: A (two wings), B (one purse) or C (gold on top)?
-7. Type line on the card: above the stats or under the top point?
-8. Keyword tooltips: in the left light, or along the top?
-9. Keyword looks: which to build, and keep the round marks under the card?
+1. **Settled 21 Nov** (all other proposals approved). Hand overflow: a waiting pile next to the hand, with no limit.
+2. **Settled 21 Nov.** Buying straight onto the board with a full hand, and swapping a hand card with a board unit, are rules; the bots get both moves now.
+3. **Settled 21 Nov.** A "Skip" button, with Space still skipping; clicks elsewhere do nothing.
+4. **Settled 21 Nov.** Duplicate and triple marks count only cards you own; the faint edge on your own copies stays.
+5. **Settled 21 Nov.** Art: B for all 16 cards ("I want B for all images").
+6. **Settled 21 Nov.** Shop layout: A (two wings), changed: nothing under the gold, the same gaps on both sides, and the next turn's gold as a small "+X" gold mark on the top-right corner of the next opponent's portrait on the End turn button. A mock-up goes to the owner before it is built.
+7. **Settled 21 Nov.** Type line: above the stats.
+8. **Settled 21 Nov.** Keyword tooltips: option 1, the left light.
+9. **Not doing** (owner, 21 Nov): "The keyword stuff I don't like. It's too busy. I deny all changes to 10. We'll revisit that. It can go into the backlog. We'll keep the small marks for now and iterate later." Step 11 is dropped; the item is in `docs/workstreams/backlog-briefs.md`.
 10. **Settled 21 Nov.** The golden rule comes from the owner: "Keywords, you know, some things can't be doubled. We need to keep balanced considerations, you know, in mind with goldens. You can't have it completely consistent no matter how much you might like to." Rulebook 7.3.5 says so (PR 224). How strong each golden ends up goes to the balance session.
 11. **Settled 20 Nov.** The owner: "you can do those, I don't have a preference, give me suggestions." The orchestrator's picks:
     - end-of-fight effects move to the start of your turn, and Grudge becomes "Grudge 1";
     - Grudge keeps paying units that died (today's rule);
     - this round builds the golden engine support (step 9), and the balance session sets the 12 goldens' texts and numbers;
     - both land before the first climb, in the shared window.
-12. Old Brock: the bots' answer is on the page. Any change to him goes to the balance session with the rest of the Badgers, unless you rule on it here.
-13. Animations: which prototypes to build first.
+12. **Settled 21 Nov.** Old Brock goes to the balance session with the rest of the Badgers.
+13. **Settled 21 Nov.** Animations: all of them ("I accept all changes"), built in batches the owner plays between.
 
 ## Steps
 
@@ -86,7 +88,7 @@ Every step that changes code passes two gates before it merges to dev: the runti
 - Depends on: decision 12. The numbers so far were measured before dev's Mouse and Pigeon reworks; rerun them first. Separate from step 9, so the two don't double up on him (the owner's double-tap rule).
 - Checked by: the board scenarios rerun on the fight engine (target about 6 tier 6 bodies on both mid and late boards); then a league match with bots that play Badgers to a local maximum (owner, 20 Nov). Heavy compute runs on the Optiplex, which has no limit.
 
-**Step 11. Keyword looks.** Item 10.
+**Step 11. Keyword looks.** Item 10. **Dropped 21 Nov** (decision 9): the owner said no; it is in the backlog.
 - Changes: the chosen looks on cards in the shop, hand, board and fight, including the used-up state.
 - Depends on: decision 9.
 - Checked by: compares with `keywords/sheet.html` and `board.html`; shots of a late-game board with three keywords stacked on one unit.
@@ -102,7 +104,7 @@ Every step that changes code passes two gates before it merges to dev: the runti
 2. A Windows build: you re-check items 1 to 6. The bug complaints are fixed here.
 3. Steps 8 and 9 (rules change). Then re-sync the Badger balance work running on dev: "Grudge 1", the goldens and Old Brock all touch Badgers.
 4. Steps 6 and 7, and step 10 if decision 12 asks for it.
-5. Step 11, then step 12 in batches; you play each batch before the next.
+5. Step 12 in batches; you play each batch before the next. (Step 11 is dropped.)
 
 The whole list of 14 is done only after step 12.
 
