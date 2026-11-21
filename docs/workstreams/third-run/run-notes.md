@@ -30,7 +30,7 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 | Team | Kept | Since | Verdict line |
 |---|---|---|---|
 | red | red-c3 | 21 Nov | red-c3 vs red-c2: 1,000 games, gap −0.338 ± 0.165 (2.450 against 2.788) |
-| blue | blue-c7 | 22 Nov | blue-c7 vs blue-c6: 1,000 games, gap −0.274 ± 0.158 (2.686 against 2.960) |
+| blue | blue-c8 | 22 Nov | blue-c8 vs blue-c7: 1,000 games, gap −0.570 ± 0.202 (2.478 against 3.048) |
 
 ## Log
 - **21 Nov, Ghost Build Orchestrator:** it accepted both points. It is landing the check-crate fix (`a5c90160`) on dev on its own, and will send each future engine port as a dev tag for the referee to bring in the same way. When the fix is merged, bring it into both clones as one referee commit, and move each clone's `third-run-engine-v1` to the engine tree plus the fix, so the teams can run check-crate themselves.
@@ -86,3 +86,5 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
   - Tribe picks: Locust 50.6% (3.19), none 31.4% (2.31), Pigeon 17.2% (1.92), Briar 0.4%, Mouse 0.4%; 4.7 in hand. Interim report and method summary sent.
 - **blue-c8** (`0a8b7333`: tier 2 delayed from round 3 to 4) against blue-c7: playing.
 - **Referee slip, 00:44–02:13.** The step meant to queue blue-c8 behind blue-c7's field cut waited on `pgrep -f keep_version.sh`, which matched its own shell. It hit its 90-minute limit without playing, so blue-c8 waited about 90 minutes. Started directly at 02:13, and blue was told. From now on, wait for a step by its task notice, never by pgrep on a name the waiting shell contains.
+- **blue-c8** (`0a8b7333`: tier 2 delayed from round 3 to 4) against blue-c7: 1,000 games, gap −0.570 ± 0.202 (2.478 against 3.048). **Kept.** The match was clean; field now 12,000.
+  - Tribe picks: Locust 42.8% (3.04), none 34.8% (2.32), Pigeon 22.0% (1.65), Mouse 0.4%; 4.7 in hand. Interim report and method summary sent.
