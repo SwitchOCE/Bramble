@@ -1,0 +1,374 @@
+<title>Bramble Screen Concepts</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: one 900px column; pictures of the screens run full width, prose holds to 680px. House style base below. */
+:root{
+  --bg:#efe7d2; --paper:#f6f0e0; --rule:#d9ceb0; --rule-soft:#e4dbc2;
+  --ink:#26221a; --ink-soft:#5f584a; --ink-faint:#8a8069;
+  --accent:#2f6d8e; --accent-soft:#e0ebef;
+  --pos:#3e7a4e; --neg:#b23a2e; --pos-soft:#e2ecdf; --neg-soft:#f1ddd6;
+  --veil:rgba(24,21,16,.94);
+  --display:"Zilla Slab",Georgia,serif;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#181510; --paper:#211d16; --rule:#352f22; --rule-soft:#2a2519;
+  --ink:#ece3cd; --ink-soft:#b3a988; --ink-faint:#847a5f;
+  --accent:#6fb6d2; --accent-soft:#1e3038;
+  --pos:#83bd90; --neg:#e0857a; --pos-soft:#1f2c22; --neg-soft:#31221e; --veil:rgba(10,9,6,.95); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#181510; --paper:#211d16; --rule:#352f22; --rule-soft:#2a2519;
+  --ink:#ece3cd; --ink-soft:#b3a988; --ink-faint:#847a5f;
+  --accent:#6fb6d2; --accent-soft:#1e3038;
+  --pos:#83bd90; --neg:#e0857a; --pos-soft:#1f2c22; --neg-soft:#31221e; --veil:rgba(10,9,6,.95); color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:900px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.reading{max-width:680px}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.12;text-wrap:balance}
+p{margin:0 0 1em}
+a{color:var(--accent);text-underline-offset:2px}
+.mono{font-family:var(--mono)}
+.muted{color:var(--ink-soft)} .faint{color:var(--ink-faint)} .small{font-size:14px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:500}
+header{border-bottom:2px solid var(--ink);margin-bottom:44px}
+header .wrap{padding-block:56px 30px}
+h1{font-size:clamp(38px,7vw,62px);font-weight:700;letter-spacing:-.01em;margin:.28em 0 .3em}
+.lede{font-size:20px;color:var(--ink-soft);max-width:36ch}
+.byline{margin-top:26px;font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);display:flex;flex-wrap:wrap;gap:6px 18px}
+section{margin-block:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:24px}
+.sec-head .n{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:600;flex:none}
+h2{font-size:clamp(25px,4.4vw,33px);margin:0}
+h3{font-size:19px;margin:36px 0 10px;font-family:var(--sans);font-weight:600}
+.formula{margin:30px 0 8px;padding:24px 22px;background:var(--paper);border:1px solid var(--rule);border-radius:10px}
+.formula .legend{margin-top:18px;padding-top:14px;border-top:1px dashed var(--rule);display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.formula .legend div{font-size:13.5px;line-height:1.45}
+.formula .legend b{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;display:block;margin-bottom:2px}
+.t-pos{color:var(--pos)} .t-acc{color:var(--accent)}
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:18px 0;font-size:14.5px}
+.callout.warn{border-left-color:var(--neg);background:var(--neg-soft)}
+.tbl-wrap{overflow-x:auto;margin:16px 0}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+thead th{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);border-bottom:1px solid var(--rule);font-weight:600}
+tbody tr:last-child td{border-bottom:1px solid var(--rule)}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.pos{color:var(--pos)} td.neg{color:var(--neg)}
+caption{caption-side:bottom;text-align:left;font-size:12.5px;color:var(--ink-faint);padding-top:8px;font-style:italic}
+.card{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:18px;margin:22px 0}
+footer{border-top:2px solid var(--ink);margin-top:70px;padding-block:28px 60px;font-size:13px;color:var(--ink-soft)}
+footer .files{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);margin-top:10px;line-height:1.9;overflow-wrap:anywhere}
+
+/* this page's own parts */
+.verdict{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.verdict .v{min-width:0}
+.verdict .name{font-family:var(--display);font-weight:600;font-size:clamp(20px,3.2vw,26px);line-height:1.15}
+.verdict .letter{font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:600;letter-spacing:.08em}
+.verdict ul{list-style:none;margin:10px 0 0;padding:0;font-size:14px}
+.verdict li{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--rule-soft);padding:5px 0}
+.verdict li span:first-child{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft)}
+.verdict li b{font-weight:600}
+.shot{margin:18px 0 6px;padding:0;border:0;background:none;display:block;width:100%;cursor:zoom-in}
+.shot img{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--rule)}
+.shot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.cap{font-size:14px;color:var(--ink-soft);margin:0 0 22px;max-width:680px}
+.cap b{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin-right:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0 4px}
+.grid2 .shot{margin:0}
+.grid2 figure{margin:0;min-width:0}
+.grid2 figcaption{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);margin-top:5px;letter-spacing:.03em}
+.said{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.said blockquote{margin:0;padding:14px 16px;background:var(--paper);border:1px solid var(--rule);border-radius:10px;font-size:14.5px;line-height:1.5;min-width:0}
+.said cite{display:block;font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.dot{font-family:var(--mono);text-align:center;color:var(--neg);font-weight:600}
+td.c,th.c{text-align:center}
+.q{color:var(--ink-soft)}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:4px;white-space:nowrap}
+.tag.go{background:var(--pos-soft);color:var(--pos)} .tag.chg{background:var(--neg-soft);color:var(--neg)} .tag.na{background:var(--rule-soft);color:var(--ink-soft)}
+ul.plain{padding-left:1.1em;margin:0 0 1em} ul.plain li{margin-bottom:.35em}
+#zoom{position:fixed;inset:0;background:var(--veil);z-index:20;overflow:auto;cursor:zoom-out;padding:max(12px,env(safe-area-inset-top,0px)) 12px 12px}
+#zoom img{display:block;width:1600px;max-width:none;margin:0 auto;border-radius:6px}
+#zoom p{color:#ece3cd;font-family:var(--mono);font-size:12px;text-align:center;margin:8px 0}
+@media (max-width:720px){.verdict{grid-template-columns:1fr}.grid2,.said{grid-template-columns:1fr}.formula .legend{grid-template-columns:1fr}}
+@media (max-width:560px){body{font-size:16px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header><div class="wrap">
+  <div class="eyebrow">Bramble · UI ideation · 21 Nov 2026</div>
+  <h1>Three screens the council kept</h1>
+  <p class="lede">Six designers each drew the recruit and fight screens a different way. A council of three models kept three, and says each belongs beside games players love.</p>
+  <div class="byline"><span>branch ideation/ui-ux</span><span>nothing decided, nothing merged</span><span>stills only</span></div>
+</div></header>
+
+<main class="wrap">
+
+<div class="formula">
+  <div class="verdict">
+    <div class="v"><div class="letter">A</div><div class="name">The great window, refit</div>
+      <ul><li><span>Opus</span><b class="t-pos">one of the better ones</b></li><li><span>Sol</span><b>about average</b></li><li><span>Neon</span><b>about average</b></li></ul></div>
+    <div class="v"><div class="letter">D</div><div class="name">The glazier's bench</div>
+      <ul><li><span>Opus</span><b>about average</b></li><li><span>Sol</span><b>about average</b></li><li><span>Neon</span><b class="t-pos">one of the better ones</b></li></ul></div>
+    <div class="v"><div class="letter">E</div><div class="name">Glass in the forest</div>
+      <ul><li><span>Opus</span><b class="t-pos">one of the better ones</b></li><li><span>Sol</span><b>about average</b></li><li><span>Neon</span><b class="t-pos">one of the better ones</b></li></ul></div>
+  </div>
+  <div class="legend">
+    <div><b>The test</b>Yours: the council sees our screens mixed into a gallery of 17 loved games and answers whether each "feels like it belongs here": better, about average, or below.</div>
+    <div><b>Against today</b>All three members place today's game below all six concepts, and each of these three well above it.</div>
+    <div><b>Not judged</b>Motion, timing, hover and drag feel, and sound. Nobody played these. They are pictures.</div>
+  </div>
+</div>
+<p class="cap">Each member's answer to your gallery test for the three shortlisted concepts, as they stand after the fixes.</p>
+
+<section>
+  <div class="sec-head"><span class="n">01</span><h2>Today's game and the three, same moment</h2></div>
+  <p class="reading">Every picture shows turn 9 of one real game: 20 gold, a full board, five units and two spells in the shop, Seek in hand, March Hare next. Click a picture to see it at full size.</p>
+
+  <button class="shot" data-src="img/today-mid.jpg" aria-label="Today's game, full size"><img src="img/today-mid.jpg" alt="Today's recruit screen: a dark stone window, small cards in the middle, empty side panels" loading="lazy"></button>
+  <p class="cap"><b>Today</b>A card shows art, Attack and Health. Weighing this shop against this board takes up to 12 hovers, and the other players are behind a click on your own portrait.</p>
+
+  <button class="shot" data-src="img/a-mid.jpg" aria-label="Concept A, full size"><img src="img/a-mid.jpg" alt="Concept A: the same stone window in warm amber and green glass, bigger cards with names under them, standings on the right" loading="lazy"></button>
+  <p class="cap"><b>A · the great window, refit</b>Today's layout kept and filled: bigger cards, a name and short effect under each, a fixed reading pane and the hand on the left, the eight players on the right. It reverses the fewest of your decisions.</p>
+
+  <button class="shot" data-src="img/d-mid.jpg" aria-label="Concept D, full size"><img src="img/d-mid.jpg" alt="Concept D: a glazier's workbench; glass for sale stands in a window above a light table that holds the board" loading="lazy"></button>
+  <p class="cap"><b>D · the glazier's bench</b>You are a glazier. Glass for sale stands in the workshop window with its full rules beneath; your board is the panel on the light table. The shop needs no hovers at all.</p>
+
+  <button class="shot" data-src="img/e-mid.jpg" aria-label="Concept E, full size"><img src="img/e-mid.jpg" alt="Concept E: a stained-glass woodland clearing at dusk; the shop hangs from a bough, the board stands on the moss, the players are lanterns in the trees" loading="lazy"></button>
+  <p class="cap"><b>E · glass in the forest</b>No window and no stone. The shop hangs from a bough, your board stands in the clearing, and the other players are lanterns in the trees. The biggest change in feel.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">02</span><h2>What the council said, round by round</h2></div>
+  <p class="reading">Three members, one each from Claude Opus, GPT Sol and Gemini Neon. They scored two things out of 10: the look, and reading the game at a glance. In round 1 each worked alone, then they read each other's answers and voted.</p>
+
+  <h3>Round 1: all six, each member alone</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Concept</th><th class="num">Look: Opus</th><th class="num">Sol</th><th class="num">Neon</th><th class="num">Reading: Opus</th><th class="num">Sol</th><th class="num">Neon</th></tr></thead>
+    <tbody>
+      <tr><td><b>A</b> Great window, refit</td><td class="num">8</td><td class="num">8</td><td class="num">7</td><td class="num">7.5</td><td class="num">8.5</td><td class="num">7</td></tr>
+      <tr><td>B Honeycomb</td><td class="num">6</td><td class="num">6.5</td><td class="num">8</td><td class="num">6</td><td class="num">6.5</td><td class="num">7</td></tr>
+      <tr><td>C Rose window</td><td class="num">7.5</td><td class="num">7</td><td class="num">6</td><td class="num">7</td><td class="num">7.5</td><td class="num">6</td></tr>
+      <tr><td><b>D</b> Glazier's bench</td><td class="num">7</td><td class="num">7.5</td><td class="num">9</td><td class="num">8.5</td><td class="num">9</td><td class="num">8</td></tr>
+      <tr><td><b>E</b> Glass in the forest</td><td class="num">8.5</td><td class="num">8.5</td><td class="num">9</td><td class="num neg">4.5</td><td class="num neg">5.5</td><td class="num neg">4</td></tr>
+      <tr><td>F Reading book</td><td class="num">6</td><td class="num">7.5</td><td class="num neg">4</td><td class="num">8</td><td class="num">7.5</td><td class="num">7</td></tr>
+      <tr><td class="muted">Today's game</td><td class="num">5</td><td class="num">6.5</td><td class="num">5</td><td class="num neg">3</td><td class="num neg">4.5</td><td class="num neg">3</td></tr>
+    </tbody>
+    <caption>First shortlists: Opus A, E, D. Sol A, F. Neon D, B, A. After the discussion all three proposed A, D, E; the vote put them in that order, two to one.</caption>
+  </table></div>
+  <p class="cap">E had the best look and the worst reading: its cards carried no names. The council kept it on condition that it gain name plates without losing the open clearing.</p>
+
+  <h3>After the fixes: the three kept</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Concept</th><th>Member</th><th class="num">Look</th><th class="num">Reading</th><th>Gallery test</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="3"><b>A</b> Great window</td><td>Opus</td><td class="num">8 → 8.5</td><td class="num">7.5 → 8.5</td><td>one of the better ones</td></tr>
+      <tr><td>Sol</td><td class="num">8 → 8.5</td><td class="num">8.5 → 9</td><td>about average</td></tr>
+      <tr><td>Neon</td><td class="num">7 → 8</td><td class="num">7 → 8.5</td><td>about average</td></tr>
+      <tr><td rowspan="3"><b>D</b> Glazier's bench</td><td>Opus</td><td class="num">7 → 8</td><td class="num">8.5 → 9</td><td>about average</td></tr>
+      <tr><td>Sol</td><td class="num">7.5 → 8</td><td class="num">9 → 9</td><td>about average</td></tr>
+      <tr><td>Neon</td><td class="num">9 → 9</td><td class="num">8 → 9.5</td><td>one of the better ones</td></tr>
+      <tr><td rowspan="3"><b>E</b> Glass in the forest</td><td>Opus</td><td class="num">8.5 → 8.5</td><td class="num pos">4.5 → 8</td><td>one of the better ones</td></tr>
+      <tr><td>Sol</td><td class="num">8.5 → 8.5</td><td class="num pos">5.5 → 8.5</td><td>about average</td></tr>
+      <tr><td>Neon</td><td class="num">9 → 9.5</td><td class="num pos">4 → 8.5</td><td>one of the better ones</td></tr>
+    </tbody>
+    <caption>Scores are round 1 → now. All three members pass all three concepts on the fixed things: woodland theme, lead and glass, tall hexagons.</caption>
+  </table></div>
+
+  <h3>Verdict per member per round</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Round</th><th>What was checked</th><th>Opus</th><th>Sol</th><th>Neon</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">1</td><td>All six: defects, scores, ranking; then one discussion and one vote</td><td>A, D, E</td><td>A, D, E</td><td>D, A, E</td></tr>
+      <tr><td class="mono">2</td><td>A, D, E after 39 fixes; your gallery test</td><td><span class="tag chg">changes</span> 4 small items</td><td><span class="tag chg">changes</span> 6 small items</td><td><span class="tag na">not asked</span></td></tr>
+      <tr><td class="mono">3</td><td>After the 7 items those two agreed</td><td><span class="tag go">good to go</span></td><td><span class="tag chg">changes</span> 2 items, E only</td><td><span class="tag na">not asked</span></td></tr>
+      <tr><td class="mono">4</td><td>E after those 2 items</td><td><span class="tag na">stood</span></td><td><span class="tag go">good to go</span></td><td><span class="tag na">not asked</span></td></tr>
+      <tr><td class="mono">5</td><td>The final check, fresh eye: all fixes, and the gallery test</td><td><span class="tag na">stood</span></td><td><span class="tag na">stood</span></td><td><span class="tag go">good to go</span></td></tr>
+    </tbody>
+    <caption>Neon is asked last on purpose: the owner's council process saves it for when the other two have passed. "Not asked" is not a pass.</caption>
+  </table></div>
+  <div class="callout"><b>Where it ended.</b> All three members say good to go, with nothing blocking, and every member puts every one of the three at average or better in the gallery. They do not agree on which is best: Opus puts A and E among the better ones, Neon puts D and E there, and Sol puts all three at about average. E is the only one two members call one of the better ones.</div>
+  <h3>Left open, none of it blocking</h3>
+  <ul class="plain reading">
+    <li><b>A:</b> the hand's seven slots sit in a 3, 2, 2 pattern (Opus).</li>
+    <li><b>D:</b> the light table is still full width, with plain margins either side of the board (Opus); in a full hand the 18 px stat stones cover the lower half of the 94 px cards (Neon).</li>
+    <li><b>E:</b> the reading pane covers the names of players 5 to 8 while it is open, and the Renown badge is 17 px, one under the floor (Neon); the result plaque's button sits close to its frame (Sol).</li>
+    <li><b>All three:</b> a second cue for tier on the card face was voted non-blocking, two to one, and no designer added it.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">03</span><h2>A · The great window, refit</h2></div>
+  <p class="reading">The shop and the 4-and-3 board stay in the middle of a three-light window in dark stone. Cards are larger and keep a bare face; a name and a short effect sit on a plaque under each. The left light holds you, a reading pane and the hand; the right light holds the eight players.</p>
+  <div class="grid2">
+    <figure><button class="shot" data-src="img/a-first.jpg" aria-label="A, turn 1, full size"><img src="img/a-first.jpg" alt="Concept A on turn 1 with one tutorial cue" loading="lazy"></button><figcaption>Turn 1, first session, one cue</figcaption></figure>
+    <figure><button class="shot" data-src="img/a-mid-r1.jpg" aria-label="A before the fixes, full size"><img src="img/a-mid-r1.jpg" alt="Concept A before the council's fixes: the board read as one zigzag" loading="lazy"></button><figcaption>Before the fixes: the board read as a zigzag</figcaption></figure>
+    <figure><button class="shot" data-src="img/a-fight.jpg" aria-label="A, the fight, full size"><img src="img/a-fight.jpg" alt="Concept A's fight: both boards mirrored, every unit named" loading="lazy"></button><figcaption>The turn-9 fight</figcaption></figure>
+    <figure><button class="shot" data-src="img/a-after.jpg" aria-label="A, the fight's end, full size"><img src="img/a-after.jpg" alt="Concept A's end of fight: survivors marked, two threats named, the damage sum" loading="lazy"></button><figcaption>Its end: why you lost</figcaption></figure>
+  </div>
+  <div class="said">
+    <blockquote><cite>Opus, gallery test</cite>"A is clearer than Battlegrounds at a glance: names, effects, tribe and prices without a hover, and standings named." But "Battlegrounds and Glass Masquerade have more depth, light and modelling. A is flatter, a well-made 2D window."</blockquote>
+    <blockquote><cite>Neon, gallery test</cite>"A clearly belongs in this gallery of beloved hits." It sits at "the gallery's solid upper-average mark rather than the very top only because its three-light Gothic symmetry is more restrained and traditional than showstoppers".</blockquote>
+    <blockquote><cite>Sol, gallery test</cite>"The amber and green sections make the window feel like one object, and the fixed inspector leaves the offer comparison visible." But "The fight has a less immediate focus than Battlegrounds, and the smallest plates have less glass depth than Glass Masquerade."</blockquote>
+  </div>
+  <p class="reading small muted">Compared with: Battlegrounds (shop and fight), Once Upon a Galaxy (shop), Monster Train (shop), Glass Masquerade. Its own weakest point, in the designer's words: the fight cards are the smallest on the centre board, and the four rows of captions use room that could have gone to the art. Still open, not blocking: the hand's seven slots sit 3, 2, 2.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">04</span><h2>D · The glazier's bench</h2></div>
+  <p class="reading">You are a glazier in a woodland workshop. Glass for sale stands in the window with its name and full rules on a tinted pane beneath. Your board is the panel on the light table. In the fight both panels hang in the window, and a plaque shows what a loss will cost.</p>
+  <div class="grid2">
+    <figure><button class="shot" data-src="img/d-first.jpg" aria-label="D, turn 1, full size"><img src="img/d-first.jpg" alt="Concept D on turn 1 with one tutorial cue" loading="lazy"></button><figcaption>Turn 1, first session, one cue</figcaption></figure>
+    <figure><button class="shot" data-src="img/d-mid-r1.jpg" aria-label="D before the fixes, full size"><img src="img/d-mid-r1.jpg" alt="Concept D before the council's fixes: a bright white table and cream paper labels" loading="lazy"></button><figcaption>Before the fixes: a white table, paper labels</figcaption></figure>
+    <figure><button class="shot" data-src="img/d-fight.jpg" aria-label="D, the fight, full size"><img src="img/d-fight.jpg" alt="Concept D's fight: two panels in the window, a stakes plaque and reserves on the left" loading="lazy"></button><figcaption>The turn-9 fight, with stakes and reserves</figcaption></figure>
+    <figure><button class="shot" data-src="img/d-after.jpg" aria-label="D, the fight's end, full size"><img src="img/d-after.jpg" alt="Concept D's end of fight: why minus 13, three numbered threats" loading="lazy"></button><figcaption>Its end: why −13, three numbered threats</figcaption></figure>
+    <figure><button class="shot" data-src="img/d-extra1.jpg" aria-label="D, a card being read, full size"><img src="img/d-extra1.jpg" alt="Concept D with a card's full reading docked in the table" loading="lazy"></button><figcaption>A card being read</figcaption></figure>
+    <figure><button class="shot" data-src="img/d-extra2.jpg" aria-label="D, a full hand, full size"><img src="img/d-extra2.jpg" alt="Concept D with a full hand of seven" loading="lazy"></button><figcaption>A full hand of seven</figcaption></figure>
+  </div>
+  <div class="said">
+    <blockquote><cite>Opus, gallery test</cite>"D reads best of all three: full rules in the shop, cues on the board, stakes in the fight, the clearest 'why'." But "Three-quarters of the screen is rectangular panels (shop labels, player rows, left lane, hand tray), so it looks more like a tidy board-game app than a lit object."</blockquote>
+    <blockquote><cite>Neon, gallery test</cite>"After the Round 1 and Round 2 fixes, D is genuinely standout." It is "a tactile, unforgettable signature interface that is also the fastest of the three to read mid-game."</blockquote>
+    <blockquote><cite>Sol, gallery test</cite>"The shop is easy to buy from because the aligned plaques explain every offer, and the warm surface reads as a workbench." But "The beige combat fields and repeated smoked controls have less depth than the shop surround or the best workshop references."</blockquote>
+  </div>
+  <p class="reading small muted">Compared with: Backpack Battles (shop), Inscryption (board), Wingspan (board), Wildfrost (shop). Its own weakest point: board cards are 216 px in recruit and 200 px in fights, against about 240 today, so the art is less of a hero. Opus on what would lift it from average: narrow the light table to the board and give the margins to the bench art. The designer added the glow but could not narrow the table, because the background picture's own lit table lies under the margins. That would take a new picture.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">05</span><h2>E · Glass in the forest</h2></div>
+  <p class="reading">One stained-glass clearing at dusk. The shop hangs from a bough with price tags on the chains, your board stands on the moss, the other players are lanterns in the trees, and End turn is the next opponent's lantern. In the fight a tally shows the kills each side needs.</p>
+  <div class="grid2">
+    <figure><button class="shot" data-src="img/e-first.jpg" aria-label="E, turn 1, full size"><img src="img/e-first.jpg" alt="Concept E on turn 1 with one tutorial cue" loading="lazy"></button><figcaption>Turn 1, first session, one cue</figcaption></figure>
+    <figure><button class="shot" data-src="img/e-mid-r1.jpg" aria-label="E before the fixes, full size"><img src="img/e-mid-r1.jpg" alt="Concept E before the council's fixes: no names on any card" loading="lazy"></button><figcaption>Before the fixes: no names on any card</figcaption></figure>
+    <figure><button class="shot" data-src="img/e-fight.jpg" aria-label="E, the fight, full size"><img src="img/e-fight.jpg" alt="Concept E's fight in the clearing with both tallies" loading="lazy"></button><figcaption>The turn-9 fight, with both tallies</figcaption></figure>
+    <figure><button class="shot" data-src="img/e-after.jpg" aria-label="E, the fight's end, full size"><img src="img/e-after.jpg" alt="Concept E's end of fight: a leaded plaque, three numbered threats, fallen units dark" loading="lazy"></button><figcaption>Its end: what beat you</figcaption></figure>
+    <figure><button class="shot" data-src="img/e-extra1.jpg" aria-label="E, a card being read, full size"><img src="img/e-extra1.jpg" alt="Concept E with a reading pane docked beside the board" loading="lazy"></button><figcaption>A card being read</figcaption></figure>
+  </div>
+  <div class="said">
+    <blockquote><cite>Opus, gallery test</cite>"E has the strongest flavour of our three and holds up against Root: the stained-glass clearing, the hanging bough shop and the lantern players make the place the interface." But "The plates are plain dark rectangles. That keeps it below Wildfrost's bespoke card plates."</blockquote>
+    <blockquote><cite>Neon, gallery test</cite>"E is the visual showstopper of the run." And: "Mixed into the gallery, it is a screen players pause on immediately."</blockquote>
+    <blockquote><cite>Sol, gallery test</cite>"E belongs on the strength of its recruit screen. The bough, price tags and lanterns make the setting feel essential to the layout." It found the fight more crowded, and kept E at about average after the last fixes.</blockquote>
+  </div>
+  <p class="reading small muted">Compared with: Root (board), Dorfromantik, Wildfrost (fight), Gwent (board), Once Upon a Galaxy, Glass Masquerade (map). Its own weakest point: the name plates make the clearing busier than the first version, and fight cards shrank 22% to fit two boards with plates. The council asked for 10 to 15% and accepted 22.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">06</span><h2>What you would be reversing</h2></div>
+  <p class="reading">You opened everything except the theme, the glass and the hexagons. Each concept names the earlier decisions it undoes. A dot means that concept reverses the row.</p>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th class="num">Row</th><th>Your earlier decision</th><th class="c">A</th><th class="c">D</th><th class="c">E</th><th>What the concepts do</th></tr></thead>
+    <tbody>
+      <tr><td class="num">20</td><td>A card face shows Attack and Health and nothing else. <span class="q">"It can just be attack and health." 15 Nov</span></td><td class="dot">●</td><td class="dot">●</td><td class="dot">●</td><td>The face stays bare in all three. A name and a short cue sit on a plate under the card; A and E add a tribe mark on the frame's shoulder.</td></tr>
+      <tr><td class="num">23</td><td>Drawn keyword looks were too busy; small marks stay. <span class="q">"It's too busy." 21 Nov</span></td><td></td><td class="dot">●</td><td></td><td>D writes keywords as words on the label in place of marks.</td></tr>
+      <tr><td class="num">24</td><td>A type line of species and role above the stats. <span class="q">Approved 21 Nov</span></td><td class="dot">●</td><td class="dot">●</td><td></td><td>A uses a tribe tab; D has no type line.</td></tr>
+      <tr><td class="num">36, 51</td><td>Every unit the same size everywhere; cards 250 px tall. <span class="q">"it's going to be the same sized object" 11 Nov</span></td><td class="dot">●</td><td class="dot">●</td><td class="dot">●</td><td>Card size differs by zone. A's shop cards grow to 277 px; D's board cards are 216 px; E runs 170 to 254 px.</td></tr>
+      <tr><td class="num">38</td><td>An empty buffed slot shows its values where Attack and Health would be. <span class="q">16 Nov</span></td><td class="dot">●</td><td class="dot">●</td><td></td><td>Renown is a labelled tab on the slot's shoulder, shown on empty slots too.</td></tr>
+      <tr><td class="num">40</td><td>No full scoreboard yet; hovering a player shows one card. <span class="q">"I don't want that full detail stuff yet." 16 Nov</span></td><td class="dot">●</td><td class="dot">●</td><td class="dot">●</td><td>All eight players, named, with place and health, always in view.</td></tr>
+      <tr><td class="num">42, 43, 50</td><td>Prices as small tags under cards; spells in a row above the units as regular hexagons. <span class="q">15 to 17 Nov</span></td><td class="dot">●</td><td class="dot">●</td><td class="dot">●</td><td>Spells become tall hexagons beside the units. D puts price coins on each piece's shoulder; E hangs price tags on the chains.</td></tr>
+      <tr><td class="num">45, 47</td><td>A subtle count of refreshes left; the tier-up discount shown as a discount with an icon. <span class="q">17 and 18 Nov</span></td><td></td><td class="dot">●</td><td class="dot">●</td><td>D says the discount in words. E shows "3 gold short" and the refresh count only at 3 left.</td></tr>
+      <tr><td class="num">48</td><td>Shop layout A: two wings, nothing under the gold, next turn's gold beside the next opponent. <span class="q">21 Nov</span></td><td class="dot">●</td><td class="dot">●</td><td class="dot">●</td><td>Shop controls move to one side in all three.</td></tr>
+      <tr><td class="num">55</td><td>The hand is not shown in the fight. <span class="q">"I don't think your hand is needed for combat" 14 Nov</span></td><td></td><td class="dot">●</td><td class="dot">●</td><td>D and E show the reserves waiting in the hand, since they step in during a fight.</td></tr>
+      <tr><td class="num">68, 71</td><td>Reminder text in its own tooltip; keyword boxes in a fixed place in the left light. <span class="q">17 and 21 Nov</span></td><td class="dot">●</td><td class="dot">●</td><td class="dot">●</td><td>A reads the whole card in the left light. D docks the reading inside the table; E beside the board.</td></tr>
+      <tr><td class="num">73, 74</td><td>An in-game card browser button and a settings cog. <span class="q">17 Nov</span></td><td class="dot">●</td><td class="dot">●</td><td></td><td>Both move into one menu. E suggests one Journal for past fights and cards.</td></tr>
+      <tr><td class="num">14, 37</td><td>Areas of the screen are visibly separate; the board a framed zone. <span class="q">11 Nov</span></td><td></td><td></td><td class="dot">●</td><td>E has no frames; the scene separates the areas.</td></tr>
+    </tbody>
+    <caption>Row numbers are from owner-decisions.md on the branch. D and E also reverse agent choices that were never your rules: the one stone window (A1) and the hidden leaderboard strip (A4).</caption>
+  </table></div>
+  <p class="cap">Every one of the three reverses row 20 in the same way: nothing new on the card face, but a name and cue directly under it. All three keep the 4-and-3 board.</p>
+
+  <h3>How much is on screen at a glance</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Screen</th><th class="num">Today</th><th class="num">A</th><th class="num">D</th><th class="num">E</th></tr></thead>
+    <tbody>
+      <tr><td>Recruit, kinds of thing always on screen</td><td class="num">23</td><td class="num">30</td><td class="num">23</td><td class="num">23</td></tr>
+      <tr><td>Fight</td><td class="num">9</td><td class="num">13</td><td class="num">15</td><td class="num">13</td></tr>
+      <tr><td>Cards to open to weigh this shop</td><td class="num neg">up to 12</td><td class="num pos">0 for the gist</td><td class="num pos">0</td><td class="num pos">0 for the gist</td></tr>
+    </tbody>
+    <caption>The first two rows are each designer's own counts, made the way the map counts today's screens. The last row is the council's round-1 count for today, A and D, and follows from E's name plates since. More on screen is the cost of fewer hovers; your rule is that the main screen serves the hundredth game.</caption>
+  </table></div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">07</span><h2>The three not kept</h2></div>
+  <div class="grid2">
+    <figure><button class="shot" data-src="img/b-mid.jpg" aria-label="Concept B, full size"><img src="img/b-mid.jpg" alt="Concept B: the whole screen one honeycomb of hexagon cells" loading="lazy"></button><figcaption>B · Honeycomb (Neon)</figcaption></figure>
+    <figure><button class="shot" data-src="img/c-mid.jpg" aria-label="Concept C, full size"><img src="img/c-mid.jpg" alt="Concept C: a radial rose window with the board in the centre" loading="lazy"></button><figcaption>C · Rose window (Neon)</figcaption></figure>
+    <figure><button class="shot" data-src="img/f-mid.jpg" aria-label="Concept F, full size"><img src="img/f-mid.jpg" alt="Concept F: two leaves side by side, names in bands across the cards" loading="lazy"></button><figcaption>F · The reading book (Sol)</figcaption></figure>
+    <figure><button class="shot" data-src="img/f-fight.jpg" aria-label="Concept F's fight, full size"><img src="img/f-fight.jpg" alt="Concept F's fight, your board left and the opponent right" loading="lazy"></button><figcaption>F's fight, side by side</figcaption></figure>
+  </div>
+  <ul class="plain reading">
+    <li><b>B · Honeycomb.</b> The whole screen is one lattice of the card's own shape. Neon ranked it second at first for originality, then dropped it. Opus: "cold slate hexes with large dead regions"; the price coins look like the stat discs.</li>
+    <li><b>C · Rose window.</b> A radial screen with the eight players on the rim. Opus: "a striking rose window", but "the cards are the smallest of the six (about 100x170) on the busiest background". Its curved board would be a rules change.</li>
+    <li><b>F · The reading book.</b> Your side on one leaf, the shop or the opponent on the other, names in bands across the cards. Sol shortlisted it at first. The bands cover about 40% of each card's art, and Neon failed it on glass: it reads "as a flat matte web dashboard". The council named one thing worth borrowing from it: the next opponent's last board in view during recruit.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">08</span><h2>Things they suggested beyond the two screens</h2></div>
+  <p class="reading">You asked that concepts suggest other things. None of these is in the game; each is a suggestion for you.</p>
+  <ul class="plain reading">
+    <li><b>Explain a lost fight.</b> All six show the damage sum (10 for turn 9 plus 3 for a heavy loss) and name the enemy units that beat you. The build keeps no fight log, so today those lines are worked out from the two boards. E and F suggest recording one.</li>
+    <li><b>A stakes plaque during the fight</b> (D): kills so far, and what a loss costs at each threshold. The council named this as worth borrowing whichever concept goes on.</li>
+    <li><b>Show reserves during the fight</b> (B, C, D, E).</li>
+    <li><b>The next opponent's last board during recruit</b> (F); click a player to see the last board of theirs you saw (D).</li>
+    <li><b>Give gold and the stat discs different shapes</b> (A, D, E): your own 17 Nov point that they look too alike.</li>
+    <li><b>One Journal</b> for past fights and the card browser (E), or one Game menu (A, D).</li>
+    <li><b>"Watch again"</b> after a fight (D, E): a flow change; the game has no replay today.</li>
+    <li><b>The shop's bough gains a lantern per tier</b> (E).</li>
+  </ul>
+  <p class="reading">Whichever direction you take, the members named these as worth carrying over:</p>
+  <ul class="plain reading">
+    <li>D's stakes readout during the fight and its broken-glass look for a fallen slot.</li>
+    <li>E's reading pane, which lights the units a card works with.</li>
+    <li>F's view of the next opponent's last board.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">09</span><h2>What nobody judged, and calls made without you</h2></div>
+  <div class="callout warn"><b>Not judged.</b> These are stills at 1920 × 1080. Nobody dragged a card, watched a fight play, waited on a hover or heard a sound. Agents never get bored or lost, and they already know every card. Whether a returning player recognises units by their art alone, which decides how much the name plates are worth, is a question only your hands can answer.</div>
+  <ul class="plain reading">
+    <li><b>Not redrawn:</b> the start screen, the result screen, pause, the card browser and the compost panel. Only recruit and the fight with its end.</li>
+    <li><b>Not built:</b> nothing here is in Godot. Building any of it is your call.</li>
+    <li><b>The baseline game</b> was played against the build's simple bots, because this build's ghost field was not in the checkout. The opponents' boards are plausible but weaker than league play.</li>
+    <li><b>New art:</b> D and E each have one generated background, made from the designer's written request in the chosen glass style. The other four use only today's art. That helps D and E on the look.</li>
+  </ul>
+  <h3>Calls I made that were yours to make</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Call</th><th>What I did</th><th>The other way</th></tr></thead>
+    <tbody>
+      <tr><td>What concepts are judged on</td><td>The look, and reading the game at a glance. The fight's end was drawn and commented on, not scored.</td><td>Score "why I lost the fight" in place of one of them.</td></tr>
+      <tr><td>How much of the card is fixed</td><td>The tall hexagon in lead, today's art and tier frames stay. What sits on and around a card is open.</td><td>Open the frames too, or fix the bare face as well.</td></tr>
+      <tr><td>New art</td><td>One background for a concept that needs a scene.</td><td>None, or more.</td></tr>
+      <tr><td>A third touch-up for E</td><td>The plan allowed two fix rounds. One member still held two small items on E, so E got one more pass.</td><td>Report them to you as open.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap">The first three were put to you as questions when the plan was posted, with these as the defaults. The fourth I said at the time.</p>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <div><b>Provenance.</b> Run by a Fable orchestrator on the Optiplex, 21 Nov 2026. Designers: two each of Claude Opus, GPT Sol and Gemini Neon. Council: Claude Opus, GPT Sol, Gemini Neon, all at high effort. Every quote on this page is copied from the files below. The reference screenshots of other studios' games are not on this page; they stay on the Optiplex.</div>
+  <div class="files">
+    branch ideation/ui-ux · docs/workstreams/ui-ideation/<br>
+    PLAN.md · interrogation.md · owner-decisions.md · map/ (state, map, critique)<br>
+    concepts/A to F/ (concept.html, notes.md) · council/ (every answer, word for word)<br>
+    /data/ui-ideation/concepts/ (renders, each round kept) · /data/ui-ideation/gallery/ (17 games, 79 screenshots, sheet-ours.jpg)
+  </div>
+</div></footer>
+
+<div id="zoom" hidden><p>Click anywhere or press Esc to close</p><img alt=""></div>
+<script>
+(function(){
+  var z=document.getElementById('zoom'), zi=z.querySelector('img'), last=null;
+  function open(b){ last=b; zi.src=b.getAttribute('data-src'); zi.alt=b.querySelector('img').alt; z.hidden=false; z.scrollTop=0; }
+  function close(){ z.hidden=true; zi.removeAttribute('src'); if(last) last.focus(); }
+  document.querySelectorAll('.shot').forEach(function(b){ b.addEventListener('click', function(){ open(b); }); });
+  z.addEventListener('click', close);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !z.hidden) close(); });
+})();
+</script>

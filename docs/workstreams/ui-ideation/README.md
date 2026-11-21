@@ -21,6 +21,14 @@ Fixed:
 
 Open, on this branch only: everything else. The board's shape, the zones, the shop, the type line, tooltips, screen flow, controls, fonts, wording and what is on screen at all are today's choices, not rules. A concept that reverses an earlier owner decision names it, so the owner can see what they would be reversing.
 
+## Result (21 Nov 2026)
+
+Six concepts were drawn. The council kept three: **A, the great window, refit**; **D, the glazier's bench**; **E, glass in the forest**. After two fix rounds and one touch-up on E, all three members say good to go with nothing blocking, and every member places every one of the three at average or better in the reference gallery (opus: A better, D average, E better; sol: all three average; neon: A average, D better, E better). All three members place today's game below all six concepts.
+
+Nothing is decided and nothing is built. The owner's page: https://claude.ai/artifact/5HLXKUJk4wN6KEC8LUvsoh (private; its source is `results-page.html`, its pictures are in `/data/ui-ideation/page/img/`). What the council agreed in each round is in `council/r1-agreed.md`, `r2-agreed.md` and `r3-agreed.md`; neon's final check is `council/r5-neon.md`.
+
+From stills, motion, timing, hover and drag feel and sound were not judged.
+
 ## Where things are
 
 | What | Where |
@@ -29,6 +37,7 @@ Open, on this branch only: everything else. The board's shape, the zones, the sh
 | The map of today's game, its critique and the state every mock-up draws | `map/` |
 | Earlier owner decisions about screens | `owner-decisions.md` |
 | The plan and its interrogation | `PLAN.md`, `interrogation.md` |
+| The page shown to the owner | `results-page.html` |
 | Designers' concepts (HTML and notes) | `concepts/<letter>/` |
 | The council's answers, word for word | `council/` |
 | Screenshots of today's game, renders, the reference gallery (other studios' images, never in Git) | `/data/ui-ideation/` on the Optiplex |
