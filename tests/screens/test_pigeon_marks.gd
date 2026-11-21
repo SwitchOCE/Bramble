@@ -201,3 +201,15 @@ func test_colonel_renown_pill_shows_double_or_triple_only_from_the_hand() -> voi
 			return
 		assert_eq(_renown_words(hand, "territorial"), "Renown 9" if golden else "Renown 6")
 		assert_eq(_renown_words(called, "private"), "Renown 3")
+
+
+## Step 6: on a card with a type line, the pips sit over its strip, not on it.
+func test_pips_clear_the_type_line() -> void:
+	var screen: RecruitScreen = _recruit(Marks.make_flow())
+	for id: String in ["padre", "sentry"]:
+		var card: GlassCard = _board_card(screen, id)
+		assert_false(card.type_line.is_empty(), "%s prints its types" % id)
+		var strip_top: float = card.card_height * GlassCard.TYPE_TOP
+		for pip: Node in card.get_node("Pips").get_children():
+			var bottom: float = (pip as Control).position.y + (pip as Control).size.y
+			assert_true(bottom <= strip_top, "%s's %s clears the type strip" % [id, pip.name])
