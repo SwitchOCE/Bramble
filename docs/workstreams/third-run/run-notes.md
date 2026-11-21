@@ -85,3 +85,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - **blue-c7** (`aef302d5`: +25 whole-card buy/keep value for Sword-heir, from measured replacement fights) against blue-c6: 1,000 games, gap −0.274 ± 0.158 (2.686 against 2.960). **Kept.** The match was clean; field now 11,500.
   - Tribe picks: Locust 50.6% (3.19), none 31.4% (2.31), Pigeon 17.2% (1.92), Briar 0.4%, Mouse 0.4%; 4.7 in hand. Interim report and method summary sent.
 - **blue-c8** (`0a8b7333`: tier 2 delayed from round 3 to 4) against blue-c7: playing.
+- **Referee slip, 00:44–02:13.** The step meant to queue blue-c8 behind blue-c7's field cut waited on `pgrep -f keep_version.sh`, which matched its own shell. It hit its 90-minute limit without playing, so blue-c8 waited about 90 minutes. Started directly at 02:13, and blue was told. From now on, wait for a step by its task notice, never by pgrep on a name the waiting shell contains.
