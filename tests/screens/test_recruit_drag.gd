@@ -543,8 +543,12 @@ func test_a_buy_onto_a_slot_with_a_full_hand_lights_targets_and_lands() -> void:
 		assert_not_null(_slot_node(slot).get_node_or_null("Lit"))
 	assert_not_null(_screen._front.get_node_or_null("DropPreview"))
 	var tag: Control = _screen.node_for("shop", 0).get_node("ShopTag")
-	assert_false(tag.is_visible_in_tree(), "the price tag dropped off as the card was lifted")
-	assert_not_null(_screen._front.get_node_or_null("DroppedTag"), "and falls where it hung")
+	if RecruitInput.SHOP_TAG_TRAVELS:
+		assert_true(tag.is_visible_in_tree(), "the price follows the carried shop card")
+		assert_null(_screen._front.get_node_or_null("DroppedTag"))
+	else:
+		assert_false(tag.is_visible_in_tree(), "the price tag dropped off as the card was lifted")
+		assert_not_null(_screen._front.get_node_or_null("DroppedTag"), "and falls where it hung")
 	_press(_slot_middle(3), false)
 	assert_eq(_played(), [] as Array[Dictionary])
 	assert_eq(_refused, [] as Array[String])
