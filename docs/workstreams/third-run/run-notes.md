@@ -105,3 +105,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
   - Tribe picks: Locust 81.8% (1.99), none 14.2% (3.25), Briar 3.4% (3.59), Badger 0.4%, Mouse 0.2%; 2.3 in hand. Interim report and method summary sent.
 - **blue-c13** (`984fb04c`: commits to Badger from turn one by default) against blue-c9: 1,000 games, gap −0.826 ± 0.210 (1.634 against 2.460). **Kept.** The match was clean; field now 13,500.
   - All 500 field runs end on Badger; 1st in 420 (84%). Sword-heir is on 96% of its final boards, Brock-cub 88%, Sett shield-bearer 71%. Before it, 6 of 13,000 field runs ended on Badger. Flagged to Balance Orchestrator 2.
+- **red-c10** (`a5bf0142`: second tribe-diverse card-table refit, from red-c9's table on 2,000 new games plus red-c9's 1,000 test games) against red-c9: playing.
