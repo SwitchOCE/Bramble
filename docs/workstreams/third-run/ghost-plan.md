@@ -14,7 +14,7 @@ On ghosts: "there should be no reason we can't take replay files from the Rust b
 
 On the pool: "having a minion pool doesn't make sense for async play when you can't adjust."
 
-## Where it stands (20 Nov 2026)
+## Where it stands (21 Nov 2026)
 
 - **Steps 1 and 2 are done.** The Rust engine is level with `dev`, including the Mouse and Pigeon tuning (PR 196), and is proved hash for hash. The pool is gone in both engines.
 - **Step 3 is done.** Ghost runs, the cutter, the local store and matchmaker, the async game in both engines, records that name their runs, and `league ghost-match` (paired games against a field) are built and proved. The playable game runs on ghosts: its own store and matchmaker in `src/ghosts`, the screens, and the owner's finished runs saved as ghosts. Step E's extra proof is in `recheck.sh`: `proof/fight_logs.sh` compares every fight event on 10,000 reference cases (on 21 Nov: 649,706 events of 27 types, no difference).
@@ -71,7 +71,7 @@ The pieces, each "build now" (with why it would be costly later) or "plan only".
 
 **The plan for the server**, written as a short design note in the same step: what it stores, what it checks, what each local interface becomes. No server code.
 
-**Done in Rust and for records; the playable game on ghosts is still to do.**
+**Done.**
 
 ### Step 4. A first field of ghosts, and a Windows build to play it
 

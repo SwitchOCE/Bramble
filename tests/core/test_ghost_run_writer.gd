@@ -93,5 +93,7 @@ func _new_game(store: GhostStore, id: String) -> GameSession:
 func test_triple_reward_fingerprint_matches_the_rust_cutter() -> void:
 	var entry: Dictionary = UnitLibrary.SYSTEM_CARDS[0]
 	assert_eq(entry["id"], String(UnitLibrary.TRIPLE_REWARD_ID))
-	var fingerprint: String = GhostJson.encode(RecordState.value(entry), true).sha256_text().left(16)
+	var fingerprint: String = GhostJson.encode(RecordState.value(entry), true).sha256_text().left(
+		16
+	)
 	assert_eq(fingerprint, "369b9d3c1b948dba")
