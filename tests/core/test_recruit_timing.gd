@@ -399,6 +399,29 @@ func test_play_applies_the_units_aura_before_the_waiting_card_recruits() -> void
 	assert_eq(waiting.stats.perm_attack, 6, "Recruit read the mouse after Banner's +2 aura")
 
 
+func test_a_merge_that_takes_an_aura_off_the_board_refreshes_it_before_a_waiting_recruit() -> void:
+	Kit.put(game, p, "t3_banner", 1)
+	p.hand.append(Kit.unit(game, "t3_banner"))
+	p.hand.append(Kit.unit(game, "t3_banner"))
+	for i: int in 5:
+		p.hand.append(Kit.unit(game, "brock-cub", true))
+	game.recruit.refresh_auras(p)
+	assert_eq(mouse.attack(), 6, "Banner's +2 aura on the board")
+	var ctx := RecruitContext.new(game, game.recruit, p)
+	var waiting: Unit = ctx.give_card(&"t1_plain", null)
+	var id: StringName = &"core_test_merge_recruit_reads_attack"
+	assert_true(game.registry.register(id, RecruitReadsAttack.new()))
+	waiting.mechanics.append(game.registry.bind(MechanicSpec.new(id), false, true))
+	assert_eq(p.waiting_pile, [waiting] as Array[Unit])
+	game.recruit._settle(p)
+	assert_eq(p.board[1], null, "the board Banner went into the golden")
+	assert_true(p.hand.has(waiting), "the merge freed a place and the waiting card joined")
+	assert_eq(mouse.attack(), 4)
+	assert_eq(
+		waiting.stats.perm_attack, 4, "Recruit read the mouse after the merge took the aura away"
+	)
+
+
 func test_bought_third_copy_fires_only_the_golden_before_play() -> void:
 	p.hand.append(Kit.unit(game, "harvest-piper"))
 	p.hand.append(Kit.unit(game, "harvest-piper"))
