@@ -115,6 +115,7 @@ prove_recipes recipe_headers.jsonl
 prove_content content_states.json
 prove_recruit_actions recruit_action_vectors.json
 rework_recruit_vectors rework_recruit.json
+waiting_pile_vectors waiting_pile_vectors.jsonl
 prove_recruit recruit_context_vectors.json
 prove_session session_vectors.json
 ORACLES
@@ -199,6 +200,7 @@ for fixture in core_fields.json util_vectors.json planted_vectors.json recipe_he
 done
 cp -- "$stage/fixtures"/initial_*.json "$here/bramble-engine/tests/fixtures/"
 cp -- "$stage/fixtures/rework_recruit.json" "$here/bramble-engine/tests/fixtures/"
+cp -- "$stage/fixtures/waiting_pile_vectors.jsonl" "$here/bramble-engine/tests/fixtures/"
 cp -- "$stage/fixtures/build.json" "$here/league/build.json"
 rm -rf -- "$stage/previous"
 echo "refresh_reference: refreshed 1,000 mixed-bot records, 200 TribeBot records, 100,000 fights, 25 seeds and Rust fixtures"

@@ -1,4 +1,5 @@
 use crate::{is_hex, sha256};
+use bramble_engine::core::ghosts::ghost_run::GhostRun;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::{BTreeMap, BTreeSet};
@@ -155,14 +156,37 @@ impl RunTurn {
         let (Some(board), Some(hand)) = (board, hand) else {
             return Err(format!("invalid board or hand on turn {}", self.turn));
         };
+        let mut seen = BTreeSet::new();
         for card in board.iter().filter(|card| !card.is_null()).chain(hand) {
             let id = card["def"].as_str().filter(|id| !id.is_empty());
             let uid = card["uid"].as_i64();
             match (id, uid) {
-                (Some(id), Some(0..1_000_000)) => {
+                (Some(id), Some(uid @ 1..GhostRun::UID_STRIDE)) => {
+                    if !seen.insert(uid) {
+                        return Err(format!("duplicate unit uid {uid} on turn {}", self.turn));
+                    }
                     cards.insert(id);
                 }
                 _ => return Err(format!("invalid card or uid on turn {}", self.turn)),
+            }
+        }
+        if let Some(waiting) = self.payload.get("waiting_pile") {
+            let waiting = waiting
+                .as_array()
+                .ok_or("payload.waiting_pile must be an array")?;
+            for card in waiting {
+                let id = card["def"].as_str().filter(|id| !id.is_empty());
+                let uid = card["uid"].as_i64();
+                match (id, uid) {
+                    (Some(_), Some(uid @ 1..GhostRun::UID_STRIDE))
+                        if card["golden"].is_boolean() =>
+                    {
+                        if !seen.insert(uid) {
+                            return Err(format!("duplicate unit uid {uid} on turn {}", self.turn));
+                        }
+                    }
+                    _ => return Err(format!("invalid waiting card or uid on turn {}", self.turn)),
+                }
             }
         }
         Ok(cards)

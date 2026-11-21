@@ -121,6 +121,12 @@ target (the gained unit). `BuyTarget` and `PickTarget` let a bot name a friendly
 at acquisition. Effects that ask after a gain expose `RecruitTarget` choices in board-then-hand
 order. `Sell { slot }` sells from the board. `SellHand { hand }` sells from hand, and
 `ToHand { slot }` returns a board unit that can still move to hand this turn.
+`BuyBoard { index, slot, target }` buys a unit straight into an empty board slot, at any hand
+size; it runs its Recruit as a buy into hand does (when it completes a triple, only the golden
+recruits). `Swap { hand, slot }` swaps a hand unit with a board
+unit: the board unit takes that hand index, nothing settles and no Recruit runs, and a unit that
+Worked this turn can't be swapped out. `UnitView.own_attack` and `own_health` are a unit's
+stats before board auras and slot effects.
 
 ```rust
 pub trait Bot {

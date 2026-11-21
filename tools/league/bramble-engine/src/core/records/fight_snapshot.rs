@@ -125,7 +125,7 @@ impl FightSnapshot {
         out
     }
     /// Replace the destination's fight state, preserving its seat and match health.
-    /// Only board and hand UIDs are remapped. Heap IDs are card IDs and heap sequence
+    /// Unit UIDs in each card zone are remapped. Heap IDs are card IDs and heap sequence
     /// numbers are local to that heap. Counters, slots and mechanic params contain no UIDs.
     pub fn restore_player(
         saved: &Dictionary,
@@ -153,6 +153,11 @@ impl FightSnapshot {
         for raw in saved.get("hand").as_array().to_vec() {
             let card = Self::_restore_player_unit(&raw.as_dict(), game, uid_offset, -1);
             owner.hand.push(card);
+        }
+        owner.waiting_pile.clear();
+        for raw in saved.get("waiting_pile").as_array().to_vec() {
+            let card = Self::_restore_player_unit(&raw.as_dict(), game, uid_offset, -1);
+            owner.waiting_pile.push(card);
         }
         for (i, raw) in saved
             .get("slots")

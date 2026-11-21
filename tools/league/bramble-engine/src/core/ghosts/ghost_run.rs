@@ -348,6 +348,9 @@ fn _payload_problem(
             return Err(format!("payload.{key} must be an array"));
         }
     }
+    if payload.has("waiting_pile") && !matches!(payload.get("waiting_pile"), Variant::Array(_)) {
+        return Err("payload.waiting_pile must be an array".into());
+    }
     let slots = payload.get("slots").as_array();
     if payload.get("board").as_array().len() != 7
         || slots.len() != 7
@@ -358,7 +361,7 @@ fn _payload_problem(
         );
     }
     let mut seen = IndexSet::new();
-    for key in ["board", "hand"] {
+    for key in ["board", "hand", "waiting_pile"] {
         for unit in payload.get(key).as_array().borrow().iter() {
             if key == "board" && *unit == Variant::Nil {
                 continue;
@@ -366,7 +369,10 @@ fn _payload_problem(
             let unit = unit.as_dict();
             _unit_problem(&unit, &mut seen, library, registry, key == "board")
                 .map_err(|problem| format!("payload.{key}: {problem}"))?;
-            held_cards.insert(unit.get("def").as_text());
+            // The run's card fingerprints cover the zones that can take part in a fight.
+            if key != "waiting_pile" {
+                held_cards.insert(unit.get("def").as_text());
+            }
         }
     }
     for raw in slots.borrow().iter() {

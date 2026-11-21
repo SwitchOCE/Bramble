@@ -148,7 +148,7 @@ pub mod harness {
         Built { view, legal }
     }
     /// The same owned view without allocating a dictionary for every legal action.
-    /// Materialize only the selected action with action_dict when playing/recording it.
+    /// Materialize only the selected action with action_dict_for when playing/recording it.
     pub fn view_typed(
         game: &GameSessionRef,
         player_id: i64,
@@ -210,6 +210,9 @@ pub mod harness {
     }
     pub fn action_dict(action: &Action) -> Dictionary {
         action.to_dict()
+    }
+    pub fn action_dict_for(game: &GameSessionRef, player_id: i64, action: &Action) -> Dictionary {
+        action.to_dict_for(game, player_id)
     }
     pub fn action_of(raw: &Dictionary) -> Action {
         Action::from_dict(raw)

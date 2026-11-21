@@ -35,6 +35,8 @@ pub struct PlayerState {
     pub shop_spells: Array<String>,
     // 7.1 cards in hand, in the order gained.
     pub hand: Array<UnitRef>,
+    // 7.1.2 cards gained with a full hand, oldest first. Only hand and board cards are playable.
+    pub waiting_pile: Array<UnitRef>,
     /// Gained units waiting for their recruit target, in gain order.
     pub recruit_choices: Array<UnitRef>,
     // 8.1 the recruit board: one entry per slot, null for an empty slot.
@@ -74,6 +76,7 @@ impl Default for PlayerState {
             shop_units: Array::new(),
             shop_spells: Array::new(),
             hand: Array::new(),
+            waiting_pile: Array::new(),
             recruit_choices: Array::new(),
             board: Array::new(),
             discover_options: Array::new(),
@@ -237,6 +240,16 @@ impl PlayerState {
             ),
         );
         out.insert(
+            "waiting_pile",
+            Variant::array(
+                self.waiting_pile
+                    .borrow()
+                    .iter()
+                    .map(|u| u.borrow().view().to_state())
+                    .collect(),
+            ),
+        );
+        out.insert(
             "board",
             Variant::array(
                 self.board
@@ -310,7 +323,7 @@ impl ToState for PlayerState {
             "turns_waited"=> &self.turns_waited, "refreshes_paid"=> &self.refreshes_paid,
             "freezes_used"=> &self.freezes_used, "frozen"=> &self.frozen,
             "shop_units"=> &self.shop_units, "shop_spells"=> &self.shop_spells,
-            "hand"=> &self.hand, "recruit_choices"=> &self.recruit_choices, "board"=> &self.board, "discover_options"=> &self.discover_options,
+            "hand"=> &self.hand, "waiting_pile"=> &self.waiting_pile, "recruit_choices"=> &self.recruit_choices, "board"=> &self.board, "discover_options"=> &self.discover_options,
             "discover_queue"=> &self.discover_queue, "counters"=> &self.counters, "heaps"=> &self.heaps,
             "slots"=> &self.slots, "standing"=> &self.standing, "alive"=> &self.alive,
             "turn_ended"=> &self.turn_ended, "opponents"=> &self.opponents,
@@ -333,6 +346,7 @@ impl ToState for PlayerState {
             "shop_units",
             "shop_spells",
             "hand",
+            "waiting_pile",
             "recruit_choices",
             "board",
             "discover_options",

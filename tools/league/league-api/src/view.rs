@@ -87,6 +87,9 @@ pub struct UnitView {
     pub slot: i64,
     pub attack: i64,
     pub health: i64,
+    /// Current stats before board auras and slot effects.
+    pub own_attack: i64,
+    pub own_health: i64,
     /// One of this unit's own effects did Recruit Phase work this turn, so it can't move to hand.
     pub worked_this_turn: bool,
     pub bought_copies: i64,
@@ -605,6 +608,7 @@ fn unit_view(game: &GameSessionRef, player: &PlayerStateRef, unit: &UnitRef) -> 
     );
     let u = unit.borrow();
     let def = u.def.as_ref().expect("unit def").borrow();
+    let stats = u.stats.as_ref().expect("unit stats").borrow();
     UnitView {
         uid: u.uid,
         def: def.id.clone(),
@@ -614,6 +618,8 @@ fn unit_view(game: &GameSessionRef, player: &PlayerStateRef, unit: &UnitRef) -> 
         slot: u.slot,
         attack: u.attack(),
         health: u.health(),
+        own_attack: stats.own_attack(),
+        own_health: stats.own_health(),
         worked_this_turn: u.worked_this_turn,
         bought_copies: u.bought_copies,
         pool_copies: 0,
@@ -711,6 +717,7 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
         ),
     );
     raw.insert("hand", Variant::array(hand.iter().map(snap).collect()));
+    crate::copy::add_waiting_pile(&p, &raw);
     let payload = Payload::from_raw(raw);
     Me {
         id: p.id,

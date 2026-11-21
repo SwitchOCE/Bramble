@@ -17,8 +17,8 @@ use league_api::{Factory, harness};
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
 
-/// The pinned GDScript build's fingerprint, copied from a reference record header
-/// (`/home/alex/league/records/gd/c0/`). GDScript replays refuse any other `rules_hash`.
+/// The GDScript build fingerprint pinned by proof/refresh_reference.sh.
+/// GDScript replays refuse any other `rules_hash`.
 pub const BUILD: &str = include_str!("../build.json");
 
 /// The repository root (for card data), from this crate's location.

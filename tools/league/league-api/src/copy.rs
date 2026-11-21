@@ -31,7 +31,15 @@ pub fn fight_payload(player: &PlayerState) -> Dictionary {
     entry.insert("board", Variant::Array(FightSnapshot::units(&player.board)));
     let hand: Array<Option<_>> = player.hand.borrow().iter().cloned().map(Some).collect();
     entry.insert("hand", Variant::Array(FightSnapshot::units(&hand)));
+    add_waiting_pile(player, &entry);
     entry
+}
+
+pub(crate) fn add_waiting_pile(player: &PlayerState, entry: &Dictionary) {
+    if !player.waiting_pile.is_empty() {
+        let pile = player.waiting_pile.iter_live().map(Some).collect();
+        entry.insert("waiting_pile", Variant::Array(FightSnapshot::units(&pile)));
+    }
 }
 
 /// Every field of a player a full copy needs: the fight payload plus the recruit fields.
@@ -57,6 +65,12 @@ pub fn full_player(player: &PlayerState) -> Dictionary {
     entry.insert("shop_spells", player.shop_spells.to_state());
     entry.insert("discover_options", player.discover_options.to_state());
     entry.insert("discover_queue", player.discover_queue.to_state());
+    let choices: Array<_> = player
+        .recruit_choices
+        .iter_live()
+        .map(|u| u.borrow().uid)
+        .collect();
+    entry.insert("recruit_choices", choices.to_state());
     entry.insert("opponents", player.opponents.to_state());
     entry
 }
@@ -110,6 +124,12 @@ pub fn restore_full(game: &mut GameSession, saved: &Dictionary) {
                 pair.get(1).unwrap_or_default().as_i64(),
             )
         })
+        .collect();
+    p.recruit_choices = saved
+        .get("recruit_choices")
+        .as_array()
+        .iter_live()
+        .filter_map(|uid| p.find_uid(uid.as_i64()))
         .collect();
     p.opponents = saved
         .get("opponents")

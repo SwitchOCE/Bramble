@@ -23,10 +23,10 @@ The league brief, `docs/workstreams/bot-league/brief.md`, still holds where this
 
 ## 3. Before it starts (the referee)
 
-1. **The engine tag.** Tag `dev` as `third-run-engine-v1` once the owner approves this brief. It holds the batch-1 cards (PR 222), step E's proof (PR 225) and ghost matches for the teams' tools (PR 226). Rules hash `4e3317511de4…`.
+1. **The engine tag.** Tag `dev` as `third-run-engine-v1` at the merge of the Rust ports of PRs 232, 241 and 242. It holds the batch-1 cards (PR 222), step E's proof (PR 225), ghost matches for the teams' tools (PR 226), and the waiting pile, board buys, swaps and merge-aura fix from the fix round. Rules hash `fa1d51ecc796…`.
 2. **The clones.** Merge `third-run-engine-v1` into `league/red` and `league/blue` in `/home/alex/league/red` and `/home/alex/league/blue`. Each team's tools crate moves from `league::matchrun::run_factories` (live) to `league::ghostmatch::run_factories(&args, new, old, field)`. A team's diff is then checked against `third-run-engine-v1`, not `league-engine-v1`.
 3. **The fields.** Two folders of ghost runs, each made with `tools/league/proof/make_field.sh` (1,000 live games of the final league bots, cut and verified):
-   - **The climbing field**, which grows. It starts as `/data/third-run/field-f82d9c94`: 8,000 runs from red-m2 and blue-m2 at the current rules, made 21 Nov. Every kept version's runs are added (decision 6b), and the field keeps the newest **[Proposed: 4,000]** runs per bot version, so old versions age out.
+   - **The climbing field**, which grows. It starts as `/data/third-run/field-fa1d51ec`: 8,000 runs from red-m2 and blue-m2 at rules hash `fa1d51ecc796…`, made 21 Nov. Every kept version's runs are added (decision 6b), and the field keeps the newest **[Proposed: 4,000]** runs per bot version, so old versions age out.
    - **The reference field** for the stopping test: **[Proposed: a 1,500-game field, about 12,000 runs, cut fresh from the current kept versions at the start of each stopping test (about 45 minutes) and frozen for that test]**, so every neighbour in one test meets the same opponents, and the opponents are as strong as the bots being tested. It must be that big: a stopping-test match needs about 1,510 seed pairs, each pair uses 7 runs, and no run is used twice in a match (section 9).
 4. **The teams' practice field.** Each team gets read access to the climbing field only, never the reference field.
 
