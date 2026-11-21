@@ -15,7 +15,7 @@ A proposal, not decided. Written by the orchestrator on 20 Nov 2026 against `dev
 7. Type line on the card: above the stats or under the top point?
 8. Keyword tooltips: in the left light, or along the top?
 9. Keyword looks: which to build, and keep the round marks under the card?
-10. The golden rule ("stats and the signature double"): which part of each card doubles. How strong each golden ends up (its numbers, Fury 1 or 2 on the free-attack goldens) goes to the balance session.
+10. **Settled 21 Nov.** The golden rule comes from the owner: "Keywords, you know, some things can't be doubled. We need to keep balanced considerations, you know, in mind with goldens. You can't have it completely consistent no matter how much you might like to." Rulebook 7.3.5 says so (PR 224). How strong each golden ends up goes to the balance session.
 11. **Settled 20 Nov.** The owner: "you can do those, I don't have a preference, give me suggestions." The orchestrator's picks:
     - end-of-fight effects move to the start of your turn, and Grudge becomes "Grudge 1";
     - Grudge keeps paying units that died (today's rule);
