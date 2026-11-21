@@ -73,7 +73,7 @@ func build_end_turn() -> void:
 
 
 ## A2's .rd.incbadge: a 30 px cream plate, with a 21 px value and a 26 px coin, padded 8 px
-## left and 4 px right.
+## left and 2 px right (the mock-up's 4 px puts its border past the screen edge at 1846).
 static func _income_badge(income: int) -> GlassBox:
 	var height: float = 30.0
 	var value: GlassText = GlassText.new()
@@ -95,7 +95,7 @@ static func _income_badge(income: int) -> GlassBox:
 	]
 	value.position = Vector2(badge.border_width + 8.0, (height - value.size.y) / 2.0)
 	coin.position = Vector2(value.position.x + value.size.x + 4.0, (height - coin.size.y) / 2.0)
-	badge.box_size = Vector2(coin.position.x + coin.size.x + 4.0 + badge.border_width, height)
+	badge.box_size = Vector2(coin.position.x + coin.size.x + 2.0 + badge.border_width, height)
 	badge.radii = Vector4.ONE * badge.box_size.y / 2.0
 	badge.refresh()
 	badge.add_child(value)
