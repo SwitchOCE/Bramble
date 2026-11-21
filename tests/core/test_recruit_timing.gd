@@ -422,6 +422,23 @@ func test_a_merge_that_takes_an_aura_off_the_board_refreshes_it_before_a_waiting
 	)
 
 
+## 7.3.7: a golden placed on the board recruits with the board as it stands, its own aura included.
+func test_a_golden_placed_on_the_board_recruits_after_auras_refresh() -> void:
+	var id: StringName = &"core_test_board_golden_reads_attack"
+	assert_true(game.registry.register(id, RecruitReadsAttack.new()))
+	game.library.get_card(&"t3_banner").mechanics.append(MechanicSpec.new(id))
+	for slot: int in [1, 2, 3]:
+		Kit.put(game, p, "t3_banner", slot)
+	while p.hand.size() < game.rules.hand_limit(p):
+		p.hand.append(Kit.unit(game, "brock-cub", true))
+	game.recruit.refresh_auras(p)
+	game.recruit._settle(p)
+	var golden: Unit = p.board[1]
+	assert_true(golden != null and golden.golden, "the golden took the first vacated slot")
+	assert_eq(mouse.attack(), 8, "the golden Banner's aura")
+	assert_eq(golden.stats.perm_attack, 8, "its Recruit read the mouse with the golden's aura")
+
+
 func test_bought_third_copy_fires_only_the_golden_before_play() -> void:
 	p.hand.append(Kit.unit(game, "harvest-piper"))
 	p.hand.append(Kit.unit(game, "harvest-piper"))
