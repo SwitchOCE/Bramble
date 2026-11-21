@@ -19,7 +19,7 @@ The `{}` placeholders above must be complete player payloads. The required keys 
 zeroes or plus sign; zero is `"0"`. All JSON numbers must be integers exactly representable as
 IEEE-754 doubles (absolute value at most 9,007,199,254,740,991). The seed uses text to avoid
 that restriction. An optional `trace` array selects combat event types to include in the output.
-The reference corpus selects `["uses"]`. Unknown top-level fields do not affect the fight.
+`["*"]` selects every event; the reference corpus selects `["uses"]`. Unknown top-level fields do not affect the fight.
 
 `a` and `b` have exactly the shape emitted by `RecordState.fight_players` for living players:
 

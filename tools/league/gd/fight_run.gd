@@ -141,7 +141,7 @@ func _run(saved: Dictionary) -> Dictionary:
 	if game.keep_fight_events:
 		var events: Array = []
 		for event: Dictionary in fight["events"]:
-			if trace.has(event["type"]):
+			if trace.has("*") or trace.has(event["type"]):
 				events.append(event)
 		output["trace"] = events
 	return output

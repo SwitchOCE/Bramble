@@ -10,7 +10,9 @@ import sys
 from pathlib import Path
 
 
-def first_path(expected, actual, path="$"):
+def first_path(expected, actual, path="$", by_value=False):
+    if by_value and {type(expected), type(actual)} == {int, float}:
+        return None if expected == actual else (path, expected, actual)
     if type(expected) is not type(actual):
         return path, expected, actual
     if isinstance(expected, dict):
@@ -20,14 +22,14 @@ def first_path(expected, actual, path="$"):
                 return child, "<missing>", actual[key]
             if key not in actual:
                 return child, expected[key], "<missing>"
-            difference = first_path(expected[key], actual[key], child)
+            difference = first_path(expected[key], actual[key], child, by_value)
             if difference:
                 return difference
     elif isinstance(expected, list):
         if len(expected) != len(actual):
             return path + ".length", len(expected), len(actual)
         for index, (left, right) in enumerate(zip(expected, actual)):
-            difference = first_path(left, right, f"{path}[{index}]")
+            difference = first_path(left, right, f"{path}[{index}]", by_value)
             if difference:
                 return difference
     elif expected != actual:
@@ -59,7 +61,7 @@ def short(value):
     return text if len(text) <= 240 else text[:237] + "..."
 
 
-def compare(expected_path, actual_paths, require_trace=False):
+def compare(expected_path, actual_paths, require_trace=False, trace_values=False):
     count = 0
     state_bytes = 0
     events = 0
@@ -74,7 +76,15 @@ def compare(expected_path, actual_paths, require_trace=False):
             actual = read_result(right, "Rust results", number, require_trace)
             # Compare exact state strings and every other payload field. Parsing state is
             # diagnostic only; a parse/reserialize must never make unequal bytes pass.
-            difference = first_path(expected, actual)
+            if trace_values:
+                # GDScript prints a number restored from JSON as 1.0 where Rust prints 1.
+                # The state string is still compared byte for byte.
+                plain = lambda result: {k: v for k, v in result.items() if k != "trace"}
+                difference = first_path(plain(expected), plain(actual)) or first_path(
+                    expected.get("trace"), actual.get("trace"), '$["trace"]', True
+                )
+            else:
+                difference = first_path(expected, actual)
             if difference:
                 path, wanted, got = difference
                 if expected.get("state") != actual.get("state") and "state" in expected:
@@ -105,11 +115,21 @@ def compare(expected_path, actual_paths, require_trace=False):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--require-trace", action="store_true", help="require an event array on every result")
+    parser.add_argument(
+        "--trace-values",
+        action="store_true",
+        help="compare event numbers by value, so 1.0 matches 1",
+    )
     parser.add_argument("expected", type=Path)
     parser.add_argument("actual", type=Path, nargs="+")
     args = parser.parse_args()
     try:
-        compare(args.expected, args.actual, require_trace=args.require_trace)
+        compare(
+            args.expected,
+            args.actual,
+            require_trace=args.require_trace,
+            trace_values=args.trace_values,
+        )
     except (OSError, ValueError, KeyError, TypeError) as error:
         print(error, file=sys.stderr)
         return 1
