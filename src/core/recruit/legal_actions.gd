@@ -48,8 +48,8 @@ static func of(session: GameSession, player: PlayerState) -> Array[Dictionary]:
 
 
 static func _buys(session: GameSession, player: PlayerState, out: Array[Dictionary]) -> void:
-	if player.hand.size() >= session.rules.hand_limit(player):
-		return
+	var hand_room: bool = player.hand.size() < session.rules.hand_limit(player)
+	var empty: Array[int] = player.empty_slots()
 	for spell: bool in [false, true]:
 		var shop: Array[StringName] = player.shop_spells if spell else player.shop_units
 		for i: int in shop.size():
@@ -62,29 +62,39 @@ static func _buys(session: GameSession, player: PlayerState, out: Array[Dictiona
 				else session.rules.unit_price(player, card)
 			)
 			if player.gold >= price:
-				_gains(session, player, card, {"type": "buy", "spell": spell, "index": i}, out)
+				var buy: Dictionary = {"type": "buy", "spell": spell, "index": i}
+				if hand_room:
+					_gains(session, player, card, buy, out)
+				if not spell:
+					for slot: int in empty:
+						var on_board: Dictionary = buy.duplicate()
+						on_board["slot"] = slot
+						_gains(session, player, card, on_board, out)
 
 
 static func _plays(session: GameSession, player: PlayerState, out: Array[Dictionary]) -> void:
 	var recruit: Recruit = session.recruit
-	var empty: Array[int] = player.empty_slots()
 	for i: int in player.hand.size():
 		var card: Unit = player.hand[i]
+		if not card.is_spell():
+			for slot: int in session.geometry.slot_count:
+				var swap: bool = player.board[slot] != null
+				if recruit.play_slot_error(player, slot, swap) == "":
+					var play: Dictionary = {"type": "play", "hand": i, "slot": slot, "target": -1}
+					if swap:
+						play["swap"] = true
+					out.append(play)
+			continue
 		var kind: Mechanic.Target = recruit.play_target_of(card)
 		var choices: Array[int] = [-1]
 		if kind != Mechanic.Target.NONE:
 			var targets: Array[int] = recruit.targets_for(player, kind, card)
 			if not targets.is_empty():
 				choices = targets
-			elif card.is_spell():
+			else:
 				continue
-		if card.is_spell():
-			for target: int in choices:
-				out.append({"type": "play", "hand": i, "slot": -1, "target": target})
-			continue
-		for slot: int in empty:
-			for target: int in choices:
-				out.append({"type": "play", "hand": i, "slot": slot, "target": target})
+		for target: int in choices:
+			out.append({"type": "play", "hand": i, "slot": -1, "target": target})
 
 
 ## 3.3.1 every usable ability of a board unit, once per legal target.

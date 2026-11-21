@@ -96,6 +96,48 @@ func test_full_hand_refuses_return_without_changing_the_board() -> void:
 	)
 
 
+func test_full_hand_swap_preserves_the_copy_and_waiting_order_without_recruiting() -> void:
+	var piper: Unit = Kit.put(game, p, "harvest-piper", 0)
+	var mouse: Unit = Kit.put(game, p, "needle-page", 1)
+	piper.bought_copies = 1
+	piper.stats.perm_attack = 7
+	p.slots[0].renown = 2
+	for i: int in 7:
+		p.hand.append(Kit.unit(game, "brock-cub", true))
+	var before: Array[Unit] = p.hand.duplicate()
+	var ctx := RecruitContext.new(game, game.recruit, p)
+	var waiting: Unit = ctx.give_card(&"harvest-piper", null)
+	var later: Unit = ctx.give_card(&"cousin", null)
+	var swap: Dictionary = {"type": "play", "hand": 3, "slot": 0, "target": -1, "swap": true}
+	assert_true(game.legal_actions(p.id).has(swap))
+	assert_eq(game.act(p.id, swap), "")
+	assert_eq(p.board[0], before[3])
+	assert_eq(p.board[0].stats.renown, 2)
+	before[3] = piper
+	assert_eq(p.hand, before, "only the replaced hand index changes")
+	assert_eq(piper.slot, -1)
+	assert_eq(piper.stats.renown, 0)
+	assert_eq(piper.stats.perm_attack, 7)
+	assert_eq(piper.bought_copies, 1)
+	assert_eq(p.waiting_pile, [waiting, later] as Array[Unit])
+	assert_eq(mouse.stats.perm_attack, 0)
+	assert_eq(game.act(p.id, {"type": "play", "hand": 3, "slot": 2}), "")
+	assert_eq(p.hand.back(), waiting, "the oldest joins after an actual vacancy")
+	assert_eq(p.waiting_pile, [later] as Array[Unit])
+	assert_eq(mouse.stats.perm_attack, 5, "only the waiting Piper recruits")
+
+
+func test_worked_unit_cannot_be_swapped_out() -> void:
+	var unit: Unit = Kit.put(game, p, "lance-corporal", 4)
+	unit.worked_this_turn = true
+	var incoming: Unit = _hand("needle-page")
+	var swap: Dictionary = {"type": "play", "hand": 0, "slot": 4, "target": -1, "swap": true}
+	assert_false(game.legal_actions(p.id).has(swap))
+	assert_eq(game.act(p.id, swap), "Worked this turn: stays for the fight.")
+	assert_eq(p.board[4], unit)
+	assert_eq(p.hand[0], incoming)
+
+
 func test_hand_sale_matches_bought_created_and_mixed_golden_board_values() -> void:
 	for bought: int in [0, 1, 2, 3]:
 		var unit: Unit = _hand("master-at-arms", bought)

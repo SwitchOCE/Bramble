@@ -9,8 +9,13 @@ extends RefCounted
 
 ## Slot pills are drawn over the resting cards and under a hovered or carried card.
 const SLOT_PILL_Z: int = 1
+const DROP_AMBER: Color = Color("ffd590")
+const SWAP_BLUE: Color = Color("bfe4ff")
 
 var _screen: RecruitScreen
+var _preview_slot: int = -1
+var _drop_preview: Control
+var _swap_unit: Control
 
 
 func _init(screen: RecruitScreen) -> void:
@@ -122,25 +127,102 @@ func leave_slot(unit: Control, card: Dictionary, index: int) -> void:
 		)
 
 
-## STAND-IN (stand-ins.html ?m=drag): while a unit is carried, every empty slot it can go to is
-## lit (recruit-play.html's lit target), the one it left too (from, for a board unit); the units on
-## the board do nothing.
+func has_unit(slot: int) -> bool:
+	return _screen.node_for("board", slot) != null
+
+
+## Light every empty destination, and the slot a carried board unit left.
 func light_drop(kind: String, from: int) -> void:
-	if (
-		(kind == "shop" and _screen.is_barred("buy"))
-		or (kind == "hand" and _screen.is_barred("play"))
-	):
-		return
 	var outline: PackedVector2Array = GlassBox.hexagon(
 		Rect2(Vector2.ZERO, _screen.card_box()), _screen._slot_shoulder()
 	)
 	for i: int in GlassScreen.BOARD_SLOTS:
 		var slot: Control = _screen._slots.get_node_or_null("Slot_%d" % i)
-		var empty: bool = _screen._targets.any(
-			func(t: Dictionary) -> bool: return t["kind"] == "slot" and t["index"] == i
-		)
-		if slot != null and (empty or (kind == "board" and from == i)):
+		var empty: bool = not has_unit(i)
+		if (
+			slot != null
+			and ((empty and _can_drop(kind, from, i)) or (kind == "board" and from == i))
+		):
 			GlassParts.add_lit(slot, outline)
+
+
+func _can_drop(kind: String, from: int, slot: int, swap: bool = false) -> bool:
+	if kind == "board" or not _screen.state.has("legal_actions"):
+		return true
+	var action: Dictionary = {"type": "buy", "spell": false, "index": from, "slot": slot}
+	if kind == "hand":
+		action = {"type": "play", "hand": from, "slot": slot}
+		if swap:
+			action["swap"] = true
+	return RecruitActions.allows(_screen.state, action)
+
+
+## On the hovered destination, brighten the amber rim or show the blue swap and hand preview.
+func preview_drop(kind: String, from: int, slot: int) -> void:
+	if slot == _preview_slot:
+		return
+	clear_drop_preview()
+	_preview_slot = slot
+	if slot < 0:
+		return
+	var occupied: bool = has_unit(slot)
+	if (occupied and kind != "hand") or not _can_drop(kind, from, slot, occupied):
+		return
+	_drop_preview = Control.new()
+	_drop_preview.name = "DropPreview"
+	_drop_preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_screen._front.add_child(_drop_preview)
+	var at: Vector2 = _screen.slot_xy(slot)
+	var outline: PackedVector2Array = GlassBox.hexagon(
+		Rect2(at, _screen.card_box()), _screen._slot_shoulder()
+	)
+	var edge: Color = SWAP_BLUE if occupied else DROP_AMBER
+	_drop_preview.draw.connect(
+		func() -> void:
+			var rim: PackedVector2Array = outline.duplicate()
+			rim.append(outline[0])
+			_drop_preview.draw_colored_polygon(outline, Color(edge, 0.15))
+			_drop_preview.draw_polyline(rim, Color(edge, 0.22), 23.0, true)
+			_drop_preview.draw_polyline(rim, Color(edge, 0.55), 11.0, true)
+			_drop_preview.draw_polyline(rim, edge, 4.0, true)
+	)
+	if occupied:
+		_preview_swap(from, slot, at)
+
+
+func _preview_swap(from: int, slot: int, at: Vector2) -> void:
+	var card: Dictionary = _screen.state["board"][slot]
+	var lifted: Control = _screen._make_card("board", card, {})
+	lifted.name = "SwapLifted"
+	lifted.position = at + Vector2(-6, 10)
+	lifted.rotation_degrees = -2.0
+	lifted.modulate = Color(0.67, 0.75, 0.83, 0.72)
+	_drop_preview.add_child(lifted)
+	_swap_unit = _screen.node_for("board", slot)
+	_swap_unit.hide()
+	var hand: Array = _screen.state["hand"]
+	var place: Vector3 = _screen.hand_place(from, hand.size())
+	var ghost: GlassCard = _screen._make_card("hand", card, {}) as GlassCard
+	ghost.name = "SwapGhost"
+	ghost.position = Vector2(place.x, place.y - 24.0)
+	ghost.rotation_degrees = place.z
+	ghost.modulate = Color(0.78, 0.88, 1.0, 0.48)
+	_drop_preview.add_child(ghost)
+	ghost.pivot_offset = Vector2(ghost.size.x / 2.0, ghost.size.y)
+	var renown: int = GlassPieces.as_int(card.get("renown", 0))
+	ghost.max_health -= renown
+	ghost.set_numbers(ghost.attack - renown, ghost.health - renown)
+
+
+func clear_drop_preview() -> void:
+	if is_instance_valid(_swap_unit):
+		_swap_unit.show()
+	_swap_unit = null
+	if is_instance_valid(_drop_preview):
+		_drop_preview.get_parent().remove_child(_drop_preview)
+		_drop_preview.queue_free()
+	_drop_preview = null
+	_preview_slot = -1
 
 
 ## Lights the valid targets of a kind on every card and slot they name; skip is the card being

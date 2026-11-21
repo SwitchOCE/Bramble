@@ -88,11 +88,34 @@ func test_4_1_5_cant_buy_without_the_gold() -> void:
 	assert_eq(p.hand.size(), 0)
 
 
-func test_4_2_2_and_7_1_1_full_hand_of_7_cant_buy() -> void:
+func test_4_2_2_full_hand_can_only_buy_a_unit_onto_an_empty_slot() -> void:
 	p.gold = 100
 	for _i: int in 7:
-		p.hand.append(CoreKit.unit(game, "t1_plain"))
+		p.hand.append(CoreKit.unit(game, "t1_guard", true))
+	CoreKit.set_shop(game, p, ["t1_plain"])
+	CoreKit.put(game, p, "t1_guard", 0)
+	var before: Dictionary = p.view()
 	assert_eq(game.act(0, {"type": "buy", "spell": false, "index": 0}), "hand is full")
+	assert_eq(game.act(0, {"type": "buy", "index": 0, "slot": 0}), "choose an empty slot")
+	assert_eq(game.act(0, {"type": "buy", "index": 0, "slot": 7}), "choose an empty slot")
+	assert_eq(
+		game.act(0, {"type": "buy", "index": 0, "spell": true, "slot": 1}), "choose an empty slot"
+	)
+	assert_eq(p.view(), before, "refused purchases spend and move nothing")
+	var buys: Array[Dictionary] = game.legal_actions(0).filter(
+		func(a: Dictionary) -> bool: return a["type"] == "buy"
+	)
+	assert_eq(buys.size(), 6)
+	assert_true(buys.all(func(a: Dictionary) -> bool: return a.has("slot") and a["slot"] != 0))
+	assert_eq(game.act(0, buys[0]), "")
+	var unit: Unit = p.board[1]
+	assert_not_null(unit)
+	assert_eq(unit.bought_copies, 1)
+	assert_eq(p.gold, 98)
+	assert_eq(p.hand.size(), 7)
+	assert_eq(p.shop_units[0], PlayerState.NO_CARD)
+	assert_eq(game.act(0, {"type": "sell", "slot": 1}), "")
+	assert_eq(p.gold, 99)
 
 
 func test_7_2_1_play_into_any_chosen_empty_slot() -> void:
@@ -103,11 +126,19 @@ func test_7_2_1_play_into_any_chosen_empty_slot() -> void:
 	assert_eq(p.hand.size(), 0)
 
 
-func test_7_2_2_no_play_on_a_full_board() -> void:
+func test_7_2_2_can_swap_on_a_full_board_and_legacy_plays_still_require_room() -> void:
 	for slot: int in 7:
 		CoreKit.put(game, p, "t1_plain", slot)
-	p.hand.append(CoreKit.unit(game, "t1_guard"))
-	assert_ne(game.act(0, {"type": "play", "hand": 0, "slot": 0, "target": -1}), "")
+	var unit: Unit = CoreKit.unit(game, "t1_guard")
+	var occupant: Unit = p.board[0]
+	p.hand.append(unit)
+	var play: Dictionary = {"type": "play", "hand": 0, "slot": 0, "target": -1}
+	assert_eq(game.act(0, play), "choose an empty slot")
+	play["swap"] = true
+	assert_true(game.legal_actions(0).has(play))
+	assert_eq(game.act(0, play), "")
+	assert_eq(p.board[0], unit)
+	assert_eq(p.hand[0], occupant)
 	assert_eq(p.hand.size(), 1)
 
 
