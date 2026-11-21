@@ -1,0 +1,18 @@
+{
+  "about": "Recruit batch (plan step 12), prototype 26: tier up. The button flashes and its tiers roll over; the gold counts down; a band of light sweeps across the shop.",
+  "scene": "res://tests/screens/feel/feel_game.tscn",
+  "seed": 7,
+  "setup": {
+    "gold": 9,
+    "board": {"0": "brock-cub", "1": "hedge-knight", "2": "old-campaigner", "3": "padre", "4": "relic-seeker", "6": "horde-runner"},
+    "hand": ["lance-corporal", "master-at-arms", "sett-shield-bearer"]
+  },
+  "steps": [
+    {"wait": 0.4},
+    {"move": "button:tier", "time": 0.36},
+    {"press": true, "note": "tier-up press"},
+    {"wait": 0.08},
+    {"release": true, "note": "tier up"},
+    {"wait": 1.0}
+  ]
+}
