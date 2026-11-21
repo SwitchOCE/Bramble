@@ -1,0 +1,2538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bramble — Concept C: The Rose Window</title>
+<style>
+  @font-face {
+    font-family: 'Alegreya';
+    src: url('../../../../../assets/glass/fonts/Alegreya[wght].ttf') format('truetype');
+    font-weight: 400 900;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Alegreya Sans';
+    src: url('../../../../../assets/glass/fonts/AlegreyaSans-Regular.ttf') format('truetype');
+    font-weight: 400 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Alegreya Sans';
+    src: url('../../../../../assets/glass/fonts/AlegreyaSans-Bold.ttf') format('truetype');
+    font-weight: 700 800;
+    font-style: normal;
+  }
+
+  :root {
+    --lead: #0b0907;
+    --lead-pewter: #473e34;
+    --lead-glint: rgba(255, 238, 198, 0.22);
+    --cream: #fbf2de;
+    --cream-dim: #e2d6bd;
+    --ink: #150e08;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+  }
+
+  html, body {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    background: #0b0907;
+    font-family: 'Alegreya Sans', sans-serif;
+    color: var(--cream);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #stage {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 1080px 680px at 960px 540px, rgba(54, 92, 68, 0.36) 0%, rgba(20, 34, 46, 0.32) 55%, rgba(11, 9, 7, 0.94) 100%),
+      url('../../../../../assets/glass/ui/stone.jpg') repeat;
+    background-size: auto, 420px 420px;
+  }
+
+  /* Subtle leaded quarry texture in the outer spandrels */
+  .quarry-spandrels {
+    position: absolute;
+    inset: 0;
+    background: url('../../../../../assets/glass/ui/quarries.jpg') center/cover no-repeat;
+    opacity: 0.22;
+    mix-blend-mode: luminosity;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Cathedral rolled-glass shimmer layer */
+  .glass-tex {
+    position: absolute;
+    inset: 0;
+    background: url('../../../../../assets/glass/ui/pane.jpg') repeat;
+    background-size: 360px 360px;
+    mix-blend-mode: soft-light;
+    opacity: 0.36;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  #rose-arch-svg {
+    position: absolute;
+    inset: 0;
+    width: 1920px;
+    height: 1080px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  #ui-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+  }
+
+  /* ==================== LEADED CATHEDRAL GLASS CHROME ==================== */
+  .leaded-panel {
+    position: relative;
+    border: 3.5px solid var(--lead);
+    box-shadow:
+      0 0 0 1px rgba(92, 80, 66, 0.55),
+      inset 0 0 0 1.5px rgba(255, 238, 198, 0.16),
+      inset 0 16px 28px rgba(255, 244, 210, 0.08),
+      inset 0 -12px 22px rgba(0, 0, 0, 0.62),
+      0 8px 20px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+  }
+  .leaded-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('../../../../../assets/glass/ui/pane.jpg') repeat;
+    background-size: 220px 220px;
+    mix-blend-mode: soft-light;
+    opacity: 0.32;
+    pointer-events: none;
+  }
+
+  .glass-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Alegreya', Georgia, serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.1;
+    color: var(--cream);
+    background: linear-gradient(180deg, #2b3e48 0%, #19262f 56%, #101920 100%);
+    border: 3px solid var(--lead);
+    border-radius: 5px;
+    box-shadow:
+      0 0 0 1px rgba(102, 90, 74, 0.5),
+      inset 0 1.5px 0 rgba(255, 242, 212, 0.28),
+      inset 0 -3px 8px rgba(0, 0, 0, 0.6),
+      0 4px 12px rgba(0, 0, 0, 0.7);
+    padding: 0 16px;
+    height: 46px;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .glass-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('../../../../../assets/glass/ui/pane.jpg') repeat;
+    background-size: 180px 180px;
+    mix-blend-mode: soft-light;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .glass-btn svg { flex-shrink: 0; }
+  .glass-btn-round {
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  /* ==================== TOP BAR & KEYSTONE ==================== */
+  .top-left-bar {
+    position: absolute;
+    left: 26px;
+    top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 20;
+  }
+  .top-right-bar {
+    position: absolute;
+    right: 26px;
+    top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 20;
+  }
+
+  .top-keystone {
+    position: absolute;
+    left: 50%;
+    top: 4px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    height: 42px;
+    padding: 0 30px;
+    background: linear-gradient(180deg, #322a22 0%, #1d1813 100%);
+    border: 3px solid var(--lead);
+    border-radius: 0 0 20px 20px;
+    box-shadow:
+      0 0 0 1px rgba(128, 108, 82, 0.55),
+      inset 0 0 0 1px rgba(246, 214, 146, 0.28),
+      0 6px 16px rgba(0, 0, 0, 0.78);
+    z-index: 25;
+  }
+  .keystone-turn {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+  }
+  .keystone-sep {
+    width: 7px;
+    height: 7px;
+    background: #dfa94e;
+    transform: rotate(45deg);
+    border: 1px solid var(--lead);
+  }
+  .keystone-sub {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #f4d89a;
+  }
+
+  /* ==================== 8-PLAYER RIM ROUNDELS ==================== */
+  .rim-player {
+    position: absolute;
+    width: 210px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    z-index: 18;
+  }
+  .rim-disc-wrap {
+    position: relative;
+    width: 88px;
+    height: 88px;
+  }
+  .rim-ring {
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 4px solid var(--lead);
+    background: radial-gradient(circle, rgba(255,255,255,0.06) 60%, rgba(0,0,0,0.65) 100%);
+    box-shadow:
+      0 0 0 2px #584c3e,
+      0 6px 16px rgba(0,0,0,0.78);
+  }
+  .rim-player.is-you .rim-ring {
+    box-shadow:
+      0 0 0 3px #f4d689,
+      0 0 22px rgba(244, 214, 137, 0.48),
+      0 6px 16px rgba(0,0,0,0.78);
+  }
+  .rim-player.is-next .rim-ring {
+    box-shadow:
+      0 0 0 3px #f29838,
+      0 0 26px rgba(242, 152, 56, 0.65),
+      0 6px 16px rgba(0,0,0,0.78);
+  }
+  .rim-player.is-victor .rim-ring {
+    box-shadow:
+      0 0 0 3px #e35d54,
+      0 0 22px rgba(227, 93, 84, 0.55),
+      0 6px 16px rgba(0,0,0,0.78);
+  }
+  .rim-player.is-out .rim-ring {
+    box-shadow:
+      0 0 0 2px #36312d,
+      0 4px 10px rgba(0,0,0,0.68);
+  }
+
+  .rim-portrait {
+    position: absolute;
+    inset: 2px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--lead);
+    background: #14110f;
+  }
+  .rim-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .rim-player.is-out .rim-portrait img {
+    filter: grayscale(100%) brightness(0.42) contrast(1.1);
+  }
+  .rim-crack {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .rim-rank {
+    position: absolute;
+    left: -8px;
+    top: -4px;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(180deg, #43392e 0%, #1d1814 100%);
+    border: 2.5px solid var(--lead);
+    box-shadow: inset 0 1px 0 rgba(255,236,192,0.34), 0 2px 6px rgba(0,0,0,0.82);
+    border-radius: 5px;
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .rim-rank span {
+    transform: rotate(-45deg);
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--cream);
+  }
+
+  .rim-hp {
+    position: absolute;
+    right: -10px;
+    bottom: -4px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: url('../../../../../assets/glass/ui/rd-ruby.png') center/106% auto no-repeat, #8e1717;
+    border: 2.5px solid var(--lead);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.85), inset 0 1px 2px rgba(255,210,200,0.38);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 18px;
+    font-weight: 900;
+    color: #fff9ec;
+    text-shadow: 0 1px 3px #1a0404, 0 0 6px rgba(0,0,0,0.85);
+  }
+  .rim-player.is-out .rim-hp {
+    background: #2c2624;
+    color: #cfc4b8;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+  }
+
+  .rim-tag {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 10px;
+    border-radius: 4px;
+    border: 2px solid var(--lead);
+    font-family: 'Alegreya Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.82);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .rim-tag.next {
+    background: linear-gradient(180deg, #f8c35c 0%, #ce7418 100%);
+    color: #160c04;
+  }
+  .rim-tag.victor {
+    background: linear-gradient(180deg, #dc524d 0%, #8a191b 100%);
+    color: #fff4ec;
+  }
+  .rim-tag.you {
+    background: linear-gradient(180deg, #f5e6be 0%, #cab075 100%);
+    color: #160e06;
+  }
+  .rim-tag.last {
+    background: #232b34;
+    color: #dce5ef;
+  }
+
+  .rim-nameplate {
+    background: linear-gradient(180deg, rgba(24, 21, 18, 0.95) 0%, rgba(13, 11, 10, 0.98) 100%);
+    border: 2.5px solid var(--lead);
+    box-shadow:
+      0 0 0 1px rgba(90, 78, 65, 0.45),
+      inset 0 1px 0 rgba(255, 236, 196, 0.16),
+      0 3px 8px rgba(0,0,0,0.76);
+    border-radius: 4px;
+    padding: 3px 12px 4px;
+    text-align: center;
+    max-width: 204px;
+    min-width: 132px;
+  }
+  .rim-name {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.12;
+    color: var(--cream);
+  }
+  .rim-player.is-out .rim-name {
+    color: #b0a699;
+    text-decoration: line-through;
+  }
+  .rim-player.is-next .rim-nameplate {
+    border-color: #db8624;
+    background: linear-gradient(180deg, #35200e 0%, #1d1107 100%);
+  }
+  .rim-player.is-victor .rim-nameplate {
+    border-color: #c84540;
+    background: linear-gradient(180deg, #381517 0%, #1f0a0c 100%);
+  }
+  .rim-player.is-you .rim-nameplate {
+    border-color: #d4b468;
+    background: linear-gradient(180deg, #2d2618 0%, #18140d 100%);
+  }
+
+  /* ==================== CARD HEXAGON + INTEGRATED SCROLL PLAQUE ==================== */
+  .unit-slot {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateX(-50%);
+    z-index: 15;
+  }
+
+  .card-hex-wrap {
+    position: relative;
+    flex-shrink: 0;
+    filter: drop-shadow(0 7px 11px rgba(0, 0, 0, 0.74));
+  }
+  .card-hex-wrap.is-golden {
+    filter:
+      drop-shadow(0 0 15px rgba(255, 208, 86, 0.88))
+      drop-shadow(0 7px 11px rgba(0, 0, 0, 0.8));
+  }
+  .card-hex-wrap.is-attacker {
+    transform: translateY(-9px) scale(1.04);
+    filter:
+      drop-shadow(0 0 18px rgba(255, 200, 78, 0.86))
+      drop-shadow(0 12px 18px rgba(0, 0, 0, 0.86));
+  }
+  .card-hex-wrap.is-threat {
+    filter:
+      drop-shadow(0 0 16px rgba(235, 86, 68, 0.85))
+      drop-shadow(0 8px 14px rgba(0, 0, 0, 0.82));
+  }
+
+  .card-art {
+    position: absolute;
+    inset: 0;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    clip-path: polygon(50% 4.339%, 95.911% 18.365%, 95.911% 81.635%, 50% 95.661%, 4.089% 81.635%, 4.089% 18.365%);
+  }
+  .card-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none;
+  }
+  .golden-rim-svg {
+    position: absolute;
+    inset: -5px;
+    width: calc(100% + 10px);
+    height: calc(100% + 10px);
+    pointer-events: none;
+  }
+
+  /* Reinforced stained-glass stat bosses right over frame roundels (always >= 18px) */
+  .stat-boss {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Alegreya', Georgia, serif;
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: lining-nums;
+    color: #140c06;
+    background: radial-gradient(circle at 38% 32%, #fff8e2 0%, #f1d9a2 58%, #c9a156 100%);
+    border: 2.5px solid var(--lead);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.78), inset 0 1px 1px rgba(255,255,255,0.72);
+    z-index: 4;
+  }
+  .stat-boss.single { font-size: 19px; }
+  .stat-boss.lg {
+    width: 52px;
+    height: 52px;
+    font-size: 28px;
+    border-width: 3.5px;
+  }
+  .stat-boss.buffed {
+    background: radial-gradient(circle at 38% 32%, #e8ffdc 0%, #b5ea9a 58%, #6da853 100%);
+    color: #0b1c06;
+  }
+  .stat-boss.hurt {
+    background: radial-gradient(circle at 38% 32%, #ffe4de 0%, #f5a69d 58%, #c44a42 100%);
+    color: #240404;
+  }
+
+  /* Spell card (upright 0.56 tall hexagon in silver-sapphire leaded border) */
+  .spell-lead-outer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #7f9ec7 0%, #3d5a80 50%, #1e2f48 100%);
+    clip-path: polygon(50% 0%, 100% 17%, 100% 83%, 50% 100%, 0% 83%, 0% 17%);
+  }
+  .spell-lead-inner {
+    position: absolute;
+    inset: 3px;
+    background: var(--lead);
+    clip-path: polygon(50% 0%, 100% 17%, 100% 83%, 50% 100%, 0% 83%, 0% 17%);
+  }
+  .spell-art {
+    position: absolute;
+    inset: 7px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    clip-path: polygon(50% 0%, 100% 17%, 100% 83%, 50% 100%, 0% 83%, 0% 17%);
+  }
+
+  /* Tribe crest badge on top-left shoulder */
+  .tribe-crest {
+    position: absolute;
+    left: -8px;
+    top: 15%;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2.5px solid var(--lead);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.82);
+    z-index: 6;
+  }
+  .tribe-crest.lg {
+    width: 44px;
+    height: 44px;
+    left: -12px;
+    border-width: 3px;
+  }
+  .tribe-crest.lg svg { width: 24px; height: 24px; }
+  .tribe-briar   { background: radial-gradient(circle at 35% 30%, #4ec472, #185730); color: #f6fff4; }
+  .tribe-pigeon  { background: radial-gradient(circle at 35% 30%, #6cb2f2, #1c4c82); color: #f4faff; }
+  .tribe-mouse   { background: radial-gradient(circle at 35% 30%, #f0bf62, #8c5914); color: #1a0f04; }
+  .tribe-locust  { background: radial-gradient(circle at 35% 30%, #c4d652, #586912); color: #121704; }
+  .tribe-badger  { background: radial-gradient(circle at 35% 30%, #b5bcc4, #454d57); color: #111418; }
+  .tribe-neutral { background: radial-gradient(circle at 35% 30%, #e4d5ba, #7a684f); color: #18120a; }
+
+  /* Price coin roundel on top-right shoulder */
+  .price-coin {
+    position: absolute;
+    right: -12px;
+    top: 12%;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: url('assets/rd-amber.png') center/106% auto no-repeat, #d89628;
+    border: 2.5px solid var(--lead);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.86);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: #160c04;
+    text-shadow: 0 1px 0 rgba(255, 240, 195, 0.72);
+    z-index: 7;
+  }
+
+  /* Renown & Golden crests docked cleanly on hex roof */
+  .renown-crest {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 24px;
+    padding: 0 10px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #fae6a8 0%, #d2a44a 100%);
+    border: 2.5px solid var(--lead);
+    box-shadow: 0 3px 7px rgba(0,0,0,0.82);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    font-family: 'Alegreya Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #181006;
+    z-index: 8;
+  }
+  .golden-crest {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 24px;
+    padding: 0 10px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #fff1aa 0%, #e49c20 100%);
+    border: 2.5px solid var(--lead);
+    box-shadow: 0 0 12px rgba(255, 206, 84, 0.72), 0 3px 7px rgba(0,0,0,0.82);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    font-family: 'Alegreya Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #180d02;
+    z-index: 8;
+  }
+
+  /* Charge / Supply pips positioned ABOVE the stat bosses (top: 55%) -> zero overlap! */
+  .pip-row {
+    position: absolute;
+    left: 50%;
+    top: 55%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 3px;
+    padding: 2px 5px;
+    background: rgba(12, 10, 8, 0.82);
+    border: 1.5px solid #3c3227;
+    border-radius: 8px;
+    z-index: 5;
+  }
+  .pip-dot {
+    width: 7.5px;
+    height: 7.5px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ffffff, #dcd0b8);
+    border: 1.5px solid var(--lead);
+  }
+  .pip-dot.supply {
+    border-radius: 2px;
+    background: linear-gradient(180deg, #fff4d2, #d8ba76);
+  }
+  .pip-row.lg {
+    gap: 6px;
+    padding: 4px 10px;
+    top: 56%;
+  }
+  .pip-row.lg .pip-dot {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Integrated Leaded Scroll-Plaque */
+  .card-plaque {
+    margin-top: 3px;
+    width: 184px;
+    background: linear-gradient(180deg, #1d1a18 0%, #100e0d 100%);
+    border: 2.5px solid var(--lead);
+    border-top-color: #53483b;
+    border-radius: 5px;
+    box-shadow:
+      0 0 0 1px rgba(84, 72, 58, 0.4),
+      inset 0 1px 0 rgba(255, 240, 200, 0.16),
+      0 4px 10px rgba(0, 0, 0, 0.78);
+    padding: 4px 7px 5px;
+    text-align: center;
+    position: relative;
+  }
+  .card-plaque.spell-plaque {
+    width: 110px;
+    padding: 4px 5px 5px;
+    border-top-color: #6584b3;
+    background: linear-gradient(180deg, #192232 0%, #0f141f 100%);
+  }
+  .card-plaque.fight-plaque {
+    width: 182px;
+    padding: 3px 6px 4px;
+  }
+  .card-name {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.12;
+    color: var(--cream);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card-rule {
+    margin-top: 2px;
+    font-family: 'Alegreya Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #e5d9bf;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card-rule .kw { color: #f7d17b; }
+
+  /* Empty leaded tall-hex slot */
+  .empty-hex-slot {
+    position: relative;
+    clip-path: polygon(50% 0%, 100% 17%, 100% 83%, 50% 100%, 0% 83%, 0% 17%);
+    background: linear-gradient(180deg, rgba(64, 86, 74, 0.58) 0%, rgba(24, 34, 32, 0.76) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .empty-hex-slot::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    clip-path: polygon(50% 0%, 100% 17%, 100% 83%, 50% 100%, 0% 83%, 0% 17%);
+    background: radial-gradient(circle at 50% 42%, rgba(26, 39, 36, 0.84), rgba(11, 14, 15, 0.94));
+  }
+  .empty-hex-label {
+    position: relative;
+    z-index: 2;
+    font-family: 'Alegreya Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #bccbc2;
+    text-transform: uppercase;
+  }
+
+  /* ==================== LEFT & RIGHT TRACERY WINGS ==================== */
+  .wing-card {
+    position: absolute;
+    width: 244px;
+    border-radius: 6px;
+    padding: 12px 14px;
+    z-index: 16;
+  }
+
+  /* Gold Tracery Plaque */
+  .gold-plaque {
+    left: 248px;
+    top: 76px;
+    height: 92px;
+    background: linear-gradient(180deg, #3c2e19 0%, #1f170c 100%);
+    border-radius: 14px 6px 6px 6px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .gold-medallion {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: url('assets/rd-amber.png') center/106% auto no-repeat, #d89628;
+    border: 3px solid var(--lead);
+    box-shadow: 0 0 20px rgba(238, 172, 54, 0.45), 0 4px 10px rgba(0,0,0,0.82);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: #160c04;
+    text-shadow: 0 1px 0 rgba(255, 244, 204, 0.72);
+  }
+  .gold-meta { display: flex; flex-direction: column; gap: 2px; }
+  .gold-title {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--cream);
+  }
+  .gold-sub { font-size: 15px; font-weight: 700; color: #f0d8a3; }
+
+  /* Upgrade Tier Plaque */
+  .upgrade-plaque {
+    left: 248px;
+    top: 182px;
+    height: 126px;
+    background: linear-gradient(180deg, #2a2228 0%, #171216 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .upgrade-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .upgrade-title-wrap { display: flex; flex-direction: column; gap: 2px; }
+  .upgrade-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #cec4d6;
+  }
+  .upgrade-tier {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--cream);
+  }
+  .upgrade-cost-pill {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 3px solid var(--lead);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 22px;
+    font-weight: 900;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .upgrade-cost-pill.locked {
+    background: radial-gradient(circle at 40% 35%, #613c40, #311b1e);
+    color: #ffd8db;
+    box-shadow: inset 0 1px 0 rgba(255, 200, 205, 0.24);
+  }
+  .upgrade-cost-lock {
+    position: absolute;
+    right: -4px;
+    bottom: -4px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #1c1517;
+    border: 2px solid var(--lead);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f6bcc0;
+  }
+  .upgrade-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 2px solid rgba(255, 236, 200, 0.12);
+    padding-top: 7px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .upgrade-discount { color: #e2d7c1; }
+  .upgrade-short { color: #f6bcc0; }
+
+  /* Left Mid-Wing: Shop Spells Alcove (Gothic pointed lancet top feel) */
+  .spells-alcove {
+    left: 248px;
+    top: 340px;
+    height: 316px;
+    border-radius: 18px 18px 8px 8px;
+    background: linear-gradient(180deg, #212e4d 0%, #121a2d 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 10px 12px;
+  }
+  .alcove-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid rgba(168, 202, 248, 0.24);
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: #e0ecff;
+    text-transform: uppercase;
+  }
+  .spells-pair {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+  }
+  .spell-slot-inline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 108px;
+  }
+
+  /* Left Lower-Wing: Compost & Tide Counters */
+  .counters-alcove {
+    left: 248px;
+    top: 682px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 244px;
+    position: absolute;
+    z-index: 16;
+  }
+  .counter-plate {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-radius: 8px;
+    height: 62px;
+  }
+  .counter-plate.compost {
+    background: linear-gradient(180deg, #354c2a 0%, #1b2b16 100%);
+  }
+  .counter-plate.tide {
+    background: linear-gradient(180deg, #1d4a54 0%, #0f2a32 100%);
+  }
+  .counter-left { display: flex; align-items: center; gap: 10px; }
+  .counter-name {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--cream);
+  }
+  .counter-val {
+    min-width: 38px;
+    height: 38px;
+    padding: 0 8px;
+    border-radius: 50%;
+    background: url('../../../../../assets/glass/ui/rd-cream.png') center/108% auto no-repeat, #efe1bf;
+    border: 2.5px solid var(--lead);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: #160e06;
+  }
+
+  /* Right Upper-Wing: Refresh & Freeze */
+  .refresh-btn {
+    left: 1428px;
+    top: 76px;
+    height: 112px;
+    border-radius: 6px 14px 6px 6px;
+    background: linear-gradient(180deg, #244760 0%, #132838 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .refresh-top { display: flex; align-items: center; justify-content: space-between; }
+  .refresh-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--cream);
+  }
+  .refresh-coin {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: url('assets/rd-amber.png') center/106% auto no-repeat, #d89628;
+    border: 2.5px solid var(--lead);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: #160c04;
+  }
+  .refresh-stock {
+    border-top: 2px solid rgba(200, 232, 255, 0.18);
+    padding-top: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #d2e8f8;
+  }
+
+  .freeze-btn {
+    left: 1428px;
+    top: 202px;
+    height: 64px;
+    background: linear-gradient(180deg, #274256 0%, #152634 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: #e8f5ff;
+    cursor: pointer;
+  }
+
+  /* ==================== THE ONE PRIMARY ACTION ACCENT: AMBER SUN-ROSE MEDALLION ==================== */
+  .end-turn-medallion {
+    position: absolute;
+    left: 1430px;
+    top: 432px;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 34%, #ffe89a 0%, #f1af3a 46%, #c16c14 82%, #7c3c06 100%);
+    border: 5px solid var(--lead);
+    box-shadow:
+      0 0 0 3px #f5c662,
+      0 0 40px rgba(244, 172, 52, 0.56),
+      inset 0 8px 18px rgba(255, 252, 224, 0.55),
+      inset 0 -14px 24px rgba(96, 40, 4, 0.65),
+      0 10px 26px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 20;
+    overflow: hidden;
+  }
+  .end-turn-medallion::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: url('../../../../../assets/glass/ui/pane.jpg') repeat;
+    background-size: 200px 200px;
+    mix-blend-mode: soft-light;
+    opacity: 0.36;
+    pointer-events: none;
+  }
+  .medallion-lead-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .end-turn-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .end-turn-title {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    color: #160c04;
+    text-shadow: 0 1px 0 rgba(255, 246, 210, 0.78);
+    line-height: 1;
+  }
+  .end-turn-foe {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 12px;
+    border-radius: 14px;
+    background: rgba(24, 14, 6, 0.88);
+    border: 2px solid var(--lead);
+    font-size: 15px;
+    font-weight: 700;
+    color: #fdecc6;
+  }
+  .end-turn-income {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 18px;
+    font-weight: 900;
+    color: #1c0f04;
+    background: rgba(255, 246, 214, 0.62);
+    border: 2px solid rgba(26, 14, 4, 0.6);
+    border-radius: 12px;
+    padding: 1px 12px;
+  }
+
+  /* ==================== HAND ARC CRADLE (BOTTOM) ==================== */
+  .hand-cradle {
+    position: absolute;
+    left: 516px;
+    top: 916px;
+    width: 888px;
+    height: 150px;
+    background: linear-gradient(180deg, #1d2c27 0%, #101816 100%);
+    border-radius: 28px 28px 10px 10px;
+    display: flex;
+    align-items: center;
+    padding: 0 22px;
+    gap: 18px;
+    z-index: 18;
+  }
+  .hand-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 112px;
+    height: 92px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #2a3c35 0%, #15201c 100%);
+    border: 2.5px solid var(--lead);
+    box-shadow: inset 0 1px 0 rgba(255,240,200,0.18);
+    flex-shrink: 0;
+  }
+  .hand-badge-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #d0e3d9;
+  }
+  .hand-badge-count {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--cream);
+  }
+  .hand-slots-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+  }
+  .hand-card-entry {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 14px 6px 10px;
+    background: linear-gradient(180deg, #1e2c42 0%, #101826 100%);
+    border: 2.5px solid var(--lead);
+    border-radius: 10px;
+    box-shadow: inset 0 1px 0 rgba(190, 220, 255, 0.22), 0 4px 10px rgba(0,0,0,0.68);
+  }
+  .hand-card-info { display: flex; flex-direction: column; gap: 2px; }
+  .hand-empty-sockets { display: flex; align-items: center; gap: 12px; }
+  .hand-empty-hex {
+    width: 56px;
+    height: 100px;
+    clip-path: polygon(50% 0%, 100% 17%, 100% 83%, 50% 100%, 0% 83%, 0% 17%);
+    background: rgba(12, 16, 15, 0.78);
+    position: relative;
+  }
+  .hand-empty-hex::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    clip-path: polygon(50% 0%, 100% 17%, 100% 83%, 50% 100%, 0% 83%, 0% 17%);
+    background: rgba(28, 42, 37, 0.5);
+  }
+
+  /* ==================== ROW / ZONE ARCH LABELS ==================== */
+  .row-arc-label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 18px;
+    border-radius: 12px;
+    border: 2px solid var(--lead);
+    font-family: 'Alegreya Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    z-index: 14;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.72);
+  }
+  .row-arc-label.front {
+    background: linear-gradient(180deg, #402e17 0%, #251a0c 100%);
+    color: #f8de9f;
+  }
+  .row-arc-label.back {
+    background: linear-gradient(180deg, #1b3042 0%, #101d2a 100%);
+    color: #d0e6fa;
+  }
+
+  /* ==================== FIRST-SESSION SINGLE TUTORIAL CUE ==================== */
+  .tutorial-cue {
+    position: absolute;
+    left: 50%;
+    top: 294px;
+    transform: translateX(-50%);
+    padding: 9px 24px;
+    background: linear-gradient(180deg, #fcf1d4 0%, #e5d0a1 100%);
+    border: 3px solid var(--lead);
+    border-radius: 10px;
+    box-shadow: 0 0 0 2px #f2c970, 0 10px 26px rgba(0,0,0,0.84);
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: #191007;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 40;
+    white-space: nowrap;
+  }
+
+  /* ==================== FIGHT SCREEN ELEMENTS ==================== */
+  .combatant-banner {
+    position: absolute;
+    left: 248px;
+    width: 244px;
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 18;
+  }
+  .combatant-banner.enemy {
+    top: 132px;
+    background: linear-gradient(180deg, #3e1d1e 0%, #200e10 100%);
+  }
+  .combatant-banner.player {
+    bottom: 132px;
+    background: linear-gradient(180deg, #25392a 0%, #131f17 100%);
+  }
+  .combatant-head { display: flex; align-items: center; gap: 12px; }
+  .combatant-thumb {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    border: 3px solid var(--lead);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .combatant-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .combatant-meta { display: flex; flex-direction: column; gap: 2px; }
+  .combatant-role {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #e8c99f;
+  }
+  .combatant-name {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--cream);
+    line-height: 1.1;
+  }
+  .combatant-stats-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .stat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(12, 10, 8, 0.74);
+    border: 2px solid var(--lead);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--cream);
+  }
+  .stat-chip.hp-chip {
+    background: linear-gradient(180deg, #7a191e 0%, #460c10 100%);
+    color: #fff2eb;
+  }
+
+  .equator-bar {
+    position: absolute;
+    left: 528px;
+    top: 524px;
+    width: 864px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 16;
+  }
+  .equator-line {
+    flex: 1;
+    height: 4px;
+    background: linear-gradient(90deg, rgba(240,165,64,0) 0%, #eba846 50%, rgba(240,165,64,0) 100%);
+    box-shadow: 0 0 12px rgba(240, 165, 64, 0.68);
+  }
+  .equator-boss {
+    padding: 3px 18px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #4f2517 0%, #26110a 100%);
+    border: 2.5px solid var(--lead);
+    box-shadow: 0 0 0 1.5px #e29d3f, 0 4px 12px rgba(0,0,0,0.82);
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #ffe5aa;
+    text-transform: uppercase;
+  }
+
+  .skip-medallion {
+    position: absolute;
+    left: 1456px;
+    top: 760px;
+    width: 196px;
+    height: 76px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #ffe288 0%, #e59829 60%, #b76610 100%);
+    border: 4px solid var(--lead);
+    box-shadow:
+      0 0 0 2px #f5c662,
+      0 0 28px rgba(244, 172, 52, 0.48),
+      0 8px 20px rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: #180c04;
+    cursor: pointer;
+    z-index: 20;
+  }
+
+  .reserve-card-box {
+    position: absolute;
+    left: 1428px;
+    top: 132px;
+    width: 244px;
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: linear-gradient(180deg, #213140 0%, #111b24 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 18;
+  }
+  .reserve-title {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #e0f0ff;
+    border-bottom: 2px solid rgba(180, 218, 250, 0.2);
+    padding-bottom: 5px;
+  }
+  .reserve-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--cream);
+  }
+  .reserve-item.active-res span:last-child { color: #f8d47e; }
+  .reserve-item.muted-res span:last-child { color: #b7c6d4; }
+
+  /* ==================== AFTER-FIGHT CHRONICLE PANEL ==================== */
+  .after-chronicle {
+    position: absolute;
+    left: 266px;
+    top: 530px;
+    width: 1388px;
+    height: 514px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #1d1817 0%, #100e0d 100%);
+    padding: 20px 26px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 26;
+  }
+  .after-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--lead);
+    box-shadow: 0 1px 0 rgba(255, 226, 174, 0.14);
+    padding-bottom: 12px;
+  }
+  .after-title-group { display: flex; align-items: center; gap: 16px; }
+  .after-badge-defeat {
+    padding: 6px 18px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #a22427 0%, #5e1014 100%);
+    border: 3px solid var(--lead);
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    color: #fff4ea;
+  }
+  .after-subtitle {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--cream);
+  }
+  .after-meta { font-size: 16px; font-weight: 700; color: var(--cream-dim); }
+
+  .after-grid {
+    display: grid;
+    grid-template-columns: 330px 1fr 340px;
+    gap: 20px;
+    flex: 1;
+    margin: 14px 0;
+  }
+  .after-col {
+    background: linear-gradient(180deg, rgba(34, 30, 27, 0.94) 0%, rgba(19, 16, 15, 0.97) 100%);
+    border: 3px solid var(--lead);
+    border-radius: 10px;
+    box-shadow: inset 0 1px 0 rgba(255, 236, 198, 0.14);
+    padding: 13px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .after-col-title {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 19px;
+    font-weight: 800;
+    color: #f5d896;
+    border-bottom: 2px solid rgba(244, 214, 148, 0.2);
+    padding-bottom: 5px;
+  }
+  .dmg-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--cream);
+    padding: 4px 0;
+  }
+  .dmg-row.total {
+    border-top: 2px solid rgba(255, 195, 190, 0.25);
+    margin-top: 4px;
+    padding-top: 8px;
+    font-size: 20px;
+    color: #ffc2bc;
+  }
+  .dmg-num {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: #ffd99c;
+  }
+  .dmg-row.total .dmg-num { font-size: 24px; color: #ffa39c; }
+
+  .hp-drop-box {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #3e1517 0%, #230a0b 100%);
+    border: 2.5px solid var(--lead);
+  }
+  .hp-drop-label { font-size: 16px; font-weight: 700; color: #f6dad7; }
+  .hp-drop-vals {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: #fff2eb;
+  }
+
+  .cause-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: rgba(14, 12, 11, 0.74);
+    border: 2px solid #322b24;
+  }
+  .cause-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2.5px solid #d6a64a;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .cause-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .cause-body { display: flex; flex-direction: column; gap: 2px; }
+  .cause-head {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--cream);
+  }
+  .cause-desc { font-size: 15px; font-weight: 500; color: #e2d7c0; line-height: 1.24; }
+
+  .standing-mini {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: rgba(14, 12, 11, 0.68);
+    border: 1.5px solid #2e2722;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .standing-mini.highlight-foe {
+    background: linear-gradient(180deg, #3a1719 0%, #220c0e 100%);
+    border-color: #c84540;
+    color: #ffdfd9;
+  }
+  .standing-mini.highlight-you {
+    background: linear-gradient(180deg, #3c2e18 0%, #241b0c 100%);
+    border-color: #d9a84c;
+    color: #fff1cc;
+  }
+
+  .after-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 14px;
+    border-top: 2px solid rgba(255, 236, 196, 0.14);
+    padding-top: 12px;
+  }
+  .btn-primary-amber {
+    background: linear-gradient(180deg, #ffe288 0%, #e59829 60%, #b76610 100%);
+    color: #180c04;
+    height: 50px;
+    padding: 0 28px;
+    font-size: 20px;
+    font-weight: 900;
+    box-shadow: 0 0 0 2px #f5c662, 0 0 24px rgba(244, 172, 52, 0.48), 0 6px 16px rgba(0,0,0,0.74);
+  }
+  .btn-secondary-glass {
+    height: 50px;
+    padding: 0 22px;
+    font-size: 18px;
+  }
+
+  /* ==================== EXTRA1: REACH CARD INSPECT LENS ==================== */
+  .inspect-veil {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 7, 6, 0.66);
+    z-index: 50;
+  }
+  .inspect-lens {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 1020px;
+    padding: 28px 32px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #1f1b18 0%, #110f0e 100%);
+    display: flex;
+    align-items: flex-start;
+    gap: 34px;
+    z-index: 55;
+  }
+  .inspect-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .inspect-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid rgba(244, 214, 148, 0.24);
+    padding-bottom: 10px;
+  }
+  .inspect-title-block { display: flex; flex-direction: column; gap: 2px; }
+  .inspect-name {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: var(--cream);
+    line-height: 1.05;
+  }
+  .inspect-tags { font-size: 16px; font-weight: 700; color: #f4d89a; }
+  .inspect-text-box {
+    padding: 14px 18px;
+    border-radius: 10px;
+    background: rgba(10, 9, 8, 0.8);
+    border: 2.5px solid var(--lead);
+    font-size: 19px;
+    line-height: 1.42;
+    color: var(--cream);
+  }
+  .inspect-buffs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .buff-pill {
+    padding: 6px 13px;
+    border-radius: 8px;
+    background: #1f3023;
+    border: 2px solid var(--lead);
+    color: #dcf7d7;
+  }
+  .kw-reminders {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .kw-box {
+    padding: 12px 13px;
+    border-radius: 8px;
+    background: #171e29;
+    border: 2.5px solid var(--lead);
+  }
+  .kw-box-title {
+    font-family: 'Alegreya', Georgia, serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #f8d686;
+    margin-bottom: 4px;
+  }
+  .kw-box-desc { font-size: 14px; line-height: 1.32; color: #e2d9c6; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="quarry-spandrels"></div>
+  <svg id="rose-arch-svg" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div class="glass-tex"></div>
+  <div id="ui-layer"></div>
+</div>
+
+<script>
+const ASSET_ROOT = '../../../../../assets';
+const ROUNDELS = {
+  tier1: { attack: [110.8, 778.5], health: [448.8, 778.5] },
+  tier2: { attack: [115.2, 770.0], health: [445.2, 770.0] },
+  tier3: { attack: [111.2, 758.5], health: [448.0, 760.5] },
+  tier4: { attack: [107.5, 760.8], health: [451.8, 760.2] },
+  tier5: { attack: [110.5, 751.0], health: [448.0, 750.2] },
+  tier6: { attack: [110.0, 775.2], health: [446.8, 775.2] }
+};
+
+const TRIBE_SVG = {
+  briar:   '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9"/><path d="M12 13C7.5 13 5 10 5 6c4 0 7 2.5 7 7z"/><path d="M12 10c0-4 2.5-7 7-7 0 4-3 7-7 7z"/></svg>',
+  pigeon:  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19C7 10 12 6 20 4c-1.5 7-5.5 12-16 15z"/><path d="M4 19l9-9"/></svg>',
+  mouse:   '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="5.5"/><circle cx="7" cy="7.5" r="2.8"/><circle cx="17" cy="7.5" r="2.8"/></svg>',
+  locust:  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16c3-2 6 2 9 0s6 2 9 0"/><path d="M4 10c3-2 6 2 9 0s5 2 7 0"/></svg>',
+  badger:  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/></svg>',
+  neutral: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 3 15 9 21 10 16.5 14.5 17.8 21 12 17.8 6.2 21 7.5 14.5 3 10 9 9"/></svg>'
+};
+
+const ICON = {
+  cog: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+  history: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>',
+  cards: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 19 6 19 18 12 22 5 18 5 6"/><path d="M12 7v10"/></svg>',
+  refresh: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg>',
+  freeze: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M4.9 6l14.2 12M19.1 6L4.9 18"/><path d="M12 2l2 2M12 2l-2 2M12 22l2-2M12 22l-2-2"/></svg>',
+  swords: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"/><path d="M13 19l6-6"/><path d="M16 16l4 4"/><path d="M9.5 17.5L21 6V3h-3L6.5 14.5"/><path d="M11 19l-6-6"/><path d="M8 16l-4 4"/></svg>',
+  lock: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+  heap: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c8f2a6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19h18c-1-5-4-8-6-8-1 0-2 .7-2.5 1.5C12 10 10 8 8 8c-3 0-5 5-5 11z"/></svg>',
+  wave: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9be3f7" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10c3-3 6 3 9 0s6 3 9 0M3 16c3-3 6 3 9 0s6 3 9 0"/></svg>',
+  star: '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9.5 16.5 14.2 18.2 21 12 17.3 5.8 21 7.5 14.2 2 9.5 9 9"/></svg>',
+  skip: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="4 5 13 12 4 19"/><polygon points="13 5 22 12 13 19"/></svg>',
+  spark: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z"/></svg>',
+  close: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>'
+};
+
+/* ==================== EXACT GAME STATE DATA ==================== */
+const PLAYERS_MID = [
+  { rank: 1, name: 'Pipkin', hp: 31, img: 'pipkin.jpg' },
+  { rank: 2, name: 'Old Mother Mousewife', hp: 28, img: 'old_mother_mousewife.jpg' },
+  { rank: 3, name: 'Dame Hoolet', hp: 23, img: 'dame_hoolet.jpg' },
+  { rank: 4, name: 'Little King Wren', hp: 18, img: 'little_king_wren.jpg', isLast: true },
+  { rank: 5, name: 'March Hare', hp: 16, img: 'march_hare.jpg', isNext: true },
+  { rank: 6, name: 'Hob Mumblecrust', hp: 16, img: 'hob_mumblecrust.jpg' },
+  { rank: 7, name: 'Dame Farthing', hp: 11, img: 'dame_farthing.jpg', isYou: true },
+  { rank: 8, name: 'Brother Bracken', hp: 0, img: 'brother_bracken.jpg', isOut: true }
+];
+
+const PLAYERS_FIRST = [
+  { rank: 1, name: 'Pipkin', hp: 40, img: 'pipkin.jpg' },
+  { rank: 2, name: 'Old Mother Mousewife', hp: 40, img: 'old_mother_mousewife.jpg' },
+  { rank: 3, name: 'Dame Hoolet', hp: 40, img: 'dame_hoolet.jpg' },
+  { rank: 4, name: 'Little King Wren', hp: 40, img: 'little_king_wren.jpg' },
+  { rank: 5, name: 'March Hare', hp: 40, img: 'march_hare.jpg', isNext: true },
+  { rank: 6, name: 'Hob Mumblecrust', hp: 40, img: 'hob_mumblecrust.jpg' },
+  { rank: 7, name: 'Dame Farthing', hp: 40, img: 'dame_farthing.jpg', isYou: true },
+  { rank: 8, name: 'Brother Bracken', hp: 40, img: 'brother_bracken.jpg' }
+];
+
+const PLAYERS_AFTER = [
+  { rank: 1, name: 'Dame Hoolet', hp: 23, img: 'dame_hoolet.jpg' },
+  { rank: 2, name: 'Pipkin', hp: 21, img: 'pipkin.jpg' },
+  { rank: 3, name: 'Little King Wren', hp: 18, img: 'little_king_wren.jpg' },
+  { rank: 4, name: 'Old Mother Mousewife', hp: 18, img: 'old_mother_mousewife.jpg' },
+  { rank: 5, name: 'March Hare', hp: 16, img: 'march_hare.jpg', isVictor: true },
+  { rank: 6, name: 'Hob Mumblecrust', hp: 16, img: 'hob_mumblecrust.jpg' },
+  { rank: 7, name: 'Dame Farthing', hp: 0, img: 'dame_farthing.jpg', isYou: true, isOut: true },
+  { rank: 8, name: 'Brother Bracken', hp: 0, img: 'brother_bracken.jpg', isOut: true }
+];
+
+const SHOP_MID = [
+  { name: 'Bramble Runner', tribe: 'briar', tier: 1, atk: 4, hp: 5, price: 2, art: 'units/thorn/bramble-runner.jpg', rule: '<span class="kw">Seed</span> · To Compost' },
+  { name: 'Home Guard', tribe: 'pigeon', tier: 3, atk: 3, hp: 11, price: 4, art: 'units/pigeon/home-guard.jpg', rule: '<span class="kw">Guard</span> · <span class="kw">Reserve</span>' },
+  { name: 'Hayloft Aunt', tribe: 'mouse', tier: 2, atk: 2, hp: 9, price: 3, art: 'units/mouse/hayloft-aunt.jpg', rule: '<span class="kw">Hand-me-down</span> · +Cousin' },
+  { name: 'Sweetbriar', tribe: 'briar', tier: 2, atk: 3, hp: 7, price: 3, art: 'units/thorn/sweetbriar.jpg', rule: 'Compost gain: +1/+1' },
+  { name: 'Shrew Cutpurse', tribe: 'mouse', tier: 2, atk: 2, hp: 4, price: 3, art: 'units/mouse/shrew-cutpurse.jpg', rule: '<span class="kw">Pile on 1</span> · +2 Gold' }
+];
+
+const SHOP_FIRST = [
+  { name: 'Sentry', tribe: 'pigeon', tier: 1, atk: 2, hp: 5, price: 2, pips: 6, pipType: 'supply', art: 'units/pigeon/sentry.jpg', rule: '<span class="kw">Supply 6</span>: +1 Renown' },
+  { name: 'Hedgerow Scout', tribe: 'mouse', tier: 1, atk: 3, hp: 10, price: 2, art: 'units/mouse/hedgerow-scout.jpg', rule: '<span class="kw">Hand-me-down</span>' },
+  { name: 'Territorial', tribe: 'pigeon', tier: 1, atk: 5, hp: 7, price: 2, art: 'units/pigeon/territorial.jpg', rule: '<span class="kw">Reserve</span>' },
+  { name: 'Bumblebee', tribe: 'neutral', tier: 1, atk: 2, hp: 3, price: 2, art: 'units/shared/bumblebee.jpg', rule: 'Death: 4 dmg to killer' },
+  { name: 'Green Recruit', tribe: 'locust', tier: 1, atk: 2, hp: 2, price: 2, art: 'units/locust/green-recruit.jpg', rule: 'Death: Summon Hopper' }
+];
+
+const BOARD_MID_FRONT = [
+  { name: 'Famine-caller', tribe: 'locust', tier: 3, atk: 15, hp: 11, buffedAtk: true, buffedHp: true, renown: 7, art: 'units/locust/famine-caller.jpg', rule: 'Death: <span class="kw">Tide +2</span>' },
+  { name: 'Squadron Leader', tribe: 'pigeon', tier: 3, atk: 4, hp: 9, art: 'units/pigeon/squadron-leader.jpg', rule: 'Ahead: <span class="kw">Sortie</span> +3 Atk' },
+  { name: 'Bell-ringer', tribe: 'mouse', tier: 3, atk: 5, hp: 7, buffedAtk: true, buffedHp: true, renown: 2, art: 'units/mouse/bell-ringer.jpg', rule: '<span class="kw">Hand-me-down</span> (+3)' },
+  { name: 'Granary Glutton', tribe: 'locust', tier: 4, atk: 7, hp: 7, buffedAtk: true, art: 'units/locust/granary-glutton.jpg', rule: 'Sell Locust: Eats it' }
+];
+
+const BOARD_MID_BACK = [
+  { name: 'Wing Commander', tribe: 'pigeon', tier: 5, atk: 11, hp: 17, buffedAtk: true, buffedHp: true, renown: 3, pips: 4, art: 'units/pigeon/wing-commander.jpg', rule: '<span class="kw">Sortie</span> · +3 Renown' },
+  { name: 'Blackberry Sprawl', tribe: 'briar', tier: 3, atk: 4, hp: 8, art: 'units/thorn/blackberry-sprawl.jpg', rule: '<span class="kw">Grow 2</span> (Compost)' },
+  { name: 'Hedge Lancer', tribe: 'badger', tier: 3, atk: 6, hp: 12, art: 'units/badger/hedge-lancer.jpg', rule: '<span class="kw">Fury 1</span> · 1st hit safe' }
+];
+
+const FIGHT_PLAYER_FRONT = [
+  { name: 'Famine-caller', tribe: 'locust', tier: 3, atk: 15, hp: 11, buffedAtk: true, buffedHp: true, renown: 7, attacker: true, art: 'units/locust/famine-caller.jpg', rule: 'Death: <span class="kw">Tide +2</span>' },
+  { name: 'Squadron Leader', tribe: 'pigeon', tier: 3, atk: 4, hp: 9, art: 'units/pigeon/squadron-leader.jpg', rule: 'Ahead: <span class="kw">Sortie</span> +3 Atk' },
+  { name: 'Bell-ringer', tribe: 'mouse', tier: 3, atk: 5, hp: 7, buffedAtk: true, buffedHp: true, renown: 2, art: 'units/mouse/bell-ringer.jpg', rule: '<span class="kw">Hand-me-down</span> (+3)' },
+  null
+];
+
+const FIGHT_PLAYER_BACK = [
+  { name: 'Wing Commander', tribe: 'pigeon', tier: 5, atk: 11, hp: 17, buffedAtk: true, buffedHp: true, renown: 3, pips: 4, art: 'units/pigeon/wing-commander.jpg', rule: '<span class="kw">Sortie</span> · +3 Renown' },
+  { name: 'Blackberry Sprawl', tribe: 'briar', tier: 3, atk: 8, hp: 12, buffedAtk: true, buffedHp: true, art: 'units/thorn/blackberry-sprawl.jpg', rule: '<span class="kw">Grow 2</span> (+4/+4 active)' },
+  { name: 'Hedge Lancer', tribe: 'badger', tier: 3, atk: 6, hp: 12, art: 'units/badger/hedge-lancer.jpg', rule: '<span class="kw">Fury 1</span> · 1st hit safe' }
+];
+
+const FIGHT_ENEMY_BACK = [
+  { name: 'Weasel', tribe: 'neutral', tier: 5, atk: 9, hp: 13, buffedAtk: true, buffedHp: true, renown: 1, pips: 6, art: 'units/shared/weasel.jpg', rule: '<span class="kw">Charge 6</span>: Hit summons' },
+  { name: 'Gorger', tribe: 'locust', tier: 4, atk: 38, hp: 68, buffedAtk: true, buffedHp: true, golden: true, art: 'units/locust/gorger.jpg', rule: '1st sell/turn: Eats ×2' },
+  { name: 'Dame Bodkin', tribe: 'mouse', tier: 5, atk: 6, hp: 9, art: 'units/mouse/dame-bodkin.jpg', rule: '<span class="kw">Pile on 2</span> · Mice ×2' }
+];
+
+const FIGHT_ENEMY_FRONT = [
+  { name: 'Greatsword Bearer', tribe: 'badger', tier: 4, atk: 7, hp: 15, buffedAtk: true, buffedHp: true, renown: 3, art: 'units/badger/greatsword-bearer.jpg', rule: '<span class="kw">Squire</span> · Ahead: Overrun' },
+  { name: 'Briar King', tribe: 'briar', tier: 6, atk: 12, hp: 20, buffedAtk: true, buffedHp: true, renown: 4, art: 'units/thorn/briar-king.jpg', rule: 'Front Briars: <span class="kw">Grow 2</span>' },
+  { name: 'Holly Knight', tribe: 'briar', tier: 4, atk: 12, hp: 19, buffedAtk: true, buffedHp: true, renown: 7, art: 'units/thorn/holly-knight.jpg', rule: 'Front Briars: <span class="kw">Thorns 4</span>' },
+  { name: 'The Eighth Plague', tribe: 'locust', tier: 5, atk: 6, hp: 14, buffedAtk: true, buffedHp: true, renown: 2, art: 'units/locust/the-eighth-plague.jpg', rule: 'Ally death: Dmg foe' }
+];
+
+const AFTER_ENEMY_BACK = [
+  { name: 'Weasel', tribe: 'neutral', tier: 5, atk: 9, hp: 2, hurt: true, renown: 1, pips: 6, art: 'units/shared/weasel.jpg', rule: 'Survived · 2 HP left' },
+  { name: 'Gorger', tribe: 'locust', tier: 4, atk: 38, hp: 57, hurt: true, golden: true, threat: true, art: 'units/locust/gorger.jpg', rule: 'Key threat · 3 kills' },
+  { name: 'Dame Bodkin', tribe: 'mouse', tier: 5, atk: 6, hp: 9, art: 'units/mouse/dame-bodkin.jpg', rule: 'Survived · Full HP' }
+];
+
+const AFTER_ENEMY_FRONT = [
+  { name: 'Greatsword Bearer', tribe: 'badger', tier: 4, atk: 7, hp: 10, hurt: true, renown: 3, art: 'units/badger/greatsword-bearer.jpg', rule: 'Survived · 10 HP left' },
+  null,
+  { name: 'Holly Knight', tribe: 'briar', tier: 4, atk: 24, hp: 27, buffedAtk: true, hurt: true, renown: 7, threat: true, art: 'units/thorn/holly-knight.jpg', rule: 'Grew +12/+12 · Thorns 4' },
+  { name: 'The Eighth Plague', tribe: 'locust', tier: 5, atk: 6, hp: 14, art: 'units/locust/the-eighth-plague.jpg', rule: 'Survived · Full HP' }
+];
+
+/* ==================== GOTHIC CATHEDRAL ROSE WINDOW SVG ==================== */
+function buildRoseSVG(mode) {
+  const cx = 960;
+  const isFight = (mode === 'fight' || mode === 'after');
+  const cy = isFight ? 540 : 576;
+
+  // 24 Gothic pointed-arch stained-glass lancet petals radiating from the centre rose
+  let petals = '';
+  let gothicArches = '';
+  const numPetals = 24;
+  const palRecruit = ['#133529', '#172c40', '#1d3c27', '#152b3c', '#2c271b', '#14322d'];
+  const palFight   = ['#33181c', '#21182e', '#3a1c19', '#16283a', '#18342a', '#241e35'];
+  const pal = isFight ? palFight : palRecruit;
+
+  for (let i = 0; i < numPetals; i++) {
+    const a0 = (i * 360 / numPetals - 90) * Math.PI / 180;
+    const a1 = ((i + 1) * 360 / numPetals - 90) * Math.PI / 180;
+    const aMid = (a0 + a1) / 2;
+    const rOut = 920;
+    const rIn = 110;
+    const x1 = cx + Math.cos(a0) * rIn, y1 = cy + Math.sin(a0) * rIn;
+    const x2 = cx + Math.cos(a0) * rOut, y2 = cy + Math.sin(a0) * rOut;
+    const x3 = cx + Math.cos(a1) * rOut, y3 = cy + Math.sin(a1) * rOut;
+    const x4 = cx + Math.cos(a1) * rIn, y4 = cy + Math.sin(a1) * rIn;
+    const fill = pal[i % pal.length];
+    petals += `<path d="M${x1.toFixed(1)},${y1.toFixed(1)} L${x2.toFixed(1)},${y2.toFixed(1)} A${rOut},${rOut} 0 0,1 ${x3.toFixed(1)},${y3.toFixed(1)} L${x4.toFixed(1)},${y4.toFixed(1)} Z" fill="${fill}" fill-opacity="0.62" stroke="#0b0907" stroke-width="5"/>`;
+
+    // Cathedral trefoil lancet arch head inside each outer spoke
+    const rA = 700, rB = 790;
+    const lx1 = cx + Math.cos(a0 + 0.025) * rA, ly1 = cy + Math.sin(a0 + 0.025) * rA;
+    const lx2 = cx + Math.cos(aMid) * rB,       ly2 = cy + Math.sin(aMid) * rB;
+    const lx3 = cx + Math.cos(a1 - 0.025) * rA, ly3 = cy + Math.sin(a1 - 0.025) * rA;
+    gothicArches += `<path d="M${lx1.toFixed(1)},${ly1.toFixed(1)} Q${lx2.toFixed(1)},${ly2.toFixed(1)} ${lx3.toFixed(1)},${ly3.toFixed(1)}" fill="none" stroke="#0b0907" stroke-width="4"/>`;
+    gothicArches += `<path d="M${lx1.toFixed(1)},${ly1.toFixed(1)} Q${lx2.toFixed(1)},${ly2.toFixed(1)} ${lx3.toFixed(1)},${ly3.toFixed(1)}" fill="none" stroke="${isFight ? '#8c5044' : '#7b8c6b'}" stroke-width="1.3" opacity="0.45"/>`;
+  }
+
+  // Concentric rose jewel cusps along the middle tracery ring
+  let cusps = '';
+  const rCuspX = isFight ? 464 : 450;
+  const rCuspY = isFight ? 496 : 300;
+  const cuspCy = isFight ? 540 : 616;
+  for (let i = 0; i < 20; i++) {
+    const ang = (i * 360 / 20 - 90) * Math.PI / 180;
+    const px = cx + Math.cos(ang) * rCuspX;
+    const py = cuspCy + Math.sin(ang) * rCuspY;
+    cusps += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="8" fill="${isFight ? '#582820' : '#35543c'}" stroke="#0b0907" stroke-width="3"/>`;
+    cusps += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="3.5" fill="${isFight ? '#e09b52' : '#d8b460'}" opacity="0.72"/>`;
+  }
+
+  // Subtle golden lead sightlines connecting back-row slots to the two front-row slots ahead
+  let sightlines = '';
+  if (!isFight) {
+    const backPts = [[758, 720], [960, 734], [1162, 720]];
+    const frontPts = [[666, 510], [862, 492], [1058, 492], [1254, 510]];
+    const pairs = [[0,0],[0,1],[1,1],[1,2],[2,2],[2,3]];
+    for (const [b, f] of pairs) {
+      sightlines += `<line x1="${backPts[b][0]}" y1="${backPts[b][1]}" x2="${frontPts[f][0]}" y2="${frontPts[f][1]}" stroke="#0b0907" stroke-width="6" opacity="0.45"/>`;
+      sightlines += `<line x1="${backPts[b][0]}" y1="${backPts[b][1]}" x2="${frontPts[f][0]}" y2="${frontPts[f][1]}" stroke="#e2b458" stroke-opacity="0.32" stroke-width="2.5" stroke-dasharray="7 6"/>`;
+    }
+  }
+
+  // Golden leaded ray from End Turn medallion to March Hare (#5 on right rim)
+  let foeRay = '';
+  if (!isFight) {
+    foeRay = `
+      <path d="M1652,474 C1704,402 1720,316 1742,272" fill="none" stroke="#0b0907" stroke-width="9" stroke-linecap="round"/>
+      <path d="M1652,474 C1704,402 1720,316 1742,272" fill="none" stroke="#f4ad3f" stroke-width="3.5" stroke-dasharray="8 6" stroke-linecap="round" opacity="0.92"/>
+    `;
+  }
+
+  // Opening strike arc in Fight view (cleanly arcs outside plaques from Famine-caller to Greatsword Bearer)
+  let attackArc = '';
+  if (mode === 'fight') {
+    attackArc = `
+      <defs>
+        <marker id="atkArrow" viewBox="0 0 12 12" refX="7" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+          <path d="M1,1 L11,6 L1,11 L3.5,6 Z" fill="#ffdc7c" stroke="#0b0907" stroke-width="1"/>
+        </marker>
+      </defs>
+      <path d="M610,636 C546,568 546,472 608,404" fill="none" stroke="#0b0907" stroke-width="10" stroke-linecap="round"/>
+      <path d="M610,636 C546,568 546,472 608,404" fill="none" stroke="#ffdc7c" stroke-width="4.5" stroke-linecap="round" marker-end="url(#atkArrow)"/>
+    `;
+  }
+
+  // Clean first-session tutorial pointer (starts below Sentry's plaque -> into Front 1)
+  let tutArrow = '';
+  if (mode === 'first') {
+    tutArrow = `
+      <defs>
+        <marker id="tutHead" viewBox="0 0 12 12" refX="7" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+          <path d="M1,1 L11,6 L1,11 L3.5,6 Z" fill="#fce49f" stroke="#0b0907" stroke-width="1"/>
+        </marker>
+      </defs>
+      <path d="M582,320 C596,358 622,380 650,398" fill="none" stroke="#0b0907" stroke-width="9" stroke-linecap="round"/>
+      <path d="M582,320 C596,358 622,380 650,398" fill="none" stroke="#fce49f" stroke-width="4" stroke-dasharray="8 6" stroke-linecap="round" marker-end="url(#tutHead)"/>
+    `;
+  }
+
+  const svg = `
+    <defs>
+      <radialGradient id="roseCoreGlow" cx="50%" cy="48%" r="54%">
+        <stop offset="0%" stop-color="${isFight ? '#662a1a' : '#426b4c'}" stop-opacity="0.78"/>
+        <stop offset="52%" stop-color="${isFight ? '#261729' : '#1b3831'}" stop-opacity="0.68"/>
+        <stop offset="100%" stop-color="#0c1215" stop-opacity="0.9"/>
+      </radialGradient>
+      <radialGradient id="shopSunGlow" cx="50%" cy="16%" r="62%">
+        <stop offset="0%" stop-color="#7c5b24" stop-opacity="0.54"/>
+        <stop offset="50%" stop-color="#223c33" stop-opacity="0.34"/>
+        <stop offset="100%" stop-color="#0e1214" stop-opacity="0.06"/>
+      </radialGradient>
+      <radialGradient id="vignette" cx="50%" cy="50%" r="72%">
+        <stop offset="60%" stop-color="#000000" stop-opacity="0"/>
+        <stop offset="100%" stop-color="#050403" stop-opacity="0.76"/>
+      </radialGradient>
+      <clipPath id="greatRoseClip">
+        <ellipse cx="${cx}" cy="540" rx="872" ry="672"/>
+      </clipPath>
+    </defs>
+
+    <!-- Corner Gothic stone & forest-glass spandrels -->
+    <g opacity="0.58">
+      <path d="M0,0 L290,0 L0,250 Z" fill="#182d24" stroke="#0b0907" stroke-width="5"/>
+      <path d="M1920,0 L1630,0 L1920,250 Z" fill="#182d24" stroke="#0b0907" stroke-width="5"/>
+      <path d="M0,1080 L290,1080 L0,830 Z" fill="#172636" stroke="#0b0907" stroke-width="5"/>
+      <path d="M1920,1080 L1630,1080 L1920,830 Z" fill="#172636" stroke="#0b0907" stroke-width="5"/>
+    </g>
+
+    <!-- Great Rose stained-glass field -->
+    <g clip-path="url(#greatRoseClip)">
+      ${petals}
+      ${gothicArches}
+      ${!isFight ? `<ellipse cx="960" cy="180" rx="640" ry="260" fill="url(#shopSunGlow)"/>` : ''}
+    </g>
+
+    <!-- Outer Carved Stone Rim carrying the 8 Player Roundels -->
+    <ellipse cx="${cx}" cy="540" rx="872" ry="672" fill="none" stroke="#2f2821" stroke-width="28"/>
+    <ellipse cx="${cx}" cy="540" rx="872" ry="672" fill="none" stroke="#0b0907" stroke-width="34" opacity="0.58"/>
+    <ellipse cx="${cx}" cy="540" rx="856" ry="656" fill="none" stroke="#6c5d4c" stroke-width="2.5" opacity="0.65"/>
+    <ellipse cx="${cx}" cy="540" rx="730" ry="590" fill="none" stroke="#0b0907" stroke-width="11"/>
+    <ellipse cx="${cx}" cy="540" rx="726" ry="586" fill="none" stroke="#5b4e40" stroke-width="2" opacity="0.68"/>
+
+    <!-- Centre Rose Oculus -->
+    ${!isFight ? `
+      <ellipse cx="960" cy="616" rx="452" ry="302" fill="url(#roseCoreGlow)" stroke="#0b0907" stroke-width="13"/>
+      <ellipse cx="960" cy="616" rx="444" ry="294" fill="none" stroke="#dfb054" stroke-width="2.2" opacity="0.52"/>
+      <!-- Inner rose ring separating Front Arc from Back Arc -->
+      <path d="M558,632 Q960,572 1362,632" fill="none" stroke="#0b0907" stroke-width="8.5"/>
+      <path d="M558,632 Q960,572 1362,632" fill="none" stroke="#80b0d6" stroke-width="2.4" opacity="0.58"/>
+      <!-- Upper Shop Rose Arch -->
+      <path d="M448,326 Q960,252 1472,326" fill="none" stroke="#0b0907" stroke-width="10"/>
+      <path d="M448,326 Q960,252 1472,326" fill="none" stroke="#dfb054" stroke-width="2.2" opacity="0.52"/>
+    ` : `
+      <ellipse cx="960" cy="540" rx="466" ry="498" fill="url(#roseCoreGlow)" stroke="#0b0907" stroke-width="13"/>
+      <ellipse cx="960" cy="540" rx="458" ry="490" fill="none" stroke="#d48848" stroke-width="2.2" opacity="0.48"/>
+      <!-- Enemy & Player internal row rings -->
+      <path d="M554,290 Q960,248 1366,290" fill="none" stroke="#0b0907" stroke-width="6.5"/>
+      <path d="M554,290 Q960,248 1366,290" fill="none" stroke="#cf7070" stroke-width="2" opacity="0.45"/>
+      <path d="M554,798 Q960,840 1366,798" fill="none" stroke="#0b0907" stroke-width="6.5"/>
+      <path d="M554,798 Q960,840 1366,798" fill="none" stroke="#7fb0d8" stroke-width="2" opacity="0.45"/>
+    `}
+
+    <!-- Cathedral Rose Jewel Cusps -->
+    <g opacity="0.82">${cusps}</g>
+
+    <!-- Woodland oak-leaf & bramble tracery filigree in four spandrels -->
+    <g stroke="#648569" stroke-width="2.2" fill="none" opacity="0.54">
+      <path d="M22,126 C55,112 95,120 130,92 C110,130 76,144 38,146"/>
+      <path d="M1898,126 C1865,112 1825,120 1790,92 C1810,130 1844,144 1882,146"/>
+      <path d="M22,954 C55,968 95,960 130,988 C110,950 76,936 38,934"/>
+      <path d="M1898,954 C1865,968 1825,960 1790,988 C1810,950 1844,936 1882,934"/>
+    </g>
+
+    ${sightlines}
+    ${foeRay}
+    ${attackArc}
+    ${tutArrow}
+
+    <rect x="0" y="0" width="1920" height="1080" fill="url(#vignette)"/>
+    <rect x="3" y="3" width="1914" height="1074" fill="none" stroke="#0b0907" stroke-width="6"/>
+  `;
+  document.getElementById('rose-arch-svg').innerHTML = svg;
+}
+
+/* ==================== CARD BUILDERS ==================== */
+function makeUnitCardHTML(u, h, opts = {}) {
+  const w = +(h * 0.56).toFixed(2);
+  const isLg = h > 250;
+  const rd = ROUNDELS['tier' + u.tier];
+  const atkX = (rd.attack[0] / 560 * 100).toFixed(2);
+  const atkY = (rd.attack[1] / 1000 * 100).toFixed(2);
+  const hpX  = (rd.health[0] / 560 * 100).toFixed(2);
+  const hpY  = (rd.health[1] / 1000 * 100).toFixed(2);
+  const atkCls = 'stat-boss' + (isLg ? ' lg' : (String(u.atk).length === 1 ? ' single' : '')) + (u.buffedAtk ? ' buffed' : '');
+  const hpCls  = 'stat-boss' + (isLg ? ' lg' : (String(u.hp).length === 1 ? ' single' : '')) + (u.hurt ? ' hurt' : (u.buffedHp ? ' buffed' : ''));
+  const wrapCls = 'card-hex-wrap' + (u.golden ? ' is-golden' : '') + (u.attacker ? ' is-attacker' : '') + (u.threat ? ' is-threat' : '');
+
+  let crestHTML = '';
+  if (u.golden) {
+    crestHTML = `<div class="golden-crest">${ICON.star}<span>GOLDEN</span></div>`;
+  } else if (u.renown) {
+    crestHTML = `<div class="renown-crest">${ICON.star}<span>Renown ${u.renown}</span></div>`;
+  }
+
+  let pipsHTML = '';
+  if (u.pips) {
+    let dots = '';
+    for (let i = 0; i < u.pips; i++) {
+      dots += `<span class="pip-dot${u.pipType === 'supply' ? ' supply' : ''}"></span>`;
+    }
+    pipsHTML = `<div class="pip-row${isLg ? ' lg' : ''}">${dots}</div>`;
+  }
+
+  const priceHTML = (u.price !== undefined) ? `<div class="price-coin">${u.price}</div>` : '';
+  const tribeHTML = `<div class="tribe-crest tribe-${u.tribe}${isLg ? ' lg' : ''}" title="${u.tribe}">${TRIBE_SVG[u.tribe]}</div>`;
+
+  const goldenRim = u.golden ? `
+    <svg class="golden-rim-svg" viewBox="0 0 112 200" preserveAspectRatio="none">
+      <polygon points="56,2 110,34 110,166 56,198 2,166 2,34" fill="none" stroke="#ffdb6e" stroke-width="4.5"/>
+    </svg>` : '';
+
+  const plaqueHTML = opts.hidePlaque ? '' : `
+    <div class="card-plaque${opts.fight ? ' fight-plaque' : ''}">
+      <div class="card-name">${u.name}</div>
+      <div class="card-rule">${u.rule}</div>
+    </div>`;
+
+  return `
+    <div class="${wrapCls}" style="width:${w}px;height:${h}px;">
+      <div class="card-art" style="background-image:url('${ASSET_ROOT}/${u.art}')"></div>
+      <img class="card-frame" src="${ASSET_ROOT}/glass/frames/tier${u.tier}.webp" alt=""/>
+      ${goldenRim}
+      ${crestHTML}
+      ${tribeHTML}
+      ${priceHTML}
+      ${pipsHTML}
+      <div class="${atkCls}" style="left:${atkX}%;top:${atkY}%">${u.atk}</div>
+      <div class="${hpCls}" style="left:${hpX}%;top:${hpY}%">${u.hp}</div>
+    </div>
+    ${plaqueHTML}
+  `;
+}
+
+function makeSpellCardHTML(s, h, inline = false) {
+  const w = +(h * 0.56).toFixed(2);
+  const priceHTML = `<div class="price-coin" style="width:34px;height:34px;font-size:18px;right:-10px;top:11%;">${s.price}</div>`;
+  const hex = `
+    <div class="card-hex-wrap" style="width:${w}px;height:${h}px;">
+      <div class="spell-lead-outer"></div>
+      <div class="spell-lead-inner"></div>
+      <div class="spell-art" style="background-image:url('${ASSET_ROOT}/glass/art/${s.art}')"></div>
+      ${priceHTML}
+    </div>
+  `;
+  if (inline) return hex;
+  return `
+    ${hex}
+    <div class="card-plaque spell-plaque">
+      <div class="card-name">${s.name}</div>
+      <div class="card-rule">${s.rule}</div>
+    </div>
+  `;
+}
+
+function makeEmptySlotHTML(h, label) {
+  const w = +(h * 0.56).toFixed(2);
+  return `
+    <div class="empty-hex-slot" style="width:${w}px;height:${h}px;">
+      <span class="empty-hex-label">${label}</span>
+    </div>
+  `;
+}
+
+/* ==================== 8-PLAYER RIM RENDERER ==================== */
+function renderRimPlayers(players) {
+  const leftPos  = [[22, 178], [10, 386], [10, 594], [22, 802]];
+  const rightPos = [[1688, 178], [1700, 386], [1700, 594], [1688, 802]];
+  let html = '';
+
+  players.forEach((p, idx) => {
+    const [x, y] = idx < 4 ? leftPos[idx] : rightPos[idx - 4];
+    const cls = 'rim-player'
+      + (p.isYou ? ' is-you' : '')
+      + (p.isNext ? ' is-next' : '')
+      + (p.isVictor ? ' is-victor' : '')
+      + (p.isOut ? ' is-out' : '');
+    let tag = '';
+    if (p.isNext) tag = `<div class="rim-tag next">${ICON.swords}<span>NEXT</span></div>`;
+    else if (p.isVictor) tag = `<div class="rim-tag victor">${ICON.swords}<span>FOE</span></div>`;
+    else if (p.isYou) tag = `<div class="rim-tag you">${ICON.star}<span>YOU</span></div>`;
+    else if (p.isLast) tag = `<div class="rim-tag last">LAST FOE</div>`;
+
+    const crackSvg = p.isOut ? `
+      <svg class="rim-crack" viewBox="0 0 84 84">
+        <path d="M16,14 L40,42 L68,68 M62,16 L40,42 L22,70" stroke="#0b0907" stroke-width="3.5" fill="none"/>
+        <path d="M16,14 L40,42 L68,68 M62,16 L40,42 L22,70" stroke="rgba(255,255,255,0.22)" stroke-width="1" fill="none"/>
+      </svg>` : '';
+
+    html += `
+      <div class="${cls}" style="left:${x}px;top:${y}px;">
+        <div class="rim-disc-wrap">
+          <div class="rim-ring"></div>
+          <div class="rim-portrait">
+            <img src="${ASSET_ROOT}/glass/portraits/${p.img}" alt="${p.name}"/>
+            ${crackSvg}
+          </div>
+          ${tag}
+          <div class="rim-rank"><span>${p.rank}</span></div>
+          <div class="rim-hp">${p.isOut ? 'OUT' : p.hp}</div>
+        </div>
+        <div class="rim-nameplate">
+          <div class="rim-name">${p.name}</div>
+        </div>
+      </div>
+    `;
+  });
+  return html;
+}
+
+function renderTopChrome(turn, subtitle, showArchiveBtns = true) {
+  return `
+    <div class="top-left-bar">
+      <button class="glass-btn glass-btn-round" aria-label="Settings">${ICON.cog}</button>
+      ${showArchiveBtns ? `<button class="glass-btn">${ICON.history}<span>Past Boards</span></button>` : ''}
+    </div>
+    <div class="top-keystone">
+      <span class="keystone-turn">Turn ${turn}</span>
+      <span class="keystone-sep"></span>
+      <span class="keystone-sub">${subtitle}</span>
+    </div>
+    <div class="top-right-bar">
+      ${showArchiveBtns ? `<button class="glass-btn">${ICON.cards}<span>Cards</span></button>` : ''}
+    </div>
+  `;
+}
+
+/* ==================== RECRUIT RENDERER (mid & first) ==================== */
+function renderRecruit(isFirst) {
+  buildRoseSVG(isFirst ? 'first' : 'mid');
+  const players = isFirst ? PLAYERS_FIRST : PLAYERS_MID;
+  const shop = isFirst ? SHOP_FIRST : SHOP_MID;
+  const turn = isFirst ? 1 : 9;
+  const tier = isFirst ? 1 : 5;
+  const gold = isFirst ? 5 : 20;
+  const upgCost = isFirst ? 8 : 23;
+  const upgDisc = isFirst ? '−1 next turn' : '−3 next turn';
+  const income = isFirst ? '+7 Gold next' : '+19 Gold next';
+  const foeHp = isFirst ? 40 : 16;
+
+  // Shop 5 Units along concave upper rose arc
+  const shopCoords = [
+    [572, 88], [766, 66], [960, 56], [1154, 66], [1348, 88]
+  ];
+  let shopHTML = '';
+  shop.forEach((u, i) => {
+    const [cx, top] = shopCoords[i];
+    shopHTML += `<div class="unit-slot" style="left:${cx}px;top:${top}px;">${makeUnitCardHTML(u, 172)}</div>`;
+  });
+
+  // Board Front Row (4 slots on forward curved rose arc)
+  const frontCoords = [
+    [666, 366], [862, 348], [1058, 348], [1254, 366]
+  ];
+  let boardHTML = `<div class="row-arc-label front" style="top:304px;">Front Row · Vanguard</div>`;
+  frontCoords.forEach(([cx, top], i) => {
+    const inner = isFirst
+      ? makeEmptySlotHTML(180, `Front ${i + 1}`)
+      : makeUnitCardHTML(BOARD_MID_FRONT[i], 180);
+    boardHTML += `<div class="unit-slot" style="left:${cx}px;top:${top}px;">${inner}</div>`;
+  });
+
+  // Board Back Row (3 slots on inner rose arc)
+  const backCoords = [
+    [758, 638], [960, 650], [1162, 638]
+  ];
+  boardHTML += `<div class="row-arc-label back" style="top:598px;">Back Row · Inner Sanctum</div>`;
+  backCoords.forEach(([cx, top], i) => {
+    const inner = isFirst
+      ? makeEmptySlotHTML(180, `Back ${i + 1}`)
+      : makeUnitCardHTML(BOARD_MID_BACK[i], 180);
+    boardHTML += `<div class="unit-slot" style="left:${cx}px;top:${top}px;">${inner}</div>`;
+  });
+
+  // Left Shop Spells Alcove (2 Sharpen spells grouped together)
+  const spellData = { name: 'Sharpen', price: 1, art: 'spell-sharpen.jpg', rule: '+2/+2 to unit' };
+  const spellsHTML = `
+    <div class="wing-card leaded-panel spells-alcove">
+      <div class="alcove-header">${ICON.spark}<span>Shop Spells</span></div>
+      <div class="spells-pair">
+        <div class="spell-slot-inline">${makeSpellCardHTML(spellData, 166)}</div>
+        <div class="spell-slot-inline">${makeSpellCardHTML(spellData, 166)}</div>
+      </div>
+    </div>
+  `;
+
+  // Left Economy Tracery (Gold + Upgrade)
+  const econLeftHTML = `
+    <div class="wing-card leaded-panel gold-plaque">
+      <div class="gold-medallion">${gold}</div>
+      <div class="gold-meta">
+        <div class="gold-title">Gold</div>
+        <div class="gold-sub">Shop Tier ${tier}</div>
+      </div>
+    </div>
+    <div class="wing-card leaded-panel upgrade-plaque unaffordable">
+      <div class="upgrade-top">
+        <div class="upgrade-title-wrap">
+          <span class="upgrade-kicker">Upgrade Shop</span>
+          <span class="upgrade-tier">Tier ${tier} → ${tier + 1}</span>
+        </div>
+        <div class="upgrade-cost-pill locked">
+          ${upgCost}
+          <span class="upgrade-cost-lock">${ICON.lock}</span>
+        </div>
+      </div>
+      <div class="upgrade-bottom">
+        <span class="upgrade-discount">${upgDisc}</span>
+        <span class="upgrade-short">Need ${upgCost - gold} more</span>
+      </div>
+    </div>
+  `;
+
+  // Counters (Only shown when non-zero — Not Yet on Turn 1)
+  const countersHTML = isFirst ? '' : `
+    <div class="counters-alcove">
+      <div class="leaded-panel counter-plate compost">
+        <div class="counter-left">${ICON.heap}<span class="counter-name">Compost</span></div>
+        <div class="counter-val">3</div>
+      </div>
+      <div class="leaded-panel counter-plate tide">
+        <div class="counter-left">${ICON.wave}<span class="counter-name">Tide</span></div>
+        <div class="counter-val">+2</div>
+      </div>
+    </div>
+  `;
+
+  // Right Controls (Refresh + Freeze + Primary Accent End Turn Sun-Rose Medallion)
+  const sunRoseLead = `
+    <svg class="medallion-lead-svg" viewBox="0 0 240 240">
+      <circle cx="120" cy="120" r="108" fill="none" stroke="rgba(22,12,4,0.34)" stroke-width="3"/>
+      <g stroke="rgba(22,12,4,0.24)" stroke-width="2.5">
+        <line x1="120" y1="0" x2="120" y2="38"/>
+        <line x1="120" y1="202" x2="120" y2="240"/>
+        <line x1="0" y1="120" x2="26" y2="120"/>
+        <line x1="214" y1="120" x2="240" y2="120"/>
+        <line x1="35" y1="35" x2="58" y2="58"/>
+        <line x1="182" y1="182" x2="205" y2="205"/>
+        <line x1="205" y1="35" x2="182" y2="58"/>
+        <line x1="58" y1="182" x2="35" y2="205"/>
+      </g>
+    </svg>
+  `;
+
+  const rightControlsHTML = `
+    <div class="wing-card leaded-panel refresh-btn">
+      <div class="refresh-top">
+        <span class="refresh-label">${ICON.refresh}<span>Refresh</span></span>
+        <span class="refresh-coin">1</span>
+      </div>
+      <div class="refresh-stock">10 left at 1 Gold</div>
+    </div>
+    <div class="wing-card leaded-panel freeze-btn">
+      ${ICON.freeze}<span>Freeze Shop</span>
+    </div>
+    <div class="end-turn-medallion">
+      ${sunRoseLead}
+      <div class="end-turn-content">
+        <div class="end-turn-title">END TURN</div>
+        <div class="end-turn-foe">${ICON.swords}<span>March Hare · ${foeHp}</span></div>
+        <div class="end-turn-income">${income}</div>
+      </div>
+    </div>
+  `;
+
+  // Bottom Hand Arc Cradle
+  const seekCard = { name: 'Seek', price: 3, art: 'spell-seek.jpg', rule: 'Discover a unit.' };
+  let handSockets = '';
+  const emptyCount = isFirst ? 7 : 6;
+  for (let i = 0; i < emptyCount; i++) handSockets += `<div class="hand-empty-hex"></div>`;
+
+  const handHTML = `
+    <div class="leaded-panel hand-cradle">
+      <div class="hand-badge">
+        <span class="hand-badge-kicker">Hand</span>
+        <span class="hand-badge-count">${isFirst ? '0 / 7' : '1 / 7'}</span>
+      </div>
+      <div class="hand-slots-row">
+        ${isFirst ? '' : `
+          <div class="hand-card-entry">
+            ${makeSpellCardHTML(seekCard, 120, true)}
+            <div class="hand-card-info">
+              <div class="card-name">Seek</div>
+              <div class="card-rule" style="font-size:15px;">Discover a unit.</div>
+            </div>
+          </div>
+        `}
+        <div class="hand-empty-sockets">${handSockets}</div>
+      </div>
+    </div>
+  `;
+
+  // First-session single removable tutorial cue (position: absolute overlay; removing it shifts 0 px)
+  const tutCue = isFirst ? `
+    <div class="tutorial-cue">
+      <span>Drag a fighter from the shop arc into your centre rose to recruit it.</span>
+    </div>
+  ` : '';
+
+  document.getElementById('ui-layer').innerHTML = `
+    ${renderTopChrome(turn, `Recruit · Tier ${tier}`, true)}
+    ${renderRimPlayers(players)}
+    ${econLeftHTML}
+    ${spellsHTML}
+    ${countersHTML}
+    ${shopHTML}
+    ${boardHTML}
+    ${rightControlsHTML}
+    ${handHTML}
+    ${tutCue}
+  `;
+}
+
+/* ==================== FIGHT RENDERER (SHARED GREAT ROSE) ==================== */
+function renderFight() {
+  buildRoseSVG('fight');
+
+  // Exact zero-overlap spacing across 4 rows (h = 156px cards)
+  const eBackCoords  = [[758, 76], [960, 70], [1162, 76]];
+  const eFrontCoords = [[666, 300], [862, 308], [1058, 308], [1254, 300]];
+  const pFrontCoords = [[666, 582], [862, 574], [1058, 574], [1254, 582]];
+  const pBackCoords  = [[758, 808], [960, 816], [1162, 808]];
+
+  let boards = '';
+  eBackCoords.forEach(([cx, top], i) => {
+    boards += `<div class="unit-slot" style="left:${cx}px;top:${top}px;">${makeUnitCardHTML(FIGHT_ENEMY_BACK[i], 156, { fight: true })}</div>`;
+  });
+  eFrontCoords.forEach(([cx, top], i) => {
+    boards += `<div class="unit-slot" style="left:${cx}px;top:${top}px;">${makeUnitCardHTML(FIGHT_ENEMY_FRONT[i], 156, { fight: true })}</div>`;
+  });
+  pFrontCoords.forEach(([cx, top], i) => {
+    const u = FIGHT_PLAYER_FRONT[i];
+    const inner = u ? makeUnitCardHTML(u, 156, { fight: true }) : makeEmptySlotHTML(156, 'Open');
+    boards += `<div class="unit-slot" style="left:${cx}px;top:${top}px;">${inner}</div>`;
+  });
+  pBackCoords.forEach(([cx, top], i) => {
+    boards += `<div class="unit-slot" style="left:${cx}px;top:${top}px;">${makeUnitCardHTML(FIGHT_PLAYER_BACK[i], 156, { fight: true })}</div>`;
+  });
+
+  const banners = `
+    <div class="leaded-panel combatant-banner enemy">
+      <div class="combatant-head">
+        <div class="combatant-thumb"><img src="${ASSET_ROOT}/glass/portraits/march_hare.jpg" alt="March Hare"/></div>
+        <div class="combatant-meta">
+          <span class="combatant-role">Opponent · #5</span>
+          <span class="combatant-name">March Hare</span>
+        </div>
+      </div>
+      <div class="combatant-stats-row">
+        <span class="stat-chip hp-chip">16 Health</span>
+        <span class="stat-chip">Tier 5</span>
+        <span class="stat-chip">Compost 12</span>
+      </div>
+    </div>
+
+    <div class="leaded-panel combatant-banner player">
+      <div class="combatant-head">
+        <div class="combatant-thumb"><img src="${ASSET_ROOT}/glass/portraits/dame_farthing.jpg" alt="Dame Farthing"/></div>
+        <div class="combatant-meta">
+          <span class="combatant-role">You · #7</span>
+          <span class="combatant-name">Dame Farthing</span>
+        </div>
+      </div>
+      <div class="combatant-stats-row">
+        <span class="stat-chip hp-chip">11 Health</span>
+        <span class="stat-chip">Compost 4</span>
+        <span class="stat-chip">Tide +2</span>
+      </div>
+    </div>
+
+    <div class="leaded-panel reserve-card-box">
+      <div class="reserve-title">Your Hand (4) · 1 Reservist</div>
+      <div class="reserve-item active-res"><span>Home Guard (3/11)</span><span>Reserve</span></div>
+      <div class="reserve-item muted-res"><span>Hayloft Aunt (2/9)</span><span>In hand</span></div>
+      <div class="reserve-item muted-res"><span>Cousin (2/2)</span><span>In hand</span></div>
+      <div class="reserve-item muted-res"><span>Hedge Lancer (6/12)</span><span>In hand</span></div>
+    </div>
+
+    <div class="equator-bar">
+      <div class="equator-line"></div>
+      <div class="equator-boss">Front vs Front · Opening Strike</div>
+      <div class="equator-line"></div>
+    </div>
+
+    <button class="skip-medallion">${ICON.skip}<span>Skip Fight</span></button>
+  `;
+
+  document.getElementById('ui-layer').innerHTML = `
+    ${renderTopChrome(9, 'Combat · Shared Rose', false)}
+    ${renderRimPlayers(PLAYERS_MID)}
+    ${boards}
+    ${banners}
+  `;
+}
+
+/* ==================== AFTER-FIGHT RENDERER (WHY YOU LOST) ==================== */
+function renderAfter() {
+  buildRoseSVG('after');
+
+  const eBackCoords  = [[758, 76], [960, 70], [1162, 76]];
+  const eFrontCoords = [[666, 300], [862, 308], [1058, 308], [1254, 300]];
+  let survivors = '';
+  eBackCoords.forEach(([cx, top], i) => {
+    survivors += `<div class="unit-slot" style="left:${cx}px;top:${top}px;">${makeUnitCardHTML(AFTER_ENEMY_BACK[i], 154, { fight: true })}</div>`;
+  });
+  eFrontCoords.forEach(([cx, top], i) => {
+    const u = AFTER_ENEMY_FRONT[i];
+    const inner = u ? makeUnitCardHTML(u, 154, { fight: true }) : makeEmptySlotHTML(154, 'Slain');
+    survivors += `<div class="unit-slot" style="left:${cx}px;top:${top}px;">${inner}</div>`;
+  });
+
+  const chronicle = `
+    <div class="leaded-panel after-chronicle">
+      <div class="after-header">
+        <div class="after-title-group">
+          <div class="after-badge-defeat">DEFEAT · 7TH PLACE</div>
+          <div>
+            <div class="after-subtitle">Knocked out by March Hare on Turn 9</div>
+            <div class="after-meta">6 of March Hare's 7 fighters survived above (key threats ringed in crimson)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="after-grid">
+        <div class="after-col">
+          <div class="after-col-title">Why You Took 13 Damage</div>
+          <div class="dmg-row"><span>Turn 9 loss base</span><span class="dmg-num">10</span></div>
+          <div class="dmg-row"><span>Big loss (6 foes left)</span><span class="dmg-num">+3</span></div>
+          <div class="dmg-row total"><span>Total Damage</span><span class="dmg-num">−13</span></div>
+          <div class="hp-drop-box">
+            <span class="hp-drop-label">Dame Farthing</span>
+            <span class="hp-drop-vals">11 → 0 HP</span>
+          </div>
+        </div>
+
+        <div class="after-col">
+          <div class="after-col-title">What Decided the Fight</div>
+          <div class="cause-item">
+            <div class="cause-thumb"><img src="${ASSET_ROOT}/units/locust/gorger.jpg" alt="Gorger"/></div>
+            <div class="cause-body">
+              <div class="cause-head">Golden Gorger (38/68 → 38/57)</div>
+              <div class="cause-desc">One-shot three of your units while taking only 11 damage across the whole fight.</div>
+            </div>
+          </div>
+          <div class="cause-item">
+            <div class="cause-thumb"><img src="${ASSET_ROOT}/units/thorn/holly-knight.jpg" alt="Holly Knight"/></div>
+            <div class="cause-body">
+              <div class="cause-head">Holly Knight (12/19 → 24/27 · Thorns 4)</div>
+              <div class="cause-desc">Grew +12/+12 from Briar King &amp; 12 Compost; Thorns 4 chipped your front row before hits landed.</div>
+            </div>
+          </div>
+          <div class="cause-item">
+            <div class="cause-thumb"><img src="${ASSET_ROOT}/units/pigeon/wing-commander.jpg" alt="Your Board"/></div>
+            <div class="cause-body">
+              <div class="cause-head">Board Size &amp; Scaling Gap (6 vs 7 units)</div>
+              <div class="cause-desc">Opening with slot 3 empty left your Renown line outnumbered against a Golden Tier 4 core.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="after-col">
+          <div class="after-col-title">Turn 9 Standings</div>
+          <div class="standing-mini"><span>#1 Dame Hoolet</span><span>23 HP</span></div>
+          <div class="standing-mini"><span>#2 Pipkin</span><span>21 HP</span></div>
+          <div class="standing-mini highlight-foe"><span>#5 March Hare (Foe)</span><span>16 HP</span></div>
+          <div class="standing-mini highlight-you"><span>#7 Dame Farthing (You)</span><span>0 HP · Out</span></div>
+          <div class="standing-mini" style="opacity:0.72;"><span>#8 Brother Bracken</span><span>Out earlier</span></div>
+        </div>
+      </div>
+
+      <div class="after-actions">
+        <button class="glass-btn btn-secondary-glass">${ICON.history}<span>Step-by-Step Log</span></button>
+        <button class="glass-btn btn-secondary-glass"><span>Start Screen</span></button>
+        <button class="glass-btn btn-primary-amber"><span>Play Again</span></button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('ui-layer').innerHTML = `
+    ${renderTopChrome(9, 'Fight Result', false)}
+    ${renderRimPlayers(PLAYERS_AFTER)}
+    ${survivors}
+    ${chronicle}
+  `;
+}
+
+/* ==================== EXTRA1: REACH INSPECT LENS ==================== */
+function renderExtra1() {
+  renderRecruit(false);
+  const wc = BOARD_MID_BACK[0];
+  const overlay = document.createElement('div');
+  overlay.innerHTML = `
+    <div class="inspect-veil"></div>
+    <div class="leaded-panel inspect-lens">
+      <div style="flex-shrink:0;padding-top:14px;">
+        ${makeUnitCardHTML(wc, 350, { hidePlaque: true })}
+      </div>
+      <div class="inspect-right">
+        <div class="inspect-head">
+          <div class="inspect-title-block">
+            <span class="inspect-name">Wing Commander</span>
+            <span class="inspect-tags">Tier 5 · Pigeon · Sells for 1 Gold</span>
+          </div>
+          <button class="glass-btn">${ICON.close}<span>Close</span></button>
+        </div>
+        <div class="inspect-text-box">
+          <strong>Sortie.</strong><br/>
+          <strong>Charge 4:</strong> After one of your Pigeons with Sortie kills, give its slot <strong>3 Renown</strong>.
+        </div>
+        <div class="inspect-buffs">
+          <span class="buff-pill">Printed: 8 / 14</span>
+          <span class="buff-pill">Slot 4 Renown: +3 / +3</span>
+          <span class="buff-pill">Current: 11 / 17</span>
+        </div>
+        <div class="kw-reminders">
+          <div class="kw-box">
+            <div class="kw-box-title">Sortie</div>
+            <div class="kw-box-desc">Attacks the enemy back row while it has units.</div>
+          </div>
+          <div class="kw-box">
+            <div class="kw-box-title">Charge 4</div>
+            <div class="kw-box-desc">Works 4 times, then stops; refills each fight.</div>
+          </div>
+          <div class="kw-box">
+            <div class="kw-box-title">Renown</div>
+            <div class="kw-box-desc">The unit starting here, and any reservist stepping in, has +1/+1 for each.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('ui-layer').appendChild(overlay);
+}
+
+/* ==================== ROUTER ==================== */
+const params = new URLSearchParams(window.location.search);
+const view = params.get('view') || 'mid';
+if (view === 'first') renderRecruit(true);
+else if (view === 'fight') renderFight();
+else if (view === 'after') renderAfter();
+else if (view === 'extra1') renderExtra1();
+else renderRecruit(false);
+</script>
+</body>
+</html>

@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bramble · The great window, refit</title>
+<style>
+@font-face{font-family:Alegreya;src:url("../../../../../assets/glass/fonts/Alegreya%5Bwght%5D.ttf");font-weight:400 900;font-display:swap}
+@font-face{font-family:Alegreya Sans;src:url("../../../../../assets/glass/fonts/AlegreyaSans-Regular.ttf");font-weight:400;font-display:swap}
+@font-face{font-family:Alegreya Sans;src:url("../../../../../assets/glass/fonts/AlegreyaSans-Bold.ttf");font-weight:700;font-display:swap}
+:root{--ink:#fff3da;--soft:#d4ccad;--lead:#0b1010;--brass:#988260;--serif:Alegreya,Georgia,serif;--sans:"Alegreya Sans",sans-serif;--hex:polygon(50% 0,100% 17%,100% 83%,50% 100%,0 83%,0 17%);--inner:polygon(50% 4.34%,95.91% 18.37%,95.91% 81.63%,50% 95.66%,4.09% 81.63%,4.09% 18.37%);--pane-texture:url("../../../../../assets/glass/ui/pane.jpg")}
+*{box-sizing:border-box}
+html,body{width:1920px;height:1080px;margin:0;overflow:hidden}
+body{color:var(--ink);font:20px/1.2 var(--sans);background:#111412;font-variant-numeric:lining-nums tabular-nums}
+button,a,summary{color:inherit;font:inherit}
+button{background:none;border:0;padding:0;cursor:pointer}
+a{text-decoration:none}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid #fff0bf;outline-offset:3px}
+h1,h2,h3,p,ol{margin:0}
+h1,h2,h3,strong,b{font-weight:700}
+.stage{position:relative;width:1920px;height:1080px;isolation:isolate;background:radial-gradient(ellipse at 50% 12%,#70563e45,transparent 56%),radial-gradient(ellipse at 50% 54%,transparent 55%,#0b0d0cd9 100%),linear-gradient(#17181525,#09100d68),url("../../../../../assets/glass/ui/stone.jpg") 0 0/440px}
+.window{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.placed{position:absolute}
+.glyph{width:20px;height:20px;display:inline-block;flex:none;vertical-align:middle}
+.glyph.strike-color{color:#edbea9}.glyph.growth-color{color:#d3e6b2}.glyph.kin-color{color:#dbc8f3}
+.glyph.ward-color{color:#f6dfa7}.glyph.shop-color{color:#bdddde}
+.cap{font:700 18px/1 var(--sans);letter-spacing:.115em;text-transform:uppercase;color:#ecd8ad}
+.section-name{font:700 29px/1 var(--serif)}
+.side{position:absolute;left:47px;width:256px}
+.side.right{left:1617px}
+.seamed{background:linear-gradient(165deg,#252e28,#14221f 58%,#172725),var(--pane-texture);background-blend-mode:normal,screen;border:1px solid #72644e;box-shadow:0 0 0 3px #0b1110,inset 0 1px #b39a6259,inset 0 -2px #050c09,0 5px 7px #080a0890}
+.left-top{top:126px;text-align:center}
+.turn{display:table;margin:0 auto;padding:3px 11px 2px;border-radius:3px;background:#272b22;border:1px solid #8d7b55;box-shadow:0 0 0 2px #1a2019;font:750 27px/1 var(--serif);color:#f4deb0}
+.player{display:flex;align-items:center;gap:13px;text-align:left;padding:0 2px}
+.left-top .player{margin-top:11px}
+.portrait{display:block;width:77px;height:77px;object-fit:cover;flex:none;border-radius:50%;border:3px solid #877450;box-shadow:0 0 0 2px #131711,0 0 0 3px #4c423269,0 4px 10px #0a0d0c}
+.player h2{font:720 24px/1 var(--serif);white-space:nowrap}
+.player-meta{margin-top:7px;display:flex;align-items:center;gap:8px;font-size:18px;color:#fff0d4}
+.health{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-width:54px;min-height:29px;padding:0 8px;color:#fff1dc;background:linear-gradient(165deg,#583438,#321d29);border:1px solid #8e625e;border-radius:5px;font:750 20px/1 var(--serif);box-shadow:0 0 0 2px #131414,inset 0 1px #b38b6e5c}
+.health .glyph{width:13px;height:13px;color:#e7a8a0;fill:currentColor;stroke:none}
+.counters{display:flex;justify-content:center;gap:8px;margin-top:16px}
+.counter{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;min-height:37px;background:#1e2925;border:1px solid #776a4c;box-shadow:0 0 0 2px #111614;border-radius:4px;font:700 18px/1 var(--sans)}
+.counter .glyph{width:17px;height:17px;color:#d3bd86}
+.counter b{font:800 22px/1 var(--serif)}
+.reader{top:305px;height:346px;padding:17px 15px 14px;text-align:left;border-radius:9px 9px 4px 4px}
+.reader::before,.reader::after{content:"";position:absolute;left:13px;right:13px;height:1px;background:linear-gradient(90deg,#75603b,transparent 45%,#75603b);pointer-events:none}
+.reader::before{top:5px}.reader::after{bottom:5px}
+.reader-title{display:flex;align-items:center;gap:10px;padding-bottom:11px;border-bottom:1px solid #7e71536c}
+.reader-title .glyph{color:#ddc395}
+.reader-content{height:calc(100% - 32px);padding:11px 1px 4px;overflow:auto;scrollbar-color:#9c8a67 #18221e;scrollbar-width:thin}
+.reader-content h3{font:760 27px/1.02 var(--serif);color:#fff0d0;margin-bottom:5px}
+.reader-content .meta{font:700 18px/1.1 var(--sans);color:#dbca9f;margin-bottom:9px}
+.reader-content .rules{font-size:20px;line-height:1.15}
+.reader-content .help{color:#e1d8bf;font-size:18px;line-height:1.12;margin-top:9px;padding-top:8px;border-top:1px solid #71674f7a}
+.reader-content .help b{color:#f7dfaa}
+.reader-content .help .glyph,.effect .glyph{height:16px;width:16px;margin-right:4px;color:#e9c486}
+.reader-content .effect+.effect{margin-top:4px}
+.hand{top:679px}
+.light-heading{height:39px;display:flex;align-items:center;justify-content:space-between;padding:0 5px 10px;border-bottom:1px solid #9c875674}
+.light-heading strong{font:790 23px/1 var(--serif);color:#ecdbad}
+.hand-tray{position:relative;height:258px;margin-top:14px}
+.hand-slot{position:absolute;width:56px;aspect-ratio:560/1000}
+.hand-label{position:absolute;left:0;width:100%;top:103px;text-align:center;font-size:18px;font-weight:700}
+.hand-slot .unit-stat{font-size:18px;width:23px;height:23px}
+.game-menu{top:987px}
+.game-menu summary{cursor:pointer;list-style:none}
+.game-menu summary::-webkit-details-marker{display:none}
+.game-menu .plate-button{width:100%;justify-content:space-between}
+.game-menu-content{position:absolute;bottom:56px;left:0;width:100%;padding:9px 13px;background:#182520;border:1px solid #a18959;z-index:10;border-radius:5px;box-shadow:0 8px 15px #090b09}
+.game-menu-content button{width:100%;min-height:46px;text-align:left;padding:0 8px;font-size:19px}
+.game-menu-content button+button{border-top:1px solid #71654b}
+.shop-label{top:68px;left:827px;width:266px;text-align:center}
+.shop-label .section-name{font-size:34px;text-shadow:0 2px 3px #0f110e}
+.shop-label::before,.shop-label::after{position:absolute;content:"";top:19px;width:81px;height:1px;background:linear-gradient(90deg,transparent,#927d55)}
+.shop-label::before{left:-51px}.shop-label::after{right:-51px;transform:scaleX(-1)}
+.shop-controls{top:145px;left:355px;width:132px}
+.purse{height:65px;display:flex;align-items:center;justify-content:center;gap:7px;border-radius:7px 7px 4px 4px;background:linear-gradient(145deg,#433626,#2b281d 70%);border:1px solid #92774c;box-shadow:0 0 0 3px #10130e,inset 0 1px #c6a16b7d}
+.purse strong{font:850 36px/1 var(--serif)}
+.purse .coin{width:26px;height:26px}
+.purse .gold-word{font-size:18px;color:#e0cc9d}
+.shop-controls .plate-button{width:100%;padding:0 9px}
+.upgrade{margin-top:11px}
+.readout{font-size:18px;line-height:1.1;color:#e3d3b2}
+.upgrade-meta{display:grid;gap:2px;margin:6px 1px 11px}
+.upgrade-meta .glyph{width:15px;height:15px;color:#e6ce9a}
+.upgrade-shortfall{color:#f0c7b1}
+.refresh-meta{text-align:left;margin:0 1px 7px}
+#freeze{margin-top:10px}
+.plate-button{display:flex;align-items:center;justify-content:center;gap:6px;min-height:47px;padding:0 13px;border:1px solid #8e7853;border-radius:5px;background:linear-gradient(168deg,#394034,#222e28 47%,#18221f 49%,#222c24);box-shadow:0 0 0 2px #101410,inset 0 2px #bfa47432,inset 0 -2px #0b1510,0 4px 6px #0a0d0a9c;font:730 20px/1 var(--serif);text-align:center}
+.plate-button .glyph{color:#e4cb95}
+.plate-button:hover{border-color:#d2c097}
+.plate-button[aria-disabled=true]{background:linear-gradient(165deg,#32352d,#282c24);color:#ded3b8;cursor:default}
+.plate-button[aria-disabled=true] .coin{color:#fff0d8;background:linear-gradient(135deg,#55383b,#39272b);border-color:#9b7365}
+.coin{display:inline-grid;place-items:center;min-width:25px;height:25px;padding:0 3px;flex:none;border-radius:50%;background:radial-gradient(ellipse at 31% 24%,#f5df99,#c39b55 64%,#a27842);border:1px solid #f7dca1;box-shadow:0 0 0 1px #211812,inset 0 0 0 2px #75532d55;color:#2b1d13;font:850 19px/1 var(--serif)}
+.coin .glyph{width:15px;height:15px;fill:currentColor;stroke:none}
+.spell-light{top:155px;left:1435px;width:130px;text-align:center}
+.spell-pair{display:flex;justify-content:center;gap:9px;margin-top:13px}
+.spell-offer{width:54px;display:grid;justify-items:center;gap:6px}
+.spell-offer .card-face{width:54px}
+.spell-caption{padding-top:12px;font:730 22px/1 var(--serif)}
+.spell-effect{margin-top:3px;font-size:18px;color:#e4d7b8}
+.shop-offer,.board-piece{position:absolute;width:var(--w);top:var(--y);left:calc(var(--x) - var(--w)/2)}
+.card-face{position:relative;display:block;width:100%;aspect-ratio:560/1000;isolation:isolate;filter:drop-shadow(0 5px 5px #060808a6)}
+.card-art,.card-frame,.slot-layer{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.card-art{clip-path:var(--inner);object-fit:cover}
+.card-frame{object-fit:contain}
+.card-face::before{content:"";position:absolute;inset:1px;background:#151813;clip-path:var(--hex);z-index:-1}
+.card-face:is(:hover,:focus-visible,[aria-pressed=true]){filter:drop-shadow(0 0 5px #ffe3a9a9) drop-shadow(0 5px 6px #070a08b0)}
+.card-face:focus-visible{outline:2px solid #fff1c3;outline-offset:3px}
+.golden::after{content:"";position:absolute;inset:-4px;background:#eed080;clip-path:polygon(50% 0,100% 17%,100% 83%,50% 100%,0 83%,0 17%,50% 0,50% 1.7%,1.7% 18%,1.7% 82%,50% 98.3%,98.3% 82%,98.3% 18%,50% 1.7%);pointer-events:none}
+.unit-stat{position:absolute;width:23.5%;aspect-ratio:1;transform:translate(-50%,-50%);display:grid;place-items:center;font:850 26px/1 var(--serif);color:#fff2d7;text-shadow:0 2px #11090d}
+.unit-stat::before,.unit-stat::after{content:"";position:absolute;inset:0;z-index:-2;clip-path:var(--stat-shape);background:#d0ad69}
+.unit-stat::after{inset:1.75px;z-index:-1;background:#34271e}
+.unit-stat.atk{--stat-shape:polygon(50% 0,86% 14%,100% 50%,86% 86%,50% 100%,14% 86%,0 50%,14% 14%)}
+.unit-stat.hp{--stat-shape:polygon(13% 5%,87% 5%,94% 50%,83% 76%,50% 100%,17% 76%,6% 50%)}
+.unit-stat.hp::before{background:#dcaa96}.unit-stat.hp::after{background:#472731}
+.unit-stat.wounded{color:#ffd0bf}
+.mark-row{position:absolute;left:50%;bottom:0;transform:translateX(-50%);display:flex;align-items:center;gap:3px}
+.mark{display:flex;align-items:center;justify-content:center;gap:2px;min-width:23px;min-height:23px;padding:0 3px;border-radius:12px;border:1px solid #ae9b6f;box-shadow:0 0 0 2px #120e0d;background:#1c2523;font-weight:700;font-size:18px;color:#ffe3ac}
+.mark .glyph{width:15px;height:15px}
+.pips{position:absolute;left:50%;top:65.5%;transform:translateX(-50%);display:flex;gap:4px}
+.pips i{display:block;width:9px;height:9px;border:1px solid #fff4d9;box-shadow:0 0 0 2px #1a1413;background:#ece5c6;border-radius:50%}
+.pips.supply i{border-radius:1px;background:#dce4dc}
+.renown{position:absolute;left:50%;top:-4px;transform:translateX(-50%);display:flex;justify-content:center;align-items:center;gap:4px;min-width:89px;padding:2px 6px 1px;border-radius:4px;border:1px solid #af9360;box-shadow:0 0 0 2px #0d1512;background:#2f3427;color:#f5dfb2;font:700 18px/1.1 var(--sans);white-space:nowrap;pointer-events:none}
+.renown .glyph{width:13px;height:13px}
+.card-caption{position:relative;margin-top:4px;text-align:center;min-height:49px;padding:4px 2px 3px;background:linear-gradient(90deg,#17231ffa,#202b23,#17231ffa);border-top:1px solid #907c54;border-bottom:1px solid #524935;box-shadow:0 1px #101711}
+.card-caption::before,.card-caption::after{content:"";position:absolute;top:-3px;left:-1px;width:5px;height:5px;transform:rotate(45deg);background:#a48b5b;border:1px solid #32291d}
+.card-caption::after{left:auto;right:-1px}
+.caption-title{display:flex;justify-content:center;align-items:center;gap:6px;min-height:24px;font:770 21px/1 var(--serif);white-space:nowrap}
+.caption-title .coin{min-width:23px;height:23px}
+.caption-effect{color:#e6d6b4;font:400 18px/1.03 var(--sans)}
+.shop-offer .card-caption{margin-top:4px}
+.board-piece .card-caption{margin-top:1px}
+.board-piece .caption-title{font-size:20px}
+.slot-layer{overflow:visible}
+.row-key{left:878px;width:164px;padding:3px 0;background:linear-gradient(90deg,transparent,#1b2a23 24% 76%,transparent);text-align:center;font:710 19px/1 var(--serif);letter-spacing:.08em;color:#ead6ab}
+.front-key{top:507px}.back-key{top:935px;left:352px;width:162px}
+.back-key::after,.front-key::after{content:"";width:44px;height:1px;background:#9b875e;display:block;margin:6px auto}
+.cue{top:591px;left:877px;width:166px;padding:14px 13px;border-radius:6px;text-align:center;color:#fff3da;background:#323127;border:1px solid #ab9064;box-shadow:0 0 0 3px #131b16;font:700 19px/1.14 var(--sans)}
+.cue::before{content:"";position:absolute;top:-15px;left:calc(50% - 1px);height:14px;border-left:2px dotted #c6ad76}
+.roster{top:158px}
+.roster .light-heading{justify-content:center}
+.roster-list{margin:13px 0 0;padding:0;list-style:none;display:grid;gap:6px}
+.roster-row{position:relative;display:grid;grid-template-columns:19px 41px minmax(0,1fr) 29px;gap:7px;align-items:center;min-height:59px;padding:5px 6px;background:#182521;border-top:1px solid #786a4d7f;border-bottom:1px solid #0b1711;box-shadow:0 1px #5047325e}
+.roster-row .portrait{width:39px;height:39px;border-width:2px}
+.roster-rank{color:#d1c39f;text-align:center;font:780 20px/1 var(--serif)}
+.roster-name{font:700 19px/.98 var(--sans)}
+.roster-status{display:block;font:700 18px/1 var(--sans);letter-spacing:.018em;color:#ebd5a3;margin-top:3px}
+.roster-end{display:block;font:830 23px/1 var(--serif);text-align:center}
+.roster-end.out{font:700 18px/1 var(--sans);color:#d7c5b1}
+.roster-row.next{background:linear-gradient(105deg,#3c3527,#302e24);border:1px solid #a68957;box-shadow:0 0 0 2px #141912}
+.roster-row.you{border-inline-start:3px solid #a7aa89;padding-left:4px}
+.roster-row.eliminated .portrait{filter:saturate(.42) brightness(.82)}
+.turn-action{top:865px;text-align:center}
+.next-profile{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:13px;font:740 24px/1 var(--serif)}
+.next-profile .glyph{color:#e5d0a4}
+.action-button{position:relative;width:100%;min-height:66px;display:flex;justify-content:center;align-items:center;gap:9px;border-radius:5px;border:2px solid #e1ae67;color:#fff0cf;background:linear-gradient(168deg,#754f2e 0%,#5e3a22 48%,#4c2c1b 49%,#683f22 100%);box-shadow:0 0 0 3px #20170e,0 0 0 4px #8c613c,inset 0 0 0 3px #b684554f,0 0 24px #d58b373e,0 5px 8px #0d130f;font:800 30px/1 var(--serif)}
+.action-button::before,.action-button::after{content:"";width:9px;height:9px;position:absolute;top:calc(50% - 5px);background:#dcb574;border:1px solid #473222;transform:rotate(45deg)}
+.action-button::before{left:10px}.action-button::after{right:10px}
+.action-button:hover{background:linear-gradient(168deg,#885933,#603c23)}
+.income{font-size:19px;margin-top:13px;display:flex;align-items:center;justify-content:center;gap:7px;color:#f5ddaa}
+.income .glyph{color:#e5c280}
+.fight-profile{top:160px;text-align:center}
+.fight-profile .portrait{margin:16px auto 11px;width:120px;height:120px;border-width:4px}
+.fight-profile .section-name{margin:8px 0 9px}
+.fight-you{top:755px}
+.fight-you .counters{margin-top:18px}
+.fight-skip{top:931px}
+.fight-row-key{left:347px;width:132px;color:#ead8b6}
+.fight-row-key.far{top:149px;left:374px}
+.fight-row-key.near{top:647px;left:546px}
+.fight-row-key.enemy-front{top:404px;left:546px}
+.fight-row-key.your-back{top:940px;left:374px}
+.fight-centre{position:absolute;left:886px;top:501px;width:148px;text-align:center;z-index:2}
+.fight-centre .plate-button{min-height:50px;display:flex;background:linear-gradient(165deg,#36362a,#1d2722)}
+.fight-centre .glyph{width:25px;height:25px}
+.fight .game-menu{top:987px}
+.after .left-top .player{margin-top:11px}
+.after .roster{top:158px}
+.after-action{top:906px}
+.after-action .secondary-actions{margin-top:19px;display:flex;gap:9px}
+.secondary-actions .plate-button{flex:1;padding:0 8px;white-space:nowrap}
+.after-echo{opacity:.47}
+.after-board-title{top:71px;left:720px;width:480px;text-align:center;font:720 30px/1 var(--serif);text-shadow:0 2px 3px #151412;z-index:2}
+.after .fight-centre{left:844px;width:232px}
+.result{position:absolute;left:651px;top:597px;width:618px;min-height:363px;padding:23px 38px 30px;text-align:center;isolation:isolate;z-index:3;filter:drop-shadow(0 8px 19px #060807cb)}
+.result::before,.result::after{content:"";position:absolute;inset:0;z-index:-3;clip-path:polygon(5% 0,95% 0,100% 10%,100% 90%,95% 100%,5% 100%,0 90%,0 10%);background:linear-gradient(160deg,#b49360,#534131 20%,#8d714c 50%,#4f4030 72%,#b49360)}
+.result::after{inset:3px;z-index:-2;background:radial-gradient(ellipse at 50% 0,#5b3634,#322722 62%,#202521)}
+.result-seams{width:100%;height:100%;position:absolute;inset:0;z-index:-1;pointer-events:none}
+.result h2{font:800 70px/.96 var(--serif);color:#ffdfad;text-shadow:0 3px #281918;margin:3px 0 0}
+.result-place{font:760 29px/1 var(--serif);color:#f2dbb2;margin-top:7px}
+.loss-stats{margin-top:20px;padding:13px 0 12px;border-top:1px solid #ad8c627d;border-bottom:1px solid #ad8c627d;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.loss-stat+.loss-stat{border-left:1px solid #a78a6170}
+.loss-stat b{display:block;color:#ffd3bf;font:800 31px/1 var(--serif)}
+.loss-stat span{font-size:19px;color:#f0d5b7}
+.loss-detail{font-size:19px;color:#fae6c9;line-height:1.18;margin-top:12px}
+.loss-detail + .loss-detail{margin-top:5px}
+</style>
+</head>
+<body>
+<main id="stage" class="stage">
+<h1 class="sr-only">Bramble</h1>
+<div class="window" id="window-art" aria-hidden="true"></div>
+<div id="screen"></div>
+</main>
+<script>
+"use strict";
+const asset = "../../../../../assets/";
+const stage = document.getElementById("stage");
+const screen = document.getElementById("screen");
+const requestedView = new URLSearchParams(location.search).get("view");
+const view = ["mid","first","fight","after"].includes(requestedView) ? requestedView : "mid";
+const first = view === "first";
+const recruit = first || view === "mid";
+const after = view === "after";
+stage.classList.add(view);
+
+const symbols = {
+  heart:'<path d="M12 21 4 13C-1 7 5 2 9 5l3 3 3-3c4-3 10 2 5 8z"/>',
+  spark:'<path d="M12 1c1.5 6 4.5 9 11 11-6.5 2-9.5 5-11 11C10.5 17 7.5 14 1 12 7.5 10 10.5 7 12 1Z"/>',
+  arrow:'<path d="M4 12h15m-6-6 6 6-6 6"/>',
+  up:'<path d="M6 13l6-6 6 6M6 19l6-6 6 6"/>',
+  refresh:'<path d="M20 11a8 8 0 1 0-1 5m-4-5h5V6"/>',
+  freeze:'<path d="M12 2v20M3.3 7l17.4 10M3.3 17 20.7 7M9 4l3 3 3-3M9 20l3-3 3 3"/>',
+  skip:'<path d="m3 6 8 6-8 6zm9 0 8 6-8 6z"/>',
+  glass:'<path d="M12 2.5 19 7v10l-7 4.5L5 17V7Z M12 2.5v19M5 7l14 10M19 7 5 17"/>',
+  swords:'<path d="M4 3l4 1 12 13-3 3L5 7zM20 3l-4 1L4 17l3 3L19 7zM15 20l5-5m-16 0 5 5"/>',
+  menu:'<path d="M5 7h14M5 12h14M5 17h14"/>',
+  stall:'<path d="M4 9h16l-2-5H6zM5 9v11m14-11v11M4 15h16M9 15v5m6-5v5M3 20h18"/>',
+  heap:'<path d="M2.5 19h19c-1-5-4-8-6-8-1 0-2 .7-2.5 1.5C12 10 10 8 8 8c-3 0-5 5.5-5.5 11z"/>',
+  wave:'<path d="M3 10c3-3 6 3 9 0s6-3 9 0M3 16c3-3 6 3 9 0s6-3 9 0"/>',
+  shield:'<path d="M12 3 19 6v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/>',
+  reserve:'<path d="M6 21V8h9v13M14 9l5-5M15 4h4v4"/>',
+  seed:'<path d="M12 3c4 3.5 5.5 8 3.5 12.5-1.3 3-5.7 3-7 0C6.5 11 8 6.5 12 3zM12 7v10"/>',
+  handdown:'<circle cx="5.5" cy="17" r="2.5"/><circle cx="18.5" cy="17" r="2.5"/><path d="M5.5 12c1.5-6 11.5-6 13 0m-3.5-1.5 3.5 1.5 1-3.5"/>',
+  pile:'<path d="m6 9 6-5 6 5m-12 5 6-5 6 5m-12 5 6-5 6 5"/>',
+  sortie:'<path d="M4 19c1-8 6-13 14-13m-3.5-3 3.5 3-3.5 3.5"/>',
+  grow:'<path d="M12 21V11m0 2c-4 0-6.5-2.5-6.5-6 4 0 6.5 2.5 6.5 6zm0-2c0-3.5 2.5-6 6.5-6 0 3.5-2.5 6-6.5 6z"/>',
+  flame:'<path d="M12 21c-3.6 0-6-2.5-6-6 0-3.5 3-5.5 3.5-9 2 1.5 3 3.3 3 5 1-1 1.5-2.3 1.5-3.5 2.5 2 4 4.5 4 7.5 0 3.5-2.4 6-6 6z"/>',
+  pawn:'<circle cx="12" cy="7" r="3.2"/><path d="M9 20h6l-1-6h-4zM7 21h10"/>',
+  thorns:'<path d="M3 17h18M5 17l2-6 2 6m1 0 2-8 2 8m1 0 2-6 2 6"/>',
+  star:'<path d="m12 3 2.5 5.5 6 .7-4.5 4 1.1 6-5.1-3-5.1 3 1.1-6-4.5-4 6-.7z"/>'
+};
+const glyphColor = {
+  seed:"shop-color", shield:"ward-color", reserve:"kin-color", handdown:"growth-color",
+  sortie:"strike-color", pile:"strike-color", grow:"growth-color", flame:"strike-color",
+  thorns:"strike-color", wave:"growth-color", star:"growth-color", heap:"shop-color"
+};
+function icon(name) {
+  return `<svg class="glyph ${glyphColor[name] ?? ""}" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linejoin="round" stroke-linecap="round">${symbols[name]}</svg>`;
+}
+
+const timber = {
+  middle:"M339 1058V151C339 99 585 52 831 40Q914 35 960 18Q1006 35 1089 40C1335 52 1581 99 1581 151V1058Z",
+  left:"M27 1058V177Q27 106 175 52Q323 106 323 177V1058Z",
+  right:"M1597 1058V177Q1597 106 1745 52Q1893 106 1893 177V1058Z"
+};
+
+function tracery(cx, peak, edge, height) {
+  const half = edge - cx;
+  return `<path d="M${cx} ${peak} Q${cx + half * .47} ${peak + 53} ${edge} ${height} M${cx} ${peak} Q${cx - half * .47} ${peak + 53} ${cx - half} ${height} M${cx} ${peak + 25} C${cx - 51} ${peak + 56} ${cx - 57} ${peak + 109} ${cx} ${peak + 137} C${cx + 57} ${peak + 109} ${cx + 51} ${peak + 56} ${cx} ${peak + 25}Z" stroke="#141914" stroke-width="4" fill="none"/>
+  <path d="M${cx} ${peak + 25}V${peak + 137} M${cx} ${peak + 82}l-30 -15m30 15 30 -15" stroke="#b29a65" stroke-opacity=".35" stroke-width="1.2" fill="none"/>`;
+}
+
+function rose(cx, cy, r) {
+  const petals = Array.from({length:8}, (_,i) => `<path d="M0 0Q-${r*.37} -${r*.44} 0 -${r*.88}Q${r*.37} -${r*.44} 0 0Z" transform="rotate(${i*45})" fill="${["#8c6b46","#64684d","#397064","#8f5c45"][i%4]}"/>`).join("");
+  return `<g transform="translate(${cx} ${cy})" stroke="#18201a" stroke-width="2.3">
+  <circle r="${r+4}" fill="#221e16" stroke="#9e856045" stroke-width="1.4"/><circle r="${r}" fill="url(#quarry)"/>
+  ${petals}<circle r="${r*.15}" fill="#c2a268" stroke="#332820"/></g>`;
+}
+
+function bough(x,y,flip=1,scale=1) {
+  return `<g transform="translate(${x} ${y}) scale(${flip*scale} ${scale})" opacity=".72">
+    <path d="M0 96C56 89 98 66 131 32S183 4 229 0" fill="none" stroke="#151b16" stroke-width="5"/>
+    <path d="M0 96C56 89 98 66 131 32S183 4 229 0" fill="none" stroke="#a08450" stroke-width="1.15"/>
+    <g fill="#405746" stroke="#15251e" stroke-width="2.4">
+      <path d="M31 88Q24 53 55 37Q63 66 31 88Z"/><path d="M57 78Q80 77 108 85Q86 111 57 78Z"/>
+      <path d="M84 68Q80 29 115 20Q116 45 84 68Z"/><path d="M112 51Q135 60 155 61Q136 83 112 51Z"/>
+      <path d="M143 22Q146 -6 172 -15Q173 8 143 22Z"/><path d="M165 10Q185 15 204 29Q178 43 165 10Z"/>
+    </g>
+    <g fill="#886144" stroke="#252321" stroke-width="2"><circle cx="36" cy="62" r="5"/><circle cx="45" cy="55" r="4"/><circle cx="129" cy="27" r="4.5"/><circle cx="136" cy="20" r="4"/></g>
+  </g>`;
+}
+
+function oakBadge() {
+  const leaves = [[-12,23,-32], [12,23,32], [-30,48,-62], [30,48,62], [-47,92,-74], [47,92,74], [-42,135,-92], [42,135,92], [-24,185,-94], [24,185,94]];
+  return `<g transform="translate(1745 477)" opacity=".64">
+    <path d="M0 0Q-91 60-89 171Q-80 251 0 300Q80 251 89 171Q91 60 0 0Z" fill="#294034" fill-opacity=".52" stroke="#131e17" stroke-width="6"/>
+    <path d="M0 9Q-83 67-80 168Q-68 254 0 290Q68 254 80 168Q83 67 0 9Z" fill="none" stroke="#a28758" stroke-width="1.5"/>
+    <path d="M0 21C-9 76 5 131 0 204L0 261M0 72l-27-26m27 26 27-26M0 126l-45-31m45 31 45-31M0 191l-41-54m41 54 41-54M0 229l-24-43m24 43 24-43" fill="none" stroke="#121e19" stroke-width="4"/>
+    ${leaves.map(([x,y,angle],i)=>`<g transform="translate(${x} ${y}) rotate(${angle})"><path d="M0 32Q-15 25-10 14Q-19 7-9 0Q-14-8-5-11Q-5-20 0-23Q5-20 5-11Q14-8 9 0Q19 7 10 14Q15 25 0 32Z" fill="${["#53674c","#776444","#40654f","#77764c"][i%4]}" stroke="#161f16" stroke-width="2.8"/><path d="M0 -19V29" stroke="#a08b55" stroke-width="1"/></g>`).join("")}
+    <path d="M0 243l-10 14 10 23 10-23Z" fill="#a1814e" stroke="#19231a" stroke-width="3"/>
+  </g>`;
+}
+
+function windowArt() {
+  const profiles = Object.entries(timber);
+  const outlines = profiles.map(([,d])=>`<path d="${d}" fill="none" stroke="#080b09" stroke-width="25"/><path d="${d}" fill="none" stroke="url(#stone-mould)" stroke-width="19"/><path d="${d}" fill="none" stroke="#0b100d" stroke-width="12"/><path d="${d}" fill="none" stroke="#85704c" stroke-width="7"/><path d="${d}" fill="none" stroke="#4f4232" stroke-width="4.5" stroke-dasharray="13 2 9 2 20 2"/><path d="${d}" fill="none" stroke="#b69763" stroke-width="1.2"/>`).join("");
+  const edgePaths = [
+    "M345 159Q457 110 604 95T835 63","M1575 159Q1463 110 1316 95T1085 63",
+    "M346 464C491 446 554 447 684 469S874 468 948 485",
+    "M1574 464C1429 446 1366 447 1236 469S1046 468 972 485",
+    "M345 1023Q488 1013 582 937T752 867","M1575 1023Q1432 1013 1338 937T1168 867",
+    "M345 693Q534 676 649 732T957 755","M1575 693Q1386 676 1271 732T963 755"
+  ];
+  const rails = edgePaths.map(d=>`<path d="${d}" fill="none" stroke="#121b16" stroke-width="4"/><path d="${d}" fill="none" stroke="#927748" stroke-opacity=".4" stroke-width="1"/>`).join("");
+  const transom = recruit ? 490 : 529;
+  return `<svg viewBox="0 0 1920 1080" width="1920" height="1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    ${profiles.map(([name,d])=>`<clipPath id="clip-${name}"><path d="${d}"/></clipPath>`).join("")}
+    <linearGradient id="stone-mould" x1="0" y1="0" x2=".18" y2="1"><stop stop-color="#75634d"/><stop offset=".44" stop-color="#3b392d"/><stop offset="1" stop-color="#585444"/></linearGradient>
+    <linearGradient id="field" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#5f4d35"/><stop offset=".39" stop-color="#342f25"/><stop offset=".53" stop-color="#29392e"/><stop offset=".87" stop-color="#263c32"/><stop offset="1" stop-color="#142a27"/></linearGradient>
+    <linearGradient id="side-field" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#63533a"/><stop offset=".23" stop-color="#32372c"/><stop offset=".49" stop-color="#23352e"/><stop offset=".82" stop-color="#1b332c"/><stop offset="1" stop-color="#313426"/></linearGradient>
+    <radialGradient id="backlight"><stop stop-color="#c5904e" stop-opacity=".25"/><stop offset="1" stop-color="#b69a64" stop-opacity="0"/></radialGradient>
+    <radialGradient id="floorlight"><stop stop-color="#78a682" stop-opacity=".22"/><stop offset="1" stop-color="#95b2aa" stop-opacity="0"/></radialGradient>
+    <linearGradient id="beam" x2="0" y2="1"><stop stop-color="#a39069"/><stop offset=".27" stop-color="#524531"/><stop offset=".5" stop-color="#2d2b21"/><stop offset=".83" stop-color="#555039"/><stop offset="1" stop-color="#181d16"/></linearGradient>
+    <pattern id="glass-grain" width="512" height="512" patternUnits="userSpaceOnUse"><image href="${asset}glass/ui/pane.jpg" width="512" height="512"/></pattern>
+    <pattern id="quarry" width="148" height="190" patternUnits="userSpaceOnUse">
+       <path d="M0 0 74 95 148 0 74 -95Z" fill="#8b7951" opacity=".12"/>
+       <path d="M0 0 74 95 0 190 -74 95Z" fill="#657052" opacity=".15"/>
+       <path d="M74 95 148 190 222 95 148 0Z" fill="#497166" opacity=".14"/>
+       <path d="M0 0 148 190M148 0 0 190m0-190 74 95 74-95m-148 190 74-95 74 95" fill="none" stroke="#18211a" stroke-width="2.7"/>
+       <path d="M3 0 77 95 3 190M145 0 71 95 145 190" fill="none" stroke="#a89b6b" stroke-opacity=".22"/>
+    </pattern>
+  </defs>
+  <path d="M11 1065H1909M11 1080H1909" stroke="#070b08" stroke-width="10"/>
+  <path d="M12 1066H1908" stroke="#6a5b43" stroke-opacity=".7" stroke-width="1.5"/>
+  ${profiles.map(([name,d])=>`<path d="${d}" fill="#000" stroke="#080908" stroke-width="33" opacity=".6"/>`).join("")}
+  <g clip-path="url(#clip-middle)">
+    <rect x="338" y="17" width="1244" height="1042" fill="url(#field)"/>
+    <rect x="338" y="17" width="1244" height="1042" fill="url(#glass-grain)" opacity=".37" style="mix-blend-mode:overlay"/>
+    <ellipse cx="960" cy="260" rx="658" ry="381" fill="url(#backlight)"/>
+    <ellipse cx="960" cy="857" rx="648" ry="352" fill="url(#floorlight)"/>
+    <rect x="338" y="17" width="1244" height="1042" fill="url(#quarry)" opacity=".63"/>
+    ${rails}
+    ${bough(356,100,1,.78)}${bough(1564,100,-1,.78)}
+    ${bough(359,930,1,.86)}${bough(1561,930,-1,.86)}
+    ${bough(407,588,1,.6)}${bough(1513,588,-1,.6)}
+    <g stroke="#151b16" stroke-width="8" fill="none"><path d="M340 151Q413 94 493 110Q615 55 751 68Q867 38 934 62M1580 151Q1507 94 1427 110Q1305 55 1169 68Q1053 38 986 62"/></g>
+    <g stroke="#998058" stroke-width="1.4" fill="none"><path d="M340 151Q413 94 493 110Q615 55 751 68Q867 38 934 62M1580 151Q1507 94 1427 110Q1305 55 1169 68Q1053 38 986 62"/></g>
+    <path d="M339 ${transom}H1581" stroke="#10150f" stroke-width="13"/>
+    <path d="M339 ${transom}H1581" stroke="url(#beam)" stroke-width="8"/>
+    <path d="M339 ${transom-3}H1581" stroke="#ae9163" stroke-opacity=".55" stroke-width="1"/>
+  </g>
+  ${[["left",27,175,323],["right",1597,1745,1893]].map(([name,x,cx,edge])=>`<g clip-path="url(#clip-${name})">
+    <rect x="${x}" y="51" width="298" height="1008" fill="url(#side-field)"/>
+    <rect x="${x}" y="51" width="298" height="1008" fill="url(#glass-grain)" opacity=".44" style="mix-blend-mode:overlay"/>
+    <rect x="${x}" y="51" width="298" height="1008" fill="url(#quarry)" opacity=".64"/>
+    <ellipse cx="${cx}" cy="270" rx="220" ry="354" fill="url(#backlight)"/>
+    <ellipse cx="${cx}" cy="867" rx="240" ry="340" fill="url(#floorlight)"/>
+    <path d="M${x} 144Q${cx} 160 ${edge} 144M${x} 653H${edge}M${x} 849H${edge}M${x} 1019Q${cx} 955 ${edge} 1019" stroke="#101915" stroke-width="4" fill="none"/>
+    <path d="M${x} 144Q${cx} 160 ${edge} 144M${x} 653H${edge}M${x} 849H${edge}M${x} 1019Q${cx} 955 ${edge} 1019" stroke="#a2885d" stroke-opacity=".51" stroke-width="1" fill="none"/>
+    ${tracery(cx,55,edge,177)}
+    ${rose(cx,96,25)}
+    ${name==="right" && view==="fight" ? oakBadge() : ""}
+    ${bough(x+17,869,1,1.1)}${bough(edge-14,975,-1,1.06)}
+    <path d="M${x+13} 178V1045H${edge-13}V178" fill="none" stroke="#96845c" stroke-opacity=".43" stroke-width="1"/>
+  </g>`).join("")}
+  ${outlines}
+  ${rose(960,38,17)}
+  </svg>`;
+}
+
+document.getElementById("window-art").innerHTML = windowArt();
+
+const cards = {};
+function add(id,folder,name,tribe,tier,attack,health,summary,rules,extra={}) {
+  cards[id] = {id,folder,name,tribe,tier,attack,health,summary,rules,...extra};
+}
+add("bramble-runner","thorn","Bramble Runner","Briar",1,4,5,"Seeds Compost on death","Seed.",{price:2,marks:[["seed","Seed"]],helps:[["Seed","When this dies, add a copy of it to your Compost."]]});
+add("home-guard","pigeon","Home Guard","Pigeon",3,3,11,"Guard · Reserve","Guard. Reserve.",{price:4,marks:[["shield","Guard"],["reserve","Reserve"]],helps:[["Guard","Enemies must attack this first."],["Reserve","In a fight, steps from your hand into a slot a friendly unit died in. Your Guard post first, up to 2 per fight."]]});
+add("hayloft-aunt","mouse","Hayloft Aunt","Mouse",2,2,9,"Recruits a Cousin","Hand-me-down. Recruit: Add a Cousin to your hand.",{price:3,marks:[["handdown","Hand-me-down"]],helps:[["Hand-me-down","When this dies, the nearest friendly Mouse gains its Attack this fight."],["Cousin","A 2/2 Mouse with Hand-me-down."]]});
+add("sweetbriar","thorn","Sweetbriar","Briar",2,3,7,"+1/+1 per Compost","Whenever a unit goes into your Compost, gain +1/+1 permanently.",{price:3});
+add("shrew-cutpurse","mouse","Shrew Cutpurse","Mouse",2,2,4,"+2 gold on Pile on","Pile on 1. After this piles on, gain 2 gold.",{price:3,marks:[["pile","Pile on 1",1]],helps:[["Pile on","After another friendly Mouse attacks, Hit its target. Works once for Pile on 1."]]});
+add("famine-caller","locust","Famine-caller","Locust",3,15,11,"Tide +2 on death","When this dies, Tide +2.",{renown:7,helps:[["Stats","6 Attack, 4 Health before Tide (+2 Attack) and slot Renown (+7/+7)."],["Tide","Your Locusts have this much extra Attack for the rest of the game."]]});
+add("squadron-leader","pigeon","Squadron Leader","Pigeon",3,4,9,"Grants Sortie +3 Atk","The units in front of this have Sortie and +3 Attack.",{helps:[["Sortie","Attacks the enemy back row while it has units."]]});
+add("bell-ringer","mouse","Bell-ringer","Mouse",3,5,7,"Hand-me-down +3","Hand-me-down. Your Hand-me-downs give +3 more Attack.",{renown:2,marks:[["handdown","Hand-me-down"]],helps:[["Hand-me-down","When this dies, the nearest friendly Mouse gains its Attack this fight."],["Stats","3 Attack, 5 Health before slot Renown (+2/+2)."]]});
+add("granary-glutton","locust","Granary Glutton","Locust",4,7,7,"Eats sold Locusts","Whenever you sell a Locust, this eats it.",{helps:[["Stats","5 Attack, 7 Health before Tide (+2 Attack)."]]});
+add("wing-commander","pigeon","Wing Commander","Pigeon",5,11,17,"Sortie kills → 3 Renown","Sortie. Charge 4: After one of your Pigeons with Sortie kills, give its slot 3 Renown.",{renown:3,pips:4,marks:[["sortie","Sortie"]],helps:[["Sortie","Attacks the enemy back row while it has units."],["Charge","Works this many times, then stops. Refills each fight."],["Stats","8 Attack, 14 Health before slot Renown (+3/+3)."]]});
+add("blackberry-sprawl","thorn","Blackberry Sprawl","Briar",3,4,8,"Grow 2 · Compost","Grow 2.",{marks:[["grow","Grow 2",2]],helps:[["Grow 2","At the start of the fight, gain +2/+2 for every 2 units in your Compost."]]});
+add("hedge-lancer","badger","Hedge Lancer","Badger",3,6,12,"Fury 1 · Safe first attack","Fury 1. The first time this attacks each fight, it takes no damage.",{marks:[["flame","Fury 1",1]],helps:[["Fury 1","Whenever this attacks or is attacked, gain +1 Attack, and +1 more for each unit you're outnumbered by."]]});
+add("sentry","pigeon","Sentry","Pigeon",1,2,5,"Gives slot 1 Renown","Supply 6: At the end of your turn, give this slot 1 Renown.",{price:2,pips:6,supply:true,helps:[["Supply","Works this many times in all, then never again."],["Renown","The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."]]});
+add("hedgerow-scout","mouse","Hedgerow Scout","Mouse",1,3,10,"Hand-me-down","Hand-me-down.",{price:2,marks:[["handdown","Hand-me-down"]],helps:[["Hand-me-down","When this dies, the nearest friendly Mouse gains its Attack this fight."]]});
+add("territorial","pigeon","Territorial","Pigeon",1,5,7,"Reserve","Reserve.",{price:2,marks:[["reserve","Reserve"]],helps:[["Reserve","In a fight, steps from your hand into a slot a friendly unit died in. Your Guard post first, up to 2 per fight."]]});
+add("bumblebee","shared","Bumblebee","Neutral",1,2,3,"Stings its killer for 4","When this dies, deal 4 damage to the unit that killed it.",{price:2});
+add("green-recruit","locust","Green Recruit","Locust",1,2,2,"Hopper on death","When this dies, summon a Hopper.",{price:2});
+add("greatsword-bearer","badger","Greatsword Bearer","Badger",4,7,15,"Grants Overrun","Squire. The units in front of this have Overrun.",{renown:3,marks:[["pawn","Squire"]]});
+add("briar-king","thorn","Briar King","Briar",6,12,20,"Front Briars gain Grow 2","Your other front-row Briars have Grow 2.",{renown:4,marks:[["thorns","Thorns 4",4]]});
+add("holly-knight","thorn","Holly Knight","Briar",4,12,19,"Front Briars gain Thorns","Your front-row Briars have +1 Thorns for every 3 units in your Compost.",{renown:7,marks:[["grow","Grow 2",2]]});
+add("the-eighth-plague","locust","The Eighth Plague","Locust",5,6,14,"Damages on ally death","After a friendly unit dies, deal damage to a random enemy equal to the number of friendly units that died this fight.",{renown:2});
+add("weasel","shared","Weasel","Neutral",5,9,13,"Hits enemy summons","Charge 6: After an enemy is summoned, Hit it.",{renown:1,pips:6,helps:[["Charge","Works this many times, then stops. Refills each fight."]]});
+add("gorger","locust","Gorger","Locust",4,38,68,"Eats units you sell","The first 2 times you sell a unit each turn, this eats it.",{golden:true});
+add("dame-bodkin","mouse","Dame Bodkin","Mouse",5,6,9,"Double damage on Pile on","Pile on 2. Your Mice's pile-on hits deal double damage.",{marks:[["pile","Pile on 2",2]]});
+add("cousin","mouse","Cousin","Mouse",1,2,2,"Hand-me-down","Hand-me-down.",{marks:[["handdown","Hand-me-down"]]});
+add("sharpen","spell","Sharpen","Spell",1,null,null,"+2/+2 to an ally","Give a friendly unit +2/+2.",{price:1,image:"spell-sharpen"});
+add("seek","spell","Seek","Spell",2,null,null,"Discover a unit","Discover a unit.",{price:3,image:"spell-seek"});
+
+const offers = first
+  ? ["sentry","hedgerow-scout","territorial","bumblebee","green-recruit"]
+  : ["bramble-runner","home-guard","hayloft-aunt","sweetbriar","shrew-cutpurse"];
+const yourFront = ["famine-caller","squadron-leader","bell-ringer","granary-glutton"];
+const yourBack = ["wing-commander","blackberry-sprawl","hedge-lancer"];
+const enemyFront = ["greatsword-bearer","briar-king","holly-knight","the-eighth-plague"];
+const enemyBack = ["weasel","gorger","dame-bodkin"];
+const roster = [
+  ["Pipkin","pipkin",31],
+  ["Old Mother Mousewife","old_mother_mousewife",28],
+  ["Dame Hoolet","dame_hoolet",23],
+  ["Little King Wren","little_king_wren",18],
+  ["March Hare","march_hare",16],
+  ["Hob Mumblecrust","hob_mumblecrust",16],
+  ["Dame Farthing","dame_farthing",11],
+  ["Brother Bracken","brother_bracken",null]
+];
+const self = roster[6], enemy = roster[4];
+const roundels = [[],[19.79,77.85,80.14,77.85],[20.57,77,79.5,77],[19.86,75.85,80,76.05],[19.2,76.08,80.68,76.02],[19.73,75.1,80,75.02],[19.64,77.52,79.2,77.48]];
+const markName = m => m[1];
+const atta = c => c.fightAttack ?? c.attack;
+const hp = c => c.fightHealth ?? c.health;
+const locationMeta = id => {
+  if (recruit && offers.includes(id)) return "offer";
+  if (id === "seek") return "hand";
+  if (id === "sharpen") return "offer";
+  if (recruit) return "board";
+  return "fight";
+};
+const portrait = (key) => `<img class="portrait" src="${asset}glass/portraits/${key}.jpg" alt="">`;
+const health = (amount) => `<span class="health" aria-label="${amount} Health">${icon("heart")}${amount}</span>`;
+const coin = (amount) => `<span class="coin" aria-label="${amount} gold">${amount}</span>`;
+const bracket = (txt,classes="") => `<span class="plate-button ${classes}">${txt}</span>`;
+function counters(compost) {
+  return `<div class="counters"><button type="button" class="counter" data-read="compost">${icon("heap")} Compost <b>${compost}</b></button><button type="button" class="counter" data-read="tide">${icon("wave")} Tide <b>2</b></button></div>`;
+}
+function profile(player,hpValue,tag="") {
+  return `<div class="player">${portrait(player[1])}<div><h2>${player[0]}</h2><div class="player-meta">${health(hpValue)} ${tag}</div></div></div>`;
+}
+function emptySlot(label) {
+  return `<div class="card-face empty-slot" role="img" aria-label="${label}">
+    <svg class="slot-layer" viewBox="0 0 560 1000" aria-hidden="true">
+      <path d="M280 9 551 173V826L280 991 9 826V173Z" fill="#1d2a25" fill-opacity=".79" stroke="#0b1611" stroke-width="14"/>
+      <path d="M280 30 532 183V815L280 970 28 815V183Z" fill="none" stroke="#89754f" stroke-opacity=".79" stroke-width="4"/>
+      <path d="M280 47 515 191V807L280 953 45 807V191Z" fill="none" stroke="#53634d" stroke-width="3"/>
+      <path d="M280 422 324 500 280 578 236 500Z M280 447 305 500 280 553 255 500Z" fill="none" stroke="#7a825e" stroke-opacity=".66" stroke-width="5"/>
+    </svg>
+  </div>`;
+}
+function cardFace(id, override={}) {
+  const c = {...cards[id],...override};
+  const coords = roundels[c.tier];
+  const image = c.folder === "spell" ? `glass/art/${c.image}.jpg` : `units/${c.folder}/${id}.jpg`;
+  const marks = c.marks?.map(([glyph,name,n])=>`<span class="mark" aria-hidden="true" title="${name}">${icon(glyph)}${n ?? ""}</span>`).join("") ?? "";
+  const stat = (value,x,y,cls) => `<span class="unit-stat ${cls}" style="left:${x}%;top:${y}%">${value}</span>`;
+  const label = [c.name,c.golden && "Golden",`Tier ${c.tier}`, c.attack != null && `${atta(c)} Attack, ${hp(c)} Health`,c.marks?.map(markName).join(", "),c.renown && `Renown ${c.renown}`].filter(Boolean).join(", ");
+  return `<button type="button" class="card-face ${c.golden ? "golden" : ""}" data-card="${id}" aria-label="${label}" aria-controls="read-content" aria-pressed="false">
+    <img class="card-art" src="${asset + image}" alt=""><img class="card-frame" src="${asset}glass/frames/tier${c.tier}.webp" alt="">
+    ${c.attack == null ? "" : stat(atta(c), coords[0],coords[1],"atk") + stat(hp(c),coords[2],coords[3],c.wounded ? "hp wounded" : "hp")}
+    ${marks ? `<span class="mark-row">${marks}</span>` : ""}
+    ${c.pips ? `<span aria-hidden="true" class="pips ${c.supply?"supply":""}">${"<i></i>".repeat(c.pips)}</span>` : ""}
+    ${c.renown ? `<span aria-hidden="true" class="renown">${icon("star")} Renown ${c.renown}</span>` : ""}
+  </button>`;
+}
+function caption(id, withPrice) {
+  const c = cards[id];
+  return `<div class="card-caption"><div class="caption-title">${c.name}${withPrice ? coin(c.price) : ""}</div><p class="caption-effect">${c.summary}</p></div>`;
+}
+function placement(x,y,w) {
+  return `style="--x:${x}px;--y:${y}px;--w:${w}px"`;
+}
+function shop() {
+  const gold = first ? 5 : 20, tier = first ? 1 : 5, upgrade = first ? 8 : 23;
+  return `<section aria-label="Shop">
+    <div class="placed shop-label"><h2 class="section-name">Shop</h2></div>
+    <div class="placed shop-controls">
+      <div class="purse"><span class="coin">${icon("spark")}</span><strong>${gold}</strong><span class="gold-word">Gold</span></div>
+      <button class="plate-button upgrade" aria-disabled="true" aria-label="Upgrade from tier ${tier} to tier ${tier+1}, costs ${upgrade} gold, need ${upgrade-gold} more gold">${icon("up")} Upgrade ${coin(upgrade)}</button>
+      <div class="readout upgrade-meta"><span>Tier ${tier} → ${tier+1}</span><span class="upgrade-shortfall">Need ${upgrade-gold} more gold</span><span>${icon("stall")} −${first?1:3} next turn</span></div>
+      <div class="readout refresh-meta">10 at this price</div>
+      <button class="plate-button" aria-label="Refresh for 1 gold">${icon("refresh")} Refresh ${coin(1)}</button>
+      <button class="plate-button" id="freeze" type="button" aria-pressed="false">${icon("freeze")} <span>Freeze</span></button>
+    </div>
+    ${offers.map((id,i)=>`<div class="shop-offer" ${placement(584+i*188,110,175)}>${cardFace(id)}${caption(id,true)}</div>`).join("")}
+    <section class="placed spell-light" aria-label="Shop spells">
+      <h3 class="cap">Spells</h3>
+      <div class="spell-pair">${[0,1].map(()=>`<div class="spell-offer">${cardFace("sharpen")}${coin(1)}</div>`).join("")}</div>
+      <p class="spell-caption">Sharpen</p><p class="spell-effect">+2/+2 to an ally</p>
+    </section>
+  </section>`;
+}
+function boardRow(ids, positions, y, w, kind, options={}) {
+  return ids.map((id,i)=>{
+    const {captioned=false,echo=false,variants={}} = options;
+    const art = id ? cardFace(id,variants[id]) : emptySlot(`${kind} ${i+1}, empty`);
+    return `<div class="board-piece ${echo ? "after-echo" : ""}" ${placement(positions[i],y,w)}>${art}${captioned&&id?caption(id,false):""}</div>`;
+  }).join("");
+}
+const frontPositions = [438,786,1134,1482], backPositions = [612,960,1308];
+function recruitBoard() {
+  const fronts = first ? Array(4).fill(null) : yourFront;
+  const backs = first ? Array(3).fill(null) : yourBack;
+  return `<section aria-label="Your board">
+    <h2 class="sr-only">Your board</h2>
+    <div class="placed row-key front-key">Front row</div>
+    <div class="placed row-key back-key">Back row</div>
+    ${boardRow(fronts,frontPositions,526,168,"Front slot",{captioned:true})}
+    ${boardRow(backs,backPositions,705,168,"Back slot",{captioned:true})}
+    ${first ? '<p class="cue placed">Drag a unit from the shop to an empty slot.</p>' : ""}
+  </section>`;
+}
+function fightBoard() {
+  const front = after ? Array(4).fill(null) : [...yourFront.slice(0,3),null];
+  const back = after ? Array(3).fill(null) : yourBack;
+  const bottomVariants = {"blackberry-sprawl":{fightAttack:8,fightHealth:12}};
+  return `<section aria-label="March Hare's board">
+    ${after ? '<h2 class="placed after-board-title">March Hare’s starting board</h2>' : '<h2 class="sr-only">March Hare’s board</h2>'}
+    <div class="placed row-key fight-row-key far">Back row</div>
+    <div class="placed row-key fight-row-key enemy-front">Front row</div>
+    ${boardRow(enemyBack,backPositions,after ? 106 : 81,160,"Back slot")}
+    ${boardRow(enemyFront,frontPositions,233,160,"Front slot")}
+  </section>
+  <div class="fight-centre" aria-hidden="true">${bracket(`${icon("swords")} ${after ? "Fight ended" : "Fight"}`)}</div>
+  <section aria-label="Your board">
+    <h2 class="sr-only">Your board</h2>
+    ${after ? "" : '<div class="placed row-key fight-row-key near">Front row</div><div class="placed row-key fight-row-key your-back">Back row</div>'}
+    ${boardRow(front,frontPositions,548,160,"Front slot",{echo:after})}
+    ${boardRow(back,backPositions,747,160,"Back slot",{echo:after,variants:bottomVariants})}
+  </section>`;
+}
+function hand() {
+  const ids = first ? [] : ["seek"];
+  return `<section class="side hand" aria-label="Hand, ${ids.length} of 7">
+    <div class="light-heading"><h2 class="section-name">Hand</h2><strong>${ids.length}/7</strong></div>
+    <div class="hand-tray">${Array.from({length:7},(_,i)=>{
+      const firstRow = i < 4;
+      const x = firstRow ? i*63+5 : (i-4)*63+36.5;
+      const y = firstRow ? 0 : 127;
+      return `<div class="hand-slot" style="top:${y}px;left:${x}px">${ids[i] ? cardFace(ids[i]) + `<span class="hand-label">${cards[ids[i]].name}</span>` : emptySlot("Empty hand slot")}</div>`;
+    }).join("")}</div>
+  </section>`;
+}
+function menu() {
+  const entries = recruit||after ? ["Past boards","Cards","Settings"] : ["Settings"];
+  return `<details class="side game-menu"><summary class="plate-button">Game ${icon("menu")}</summary><div class="game-menu-content">${entries.map(x=>`<button type="button">${x}</button>`).join("")}</div></details>`;
+}
+function standings() {
+  const players = first ? [self,enemy,roster[0],roster[1],roster[2],roster[3],roster[5],roster[7]] :
+    after ? [enemy,roster[2],roster[5],roster[0],roster[1],roster[3],self,roster[7]] : roster;
+  return `<section class="side right roster" aria-label="${after ? "Final standings" : "Standings"}">
+    <div class="light-heading"><h2 class="section-name">${after ? "Final standings" : "Standings"}</h2></div>
+    <ol class="roster-list">${players.map(([name,key,amount],i)=>{
+      const isSelf = key === self[1], isNext = key === enemy[1] && !after;
+      const hpValue = first ? 40 : after ? (i === 0 ? 16 : 0) : amount;
+      const out = hpValue === null || hpValue === 0;
+      const status = isNext ? "Next fight" : isSelf ? "You" : "";
+      const rank = first ? "–" : i+1;
+      return `<li class="roster-row ${isNext?"next":""} ${isSelf?"you":""} ${out?"eliminated":""}">
+        <span class="roster-rank">${rank}</span>${portrait(key)}
+        <span class="roster-name">${name}${status ? `<span class="roster-status">${status}</span>` : ""}</span>
+        <span class="roster-end ${out?"out":""}" aria-label="${out?"Out":`${hpValue} Health`}">${out?"Out":hpValue}</span>
+      </li>`;
+    }).join("")}</ol>
+  </section>`;
+}
+function turnAction() {
+  return `<section class="side right turn-action" aria-label="End turn">
+    <div class="next-profile">${icon("swords")} March Hare ${health(first?40:16)}</div>
+    ${first ? '<button class="action-button" type="button">End turn</button>' : '<a class="action-button" href="?view=fight">End turn</a>'}
+    <p class="income">${icon("spark")} +${first?7:19} gold next turn</p>
+  </section>`;
+}
+function reader() {
+  return `<section class="side reader seamed" aria-label="Card details">
+    <div class="reader-title">${icon("glass")} <h2 class="cap">Card details</h2></div>
+    <div class="reader-content" id="read-content" aria-live="polite" aria-atomic="true"></div>
+  </section>`;
+}
+function defeat() {
+  return `<section class="result" aria-label="Fight result">
+    <svg class="result-seams" viewBox="0 0 618 363" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M33 8H585L610 40V323L585 355H33L8 323V40Z" fill="none" stroke="#ad8c62" stroke-opacity=".56"/>
+      <g fill="#966449" fill-opacity=".45" stroke="#251b16" stroke-width="2"><path d="M8 40 44 20 31 62 8 91Z"/><path d="M610 40 574 20 587 62 610 91Z"/><path d="M8 323 44 343 31 301 8 272Z"/><path d="M610 323 574 343 587 301 610 272Z"/></g>
+      <path d="M25 78V285M593 78V285" stroke="#a7895d" stroke-opacity=".39"/>
+    </svg>
+    <h2>Defeat</h2><p class="result-place">You placed 7th</p>
+    <div class="loss-stats">
+      <p class="loss-stat"><b>−13</b><span>Damage taken</span></p>
+      <p class="loss-stat"><b>11 → 0</b><span>Your Health</span></p>
+    </div>
+    <p class="loss-detail">Your board was wiped out.</p>
+    <p class="loss-detail"><b>10 turn damage + 3 for a heavy loss.</b><br>March Hare kept more than half their starting units.</p>
+  </section>`;
+}
+function fightOpponent() {
+  return `<section class="side right fight-profile" aria-label="Opponent">
+    <h2 class="cap">Opponent</h2>${portrait(enemy[1])}
+    <p class="section-name">March Hare</p>${health(16)}
+  </section>`;
+}
+function bottomAction() {
+  return after
+    ? `<div class="side right after-action"><a class="action-button" href="?view=first">Play again</a><div class="secondary-actions"><button class="plate-button">Start screen</button><button class="plate-button">Quit</button></div></div>`
+    : `<div class="side right fight-skip"><a class="action-button" href="?view=after">${icon("skip")} Skip</a></div>`;
+}
+const selfHealth = first ? 40 : after ? 0 : 11;
+screen.innerHTML = recruit
+  ? `<section class="side left-top"><p class="turn">Turn ${first?1:9}</p>${profile(self,selfHealth,"You")}${first?"":counters(3)}</section>
+      ${reader()}${shop()}${recruitBoard()}${hand()}${standings()}${turnAction()}${menu()}`
+  : `<section class="side left-top"><p class="turn">Turn 9</p>${after ? profile(self,selfHealth,"Eliminated") : ""}</section>
+      ${reader()}${fightBoard()}
+      ${after ? defeat()+standings() : `<section class="side fight-you">${profile(self,selfHealth,"You")}${counters(4)}</section>`+fightOpponent()}
+      ${bottomAction()}${menu()}`;
+
+const defaultCard = recruit ? offers[0] : after ? "gorger" : "greatsword-bearer";
+let pinned = null;
+let visible = null;
+function renderRead(id) {
+  if (visible === id) return;
+  visible = id;
+  const pane = document.getElementById("read-content");
+  const card = cards[id];
+  const inCombat = view === "fight";
+  if (!card) {
+    const isCompost = id === "compost";
+    pane.innerHTML = isCompost
+      ? `<h3>Compost</h3><div class="meta">${inCombat?4:3} units · Newest first</div><p class="rules">${inCombat?"Granary Glutton<br>":""}Old Campaigner<br>Blackthorn Sapling<br>Blackthorn Sapling</p><p class="help">Units you bought go here when you sell them.</p>`
+      : '<h3>Tide</h3><div class="meta">+2 Attack</div><p class="rules">Your Locusts have this much extra Attack for the rest of the game.</p>';
+  } else {
+    const use = locationMeta(id);
+    const cost = card.price && (use === "offer" || use === "hand") ? ` · ${card.price} gold` : "";
+    const sale = use === "board" ? `<p class="help"><b>Sell for ${Math.ceil(card.tier/2)} gold</b></p>` : "";
+    const effectLines = card.rules.split(/(?<=\.) (?=[A-Z])/);
+    const keywordIcons = {Seed:"seed",Guard:"shield",Reserve:"reserve","Hand-me-down":"handdown",Sortie:"sortie","Pile on":"pile",Grow:"grow",Fury:"flame",Renown:"star",Tide:"wave",Compost:"heap"};
+    const keyword = (words) => {
+      const term = Object.keys(keywordIcons).find(key => words === key || words.startsWith(key+" ") || words.startsWith(key+"."));
+      return term ? icon(keywordIcons[term]) : "";
+    };
+    const notes = card.helps ?? [];
+    const context = id === "gorger" && after
+      ? '<p class="help"><b>38 Attack · 68 Health at the start.</b> March Hare’s largest unit began in the back row.</p>' : "";
+    pane.innerHTML = `<h3>${card.golden ? "Golden " : ""}${card.name}</h3><p class="meta">${card.tribe} · Tier ${card.tier}${cost}</p>
+      ${effectLines.map(line=>`<p class="rules effect">${keyword(line)}${line}</p>`).join("")}${context}
+      ${notes.map(([term,rule])=>`<p class="help">${keyword(term)}<b>${term}</b> · ${rule}</p>`).join("")}${sale}`;
+  }
+  pane.scrollTop = 0;
+}
+const inspectors = [...document.querySelectorAll("[data-card],[data-read]")];
+for (const node of inspectors) {
+  const id = node.dataset.card ?? node.dataset.read;
+  node.addEventListener("pointerenter",()=>renderRead(id));
+  node.addEventListener("pointerleave",()=>renderRead(pinned ?? defaultCard));
+  node.addEventListener("focus",()=>renderRead(id));
+  node.addEventListener("blur",()=>renderRead(pinned ?? defaultCard));
+  node.addEventListener("click",()=>{
+    const wasPinned = node.getAttribute("aria-pressed") === "true";
+    pinned = wasPinned ? null : id;
+    for (const button of inspectors) button.setAttribute("aria-pressed",String(button===node&&!wasPinned));
+    renderRead(pinned ?? id);
+  });
+}
+if (view === "fight") {
+  document.addEventListener("keydown", (event) => {
+    if (event.code === "Space" && event.target === document.body && !event.repeat) {
+      event.preventDefault();
+      location.href = "?view=after";
+    }
+  });
+}
+if (recruit) {
+  const freeze = document.getElementById("freeze");
+  freeze.addEventListener("click",()=>{
+    const frozen = freeze.getAttribute("aria-pressed") === "true";
+    freeze.setAttribute("aria-pressed",String(!frozen));
+    freeze.lastElementChild.textContent = frozen ? "Freeze" : "Unfreeze";
+  });
+}
+renderRead(defaultCard);
+</script>
+</body>
+</html>

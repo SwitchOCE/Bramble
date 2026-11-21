@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bramble · The Reading Book</title>
+<style>
+@font-face{font-family:Alegreya;src:url("../../../../../assets/glass/fonts/Alegreya[wght].ttf");font-weight:400 900}
+@font-face{font-family:Alegreya Sans;src:url("../../../../../assets/glass/fonts/AlegreyaSans-Regular.ttf");font-weight:400}
+@font-face{font-family:Alegreya Sans;src:url("../../../../../assets/glass/fonts/AlegreyaSans-Bold.ttf");font-weight:700}
+:root{
+  color-scheme:dark;
+  --ivory:#fff1d9;--dim:#d3cfbe;--jade:#ddf2df;--lead:#121613;
+  --dark:#182421;--edge:#83765b;--body:"Alegreya Sans",sans-serif;--serif:Alegreya,serif;
+  --pane:url("../../../../../assets/glass/ui/pane.jpg");
+  --hex:polygon(50% 0%,100% 16.25%,100% 83.75%,50% 100%,0 83.75%,0 16.25%);
+}
+*{box-sizing:border-box}
+body{margin:0;background:#131b17;color:var(--ivory);font:20px/1.15 var(--body);font-variant-numeric:lining-nums tabular-nums}
+button,a{color:inherit;font:inherit}
+button{cursor:pointer}
+button:disabled{cursor:default}
+a{text-decoration:none}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #fff3c4;outline-offset:3px}
+h1,h2,h3,p,figure{margin:0}
+h1,h2,h3{font-family:var(--serif)}
+#stage{
+  width:1920px;height:1080px;position:relative;overflow:hidden;margin:auto;isolation:isolate;
+  background:radial-gradient(ellipse at 50% 33%,#47554a88,transparent 70%),linear-gradient(150deg,#28291fe0,#111a15bf 72%,#211712d9),url("../../../../../assets/glass/ui/stone.jpg") center/540px;
+}
+#stage::before{content:"";position:absolute;inset:13px;border:1px solid #b1a28173;box-shadow:0 0 0 4px #161a15,inset 0 0 0 3px #121713,inset 0 0 0 5px #4e4d37;pointer-events:none;z-index:-1}
+.tiny{font-size:16px;line-height:1.12}
+.eyebrow{font-size:16px;text-transform:uppercase;letter-spacing:.13em;font-weight:700;color:var(--jade)}
+.glass{
+  border:1px solid #7d8170;border-radius:4px;
+  background:linear-gradient(164deg,#2b3932f5 0%,#1c2722f7 54%,#252e27fc 55%,#19221efc 100%),var(--pane) center/240px;
+  box-shadow:0 0 0 2px #101613,inset 0 1px #b5b19735;
+}
+.action{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:7px 15px;min-height:38px;font-weight:700;font-size:19px;white-space:nowrap}
+.action:hover:not(:disabled){border-color:#e1cfaa}
+.primary{border-color:#f4cf83;background:linear-gradient(168deg,#f8e2ab,#e0b475 55%,#c89b58 56%,#e7c589);color:#2a1a10;box-shadow:0 0 0 3px #191711,inset 0 0 0 2px #fff1bb6d;font:800 23px var(--serif);min-height:46px;padding-inline:25px}
+.icon{width:19px;height:19px;display:inline-block;vertical-align:middle;flex:none}
+.coins{display:inline-flex;align-items:center;gap:4px;font-weight:700;white-space:nowrap}
+.display-number{font:800 27px/1 var(--serif)}
+.lobby{position:absolute;top:30px;left:39px;right:39px;height:90px;display:grid;grid-template-columns:178px repeat(8,minmax(0,1fr));gap:3px;padding:5px;border:1px solid #73654b;border-radius:13px 13px 4px 4px;background:#131914;box-shadow:0 0 0 3px #171813,inset 0 0 0 2px #4e4a38,0 6px 16px #070a08a6}
+.phase{display:flex;justify-content:center;flex-direction:column;align-items:flex-start;padding:0 16px 0 54px;position:relative;border:1px solid #66664c;border-radius:7px 0 0 0;background:linear-gradient(145deg,#263a30,#1b2924 50%,#242b21 51%,#202820)}
+.phase h1{font-size:31px;font-weight:800;line-height:1.02}
+.phase .icon{width:30px;height:38px;position:absolute;left:13px;top:21px;color:#c8b581}
+.seat{display:grid;grid-template-columns:22px 47px 1fr;align-items:center;gap:7px;padding:4px 7px;background:linear-gradient(120deg,#2e3c34,#202c26 47%,#29372f 48%,#1d2924);border:1px solid #555c4b}
+.seat:last-child{border-radius:0 7px 0 0}
+.seat.is-next{background:linear-gradient(150deg,#304e43,#223d32 56%,#2c4338);border-color:#9fba9f}
+.seat.is-you{background:linear-gradient(145deg,#403e31,#2e3026 58%,#3b3730);border-color:#9a8863}
+.seat.is-out img{filter:saturate(.38)}
+.seat .place{font:700 19px/1 var(--serif);color:var(--dim);text-align:center}
+.portrait{width:46px;height:46px;display:block;object-fit:cover;border-radius:50%;border:2px solid #ae9c74;box-shadow:0 0 0 2px #111612}
+.seat-text{display:grid;gap:3px;min-width:0}
+.seat-name{font:700 18px/.95 var(--body);overflow-wrap:normal}
+.seat-status{display:flex;align-items:center;gap:6px;color:var(--dim);font-size:16px;white-space:nowrap}
+.seat-status strong{font-size:20px;line-height:1;color:var(--ivory)}
+.seat-status .icon{width:13px;height:13px;color:#e9b6b0}
+.spread{position:absolute;inset:140px 39px 72px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.leaf{
+  min-width:0;position:relative;padding:23px 30px 18px;isolation:isolate;
+  border:4px solid #151a15;border-radius:28px 8px 11px 19px;
+  background:radial-gradient(ellipse at 12% 18%,#45615680,transparent 69%),linear-gradient(155deg,#253a32dc,#1b3030e8 58%,#162523f5),var(--pane) center/540px;
+  box-shadow:0 0 0 1px #c1ab7a,0 0 0 4px #4b4435,0 0 0 7px #1d1d16,0 12px 26px #090c09bf,inset 0 0 0 3px #93815a,inset 0 0 0 6px #121a16,inset 0 0 38px #050c0a80;
+}
+.right-leaf{border-radius:8px 28px 19px 11px;background:radial-gradient(ellipse at 91% 7%,#69574a87,transparent 72%),linear-gradient(210deg,#3a413bdf,#28343ae9 47%,#1f2929f5),var(--pane) center/540px}
+.leaf-content{height:100%;position:relative;z-index:1}
+.tracery{position:absolute;pointer-events:none;inset:8px;width:calc(100% - 16px);height:calc(100% - 16px);border-radius:20px 5px 8px 12px;z-index:-1}
+.right-leaf .tracery{transform:scaleX(-1)}
+.binding{position:absolute;top:-3px;bottom:-4px;left:50%;width:24px;transform:translateX(-50%);border-radius:11px;background:linear-gradient(90deg,#171c15,#57513b 24%,#25291f 49%,#161b14 78%,#564939);box-shadow:0 0 0 2px #161a14,0 4px 10px #0b110db3;z-index:2}
+.hinge{position:absolute;left:1px;width:22px;height:44px;border:2px solid #211e15;border-radius:6px;background:linear-gradient(90deg,#776246,#c8b078 29%,#66563d 64%,#ad9765);box-shadow:0 2px 4px #080b08}
+.hinge::after{content:"";position:absolute;left:7px;top:16px;width:5px;height:5px;transform:rotate(45deg);background:#342d20;box-shadow:0 0 0 1px #d3b683}
+.hinge:nth-child(1){top:31px}.hinge:nth-child(2){top:calc(50% - 22px)}.hinge:nth-child(3){bottom:31px}
+.leaf-head{height:67px;border-bottom:1px solid #948a6a9c;box-shadow:0 2px #111713d9;display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.head-title{display:flex;align-items:center;gap:11px}
+.head-title .portrait{width:50px;height:50px}
+.head-title h2,.shop-head h2{font-size:35px;line-height:.95;font-weight:800;letter-spacing:-.018em}
+.head-title p{margin-top:5px}
+.head-meta{display:flex;align-items:center;gap:10px;padding-top:3px}
+.head-chip{min-height:43px;display:inline-flex;align-items:center;gap:6px;padding:0 9px;white-space:nowrap;font-size:18px}
+.head-chip .icon{color:#f0c88c}
+.head-chip.health .icon{color:#f4b5ae}
+.heading-line{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+.heading-line h3{font-size:26px;font-weight:800;line-height:1}
+.board{position:relative;margin-top:16px;height:526px}
+.board-meta{height:26px;display:flex;align-items:baseline;justify-content:space-between}
+.board-meta h3{font-size:25px;line-height:1}
+.stat-legend{display:flex;align-items:center;gap:14px;color:var(--dim);font-size:16px}
+.right-leaf .stat-legend{color:#fff0d4;background:#28302bed;padding:4px 7px;border-radius:3px}
+.stat-legend span{display:flex;align-items:center;gap:4px}
+.stat-legend .icon{width:15px;height:15px}
+.formation{position:relative;display:grid;grid-template-rows:249px 249px;gap:2px}
+.row-bar{position:relative;display:grid;grid-template-columns:96px 1fr;align-items:center}
+.row-bar::before{content:"";position:absolute;left:84px;right:9px;top:50%;height:1px;background:linear-gradient(90deg,#a7a48188,#a7a48108);z-index:-1}
+.row-caption{font:700 20px/1.05 var(--serif);color:#f0e7ca;justify-self:start}
+.row-caption::after{content:"";display:block;margin-top:7px;width:20px;height:3px;background:#a99e73;clip-path:polygon(0 50%,20% 0,80% 0,100% 50%,80% 100%,20% 100%)}
+.row-cards{display:flex;justify-content:flex-start;gap:22px;padding-left:24px}
+.row-back .row-cards{padding-left:calc(24px + (var(--board-w) + 22px)/2)}
+.unit-slot{--w:139.44px;width:var(--w);height:249px;display:grid;align-content:end;justify-items:center;position:relative}
+.slot-renown{position:absolute;z-index:2;top:3px;left:50%;transform:translateX(-50%);padding:2px 8px;font-size:16px;font-weight:700;color:#1c261f;white-space:nowrap;background:linear-gradient(151deg,#d3e0b5,#a9ba99);border:2px solid #19251d;border-radius:5px;box-shadow:0 1px 3px #1119}
+.card-wrap{width:var(--w);position:relative}
+.card-face{display:block;position:relative;width:100%;aspect-ratio:560/1000;background:none;border:0;padding:0;text-align:center;filter:drop-shadow(0 4px 4px #0a100dde);color:var(--ivory)}
+.card-face:hover .card-frame,.mini-card:hover .card-frame{filter:brightness(1.17)}
+.card-hex{position:absolute;inset:0;display:block}
+.card-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;clip-path:var(--hex)}
+.card-frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.card-hex.golden::before{position:absolute;content:"";inset:-4px;clip-path:var(--hex);background:#ffda7b;box-shadow:inset 0 0 8px #311b0c}
+.card-hex.golden .card-art{background:#342a15}
+.card-hex.golden .card-frame{filter:brightness(1.22)}
+.face-tier{position:absolute;top:17%;right:8%;border-radius:3px;border:1px solid #b3a87e;background:#24271f;color:#fff3cf;font-weight:700;font-size:16px;line-height:1.05;padding:2px 4px}
+.face-band{position:absolute;top:44%;left:4%;right:4%;bottom:22%;padding:3px 1px;display:flex;flex-direction:column;justify-content:center;align-items:center;border:2px solid #121914;border-inline-width:1px;background:linear-gradient(160deg,#303d35f8,#1a2622fc 61%,#26362dfc 62%,#192820fc),var(--pane) center/185px;box-shadow:inset 0 1px #dccba294,inset 0 -1px #a7b3996b}
+.face-name{font:800 19px/.95 var(--serif);text-wrap:balance}
+.face-type{font-size:17px;color:#d6ddc6;line-height:1.02;margin-top:3px}
+.face-key{font:700 18px/.96 var(--body);color:#e3eecf;margin-top:3px;text-wrap:balance}
+.face-stat{position:absolute;top:79.4%;left:10.4%;right:10.4%;height:16%;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none}
+.face-stat b{height:30px;min-width:30px;padding:0 3px;display:grid;place-items:center;font:900 20px/1 var(--serif);color:#fff0d6;background:#30291e;border:1px solid #e4d19d;outline:2px solid #201b14;box-shadow:0 1px 4px #070705;border-radius:50%}
+.face-stat b:last-child{background:#502f39;border-color:#efd0c7;border-radius:5px 5px 11px 11px}
+.empty-hex{aspect-ratio:560/1000;width:100%;clip-path:var(--hex);background:linear-gradient(143deg,#6f7b6d,#151c18 29%,#0f1715 85%,#848271);position:relative}
+.empty-hex::before{content:"";position:absolute;inset:3px;clip-path:var(--hex);background:linear-gradient(145deg,#2f443df5,#1b2c27f8 50%,#23362ff8 50.5%,#1b2d27f9),var(--pane) center/170px}
+.empty-hex::after{content:"";position:absolute;inset:46% 44%;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:#82947b66}
+.slot-vacant{position:absolute;z-index:1;top:52%;left:0;right:0;text-align:center;color:#d5cab4;font-size:16px;font-weight:700}
+.board-footer{height:196px;margin-top:6px;padding-top:13px;border-top:1px solid #91896b9c;box-shadow:0 -2px #101915c9;position:relative}
+.hand-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:11px}
+.mini-card{width:100%;height:137px;border:0;background:none;position:relative;padding:0;color:var(--ivory)}
+.mini-card .card-hex,.hand-empty .empty-hex{width:73px;height:auto;aspect-ratio:560/1000;left:50%;transform:translateX(-50%);bottom:auto}
+.mini-card .mini-plaque{position:absolute;top:69px;left:0;right:0;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px 2px;border:1px solid #aca182;background:#202e27;box-shadow:0 0 0 2px #121c18;text-align:center}
+.mini-plaque strong{font:800 18px/.97 var(--serif);text-wrap:balance}
+.mini-plaque span{font-size:15px;color:#dbdfcc;line-height:1.02}
+.hand-empty{height:137px;position:relative}
+.hand-empty .empty-hex{position:absolute;top:0;opacity:.55}
+.shop-head .head-title{display:block}
+.shop-head p{font-size:17px;color:var(--dim);margin-top:4px}
+.shop-actions{display:flex;gap:9px;align-items:flex-start}
+.shop-actions .action{min-height:39px;padding-inline:11px}
+.shop-actions .icon{width:17px;height:17px}
+.shop-actions .shortage{font-weight:700;color:#ffe0d7;background:#382c2c}
+.shop-actions .shortage .icon{color:#eebcaf}
+.shop-units{display:grid;grid-template-columns:repeat(5,1fr);justify-items:center;gap:6px;margin-top:17px}
+.shop-unit{--w:141px;display:grid;justify-items:center}
+.price{display:flex;align-items:center;justify-content:center;gap:5px;min-width:75px;height:29px;margin-top:-4px;position:relative;border:1px solid #a99a72;box-shadow:0 0 0 2px #171911,inset 0 1px #c6b58e55;background:#342f23;border-radius:4px;color:#fff0c7;font-size:19px;font-weight:700}
+.price .icon{width:16px;height:16px;color:#f0c287}
+.spell-row{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:15px}
+.spell-tile{height:85px;display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:12px;padding:0 12px;border:1px solid #92816a;border-radius:5px;background:linear-gradient(160deg,#373933,#222b2a 56%,#2c3330 56.5%,#232a28);box-shadow:0 0 0 2px #171c18;text-align:left}
+.spell-tile .card-hex{position:relative;width:42px;aspect-ratio:560/1000}
+.spell-details{display:grid;gap:2px}
+.spell-details strong{font:800 20px/1 var(--serif)}
+.spell-details span{font-size:17px;color:#e1dec9}
+.spell-tile .price{min-width:39px;margin:0;padding:0 6px}
+.scout{position:absolute;top:491px;left:0;right:0;border-top:1px solid #96876c9c;box-shadow:0 -2px #111813;padding-top:10px}
+.scout-head{display:flex;align-items:center;gap:10px;min-height:53px}
+.scout-head .portrait{width:44px;height:44px}
+.scout-head h3{font-size:26px;line-height:1}
+.scout-head .eyebrow{font-size:14px;margin-top:3px;color:#d7dfc3}
+.scout-head .readout{margin-left:auto;color:var(--dim);white-space:nowrap}
+.scout-rows{display:grid;gap:6px;margin-top:8px}
+.scout-row{display:grid;grid-template-columns:74px 1fr;align-items:center}
+.scout-row .row-caption{font-size:18px}
+.scout-cards{display:flex;gap:7px}
+.scout-back .scout-cards{padding-left:94px}
+.scout-card{width:182px;height:91px;position:relative;display:grid;grid-template-columns:38px 1fr;align-items:center;gap:7px;padding:2px 6px 2px 5px;border:1px solid #747364;border-radius:4px;background:linear-gradient(145deg,#2a3934,#202d2a 66%,#26352e);text-align:left}
+.scout-card .card-hex{position:relative;width:37px;aspect-ratio:560/1000}
+.scout-copy{min-width:0;display:grid;gap:1px}
+.scout-copy strong{font:800 18px/.94 var(--serif)}
+.scout-type{font-size:15px;color:#d9dfcc;line-height:1}
+.scout-stats{font-size:18px;line-height:1;color:#fff0d3;font-weight:700}
+.scout-key{font-size:15px;color:#d6ddc6;line-height:1}
+.scout-copy small{font-size:15px;color:#d6ddc6;margin-left:3px}
+.scout-empty{height:143px;display:grid;align-items:center;grid-template-columns:1fr 1fr;gap:24px;padding:8px 24px 0 55px}
+.scout-empty p{color:var(--dim);font-size:20px}
+.scout-empty svg{height:125px;width:100%;opacity:.8}
+.leaf-foot{height:50px;position:absolute;display:flex;align-items:center;justify-content:space-between;gap:12px;left:0;right:0;bottom:0}
+.leaf-foot p{font-size:18px;color:var(--dim)}
+.flip-action{display:flex;align-items:center;gap:17px;margin-left:auto}
+.archive{position:absolute;bottom:26px;left:61px;right:61px;display:flex;align-items:center;justify-content:space-between;height:33px;color:var(--dim)}
+.archive .link-set{display:flex;gap:19px}
+.archive button{padding:0;border:0;background:none;font-size:18px;text-decoration:underline;text-decoration-color:#a495676f;text-underline-offset:4px}
+.archive .motif{width:242px;height:20px;position:absolute;left:50%;transform:translateX(-50%);color:#baaa7b}
+.fight-log{margin-top:6px}
+.log-list{margin:9px 0 0;padding:0;list-style:none;display:grid;gap:5px}
+.log-list li{min-height:30px;display:grid;grid-template-columns:80px 1fr;align-items:baseline;gap:11px;padding:4px 9px;background:#202e2bf7;border-left:2px solid #9aa489;font-size:18px}
+.log-list .tag{color:#d8e8cb;font-weight:700}
+.log-list b{color:#fff2dc}
+.fight .board-footer{height:153px}
+.fight .mini-card,.fight .hand-empty{height:114px}
+.fight .mini-card .card-hex,.fight .hand-empty .empty-hex{width:62px}
+.fight .mini-plaque{top:55px}
+.fight .mini-plaque span{line-height:1.03}
+.fight .leaf-foot{bottom:-7px}
+.result-grid{display:grid;grid-template-columns:1fr;gap:23px;margin-top:25px}
+.result-title{position:relative;display:grid;align-content:center;min-height:178px;padding:20px 27px;border:1px solid #ac8d72;background:linear-gradient(140deg,#533c38,#382c2e 65%,#2b2c2b);box-shadow:0 0 0 3px #1a1b17,inset 0 0 0 3px #796050}
+.result-title .eyebrow{color:#ffdbcc}
+.result-title h3{font:800 70px/.96 var(--serif);color:#ffedda;margin:1px 0 7px}
+.result-title p{font-size:24px}
+.result-flower{position:absolute;right:18px;top:13px;width:242px;height:149px;opacity:.82}
+.breakdown{display:grid;grid-template-columns:1fr 28px 1fr 28px 1fr;gap:8px;align-items:center}
+.math-cell{display:grid;gap:3px;padding:10px 14px;min-height:72px}
+.math-cell strong{font:800 33px/1 var(--serif)}
+.math-cell span{font-size:18px}
+.math-cell.total{background:#442d30;color:#ffe1d8}
+.math-symbol{text-align:center;color:#e5d2ad;font:800 25px/1 var(--serif)}
+.recap{display:grid;gap:8px}
+.recap h3{font:800 27px/1 var(--serif);margin-bottom:2px}
+.recap-row{display:grid;grid-template-columns:39px 1fr;gap:12px;align-items:center;padding:5px 12px;min-height:70px;background:linear-gradient(150deg,#263931,#1e2c29 70%,#24352e);border:1px solid #6f7762;border-radius:4px}
+.recap-row .card-hex{position:relative;width:34px;aspect-ratio:560/1000}
+.recap-copy{display:grid;gap:3px}
+.recap-copy strong{font:800 21px/1 var(--serif)}
+.recap-copy span{font-size:19px;color:#e0ddcc}
+.after .board-footer p{margin-top:7px;color:var(--dim)}
+.tutorial{position:absolute;top:329px;right:4px;width:155px;z-index:3;border-color:#c8ac7b;background:#2a2920;padding:10px 13px;text-align:left;font-size:19px}
+.tutorial::before{content:"";position:absolute;left:-7px;top:50%;width:11px;height:11px;background:#2a2920;border-left:1px solid #c8ac7b;border-bottom:1px solid #c8ac7b;transform:translateY(-50%) rotate(45deg)}
+dialog{width:650px;max-height:780px;padding:22px;background:#202d26;border:2px solid #c0ad83;box-shadow:0 0 0 5px #151a15,0 18px 45px #060909bd;color:var(--ivory)}
+dialog::backdrop{background:#0d1712a3}
+dialog header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+dialog h2{font-size:32px;line-height:1}
+dialog p{font-size:20px;line-height:1.24;margin-top:8px}
+</style>
+</head>
+<body>
+<main id="stage"></main>
+<dialog id="read-card"><header><h2 id="detail-title"></h2><button class="glass action" type="button" id="close-detail">Close</button></header><div id="detail-body"></div></dialog>
+<script>
+const ASSETS = "../../../../../assets/";
+const icons = {
+  coin:'<circle cx="12" cy="12" r="9"/><path d="m12 7 1.8 3.25L17 12l-3.2 1.75L12 17l-1.8-3.25L7 12l3.2-1.75Z"/>',
+  heart:'<path d="M12 20 4.4 12.4C.5 8.6 6.2 3.1 10 6.7L12 9l2-2.3c3.8-3.6 9.5 1.9 5.6 5.7Z"/>',
+  sword:'<path d="m5 19 4-4m-1-3 4 4m-2-2 8-8 2-2v4l-8 8M3 21l2-2"/>',
+  shield:'<path d="M5 5h14v6c0 4-3 7-7 9-4-2-7-5-7-9Z"/><path d="M12 8v8"/>',
+  refresh:'<path d="M19 7a8 8 0 1 0 1 9m0-13v5h-5"/>',
+  freeze:'<path d="M12 2v20M3.4 7l17.2 10M3.4 17 20.6 7M9 5l3 3 3-3m-6 14 3-3 3 3"/>',
+  arrow:'<path d="M4 12h15m-6-6 6 6-6 6"/>',
+  leaf:'<path d="M12 23V8m0 6c-8 0-9-5-9-8 4 0 8 1 9 7m0 4c7 0 9-5 9-8-4 0-8 2-9 7m0-7C8 6 10 2 12 1c2 1 4 5 0 8Z"/>',
+  lock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
+};
+const icon = name => '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">' + icons[name] + '</svg>';
+const portrait = key => '<img class="portrait" alt="" src="' + ASSETS + 'glass/portraits/' + key + '.jpg">';
+const coin = n => '<span class="coins" aria-label="' + n + ' gold">' + icon('coin') + n + '</span>';
+const glass = (label, extra = '') => '<button class="glass action" type="button" ' + extra + '>' + label + '</button>';
+const price = n => '<span class="price">' + coin(n) + '</span>';
+function tracery(leaf) {
+  return `<svg class="tracery" aria-hidden="true" viewBox="0 0 900 850" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="mist-${leaf}" x2="1" y2="1"><stop stop-color="#99b7a5"/><stop offset="1" stop-color="#334743"/></linearGradient>
+      <linearGradient id="amber-${leaf}" x2="1" y2="1"><stop stop-color="#e7bc75"/><stop offset="1" stop-color="#686648"/></linearGradient>
+      <linearGradient id="moss-${leaf}" x2="1" y2="1"><stop stop-color="#97aa76"/><stop offset="1" stop-color="#355344"/></linearGradient>
+      <pattern id="quarry-${leaf}" width="92" height="136" patternUnits="userSpaceOnUse"><path d="M46 0 92 68 46 136 0 68Z" fill="none" stroke="#111f1a" stroke-width="2"/><path d="M46 0 14 48 0 68" fill="none" stroke="#b4c3a4" opacity=".22"/></pattern>
+    </defs>
+    <path d="M3 28 330 0 625 0 468 223 567 466 252 852 2 823Z" fill="url(#mist-${leaf})" opacity=".10"/>
+    <path d="M2 333 377 188 657 340 896 190 896 842 378 842 199 671Z" fill="url(#moss-${leaf})" opacity=".12"/>
+    <path d="M2 28 313 2 177 125 68 184 2 403Z" fill="url(#amber-${leaf})" opacity=".09"/>
+    <path d="M0 0H900V850H0Z" fill="url(#quarry-${leaf})" opacity=".21"/>
+    <path d="M448 0Q368 98 190 143T13 406M900 222Q615 219 539 419T285 850M900 603Q692 593 582 685T501 850" fill="none" stroke="#0d1a16" stroke-width="5" opacity=".42"/>
+    <path d="M448 0Q368 98 190 143T13 406M900 222Q615 219 539 419T285 850M900 603Q692 593 582 685T501 850" fill="none" stroke="#91a38b" stroke-width="1" opacity=".36" transform="translate(2 1)"/>
+    <g stroke="#18241c" stroke-width="4" stroke-linejoin="round" opacity=".92">
+      <path d="M0 56Q14 31 18 15Q73 12 121 2L3 3Z" fill="url(#amber-${leaf})"/>
+      <path d="M0 329Q34 278 17 230Q-5 262 0 329Z" fill="url(#moss-${leaf})"/>
+      <path d="M1 370Q27 341 35 294Q4 316 1 370Z" fill="url(#mist-${leaf})"/>
+      <path d="M0 483Q27 443 19 410Q0 433 0 483Z" fill="url(#amber-${leaf})"/>
+      <path d="M0 792Q14 737 35 709Q47 755 0 815Z" fill="url(#moss-${leaf})"/>
+      <path d="M2 818Q53 784 101 793Q66 827 31 838Z" fill="url(#mist-${leaf})"/>
+      <path d="M34 850Q83 823 141 830L173 850Z" fill="url(#amber-${leaf})"/>
+      <path d="M900 134Q865 93 878 51Q904 76 900 134Z" fill="url(#moss-${leaf})"/>
+      <path d="M900 715Q881 688 886 655Q899 672 900 715Z" fill="url(#mist-${leaf})"/>
+    </g>
+    <path d="M7 54Q20 20 39 15L124 8M8 799Q25 762 31 735M25 831Q49 813 76 807M3 375Q14 351 24 336" fill="none" stroke="#d7cba0" opacity=".43"/>
+  </svg>`;
+}
+function motif() {
+  return '<svg class="motif" aria-hidden="true" viewBox="0 0 242 20" fill="none" stroke="currentColor"><path d="M0 10h80q28 0 41-8 13 8 41 8h80m-162 0q27 0 41 8 14-8 41-8"/><path d="m121 5 6 5-6 5-6-5Z" fill="currentColor"/></svg>';
+}
+const known = {};
+const catalog = {};
+function unit(id, tribe, name, type, tier, rules, keywords = '') {
+  catalog[id] = {id, art:'units/' + tribe + '/' + id + '.jpg',name,type,tier,rules,keywords};
+}
+unit('famine-caller','locust','Famine-caller','Locust Herald',3,'When this dies, Tide +2.');
+unit('squadron-leader','pigeon','Squadron Leader','Pigeon Officer',3,'The units in front of this have Sortie and +3 Attack.');
+unit('bell-ringer','mouse','Bell-ringer','Mouse Ringer',3,'Your Hand-me-downs give +3 more Attack.','Hand-me-down');
+unit('granary-glutton','locust','Granary Glutton','Locust Glutton',4,'Whenever you sell a Locust, this eats it.');
+unit('wing-commander','pigeon','Wing Commander','Pigeon Officer',5,'After one of your Pigeons with Sortie kills, give its slot 3 Renown.','Sortie · Charge 4');
+unit('blackberry-sprawl','thorn','Blackberry Sprawl','Briar Creeper',3,'At the start of the fight, gain +2/+2 for every 2 units in your Compost.','Grow 2');
+unit('hedge-lancer','badger','Hedge Lancer','Badger Knight',3,'The first time this attacks each fight, it takes no damage.','Fury 1');
+unit('bramble-runner','thorn','Bramble Runner','Briar Runner',1,'When this dies, add a copy of it to your Compost.','Seed');
+unit('home-guard','pigeon','Home Guard','Pigeon Guard',3,'Enemies must attack this first. In a fight it can step in from your hand.','Guard · Reserve');
+unit('hayloft-aunt','mouse','Hayloft Aunt','Mouse Aunt',2,'When you recruit this unit, add a Cousin to your hand.','Hand-me-down');
+unit('sweetbriar','thorn','Sweetbriar','Briar Grower',2,'Whenever a unit goes into your Compost, gain +1/+1 permanently.');
+unit('shrew-cutpurse','mouse','Shrew Cutpurse','Shrew Rogue',2,'After this piles on, gain 2 gold.','Pile on 1');
+unit('greatsword-bearer','badger','Greatsword Bearer','Badger Squire',4,'The units in front of this have Overrun.','Squire');
+unit('briar-king','thorn','Briar King','Briar Monarch',6,'Your other front-row Briars have Grow 2.');
+unit('holly-knight','thorn','Holly Knight','Briar Knight',4,'Your front-row Briars have +1 Thorns for every 3 units in your Compost.');
+unit('the-eighth-plague','locust','The Eighth Plague','Locust Plague',5,'After a friendly unit dies, deal damage to a random enemy equal to the number of friendly units that died this fight.');
+unit('weasel','shared','Weasel','Weasel Hunter',5,'After an enemy is summoned, Hit it.','Charge 6');
+unit('gorger','locust','Gorger','Locust Glutton',4,'The first time you sell a unit each turn, this eats it. A golden Gorger gains double its stats.');
+unit('dame-bodkin','mouse','Dame Bodkin','Dormouse Duellist',5,'Your Mice’s pile-on hits deal double damage.','Pile on 2');
+unit('sentry','pigeon','Sentry','Pigeon Sentry',1,'At the end of your turn, give this slot 1 Renown.','Supply 6');
+unit('hedgerow-scout','mouse','Hedgerow Scout','Mouse Scout',1,'When this dies, the nearest friendly Mouse gains its Attack this fight.','Hand-me-down');
+unit('territorial','pigeon','Territorial','Pigeon Reservist',1,'In a fight, steps from your hand into a slot a friendly unit died in.','Reserve');
+unit('bumblebee','shared','Bumblebee','Bee Stinger',1,'When this dies, deal 4 damage to the unit that killed it.');
+unit('green-recruit','locust','Green Recruit','Locust Recruit',1,'When this dies, summon a Hopper.');
+unit('bugler','pigeon','Bugler','Pigeon Bugler',4,'After a friendly unit dies, a Private steps in there.','Charge 2');
+unit('bitter-toad','shared','Bitter Toad','Toad Guard',4,'When this dies, destroy the unit that killed it.','Guard');
+unit('sett-sexton','badger','Sett Sexton','Badger Sexton',4,'When a unit in front gains Attack from Fury, it gains +2 Attack permanently, twice per fight each.','Squire');
+unit('nettle-skirmisher','thorn','Nettle Skirmisher','Briar Skirmisher',3,'Thorns 4. Root 1.','Thorns 4 · Root 1');
+unit('cousin','mouse','Cousin','Mouse Cousin',1,'When this dies, the nearest friendly Mouse gains its Attack this fight.','Hand-me-down');
+for (const [id,name,rules] of [['sharpen','Sharpen','Give a friendly unit +2/+2.'],['seek','Seek','Discover a unit.']]) {
+  catalog[id] = {id,name,type:'Spell',tier:1,rules,art:'glass/art/spell-' + id + '.jpg'};
+}
+const card = (id, a, h, opts = {}) => ({...catalog[id],a,h,...opts});
+const midBoard = [
+  card('famine-caller',15,11,{renown:7,summary:'Death gives Tide'}),card('squadron-leader',4,9,{summary:'Grants Sortie'}),card('bell-ringer',5,7,{renown:2}),card('granary-glutton',7,7,{summary:'Eats sold Locusts'}),
+  card('wing-commander',11,17,{renown:3}),card('blackberry-sprawl',4,8),card('hedge-lancer',6,12),
+];
+const fightBoard = [...midBoard.slice(0,3),null,midBoard[4],card('blackberry-sprawl',8,12),midBoard[6]];
+const marchBoard = [
+  card('greatsword-bearer',7,15,{renown:3}),card('briar-king',12,20,{renown:4,keywords:'Thorns 4'}),
+  card('holly-knight',12,19,{renown:7,keywords:'Grow 2 · Thorns 4'}),card('the-eighth-plague',6,14,{renown:2,summary:'Hits after deaths'}),
+  card('weasel',9,13,{renown:1}),card('gorger',38,68,{golden:true,keywords:'Golden'}),card('dame-bodkin',6,9,{type:'Dormouse Duellist',keywords:'Mouse · Pile on 2'}),
+];
+const lastKnown = [
+  card('greatsword-bearer',7,15,{renown:3}),card('bugler',7,12,{renown:4}),
+  card('gorger',22,27,{renown:7}),card('bitter-toad',6,6,{renown:2}),
+  card('sett-sexton',4,13,{renown:1}),card('gorger',7,16),card('nettle-skirmisher',4,10),
+];
+const survivors = [
+  card('greatsword-bearer',7,10,{renown:3}),null,
+  card('holly-knight',24,27,{renown:7,keywords:'Grow 2 · Thorns 4'}),marchBoard[3],
+  card('weasel',9,2,{renown:1}),card('gorger',38,57,{golden:true,keywords:'Golden'}),marchBoard[6],
+];
+const shopMid = [
+  card('bramble-runner',4,5,{price:2}),card('home-guard',3,11,{price:4}),card('hayloft-aunt',2,9,{price:3}),
+  card('sweetbriar',3,7,{price:3,summary:'+1/+1 on Compost'}),card('shrew-cutpurse',2,4,{price:3,keywords:'Mouse · Pile on 1'}),
+];
+const shopFirst = [
+  card('sentry',2,5,{price:2}),card('hedgerow-scout',3,10,{price:2}),card('territorial',5,7,{price:2}),
+  card('bumblebee',2,3,{price:2,summary:'Hit on death'}),card('green-recruit',2,2,{price:2,summary:'Summons Hopper'}),
+];
+const roster = [
+  ['dame_farthing','Dame Farthing'],['brother_bracken','Brother Bracken'],['march_hare','March Hare'],
+  ['pipkin','Pipkin'],['dame_hoolet','Dame Hoolet'],['hob_mumblecrust','Hob Mumblecrust'],
+  ['little_king_wren','Little King Wren'],['old_mother_mousewife','Old Mother Mousewife'],
+];
+const rankMid = [[3,31],[7,28],[4,23],[6,18],[2,16],[5,16],[0,11],[1,0]];
+const rankAfter = [[4,23],[3,21],[6,18],[7,18],[2,16],[5,16],[0,0],[1,0]];
+const requestedView = new URLSearchParams(location.search).get('view');
+const page = ['first','fight','after'].includes(requestedView) ? requestedView : 'mid';
+const first = page === 'first', fight = page === 'fight', after = page === 'after';
+const turn = first ? 1 : 9;
+const turnPhase = first || page === 'mid' ? 'Recruit' : (fight ? 'Fight' : 'Result');
+const yourHealth = first ? 40 : after ? 0 : 11;
+const theirHealth = first ? 40 : 16;
+const viewLink = (view, label) => '<a class="glass action primary" href="?view=' + view + '">' + label + icon('arrow') + '</a>';
+function lobby() {
+  const order = first ? roster.map((_,id)=>[id,40]) : after ? rankAfter : rankMid;
+  return '<div class="lobby" aria-label="Lobby standings"><header class="phase">' + icon('leaf') +
+    '<p class="eyebrow">Turn ' + turn + '</p><h1>' + turnPhase + '</h1></header>' +
+    order.map(([id,hp], n) => {
+      const [key,name] = roster[id];
+      const flag = id === 0 ? 'You' : id === 2 ? (fight ? 'Opponent' : after ? 'Winner' : 'Next') : '';
+      return '<div class="seat' + (id === 2 ? ' is-next' : '') + (id === 0 ? ' is-you' : '') + (hp === 0 ? ' is-out' : '') + '">' +
+        '<span class="place">' + (first ? '' : n + 1) + '</span>' + portrait(key) +
+        '<div class="seat-text"><span class="seat-name">' + name + '</span><span class="seat-status">' +
+        (hp === 0 ? '<strong>Out</strong>' : icon('heart') + '<strong aria-label="' + hp + ' health">' + hp + '</strong>') +
+        (flag ? '<span>' + flag + '</span>' : '') + '</span></div></div>';
+    }).join('') + '</div>';
+}
+function art(c) {
+  return '<span class="card-hex' + (c.golden ? ' golden' : '') + '"><img class="card-art" alt="" src="' + ASSETS + c.art +
+    '"><img class="card-frame" alt="" src="' + ASSETS + 'glass/frames/tier' + c.tier + '.webp"></span>';
+}
+function inspect(c) {
+  const index = Object.keys(known).length;
+  known[index] = c;
+  return 'data-detail="' + index + '" aria-label="Read ' + c.name + '"';
+}
+function face(c) {
+  return '<div class="card-wrap"><button type="button" class="card-face" ' + inspect(c) + '>' + art(c) +
+    '<span class="face-tier">T' + c.tier + '</span><span class="face-band"><strong class="face-name">' + c.name +
+    '</strong><span class="face-type">' + c.type + '</span>' + (c.keywords || c.summary ? '<span class="face-key">' + (c.keywords || c.summary) + '</span>' : '') +
+    '</span><span class="face-stat"><b aria-label="' + c.a + ' attack">' + c.a + '</b><b aria-label="' + c.h + ' health">' + c.h + '</b></span></button></div>';
+}
+function board(cards, count, theirBoard = false) {
+  const row = (caption, lo, hi) => '<div class="row-bar' + (lo ? ' row-back' : '') + '"><span class="row-caption">' + caption +
+    '</span><div class="row-cards">' + cards.slice(lo,hi).map((c, i) => '<div class="unit-slot">' +
+      (c?.renown || (after && theirBoard && lo + i === 1) ? '<span class="slot-renown">Renown ' + (c?.renown || 4) + '</span>' : '') +
+      (c ? face(c) : '<div class="empty-hex" aria-label="Empty slot ' + (lo + i + 1) + '"></div>' +
+        (fight || after ? '<span class="slot-vacant">' + (after && theirBoard ? 'Briar King fell' : 'Empty') + '</span>' : '')) +
+      '</div>').join('') + '</div></div>';
+  return '<section class="board" aria-label="' + (theirBoard ? 'March Hare’s board' : 'Your board') +
+    '"><div class="board-meta"><h3>' + (theirBoard ? (after ? 'Survivors' : 'Board') : 'Your board') + ' <span class="tiny">' + count +
+    '/7</span></h3><p class="stat-legend"><span>' + icon('sword') + 'Attack</span><span>' + icon('shield') +
+    'Health</span></p></div><div class="formation">' + row('Front row',0,4) + row('Back row',4,7) + '</div>' +
+    (first && !sessionStorage.getItem('cue-dismissed') ? '<button class="glass tutorial" type="button" id="tutorial">Drag a unit from the shop to an empty slot. <strong>×</strong></button>' : '') + '</section>';
+}
+function hero(you, extras) {
+  const [key,name] = roster[you ? 0 : 2];
+  return '<header class="leaf-head"><div class="head-title">' + portrait(key) + '<div><h2>' + name +
+    '</h2><p class="eyebrow">' + (you ? 'You' : 'Opponent') + '</p></div></div><div class="head-meta">' +
+    '<span class="glass head-chip health">' + icon('heart') + '<b class="display-number">' + (you ? yourHealth : theirHealth) +
+    '</b> Health</span>' + extras + '</div></header>';
+}
+const chip = (label, value, graphic = '') => '<span class="glass head-chip">' +
+  (graphic ? icon(graphic) : '') + '<b class="display-number">' + value + '</b> ' + label + '</span>';
+function hand(cards) {
+  return '<section class="board-footer" aria-label="Hand"><div class="heading-line"><h3>Hand <span class="tiny">' + cards.length +
+    '/7</span></h3></div><div class="hand-grid">' + Array.from({length:7}, (_,i) => {
+      const c = cards[i];
+      if (!c) return '<div class="hand-empty" aria-hidden="true"><div class="empty-hex"></div></div>';
+      const lower = c.type === 'Spell' ? c.rules : c.type;
+      return '<button class="mini-card" type="button" ' + inspect(c) + '>' + art(c) +
+        '<span class="mini-plaque"><strong>' + c.name + '</strong><span>' + lower + '</span>' + (c.type === 'Spell' ? '<span>Spell</span>' : (c.keywords ? '<span>' + c.keywords + '</span>' : '')) + '</span></button>';
+    }).join('') + '</div></section>';
+}
+function shop() {
+  return '<header class="leaf-head shop-head"><div class="head-title"><h2>Shop</h2><p>Tier ' + (first ? 1 : 5) +
+    '</p></div><div class="shop-actions">' +
+    '<button class="glass action shortage" type="button" data-ui="upgrade" aria-label="Upgrade information. Costs ' + (first ? 8 : 23) +
+    ' gold, not enough gold">' + icon('lock') + 'Upgrade ' + (first ? '→ 2' : '→ 6') + ' · ' +
+    coin(first ? 8 : 23) + '</button>' +
+    glass(icon('refresh') + 'Refresh · ' + coin(1),'data-ui="refresh"') +
+    glass(icon('freeze') + 'Freeze','data-ui="freeze" aria-pressed="false"') + '</div></header>' +
+    '<div class="shop-units" aria-label="Shop units">' + (first ? shopFirst : shopMid).map(c =>
+      '<div class="shop-unit">' + face(c) + price(c.price) + '</div>').join('') + '</div>' +
+    '<div class="spell-row" aria-label="Shop spells">' + [1,1].map(n => {
+      const c = card('sharpen',null,null,{price:n});
+      return '<button class="spell-tile" type="button" ' + inspect(c) + '>' + art(c) + '<span class="spell-details"><strong>Sharpen</strong><span>Spell · ' +
+        c.rules + '</span></span>' + price(n) + '</button>';
+    }).join('') + '</div>';
+}
+function scoutEmpty() {
+  return '<div class="scout-empty"><p>First fight. No board recorded yet.</p><svg aria-hidden="true" viewBox="0 0 300 125">' +
+    [0,1,2,3,4,5,6].map((_,i) => {
+      const x = i < 4 ? 39 + i*72 : 75 + (i-4)*72;
+      const y = i < 4 ? 30 : 91;
+      return '<path d="M'+x+' '+(y-28)+'l23 10v36l-23 10-23-10v-36Z" fill="#3b4337" stroke="#9c9271" stroke-width="1.4"/>';
+    }).join('') + '</svg></div>';
+}
+function scout(cards) {
+  const row = (label,lo,hi) => '<div class="scout-row' + (lo ? ' scout-back' : '') + '"><span class="row-caption">' + label +
+    '</span><div class="scout-cards">' + cards.slice(lo,hi).map(c =>
+      c ? '<button class="scout-card" type="button" ' + inspect(c) + '>' + art(c) + '<span class="scout-copy"><strong>' +
+        c.name + '</strong><span class="scout-type">' + (c.golden ? 'Golden · ' : '') + c.type +
+        '</span><span class="scout-stats" aria-label="' + c.a + ' attack, ' + c.h + ' health">' + c.a + ' / ' + c.h + (c.renown ? ' <small>· Renown ' + c.renown + '</small>' : '') + '</span>' + (c.keywords ? '<span class="scout-key">' + c.keywords + '</span>' : '') + '</span></button>'
+        : '<span class="scout-card">Empty</span>').join('') + '</div></div>';
+  return '<section class="scout"><header class="scout-head">' + portrait('march_hare') +
+    '<div><h3>March Hare</h3><p class="eyebrow">Next opponent</p></div><p class="readout">' +
+    (first ? '40 Health' : '16 Health · Board from turn 8') + '</p></header>' +
+    (first ? scoutEmpty() : '<div class="scout-rows">' + row('Front row',0,4) + row('Back row',4,7) + '</div>') + '</section>';
+}
+const notes = {
+  refresh:['Refresh','Refreshes the shop for 1 gold.','10 refreshes left at this price.'],
+  upgrade:['Upgrade shop','You need 3 more gold to upgrade.','Costs ' + (first ? 1 : 3) + ' less next turn.'],
+  compost:['Compost','Old Campaigner · 6 Attack / 9 Health','Blackthorn Sapling · 5 Attack / 6 Health','Blackthorn Sapling · 5 Attack / 6 Health'],
+  past:['Past boards','Fight boards are kept by turn.','March Hare’s last known board is from turn 8.'],
+  cards:['Cards','Select a card to read its rules, keywords and stats.'],
+  settings:['Settings','Resume play by closing this panel.'],
+  log: fight ? ['Fight log','You started with 6 units. March Hare started with 7.',
+    'Blackberry Sprawl gained +4/+4 from Compost.'] : ['Fight log',
+    'Blackberry Sprawl gained +4/+4 from Compost. Holly Knight gained +12/+12 from Grow.',
+    'Greatsword Bearer defeated Bell-ringer. Home Guard stepped into its slot and gained 2 Renown.',
+    'Famine-caller attacked Briar King, fell to Thorns and retaliation, and added 2 Tide.',
+    'Home Guard brought down Briar King with retaliation. The Eighth Plague dealt the final 1 damage to Home Guard.',
+    'Holly Knight defeated Squadron Leader. Dame Bodkin’s Pile on defeated Blackberry Sprawl.',
+    'Wing Commander’s Sortie left Weasel at 2 Health.',
+    'Dame Bodkin’s second Pile on defeated Hedge Lancer.',
+    'Wing Commander attacked Golden Gorger. Gorger retaliated for 38, ending the fight.',
+  ],
+};
+function archive(){
+  const links = first || page === 'mid'
+    ? '<button type="button" data-ui="past">Past boards</button><button type="button" data-ui="cards">Cards</button>'
+    : '';
+  return '<footer class="archive"><div class="link-set">' + links + '</div>' +
+    motif() + '<button type="button" data-ui="settings">Settings</button></footer>';
+}
+function book(left,right) {
+  return lobby() + '<div class="spread"><article class="leaf left-leaf">' + tracery('left') +
+    '<div class="leaf-content">' + left + '</div></article><div class="binding" aria-hidden="true"><span class="hinge"></span><span class="hinge"></span><span class="hinge"></span></div><article class="leaf right-leaf">' +
+    tracery('right') + '<div class="leaf-content">' + right + '</div></article></div>' + archive();
+}
+function resultFlower() {
+  return `<svg class="result-flower" aria-hidden="true" viewBox="0 0 242 149">
+    <g fill="#7a514e" stroke="#2a2724" stroke-width="3" stroke-linejoin="round">
+      <path d="M22 80 49 79 87 93 122 127 79 117 42 101Z" fill="#ad7d64"/>
+      <path d="M220 80 193 79 155 93 120 127 163 117 200 101Z" fill="#ad7d64"/>
+      <path d="M50 58 78 61 104 84 121 120 89 106 65 86Z" fill="#c69b75"/>
+      <path d="M192 58 164 61 138 84 121 120 153 106 177 86Z" fill="#c69b75"/>
+      <path d="M121 14 141 41 143 78 121 118 99 78 101 41Z" fill="#bb786e"/>
+      <path d="M121 38 132 64 121 99 110 64Z" fill="#f3c3a1"/>
+      <path d="M121 110 136 129 121 143 106 129Z" fill="#dec49b"/>
+    </g>
+    <path d="M31 82 70 96l46 32m95-46-39 14-46 32M65 70l46 45m66-45-46 45M121 30v83" fill="none" stroke="#e8c49d" opacity=".59"/>
+  </svg>`;
+}
+function recap(cards) {
+  return '<div class="recap"><h3>Why you lost</h3>' + cards.map(([c,headline,body]) =>
+    '<div class="recap-row">' + art(c) + '<p class="recap-copy"><strong>' + headline + '</strong><span>' + body + '</span></p></div>').join('') + '</div>';
+}
+function resultSummary() {
+  return '<section class="result-grid"><div class="result-title">' + resultFlower() +
+    '<p class="eyebrow">Eliminated · 7th place</p><h3>Defeat</h3><p>11 → 0 Health</p></div>' +
+    '<div class="breakdown" aria-label="Damage calculation"><div class="glass math-cell"><strong>10</strong><span>Turn 9 damage</span></div>' +
+    '<span class="math-symbol">+</span><div class="glass math-cell"><strong>3</strong><span>Heavy defeat</span></div>' +
+    '<span class="math-symbol">=</span><div class="glass math-cell total"><strong>13</strong><span>Damage taken</span></div></div>' +
+    recap([
+      [catalog['holly-knight'],'Holly Knight broke the front row','Grow gave it +12/+12. It took out Squadron Leader.'],
+      [catalog['dame-bodkin'],'Dame Bodkin picked off the back row','Two Pile on hits defeated Blackberry Sprawl and Hedge Lancer.'],
+      [{...catalog['gorger'],golden:true},'Golden Gorger ended the fight','Wing Commander hit it for 11. Gorger hit back for 38.'],
+    ]) + '</section>';
+}
+function lastActions(text, action) {
+  return '<footer class="leaf-foot"><p>' + text + '</p>' + action + '</footer>';
+}
+function fightLog() {
+  const lines = [
+    ['Lineup','<b>6</b> of your units face <b>7</b> of March Hare’s.'],
+    ['Grow 2','<b>Blackberry Sprawl</b> gained +4/+4 from your Compost.'],
+  ];
+  return '<section class="board-footer fight-log"><div class="heading-line"><h3>Fight log</h3>' +
+    '<button class="glass action" type="button" data-ui="log">Read log</button></div><ol class="log-list">' +
+    lines.map(([tag,line]) => '<li><span class="tag">' + tag + '</span><span>' + line + '</span></li>').join('') + '</ol></section>';
+}
+const noCards = Array(7).fill(null);
+let left, right;
+if (fight) {
+  left = hero(true,chip('Compost',4) + chip('Tide',2)) + board(fightBoard,6) +
+    hand([card('home-guard',3,11),card('hayloft-aunt',2,9),card('cousin',2,2),card('hedge-lancer',6,12)]);
+  right = hero(false,'') + board(marchBoard,7,true) + fightLog() + lastActions('',viewLink('after','Skip fight'));
+} else if (after) {
+  left = hero(true,'') + resultSummary();
+  right = hero(false,'') + board(survivors,6,true) + '<section class="board-footer"><div class="heading-line"><h3>March Hare wins</h3><button class="glass action" type="button" data-ui="log">Read log</button></div><p>Six of March Hare’s seven starting units survived.<br>A heavy defeat adds 3 damage when more than half the enemy’s starting units survive.</p></section>' +
+    lastActions('',viewLink('first','Play again'));
+} else {
+  const compost = first ? '' : '<button type="button" class="glass head-chip" data-ui="compost"><b class="display-number">3</b> Compost</button>' + chip('Tide',2);
+  left = hero(true,chip('Gold',first ? 5 : 20,'coin') + compost) + board(first ? noCards : midBoard,first ? 0 : 7) +
+    hand(first ? [] : [card('seek',null,null,{price:3})]);
+  right = shop() + scout(lastKnown) + lastActions('',
+    '<div class="flip-action"><p>Next turn <strong>+' + (first ? 7 : 19) + ' gold</strong></p>' + viewLink('fight','End turn') + '</div>');
+}
+const stage = document.querySelector('#stage');
+stage.className = page;
+stage.style.setProperty('--board-w','139.44px');
+stage.innerHTML = book(left,right);
+const dialog = document.querySelector('#read-card');
+const detailTitle = document.querySelector('#detail-title');
+const detailBody = document.querySelector('#detail-body');
+function showDetail(title, lines) {
+  detailTitle.textContent = title;
+  detailBody.replaceChildren(...lines.map(text => {
+    const p = document.createElement('p');
+    p.textContent = text;
+    return p;
+  }));
+  dialog.showModal();
+}
+document.querySelector('#close-detail').addEventListener('click', () => dialog.close());
+stage.addEventListener('click', event => {
+  const trigger = event.target.closest('button');
+  if (!trigger) return;
+  if (trigger.id === 'tutorial') {
+    sessionStorage.setItem('cue-dismissed','yes');
+    trigger.hidden = true;
+  } else if (trigger.dataset.detail !== undefined) {
+    const c = known[trigger.dataset.detail];
+    showDetail(c.name,[
+      c.type + ' · Tier ' + c.tier,
+      c.a == null ? '' : c.a + ' Attack · ' + c.h + ' Health',
+      c.keywords,
+      c.rules,
+      c.price ? 'Price ' + c.price + ' gold' : '',
+      c.renown ? 'Slot Renown ' + c.renown : '',
+    ].filter(Boolean));
+  } else if (trigger.dataset.ui === 'freeze') {
+    const frozen = trigger.getAttribute('aria-pressed') === 'true';
+    trigger.setAttribute('aria-pressed',String(!frozen));
+    trigger.innerHTML = icon('freeze') + (frozen ? 'Freeze' : 'Frozen');
+  } else if (notes[trigger.dataset.ui]) {
+    const [title,...lines] = notes[trigger.dataset.ui];
+    showDetail(title,lines);
+  }
+});
+document.addEventListener('keydown', event => {
+  if (fight && event.code === 'Space' && !event.repeat && !dialog.open &&
+      !event.target.closest('button,a')) {
+    event.preventDefault();
+    window.location.search = '?view=after';
+  }
+});
+</script>
+</body>
+</html>
