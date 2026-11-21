@@ -869,6 +869,8 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 	golden.stats.perm_health = maxi(0, perm.y)
 	golden.stats.turn_attack = maxi(0, perm.x + turn.x) - golden.stats.perm_attack
 	golden.stats.turn_health = maxi(0, perm.y + turn.y) - golden.stats.perm_health
+	# The copies have left: a Recruit that runs now sees the board without their auras.
+	refresh_auras(player)
 	if player.hand.size() < _rules().hand_limit(player) or vacated.is_empty():
 		# The golden takes one place in the merge. Older gains fill any net vacancies.
 		_admit_waiting(player, golden)
@@ -876,6 +878,7 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 		# 7.3.7: the golden takes the first vacated slot when hand has no room.
 		vacated.sort()
 		player.place(golden, vacated[0])
+		refresh_auras(player)
 		_recruit_unit(player, golden)
 	# 7.3.6: every formation grants its spell now, through the ordinary gain path.
 	var reward: Unit = session.new_unit(
