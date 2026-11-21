@@ -15,6 +15,10 @@ const TRIPLE_LAYERS: Array[Dictionary] = [
 	{"blur": 20.0, "colour": Color("ffc23a")},
 	{"blur": 36.0, "colour": Color("ff9614")},
 ]
+const OWNED_EDGE_LAYERS: Array[Dictionary] = [
+	{"blur": 4.0, "colour": Color("ffe3a0")},
+	{"blur": 10.0, "colour": Color("ffc4468c")},
+]
 
 var mark: int = RecruitDuplicates.Mark.NONE
 var candidate: int = SELECTED
@@ -47,9 +51,12 @@ func _set_mark(card: GlassCard, value: int) -> void:
 	_layers.clear()
 	if not visible:
 		return
-	var specs: Array[Dictionary] = (
-		TRIPLE_LAYERS if mark == RecruitDuplicates.Mark.TRIPLE else MATCH_LAYERS
-	)
+	var specs: Array[Dictionary] = MATCH_LAYERS
+	match mark:
+		RecruitDuplicates.Mark.TRIPLE:
+			specs = TRIPLE_LAYERS
+		RecruitDuplicates.Mark.OWNED_EDGE:
+			specs = OWNED_EDGE_LAYERS
 	for i: int in range(specs.size() - 1, -1, -1):
 		var layer: Control = Control.new()
 		layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -63,8 +70,8 @@ func _set_mark(card: GlassCard, value: int) -> void:
 		_layers.append(layer)
 
 
-## Shared screen time keeps the shop, board and hand breathing together, including after redraws.
-## Match stays steady; a triple never goes dark. Delta time also works with the 60 fps movie writer.
+## The shop's triple glow and foil share screen time across redraws and in the movie writer.
+## Match and owned edges stay steady.
 func set_phase(seconds: float) -> void:
 	if _foil != null:
 		_foil.set_phase(seconds)
