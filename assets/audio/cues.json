@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "loudness_standard": {
+    "meter": "M400_max (ungated ITU-R BS.1770 K-weighted 400 ms sliding window max)",
+    "true_peak_ceiling_dbtp": -1.2,
+    "onset_ms_max": 5.0
+  },
+  "hit_weights": {
+    "metric": "damage_dealt",
+    "blocked_damage": 0,
+    "light_max_damage": 4,
+    "medium_max_damage": 13,
+    "heavy_min_damage": 14
+  },
+  "simultaneous_hits": {
+    "one_or_two_normal_hits": "play_heaviest_once",
+    "blocked_companion_stagger_s": 0.015,
+    "blocked_companion_db": -3.0,
+    "cleave_min_hits": 3,
+    "cleave_max_played": 3,
+    "cleave_staggers_s": [0.0, 0.028, 0.058],
+    "cleave_gains_db": [0.0, -4.5, -7.0],
+    "distinct_takes_in_step": true
+  },
+  "exclusive_groups": {
+    "celebration": {
+      "suppress_on_trigger": {
+        "shop.triple": { "suppress": ["shop.buy", "shop.play", "ui.click"], "duration_s": 0.65, "duck_others_db": -4.0 },
+        "shop.tier_up": { "suppress": ["ui.click"], "duration_s": 0.45, "duck_others_db": -2.0 }
+      }
+    }
+  },
+  "cues": {
+    "fight.hit.light": {
+      "files": [
+        "res://assets/audio/sfx/hit_light_01.wav",
+        "res://assets/audio/sfx/hit_light_02.wav",
+        "res://assets/audio/sfx/hit_light_03.wav",
+        "res://assets/audio/sfx/hit_light_04.wav",
+        "res://assets/audio/sfx/hit_light_05.wav"
+      ],
+      "volume_db": 0.0,
+      "pitch": [0.977, 1.023],
+      "gain_jitter_db": 0.5,
+      "max_voices": 4,
+      "min_gap_s": 0.025,
+      "target_m400_lufs": -17.0
+    },
+    "fight.hit.medium": {
+      "files": [
+        "res://assets/audio/sfx/hit_medium_01.wav",
+        "res://assets/audio/sfx/hit_medium_02.wav",
+        "res://assets/audio/sfx/hit_medium_03.wav",
+        "res://assets/audio/sfx/hit_medium_04.wav",
+        "res://assets/audio/sfx/hit_medium_05.wav"
+      ],
+      "volume_db": 0.0,
+      "pitch": [0.980, 1.020],
+      "gain_jitter_db": 0.5,
+      "max_voices": 4,
+      "min_gap_s": 0.025,
+      "target_m400_lufs": -16.0
+    },
+    "fight.hit.heavy": {
+      "files": [
+        "res://assets/audio/sfx/hit_heavy_01.wav",
+        "res://assets/audio/sfx/hit_heavy_02.wav",
+        "res://assets/audio/sfx/hit_heavy_03.wav",
+        "res://assets/audio/sfx/hit_heavy_04.wav",
+        "res://assets/audio/sfx/hit_heavy_05.wav"
+      ],
+      "volume_db": 0.0,
+      "pitch": [0.983, 1.017],
+      "gain_jitter_db": 0.5,
+      "max_voices": 4,
+      "min_gap_s": 0.025,
+      "target_m400_lufs": -15.0
+    }
+  }
+}
