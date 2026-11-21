@@ -1,10 +1,10 @@
 # Status
 
-Last updated 19 November 2026.
+Last updated 21 November 2026.
 
 ## Where we are
 
-Pre-production. The look is decided, lead and stained glass, and is being dialled in. Tribes are being shaped from the species seeds. The rules and economy are drafted to v0.10. `main` holds a playable build: a whole game against bots, with five tribes, in the glass look. It was built on the second ideation track and came to `main` on the owner's say-so (17 Nov 2026). Its content is not done and its unit numbers are not accepted: see "The playable build" below. The first balance pass, measured in the bot league, came to `main` on 19 Nov.
+Pre-production. The look is decided, lead and stained glass, and is being dialled in. Tribes are being shaped from the species seeds. The rules and economy are drafted to v0.10. `main` holds a playable build: a whole game against ghosts (recorded runs of the league's Rust bots), with five tribes, in the glass look. Every build ships its own field of ghosts at its rules. It was built on the second ideation track and came to `main` on the owner's say-so (17 Nov 2026). Its content is not done and its unit numbers are not accepted: see "The playable build" below. The first balance pass, measured in the bot league, came to `main` on 19 Nov, and balance batch 1 (the owner's card picks) on 21 Nov; batch 1 is not yet measured by bots that pass the stopping test.
 
 ## Live now
 
@@ -13,7 +13,7 @@ Pre-production. The look is decided, lead and stained glass, and is being dialle
 | Dialling in the glass look: card art from the recipe, screen mock-ups | `main`, and the branch `design/glass-mockups` for the mock-ups | [workstreams/glass-dial-in.md](workstreams/glass-dial-in.md) |
 | Species seeds and tribe shells | Outside Git: the species seeds page, https://claude.ai/artifact/L7QD6ka8LzD22mnGsgA4SY, and its work folder on the owner's PC. A 16 Nov snapshot is in Cloudflare R2 ([tools/assets/README.md](../tools/assets/README.md)) | Design work uses the `bramble-design` skill |
 | Rules and economy | `main` | [workstreams/rules-and-budget.md](workstreams/rules-and-budget.md); waiting on the owner |
-| The playable build: five tribes, the glass look, a whole game against bots. The owner iterates on it from here | `main` (`src/`, `assets/`, `tests/`). Built on the second ideation track, which is finished | [ideation-track-2/README.md](ideation-track-2/README.md): what was accepted, the calls agents made, what is open. The plan it was built to: [workstreams/ideation-track-2.md](workstreams/ideation-track-2.md) |
+| The playable build: five tribes, the glass look, a whole game against ghosts. The owner iterates on it from here | `main` (`src/`, `assets/`, `tests/`). Built on the second ideation track, which is finished | [ideation-track-2/README.md](ideation-track-2/README.md): what was accepted, the calls agents made, what is open. The plan it was built to: [workstreams/ideation-track-2.md](workstreams/ideation-track-2.md) |
 
 ## The playable build
 
