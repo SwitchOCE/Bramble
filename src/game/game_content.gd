@@ -19,6 +19,8 @@ const PANEL_ART: String = "../../game/stand-in/%s"
 const PANEL_PATH: String = "res://assets/game/stand-in/%s.jpg"
 ## STAND-IN art for a spell with none (the Triple Reward, a tribe spell): the mock-ups' spell art.
 const SPELL_ART: String = "spell-1"
+## The Triple Reward's own picture (fix round 20 Nov, art B).
+const TRIPLE_REWARD_ART: String = "spell-triple-reward"
 ## STAND-IN reminders for the core's own words, which no tribe's display table names: a card
 ## whose text says one gets its line in the hover.
 const CORE_TERMS: Dictionary = {"Discover": "Choose 1 of 3 cards to put in your hand."}
@@ -81,6 +83,7 @@ static func load_folders(paths: PackedStringArray) -> GameContent:
 		if content.stand_ins or (spell and not tribe_spells):
 			wanted.append(card)
 			content._art[str(card.get("id", ""))] = str(card.get("art", ""))
+	content._art[String(UnitLibrary.TRIPLE_REWARD_ID)] = TRIPLE_REWARD_ART
 	var before: int = content.library.errors.size()
 	content.library.add_cards(wanted, content.registry)
 	content.errors.append_array(content.library.errors.slice(before))
