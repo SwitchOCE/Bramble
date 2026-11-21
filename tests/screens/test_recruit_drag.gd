@@ -935,6 +935,39 @@ func test_discover_recruit_can_target_a_board_unit() -> void:
 	assert_eq(_sent[1], {"type": "recruit_target", "target": cub.uid})
 
 
+func test_sale_brings_a_waiting_master_into_hand_and_lifts_it_to_choose_a_target() -> void:
+	var me: PlayerState = _flow.human()
+	for i: int in 6:
+		me.hand.append(CoreKit.unit(_flow.session, "brock-cub", true))
+	me.discover_options.assign([&"master-at-arms"])
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	_screen.settle()
+	var option: Control = _screen.targets_of("discover")[0]["node"]
+	_click_at(option.position + option.size / 2.0)
+	assert_false(_screen.is_aiming(), "a card in the pile never asks for a target")
+	var master: Unit = me.waiting_pile[0]
+	var ctx := RecruitContext.new(_flow.session, _flow.session.recruit, me)
+	for i: int in 3:
+		assert_not_null(ctx.give_card(&"sp_seek", null))
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	_screen.settle()
+	assert_null(_screen.node_for("waiting_pile", 0), "the oldest card is below the visible stack")
+	_drag(_hand_grip(0), Vector2(960, 50))
+	assert_eq(me.hand[-1], master)
+	assert_eq(_refused, [] as Array[String])
+	assert_true(_screen.is_aiming())
+	_assert_recruit_prompt()
+	await _settle()
+	var node: GlassCard = _screen.node_for("hand", 6) as GlassCard
+	var landing: Vector3 = _screen.hand_place(6, 7)
+	assert_eq(node.position, Vector2(landing.x, landing.y - RecruitInput.AIM_LIFT))
+	assert_true(node.is_held(), "the Recruit remains held while its target is pending")
+	_click_at(_slot_middle(0))
+	assert_eq(_sent[-1], {"type": "recruit_target", "target": me.board[0].uid})
+	assert_eq(_fury(me.board[0]), 2)
+	assert_false(_screen.is_aiming())
+
+
 func test_third_master_buy_aims_only_the_golden_and_gives_two_fury() -> void:
 	var me: PlayerState = _flow.human()
 	me.hand.append(CoreKit.unit(_flow.session, "master-at-arms"))

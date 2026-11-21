@@ -87,9 +87,11 @@ func animate_hidden_arrivals(before: Dictionary) -> void:
 		var card: Dictionary = target["card"]
 		var node: Control = target["node"]
 		if node.visible and hidden.has(card.get("uid", -1)):
-			var place: Vector3 = _screen.hand_place(
-				GlassPieces.as_int(target["index"]), hand.size()
-			)
+			var index: int = GlassPieces.as_int(target["index"])
+			# The aim layout already put this card in its lifted position.
+			if _screen._input.aim_place(GlassScreen.card_key("hand", index, card)) != null:
+				continue
+			var place: Vector3 = _screen.hand_place(index, hand.size())
 			_screen._keeper.arrive_from(node, TOP, Vector2(place.x, place.y), place.z)
 
 

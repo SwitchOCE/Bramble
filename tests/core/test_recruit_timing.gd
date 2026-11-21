@@ -1,9 +1,29 @@
 extends GutTest
-## Rulebook 7.2.3/7.2.6: acquisition, never placement, fires unit Recruit effects.
+## Rulebook 7.1.2/7.2.6: entering the hand fires unit Recruit effects.
 
 @warning_ignore_start("unsafe_call_argument")
 
 const Kit := preload("res://tests/core/core_kit.gd")
+
+
+class StartTurnGift:
+	extends Mechanic
+
+	func on_start_of_turn(
+		ctx: RecruitContext, unit: Unit, _report: FightReport, _params: MechanicParams
+	) -> void:
+		ctx.give_card(&"harvest-piper", unit)
+
+
+class GiveHandReserve:
+	extends Mechanic
+
+	func on_played(ctx: RecruitContext, unit: Unit, _target: Unit, _params: MechanicParams) -> void:
+		for card: Unit in ctx.player.hand:
+			if not card.is_spell() and card.def.id != &"quartermaster":
+				ctx.give_keyword(card, &"pigeon_reserve", unit)
+
+
 var game: GameSession
 var p: PlayerState
 var mouse: Unit
@@ -73,22 +93,143 @@ func test_effect_adding_to_hand_recruits_once() -> void:
 	assert_eq(_triggers("mouse_piper"), 1)
 
 
-func test_waiting_generated_unit_and_discover_pick_recruit_on_gain_only() -> void:
+func test_waiting_generated_unit_and_discover_pick_recruit_in_join_order() -> void:
 	for i: int in 7:
 		p.hand.append(Kit.unit(game, "brock-cub", true))
 	var ctx := RecruitContext.new(game, game.recruit, p)
-	assert_not_null(ctx.give_card(&"harvest-piper", mouse))
-	assert_eq(mouse.attack(), 9)
+	var first: Unit = ctx.give_card(&"harvest-piper", mouse)
+	assert_not_null(first)
 	_offer("harvest-piper")
 	assert_eq(game.act(p.id, {"type": "pick", "index": 0}), "")
 	assert_true(p.discover_options.is_empty())
-	assert_eq(mouse.attack(), 14)
+	assert_eq(mouse.attack(), 4)
+	assert_eq(_triggers("mouse_piper"), 0)
 	assert_eq(p.waiting_pile.size(), 2)
+	var second: Unit = p.waiting_pile[1]
 	assert_eq(game.act(p.id, {"type": "sell", "hand": 0}), "")
+	assert_eq(p.hand.back(), first)
+	assert_eq(mouse.attack(), 9)
+	assert_eq(_triggers("mouse_piper"), 1)
 	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 1}), "")
+	assert_eq(p.hand.back(), second)
 	assert_true(p.waiting_pile.is_empty())
 	assert_eq(_triggers("mouse_piper"), 2)
 	assert_eq(mouse.attack(), 14)
+
+
+func test_waiting_triple_reward_pick_recruits_when_space_opens() -> void:
+	p.tier = 1
+	game.config.discover_options = game.library.ids().size()  # Offer every eligible unit.
+	p.hand.append(Kit.unit(game, String(UnitLibrary.TRIPLE_REWARD_ID)))
+	for i: int in 6:
+		p.hand.append(Kit.unit(game, "brock-cub", true))
+	var ctx := RecruitContext.new(game, game.recruit, p)
+	assert_not_null(ctx.give_card(&"sp_seek", null))
+	assert_eq(game.act(p.id, {"type": "play", "hand": 0}), "")
+	assert_eq(_triggers("triple_reward"), 1)
+	assert_eq(p.hand.size(), 7, "an older waiting spell took the reward's hand place")
+	var offer: int = p.discover_options.find(&"harvest-piper")
+	assert_gte(offer, 0)
+	assert_eq(game.act(p.id, {"type": "pick", "index": offer}), "")
+	var piper: Unit = p.waiting_pile[0]
+	assert_eq(_triggers("mouse_piper"), 0)
+	assert_eq(game.act(p.id, {"type": "sell", "hand": 0}), "")
+	assert_eq(p.hand.back(), piper)
+	assert_eq(mouse.attack(), 9)
+	assert_eq(_triggers("mouse_piper"), 1)
+
+
+func test_start_turn_gift_waits_across_turns_and_recruits_once_with_fresh_flags() -> void:
+	var id: StringName = &"core_test_waiting_start_turn_gift"
+	assert_true(game.registry.register(id, StartTurnGift.new()))
+	mouse.mechanics.append(game.registry.bind(MechanicSpec.new(id), false, true))
+	for i: int in 7:
+		p.hand.append(Kit.unit(game, "brock-cub", true))
+	game.recruit.start_turn(p)
+	assert_true(mouse.worked_this_turn, "the giver worked even though its gift waits")
+	var piper: Unit = p.waiting_pile[0]
+	assert_eq(piper.def.id, &"harvest-piper")
+	assert_eq(_triggers("mouse_piper"), 0)
+	piper.worked_this_turn = true
+	piper.turn_counters[&"test"] = 1
+	piper.stats.turn_attack = 2
+	mouse.mechanics.pop_back()
+	game.end_turn(p.id)
+	game.recruit.start_turn(p)
+	assert_eq(p.waiting_pile, [piper] as Array[Unit])
+	assert_eq(_triggers("mouse_piper"), 0)
+	assert_eq(piper.turn_counter(&"test"), 0)
+	assert_eq(piper.stats.turn_attack, 0)
+	assert_false(piper.worked_this_turn)
+	assert_eq(game.act(p.id, {"type": "sell", "hand": 0}), "")
+	assert_eq(p.hand.back(), piper)
+	assert_eq(mouse.attack(), 9)
+	assert_eq(_triggers("mouse_piper"), 1)
+	assert_false(piper.worked_this_turn, "Recruit itself does not commit the source")
+
+
+func test_waiting_third_piper_joins_and_only_its_golden_recruits() -> void:
+	p.hand.append(Kit.unit(game, "harvest-piper"))
+	Kit.put(game, p, "harvest-piper", 1)
+	for i: int in 6:
+		p.hand.append(Kit.unit(game, "brock-cub", true))
+	_offer("harvest-piper")
+	assert_eq(game.act(p.id, {"type": "pick", "index": 0}), "")
+	var waiting: Unit = p.waiting_pile[0]
+	assert_eq(mouse.attack(), 4)
+	assert_eq(_triggers("mouse_piper"), 0)
+	assert_true(Kit.log_of(game, "triple").is_empty())
+	assert_eq(game.act(p.id, {"type": "play", "hand": 1, "slot": 2}), "")
+	assert_true(p.waiting_pile.is_empty())
+	assert_null(p.find_uid(waiting.uid))
+	assert_null(p.board[1])
+	var golden: Unit = p.hand[5]
+	assert_true(golden.golden)
+	assert_eq(golden.def.id, &"harvest-piper")
+	assert_eq(mouse.attack(), 14)
+	assert_eq(_triggers("mouse_piper"), 1)
+	assert_eq(Kit.log_of(game, "trigger").back()["uid"], golden.uid)
+
+
+func test_waiting_targeted_pick_chooses_from_the_hand_and_board_at_join() -> void:
+	for i: int in 7:
+		p.hand.append(Kit.unit(game, "brock-cub", true))
+	_offer("master-at-arms")
+	var pick: Dictionary = {"type": "pick", "index": 0}
+	assert_eq(game.legal_actions(p.id), [pick] as Array[Dictionary])
+	assert_eq(game.act(p.id, pick), "")
+	var master: Unit = p.waiting_pile[0]
+	assert_true(p.recruit_choices.is_empty())
+	assert_eq(_triggers("badger_arms_master"), 0)
+	var played: Unit = p.hand[0]
+	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 1}), "")
+	assert_eq(p.recruit_choices, [master] as Array[Unit])
+	assert_eq(p.hand.back(), master)
+	assert_true(game.legal_actions(p.id).has({"type": "recruit_target", "target": master.uid}))
+	assert_eq(game.act(p.id, {"type": "recruit_target", "target": played.uid}), "")
+	assert_eq(_triggers("badger_arms_master"), 1)
+	assert_eq(played.view()["totals"]["badger_fury"]["fury"], 3)
+
+
+func test_cast_can_use_all_targets_of_a_quartermaster_that_joined_mid_action() -> void:
+	var spell: Unit = Kit.unit(game, "sp_sharpen")
+	var id: StringName = &"core_test_give_hand_reserve"
+	assert_true(game.registry.register(id, GiveHandReserve.new()))
+	spell.mechanics.append(game.registry.bind(MechanicSpec.new(id), false, true))
+	p.hand.append(spell)
+	for i: int in 2:
+		p.hand.append(Kit.unit(game, "brock-cub", true))
+	for i: int in 4:
+		p.hand.append(Kit.unit(game, "sp_sharpen"))
+	_offer("quartermaster")
+	assert_eq(game.act(p.id, {"type": "pick", "index": 0}), "")
+	var officer: Unit = p.waiting_pile[0]
+	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "target": mouse.uid}), "")
+	assert_eq(p.hand.back(), officer)
+	assert_true(p.hand[0].has_mechanic(&"pigeon_reserve"))
+	assert_true(p.hand[1].has_mechanic(&"pigeon_reserve"))
+	assert_true(p.recruit_choices.is_empty())
+	assert_true(game.legal_actions(p.id).has({"type": "end_turn"}))
 
 
 func test_bought_third_copy_fires_only_the_golden_before_play() -> void:

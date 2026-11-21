@@ -38,6 +38,35 @@ func test_cousin_and_spell_wait_then_join_in_gain_order_on_sell_and_cast() -> vo
 	assert_eq(p.hand.size(), 7)
 
 
+func test_waiting_aunt_recruits_into_the_pile_after_older_cards_on_a_merge() -> void:
+	var game: GameSession = Kit.content([], false, true).session(15)
+	game.start_round()
+	var p: PlayerState = game.player(0)
+	for i: int in 4:
+		p.hand.append(Kit.unit(game, "brock-cub", true))
+	for i: int in 3:
+		p.hand.append(Kit.unit(game, "t1_guard"))
+	var ctx := RecruitContext.new(game, game.recruit, p)
+	var aunt: Unit = ctx.give_card(&"hayloft-aunt", null)
+	var spell: Unit = ctx.give_card(&"sp_sharpen", null)
+	assert_eq(p.waiting_pile, [aunt, spell] as Array[Unit])
+	assert_true(
+		Kit.log_of(game, "give_card").all(func(e: Dictionary) -> bool: return e.id != "cousin")
+	)
+	game.recruit._settle(p)
+	assert_eq(p.hand.size(), 7, "the golden keeps its place when Aunt gives a Cousin")
+	assert_eq(p.hand[4], aunt)
+	assert_eq(p.hand[5], spell)
+	assert_true(p.hand[6].golden)
+	assert_eq(p.hand[6].def.id, &"t1_guard")
+	assert_eq(p.waiting_pile.size(), 2)
+	var cousin: Unit = p.waiting_pile[0]
+	assert_eq(cousin.def.id, &"cousin")
+	assert_eq(p.waiting_pile[1].def.id, UnitLibrary.TRIPLE_REWARD_ID)
+	assert_eq(game.act(0, {"type": "sell", "hand": 0}), "")
+	assert_eq(p.hand.back(), cousin)
+
+
 func test_a_waiting_copy_counts_only_after_joining_and_the_triple_fills_its_vacancies() -> void:
 	var game: GameSession = Kit.session()
 	game.start_round()

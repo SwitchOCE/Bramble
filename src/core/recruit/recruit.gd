@@ -92,6 +92,7 @@ func end_turn(player: PlayerState) -> void:
 	notify(ctx, &"on_end_of_turn", [])
 	_resolve_discovers(player)
 	_settle(player)
+	_resolve_discovers(player)
 	for unit: Unit in player.all_cards() + player.waiting_pile:
 		unit.stats.end_turn()
 	if not player.frozen:
@@ -584,7 +585,7 @@ func run_death_effects(ctx: RecruitContext, unit: Unit) -> void:
 			ctx.invoke(unit, bound, &"on_recruit_death")
 
 
-## 7.1.2/7.2.6: gaining a card recruits it even when it must wait for a hand place.
+## 7.1.2/7.2.6: a gained card recruits only when it enters the hand.
 ## Returns whether it entered the hand immediately.
 func _gain(player: PlayerState, unit: Unit, target: int = -2) -> bool:
 	var waits: bool = player.hand.size() >= _rules().hand_limit(player)
@@ -592,20 +593,34 @@ func _gain(player: PlayerState, unit: Unit, target: int = -2) -> bool:
 		player.waiting_pile.append(unit)
 	else:
 		player.hand.append(unit)
-	_log(player, {"type": "gain", "uid": unit.uid, "id": String(unit.def.id)})
+	_log_gain(player, unit)
 	# Owner, 18 Nov: "Only the golden fires." The completing copy merges without recruiting.
-	if waits or not _completes_triple(player, unit):
+	if not waits and not _completes_triple(player, unit):
 		_recruit_unit(player, unit, target)
 	return not waits
 
 
-## A waiting card already had its recruit effect. Joining makes it eligible for triples.
-func _admit_waiting(player: PlayerState, reserved: int = 0) -> void:
-	var limit: int = _rules().hand_limit(player) - reserved
+func _log_gain(player: PlayerState, unit: Unit) -> void:
+	_log(player, {"type": "gain", "uid": unit.uid, "id": String(unit.def.id)})
+
+
+## Fill vacancies in gain order. During a merge, the golden fills its reserved place before
+## the Recruit hooks run, so any cards those hooks give are gained after the joining cards.
+func _admit_waiting(player: PlayerState, golden: Unit = null) -> void:
+	var limit: int = _rules().hand_limit(player) - int(golden != null)
+	var recruits: Array[Unit] = []
 	while player.hand.size() < limit and not player.waiting_pile.is_empty():
 		var card: Unit = player.waiting_pile.pop_front()
 		player.hand.append(card)
 		_log(player, {"type": "waiting_join", "uid": card.uid, "id": String(card.def.id)})
+		if not _completes_triple(player, card):
+			recruits.append(card)
+	if golden != null:
+		player.hand.append(golden)
+		_log_gain(player, golden)
+		recruits.append(golden)
+	for unit: Unit in recruits:
+		_recruit_unit(player, unit)
 
 
 ## Called after insertion. Several gains may wait for the enclosing action to settle:
@@ -736,9 +751,18 @@ func _shop_view(player: PlayerState) -> Dictionary:
 
 ## After every action: triples form (7.3.1-7.3.2, after all summons) and auras are recomputed.
 func _settle(player: PlayerState) -> void:
-	_admit_waiting(player)
-	while player.recruit_choices.is_empty() and _combine_one(player):
-		pass
+	while true:
+		_admit_waiting(player)
+		if not player.recruit_choices.is_empty():
+			var source: Unit = player.recruit_choices[0]
+			var effect: BoundMechanic = targeted_recruit(source.def, session.registry)
+			if not recruit_targets(player, effect, source).is_empty():
+				break
+			# Another hook or target choice can use the last eligible hand recipient.
+			player.recruit_choices.pop_front()
+			_recruit_unit(player, source, -1)
+		elif not _combine_one(player):
+			break
 	refresh_auras(player)
 
 
@@ -796,8 +820,7 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 	golden.stats.turn_health = maxi(0, perm.y + turn.y) - golden.stats.perm_health
 	if player.hand.size() < _rules().hand_limit(player) or vacated.is_empty():
 		# The golden takes one place in the merge. Older gains fill any net vacancies.
-		_admit_waiting(player, 1)
-		_gain(player, golden)
+		_admit_waiting(player, golden)
 	else:
 		# 7.3.7: the golden takes the first vacated slot when hand has no room.
 		vacated.sort()

@@ -156,11 +156,12 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 4.6.4 | BRAMBLE | The discount resets to 0 at each upgrade; several upgrades a turn allowed (C13) | Cost resets to the next tier's base | — |
 | 5.2.1 | BRAMBLE | Units have an MTG-style type line (N1 §5) | 0–2 tribes | — |
 | 7.1.1 | BRAMBLE | Hand limit 7 (C14) | 10 | — |
-| 7.1.2 | BRAMBLE | Cards gained with a full hand wait across turns in an unlimited pile and join the hand oldest first as places free | Gains can be lost when the hand is full | Decided by the owner, 21 Nov 2026 |
+| 7.1.2 | BRAMBLE | Cards gained with a full hand wait across turns in an unlimited pile and join the hand oldest first as places free. Recruit effects resolve on joining | Gains can be lost when the hand is full | Decided by the owner, 21 Nov 2026 |
+| 7.1.2a | PROPOSED | Waiting cards can't be played, cast, sold or counted toward a triple | — | Agent default |
 | 7.2.1 | BRAMBLE | Play a unit into any empty slot (BLO; N3) | Position in one packed row | — |
 | 7.2.3 | BRAMBLE | Play triggers resolve when the unit is recruited (bought), not when played; replaying from hand repeats nothing (C15) | Battlecry on play | — |
 | 7.2.5 | BRAMBLE | No moving back to a full hand; a unit keeps stats, buffs and origin when it moves (C15) | — | — |
-| 7.2.6 | BRAMBLE | A recruit effect also resolves for a unit gained without buying (C15) | — | — |
+| 7.2.6 | BRAMBLE | Units gained without buying also resolve their Recruit effect on entering the hand, including from the waiting pile. When the entry completes a triple, only the golden's Recruit effect resolves | — | C15 and owner decisions on 18 and 21 Nov 2026 |
 | 7.3.6 | BRAMBLE | The Triple Reward comes when the triple forms, not when the golden is played (C15) | On playing the golden | — |
 | 7.2.4 | BRAMBLE | A unit moves from the board back to hand and is played again, free, unlimited (C15) | A played minion stays on the board | — |
 | 8.1.1 | BRAMBLE | 7 slots in two rows, F1–F4 and B1–B3 (N1 §3; N2 §1) | 7 in one row | — |
