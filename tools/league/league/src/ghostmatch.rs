@@ -13,9 +13,17 @@ use std::{
 };
 
 pub fn run(args: &MatchArgs, field: &Path) -> Result<Value, String> {
+    run_with_debug_logs(args, field, false)
+}
+
+pub fn run_with_debug_logs(
+    args: &MatchArgs,
+    field: &Path,
+    debug_logs: bool,
+) -> Result<Value, String> {
     let red = crate::factory(&args.red)?;
     let blue = crate::factory(&args.blue)?;
-    run_factories(args, red, blue, field)
+    run_with_factories(args, red, blue, field, debug_logs)
 }
 
 /// `run` with the two bots given as constructors, as `matchrun::run_factories` is for live
@@ -27,13 +35,23 @@ pub fn run_factories(
     blue: league_api::Factory,
     field: &Path,
 ) -> Result<Value, String> {
+    run_with_factories(args, red, blue, field, false)
+}
+
+fn run_with_factories(
+    args: &MatchArgs,
+    red: league_api::Factory,
+    blue: league_api::Factory,
+    field: &Path,
+    debug_logs: bool,
+) -> Result<Value, String> {
     if args.games == 0 || !args.games.is_multiple_of(2) {
         return Err("usage: ghost-match --games must be a positive even number".into());
     }
     if !args.records {
         return Err("usage: ghost-match writes records for replay and cutting".into());
     }
-    crate::matchrun::run_match(args, red, blue, Some(field))
+    crate::matchrun::run_match(args, red, blue, Some(field), debug_logs)
 }
 
 pub(crate) struct Lobbies {

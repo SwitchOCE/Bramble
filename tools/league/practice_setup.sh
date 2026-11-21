@@ -190,16 +190,42 @@ if [[ -z $seeds ]]; then
 fi
 
 mkdir -p -- "$(dirname -- "$out")"
-mkdir -- "$out" || die "could not create a new output folder: $out"
+staged=$(mktemp -d "$practice/.practice-match.XXXXXXXX")
 "$league" match --red "$team" --blue "$tag" --games "$games" --seeds "$seeds" \
-  --clock-ms 1000 --threads 2 --out "$out"
-"$league" analyze "$out" | sed -n '1,8p'
-# The old bot's own report rows hold its card values: its numbers, not for the practising team
-# (referee's ruling, 19 Nov). Drop them; the rest of the output stays as the harness wrote it.
-if [[ -f $out/reports.jsonl ]]; then
-  grep -v '"colour":"blue"' "$out/reports.jsonl" > "$out/reports.jsonl.tmp" || true
-  mv -- "$out/reports.jsonl.tmp" "$out/reports.jsonl"
-fi
+  --clock-ms 1000 --threads 2 --out "$staged"
+"$league" analyze "$staged" | sed -n '1,8p'
+# The practising bot is red. The referee's 19 Nov ruling keeps blue's card
+# values and strategy labels private.
+python3 - "$staged" <<'PY'
+import gzip
+import json
+from pathlib import Path
+import sys
+
+match = Path(sys.argv[1])
+for log in ("shops", "decisions"):
+    for suffix in (".jsonl", ".jsonl.gz"):
+        path = match / (log + suffix)
+        if not path.is_file():
+            continue
+        compressed = suffix.endswith(".gz")
+        temporary = path.with_name(path.name + ".tmp")
+        with path.open("rb") as raw, temporary.open("wb") as target:
+            source = gzip.GzipFile(fileobj=raw) if compressed else raw
+            output = gzip.GzipFile(fileobj=target, mode="wb", filename="", mtime=0) if compressed else target
+            with source, output:
+                for line in source:
+                    row = json.loads(line)
+                    if row["colour"] == "blue":
+                        if "values" in row or "strategy" in row:
+                            row.pop("values", None)
+                            row.pop("strategy", None)
+                            line = json.dumps(row, separators=(",", ":")).encode() + b"\n"
+                    output.write(line)
+        temporary.replace(path)
+PY
+[[ ! -e $out && ! -L $out ]] || die "output folder already exists: $out"
+mv -T -- "$staged" "$out"
 PLAY
 } > "$practice/play.sh"
 chmod +x -- "$practice/play.sh"

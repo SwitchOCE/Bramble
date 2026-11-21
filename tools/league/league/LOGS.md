@@ -91,19 +91,32 @@ Each nested `fights[]` item has `a`, `b`, `winner`, `loser`, `damage`, `result`,
 
 | Field | Meaning and source |
 |---|---|
-| `a`, `b` | seat ids from the engine fight's `players`; `b == -1` is the ghost (`Matchmaking::GHOST`), not -2 |
+| `a`, `b` | seat ids from the engine fight's `players`. In a live match `b == -1` identifies the copied ghost (`Matchmaking::GHOST`). Async opponents occupy seats 1–7 with run IDs in the game's `runs` list |
 | `winner` | result winner side mapped to `a` or `b`, so -1 when the ghost won; **null for a draw** |
 | `loser` | engine fight's `loser`: seat id, -1 for the ghost, -2 when there is no loser |
 | `damage` | engine fight's damage to the losing live player **before armour** (0 when no live loser); `players[].hp`/`armor` show what was lost |
 | `result` | engine combat result dictionary, unchanged, from `GameSession::finish_round`; combat events are read separately for the two counts |
-| `ghost_of` | null for a live opponent, otherwise the seat copied by the ghost: session `ghost_of` captured **before** `finish_round`. `_fight` uses `ghost_board`, `ghost_hand`, `ghost_player`; `_eliminate` can replace them for the next round, so the post-fight value would be wrong |
+| `ghost_of` | seat copied when `b == -1`, otherwise null. The harness reads session `ghost_of` **before** `finish_round`, since elimination can replace the copy for the next round |
 | `kills` | Two arrays in `[a, b]` order, including zero counts. Every starting unit has a row `{card, golden, slot, origin: "start", source: null, kills}` in slot order. Arrivals follow, grouped by `{card, golden, origin, source}` with `kills` and no slot. A `"summon"` names the summoning unit's card id, or null when the event names no unit. A `"reserve"` has null source. Each enemy death credits the engine's `killer_uid`, the last recorded damaging or destroying source, including Cleave and other effects. Kills by returned copies credit the original unit and its origin. Deaths with no credited enemy unit add no kill |
 | `summons` | Two arrays in `[a, b]` order. Each groups successful `summon` events by `{source, card, count}`, sorted by source and summoned card id. `source` is the summoning unit's card id, or null when the event names no unit. Waiting summons count when they land. Failed summons, returns and Reserve arrivals are excluded |
-
 | `renown` | Combat Renown events in order, each with `type`, `side`, `slot`, `amount`, `next_fight`, `permanent` and `source_uid` |
 
-The per-fight arrays use the ghost's combat board and events on side `b` when applicable. These additive
-fields keep the manifest at schema 1.
+Arrays in `result`, `kills` and `summons` use combat side order `[a, b]`, including
+the ghost's board and events when applicable. The engine writes these fields to `result`.
+
+| Field | Meaning |
+|---|---|
+| `winner` | combat side 0 or 1 when the other side's board is empty at a `board_empty` halt. Draws use -1 in `result.winner` and null in the fight's outer `winner` |
+| `reason` | `board_empty` (one or both boards empty), `no_attacks` (neither side can attack), `attack_limit` or `trigger_limit` |
+| `starting` | number of starting recruit units per side |
+| `killed` | per side, how many starting recruit UIDs have no unit still on the board at the end. A returned copy of a starting unit carries the same recruit UID and counts as a survivor |
+| `deaths` | resolved friendly death events per side. Includes summons, Reserve arrivals and each resolved death of a unit that returns |
+| `survivors` | combat UIDs on each final board, including arrivals |
+| `survivor_recruit_uids` | distinct recruit UIDs of starting units represented on each final board |
+| `outnumbered_by` | per side, the opponent's counted starting units minus its own, floored at zero. A rear unit with the uncounted mechanic is excluded |
+| `attacks`, `triggers` | fight-wide counters for attacks (including instead-of-attack replacements) and mechanic triggers counted toward the engine's trigger limit |
+
+Schema 1 also covers these additive fields.
 
 ## `decisions.jsonl.gz`: one line per decision
 
@@ -124,11 +137,18 @@ engine's order:
   plays on.
 - `step` counts decisions within the seat's turn, from 0. `result` is the engine's answer to
   the chosen action: empty when it was accepted.
+- A Discover decision includes `discover_options`, the ordered card IDs offered, and
+  `strategy` when the bot returned a report. A selected `pick` action contains the option
+  index, target slot (-1 for an untargeted pick) and the card ID.
 - The lines match the record's `act` lines one for one, in game order.
 
 The file is gzipped (`gzip -f -n`, so it stays byte-identical) when the match ends, from about
 1.7 GB to about 40 MB for 1,000 games. Read it with `zcat` or Python's `gzip.open`. If gzip is missing or fails, the text
 `decisions.jsonl` is kept. `--no-decisions` omits this log.
+The referee's balance-reading prune replaces the `legal` array and `chosen` index with one
+`action` object, retaining fields such as `discover_options` and `result`.
+An accepted sell also keeps `sale_eaters`, the distinct Gorger and Granary Glutton card IDs
+with legal board sells in that decision, excluding the slot sold. The list may be empty.
 
 ## `cpu.jsonl`: one line per game (not deterministic)
 
@@ -137,26 +157,41 @@ its bot (construction, every `choose` and `report`, and its Sim work), the fallb
 
 ## `shops.jsonl.gz`: one line per shop a bot saw
 
-A new line starts at the seat's first decision of each turn (`reason: "turn_start"`), after a
-refresh (`"refresh"`), and whenever the shop changed other than by the bot buying from it
-(`"changed"`: an ability, a Discover, an upgrade that changed it). While a Discover is pending
-no shop line is started (those decisions are in `discovers.jsonl`).
+A new line starts at the seat's first non-Discover decision of each turn
+(`reason: "turn_start"`). A later decision starts a line when the visible slots differ
+from the shop's expected stock after purchases. Its `reason` is `"refresh"` if the last
+action refreshed the shop, or `"changed"` for other changes such as an ability, a
+Discover, or an upgrade. Discover choices are recorded in the decision log.
 
 ```
 {"game", "seat", "colour", "bot", "round", "reason", "gold", "tier",
- "offers": [{"card", "spell", "index", "buyable"}], "bought": [{"card", "spell", "index"}]}
+ "offers": [{"card", "spell", "index", "buyable"}], "bought": [{"card", "spell", "index"}],
+ "values": [[card id, value], ...], "strategy": label}
 ```
 
-`buyable` is true when a buy of that slot was in the legal list when the shop was seen:
-affordable, with room in the hand. `bought` lists what the seat bought from this shop before it
-changed. At match end, `gzip -f -n` compresses `shops.jsonl` deterministically, just like
-the decisions log. If gzip is missing or fails, `shops.jsonl` stays as text.
+`index` is the position in the unit or spell row. `buyable` records whether the legal
+list included an untargeted buy for that slot when the shop opened. `bought` lists the
+accepted purchases attributed to this shop. `values` and `strategy` appear when the
+bot returned a report as the shop opened. `values` contains the bot-supplied scores for
+offered card IDs only, on the bot's own scale. Some cards may have no score, a card
+ID can appear more than once, and non-finite scores are encoded as null.
+`strategy` is the bot's label for that report.
+At match end, `gzip -f -n` compresses `shops.jsonl`. A missing or failed gzip leaves
+the plain log.
 
-## `discovers.jsonl`: one line per Discover choice
+## Debug logs
+
+Both match commands accept `--debug-logs` to write the two standalone files below.
+Without the flag, shop scores and labels are in shops and Discover choices and labels
+are in decisions. Using `--no-decisions` leaves Discover choices and their labels
+available only in the debug logs when enabled. Both flags leave the `report()` calls
+and their CPU cost in place.
+
+### `discovers.jsonl`: one line per Discover choice
 
 `{"game", "seat", "colour", "bot", "round", "options": [card ids], "pick": index, "card": id}`.
 
-## `reports.jsonl`: one line per `report()` that returned something
+### `reports.jsonl`: one line per `report()` that returned something
 
 `{"game", "seat", "colour", "bot", "round", "kind": "shop"|"discover", "offered": [card ids],
 "strategy", "values": [[card id, value], ...]}`. `report` is called (on the seat's clock) when a
@@ -188,6 +223,7 @@ marker. `private/summary.json.tmp` can remain if interrupted during publication.
 |---|---|
 | `schema` | integer 1, the log schema documented here |
 | `complete` | always true; an incomplete run has no summary |
+| `inline_reports` | true when shop values and strategy, and Discover choices and strategy, are recorded in the main logs. Older manifests omit this marker |
 | `rules_hash` | pinned build fingerprint from the harness's embedded `league/build.json`, the same build used by record headers |
 | `git_sha` | trimmed stdout of runtime `git rev-parse HEAD` in the repository root, or null if unavailable; identifies the checkout, not uncommitted edits. Excluded from thread determinism comparisons |
 | `red`, `blue` | bot names from `MatchArgs` |

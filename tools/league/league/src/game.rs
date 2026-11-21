@@ -45,6 +45,8 @@ pub struct GamePlan {
     pub clock_ns: i64,
     /// Write the decision log (every legal action at every decision).
     pub log_decisions: bool,
+    /// Keep the standalone bot reports and Discover picks for debugging.
+    pub debug_logs: bool,
 }
 
 /// What one game produced. Every field but `cpu` is deterministic.
@@ -256,6 +258,7 @@ fn play_session(engine: &Engine, plan: GamePlan, watch: &Watch, game: GameSessio
         reports: Vec::new(),
         decisions: Vec::new(),
         log_decisions: plan.log_decisions,
+        debug_logs: plan.debug_logs,
     };
     let round_limit = engine.library.config("round_limit").unwrap_or(50);
     let mut fight_log: Vec<Value> = Vec::new();
@@ -405,6 +408,7 @@ struct Ctx<'a> {
     reports: Vec<Value>,
     decisions: Vec<Value>,
     log_decisions: bool,
+    debug_logs: bool,
 }
 
 impl Seat {
@@ -500,17 +504,33 @@ fn choose(ctx: &mut Ctx, seat: &mut Seat, view: &BotView) -> usize {
     fallback.choose(view, &mut seat.sim)
 }
 
-fn report(ctx: &mut Ctx, seat: &mut Seat, view: &BotView, kind: &str, offered: &[String]) {
-    if seat.bot.is_none() {
-        return;
-    }
-    if let Answer::Report(Some(r)) = call(ctx, seat, view, Call::Report) {
+fn report(
+    ctx: &mut Ctx,
+    seat: &mut Seat,
+    view: &BotView,
+    kind: &str,
+) -> Option<league_api::Report> {
+    let Answer::Report(Some(r)) = call(ctx, seat, view, Call::Report) else {
+        return None;
+    };
+    if ctx.debug_logs {
+        let me = view.me();
+        let offered = if kind == "discover" {
+            me.discover_options.iter().collect()
+        } else {
+            me.shop_units
+                .iter()
+                .chain(&me.shop_spells)
+                .filter(|card| !card.is_empty())
+                .collect::<Vec<_>>()
+        };
         ctx.reports.push(json!({
             "game": ctx.index, "seat": seat.id, "colour": seat.colour, "bot": seat.name,
             "round": view.round(), "kind": kind, "offered": offered, "strategy": r.strategy,
-            "values": r.values.iter().map(|(id, v)| json!([id, v])).collect::<Vec<_>>(),
+            "values": r.values,
         }));
     }
+    Some(r)
 }
 
 fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
@@ -537,8 +557,9 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
         });
         seat.gold_start.get_or_insert(view.me().gold);
         let picking = view.legal().iter().any(|a| a.kind() == "pick");
+        let mut discover_report = None;
         if picking {
-            report(ctx, seat, &view, "discover", &view.me().discover_options);
+            discover_report = report(ctx, seat, &view, "discover");
         } else {
             let me = view.me();
             let same = seat.shop.as_ref().is_some_and(|s| {
@@ -579,14 +600,19 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
                     expect_units: me.shop_units.clone(),
                     expect_spells: me.shop_spells.clone(),
                 });
-                let offered: Vec<String> = me
-                    .shop_units
-                    .iter()
-                    .chain(me.shop_spells.iter())
-                    .filter(|c| !c.is_empty())
-                    .cloned()
-                    .collect();
-                report(ctx, seat, &view, "shop", &offered);
+                if let Some(r) = report(ctx, seat, &view, "shop") {
+                    let shop = &mut seat.shop.as_mut().expect("opened shop").value;
+                    let values: Vec<_> = r
+                        .values
+                        .iter()
+                        .filter(|(card, _)| {
+                            me.shop_units.contains(card) || me.shop_spells.contains(card)
+                        })
+                        .filter(|(card, _)| !card.is_empty())
+                        .collect();
+                    shop["values"] = json!(values);
+                    shop["strategy"] = json!(r.strategy);
+                }
             }
             first = false;
         }
@@ -598,14 +624,21 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
         let result = timed(2, || GameSession::act(&game, id, &action));
         let me = view.me();
         if ctx.log_decisions {
-            ctx.decisions.push(json!({
+            let mut decision = json!({
             "game": ctx.index, "seat": id, "colour": seat.colour, "bot": seat.name,
             "by": if seat.bot.is_some() { "bot" } else { "fallback" },
             "round": round, "step": step, "gold": me.gold, "tier": me.tier,
             "board_n": me.board.iter().flatten().count(), "hand_n": me.hand.len(),
             "legal": view.legal().iter().map(|a| legal_entry(a, me)).collect::<Vec<_>>(),
             "chosen": index, "result": result.clone(),
-            }));
+            });
+            if picking {
+                decision["discover_options"] = json!(me.discover_options);
+                if let Some(r) = discover_report {
+                    decision["strategy"] = json!(r.strategy);
+                }
+            }
+            ctx.decisions.push(decision);
         }
         rec.put(&[
             ("op", "act".into()),
@@ -614,7 +647,9 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
             ("action", Variant::Dictionary(action.clone())),
             ("result", result.clone().into()),
         ]);
-        if let Action::Pick { index } | Action::PickTarget { index, .. } = typed {
+        if ctx.debug_logs
+            && let Action::Pick { index } | Action::PickTarget { index, .. } = typed
+        {
             ctx.discovers.push(json!({
                 "game": ctx.index, "seat": id, "colour": seat.colour, "bot": seat.name,
                 "round": round, "options": view.me().discover_options, "pick": index,
@@ -1079,6 +1114,7 @@ mod tests {
                 seats: crate::selfcheck::records_gd_seats(1001),
                 clock_ns: 5_000_000_000,
                 log_decisions: false,
+                debug_logs: false,
             },
             &watch,
         );
