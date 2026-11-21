@@ -3,7 +3,7 @@ extends GlassScreen
 ## The fight screen in lead and stained glass, rebuilt from fight.html: the shared window, hero,
 ## leaderboard and hover (GlassScreen), with the opponent's board in the shop's light, its front
 ## row facing yours across the transom. It draws one plain view state (show_state) and can play a
-## fight log through FightReplay (play). It holds no rules and sends no requests.
+## fight log through FightReplay (play). It holds no rules.
 ##
 ## The view state (tests/screens/fixtures/fight_start.json and fight_mid.json are examples):
 ##   turn, health, hero, players: as the recruit screen's
@@ -29,6 +29,8 @@ extends GlassScreen
 signal playback_finished
 ## The result is on the screen (its hold has just begun): the flow may move on from here.
 signal result_shown
+## The player clicked the Skip button.
+signal skip_requested
 
 const FIGHT_READY_LINE: String = "fight_screen: ready"
 ## How long the attacker takes to lunge, in seconds at speed 1.
@@ -43,7 +45,10 @@ const OUTNUMBERED_WORDS: String = "Outnumbered by %d."
 
 ## Playback speed: 2 plays twice as fast.
 @export var speed: float = 1.0
+## The live controller shows Skip during playback. A comparison scene can also show it.
+@export var show_skip: bool = false
 
+var _skip_button: Button
 var _replay: FightReplay
 var _step: int = -1
 var _wait: float = 0.0
@@ -168,8 +173,19 @@ func _build() -> void:
 		_build_leaderboard()
 	_add_vignette()
 	_build_result()
+	_update_skip_button()
 	_attack_start = false
 	_impact_start = false
+
+
+func _update_skip_button() -> void:
+	# Keep the button through replay redraws so a new beat cannot interrupt a click.
+	if show_skip and _skip_button == null:
+		_skip_button = FightSkipButton.new()
+		_skip_button.pressed.connect(skip_requested.emit)
+		_stage.add_child(_skip_button)
+	if _skip_button != null:
+		_skip_button.visible = show_skip
 
 
 func _you() -> int:

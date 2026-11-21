@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "surrealdb": {
+      "type": "http",
+      "url": "http://127.0.0.1:18603/mcp",
+      "headers": {
+        "Authorization": "Basic cm9vdDpyb290",
+        "surreal-ns": "bramble",
+        "surreal-db": "league"
+      }
+    }
+  }
+}

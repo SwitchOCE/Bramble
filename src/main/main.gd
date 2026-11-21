@@ -232,8 +232,7 @@ func _swap(next: Control) -> void:
 		screen.queue_free()
 	screen = next
 	add_child(next)
-	# the cog reads the pointer ahead of the game (which takes any click in a fight to skip): it
-	# stays after it
+	# the cog reads the pointer ahead of the game: it stays after it
 	cog.visible = next is GameController
 	move_child(_cog_layer, -1)
 

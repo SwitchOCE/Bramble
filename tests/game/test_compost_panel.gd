@@ -196,6 +196,15 @@ func test_fight_keeps_playing_and_panel_refreshes_when_compost_changes() -> void
 	assert_false(get_tree().paused)
 	_click_at(game.fight._stage.get_global_transform_with_canvas() * Vector2(1100, 600))
 	assert_eq(game.fight._step, step_before, "panel clicks did not skip")
+	var space := InputEventKey.new()
+	space.keycode = KEY_SPACE
+	space.pressed = true
+	get_viewport().push_input(space, true)
+	assert_eq(game.fight._step, step_before, "Space did not skip through the panel")
+	_click(game.fight._skip_button)
+	assert_null(game.fight._compost, "clicking outside dismisses Compost")
+	assert_eq(game.fight._step, step_before, "the dismissing click did not also skip")
+	_click(_chip(game.fight))
 	game.fight._process(game.fight._wait + 0.01)
 	assert_gt(game.fight._step, step_before, "replay progresses with panel open")
 	var replay: FightReplay = game.fight._replay
