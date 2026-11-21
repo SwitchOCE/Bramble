@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "loudness_standard": {
     "meter": "M400_max (ungated ITU-R BS.1770 K-weighted 400 ms sliding window max)",
     "true_peak_ceiling_dbtp": -1.2,
@@ -8,6 +8,7 @@
   "hit_weights": {
     "metric": "damage_dealt",
     "blocked_damage": 0,
+    "destroy_cue": "fight.destroy",
     "light_max_damage": 4,
     "medium_max_damage": 13,
     "heavy_min_damage": 14
@@ -20,6 +21,12 @@
     "cleave_max_played": 3,
     "cleave_staggers_s": [0.0, 0.028, 0.058],
     "cleave_gains_db": [0.0, -4.5, -7.0],
+    "distinct_takes_in_step": true
+  },
+  "simultaneous_deaths": {
+    "max_played_per_step": 2,
+    "staggers_s": [0.0, 0.055],
+    "gains_db": [0.0, -4.5],
     "distinct_takes_in_step": true
   },
   "exclusive_groups": {
@@ -75,6 +82,104 @@
       "max_voices": 4,
       "min_gap_s": 0.025,
       "target_m400_lufs": -15.0
+    },
+    "fight.hit.blocked": {
+      "files": [
+        "res://assets/audio/sfx/hit_blocked_01.wav",
+        "res://assets/audio/sfx/hit_blocked_02.wav",
+        "res://assets/audio/sfx/hit_blocked_03.wav"
+      ],
+      "volume_db": 0.0,
+      "pitch": [0.975, 1.025],
+      "gain_jitter_db": 0.5,
+      "max_voices": 3,
+      "min_gap_s": 0.025,
+      "target_m400_lufs": -17.0
+    },
+    "fight.death": {
+      "files": [
+        "res://assets/audio/sfx/death_01.wav",
+        "res://assets/audio/sfx/death_02.wav",
+        "res://assets/audio/sfx/death_03.wav",
+        "res://assets/audio/sfx/death_04.wav"
+      ],
+      "volume_db": 0.0,
+      "pitch": [0.975, 1.025],
+      "gain_jitter_db": 0.5,
+      "max_voices": 3,
+      "min_gap_s": 0.045,
+      "target_m400_lufs": -16.5
+    },
+    "fight.destroy": {
+      "files": [
+        "res://assets/audio/sfx/destroy_01.wav",
+        "res://assets/audio/sfx/destroy_02.wav"
+      ],
+      "volume_db": 0.0,
+      "pitch": [0.980, 1.020],
+      "gain_jitter_db": 0.4,
+      "max_voices": 2,
+      "min_gap_s": 0.060,
+      "target_m400_lufs": -15.0
+    },
+    "fight.summon": {
+      "files": [
+        "res://assets/audio/sfx/summon_01.wav",
+        "res://assets/audio/sfx/summon_02.wav",
+        "res://assets/audio/sfx/summon_03.wav"
+      ],
+      "volume_db": 0.0,
+      "pitch": [0.975, 1.025],
+      "gain_jitter_db": 0.4,
+      "max_voices": 3,
+      "min_gap_s": 0.050,
+      "target_m400_lufs": -18.0
+    },
+    "fight.trigger": {
+      "files": [
+        "res://assets/audio/sfx/trigger_01.wav",
+        "res://assets/audio/sfx/trigger_02.wav",
+        "res://assets/audio/sfx/trigger_03.wav"
+      ],
+      "volume_db": 0.0,
+      "pitch": [0.990, 1.010],
+      "gain_jitter_db": 0.4,
+      "max_voices": 2,
+      "min_gap_s": 0.080,
+      "target_m400_lufs": -21.0
+    },
+    "fight.win": {
+      "files": [
+        "res://assets/audio/sfx/fight_win.wav"
+      ],
+      "volume_db": 0.0,
+      "pitch": [1.0, 1.0],
+      "gain_jitter_db": 0.0,
+      "max_voices": 1,
+      "min_gap_s": 0.500,
+      "target_m400_lufs": -16.0
+    },
+    "fight.lose": {
+      "files": [
+        "res://assets/audio/sfx/fight_lose.wav"
+      ],
+      "volume_db": 0.0,
+      "pitch": [1.0, 1.0],
+      "gain_jitter_db": 0.0,
+      "max_voices": 1,
+      "min_gap_s": 0.500,
+      "target_m400_lufs": -17.5
+    },
+    "fight.tie": {
+      "files": [
+        "res://assets/audio/sfx/fight_tie.wav"
+      ],
+      "volume_db": 0.0,
+      "pitch": [1.0, 1.0],
+      "gain_jitter_db": 0.0,
+      "max_voices": 1,
+      "min_gap_s": 0.500,
+      "target_m400_lufs": -18.5
     }
   }
 }

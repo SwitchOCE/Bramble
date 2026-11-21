@@ -7,6 +7,20 @@ extends GutTest
 const CoreKit := preload("res://tests/core/core_kit.gd")
 const SCREEN: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
 
+const FIGHT_CUES: Array[String] = [
+	"fight.hit.light",
+	"fight.hit.medium",
+	"fight.hit.heavy",
+	"fight.hit.blocked",
+	"fight.destroy",
+	"fight.death",
+	"fight.summon",
+	"fight.trigger",
+	"fight.win",
+	"fight.lose",
+	"fight.tie",
+]
+
 var _table: Dictionary
 
 
@@ -33,11 +47,14 @@ func _names(cues: Array[Dictionary]) -> Array[String]:
 
 func test_every_hit_cue_the_rules_name_has_takes_that_load() -> void:
 	var cues: Dictionary = _table["cues"]
-	for cue_name: String in ["fight.hit.light", "fight.hit.medium", "fight.hit.heavy"]:
+	for cue_name: String in FIGHT_CUES:
 		assert_true(cues.has(cue_name), cue_name)
 		var spec: Dictionary = CoreUtil.to_dict(cues.get(cue_name, {}))
 		var files: Array = CoreUtil.to_array(spec.get("files", []))
-		assert_gt(files.size(), 1, "%s has several takes" % cue_name)
+		# the round's end is one take; every cue that comes again and again has several
+		assert_gt(
+			files.size(), 0 if cue_name in ["fight.win", "fight.lose", "fight.tie"] else 1, cue_name
+		)
 		for file: Variant in files:
 			assert_true(load(str(file)) is AudioStream, "%s loads" % file)
 
@@ -49,7 +66,7 @@ func test_hit_weight_follows_damage() -> void:
 	assert_eq(SoundCues.hit_cue(5, weights), "fight.hit.medium")
 	assert_eq(SoundCues.hit_cue(13, weights), "fight.hit.medium")
 	assert_eq(SoundCues.hit_cue(14, weights), "fight.hit.heavy")
-	assert_eq(SoundCues.hit_cue(0, weights), "fight.hit.heavy", "a destroy")
+	assert_eq(SoundCues.hit_cue(0, weights), "fight.destroy", "a destroy")
 
 
 func test_two_hits_at_once_play_the_heaviest_once() -> void:
@@ -76,10 +93,52 @@ func test_a_cleave_plays_at_most_three_staggered_heaviest_first() -> void:
 	assert_almost_eq(SoundPlayer._num(cues[2]["gain_db"]), -7.0, 0.0001)
 
 
-func test_other_steps_are_silent_for_now() -> void:
-	for kind: String in ["", "trigger", "death", "summon", "change"]:
-		var step: Dictionary = {"kind": kind, "state": {"moment": {}}, "hold": 0.3}
+func test_a_destroy_outranks_a_hit_beside_it() -> void:
+	var destroyed: Dictionary = {"side": 1, "slot": 0, "amount": 0}
+	var cues: Array[Dictionary] = SoundCues.for_fight_step(_splash([_hit(9), destroyed]), _table)
+	assert_eq(_names(cues), ["fight.destroy"])
+
+
+func _boards(uids: Array) -> Dictionary:
+	var row: Array = []
+	for uid: int in uids:
+		row.append({"uid": uid})
+	return {"state": {"boards": [row, []], "moment": {}}, "kind": "", "hold": 0.3}
+
+
+func test_deaths_play_once_or_two_staggered_never_a_pile() -> void:
+	var before: Dictionary = _boards([1, 2, 3, 4])
+	var one: Dictionary = _boards([1, 2, 3])
+	one["kind"] = "death"
+	assert_eq(_names(SoundCues.for_fight_step(one, _table, before)), ["fight.death"])
+	var three: Dictionary = _boards([4])
+	three["kind"] = "death"
+	var cues: Array[Dictionary] = SoundCues.for_fight_step(three, _table, before)
+	assert_eq(_names(cues), ["fight.death", "fight.death"])
+	assert_almost_eq(SoundPlayer._num(cues[1]["delay_s"]), 0.055, 0.0001)
+	assert_almost_eq(SoundPlayer._num(cues[1]["gain_db"]), -4.5, 0.0001)
+
+
+func test_summons_and_triggers_sound_and_changes_stay_silent() -> void:
+	var step: Dictionary = {"kind": "summon", "state": {"moment": {}}, "hold": 0.3}
+	assert_eq(_names(SoundCues.for_fight_step(step, _table)), ["fight.summon"])
+	step["kind"] = "trigger"
+	assert_eq(_names(SoundCues.for_fight_step(step, _table)), ["fight.trigger"])
+	for kind: String in ["", "change"]:
+		step["kind"] = kind
 		assert_eq(SoundCues.for_fight_step(step, _table).size(), 0, kind)
+
+
+func test_the_result_plays_win_lose_or_tie_for_your_side_once() -> void:
+	var cases: Dictionary = {0: "fight.win", 1: "fight.lose", -1: "fight.tie"}
+	for winner: int in cases:
+		var step: Dictionary = {
+			"kind": "",
+			"hold": 2.0,
+			"state": {"you_side": 0, "moment": {"result": {"winner": winner, "damage": 3}}},
+		}
+		assert_eq(_names(SoundCues.for_fight_step(step, _table)), [str(cases[winner])])
+		assert_eq(SoundCues.for_fight_step(step, _table, step).size(), 0, "not twice")
 
 
 func test_takes_never_repeat_back_to_back_and_missing_cues_stay_silent() -> void:
@@ -115,7 +174,7 @@ func test_a_second_start_inside_the_gap_is_dropped() -> void:
 	assert_eq(str(player.heard[1]["dropped"]), "gap", "the same cue twice in one moment")
 
 
-func test_a_real_fight_through_the_screen_asks_for_its_hits() -> void:
+func test_a_real_fight_through_the_screen_asks_for_its_cues() -> void:
 	var content: GameContent = GameContent.load_default()
 	if content.tribe_name("badger") == "" or content.tribe_name("mouse") == "":
 		pass_test("no badger or mouse folder")
@@ -137,9 +196,17 @@ func test_a_real_fight_through_the_screen_asks_for_its_hits() -> void:
 	)
 	# every cue each step should ask for, in order, from the step itself
 	var expected: Array[String] = []
+	var before: Dictionary = {}
 	for step: Dictionary in replay.steps:
-		expected.append_array(_names(SoundCues.for_fight_step(step, _table)))
+		expected.append_array(_names(SoundCues.for_fight_step(step, _table, before)))
+		before = step
 	assert_gt(expected.size(), 0, "the fight has hits")
+	assert_has(expected, "fight.death", "units die")
+	assert_eq(
+		expected.count("fight.win") + expected.count("fight.lose") + expected.count("fight.tie"),
+		1,
+		"one result"
+	)
 	Sound.keep_log = true
 	Sound.heard.clear()
 	var screen: FightScreen = SCREEN.instantiate()
@@ -160,6 +227,9 @@ func test_a_real_fight_through_the_screen_asks_for_its_hits() -> void:
 	expected.sort()
 	assert_eq(asked, expected, "the log holds exactly the cues the fight's steps call for")
 	Sound.heard.clear()
+	# headless sound never finishes: leave nothing playing when the run quits
+	for voice: Node in Sound.get_children():
+		(voice as AudioStreamPlayer).stop()
 
 
 func test_the_rules_core_never_refers_to_sound() -> void:
