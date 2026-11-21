@@ -13,6 +13,37 @@ Run these Python 3 commands from this directory. Report commands print Markdown 
 | `python3 agree.py MATCH` | `agree.md`, `agree.json` |
 | `python3 ladder.py MATCH [MATCH ...] [--trends]` | `ladder.md`, `ladder.json` beside the first match |
 
+## Referee retention
+
+Run `python3 prune_match.py MATCH --kind KIND` after the match has finished and all required
+reports, exports and cuts have run. Use a match folder on `/data`. The script prints the kept
+files and byte counts.
+
+- **Climb or stopping test.** Run `league analyze MATCH` first and supply `--kind climb
+  --verdict kept|rejected`. For a kept version, cut and verify its ghosts and supply
+  `--cut-verified`. The match keeps the manifest, analysis, timing and a one-line JSON
+  verdict with bot tags, seeds SHA, game count, placement gap and 95% interval bounds.
+- **Balance reading.** Use `--kind reading` to keep the gzip-compressed manifest, library,
+  games, shops, decisions, CPU data, records and any replayed event log. Decision rows
+  retain the selected `action` and the Discover offers, where applicable. Sale-opportunity
+  metrics that require legal alternatives are available before pruning. Python reports
+  read the compressed data directly. If a replay or ghost tool needs a plain replay
+  file, decompress a copy into scratch storage. Keep a legacy match intact for reading
+  if its analysis still uses the standalone debug logs.
+- **Field cut.** Run `bramble-ghosts cut` and `bramble-ghosts verify` on a separate store,
+  then use `--kind field --cut-verified` to keep only the match manifest.
+- **Old build.** Use `--kind old-build --archive-dir ARCHIVES` for each match. Supply
+  findings reports with repeatable `--finding FILE`. The archive uses
+  `ARCHIVES/<rules-hash>/<match-name>/`. It keeps each summary and any verdict, and
+  writes CSVs for card buys by team, round band and final tribe and for final tribe
+  shares and placements when the game logs are still available. The script publishes
+  the archive entry before emptying the source folder. Keep both paths on the same
+  filesystem. The 2,000,000-byte limit covers all file contents for the build. If a new
+  entry would exceed it, the source match stays available for the referee to decide
+  which findings to retain.
+
+## Reports
+
 **Shared loader.** `match_data.py` is an importable module. It accepts a completed schema 1 manifest, reads the card library, streams one JSON line at a time and transparently uses plain shops or decisions when gzip output is absent. It joins events to final tribe and colour by game index and seat id, and checks event bot and colour against that seat. The second game of each seed pair already contains its swapped seat colours. The scripts count play as it actually took place, including fallback play. The health log and the decision log's `by` field identify affected seats and decisions.
 
 **Team export.** `split_team.py` takes a match, a colour and a new or empty destination. It publishes the harness's score, intervals and game counts, that team's card results calculated solely from its seats, and pooled final-tribe shares and mean placements. The gzip file contains the original lines for that team's decisions, including their legal alternatives. The exporter assembles the files in a private staging directory and publishes the directory only after all joins succeed. The referee supplies the two method summaries and the next-round announcement separately.

@@ -92,11 +92,13 @@ def read_records(deep):
         eaten[g_, s_].add(u)
     rows = []
     for g in deep.games:
-        path = deep.match.path / "records" / f"game-{g['game']:05}.jsonl"
-        if not path.exists():
+        name = f"records/game-{g['game']:05}.jsonl"
+        try:
+            record = deep.match.open(name)
+        except FileNotFoundError:
             continue
         snaps = defaultdict(dict)   # seat -> turn -> {uid: (def, golden)}
-        with path.open("rb") as f:
+        with record as f:
             for line in f:
                 if b'"fight_boards"' not in line:
                     continue

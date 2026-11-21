@@ -88,6 +88,8 @@ Pairing works: the same bot's two games against the same 7 ghosts correlate at 0
 
 The League Data and Storage session's keep list, which the owner approved ("Okay, I approve your recommendations"), applying the owner's rule in section 11. All big output goes on `/data`, never `/`. No `reports.jsonl`. The referee deletes as it goes, not at the end.
 
+After each match, run [`tools/league/analysis/prune_match.py`](../../../tools/league/analysis/README.md#referee-retention) once the reports, decision and any required cut are complete. Use the kind below.
+
 - **Climbing and stopping-test matches** decide only whether a change is kept. Run the decision first (`league analyze`, `check_ghost_match.py`), then keep `summary.json`, `analysis.json`, `timing.json` and a one-line verdict (bot versions, seeds sha, games, mean-place gap, 95% interval, kept or not). Delete the rest at once. **A kept version's match is cut into the climbing field and verified first**, then its raw files go.
 - **Balance-reading matches** (a match the balance orchestrator names as the data for a tuning decision, and the stopping test's per-tribe and rework matches until their report is written): keep the raw files gzipped until that tuning PR merges or the report is written, then keep only the findings.
 - **Field-cut matches:** after `bramble-ghosts cut` and `verify` pass, delete `records/` and the raw logs; keep `summary.json`.
