@@ -321,6 +321,7 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 	card.art = GlassPieces.art(str(unit.get("art", "")))
 	card.attack = _i(unit.get("attack", 0))
 	card.card_height = height
+	card.type_line = GlassParts.unit_types(unit)
 	card.golden = _b(unit.get("golden", false))
 	# STAND-IN (polish.html .num.up): a number above what the card prints in green, below in red
 	card.base_attack = _i(unit.get("base_attack", -1))
