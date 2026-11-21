@@ -380,10 +380,7 @@ func test_normal_discover_hover_matches_dev_pane_caption_and_reminder_layout() -
 		)
 	)
 	assert_eq(_screen._tips.details.size(), 1)
-	assert_true(
-		_screen._tips.details[0].position.is_equal_approx(Vector2(0, words.size.y)),
-		"dev joins Hand-me-down's reminder below the primary pane"
-	)
+	_assert_left_discover_reminders()
 	assert_false(option.golden)
 	assert_null(_shown())
 
@@ -422,7 +419,7 @@ func test_discover_alt_uses_normal_hover_layout_on_left_middle_and_right() -> vo
 				assert_false(neighbour.golden)
 		if ids[index] == "widow-thimble":
 			assert_string_contains(_words(), "3 nearest")
-		_assert_joined_discover_reminders()
+		_assert_left_discover_reminders()
 		_alt(false)
 		assert_false(node.golden)
 		assert_eq(_screen._tips.last_box().size, normal_size)
@@ -461,23 +458,12 @@ func test_discover_hover_keeps_current_and_previous_options_above_the_veil() -> 
 			assert_gt(_screen.node_for("discover", index).z_index, veil.z_index)
 
 
-func _assert_joined_discover_reminders() -> void:
-	var words: GlassBox = _screen._tips.last_box()
-	var first: GlassBox = _screen._tips.details[0]
-	var below: bool = first.position.is_equal_approx(words.position + Vector2(0, words.size.y))
-	var beside: bool = (
-		is_equal_approx(first.position.y, words.position.y)
-		and (
-			is_equal_approx(first.position.x, words.position.x + words.size.x)
-			or is_equal_approx(first.position.x + first.size.x, words.position.x)
-		)
-	)
-	assert_true(below or beside, "the normal layout keeps reminders attached to Words")
-	for index: int in range(1, _screen._tips.details.size()):
-		var previous: GlassBox = _screen._tips.details[index - 1]
-		assert_eq(
-			_screen._tips.details[index].position, previous.position + Vector2(0, previous.size.y)
-		)
+func _assert_left_discover_reminders() -> void:
+	var tips: GlassTips = _screen._tips
+	var at: Vector2 = KeywordStyle.DETAIL_ORIGIN
+	for detail: GlassBox in tips.details:
+		assert_true((tips.tip.position + detail.position).is_equal_approx(at))
+		at.y += (detail.size.y + KeywordStyle.GAP) * detail.scale.y
 
 
 func _escape() -> void:

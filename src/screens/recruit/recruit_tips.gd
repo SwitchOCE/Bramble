@@ -28,6 +28,7 @@ var _original_marks: Array[KeywordMark] = []
 
 func _init(screen: GlassScreen) -> void:
 	super(screen)
+	fixed_keywords = true
 	_recruit = screen as RecruitScreen
 	screen.tree_exiting.connect(_reset_golden)
 

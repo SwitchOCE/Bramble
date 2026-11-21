@@ -20,6 +20,17 @@ const TOOLTIP_MARK_H: float = 28.0
 const COIN_SIDE: float = 32.0
 const LINE_H: float = 37.0
 const DETAIL_W: float = 330.0
+const DETAIL_TOP: float = 12.0
+const DETAIL_BOTTOM: float = 14.0
+const DETAIL_SIDE: float = 16.0
+const DETAIL_HEADER_GAP: float = 8.0
+const DETAIL_HEADER_PX: int = 20
+const DETAIL_BODY_PX: float = 19.0
+const DETAIL_BODY_MARK_PX: int = 16
+const DETAIL_LINE_H: float = DETAIL_BODY_PX * 1.5
+const DETAIL_ORIGIN: Vector2 = Vector2(26, 214)
+## Leave room for the hero name and counters at the foot of the left light.
+const DETAIL_FOOT: float = 880.0
 const GAP: float = 12.0
 const DETAIL_RADIUS: float = 14.0
 const MARK_BORDER: int = 2
