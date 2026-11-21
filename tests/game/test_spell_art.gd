@@ -10,6 +10,9 @@ func test_every_spell_has_its_own_picture() -> void:
 	var missing: Array[String] = []
 	for id: StringName in content.library.ids():
 		var card: UnitDef = content.library.get_card(id)
-		if card.is_spell() and STAND_IN_SPELLS.has(content.art_for(String(id))):
+		if not card.is_spell():
+			continue
+		var art: String = content.art_for(String(id))
+		if STAND_IN_SPELLS.has(art) or GlassPieces.art(art) == null:
 			missing.append(String(id))
 	assert_eq(missing, [] as Array[String], "spells with no picture of their own")

@@ -17,7 +17,7 @@ const HIDDEN: PackedStringArray = ["triple_reward"]
 ## GlassPieces.art looks; `neutral` serves a tribe the tool has no colour for.
 const PANEL_ART: String = "../../game/stand-in/%s"
 const PANEL_PATH: String = "res://assets/game/stand-in/%s.jpg"
-## STAND-IN art for a spell with none (the Triple Reward, a tribe spell): the mock-ups' spell art.
+## STAND-IN art for a spell with none (a tribe spell): the mock-ups' spell art.
 const SPELL_ART: String = "spell-1"
 ## The Triple Reward's own picture (fix round 20 Nov, art B).
 const TRIPLE_REWARD_ART: String = "spell-triple-reward"
