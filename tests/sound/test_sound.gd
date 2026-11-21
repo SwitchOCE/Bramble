@@ -103,7 +103,6 @@ func test_takes_never_repeat_back_to_back_and_missing_cues_stay_silent() -> void
 		last = str(entry["file"])
 	player.play("fight.no_such_cue")
 	assert_eq(str(player.heard[player.heard.size() - 1]["dropped"]), "missing")
-	assert_push_warning("no file for cue fight.no_such_cue")
 
 
 func test_a_second_start_inside_the_gap_is_dropped() -> void:

@@ -40,7 +40,9 @@ static func for_fight_step(step: Dictionary, table: Dictionary) -> Array[Diction
 		out.append(_cue(hit_cue(hits[0], weights), 0.0, 0.0))
 		if blocked > 0:
 			var stagger: float = _num(rules.get("blocked_companion_stagger_s", 0.015))
-			out.append(_cue("fight.hit.blocked", stagger, _num(rules.get("blocked_companion_db", -3.0))))
+			out.append(
+				_cue("fight.hit.blocked", stagger, _num(rules.get("blocked_companion_db", -3.0)))
+			)
 		return out
 	if blocked > 0:
 		out.append(_cue("fight.hit.blocked", 0.0, 0.0))

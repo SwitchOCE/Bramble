@@ -8,7 +8,8 @@ extends Node
 ## and its random source is its own. Per cue the table gives the takes, loudness, pitch range,
 ## gain jitter, how many may sound at once (max_voices) and the shortest gap between two starts
 ## (min_gap_s). A take is never the same as the one before it, nor one already used in the same
-## step. A cue the table doesn't have is logged and stays silent.
+## step. A cue the table doesn't have yet stays silent: Neon's set grows in batches, so this is
+## normal and not warned about; with keep_log on it is logged as dropped "missing".
 
 const TABLE_PATH: String = "res://assets/audio/cues.json"
 const BUS: StringName = &"Sfx"
@@ -30,8 +31,6 @@ var _streams: Dictionary = {}
 var _last_take: Dictionary = {}
 var _last_start_ms: Dictionary = {}
 var _step_takes: Dictionary = {}
-## cues already warned about as missing
-var _warned: Dictionary = {}
 ## [{at_ms, cue, gain_db}] waiting for their stagger
 var _queued: Array[Dictionary] = []
 
@@ -146,9 +145,6 @@ func _start(cue: String, gain_db: float) -> void:
 
 func _note(entry: Dictionary, dropped: String) -> void:
 	entry["dropped"] = dropped
-	if dropped == "missing" and not _warned.has(entry["cue"]):
-		_warned[entry["cue"]] = true
-		push_warning("sound: no file for cue %s" % entry["cue"])
 	if keep_log:
 		heard.append(entry)
 		if OS.get_cmdline_user_args().has("--sound-log"):
