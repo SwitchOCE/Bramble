@@ -99,4 +99,11 @@ Result: 27 worktrees became 18, and 80 local branches became 23. `~/code/Bramble
 
 ## 8. What this does not fix yet
 
-The owner asked for a full playable build, and for the asked-for work merged into `main`. Neither is done yet. The interim build comes when worker C lands (section 3). The final build and the `dev` into `main` merge come after PR 214's Rust port. The fix round waits on your decisions in section 2.
+**The playable build is done.** `Bramble-windows-340224dc8-1121-1043-ghosts-batch-1.zip` (169 MB) went to the owner's PC by Taildrop on 21 Nov. It is built from `dev` 340224dc, with balance batch 1, and plays against 8,000 ghosts from 1,000 bot games. It finished a whole ghost game on the Linux runtime and under Wine. No one has played it on real Windows hardware yet.
+
+**`main` doesn't have the work yet.** PR 216 waits on three owner answers, from its second scope review (`dev` 340224dc, no cuts):
+1. Balance batch 1 goes to `main` with the ghost game? (It can't be split out: the ghosts and the Rust engine are built on its rules.) Recommended: yes.
+2. One yes or no on four agent defaults that change play: 8.4.1a (where King Speck's Cousin goes when its slot is taken), 9.6.1 (the order within fight steps; a skipped Hit is lost), 9.6.1a (the protected attack), 9.6.2a ("only attacks can damage this"). Recommended: yes.
+3. The golden rule, 7.3.5: decided, or tag it PROPOSED.
+
+After the merge: `docs/STATUS.md` still says "a whole game against bots", and needs updating. The fix round waits on the owner's 12 decisions (section 2).
