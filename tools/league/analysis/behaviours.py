@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """Observed play relevant to the balance pass, grouped by seat colour."""
 from collections import Counter, defaultdict
-from contextlib import closing
 import json
 import os
 from urllib.parse import quote
 
-from match_data import Match, Measures, SCOPES, chosen_action, parser, publish, show, sides
+from match_data import Match, Measures, SCOPES, chosen_action, parser, publish, sale_eaters, show, sides
 
 SERGEANTS = ("colour-sergeant", "regimental-sergeant-major")
 
@@ -48,7 +47,12 @@ def record_slots(match, game, m):
 
 
 def sale_counts(match):
+    return _sale_counts(match)[0]
+
+
+def _sale_counts(match):
     counts = defaultdict(Counter)
+    opportunities_known = True
     for row in match.rows("decisions"):
         colour, _ = match.seat(row)
         action = chosen_action(row)
@@ -59,27 +63,24 @@ def sale_counts(match):
         sold_slot = action.get("slot")
         if sold_slot is not None and row["board_n"] == 7:
             counter["full_board_sells"] += 1
-        # Only units on the board can eat a sale, including a sale from hand.
-        others = {a["card"] for a in row.get("legal", ())
-                  if a["type"] == "sell" and "slot" in a and a["slot"] != sold_slot}
+        others = sale_eaters(row, action)
+        if others is None:
+            opportunities_known = False
+            continue
         tribes = match.library[action["card"]]["tribes"]
         if "gorger" in others:
             counter["sales_with_gorger"] += 1
         if "granary-glutton" in others and ("Locust" in tribes or "All" in tribes):
             counter["locust_sales_with_glutton"] += 1
-    return counts
+    return counts, opportunities_known
 
 
 def behaviour_stats(match):
     m = Measures()
     decisions = match.has_log("decisions")
-    counts = sale_counts(match) if decisions else {}
-    legal_lists = False
-    if decisions:
-        with closing(match.rows("decisions")) as rows:
-            legal_lists = "legal" in next(rows, {"legal": []})
+    counts, opportunities_known = _sale_counts(match) if decisions else ({}, False)
     sale_metrics = ["sells", "full_board_sells"]
-    if legal_lists:
+    if opportunities_known:
         sale_metrics += ["sales_with_gorger", "locust_sales_with_glutton"]
     records = (match.path / "records").is_dir()
     for g in match.games():

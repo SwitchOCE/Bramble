@@ -15,7 +15,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 
 from cards import card_stats
-from match_data import BANDS, Match, chosen_action
+from match_data import BANDS, Match, chosen_action, sale_eaters
 from tribes import final_tribes
 
 
@@ -138,7 +138,9 @@ def trim_decisions(match, destination):
         command = ["gzip", "-n", "-c"]
         with subprocess.Popen(command, stdin=subprocess.PIPE, stdout=target) as gzip_process:
             for row in match.rows("decisions"):
-                row["action"] = chosen_action(row)
+                action = row["action"] = chosen_action(row)
+                if "legal" in row and action["type"] == "sell" and not row["result"]:
+                    row["sale_eaters"] = sale_eaters(row, action)
                 row.pop("legal", None)
                 row.pop("chosen", None)
                 line = json.dumps(row, separators=(",", ":"), ensure_ascii=False)

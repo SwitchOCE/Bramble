@@ -7,6 +7,7 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from behaviours import sale_counts
 from cards import card_stats
 from match_data import Match
 from prune_match import prune
@@ -102,6 +103,34 @@ class Pruning(unittest.TestCase):
             prune(self.match, "field", cut_verified=True)
         self.assertEqual(protected.read_bytes(), b"keep")
         self.assertTrue(self.record.is_file())
+
+    def test_trim_preserves_only_remaining_board_sale_eaters(self):
+        self.reading_logs()
+        actions = [
+            dict(type="sell", slot=0, card="gorger"),
+            dict(type="sell", slot=1, card="granary-glutton"),
+            dict(type="sell", hand=0, card="granary-glutton"),
+            dict(type="sell", hand=1, card="gorger"),
+        ]
+        self.write("library.json", [
+            dict(id="gorger", tribes=["Locust"], spell=False),
+            dict(id="granary-glutton", tribes=["Locust"], spell=False),
+        ])
+        base = dict(game=0, seat=0, colour="red", bot="red", result="", board_n=7)
+        self.write("decisions.jsonl",
+                   dict(base, chosen=0, legal=actions),
+                   dict(base, chosen=3, legal=actions),
+                   dict(base, chosen=0, legal=actions, result="refused"))
+        expected = sale_counts(Match(self.match))
+        self.assertEqual(expected[0, "red"], dict(sells=2, full_board_sells=1,
+                                                    sales_with_gorger=1, locust_sales_with_glutton=2))
+        prune(self.match, "reading")
+        kept = Match(self.match)
+        self.assertEqual(sale_counts(kept), expected)
+        board, hand, refused = kept.rows("decisions")
+        self.assertEqual(board["sale_eaters"], ["granary-glutton"])
+        self.assertEqual(hand["sale_eaters"], ["gorger", "granary-glutton"])
+        self.assertNotIn("sale_eaters", refused)
 
     def test_old_build_publishes_tables_and_enforces_shared_limit(self):
         self.reading_logs()

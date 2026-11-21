@@ -30,6 +30,16 @@ def chosen_action(row):
     return row["action"] if "action" in row else row["legal"][row["chosen"]]
 
 
+def sale_eaters(row, action):
+    """Return remaining eligible eater IDs, or None if an older trim lost them."""
+    if "legal" not in row:
+        return row.get("sale_eaters")
+    sold_slot = action.get("slot")
+    return sorted({a["card"] for a in row["legal"]
+                   if a["type"] == "sell" and "slot" in a and a["slot"] != sold_slot
+                   and a["card"] in ("gorger", "granary-glutton")})
+
+
 def aligned(reports, shops):
     """Optional reports form an ordered subsequence. Only uniquely located rows can be joined."""
     def positions(rows, start, step):

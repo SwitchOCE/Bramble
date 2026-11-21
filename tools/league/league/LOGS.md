@@ -147,6 +147,8 @@ The file is gzipped (`gzip -f -n`, so it stays byte-identical) when the match en
 `decisions.jsonl` is kept. `--no-decisions` omits this log.
 The referee's balance-reading prune replaces the `legal` array and `chosen` index with one
 `action` object, retaining fields such as `discover_options` and `result`.
+An accepted sell also keeps `sale_eaters`, the distinct Gorger and Granary Glutton card IDs
+with legal board sells in that decision, excluding the slot sold. The list may be empty.
 
 ## `cpu.jsonl`: one line per game (not deterministic)
 

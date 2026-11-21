@@ -25,8 +25,8 @@ files and byte counts.
   verdict with bot tags, seeds SHA, game count, placement gap and 95% interval bounds.
 - **Balance reading.** Use `--kind reading` to keep the gzip-compressed manifest, library,
   games, shops, decisions, CPU data, records and any replayed event log. Decision rows
-  retain the selected `action` and the Discover offers, where applicable. Sale-opportunity
-  metrics that require legal alternatives are available before pruning. Python reports
+  retain the selected `action`, Discover offers and the remaining Gorger and Glutton
+  candidates for accepted sales, where applicable. Python reports
   read the compressed data directly. If a replay or ghost tool needs a plain replay
   file, decompress a copy into scratch storage. Keep a legacy match intact for reading
   if its analysis still uses the standalone debug logs.
