@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "sqlite": {
+      "command": "/data/dbtest/sqlite/venv/bin/mcp-server-sqlite",
+      "args": ["--db-path", "/data/dbtest/sqlite/analysis.db"]
+    }
+  }
+}

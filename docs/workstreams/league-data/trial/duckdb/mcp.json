@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "duckdb": {
+      "command": "/data/dbtest/duckdb/venv/bin/mcp-server-motherduck",
+      "args": ["--db-path", "/data/dbtest/duckdb/bramble.duckdb", "--home-dir", "/data/dbtest/duckdb/duckhome", "--max-rows", "200", "--query-timeout", "60", "--init-sql", "SET threads=2"]
+    }
+  }
+}
