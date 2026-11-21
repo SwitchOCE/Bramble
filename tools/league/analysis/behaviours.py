@@ -5,7 +5,7 @@ import json
 import os
 from urllib.parse import quote
 
-from match_data import Match, Measures, SCOPES, parser, publish, show, sides
+from match_data import Match, Measures, SCOPES, chosen_action, parser, publish, sale_eaters, show, sides
 
 SERGEANTS = ("colour-sergeant", "regimental-sergeant-major")
 
@@ -15,12 +15,12 @@ def officers(cards):
 
 
 def record_slots(match, game, m):
-    path = match.path / "records" / f"game-{game['game']:05}.jsonl"
+    path = f"records/game-{game['game']:05}.jsonl"
     seats = {s["seat"]: s for s in game["seats"]}
     alive = {seat: {r["round"] for r in s["rounds"]} for seat, s in seats.items()}
     previous = defaultdict(int)
     pair = game["game"]//2
-    with path.open("rb") as f:
+    with match.open(path) as f:
         for line in f:
             if b'"fight_boards"' not in line:
                 continue
@@ -29,7 +29,7 @@ def record_slots(match, game, m):
                 continue
             for p in row["players"]:
                 seat = p["id"]
-                if seat < 0 or row["turn"] not in alive[seat]:
+                if row["turn"] not in alive.get(seat, ()):
                     continue
                 slots = p["slots"]
                 has_slot_stats = any("attack" in s or "health" in s for s in slots)
@@ -47,10 +47,15 @@ def record_slots(match, game, m):
 
 
 def sale_counts(match):
+    return _sale_counts(match)[0]
+
+
+def _sale_counts(match):
     counts = defaultdict(Counter)
+    opportunities_known = True
     for row in match.rows("decisions"):
         colour, _ = match.seat(row)
-        action = row["legal"][row["chosen"]]
+        action = chosen_action(row)
         if row["result"] or action["type"] != "sell":
             continue
         counter = counts[row["game"], colour]
@@ -58,21 +63,25 @@ def sale_counts(match):
         sold_slot = action.get("slot")
         if sold_slot is not None and row["board_n"] == 7:
             counter["full_board_sells"] += 1
-        # Only units on the board can eat a sale, including a sale from hand.
-        others = {a["card"] for a in row["legal"]
-                  if a["type"] == "sell" and "slot" in a and a["slot"] != sold_slot}
+        others = sale_eaters(row, action)
+        if others is None:
+            opportunities_known = False
+            continue
         tribes = match.library[action["card"]]["tribes"]
         if "gorger" in others:
             counter["sales_with_gorger"] += 1
         if "granary-glutton" in others and ("Locust" in tribes or "All" in tribes):
             counter["locust_sales_with_glutton"] += 1
-    return counts
+    return counts, opportunities_known
 
 
 def behaviour_stats(match):
     m = Measures()
-    decisions = any((match.path / n).exists() for n in ("decisions.jsonl.gz", "decisions.jsonl"))
-    counts = sale_counts(match) if decisions else {}
+    decisions = match.has_log("decisions")
+    counts, opportunities_known = _sale_counts(match) if decisions else ({}, False)
+    sale_metrics = ["sells", "full_board_sells"]
+    if opportunities_known:
+        sale_metrics += ["sales_with_gorger", "locust_sales_with_glutton"]
     records = (match.path / "records").is_dir()
     for g in match.games():
         pair = g["game"]//2
@@ -82,7 +91,7 @@ def behaviour_stats(match):
             for scope in SCOPES:
                 colours = ("red", "blue") if scope == "both" else (scope,)
                 seats = sum(s["colour"] in colours for s in g["seats"])
-                for name in ("sells", "full_board_sells", "sales_with_gorger", "locust_sales_with_glutton"):
+                for name in sale_metrics:
                     total = sum(counts.get((g["game"], c), {}).get(name, 0) for c in colours)
                     m.add((scope, "per_game", name), pair, total)
                     m.add((scope, "per_seat_game", name), pair, total, n=seats)

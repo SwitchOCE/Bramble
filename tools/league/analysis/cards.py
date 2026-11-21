@@ -107,7 +107,7 @@ def card_stats(match, scopes=SCOPES):
                 if bought:
                     measures.add(prefix + ("among_buying_shops", tribe), pair, hit, rate=True)
 
-    for row in match.rows("discovers"):
+    for row in match.discovers():
         colour, _ = match.seat(row)
         for card in set(row["options"]):
             if not match.library[card]["spell"]:
@@ -116,8 +116,6 @@ def card_stats(match, scopes=SCOPES):
 
     for row, shop in match.report_shops():
         colour, _ = match.seat(row)
-        if row["kind"] != "shop":
-            continue
         buyable = {o["card"] for o in shop["offers"] if o["buyable"]} if shop else set()
         scores = values(row)
         for card, score in scores.items():

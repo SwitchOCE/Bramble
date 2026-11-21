@@ -211,8 +211,8 @@ func test_a_unit_landing_on_a_bonus_slot_is_always_under_its_pill() -> void:
 
 
 func test_a_card_let_go_is_drawn_as_when_still_from_the_start() -> void:
-	var card: Control = _screen.node_for("hand", 0)
 	_drag(_hand_grip(0), _slot_middle(0))
+	var card: Control = _board_node(0)
 	assert_eq(card.z_index, 0, "under the vignette at once, as when still")
 	await _settle()
 	assert_eq(card.z_index, 0)
@@ -261,9 +261,7 @@ func test_a_shop_unit_let_go_on_an_empty_slot_is_bought_onto_that_slot() -> void
 	var grip: Vector2 = _box() / 2.0
 	var release: Vector2 = _slot_middle(3) + Vector2(25, -20)
 	_drag(_shop_middle(0), release)
-	assert_eq(str(_sent[0]["type"]), "buy")
-	assert_eq(str(_sent[1]["type"]), "play")
-	assert_eq(CoreUtil.to_int(_sent[1]["slot"]), 3)
+	assert_eq(_sent, [{"type": "buy", "spell": false, "index": 0, "slot": 3}] as Array[Dictionary])
 	assert_eq(_refused, [] as Array[String])
 	assert_eq(String(_flow.human().board[3].def.id), str(bought["id"]), "bought onto slot 3")
 	var card: Control = _board_node(3)
@@ -315,11 +313,44 @@ func test_a_hand_unit_let_go_on_an_empty_slot_is_played_there() -> void:
 	_at(card, _screen.slot_xy(3))
 
 
-func test_a_refused_drop_goes_home() -> void:
+func test_a_hand_swap_previews_then_moves_both_units() -> void:
+	var other: Unit = _flow.human().board[0]
+	var incoming: Unit = _flow.human().hand[0]
+	var from: Vector2 = _hand_grip(0)
+	_carry(from, _slot_middle(0))
+	var preview: Control = _screen._front.get_node_or_null("DropPreview")
+	assert_not_null(preview)
+	assert_not_null(preview.get_node_or_null("SwapGhost"))
+	assert_false(_board_node(0).visible, "the lifted preview replaces the resting card")
+	_move(_slot_middle(3))
+	assert_true(_board_node(0).visible, "moving away restores the original card")
+	assert_null(_screen.find_child("SwapGhost", true, false))
+	_move(_slot_middle(0))
+	_press(_slot_middle(0), false)
+	assert_eq(
+		_sent,
+		[{"type": "play", "hand": 0, "slot": 0, "target": -1, "swap": true}] as Array[Dictionary]
+	)
+	assert_eq(_refused, [] as Array[String])
+	assert_eq(_flow.human().board[0], incoming)
+	assert_eq(_flow.human().hand[0], other)
+	assert_null(_screen.find_child("SwapGhost", true, false))
+	await _settle()
+	_at(_board_node(0), _screen.slot_xy(0))
+	var place: Vector3 = _screen.hand_place(0, 1)
+	_at(_screen.node_for("hand", 0), Vector2(place.x, place.y))
+
+
+func test_a_refused_swap_goes_home() -> void:
+	_flow.human().board[0].worked_this_turn = true
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	_screen.settle()
 	var card: Control = _screen.node_for("hand", 0)
 	var home: Vector3 = _screen.hand_place(0, 1)
-	_drag(_hand_grip(0), _slot_middle(0))
-	assert_eq(_refused.size(), 1, "the core refuses a play onto a unit")
+	_carry(_hand_grip(0), _slot_middle(0))
+	assert_null(_screen.find_child("SwapGhost", true, false), "a worked unit has no swap preview")
+	_press(_slot_middle(0), false)
+	assert_eq(_refused, ["Worked this turn: stays for the fight."] as Array[String])
 	await _settle()
 	assert_eq(_screen.node_for("hand", 0), card)
 	_at(card, Vector2(home.x, home.y), "back in the hand")
@@ -463,7 +494,7 @@ func test_while_a_unit_is_carried_the_slots_it_can_go_to_are_lit() -> void:
 		assert_null(_slot_node(i).find_child("Lit", false, false), "none lit once it is down")
 
 
-# ---- buying onto a slot: only the very card bought is played ----
+# ---- buying onto a slot ----
 
 
 func _reshop(ids: Array[String]) -> void:
@@ -497,14 +528,22 @@ func test_a_buy_that_triples_with_one_in_the_hand_leaves_the_golden_in_the_hand(
 	assert_eq(golden.size(), 1, "the golden waits in the hand")
 
 
-func test_a_buy_onto_a_slot_with_a_full_hand_plays_nothing() -> void:
+func test_a_buy_onto_a_slot_with_a_full_hand_lights_targets_and_lands() -> void:
 	var me: PlayerState = _flow.human()
 	while me.hand.size() < 7:
-		me.hand.append(CoreKit.unit(_flow.session, "needle-page"))
+		me.hand.append(CoreKit.unit(_flow.session, "needle-page", true))
 	_reshop(["sentry"] as Array[String])
-	_drag(_shop_middle(0), _slot_middle(3))
+	_carry(_shop_middle(0), _slot_middle(3))
+	for slot: int in [3, 5, 6]:
+		assert_not_null(_slot_node(slot).get_node_or_null("Lit"))
+	assert_not_null(_screen._front.get_node_or_null("DropPreview"))
+	var tag: Control = _screen.node_for("shop", 0).get_node("ShopTag")
+	assert_true(tag.is_visible_in_tree(), "the price follows the carried shop card")
+	_press(_slot_middle(3), false)
 	assert_eq(_played(), [] as Array[Dictionary])
-	assert_null(me.board[3])
+	assert_eq(_refused, [] as Array[String])
+	assert_eq(me.board[3].def.id, &"sentry")
+	assert_eq(me.hand.size(), 7)
 
 
 func test_a_buy_onto_a_slot_with_no_gold_plays_nothing() -> void:
@@ -520,7 +559,8 @@ func test_a_bought_unit_that_takes_a_target_asks_for_one_on_its_slot() -> void:
 	_reshop(["master-at-arms"] as Array[String])
 	_drag(_shop_middle(0), _slot_middle(3))
 	assert_eq(str(_sent[0]["type"]), "buy")
-	assert_eq(_played(), [] as Array[Dictionary], "not played before a target is chosen")
+	assert_eq(_played(), [] as Array[Dictionary], "only the buy is sent")
+	assert_eq(_flow.human().board[3].def.id, &"master-at-arms", "already in the chosen slot")
 	assert_true(_screen.is_aiming(), "choosing a target for it")
 	_assert_recruit_prompt()
 
@@ -613,7 +653,8 @@ func test_a_shop_unit_gripped_low_drops_into_the_slot_it_is_bought_onto() -> voi
 			_screen.shop_xy(shop) + Vector2(_box().x / 2.0, grip_y * _box().y / 250.0)
 		)
 		_drag(grip, _low_release(5))
-		assert_eq(str(_sent[-1]["type"]), "play", "bought and played")
+		assert_eq(str(_sent[-1]["type"]), "buy")
+		assert_eq(CoreUtil.to_int(_sent[-1]["slot"]), 5, "bought directly onto the slot")
 		var card: Control = _board_node(5)
 		await _assert_dropped_in(card, 5)
 		await _settle()
@@ -864,12 +905,12 @@ func _master_offer() -> void:
 	_assert_recruit_prompt()
 
 
-func test_drag_buy_recruit_targets_board_then_plays_without_another_effect() -> void:
+func test_drag_buy_lands_before_its_recruit_aims_at_a_board_unit() -> void:
 	_reshop(["master-at-arms"] as Array[String])
 	var knight: Unit = _flow.human().board[1]
 	_drag(_shop_middle(0), _slot_middle(3))
-	var bought: Unit = _flow.human().hand.back()
-	assert_eq(bought.def.id, &"master-at-arms", "bought into hand first")
+	var bought: Unit = _flow.human().board[3]
+	assert_eq(bought.def.id, &"master-at-arms", "bought onto the board first")
 	assert_eq(_fury(knight), 1, "no effect before choosing")
 	_screen.settle()
 	_click_at(_slot_middle(1))
@@ -877,10 +918,7 @@ func test_drag_buy_recruit_targets_board_then_plays_without_another_effect() -> 
 	assert_eq(_fury(knight), 2)
 	assert_false(_screen.is_aiming())
 	assert_eq(_flow.human().board[3].def.id, &"master-at-arms")
-	assert_eq(
-		_sent.map(func(a: Dictionary) -> String: return a["type"]),
-		["buy", "recruit_target", "play"]
-	)
+	assert_eq(_sent.map(func(a: Dictionary) -> String: return a["type"]), ["buy", "recruit_target"])
 
 
 func test_double_click_buy_recruit_targets_a_hand_card() -> void:
@@ -902,12 +940,12 @@ func test_double_click_buy_recruit_targets_a_hand_card() -> void:
 	assert_eq(_sent[1], {"type": "recruit_target", "target": held.uid})
 
 
-func test_drag_buy_recruit_can_target_itself_in_hand() -> void:
+func test_drag_buy_recruit_can_target_itself_on_the_board() -> void:
 	_reshop(["master-at-arms"] as Array[String])
 	_drag(_shop_middle(0), _slot_middle(3))
-	var master: Unit = _flow.human().hand.back()
+	var master: Unit = _flow.human().board[3]
 	_screen.settle()
-	_click_at(_hand_grip(1))
+	_click_at(_slot_middle(3))
 	assert_eq(_refused, [] as Array[String])
 	assert_eq(_fury(master), 1)
 	assert_eq(_flow.human().board[3], master)
@@ -999,7 +1037,10 @@ func _assert_recruit_prompt() -> void:
 	var me: PlayerState = _flow.human()
 	var source: Unit = me.recruit_choices[0]
 	var index: int = me.hand.find(source)
-	var waiting: GlassCard = _screen.node_for("hand", index) as GlassCard
+	var waiting: GlassCard = (
+		(_screen.node_for("hand", index) if index >= 0 else _screen.node_for("board", source.slot))
+		as GlassCard
+	)
 	assert_true(waiting.is_held(), "waiting card has the existing held highlight")
 	_screen.cancel_aim()
 	assert_true(_screen.is_aiming(), "paid recruit effect must resolve")

@@ -46,9 +46,10 @@ func _score(session: GameSession, player: PlayerState, action: Dictionary) -> fl
 		"buy":
 			score = _buy_score(session, player, action)
 		"sell":
-			score = (
-				_sell_score(player, CoreUtil.to_int(action["slot"])) if action.has("slot") else -1.0
-			)
+			if action.has("slot"):
+				score = _sell_score(player, CoreUtil.to_int(action["slot"]))
+			else:
+				score = _hand_sell_score(player, CoreUtil.to_int(action["hand"]))
 		"ability":
 			score = 2.0  # an ability a card offers is worth using
 	return score
@@ -78,12 +79,21 @@ func _play_score(player: PlayerState, action: Dictionary) -> float:
 	var card: Unit = player.hand[CoreUtil.to_int(action["hand"])]
 	var score: float = 45.0 if card.is_spell() else 50.0 + card.def.tier
 	var slot: int = CoreUtil.to_int(action["slot"])
+	if CoreUtil.to_bool(action.get("swap", false)):
+		var improvement: float = _swap_worth(card) - _swap_worth(player.board[slot])
+		return 40.0 + improvement / (1.0 + improvement) if improvement > 0.0 else -1.0
 	if slot >= 0:
 		score -= slot * 0.1
 	var target: Unit = player.find_uid(CoreUtil.to_int(action["target"]))
 	if target != null:
 		score += target.attack() * 0.001
 	return score
+
+
+## Use the units' own stats so a slot's bonuses or a board aura can't make a swap reverse itself.
+static func _swap_worth(unit: Unit) -> float:
+	var tier: int = unit.def.tier + (2 if unit.golden else 0)
+	return tier * 10.0 + (unit.stats.own_attack() + unit.stats.own_health()) * 0.1
 
 
 func _buy_score(session: GameSession, player: PlayerState, action: Dictionary) -> float:
@@ -103,7 +113,8 @@ func _buy_score(session: GameSession, player: PlayerState, action: Dictionary) -
 	var weakest: Unit = _weakest(player)
 	if not room and (weakest == null or _worth(card) <= _unit_worth(weakest) + 5.0):
 		return 15.0 * held if held > 0 else -1.0
-	return 40.0 + _worth(card) * 0.1 + 15.0 * held
+	var on_board: float = 0.01 if action.has("slot") else 0.0
+	return 40.0 + _worth(card) * 0.1 + 15.0 * held + on_board
 
 
 func _sell_score(player: PlayerState, slot: int) -> float:
@@ -116,6 +127,18 @@ func _sell_score(player: PlayerState, slot: int) -> float:
 		if not unit.is_spell() and _unit_worth(unit) > _unit_worth(weakest):
 			return 35.0
 	return -1.0
+
+
+## A hand unit the full board will never take (no better than its weakest unit), such as one a
+## swap sent back, is sold so the hand doesn't clog.
+func _hand_sell_score(player: PlayerState, index: int) -> float:
+	var unit: Unit = player.hand[index]
+	if unit.is_spell() or not player.empty_slots().is_empty():
+		return -1.0
+	var weakest: Unit = _weakest(player)
+	if weakest == null or _swap_worth(unit) > _swap_worth(weakest):
+		return -1.0
+	return 35.0
 
 
 static func _weakest(player: PlayerState) -> Unit:

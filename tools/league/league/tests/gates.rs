@@ -327,8 +327,6 @@ fn a_match_is_byte_identical_at_any_thread_count() {
         "games.jsonl",
         "shops.jsonl.gz",
         "library.json",
-        "discovers.jsonl",
-        "reports.jsonl",
         "decisions.jsonl.gz",
         "summary.json",
     ]
@@ -353,7 +351,11 @@ fn a_match_is_byte_identical_at_any_thread_count() {
         let a = normalize(&one);
         let b = normalize(&three);
         assert!(a == b, "{f} differs between 1 and 3 threads");
-        assert!(!a.is_empty() || f == "discovers.jsonl", "{f} is empty");
+        assert!(!a.is_empty(), "{f} is empty");
+    }
+    for dir in [&one, &three] {
+        assert!(!dir.join("discovers.jsonl").exists());
+        assert!(!dir.join("reports.jsonl").exists());
     }
     let summary: Value =
         serde_json::from_slice(&std::fs::read(one.join("summary.json")).unwrap()).unwrap();

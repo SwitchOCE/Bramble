@@ -144,7 +144,9 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 4.1.3 | BRAMBLE | No gold cap, no interest (N2 §3) | Reset to max 10 each turn | — |
 | 4.3.1 | BRAMBLE | Every unit is Bought or Created (N1 §2.2) | No distinction | — |
 | 4.1.1 | BRAMBLE | Income 5 on turn 1, +2 a turn until 15, then +1 a turn, no ceiling (C13) | 3, +1 a turn, max 10 | — |
-| 4.2.1 | BRAMBLE | A unit costs its tier + 1 (C13) | Always 3 | — |
+| 4.2.1 | BRAMBLE | A unit costs its tier + 1 and may be bought into the hand or onto an empty board slot (C13, C18) | Always 3, bought into hand | — |
+| 4.2.2 | BRAMBLE | With a full hand, a unit can be bought directly onto an empty board slot (C18) | Buy requires room in hand | — |
+| 4.2.2a | PROPOSED | Direct board buys also work when the hand has room | — | Agent default |
 | 4.3.3 | BRAMBLE | Every real card sells for half its tier, rounded up, Bought or Created; tokens for 0 (C13, replacing N1 §2.2; C17) | All sell for 1 | — |
 | 4.3.4 | BRAMBLE | Tripled golden sells for 4.3.3's value per real-card copy; tokens add nothing (C13, C17, replacing N3) | Sells for 1 | — |
 | 4.3.5 | BRAMBLE | Any merge with a Bought unit is Bought (N3) | — | — |
@@ -158,9 +160,11 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 7.1.1 | BRAMBLE | Hand limit 7 (C14) | 10 | — |
 | 7.1.2 | BRAMBLE | Cards gained with a full hand wait across turns in an unlimited pile. After the action that freed a place resolves, the oldest card joins the hand and resolves its Recruit effect | Gains can be lost when the hand is full | Decided by the owner, 21 Nov 2026 |
 | 7.1.2a | PROPOSED | Waiting cards can't be played, cast, sold or counted toward a triple | — | Agent default |
-| 7.2.1 | BRAMBLE | Play a unit into any empty slot (BLO; N3) | Position in one packed row | — |
-| 7.2.3 | BRAMBLE | Play triggers resolve when the unit is recruited (bought), not when played; replaying from hand repeats nothing (C15) | Battlecry on play | — |
-| 7.2.5 | BRAMBLE | No moving back to a full hand; a unit keeps stats, buffs and origin when it moves (C15) | — | — |
+| 7.2.1–7.2.2 | BRAMBLE | Play into an empty slot or swap with its occupant, which takes the same hand place. Swaps work at full hand or full board (C18) | Position in one packed row | — |
+| 7.2.2a | PROPOSED | A board unit committed to the fight by working this turn stays on the board when a swap is attempted | — | Agent default |
+| 7.2.3 | BRAMBLE | Recruit effects resolve on buying into the hand or onto a board slot. Replaying from hand repeats nothing (C15, C18) | Battlecry on play | — |
+| 7.2.3a | PROPOSED | Swapping a unit with a board unit fires neither Recruit effect | — | Agent default |
+| 7.2.5 | BRAMBLE | Returning to hand alone requires a free place. A swap uses the outgoing unit's place. A unit keeps its own stats, buffs and origin when it moves (C15, C18) | — | — |
 | 7.2.6 | BRAMBLE | Units gained without buying resolve their Recruit effect when they enter the hand, including from the waiting pile. When the entry completes a triple, only the golden's Recruit effect resolves, including when the golden enters the board under 7.3.7 | — | C15 and owner decisions on 18 and 21 Nov 2026 |
 | 7.3.6 | BRAMBLE | The Triple Reward comes when the triple forms, not when the golden is played (C15) | On playing the golden | — |
 | 7.2.4 | BRAMBLE | A unit moves from the board back to hand and is played again, free, unlimited (C15) | A played minion stays on the board | — |

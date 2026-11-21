@@ -11,7 +11,7 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from match_data import BANDS, NONE, TEAMS, Match, band  # noqa: E402,F401
+from match_data import BANDS, NONE, TEAMS, Match, band, chosen_action  # noqa: E402,F401
 
 SCOPES = ("red", "blue", "both")
 # A number is flagged `thin` when it rests on fewer than this many observations
@@ -250,9 +250,10 @@ def load(path, records=True, decisions=True, shops=True, events=True):
 def read_config(deep):
     """The rules config travels in every record header; read the first one."""
     records = deep.match.path / "records"
-    first = next(iter(sorted(records.glob("game-*.jsonl"))), None) if records.is_dir() else None
+    first = next(iter(sorted(records.glob("game-*.jsonl*"))), None)
     if first is not None:
-        with first.open() as f:
+        name = first.relative_to(deep.match.path)
+        with deep.match.open(name.with_suffix("") if name.suffix == ".gz" else name) as f:
             deep.config = json.loads(f.readline()).get("config", {})
 
 
@@ -363,7 +364,7 @@ def read_decisions(deep):
             turn.fallback = True
         if d["result"]:
             continue
-        a = d["legal"][d["chosen"]]
+        a = chosen_action(d)
         t = a["type"]
         seat = deep.seats[d["game"], d["seat"]]
         if t == "buy":

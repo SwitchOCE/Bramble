@@ -2,10 +2,10 @@ class_name Recruit
 extends RefCounted
 ## The Recruit Phase (rulebook chapters 3-7): start of turn, the player's actions, end of turn,
 ## triples. Actions are JSON-shaped dictionaries, so bots, tests and the UI use one path:
-##   {"type": "buy", "spell": bool, "index": int, "target": int}       4.2
+##   {"type": "buy", "spell": bool, "index": int, "target": int, "slot": int}  4.2; slot optional
 ##   {"type": "sell", "hand": int} or {"type": "sell", "slot": int}                      4.3
 ##   {"type": "play", "hand": int, "slot": int, "target": int}   7.2, 6.1.5; "target" is a uid,
-##     a slot or a shop index by Mechanic.Target, -1 for none
+##     a slot or a shop index by Mechanic.Target, -1 for none; add "swap": true for occupied slots
 ##   {"type": "move", "from": int, "to": int}           8.3.3 (swaps when "to" is taken)
 ##   {"type": "refresh"}  {"type": "freeze"}  {"type": "upgrade"}       4.4, 4.5, 4.6
 ##   {"type": "pick", "index": int, "target": int}      6.2 (the only action while choosing)
@@ -16,6 +16,8 @@ extends RefCounted
 ## A pick that will wait must omit the target.
 ##   {"type": "recruit_target", "target": uid} resolves that pending choice.
 ## act() returns "" when the action was taken, otherwise why it is illegal (and changes nothing).
+
+const WORKED_ERROR: String = "Worked this turn: stays for the fight."
 
 ## The session owns this object, so it holds the session weakly (no reference cycle).
 var session: GameSession:
@@ -121,7 +123,8 @@ func act(player: PlayerState, action: Dictionary) -> String:
 				player,
 				CoreUtil.to_bool(action.get("spell", false)),
 				CoreUtil.to_int(action.get("index", -1)),
-				CoreUtil.to_int(action.get("target", -2))
+				CoreUtil.to_int(action.get("target", -2)),
+				CoreUtil.to_int(action.get("slot", -1))
 			)
 		"sell":
 			error = _sell(
@@ -136,7 +139,8 @@ func act(player: PlayerState, action: Dictionary) -> String:
 				player,
 				CoreUtil.to_int(action.get("hand", -1)),
 				CoreUtil.to_int(action.get("slot", -1)),
-				CoreUtil.to_int(action.get("target", -1))
+				CoreUtil.to_int(action.get("target", -1)),
+				CoreUtil.to_bool(action.get("swap", false))
 			)
 		"recruit_target":
 			error = _choose_recruit_target(player, CoreUtil.to_int(action.get("target", -1)))
@@ -174,12 +178,15 @@ func _act_simple(player: PlayerState, kind: String, action: Dictionary) -> Strin
 	return "unknown action '%s'" % kind
 
 
-## 4.2: buy a unit or spell from the shop into the hand.
-func _buy(player: PlayerState, spell: bool, index: int, target: int) -> String:
+## 4.2: buy into the hand, or buy a unit directly onto an empty board slot.
+func _buy(player: PlayerState, spell: bool, index: int, target: int, slot: int) -> String:
 	var shop: Array[StringName] = player.shop_spells if spell else player.shop_units
 	if index < 0 or index >= shop.size() or shop[index] == PlayerState.NO_CARD:
 		return "no card in that shop slot"
-	if player.hand.size() >= _rules().hand_limit(player):
+	if slot != -1:
+		if spell or not session.geometry.is_valid(slot) or player.board[slot] != null:
+			return "choose an empty slot"
+	elif player.hand.size() >= _rules().hand_limit(player):
 		return "hand is full"
 	var card: UnitDef = session.library.get_card(shop[index])
 	var used: Array[Unit] = []
@@ -200,7 +207,14 @@ func _buy(player: PlayerState, spell: bool, index: int, target: int) -> String:
 	var unit: Unit = session.new_unit(card, false)
 	unit.bought_copies = 1
 	_log(player, {"type": "buy", "uid": unit.uid, "id": String(card.id), "price": price})
-	_gain(player, unit, target)
+	if slot == -1:
+		_gain(player, unit, target)
+	else:
+		player.place(unit, slot)
+		_log_gain(player, unit)
+		if not _completes_triple(player, unit):
+			refresh_auras(player)
+			_recruit_unit(player, unit, target)
 	_settle(player)
 	return ""
 
@@ -244,27 +258,39 @@ func _sell(player: PlayerState, slot: int, hand: int = -1) -> String:
 	return ""
 
 
-## 7.2 play a unit into a chosen empty slot, or 6.1.5 cast a spell.
-func _play(player: PlayerState, hand_index: int, slot: int, target_uid: int) -> String:
+## 7.2 play a unit into a chosen slot (swapping its occupant), or 6.1.5 cast a spell.
+func _play(player: PlayerState, hand_index: int, slot: int, target_uid: int, swap: bool) -> String:
 	if hand_index < 0 or hand_index >= player.hand.size():
 		return "no card at that hand position"
 	var card: Unit = player.hand[hand_index]
-	var error: String = _play_error(player, card, slot, target_uid)
+	var error: String = _play_error(player, card, slot, target_uid, swap)
 	if error != "":
 		return error
 	var kind: Mechanic.Target = play_target_of(card)
 	var target: Unit = (
 		player.find_uid(target_uid) if kind == Mechanic.Target.FRIENDLY_UNIT else null
 	)
-	player.hand.remove_at(hand_index)
-	var ctx := RecruitContext.new(session, self, player)
-	ctx.target_index = target_uid if kind != Mechanic.Target.NONE else -1
 	if card.is_spell():
+		player.hand.remove_at(hand_index)
+		var ctx := RecruitContext.new(session, self, player)
+		ctx.target_index = target_uid if kind != Mechanic.Target.NONE else -1
 		_cast(ctx, card, target)
 		return ""
+	var other: Unit = player.board[slot]
+	if other == null:
+		player.hand.remove_at(hand_index)
+	else:
+		player.remove_from_board(other)
+		player.hand[hand_index] = other
+		_log(
+			player, {"type": "to_hand", "uid": other.uid, "id": String(other.def.id), "slot": slot}
+		)
 	player.place(card, slot)
 	_log(player, {"type": "play", "uid": card.uid, "id": String(card.def.id), "slot": slot})
-	_settle(player)
+	if other == null:
+		_settle(player)
+	else:
+		refresh_auras(player)
 	return ""
 
 
@@ -285,11 +311,15 @@ func _cast(ctx: RecruitContext, spell: Unit, target: Unit) -> void:
 	_settle(player)
 
 
-## 7.2.1-7.2.2 a unit needs an empty slot; a card that aims needs a target of its kind when one
-## exists (a friendly unit, a slot, a shop unit), and a spell that aims can't be cast without.
-func _play_error(player: PlayerState, card: Unit, slot: int, target: int) -> String:
-	if not card.is_spell() and (not session.geometry.is_valid(slot) or player.board[slot] != null):
-		return "choose an empty slot"
+## 7.2.1-7.2.2 a unit needs a slot it can play into. A spell that aims needs a valid target.
+func _play_error(player: PlayerState, card: Unit, slot: int, target: int, swap: bool) -> String:
+	if card.is_spell():
+		if swap:
+			return "no unit at that hand position"
+	else:
+		var error: String = play_slot_error(player, slot, swap)
+		if error != "":
+			return error
 	var kind: Mechanic.Target = play_target_of(card)
 	if kind == Mechanic.Target.NONE:
 		return "" if target < 0 else "this card has no target"
@@ -297,6 +327,18 @@ func _play_error(player: PlayerState, card: Unit, slot: int, target: int) -> Str
 	if target < 0:
 		return "choose a target" if card.is_spell() or not choices.is_empty() else ""
 	return "" if choices.has(target) else "not a valid target"
+
+
+## An explicit swap keeps older play actions (including refusals) replayable.
+func play_slot_error(player: PlayerState, slot: int, swap: bool) -> String:
+	if not session.geometry.is_valid(slot):
+		return "choose an empty slot"
+	var unit: Unit = player.board[slot]
+	if (unit != null) != swap:
+		return "no unit in that slot" if swap else "choose an empty slot"
+	if swap and unit.worked_this_turn:
+		return WORKED_ERROR
+	return ""
 
 
 ## What playing this card aims at: the first of its mechanics that aims decides.
@@ -428,7 +470,7 @@ func to_hand_error(player: PlayerState, slot: int) -> String:
 	if not session.geometry.is_valid(slot) or player.board[slot] == null:
 		return "no unit in that slot"
 	if player.board[slot].worked_this_turn:
-		return "Worked this turn: stays for the fight."
+		return WORKED_ERROR
 	if player.hand.size() >= _rules().hand_limit(player):
 		return "hand is full"
 	return ""

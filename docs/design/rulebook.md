@@ -47,6 +47,7 @@ Every numbered rule carries exactly one tag:
 | N14 | [sources/2026-11-19b-tribe-rework-directions.md](sources/2026-11-19b-tribe-rework-directions.md), last section: the owner's answers on the Pigeon and Mouse rework page, 19 Nov 2026 ("I agree with all the designers' picks", and Active as a gold cost and a colon). Its editor note lists the picks (P1–P5, M1–M5); the pitches are [../workstreams/reworks/pitch-pigeon.txt](../workstreams/reworks/pitch-pigeon.txt) and [pitch-mouse.txt](../workstreams/reworks/pitch-mouse.txt). |
 | C16 | The owner's decisions in chat, 19 Nov 2026, approving the plan in [../workstreams/third-run/ghost-plan.md](../workstreams/third-run/ghost-plan.md): the shared pool is removed and every card keeps a fixed chance (5.1, 6.1), async play against recorded runs (2.1), and ghosts refilled from bots during development (2.1.8). The owner: "I like the rest of the plan. I approve all of it." No owner note was written; the owner's words are quoted in those rules. |
 | C17 | The owner's instruction in chat, 19 Nov 2026: Created units that are real cards sell for money, like Bought units; tokens still sell for 0 (4.3.2–4.3.5). The owner: "You have my permission to just update the rulebook to remove that and notify other sessions that are currently working that that change will come through." No owner note was written; the owner's words are quoted in 4.3.2. |
+| C18 | The owner's decision, 21 Nov 2026, in the [fix round plan](../workstreams/fix-round-20-nov/PLAN.md), decision 2. "Buying straight onto the board with a full hand, and swapping a hand card with a board unit, are rules; the bots get both moves now." |
 | Taste | [owner-taste.md](owner-taste.md) (the owner's taste, with worked evidence) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
@@ -233,13 +234,15 @@ Note: Bramble's activated abilities are Actives (11.7.1).
 
 ### 4.2 Buying
 
-**4.2.1** [BRAMBLE] **Unit price.** A unit costs its tier + 1 in gold: 2 at tier 1, up to 7 at tier 6. The owner: "Units are going to cost 1 plus their tavern tier" (C13). The bought unit goes to the player's hand (rules.md §5.3). *HSBG:* every unit costs 3.
+**4.2.1** [BRAMBLE] **Buying a unit.** A unit costs its tier + 1 in gold, from 2 at tier 1 to 7 at tier 6. The owner said, "Units are going to cost 1 plus their tavern tier" (C13). A player can buy a unit into the hand or straight onto an empty board slot under 4.2.2 (C18). Both count as Bought (4.3.1) and resolve Recruit effects (7.2.3). *HSBG:* every unit costs 3.
 
-**4.2.2** [BG] A player with a full hand can't buy (uncertain in HSBG — see rules.md §5.3).
+**4.2.2** [BRAMBLE] With a full hand, a player can only buy a unit straight onto an empty board slot (C18). Buying into the hand requires a free hand place.
+
+**4.2.2a** [PROPOSED] Buying a unit straight onto an empty board slot also works when the hand has room. The shop drag works the same way at every hand size.
 
 **4.2.3** [BG] Buying a unit leaves its shop slot empty until the shop next refills.
 
-**4.2.4** [BG] Buying is allowed when the board is full, because the unit goes to hand. A unit can't be played from hand while the board has no empty slot (7.2.2).
+**4.2.4** [BG] A player with a full board can still buy into the hand if it has room.
 
 **4.2.5** [BG] Tavern spells in the shop are bought for their own listed cost and go to hand (6.1.5).
 
@@ -432,21 +435,25 @@ Note: on 12 Nov the owner leaned toward TFT-style rarities, and asked to come ba
 
 ### 7.2 Playing a unit
 
-**7.2.1** [BRAMBLE] Playing a unit from hand puts it into **any empty slot the player chooses**, front or back. In HSBG the player picks a position in a single packed row (BLO; N3).
+**7.2.1** [BRAMBLE] Playing a unit from hand puts it into an empty slot the player chooses, front or back. Playing it onto an occupied slot swaps the two units in one action. The board unit takes the played unit's place in the hand. The swap also works with a full hand (C18).
 
-**7.2.2** [BG] A unit can't be played when the board has no empty slot, i.e. 7 units are on it. A unit that merges into another unit instead of taking a slot is the exception (rules.md §5.3). Example: HSBG's Magnetic (11.4.1).
+**7.2.2** [BRAMBLE] When the board is full, playing a unit from the hand requires a swap (C18). A swap keeps the hand size and the waiting pile order.
 
-**7.2.3** [BRAMBLE] **Recruit effects, not play effects.** Bramble's equivalent of a "when played" effect resolves when the unit is recruited, that is bought (4.2.1), not when it is played. Playing a unit from hand triggers nothing by itself, so a unit that returns to hand and is played again (7.2.4) repeats nothing. In the owner's words (15 Nov 2026, [owner-ideas-log.md](owner-ideas-log.md), entry 4): "So I think our battlecry effect should be on recruit rather than on play, our equivalent." The owner confirmed it as decided on 17 Nov 2026 (C15). Example: Galaxy's Recruit (11.6.4). *HSBG:* a played minion is placed first, then its Battlecry resolves (11.3.1).
+**7.2.2a** [PROPOSED] A unit that worked this turn and must stay for the fight also stays in play when a swap is attempted. The same commitment applies to both ways of returning a unit to the hand.
+
+**7.2.3** [BRAMBLE] **Recruit effects.** Bramble's equivalent of a "when played" effect resolves when the unit is recruited. When bought, that happens as it enters the hand or the board (4.2.1). Playing a unit from hand triggers nothing by itself, so a unit that returns to hand and is played again (7.2.4) repeats nothing. In the owner's words (15 Nov 2026, [owner-ideas-log.md](owner-ideas-log.md), entry 4): "So I think our battlecry effect should be on recruit rather than on play, our equivalent." The owner confirmed it as decided on 17 Nov 2026 (C15). Example: Galaxy's Recruit (11.6.4). *HSBG:* a played minion is placed first, then its Battlecry resolves (11.3.1).
+
+**7.2.3a** [PROPOSED] The usual timing for free moves applies to a swap. Neither unit resolves its Recruit effect on the swap or any later play from the hand.
 
 **7.2.4** [BRAMBLE] **Back to hand.** During the Recruit Phase a player may move a unit from the board back to hand and play it again, for free and any number of times. In the owner's words (17 Nov 2026): "Units could move freely between the hand and the board, unlike in Battlegrounds." (C15) *HSBG:* a played minion can't return to hand, except by a card effect.
 
-**7.2.5** [BRAMBLE] A unit can't be moved back to a full hand (7.1.1). A unit keeps its stats, buffs and origin (4.3.6) when it moves between hand and board. Proposed as a default on 17 Nov 2026; the owner accepted it that day ("Yes.", C15).
+**7.2.5** [BRAMBLE] Returning a unit to the hand on its own requires a free place (7.1.1). A swap uses the outgoing hand unit's place (7.2.1). A unit keeps its own stats, buffs and origin (4.3.6) when it moves between hand and board. The owner accepted the free-place rule for an ordinary return on 17 Nov 2026 ("Yes.", C15) and approved swaps on 21 Nov (C18).
 
 **7.2.6** [BRAMBLE] A Recruit effect (7.2.3) also resolves for a unit gained without buying it, including a Discover pick, a Triple Reward pick, or a unit another effect gives. It resolves when the unit enters the hand, including from the waiting pile (7.1.2), or when a newly formed golden enters the board under 7.3.7. If the unit completes a triple on entry, only the golden's Recruit effect resolves. The owner answered "Yes" on 17 Nov 2026 when asked "Does a recruit effect fire for a unit you didn't buy?" (C15). On 18 Nov the owner said "Only the golden fires" for the completing copy.
 
 Note: free moving lets a player take a unit off the board once it has paid out, or put it on only when it pays. The owner's direction for units that give an advantage during the Recruit Phase is a keyword that locks them onto the board for the turn ([owner-ideas-log.md](owner-ideas-log.md), entries 3 and 4). It has no name and is not a rule yet.
 
-Note: the direction summary's open question 5 assumed bought units go straight to the board. This rulebook keeps HSBG's hand (4.2.1), because merges, Discover and triples all depend on it.
+Note: a direct board buy can form a triple as usual. The golden takes a hand place when one is free or follows the full-hand rule in 7.3.7. The Triple Reward goes through the normal gain path (7.1.2, 7.3.6).
 
 ### 7.3 Triples
 
