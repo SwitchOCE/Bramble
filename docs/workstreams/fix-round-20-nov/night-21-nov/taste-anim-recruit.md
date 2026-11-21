@@ -30,11 +30,10 @@ Code: `src/glass/glass_motion.gd` (the prototype's easings and paths), `src/glas
 - Chose: every drop in gold within a turn counts down over 0.26 s and dips the gold button (buy to hand too, and an Active's cost). Gains are unchanged (the sale's coin is not tonight's).
 - Rests on it: the sell batch, when built, adds the count-up.
 
-**5. The price tag drops off at the press, even for a plain click.**
-- Deciding: prototypes 18 and 19 drop the tag when the card is lifted; PR 241 (same day, an agent's call, no owner note) made the tag follow the carried card. A press lifts a shop card in place before it is known to be a drag.
-- Weighed: follow PR 241; drop at the drag's start; drop at the press.
-- Chose: the prototype, at the press: the tag falls 14 px as it fades over 0.14 s, easing in, left hanging where the card was (prototype 18's fall; 19 only fades). The build already hid the tag at the press, so a click looked the same before.
-- Rests on it: `test_recruit_drag` now checks the tag is gone while carried. If the owner liked the price on the carried card, it is one line back in `recruit_input.gd`.
+**5. The price tag travels with a carried shop card, pending the owner.**
+- Deciding: the two sources the owner approved disagree. The buy-to-board mock-up (`recruit/NOTES.md` §2, item 2): "The price coin travels with the card, so you see what you'll pay". Prototypes 18 and 19: the tag drops off when the card is lifted.
+- Chose: nothing; only the owner can. Until they do, the build keeps what they approved and have on dev: the tag is hidden at the press and comes back on the card once the press is a drag, so a plain click looks as before.
+- The switch: `RecruitInput.SHOP_TAG_TRAVELS` in `src/screens/recruit/recruit_input.gd`. Set it to false for the prototype's drop: the tag falls 14 px as it fades over 0.14 s, easing in, left where the card was (`RecruitMotion.drop_tag`). `test_recruit_drag` checks whichever the switch says.
 
 **6. Lit slots fade as the card is let go.**
 - Deciding: prototypes 19, 32, 39 and 41 fade the lit slots over 0.15 s (ease in) at the let-go; the build dropped them at once.
@@ -52,11 +51,10 @@ Code: `src/glass/glass_motion.gd` (the prototype's easings and paths), `src/glas
 
 ## Swap (prototype 39)
 
-**8. The preview is the unit itself lifting, not PR 241's blue copy and hand ghost.**
-- Deciding: PR 241 hid the board unit, drew a blue-tinted tilted copy in its place and a faint ghost of it in the hand. Prototype 39: "that unit lifts a little to show it will move" (12 px up, to 0.94, dimmed to 0.85, 0.14 s eased out) under an amber lit rim.
-- Weighed: keep PR 241's preview and add the flight; the prototype's lift.
-- Chose: the prototype's lift and the amber rim (the same rim as an empty slot). Lost: the hand ghost that said in advance where the old unit goes; the flight now shows it.
-- Rests on it: `test_recruit_drag` checks the lift instead of the ghost.
+**8. The preview is the owner-approved swap look, with the prototype's lift.**
+- Deciding: the owner approved `recruit/swap.html` and `recruit/NOTES.md` §3: "An occupied slot under the card lights a cool blue instead, so a swap never looks like a plain play. The unit standing there dims and lifts toward the hand, and a pale copy of it waits in the gap the hand card left." Prototype 39 adds the motion: "that unit lifts a little to show it will move" (12 px up, to 0.94, 0.14 s eased out). The prototype page shows only how things move (`anim-recruit/index.html`: "these show only how they move"), so it does not replace the look.
+- Chose: both. The occupied slot's rim is blue (`RecruitBoard.SWAP_BLUE`), the pale copy waits in the hand gap (`SwapGhost`), as PR 241 built them. The unit itself lifts as the prototype does (not a copy drawn in its place, as PR 241 had), and dims to PR 241's blue tint (`RecruitMotion.SWAP_TINT`) where the prototype dims it grey to 0.85. Let go, it flies into the hand from the lifted place and clears from the blue on the way.
+- Rests on it: `test_recruit_drag` checks the blue rim, the hand copy, the lift and the tint.
 
 **9. Moving off the slot puts the lifted unit straight back.**
 - Deciding: the prototype never shows the pointer leaving.
@@ -75,7 +73,7 @@ Code: `src/glass/glass_motion.gd` (the prototype's easings and paths), `src/glas
 **11. The stack stays where PR 232 put it; the motion follows the prototype.**
 - Deciding: the prototype's stack is marked PROPOSED (70% cards right of the hand). The build's (PR 232) is full-size cards turned 9° at (1380, 972), mostly below the sill, with a "+N" chip.
 - Weighed: move the stack to the prototype's place; keep it.
-- Chose: keep it (NOTES says another item may decide its place and look; this one is motion). The slide is the prototype's: the joining card leaves the stack 0.12 s after the let-go, arcs 40 px over 0.32 s (in-out) and hops; the rest of the hand closes round the played card in 0.2 s and opens again from 0.2 s over 0.22 s; "Hand 6/7" then "Hand 7/7" as it lands. Its stack tint fades to clear on the way. A card deeper than the three drawn starts from the top of the stack (replaces PR 232's `arrive_from` flight for those).
+- Chose: keep it (NOTES says another item may decide its place and look; this one is motion). The slide is the prototype's: the joining card leaves the stack 0.12 s after the let-go, arcs 40 px over 0.32 s (in-out) and hops; the rest of the hand closes round the played card in 0.2 s and opens again from 0.2 s over 0.22 s; "Hand 6/7" then "Hand 7/7" as it lands. Its stack tint fades to clear on the way. A card deeper than the three drawn starts from the top of the stack (replaces PR 232's `arrive_from` flight for those). A card that joins and is at once held up to choose its Recruit target does not slide: it stands where it is held, as PR 232 had it.
 - Rests on it: a later move of the stack needs no motion change; the flight starts wherever the card is drawn.
 
 **12. The count chip.**
