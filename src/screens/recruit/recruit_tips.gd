@@ -85,7 +85,20 @@ func _pause_preview() -> void:
 		hide()
 
 
+func hover(here: Vector2) -> void:
+	if not _recruit._waiting.hover(here, self):
+		super(here)
+
+
+func fade() -> void:
+	_recruit._waiting.close()
+	super()
+
+
 func show(target: Dictionary, at: Vector2) -> void:
+	if target["kind"] == "waiting_pile":
+		_recruit._waiting.hover(at, self)
+		return
 	var node: Control = target.get("node")
 	if node != null and node != put_back and _recruit._keeper.is_busy(node):
 		# no detail on a card still on its way (just dropped, say) until it is still

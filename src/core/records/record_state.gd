@@ -94,6 +94,8 @@ static func fight_players(game: GameSession) -> Array:
 			entry[key] = value(player.get(key))
 		entry["board"] = FightSnapshot.units(player.board)
 		entry["hand"] = FightSnapshot.units(player.hand)
+		if not player.waiting_pile.is_empty():
+			entry["waiting_pile"] = FightSnapshot.units(player.waiting_pile)
 		out.append(entry)
 	if (
 		game.ghost_player != null

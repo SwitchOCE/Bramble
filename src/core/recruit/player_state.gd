@@ -26,6 +26,8 @@ var shop_units: Array[StringName] = []
 var shop_spells: Array[StringName] = []
 ## 7.1 cards in hand, in the order gained.
 var hand: Array[Unit] = []
+## 7.1.2 cards gained with a full hand, oldest first. Only hand and board cards are playable.
+var waiting_pile: Array[Unit] = []
 ## Gained units waiting for their recruit target, in gain order. Other actions wait.
 var recruit_choices: Array[Unit] = []
 ## 8.1 the recruit board: one entry per slot, null for an empty slot.
@@ -160,6 +162,7 @@ func view() -> Dictionary:
 		"shop_units": shop_units.map(func(c: StringName) -> String: return String(c)),
 		"shop_spells": shop_spells.map(func(c: StringName) -> String: return String(c)),
 		"hand": hand.map(func(u: Unit) -> Dictionary: return u.view()),
+		"waiting_pile": waiting_pile.map(func(u: Unit) -> Dictionary: return u.view()),
 		"board": board.map(_slot_view),
 		"discover": discover_options.map(func(c: StringName) -> String: return String(c)),
 		"discovers_waiting": discover_queue.size(),

@@ -224,20 +224,24 @@ static func _payload_problem(
 	for key: String in ["board", "hand", "slots", "standing"]:
 		if not payload.get(key) is Array:
 			return "payload.%s must be an array" % key
+	if not payload.get("waiting_pile", []) is Array:
+		return "payload.waiting_pile must be an array"
 	var board: Array = payload["board"]
 	var slots: Array = payload["slots"]
 	var hand: Array = payload["hand"]
 	if board.size() != 7 or slots.size() != 7 or hand.size() > 7:
 		return "payload requires 7 board slots, 7 slot states and at most 7 hand cards"
 	var seen: Dictionary = {}
-	for key: String in ["board", "hand"]:
-		for unit: Variant in payload[key]:
+	for key: String in ["board", "hand", "waiting_pile"]:
+		for unit: Variant in payload.get(key, []):
 			if key == "board" and unit == null:
 				continue
 			var unit_problem: String = _unit_problem(unit, seen, library, registry, key == "board")
 			if unit_problem != "":
 				return "payload.%s: %s" % [key, unit_problem]
-			held_cards[unit["def"]] = true
+			# The run's card fingerprints cover the zones that can take part in a fight.
+			if key != "waiting_pile":
+				held_cards[unit["def"]] = true
 	for raw: Variant in slots:
 		var slot: Dictionary = CoreUtil.to_dict(raw)
 		if not _integer(slot.get("renown"), -_MAX_JSON_INT) or not _strings(slot.get("keywords")):

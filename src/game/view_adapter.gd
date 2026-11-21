@@ -49,6 +49,7 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 		"shop_units": _shop(flow, me.shop_units, CoreUtil.to_array(costs["shop_units"]), false),
 		"shop_spells": _shop(flow, me.shop_spells, CoreUtil.to_array(costs["shop_spells"]), true),
 		"hand": _cards(flow, CoreUtil.to_array(view["hand"]), []),
+		"waiting_pile": _cards(flow, CoreUtil.to_array(view["waiting_pile"]), []),
 		"board": _cards(flow, CoreUtil.to_array(view["board"]), CoreUtil.to_array(costs["sell"])),
 		"slots": slots(flow.content, CoreUtil.to_array(view["slots"])),
 		"players": players(flow),
@@ -238,7 +239,7 @@ static func _triple_state(flow: GameFlow, events: Array) -> Dictionary:
 			uids.append(uid)
 			normals[id] = card_from_id(flow.content, flow.session, id)
 			rewards[str(uid)] = CoreUtil.to_int(event.get("reward_uid", -1))
-		elif kind in ["buy", "pick", "summon", "gain"] and uid >= 0:
+		elif kind in ["buy", "pick", "summon", "gain", "waiting_join"] and uid >= 0:
 			var arrival: Dictionary = arrivals.get(uid, {})
 			if arrival.is_empty():
 				arrival = {"kind": kind, "card": card_from_id(flow.content, flow.session, id)}

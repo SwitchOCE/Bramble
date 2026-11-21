@@ -298,15 +298,14 @@ func _log_slot(slot: int, source: Unit) -> void:
 	_recruit.refresh_auras(player)
 
 
-## A new copy of a card into the hand (a Created card, 4.3.1).
-## Lost if the hand is full (7.1.2). Returns it, or null.
+## Gain a new Created copy (4.3.1). It waits when the hand is full (7.1.2).
+## Returns the card, or null for an unknown id.
 func give_card(card_id: StringName, source: Unit) -> Unit:
 	if not session.library.has(card_id):
 		return null
 	var made: Unit = session.new_unit(session.library.get_card(card_id), false)
 	_log({"type": "give_card", "uid": made.uid, "id": String(card_id)}, source)
-	if not _recruit._gain(player, made):
-		return null
+	_recruit._gain(player, made)
 	_worked(source)
 	return made
 
