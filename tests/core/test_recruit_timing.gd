@@ -92,6 +92,78 @@ func test_buy_recruits_once_before_play_and_replay() -> void:
 	assert_eq(_triggers("mouse_piper"), 1)
 
 
+func _fill_hand() -> void:
+	while p.hand.size() < game.rules.hand_limit(p):
+		p.hand.append(Kit.unit(game, "brock-cub", true))
+
+
+func test_buying_piper_onto_board_recruits_immediately_and_gets_slot_renown() -> void:
+	_fill_hand()
+	p.slots[2].renown = 2
+	Kit.set_shop(game, p, ["harvest-piper"])
+	assert_eq(game.act(p.id, {"type": "buy", "index": 0, "slot": 2}), "")
+	var piper: Unit = p.board[2]
+	assert_eq(piper.def.id, &"harvest-piper")
+	assert_eq(piper.stats.renown, 2)
+	assert_eq(mouse.attack(), 9)
+	assert_eq(_triggers("mouse_piper"), 1)
+	assert_false(piper.worked_this_turn)
+	assert_eq(p.hand.size(), 7)
+
+
+func test_buying_aunt_onto_board_puts_cousin_behind_older_waiting_cards() -> void:
+	_fill_hand()
+	var ctx := RecruitContext.new(game, game.recruit, p)
+	var older: Unit = ctx.give_card(&"sp_seek", null)
+	Kit.set_shop(game, p, ["hayloft-aunt"])
+	assert_eq(game.act(p.id, {"type": "buy", "index": 0, "slot": 1}), "")
+	assert_eq(p.board[1].def.id, &"hayloft-aunt")
+	assert_eq(_triggers("mouse_aunt"), 1)
+	assert_eq(p.waiting_pile[0], older)
+	assert_eq(p.waiting_pile[1].def.id, &"cousin")
+	assert_eq(p.hand.size(), 7)
+
+
+func test_buying_quartermaster_onto_board_aims_only_at_hand_units() -> void:
+	_fill_hand()
+	var chosen: Unit = p.hand[4]
+	Kit.set_shop(game, p, ["quartermaster"])
+	assert_eq(game.act(p.id, {"type": "buy", "index": 0, "slot": 1}), "")
+	var master: Unit = p.board[1]
+	assert_eq(p.recruit_choices, [master] as Array[Unit])
+	assert_eq(
+		game.act(p.id, {"type": "recruit_target", "target": mouse.uid}),
+		"not a valid recruit target"
+	)
+	assert_eq(game.act(p.id, {"type": "recruit_target", "target": chosen.uid}), "")
+	assert_true(chosen.has_mechanic(&"pigeon_reserve"))
+	assert_false(mouse.has_mechanic(&"pigeon_reserve"))
+	assert_eq(_triggers("pigeon_quartermaster"), 1)
+
+
+func test_third_piper_bought_onto_board_uses_the_normal_triple_and_reward_path() -> void:
+	for hand_size: int in [6, 7]:
+		Kit.put(game, p, "harvest-piper", 2)
+		var created: Unit = Kit.put(game, p, "harvest-piper", 4)
+		created.bought_copies = 0
+		while p.hand.size() < hand_size:
+			p.hand.append(Kit.unit(game, "brock-cub", true))
+		Kit.set_shop(game, p, ["harvest-piper"])
+		assert_eq(game.act(p.id, {"type": "buy", "index": 0, "slot": 5}), "")
+		var golden: Unit = p.hand.back() if hand_size == 6 else p.board[2]
+		assert_true(golden.golden)
+		assert_eq(golden.def.id, &"harvest-piper")
+		assert_eq(golden.bought_copies, 2)
+		assert_null(p.board[5], "the third copy was consumed")
+		assert_eq(p.waiting_pile.size(), 1)
+		assert_eq(p.waiting_pile[0].def.id, UnitLibrary.TRIPLE_REWARD_ID)
+		p.hand.clear()
+		p.waiting_pile.clear()
+		p.remove_from_board(golden)
+	assert_eq(mouse.attack(), 24, "each golden gives +10, and neither third copy gives +5")
+	assert_eq(_triggers("mouse_piper"), 2)
+
+
 func test_discover_pick_recruits_once_and_only_buffs_board_mice() -> void:
 	var held: Unit = Kit.unit(game, "needle-page")
 	p.hand.append(held)
@@ -363,7 +435,11 @@ func test_buy_and_pick_list_hand_board_and_self_targets() -> void:
 		for offered: Dictionary in game.legal_actions(p.id):
 			if offered["type"] != action:
 				continue
-			if offered["index"] == 0 and not CoreUtil.to_bool(offered.get("spell", false)):
+			if (
+				offered["index"] == 0
+				and not offered.has("slot")
+				and not CoreUtil.to_bool(offered.get("spell", false))
+			):
 				targets.append(offered["target"])
 		assert_eq(targets, [-1, mouse.uid, hand.uid])
 

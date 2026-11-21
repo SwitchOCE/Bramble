@@ -124,11 +124,9 @@ func _process(delta: float) -> void:
 	super(delta)
 
 
-## Every drawing draws the state as it is now (a held buy's too).
 func _layout() -> void:
 	_turn_start.finish()
-	if _input != null:
-		_input.drawn()
+	_board.clear_drop_preview()
 	super()
 	_triple.present()
 	# Triple/CardKeeper finishing can clear the held style; the pending aim still owns it.
@@ -151,10 +149,6 @@ func _shown_counters() -> Array:
 func show_state(new_state: Dictionary) -> void:
 	if _triple != null:
 		_triple.prepare(new_state)
-	if _frame != null and _input.holds_draw():
-		state = new_state
-		_on_new_state()
-		return
 	var before: Dictionary = state
 	if _counts != null:
 		_counts.before_state(before, new_state)

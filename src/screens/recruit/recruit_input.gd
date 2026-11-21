@@ -13,8 +13,7 @@ extends RefCounted
 ## Where a carried card drops is found from the pointer, or from the card's middle as drawn when
 ## the player has chosen that (GameSettings.drop_by_middle, owner 17 Nov): the slot, a sale, a
 ## buy, a play, a spell's cast and its target, and where the card is put down (CardKeeper.land).
-## A press, a click and the hover stay on the pointer. Nothing lit during a carry depends on where
-## the card is (light_drop lights every slot it may go to).
+## A press, a click and the hover stay on the pointer. Drop previews follow the actual drop point.
 
 ## How far the pointer moves, in px, before a press becomes a drag.
 const DRAG_START: float = 8.0
@@ -36,10 +35,6 @@ var _dragging: bool = false
 var _carry: CardCarry
 ## A target being chosen: {want, kind, targets, key (the card held), at (where it is held)}.
 var _aim: Dictionary = {}
-## A buy onto a slot sends a buy, then a play: the buy's state is kept but not drawn, so only the
-## play's is (one redraw).
-var _draw_held: bool = false
-var _draw_pending: bool = false
 
 
 func _init(
@@ -57,6 +52,7 @@ func _init(
 ## A new state has come: a press, a carry and a target choice are over.
 func reset() -> void:
 	RecruitShop.show_sell(_screen, 0, false)
+	_board.clear_drop_preview()
 	_press = {}
 	_dragging = false
 	_carry = null
@@ -97,28 +93,18 @@ func is_holding() -> bool:
 	return _carry != null or not _press.is_empty()
 
 
-## Whether a buy's state is being kept undrawn until its play (show_state keeps it), and marks it
-## waiting to be drawn.
-func holds_draw() -> bool:
-	if _draw_held:
-		_draw_pending = true
-	return _draw_held
-
-
-## Every drawing draws the state as it is now (a held buy's too).
-func drawn() -> void:
-	_draw_pending = false
-
-
 ## A carried card tilts and floats each frame, the pointer moving or not.
 func step(delta: float) -> void:
 	if _carry != null:
 		_carry.step(delta)
+		if _dragging and GameSettings.drop_by_middle():
+			_preview_drop(_carry.middle())
 
 
 ## The window lost (Alt+Tab mid-drag, say): a carried card goes back where the state has it.
 func focus_lost() -> void:
 	RecruitShop.show_sell(_screen, 0, false)
+	_board.clear_drop_preview()
 	var held: Control = _carry.node if _carry != null else null
 	if is_instance_valid(held):
 		_keeper.land(held)
@@ -217,6 +203,9 @@ func move(here: Vector2) -> bool:
 		_start_drag()
 	if _carry != null:
 		_carry.move(here)
+		var drop_at: Vector2 = _drop_point(here)
+		if _dragging:
+			_preview_drop(drop_at)
 		var card: Dictionary = _press.get("card", {})
 		RecruitShop.show_sell(
 			_screen,
@@ -225,7 +214,7 @@ func move(here: Vector2) -> bool:
 				_dragging
 				and str(_press.get("kind", "")) in ["board", "hand"]
 				and card.has("sell_value")
-				and _drop_point(here).y < _screen.geom("T0")
+				and drop_at.y < _screen.geom("T0")
 			),
 			_carry.middle().x
 		)
@@ -245,6 +234,9 @@ func _start_drag() -> void:
 	# now a drag: the detail fades (and the carried card stays drawn over everything)
 	_tips.fade()
 	_carry.node.z_index = CARRIED_Z
+	var tag: Control = _carry.node.get_node_or_null("ShopTag")
+	if tag != null:
+		tag.show()
 
 
 ## A card a press picks up: not during a Discover or a target choice, which take clicks only.
@@ -283,6 +275,7 @@ func _pick_up() -> void:
 
 func release(at: Vector2) -> void:
 	RecruitShop.show_sell(_screen, 0, false)
+	_board.clear_drop_preview()
 	var pressed: Dictionary = _press
 	var was_drag: bool = _dragging
 	var lifted: Control = _carry.node if _carry != null else null
@@ -329,6 +322,13 @@ func _drop_point(at: Vector2) -> Vector2:
 	return at
 
 
+func _preview_drop(at: Vector2) -> void:
+	var kind: String = _press["kind"]
+	var card: Dictionary = _press["card"]
+	if kind in ["shop", "hand"] and not GlassScreen._is_spell(card):
+		_board.preview_drop(kind, GlassPieces.as_int(_press["index"]), _board.slot_at(at))
+
+
 func _drop(pressed: Dictionary, at: Vector2) -> void:
 	var kind: String = pressed["kind"]
 	var index: int = pressed["index"]
@@ -344,7 +344,10 @@ func _drop(pressed: Dictionary, at: Vector2) -> void:
 		elif at.y < _screen.geom("T0"):
 			_request({"type": "sell", "hand": index})
 		elif slot >= 0:
-			_play(index, card, slot)
+			var play: Dictionary = {"type": "play", "hand": index, "slot": slot}
+			if _board.has_unit(slot):
+				play["swap"] = true
+			_request(play, {"target": -1})
 	elif kind == "board":
 		if slot >= 0 and slot != index:
 			_request({"type": "move", "from": index, "to": slot})
@@ -354,44 +357,12 @@ func _drop(pressed: Dictionary, at: Vector2) -> void:
 			_request({"type": "to_hand", "slot": index})
 
 
-## A shop card let go below the shop: bought. A unit let go on an empty slot is then played into
-## that slot, so it goes straight there; on a unit or anywhere else it goes to the hand. Only the
-## very card bought is played: a buy that made a golden (a triple) leaves the golden, and anything
-## its Triple Reward, in the hand under 7.3.1 and 7.3.6. Playing the golden grants nothing.
+## A unit let go on an empty slot is bought there. Other drops below the shop buy into hand.
 func _buy(spell: bool, index: int, slot: int) -> void:
-	var bought_id: String = bought_onto(_screen.state, spell, index, slot)
-	var had: Dictionary = hand_uids(_screen.state)
-	_draw_held = bought_id != "" and _screen.is_inside_tree()
-	_screen.ask({"type": "buy", "spell": spell, "index": index})
-	_draw_held = false
-	if bought_id != "" and _screen.is_inside_tree():
-		var fresh: int = bought_card(_screen.state, had, bought_id)
-		if fresh >= 0:
-			var hand: Array = _screen.state["hand"]
-			var bought: Dictionary = hand[fresh]
-			if is_aiming():
-				_aim["play_slot"] = slot
-			else:
-				_play(fresh, bought, slot)
-	# the buy's state, when no play (or target choice) drew one after it
-	if _draw_pending and _screen.is_inside_tree():
-		_screen.redraw()
-
-
-## A unit from the hand into a slot: sent at once, or a target to choose first.
-func _play(index: int, card: Dictionary, slot: int) -> void:
-	var want: Dictionary = {"type": "play", "hand": index, "slot": slot}
-	var targets: Array[int] = RecruitActions.targets(_screen.state, want)
-	if targets.is_empty():
-		_request(want, {"target": -1})
-		return
-	_start_aim(
-		want,
-		RecruitScreen.target_kind(card),
-		targets,
-		GlassScreen.card_key("hand", index, card),
-		_screen.slot_xy(slot)
-	)
+	var buy: Dictionary = {"type": "buy", "spell": spell, "index": index}
+	if not spell and slot >= 0 and not _board.has_unit(slot):
+		buy["slot"] = slot
+	_screen.ask(buy)
 
 
 ## A spell let go over the table: on a target it names, cast there; with no target to choose, cast;
@@ -449,12 +420,8 @@ func _click(pressed: Dictionary, at: Vector2) -> void:
 			var want: Dictionary = _aim["want"]
 			var aimed: Dictionary = want.duplicate()
 			aimed["target"] = value
-			var after_slot: int = GlassPieces.as_int(_aim.get("play_slot", -1))
-			var after_uid: int = GlassPieces.as_int(_aim.get("uid", -1))
 			_aim = {}
 			_request(aimed)
-			if after_slot >= 0 and not is_aiming():
-				_play_bought(after_uid, after_slot)
 		return
 	if _screen.is_discovering():
 		if pressed["kind"] == "discover":
@@ -504,53 +471,3 @@ func _request(want: Dictionary, extra: Dictionary = {}) -> void:
 	var built: Dictionary = want.duplicate()
 	built.merge(extra)
 	_screen.ask(built)
-
-
-## Finish a drag-buy only if the bought copy survived recruiting (a triple may replace it).
-func _play_bought(uid: int, slot: int) -> void:
-	var hand: Array = _screen.state.get("hand", [])
-	for i: int in hand.size():
-		var card: Dictionary = hand[i]
-		if GlassPieces.as_int(card.get("uid", -1)) == uid:
-			_play(i, card, slot)
-			return
-
-
-# ---- a buy onto a slot, read from the state ----
-
-
-## The id of the shop unit a drop buys onto an empty board slot (to be played there), or "".
-static func bought_onto(state: Dictionary, spell: bool, index: int, slot: int) -> String:
-	var board: Array = state.get("board", [])
-	var shop: Array = state.get("shop_units", [])
-	if spell or slot < 0 or slot >= board.size() or board[slot] != null:
-		return ""
-	if index < 0 or index >= shop.size() or not shop[index] is Dictionary:
-		return ""
-	var offered: Dictionary = shop[index]
-	return str(offered.get("id", ""))
-
-
-## The uids of the cards in the hand, as a set.
-static func hand_uids(state: Dictionary) -> Dictionary:
-	var out: Dictionary = {}
-	for card: Dictionary in state.get("hand", []):
-		out[GlassPieces.as_int(card.get("uid", -1))] = true
-	return out
-
-
-## The hand index of the card a buy put there: exactly one card not in had, the one bought (not a
-## triple's golden); -1 otherwise.
-static func bought_card(state: Dictionary, had: Dictionary, bought_id: String) -> int:
-	var hand: Array = state.get("hand", [])
-	var fresh: Array[int] = []
-	for i: int in hand.size():
-		var card: Dictionary = hand[i]
-		if not had.has(GlassPieces.as_int(card.get("uid", -1))):
-			fresh.append(i)
-	if fresh.size() != 1:
-		return -1
-	var bought: Dictionary = hand[fresh[0]]
-	if str(bought.get("id", "")) != bought_id or bought.get("golden", false) == true:
-		return -1
-	return fresh[0]

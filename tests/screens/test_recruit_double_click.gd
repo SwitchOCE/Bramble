@@ -123,7 +123,7 @@ func test_single_click_still_only_shows_detail_and_sends_no_action() -> void:
 	assert_true(_screen._tips.tip.visible)
 
 
-func test_drag_after_pending_shop_press_still_buys_and_plays_onto_free_slot() -> void:
+func test_drag_after_pending_shop_press_buys_onto_free_slot() -> void:
 	var at: Vector2 = _shop()
 	_button(at, true)
 	_move(at + Vector2(RecruitInput.DRAG_START + 1.0, 0))
@@ -131,9 +131,7 @@ func test_drag_after_pending_shop_press_still_buys_and_plays_onto_free_slot() ->
 	assert_true((_screen.node_for("shop", 0) as GlassCard).is_held())
 	_move(_slot())
 	_button(_slot(), false)
-	assert_eq(_sent.size(), 2)
-	assert_eq(_sent[0], BUY)
-	assert_eq(str(_sent[1]["type"]), "play")
+	assert_eq(_sent, [{"type": "buy", "spell": false, "index": 0, "slot": 3}] as Array[Dictionary])
 	assert_eq(_flow.human().board[3].def.id, &"sentry")
 	assert_eq(_flow.human().hand.size(), 0)
 

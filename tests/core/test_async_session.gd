@@ -6,9 +6,9 @@ const A1_PATH: String = "res://tests/core/fixtures/ghost_run.json"
 # First three turns of seats 0 and 1 of a live records.sh game (seed 1001).
 const FLOW_PATH: String = "res://tests/core/fixtures/async_run_0.json"
 const RANDOM_PATH: String = "res://tests/core/fixtures/async_run_1.json"
-# Seed 1001's first two turns. Regenerate after content changes: scripts/records.sh games=1
+# Seed 1001's first two turns. Regenerate after content or bot changes: scripts/records.sh games=1
 # first_seed=1001 directory=<dir>, then hash that record through turn 2's finish as below.
-const LIVE_REFERENCE: String = "0e86cc29fdaa120e4cd4f504f61766f8be37b79b5d514a77aaa1a6dc6f8944c9"
+const LIVE_REFERENCE: String = "4b2b45f86988d2202b709419f58f0c9135df8c4d09e0c6edaba61b24d140b59f"
 
 var _content: GameContent
 var _short: GhostRun
