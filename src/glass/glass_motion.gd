@@ -17,7 +17,6 @@ extends RefCounted
 const OUT: Vector4 = Vector4(0.2, 0.8, 0.2, 1.0)
 const INOUT: Vector4 = Vector4(0.45, 0.0, 0.25, 1.0)
 const IN: Vector4 = Vector4(0.55, 0.0, 0.9, 0.45)
-const BACK: Vector4 = Vector4(0.3, 1.55, 0.5, 1.0)
 const LINEAR: Vector4 = Vector4(0.0, 0.0, 1.0, 1.0)
 
 
