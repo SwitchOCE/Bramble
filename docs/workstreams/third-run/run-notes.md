@@ -33,3 +33,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 | blue | blue-m2 | start | — |
 
 ## Log
+- **21 Nov, Ghost Build Orchestrator:** it accepted both points. It is landing the check-crate fix (`a5c90160`) on dev on its own, and will send each future engine port as a dev tag for the referee to bring in the same way. When the fix is merged, bring it into both clones as one referee commit, and move each clone's `third-run-engine-v1` to the engine tree plus the fix, so the teams can run check-crate themselves.
