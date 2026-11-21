@@ -1,5 +1,5 @@
 extends GutTest
-## Exercise the card and hover factories against the live catalog, including tokens and goldens.
+## Exercise the card and hover factories against the live catalog, including tokens.
 
 
 func test_every_unit_type_fits_the_band_and_hover_kind_line() -> void:
@@ -21,7 +21,7 @@ func test_every_unit_type_fits_the_band_and_hover_kind_line() -> void:
 			if label != null:
 				assert_eq(label.words, expected, str(id))
 				assert_lte(label.size.x, card.size.x * GlassCard.TYPE_ROOM, str(id))
-				assert_true(Rect2(Vector2.ZERO, card.size).encloses(label.get_rect()), str(id))
+				assert_true(card._type_band().encloses(label.get_rect()), str(id))
 			card.free()
 		data["sell_value"] = 3
 		var pane: GlassBox = GlassParts.tip_text(
