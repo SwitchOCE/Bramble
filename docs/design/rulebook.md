@@ -426,7 +426,7 @@ Note: on 12 Nov the owner leaned toward TFT-style rarities, and asked to come ba
 
 **7.1.1** [BRAMBLE] The hand holds up to 7 cards. In the owner's words (16 Nov 2026): "I don't see any reason now that we've changed the UI it can't go to 7. I think 7's a good fit." (C14) *HSBG:* 10 (uncertain in HSBG — see rules.md §5.3).
 
-**7.1.2** [BRAMBLE] A card gained while the hand is full goes into an unlimited waiting pile that carries over between turns. When a hand place frees, the oldest waiting card joins the hand. A waiting card joins after the action that freed the place has fully resolved. A waiting unit resolves its Recruit effect when it joins (7.2.6). Decided by the owner, 21 Nov 2026: "The sale or spell resolves fully, then the waiting card joins."
+**7.1.2** [BRAMBLE] A card gained while the hand is full goes into an unlimited waiting pile that carries over between turns. When a hand place frees, the oldest waiting card joins the hand. A waiting card joins after the action that freed the place has fully resolved. A waiting unit resolves its Recruit effect when it joins (7.2.6). Decided by the owner, 21 Nov 2026: asked whether a waiting card joins before or after the sale or spell, the owner chose "After", whose option read "The sale or spell resolves fully, then the waiting card joins."
 
 **7.1.2a** [PROPOSED] Waiting cards can't be played, cast, sold or counted toward a triple. Agent default.
 
