@@ -23,7 +23,7 @@
   already contains the start-of-turn wording and numbered Grudge from commit `5aca3419`.
   I kept the data and let the live reminder render from it.
 
-## Charge and Supply pips move above the type strip (orchestrator)
+## Charge and Supply pips move above the type strip (orchestrator; the owner kept it, 22 Nov, PLAN decision 14)
 
 - **What:** the pips sat just over the stat discs, where the new type strip now is, so on the Home Guard they covered its type. Neither mock-up shows pips.
 - **Options:** pips above the strip; pips below it, which would cover the discs; or a shorter strip on cards with pips.
