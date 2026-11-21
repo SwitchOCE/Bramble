@@ -88,16 +88,20 @@ pub fn colour(seat: usize, red: &[bool; 8], swapped: bool) -> &'static str {
 }
 
 pub fn run(args: &MatchArgs) -> Result<Value, String> {
+    run_with_debug_logs(args, false)
+}
+
+pub fn run_with_debug_logs(args: &MatchArgs, debug_logs: bool) -> Result<Value, String> {
     let red = crate::factory(&args.red)?;
     let blue = crate::factory(&args.blue)?;
-    run_factories(args, red, blue)
+    run_match(args, red, blue, None, debug_logs)
 }
 
 /// `run` with the two bots given as constructors instead of registry names; `args.red` and
 /// `args.blue` are then only labels in the logs. A team's tools crate uses it to play two
 /// versions of its own bot: `run_factories(&args, red::new_bot, old_red::new_bot)`.
 pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Value, String> {
-    run_match(args, red, blue, None)
+    run_match(args, red, blue, None, false)
 }
 
 pub(crate) fn run_match(
@@ -105,6 +109,7 @@ pub(crate) fn run_match(
     red: Factory,
     blue: Factory,
     field: Option<&Path>,
+    debug_logs: bool,
 ) -> Result<Value, String> {
     league_api::harness::quiet_panics();
     // Invalidate a previous run's manifest before doing any work in a reused directory.
@@ -148,8 +153,17 @@ pub(crate) fn run_match(
         .map(|field| Lobbies::pick(field, rules_hash, &secret, pairs).map(Arc::new))
         .transpose()?;
     std::fs::create_dir_all(args.out.join("private")).map_err(|e| e.to_string())?;
-    // A rerun may fall back to plain text or disable decisions; do not leave old gzip logs.
-    for name in ["shops.jsonl.gz", "decisions.jsonl.gz"] {
+    // In a reused directory, remove stale compressed logs and disabled debug logs.
+    let mut stale = vec![
+        "shops.jsonl.gz",
+        "decisions.jsonl.gz",
+        "reports.jsonl.gz",
+        "discovers.jsonl.gz",
+    ];
+    if !debug_logs {
+        stale.extend(["reports.jsonl", "discovers.jsonl"]);
+    }
+    for name in stale {
         match std::fs::remove_file(args.out.join(name)) {
             Ok(()) => {}
             Err(e) if e.kind() == std::io::ErrorKind::NotFound => {}
@@ -257,6 +271,7 @@ pub(crate) fn run_match(
                     seats,
                     clock_ns,
                     log_decisions: decisions,
+                    debug_logs,
                 };
                 let out = if let Some(lobbies) = &lobbies {
                     match lobbies
@@ -296,14 +311,15 @@ pub(crate) fn run_match(
             std::fs::File::create(args.out.join(name)).map_err(|e| e.to_string())?,
         ))
     };
-    let (mut games_f, mut shops_f, mut disc_f, mut rep_f, mut cpu_f, mut dec_f) = (
+    let (mut games_f, mut shops_f, mut cpu_f, mut dec_f) = (
         file("games.jsonl")?,
         file("shops.jsonl")?,
-        file("discovers.jsonl")?,
-        file("reports.jsonl")?,
         file("cpu.jsonl")?,
         file("decisions.jsonl")?,
     );
+    let mut debug_files = debug_logs
+        .then(|| Ok::<_, String>((file("discovers.jsonl")?, file("reports.jsonl")?)))
+        .transpose()?;
     let mut pending: BTreeMap<usize, GameOut> = BTreeMap::new();
     let mut written = 0;
     let mut place_sum = [0i64; 2];
@@ -328,11 +344,13 @@ pub(crate) fn run_match(
             for v in &out.shops {
                 line(&mut shops_f, v)?;
             }
-            for v in &out.discovers {
-                line(&mut disc_f, v)?;
-            }
-            for v in &out.reports {
-                line(&mut rep_f, v)?;
+            if let Some((disc_f, rep_f)) = &mut debug_files {
+                for v in &out.discovers {
+                    line(disc_f, v)?;
+                }
+                for v in &out.reports {
+                    line(rep_f, v)?;
+                }
             }
             for v in &out.decisions {
                 line(&mut dec_f, v)?;
@@ -366,15 +384,12 @@ pub(crate) fn run_match(
     if written != args.games {
         return Err(format!("only {written} of {} games finished", args.games));
     }
-    for f in [
-        &mut games_f,
-        &mut shops_f,
-        &mut disc_f,
-        &mut rep_f,
-        &mut cpu_f,
-        &mut dec_f,
-    ] {
+    for f in [&mut games_f, &mut shops_f, &mut cpu_f, &mut dec_f] {
         f.flush().map_err(|e| e.to_string())?;
+    }
+    if let Some((mut disc_f, mut rep_f)) = debug_files {
+        disc_f.flush().map_err(|e| e.to_string())?;
+        rep_f.flush().map_err(|e| e.to_string())?;
     }
     drop(dec_f);
     if !args.decisions {
@@ -403,6 +418,7 @@ pub(crate) fn run_match(
     };
     let mut summary = json!({
         "schema": 1, "complete": true, "rules_hash": rules_hash, "git_sha": git_sha,
+        "inline_reports": true,
         "seeds_sha256": seeds_sha256,
         "red_label": args.red_label.as_ref().unwrap_or(&args.red),
         "blue_label": args.blue_label.as_ref().unwrap_or(&args.blue),

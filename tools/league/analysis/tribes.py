@@ -30,7 +30,7 @@ def final_tribes(match):
 def report_use(match):
     m = Measures()
     strategies = defaultdict(lambda: defaultdict(Counter))
-    for report, shop in match.report_shops():
+    for report, shop in match.report_shops(include_discover=True):
         colour, _ = match.seat(report)
         pair = report["game"]//2
         strategies[colour][pair][report["strategy"]] += 1
@@ -49,8 +49,8 @@ def report_use(match):
                 m.add((colour, "bought_highest_when_buying"), pair, hit, rate=True)
     for colour, pairs in strategies.items():
         names = {name for counts in pairs.values() for name in counts}
-        for pair, counts in pairs.items():
-            for name in names:
+        for pair, counts in sorted(pairs.items()):
+            for name in sorted(names):
                 m.add((colour, "strategy_report_share", name), pair, counts[name], rate=True, n=sum(counts.values()))
     return m.result()
 

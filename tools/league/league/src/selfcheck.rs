@@ -177,6 +177,7 @@ pub fn run_with(
                     seats: seats(r.seed),
                     clock_ns: i64::MAX / 4,
                     log_decisions: false,
+                    debug_logs: false,
                 };
                 let out = game::play(engine, plan, &watch);
                 if let Some(dir) = &keep {

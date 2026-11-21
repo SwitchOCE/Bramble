@@ -4,10 +4,10 @@ use std::path::PathBuf;
 const USAGE: &str = "usage:
   league match --red <bot> --blue <bot> --games N --seeds <file> [--clock-ms 1000] [--threads K]
                --out <dir> [--content all|standin|<folders>] [--secret <hex>] [--no-records] [--no-decisions]
-               [--red-label <tag>] [--blue-label <tag>]
+               [--red-label <tag>] [--blue-label <tag>] [--debug-logs]
   league ghost-match --red <bot> --blue <bot> --field <store> --games N --seeds <file>
                      --out <dir> [--clock-ms 1000] [--threads K] [--secret <hex>] [--no-decisions]
-                     [--red-label <tag>] [--blue-label <tag>]
+                     [--red-label <tag>] [--blue-label <tag>] [--debug-logs]
   league selfcheck --records <dir>... [--bots flow-random|tribe] [--games N] [--threads K] [--keep <dir>]
   league check-crate <path> --name <red|blue> [--keep]
   league analyze <dir>
@@ -98,7 +98,7 @@ fn run(args: &[String]) -> Result<(), String> {
     let root = league::default_root();
     match command.as_str() {
         "match" | "ghost-match" => {
-            let o = Opts::parse(rest, &["no-records", "no-decisions"]);
+            let o = Opts::parse(rest, &["no-records", "no-decisions", "debug-logs"]);
             let m = matchrun::MatchArgs {
                 red: o.need("red")?,
                 blue: o.need("blue")?,
@@ -119,9 +119,13 @@ fn run(args: &[String]) -> Result<(), String> {
                 return Err(format!("usage: --games must be positive\n{USAGE}"));
             }
             let result = if command == "ghost-match" {
-                ghostmatch::run(&m, &PathBuf::from(o.need("field")?))?
+                ghostmatch::run_with_debug_logs(
+                    &m,
+                    &PathBuf::from(o.need("field")?),
+                    o.has("debug-logs"),
+                )?
             } else {
-                matchrun::run(&m)?
+                matchrun::run_with_debug_logs(&m, o.has("debug-logs"))?
             };
             println!("{result:#}");
             Ok(())

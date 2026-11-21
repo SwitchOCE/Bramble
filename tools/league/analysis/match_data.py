@@ -26,6 +26,10 @@ def turn(row):
     return row["game"], row["round"], row["seat"]
 
 
+def chosen_action(row):
+    return row["action"] if "action" in row else row["legal"][row["chosen"]]
+
+
 def aligned(reports, shops):
     """Optional reports form an ordered subsequence. Only uniquely located rows can be joined."""
     def positions(rows, start, step):
@@ -56,8 +60,16 @@ class Match:
         self._seats = None
 
     def read(self, name):
-        with (self.path / f"{name}.json").open() as f:
+        with self.open(f"{name}.json") as f:
             return json.load(f)
+
+    def open(self, name):
+        path = self.path / name
+        compressed = path.with_name(path.name + ".gz")
+        return gzip.open(compressed, "rb") if compressed.is_file() else path.open("rb")
+
+    def has_log(self, name):
+        return any((self.path / (name + suffix)).is_file() for suffix in (".jsonl.gz", ".jsonl"))
 
     def score(self):
         a = self.read("analysis")
@@ -76,11 +88,8 @@ class Match:
                 **{k: a["score"][k] for k in keys}}
 
     def lines(self, name):
-        path = self.path / (name + ".jsonl.gz")
-        stream = gzip.open(path, "rb") if path.exists() else path.with_suffix("").open("rb")
-        with stream:
-            for raw in stream:
-                yield raw
+        with self.open(f"{name}.jsonl") as stream:
+            yield from stream
 
     def rows(self, name):
         for raw in self.lines(name):
@@ -95,11 +104,14 @@ class Match:
             seats = g["seats"]
             red = {s["seat"] for s in seats if s["colour"] == "red"}
             blue = {s["seat"] for s in seats if s["colour"] == "blue"}
-            if (len(seats) != 8 or len(red) != 4 or len(blue) != 4 or red | blue != set(range(8))
-                    or red != set(g["red_seats"]) or g["swapped"] != bool(count % 2)):
+            if self.summary.get("mode") == "async":
+                expected = (set(), {0}) if count % 2 else ({0}, set())
+                valid = len(seats) == 1 and (red, blue) == expected
+            else:
+                valid = (len(seats) == 8 and len(red) == 4 and len(blue) == 4
+                         and red | blue == set(range(8)) and (not count % 2 or blue == previous_red))
+            if not valid or red != set(g["red_seats"]) or g["swapped"] != bool(count % 2):
                 raise ValueError(f"game {count}: inconsistent seat colours")
-            if count % 2 and blue != previous_red:
-                raise ValueError(f"game {count}: colours did not swap within seed pair")
             previous_red = red
             count += 1
             yield g
@@ -115,8 +127,37 @@ class Match:
             raise ValueError("log identity disagrees with games.jsonl")
         return colour, tribe
 
-    def report_shops(self):
-        """Yield every optional report with its shop if uniquely identifiable."""
+    def discovers(self):
+        """Yield choices in game order with their original offers and selected card."""
+        if self.summary.get("inline_reports") and self.has_log("decisions"):
+            for row in self.rows("decisions"):
+                action = chosen_action(row)
+                if action["type"] == "pick":
+                    yield dict(row, options=row["discover_options"], card=action["card"])
+        elif self.has_log("discovers"):
+            yield from self.rows("discovers")
+
+    def report_shops(self, *, include_discover=False):
+        """Yield scored shop reports and, when requested, Discover strategy labels."""
+        if self.summary.get("inline_reports"):
+            for shop in self.rows("shops"):
+                if "values" in shop:
+                    offered = [offer["card"] for offer in shop["offers"]]
+                    yield dict(shop, kind="shop", offered=offered), shop
+            if include_discover:
+                if self.has_log("decisions"):
+                    for row in self.rows("decisions"):
+                        if "strategy" in row and "discover_options" in row:
+                            yield dict(row, kind="discover"), None
+                elif self.has_log("reports"):
+                    for row in self.rows("reports"):
+                        if row["kind"] == "discover":
+                            yield row, None
+        elif self.has_log("reports"):
+            yield from self.legacy_reports(include_discover)
+
+    def legacy_reports(self, include_discover):
+        """Locate older standalone reports by their ordered offer lists."""
         groups = groupby(self.rows("shops"), turn)
         current = None
         for key, rows in groupby(self.rows("reports"), turn):
@@ -134,8 +175,11 @@ class Match:
                 signatures = [[o["card"] for o in s["offers"]] for s in shops]
                 matches = iter(aligned(shop_reports, signatures))
             for report in reports:
-                i = next(matches) if report["kind"] == "shop" else None
-                yield report, shops[i] if i is not None else None
+                if report["kind"] == "shop":
+                    i = next(matches)
+                    yield report, shops[i] if i is not None else None
+                elif include_discover:
+                    yield report, None
 
     def main(self, snapshot):
         counts = snapshot["tribes"]
@@ -226,7 +270,7 @@ def sides(game):
         r = fr["round"]
         for fight in fr["fights"]:
             for side, (pid, opp) in enumerate(((fight["a"], fight["b"]), (fight["b"], fight["a"]))):
-                if pid >= 0:
+                if pid in seats:
                     yield seats[pid], snaps[pid, r], snaps.get((opp, r)), fight, side
 
 
