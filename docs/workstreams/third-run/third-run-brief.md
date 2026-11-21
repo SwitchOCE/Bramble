@@ -44,7 +44,7 @@ The final league bots time their search by CPU, so the same game at a different 
 
 ## 6. The stopping test: a local maximum
 
-On the reference field, each match sized to see 0.1 in mean placement: **about 3,020 games (1,510 pairs)**, 20–35 minutes each (section 9). That size gives a ±0.1 interval, so a neighbour that is really 0.1 better is caught only about half the time; catching it 4 times in 5 takes about 3,080 pairs, double the time (owner's choice, section 11). Up to 10 numbers with a step each way is up to 20 matches, so **a full stopping test takes about 7–12 hours per bot**, plus one match per tribe for the per-tribe report:
+On the reference field, each match sized to see 0.1 in mean placement: **about 2,900 games (1,450 pairs)**, about 19 minutes each on 4 threads (section 9). That size gives a ±0.1 interval, so a neighbour that is really 0.1 better is caught only about half the time; catching it 4 times in 5 takes about 2,900 pairs, double the time (owner's choice, section 11). Up to 10 numbers with a step each way is up to 20 matches, so **a full stopping test takes about 6–8 hours per bot**, plus one match per tribe for the per-tribe report:
 - **Numbers.** For each of up to 10 numbers the team names up front, one step up and one step down (the steps named up front) don't beat the current version.
 - **Ideas.** The team's last 8 ideas, covering economy, tribe choice, board order and each reworked mechanic, were all rejected.
 - **Both bots** pass, on overall placement. The test also plays each bot made to stay in each tribe and reports its placement per tribe (owner: "Overall + per-tribe report"). Caution: in the measured games red-m2 played Locust in 441 of 500 games, Mouse in 7 and Badger in none, so a bot forced into a tribe it never climbed in measures its own play there as much as the tribe (section 11).
@@ -74,14 +74,15 @@ Measured 21 Nov on `/data/third-run/field-f82d9c94`, 1,000 games each, 5 threads
 |---|---|---|---|---|
 | red-m2 against itself | +0.01 | 1.98 | 0.17 | about 1,510 |
 | red-m2 against blue-m2 | −0.80 | 2.80 | 0.25 | about 3,020 |
+| red-m2 against itself, 4 threads on cores 2–5 | +0.02 | 1.92 | 0.17 | about 1,420 |
 
 Pairing works: the same bot's two games against the same 7 ghosts correlate at 0.67, so a paired match needs about a third of the games an unpaired one would. Two versions of one bot are like the first row, so the stopping test is sized from it. In ghost play red-m2 beats blue-m2 clearly, the reverse of the league's live matches.
 
 - **Field capacity.** A ghost match never reuses a run within a match, and each seed pair uses 7, so a field of R runs supports about R ÷ 3.5 games per match: 8,000 runs, about 2,280 games (1,140 pairs). That is enough for climbing matches and too few for a stopping-test match, hence the bigger reference field.
-- **Time.** 1,000 games of the final bots on 5 threads: 7–11 minutes as a ghost match, 21 minutes as a live match (8 bots per game instead of 1).
+- **Time.** 1,000 games of the final bots: 6.4 minutes as a ghost match on 4 threads (7–11 on 5 threads with other work running), 21 minutes as a live match on 5 (8 bots per game instead of 1).
 - **Disk.** Today a 1,000-game ghost match writes about 355 MB, and a live match about 0.9 GB. One stopping test is about 25 matches of about 3,000 games, about 27 GB at today's defaults, and the run needs up to 6 (section 11); `/` was 89% full on 21 Nov before the league data was cleared. What a match keeps is the League Data and Storage session's question for the owner; the run follows what the owner picks.
 
-- **The total.** Each bot needs a stopping test at its first maximum and after each of its 2 restarts: up to 6 tests, plus the per-tribe and mechanic-off matches. Run one after another on 4 cores that is roughly **70–110 hours per balance round** before any retests, and it repeats after every balance change. The early stop above roughly halves it.
+- **The total.** Each bot needs a stopping test at its first maximum and after each of its 2 restarts: up to 6 tests, plus the per-tribe and mechanic-off matches. Run one after another on 4 cores that is roughly **50–70 hours per balance round** before any retests, and it repeats after every balance change. The early stop above roughly halves it.
 
 ## 10. The team brief (same for both, apart from the colour)
 
@@ -99,7 +100,7 @@ Pairing works: the same bot's two games against the same 7 ghosts correlate at 0
 ## 11. Questions for the owner
 
 1. **Per-tribe numbers.** May balance tune per tribe from bots forced into tribes they rarely play, or only from overall placement, or must each forced-tribe bot climb first?
-2. **Stopping-test power.** Half power at about 1,510 pairs, or 4 times in 5 at about 3,080 pairs (double the machine time)?
+2. **Stopping-test power.** Half power at about 1,450 pairs, or 4 times in 5 at about 2,900 pairs (double the machine time, and a reference field of about 20,000 runs)?
 3. **Restarts.** Does each of the 2 restart climbs need a full stopping test, or a smaller check, with the full test for the best of the three? This decides about 2 tests or 6.
 4. **After a balance change.** A full stopping test with restarts again, or a lighter re-check from where the bots were? Days against hours per balance round.
 5. **Model families.** Red stays on Opus and blue moves to Codex or Fable, or both stay on Opus?
