@@ -34,6 +34,11 @@
     ["board", "harvest-piper", 1], ["board", "harvest-piper", 2], ["board", "harvest-piper", 3],
     ["hand", "brock-cub*", 7], ["settle"], ["act", {"type":"play","hand":0,"slot":2}]
   ],
+  "board_golden_recruits_after_its_aura": [
+    ["board", "needle-page", 0], ["board", "squadron-leader", 4, "waiting_proof"],
+    ["board", "squadron-leader", 5, "waiting_proof"], ["board", "squadron-leader", 6, "waiting_proof"],
+    ["auras"], ["hand", "brock-cub*", 7], ["settle"], ["attack", 0]
+  ],
   "new_board_aura_before_joining_hook": [
     ["board", "needle-page", 0], ["hand", "squadron-leader"], ["hand", "brock-cub*", 6],
     ["give", "brock-cub"], ["grant_waiting", "waiting_proof"],
