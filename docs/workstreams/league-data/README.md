@@ -13,17 +13,19 @@ On what a match keeps (to the Ghost Build Orchestrator): "The match should only 
 | Match | Keep | Delete |
 |---|---|---|
 | Climb and stopping-test matches, once decided | `summary.json`, `analysis.json`, a one-line verdict (bot versions, seeds sha, games, mean-place gap, 95% interval, kept or not) | Everything else, at once. If the new version is kept, cut and verify its ghosts first |
-| Matches balance reads (named by the balance session), and matches the per-tribe report or rework checks read | Raw files gzipped, until the tuning change merges or the report is written; then only the findings | The raw files after that |
+| Matches balance reads (named by the balance session), and matches the per-tribe report or rework checks read | Raw files gzipped, with the decision log trimmed to the chosen moves, until the tuning change merges or the report is written; then only the findings | The legal-move lists at once; the raw files after that |
 | Matches that make a ghost field | `summary.json` | `records/` and raw logs, once `bramble-ghosts cut` and `verify` pass |
 | Any match whose build is old (rules hash no longer on dev) | One folder per build, at most 2 MB: findings report, per-card × round × tribe and per-tribe tables as CSV, stopping-test verdicts | Everything else |
 
 Always: big output goes on `/data`, never `/`; no `reports.jsonl`; the referee deletes as it goes.
 
-## How data is stored (direction approved; the build plan is still to be checked)
+## How data is stored
 
-- **Archive:** each game's replay record compressed with zstd, one per game, as a file or a blob in one SQLite file: 15–23 KB a game, against 392 KB raw. It is the source of truth; replays, ghosts and any rebuild come from it.
-- **Analysis:** DuckDB, loaded after each league, with small summary tables per league.
-- **Match writer:** no full reasoning log, but keep the bot's card value; a shared shop id in shops and reports; a format doc beside `matchrun.rs`; per-mechanic trigger counts in fights.
+The build plan is [plan.md](plan.md) (approved 21 Nov).
+
+- **Archive:** each game's replay record, unchanged, gzipped when a balance match keeps it (about 23 KB a game against 392 KB raw). It is the source of truth; replays, ghosts and any rebuild come from it.
+- **Analysis:** the existing Python reports in `tools/league/analysis`. A DuckDB file comes only when the balance session needs something they can't answer; the trial picked DuckDB for that.
+- **Match writer:** no reasoning log or duplicate Discover log by default; the bot's card values go in the shop log.
 - **SurrealDB:** not for this; a candidate later for the online ghost store.
 
 ## Evidence
