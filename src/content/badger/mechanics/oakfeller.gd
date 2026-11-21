@@ -1,6 +1,6 @@
 extends Mechanic
 ## The Oakfeller: after this attacks and kills a unit with its own damage (the target, or one
-## reached by Overrun), it attacks once more, at once. The extra attack never earns another. A
+## reached by Overrun), it attacks again, at once. Extra attacks never earn another. A
 ## kill a neighbour's pile-on makes is not its kill.
 ##
 ## State on the fight unit: SWING is 1 while a normal attack's deaths resolve and 2 for the
@@ -10,6 +10,14 @@ extends Mechanic
 const SWING: StringName = &"badger_oak_swing"
 const PENDING: StringName = &"badger_oak_pending"
 const EXTRA: StringName = &"badger_oak_extra"
+
+
+func param_kinds() -> Dictionary:
+	return {"extra_attacks": MechanicParams.Kind.NUMBER}
+
+
+func text_params(params: MechanicParams) -> Dictionary:
+	return {"follow_ups": UnitText.repeat_count(params.num(&"extra_attacks"))}
 
 
 func on_attack(
@@ -31,7 +39,7 @@ func on_kill(
 		unit.set_state(PENDING, 1)
 
 
-func after_death_round(combat: Combat, unit: CombatUnit, _params: MechanicParams) -> void:
+func after_death_round(combat: Combat, unit: CombatUnit, params: MechanicParams) -> void:
 	if unit == null:
 		return
 	unit.set_state(SWING, 0)
@@ -43,6 +51,8 @@ func after_death_round(combat: Combat, unit: CombatUnit, _params: MechanicParams
 	if not combat.trigger(unit, &"badger_oakfeller"):
 		return
 	unit.set_state(EXTRA, 1)
-	combat.attack_now(unit)
+	for _i: int in params.num(&"extra_attacks"):
+		if not combat.attack_now(unit):
+			break
 	unit.set_state(EXTRA, 0)
 	unit.set_state(SWING, 0)

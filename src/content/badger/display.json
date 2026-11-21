@@ -8,7 +8,7 @@
  },
  "badger_grudge": {
   "name": "Grudge",
-  "reminder": "After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
+  "reminder": "At the start of your turn, gain +N Health, and +N/+N more for each unit you were outnumbered by last fight. Works even if this died.",
   "icon": "grudge",
   "hidden": false
  },

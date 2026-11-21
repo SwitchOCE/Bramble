@@ -11,7 +11,7 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Padre, Charge: after a friendly unit dies (9.7.2 step 3), give the slot Renown for
-// the next fight. Its printed Charge stays the same on a golden.
+// the next fight. A golden doubles both the Renown and the Charge (7.3.5).
 pub const USED: &str = "pigeon_padre_uses";
 #[derive(Clone, Default)]
 pub struct Padre;
@@ -28,7 +28,7 @@ impl Mechanic for Padre {
     fn param_kinds(&self) -> Dictionary {
         let out = Dictionary::new();
         out.insert("amount", Variant::Int(Kind::Number as i64));
-        out.insert("limit", Variant::Int(Kind::Threshold as i64));
+        out.insert("limit", Variant::Int(Kind::Number as i64));
         out
     }
     fn after_friendly_death(

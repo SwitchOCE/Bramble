@@ -22,9 +22,25 @@ impl ToState for Quartermaster {
     }
 }
 
+impl Quartermaster {
+    fn _reserve_targets(params: &MechanicParamsRef) -> i64 {
+        params.borrow().num("reserve_targets")
+    }
+}
+
 impl Mechanic for Quartermaster {
     fn param_kinds(&self) -> Dictionary {
-        crate::state_dict! { "amount" => &(Kind::Number as i64), }.as_dict()
+        crate::state_dict! { "amount" => &(Kind::Number as i64), "reserve_targets" => &(Kind::Number as i64) }.as_dict()
+    }
+
+    fn text_params(&self, params: &MechanicParamsRef) -> Dictionary {
+        let count = Self::_reserve_targets(params);
+        let words = if count == 1 {
+            "a unit".into()
+        } else {
+            format!("{count} units")
+        };
+        crate::state_dict! {"reserve_units" => &words}.as_dict()
     }
 
     fn recruit_target(&self, _params: &MechanicParamsRef) -> Target {
@@ -41,6 +57,11 @@ impl Mechanic for Quartermaster {
         target: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
+        let limit = Self::_reserve_targets(params);
+        if limit <= 0 {
+            return;
+        }
+        // Put the explicit Recruit target first.
         let mut candidates = ctx.player.as_ref().unwrap().borrow().hand.to_vec();
         if let Some(target) = target
             && let Some(index) = candidates.iter().position(|card| Rc::ptr_eq(card, target))
@@ -58,7 +79,7 @@ impl Mechanic for Quartermaster {
             }
             ctx.give_keyword(&card, "pigeon_reserve", Some(unit));
             given += 1;
-            if given == params.borrow().num("amount") {
+            if given == limit {
                 return;
             }
         }

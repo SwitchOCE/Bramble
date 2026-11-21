@@ -1,6 +1,6 @@
 extends Mechanic
 ## Skin-shedder. Start of fight, set-up pass (ruling 41): the units next to this (8.2.2, same
-## row, any tribe) get `charges` more Molt charges for this fight (one; two on a golden); one
+## row, any tribe) get `charges` more Molt charges for this fight (one for plain and golden); one
 ## without Molt is given it. This unit doesn't Molt itself.
 
 const Locust := preload("res://src/content/locust/lib/locust.gd")

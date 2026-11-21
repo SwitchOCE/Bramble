@@ -17,7 +17,7 @@ var _you_side: int
 
 func _ready() -> void:
 	process_priority = 1  # Observe the new step after the screen processes it, before it draws.
-	var flow: GameFlow = GameFlow.create(GameContent.load_default(), 11)
+	var flow: GameFlow = FlowFixture.live(GameContent.load_default(), 11)
 	flow.start_round()
 	var session: GameSession = flow.session
 	var me: PlayerState = flow.human()

@@ -54,7 +54,7 @@ Every row is a real test card in `tests/core/content/test/` (ids `test_` + file 
 
 | You need | Look at | The pattern |
 |---|---|---|
-| Something after the fight on the real board | `mark_after_fight.gd` | `after_fight(ctx, unit, report, params)`; `report.survived(unit)`, `report.won()` |
+| Use the last fight's result at the start of turn | `mark_after_fight.gd` | `on_start_of_turn(ctx, unit, report, params)`. Check for a report before calling `report.survived(unit)` or `report.won()` |
 | A number on a unit for the game | `mark_after_fight.gd` | `ctx.add_unit_counter(unit, &"<prefix>mark", n, unit)` |
 | A permanent buff from inside a fight | `fury_gain.gd` | `combat.buff(unit, a, h, unit, true)` |
 | An aura that reads the fight, a counter or a heap | `outnumbered_aura.gd`, `tide_rider.gd` | `has_aura()` true; `aura(view, ...)` reads `view.outnumbered_by` (fixed at fight start), `view.counter()`, `view.heap_size()`, `view.count_tribe()` |

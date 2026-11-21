@@ -28,7 +28,7 @@ func _ready() -> void:
 
 func _triple() -> void:
 	var content: GameContent = GameContent.load_default()
-	var flow: GameFlow = GameFlow.create(content, 3)
+	var flow: GameFlow = FlowFixture.live(content, 3)
 	flow.start_round()
 	var me: PlayerState = flow.human()
 	me.gold = 30
@@ -58,7 +58,7 @@ func _triple() -> void:
 
 func _fight() -> void:
 	var content: GameContent = GameContent.load_default()
-	var flow: GameFlow = GameFlow.create(content, 11)
+	var flow: GameFlow = FlowFixture.live(content, 11)
 	flow.start_round()
 	var me: PlayerState = flow.human()
 	var them: PlayerState = flow.session.player(flow.session.opponent_of(GameFlow.HUMAN))

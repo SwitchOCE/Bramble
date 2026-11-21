@@ -36,7 +36,15 @@ impl GhostRun {
         library: Option<&UnitLibrary>,
         registry: Option<&MechanicRegistry>,
     ) -> Result<Self, String> {
-        Self::validated(bytes, library, registry, hash(bytes))
+        Self::parse_with_info(bytes, library, registry).map(|(run, _)| run)
+    }
+
+    pub fn parse_with_info(
+        bytes: &[u8],
+        library: Option<&UnitLibrary>,
+        registry: Option<&MechanicRegistry>,
+    ) -> Result<(Self, Dictionary), String> {
+        Self::validated_with_info(bytes, library, registry, hash(bytes))
     }
 
     pub(super) fn validated(
@@ -45,6 +53,15 @@ impl GhostRun {
         registry: Option<&MechanicRegistry>,
         id: String,
     ) -> Result<Self, String> {
+        Self::validated_with_info(bytes, library, registry, id).map(|(run, _)| run)
+    }
+
+    fn validated_with_info(
+        bytes: &[u8],
+        library: Option<&UnitLibrary>,
+        registry: Option<&MechanicRegistry>,
+        id: String,
+    ) -> Result<(Self, Dictionary), String> {
         let decoded = std::str::from_utf8(bytes).map_err(|_| "run file must be UTF-8")?;
         // Godot's UTF-8 conversion strips a leading BOM and ends at a raw NUL.
         if decoded.starts_with('\u{feff}') || decoded.contains('\0') {
@@ -60,7 +77,21 @@ impl GhostRun {
             payloads: IndexMap::new(),
         };
         run._read_turns(&data, library, registry)?;
-        Ok(run)
+        let source = data.get("source").as_dict();
+        let info = crate::state_dict! {
+            "id" => run.id(),
+            "rules_hash" => &data.get("rules").as_dict().get("rules_hash"),
+            "kind" => &source.get("kind"),
+            "label" => &source.get("label"),
+            "placement" => &data.get("placement").as_i64(),
+            "last_turn" => &run.last_turn(),
+            "made" => &data.get("made"),
+            "record_sha256" => &source.get("record_sha256"),
+            "seat" => &source.get("seat").as_i64(),
+            "ended" => &data.get("ended"),
+        }
+        .as_dict();
+        Ok((run, info))
     }
 
     fn _read_turns(
@@ -96,6 +127,11 @@ impl GhostRun {
             return Err(format!(
                 "missing turn {missing} (expected every turn in 1..{final_turn})"
             ));
+        }
+        for (index, raw) in data.get("turns").as_array().borrow().iter().enumerate() {
+            if raw.as_dict().get("turn").as_i64() != index as i64 + 1 {
+                return Err("turns must be ordered, starting at turn 1".into());
+            }
         }
         for card_id in &held_cards {
             if !cards.has(card_id) {
@@ -515,13 +551,20 @@ fn _standing_problem(
     {
         return Err("payload.standing params require a golden boolean and a _texts object".into());
     }
-    if texts
-        .as_dict()
-        .borrow()
-        .values()
-        .any(|value| !matches!(value, Variant::String(_)))
-    {
-        return Err("payload.standing _texts values must be strings".into());
+    for key in ["_texts", "_golden_texts"] {
+        let Variant::Dictionary(texts) = params.get_or(key, Variant::Dictionary(Dictionary::new()))
+        else {
+            return Err(format!("payload.standing params.{key} must be an object"));
+        };
+        if texts
+            .borrow()
+            .values()
+            .any(|value| !matches!(value, Variant::String(_)))
+        {
+            return Err(format!(
+                "payload.standing params.{key} values must be strings"
+            ));
+        }
     }
     for key in ["_ints", "_kinds", "_golden_ints"] {
         if !_integers(&params.get(key)) {
@@ -562,7 +605,7 @@ fn _text(value: &Variant) -> bool {
 }
 
 pub(super) fn _hex(value: &Variant, length: usize) -> bool {
-    matches!(value, Variant::String(text) if text.len() == length && text.bytes().all(|byte| byte.is_ascii_hexdigit()))
+    matches!(value, Variant::String(text) if text.len() == length && text.bytes().all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte)))
 }
 
 #[cfg(test)]

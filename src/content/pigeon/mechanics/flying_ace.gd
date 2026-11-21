@@ -4,7 +4,7 @@ const USED: StringName = &"pigeon_flying_ace_uses"
 
 
 func param_kinds() -> Dictionary:
-	return {"amount": MechanicParams.Kind.NUMBER, "limit": MechanicParams.Kind.THRESHOLD}
+	return {"amount": MechanicParams.Kind.NUMBER, "limit": MechanicParams.Kind.NUMBER}
 
 
 func on_kill(combat: Combat, unit: CombatUnit, _victim: CombatUnit, params: MechanicParams) -> void:

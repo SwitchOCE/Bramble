@@ -588,7 +588,7 @@ impl FightSide {
             return false;
         };
         let registry = combat.registry.clone().expect("combat registry");
-        if unit.borrow().gone || !registry.borrow().has(keyword) {
+        if unit.borrow().is_dead() || !registry.borrow().has(keyword) {
             return false;
         }
         let mut lasting = false;
@@ -641,7 +641,7 @@ impl FightSide {
         let Some(unit) = unit else {
             return false;
         };
-        if unit.borrow().gone {
+        if unit.borrow().is_dead() {
             return false;
         }
         let registry = combat.registry.clone().expect("combat registry");

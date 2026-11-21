@@ -3,4 +3,4 @@ extends Mechanic
 
 
 func param_kinds() -> Dictionary:
-	return {"limit": MechanicParams.Kind.THRESHOLD, "attack": MechanicParams.Kind.NUMBER}
+	return {"limit": MechanicParams.Kind.NUMBER, "attack": MechanicParams.Kind.NUMBER}

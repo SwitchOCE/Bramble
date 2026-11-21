@@ -40,7 +40,7 @@ A Molt board with a Skin-shedder has five or more returns a fight; a Briar board
 
 **Two full-house plans.** Dormouse Cook (seven Mice) and Colour Sergeant (a row of Pigeons) are the same idea: fill it with your own tribe and it grows each turn. Both shut out other tribes' units.
 
-**Three 2/2 tokens.** Private, Cousin and Hopper have the same stats. They behave differently when there is no room (a Private isn't summoned, a Cousin is lost, a Hopper waits), which players won't see on the card.
+**Three 2/2 tokens.** Private, Cousin and Hopper have the same stats. A Private steps into an empty slot, a Cousin without room is lost, and a Hopper without room gives Tide +1 immediately.
 
 **Gold.** Three tribes have a Tier 2 that pays about 1 gold a turn (Relic Seeker, Shrew Cutpurse, Hedge Layer). Pigeons and Locusts have none.
 

@@ -13,7 +13,7 @@ use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/locust/mechanics/shed.gd
 // Skin-shedder. Start of fight, set-up pass (ruling 41): the units next to this (8.2.2, same
-// row, any tribe) get `charges` more Molt charges for this fight (one; two on a golden); one
+// row, any tribe) get `charges` more Molt charges for this fight (one for plain and golden); one
 // without Molt is given it. This unit doesn't Molt itself.
 
 use crate::content::locust::lib::locust::{self as names, Locust};

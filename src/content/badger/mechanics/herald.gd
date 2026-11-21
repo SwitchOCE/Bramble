@@ -1,19 +1,24 @@
 extends Mechanic
-## Herald of the Charge: Start of fight (main pass): the units in front of this, any tribe,
-## attack immediately, the left one first. Normal attacks: they take damage and their "whenever
-## this attacks" effects trigger. A unit that can't attack doesn't.
+## Herald of the Charge lends Fury to the units in its target slots, of any tribe.
+
+const Badger := preload("res://src/content/badger/lib/badger_rules.gd")
 
 
-func on_start_of_combat(combat: Combat, unit: CombatUnit, _params: MechanicParams) -> void:
-	var slots: Array[int] = combat.geometry.in_front_of(unit.slot)
-	slots.sort()
-	var charging: Array[CombatUnit] = []
-	for slot: int in slots:
-		var front: CombatUnit = combat.unit_at(unit.side, slot)
-		if front != null and not front.gone:
-			charging.append(front)
-	if charging.is_empty() or not combat.trigger(unit, &"badger_herald"):
-		return
-	for front: CombatUnit in charging:
-		if not front.gone and not front.should_die():
-			combat.attack_now(front)
+func param_kinds() -> Dictionary:
+	return {"target_set": MechanicParams.Kind.TEXT, "fury": MechanicParams.Kind.NUMBER}
+
+
+func text_params(params: MechanicParams) -> Dictionary:
+	return Badger.front_target_words(params)
+
+
+func has_aura() -> bool:
+	return true
+
+
+func aura_grants(
+	view: AuraContext, source_slot: int, target_slot: int, params: MechanicParams
+) -> Array[Dictionary]:
+	if not Badger.front_target_slots(view.geometry, source_slot, params).has(target_slot):
+		return []
+	return [{"mechanic": String(Badger.FURY), "fury": params.num(&"fury")}]

@@ -61,6 +61,8 @@ var animate: bool = true
 ## For the next commit: card id -> where a card of that id that leaves goes as it fades (a sold
 ## unit to the unit that ate it, a shop unit to the Compost plate). Cleared by commit.
 var leave_to: Dictionary = {}
+## Keys whose numbers have their own presentation for the next commit.
+var quiet_numbers: Dictionary = {}
 
 ## key -> {node, card_id, look, numbers}
 var _kept: Dictionary = {}
@@ -155,6 +157,7 @@ func commit() -> Dictionary:
 		else:
 			_fade_out(gone_node)
 	leave_to = {}
+	quiet_numbers.clear()
 	_kept = kept
 	_wanted.clear()
 	# drawing order follows the state's: shop, board, hand, each left to right
@@ -362,7 +365,7 @@ func _place(entry: Dictionary, old: Dictionary, first: bool) -> Control:
 			shown = _numbers_of(was)
 			if was is GlassCard and node is GlassCard and (was as GlassCard).is_held():
 				(node as GlassCard).set_held(true)
-		else:
+		elif not quiet_numbers.has(entry["key"]):
 			var before: Vector2i = old["numbers"]
 			var after: Vector2i = entry["numbers"]
 			_pop(node, before, after)

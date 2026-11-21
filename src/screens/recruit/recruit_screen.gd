@@ -38,6 +38,8 @@ var _buttons: RecruitButtons
 var _counts: RecruitCounts
 var _input: RecruitInput
 var _triple: RecruitTripleMotion
+var _turn_start: RecruitTurnStart
+var _last_turn: int = -1
 
 
 func _ready() -> void:
@@ -59,6 +61,8 @@ func _ensure_stage() -> void:
 		_input = RecruitInput.new(self, _keeper, _board, _tips as RecruitTips)
 		_triple = RecruitTripleMotion.new(self)
 		_stage.add_child(_triple)
+		_turn_start = RecruitTurnStart.new(self)
+		_stage.add_child(_turn_start)
 		_keeper.flown_out.connect(func(_node: Control) -> void: _counts.arrived())
 		_keeper.flown.connect(func(_node: Control) -> void: _counts.flight_over())
 
@@ -73,7 +77,7 @@ func _ready_line() -> String:
 
 ## No hover detail while the button is held on a card or a card is carried.
 func _hover_allowed() -> bool:
-	return _input == null or not _input.is_busy()
+	return _input == null or (not _input.is_busy() and not _turn_start.active())
 
 
 ## A hovered hand card stands up off its place in the fan: the pointer still over that place is
@@ -120,6 +124,7 @@ func _process(delta: float) -> void:
 
 ## Every drawing draws the state as it is now (a held buy's too).
 func _layout() -> void:
+	_turn_start.finish()
 	if _input != null:
 		_input.drawn()
 	super()
@@ -129,6 +134,8 @@ func _layout() -> void:
 
 
 func settle() -> void:
+	if _turn_start != null:
+		_turn_start.finish()
 	super()
 	if _triple != null:
 		_triple.finish()
@@ -149,8 +156,20 @@ func show_state(new_state: Dictionary) -> void:
 	var before: Dictionary = state
 	if _counts != null:
 		_counts.before_state(before, new_state)
+	var turn: int = _i(new_state.get("turn", -1))
+	var effects: Array = new_state.get("turn_start_effects", []) if turn != _last_turn else []
+	if is_inside_tree():
+		_last_turn = turn
+	if _keeper != null:
+		for effect: Dictionary in effects:
+			if effect.has("slot"):
+				var slot: int = effect["slot"]
+				var card: Dictionary = new_state["board"][slot]
+				_keeper.quiet_numbers[card_key("board", slot, card)] = true
 	super(new_state)
 	_counts.after_state(before)
+	if not effects.is_empty() and is_inside_tree():
+		_turn_start.play(effects)
 
 
 func _on_new_state() -> void:
@@ -488,6 +507,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		return
 	if event.is_pressed() and _triple != null and _triple.active():
 		_triple.finish()
+	if event.is_pressed() and _turn_start != null:
+		_turn_start.finish()
 	var key: InputEventKey = event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_ESCAPE:
 		if is_aiming():
@@ -502,6 +523,8 @@ func _gui_input(event: InputEvent) -> void:
 		return
 	if event.is_pressed() and _triple != null and _triple.active():
 		_triple.finish()
+	if event.is_pressed():
+		_turn_start.finish()
 	var button: InputEventMouseButton = event as InputEventMouseButton
 	if button != null and button.button_index == MOUSE_BUTTON_RIGHT and button.pressed:
 		cancel_aim()
@@ -523,5 +546,5 @@ func _gui_input(event: InputEvent) -> void:
 	_pointer = here
 	if _input.move(here):
 		return
-	if not _input.is_pressing():
+	if not _input.is_pressing() and not _turn_start.active():
 		_tips.hover(here)

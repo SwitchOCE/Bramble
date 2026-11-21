@@ -52,7 +52,7 @@ cd /home/alex/league/red/tools/league
 CARGO_BUILD_JOBS=2 cargo build --offline --locked --release -p league -p red-tools
 target/release/league bots
 target/release/league check-crate bots/red --name red
-target/release/league match --red red --blue tribe --games 200 --seeds <file> --clock-ms 1000 --threads 2 --out ../../out/<name>
+target/release/league match --red red --blue flow --games 200 --seeds <file> --clock-ms 1000 --threads 2 --out ../../out/<name>
 target/release/league analyze ../../out/<name>
 ```
 

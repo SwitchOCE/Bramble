@@ -111,14 +111,14 @@
       "tier": 2,
       "attack": 2,
       "health": 7,
-      "text": "Bury: Gain 1 gold.",
+      "text": "Bury: Gain 2 gold.",
       "reminders": [
         "Bury: Once a turn, put a shop unit in your Compost, then do what follows."
       ],
       "keywords": [
         "Bury"
       ],
-      "golden": "Gain 2 gold. Still one Bury a turn.",
+      "golden": "Gain 4 gold. Still one Bury a turn.",
       "plans": [
         "mulch",
         "regrowth",
@@ -127,7 +127,7 @@
       ],
       "reach": "splash",
       "splash_for": "Any plan that wants gold: saving for a tier-up, paying for the pigeons' Orders. It also fills that player's Compost, so a later Briar pick-up works.",
-      "implementer": "While this is on the board in the Recruit Phase the player has one Bury from it each turn. The player drags a shop unit (not a spell; frozen is fine) onto the heap: the unit leaves the shop, an entry for it goes into the Compost, then the player gains 1 gold at once. No shop unit, no Bury."
+      "implementer": "While this is on the board in the Recruit Phase the player has one Bury from it each turn. The player drags a shop unit (not a spell; frozen is fine) onto the heap: the unit leaves the shop, an entry for it goes into the Compost, then the player gains 2 gold at once. No shop unit, no Bury."
     },
     {
       "id": "sweetbriar",
@@ -161,21 +161,21 @@
       "tier": 2,
       "attack": 5,
       "health": 6,
-      "text": "Root 1. After this returns, gain +2/+2 permanently.",
+      "text": "Root 1. After this returns, gain +1/+1 permanently.",
       "reminders": [
         "Root 1: The first time this dies each fight, spend 1 Compost to return it."
       ],
       "keywords": [
         "Root"
       ],
-      "golden": "+4/+4. Root 1 stays Root 1.",
+      "golden": "+2/+2. Root 1 stays Root 1.",
       "plans": [
         "coppice",
         "thornwall"
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "Root as in rules.root: it comes back as it stands on the recruit board, full Health and its permanent stats, without anything gained in this fight, in its own slot or the nearest empty one. If the Compost is empty or no slot is free, nothing is spent and it stays dead. Spending removes the lowest-tier entry. The +2/+2 is added after any return of this unit (Root, or a Molt given by a Skin-shedder), to the unit in the fight and to the recruit board."
+      "implementer": "Root as in rules.root: it comes back as it stands on the recruit board, full Health and its permanent stats, without anything gained in this fight, in its own slot or the nearest empty one. If the Compost is empty or no slot is free, nothing is spent and it stays dead. Spending removes the lowest-tier entry. The +1/+1 (+2/+2 golden) is added after any return of this unit (Root, or a Molt given by a Skin-shedder), to the unit in the fight and to the recruit board."
     },
     {
       "id": "blackberry-sprawl",
@@ -432,22 +432,21 @@
       "tier": 5,
       "attack": 5,
       "health": 13,
-      "text": "Start of fight: Summon copies of the 2 highest-tier units in your Compost, with +1/+1 for each unit in it.",
+      "text": "Start of fight: Summon a copy of the highest-tier unit in your Compost, with +1/+1 for each unit in it.",
       "reminders": [
-        "A plain copy for this fight. Each unit in your Compost comes out once a fight.",
-        "With no room, they wait for a slot."
+        "A plain copy for this fight. Each unit in your Compost comes out once a fight."
       ],
       "keywords": [
         "Compost"
       ],
-      "golden": "4 copies, +2/+2 for each unit.",
+      "golden": "2 copies, +1/+1 for each unit.",
       "plans": [
         "regrowth",
         "overgrowth"
       ],
       "reach": "splash",
       "splash_for": "A board that keeps slots empty in the shop: pigeons with drilled slots left open, where the slot buffs apply to the copies; a Badger board, which is still counted as outnumbered because the copies arrive after the count.",
-      "implementer": "Start of fight, main pass. Each copy goes to the empty slot nearest this unit (rulebook 8.4.2). A copy with no empty slot waits in the same line as waiting Hoppers and lands by the same rule (after a round of deaths, once death effects, returns and Reserve are done). On arrival each copy gains +1/+1 for each entry in the Compost, used entries included, on the unit, for this fight. The entries stay in the Compost, marked used for this fight. Copies don't run Start of fight effects, their own or Grow. Units are counted for who attacks first and for Outnumbered before this resolves (9.2.1)."
+      "implementer": "Start of fight, main pass. Each copy goes to the empty slot nearest this unit (rulebook 8.4.2). A copy with no empty slot is lost and its Compost entry remains available. On arrival each copy gains +1/+1 for each entry in the Compost, used entries included, on the unit, for this fight. The entries stay in the Compost, marked used for this fight. Copies don't run Start of fight effects, their own or Grow. Units are counted for who attacks first and for Outnumbered before this resolves (9.2.1)."
     },
     {
       "id": "briar-king",
@@ -487,14 +486,14 @@
       "keywords": [
         "Bury"
       ],
-      "golden": "+4/+4, and Bury effects happen three times.",
+      "golden": "+2/+2, and Bury effects happen three times.",
       "plans": [
         "mulch",
         "regrowth"
       ],
       "reach": "tribe-only",
       "splash_for": "",
-      "implementer": "One Bury a turn of its own. While this is on the board, the effect after any Bury resolves twice: Hedge Layer gives 2 gold, a Carter +4/+4, this +4/+4. Each Bury still buries one shop unit and adds one entry. Two Middens don't add up."
+      "implementer": "One Bury a turn of its own. While this is on the board, the effect after any Bury resolves twice: Hedge Layer gives 4 gold, a Carter +4/+4, this +4/+4. Each Bury still buries one shop unit and adds one entry. Golden Midden makes each effect happen three times. Two Middens don't add up."
     },
     {
       "id": "the-old-hedge",

@@ -13,7 +13,7 @@ var rng: Rng
 var target_index: int = -1
 ## Recruit effects are exempt, even when a full-hand golden lands on the board.
 var recruit_source: Unit
-var track_work: bool = true
+var _paying_fight_reward: bool = false
 var _source: Unit
 var _modifiers: Array[Unit] = []
 var _recruit: Recruit
@@ -46,7 +46,7 @@ func ask(query: StringName, base: int) -> int:
 
 
 func _worked(source: Unit = null) -> void:
-	if not track_work:
+	if _paying_fight_reward:
 		return
 	var owner: Unit = source if source != null else _source
 	if owner != recruit_source:
@@ -79,6 +79,14 @@ func trigger(unit: Unit, mechanic_id: StringName) -> bool:
 
 func triggers_used() -> int:
 	return _triggers
+
+
+## A reward from the last fight credits this turn without committing its source to the board.
+func pay_fight_reward(pay: Callable) -> void:
+	var already_paying: bool = _paying_fight_reward
+	_paying_fight_reward = true
+	pay.call()
+	_paying_fight_reward = already_paying
 
 
 ## 12.1.1: `permanent` for the rest of the game, otherwise this turn.

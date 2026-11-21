@@ -56,10 +56,6 @@ static func charge(combat: Combat, unit: CombatUnit, id: StringName, limit: int)
 	return true
 
 
-static func charge_without_number(params: MechanicParams) -> int:
-	return params.num(&"limit") * (2 if params.golden else 1)
-
-
 ## Only living Mice can inherit, including during simultaneous death resolution.
 static func nearest_mice(combat: Combat, origin: CombatUnit) -> Array[CombatUnit]:
 	var steps: Array[int] = combat.geometry.neighbour_steps(origin.slot)
@@ -94,9 +90,7 @@ static func hand_me_down(combat: Combat, giver: CombatUnit) -> void:
 				&"mouse_old_mother":
 					# Proposal: one Mother pays for the entire gift, in reading order.
 					if not permanent:
-						permanent = charge(
-							combat, friend, bound.id, charge_without_number(bound.params)
-						)
+						permanent = charge(combat, friend, bound.id, bound.params.num(&"limit"))
 	heirs.resize(mini(count, heirs.size()))
 	# Proposal: distribute first, then resolve each heir's Hobs before its Sister attack.
 	for heir: CombatUnit in heirs:
@@ -117,7 +111,7 @@ static func after_inheriting(combat: Combat, heir: CombatUnit) -> void:
 	for bound: BoundMechanic in heir.hooks():
 		if (
 			bound.id == &"mouse_sister"
-			and charge(combat, heir, bound.id, charge_without_number(bound.params))
+			and charge(combat, heir, bound.id, bound.params.num(&"limit"))
 		):
 			combat.attack_now(heir)
 
@@ -139,14 +133,14 @@ static func after_pile_on(combat: Combat, piler: CombatUnit) -> void:
 
 
 ## Summons `count` Cousins from `source`'s slot (8.4.2), golden ones when `golden`. A Cousin
-## never waits: with no room it is lost. Returns how many landed.
+## with no room is lost. Returns how many landed.
 static func summon_cousins(
 	combat: Combat, source: CombatUnit, count: int, golden: bool = false
 ) -> int:
 	var landed: int = 0
 	for _i: int in count:
 		var made: CombatUnit = combat.summon(
-			source.side, COUSIN, source.slot, false, source, false, {}, golden
+			source.side, COUSIN, source.slot, false, source, {}, golden
 		)
 		if made == null:
 			break

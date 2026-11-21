@@ -66,11 +66,6 @@ impl MouseRules {
         true
     }
 
-    pub fn charge_without_number(params: &MechanicParamsRef) -> i64 {
-        let params = params.borrow();
-        params.num("limit") * if params.golden { 2 } else { 1 }
-    }
-
     /// Living Mice in neighbour distance order (8.2.3), with ties in reading order.
     pub fn nearest_mice(combat: &mut Combat, origin: &CombatUnitRef) -> Array<CombatUnitRef> {
         let (slot, side) = {
@@ -130,7 +125,7 @@ impl MouseRules {
                             combat,
                             &friend,
                             &bound.id,
-                            Self::charge_without_number(&bound.params),
+                            bound.params.borrow().num("limit"),
                         );
                     }
                     _ => {}
@@ -177,12 +172,7 @@ impl MouseRules {
         for bound in hooks.iter_live() {
             let bound = bound.borrow();
             if bound.id == "mouse_sister"
-                && Self::charge(
-                    combat,
-                    heir,
-                    &bound.id,
-                    Self::charge_without_number(&bound.params),
-                )
+                && Self::charge(combat, heir, &bound.id, bound.params.borrow().num("limit"))
             {
                 combat.attack_now(Some(heir), None, false, None);
             }
@@ -255,9 +245,9 @@ impl MouseRules {
                 slot,
                 false,
                 Some(source),
-                false,
                 &Dictionary::new(),
                 golden,
+                crate::core::units::stat_block::StatBlock::UNSET,
             );
             if made.is_none() {
                 break;

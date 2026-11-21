@@ -50,7 +50,7 @@ func test_rising_tide_drummed_famine_caller_raises_the_tide_each_attack_and_hopp
 	assert_eq(p.counter(Kit.TIDE), 2 * drums + 2, "each drumbeat +2, and the Famine-caller's death")
 
 
-func test_brood_drummed_mother_raises_the_hopper_bonus_and_hoppers_wait_on_a_full_board() -> void:
+func test_brood_drummed_mother_raises_the_hopper_bonus_and_overflow_raises_tide() -> void:
 	_put("war-drummer", 0)
 	_put("brood-mother", game.geometry.behind(0)[0])
 	for slot: int in [1, 2, 3, 5, 6]:
@@ -63,7 +63,9 @@ func test_brood_drummed_mother_raises_the_hopper_bonus_and_hoppers_wait_on_a_ful
 	var mother_deaths: int = broods - drums
 	assert_true(mother_deaths == 0 or mother_deaths == 1, "+1/+1 a drumbeat; it died at most once")
 	assert_eq(p.counter(Kit.HOPPER_BONUS), broods, "each time it resolves, kept")
-	assert_gte(Kit.where(combat, "summon_waiting", "side", 0).size(), drums, "no room: they wait")
+	var failed: Array[Dictionary] = Kit.where(combat, "summon_failed", "id", "hopper")
+	assert_gte(failed.size(), 1, "the drummed Hoppers overflow while the board is full")
+	assert_eq(p.counter(Kit.TIDE), failed.size(), "one Tide per Hopper that could not fit")
 
 
 func test_brood_with_mother_of_thousands_and_dirge_singer_a_recruit_leaves_four() -> void:
@@ -72,16 +74,8 @@ func test_brood_with_mother_of_thousands_and_dirge_singer_a_recruit_leaves_four(
 	_put("dirge-singer", 5)
 	Kit.wall(game, q, 0, 50, 2000)
 	var combat: Combat = Kit.fight(game)
-	var made: int = (
-		Kit.hopper_summons(combat, 0).size() + Kit.where(combat, "summon_waiting", "side", 0).size()
-	)
-	var waited: int = (
-		Kit
-		. hopper_summons(combat, 0)
-		. filter(func(e: Dictionary) -> bool: return e.get("waited", false))
-		. size()
-	)
-	assert_eq(made - waited, 4, "1 Hopper, doubled by the Mother, twice by the Dirge-singer")
+	assert_eq(Kit.hopper_summons(combat, 0).size(), 4, "1 Hopper, doubled, triggered twice")
+	assert_eq(p.counter(Kit.TIDE), 0)
 
 
 func test_molt_board_shedder_sentry_and_veteran() -> void:
@@ -137,24 +131,19 @@ func test_feast_eaten_death_effects_pay_in_the_shop() -> void:
 	assert_eq(gorger.attack(), 5 + 3 + 2, "own 8, Tide 2")
 
 
-## Hoppers asked for by one source uid (summoned at once or waiting; a waited one landing later
-## is not a new request).
+## Hoppers attempted by one source uid, including those that gave Tide.
 func _asked(combat: Combat, source: int) -> int:
 	var count: int = 0
 	for event: Dictionary in combat.events:
-		if CoreUtil.to_int(event.get("source_uid", -2)) != source or event.get("id") != "hopper":
+		if event.get("source_uid") != source or event.get("id") != "hopper":
 			continue
-		if (
-			event["type"] == "summon_waiting"
-			or (event["type"] == "summon" and not event.get("waited", false))
-		):
+		if event["type"] == "summon" or event["type"] == "summon_failed":
 			count += 1
 	return count
 
 
-## Sky-darkener's 2 Hoppers are 4 with the Mother, all waiting on a full board; each golden Green
-## Recruit's death effect runs twice (Dirge-singer) and each run asks for 2 x 2 Hoppers. The fight
-## still ends inside the limits.
+## Sky-darkener's 2 Hoppers are 4 with the Mother, all overflowing on a full board. Each golden
+## Green Recruit's death effect runs twice (Dirge-singer) and each run asks for 2 x 2 Hoppers.
 func test_a_hopper_flood_ends_within_the_limits() -> void:
 	_put("mother-of-thousands", 4)
 	var darkener: Unit = _put("sky-darkener", 5)
@@ -166,8 +155,9 @@ func test_a_hopper_flood_ends_within_the_limits() -> void:
 	var combat: Combat = Kit.fight(game)
 	var sky: int = Kit.uid_of(combat, darkener)
 	assert_eq(_asked(combat, sky), 2 * 2, "Sky-darkener's 2, doubled by the Mother")
-	var waits: Array[Dictionary] = Kit.where(combat, "summon_waiting", "source_uid", sky)
-	assert_eq(waits.size(), 4, "a full board: all four wait")
+	var overflow: Array[Dictionary] = Kit.where(combat, "summon_failed", "source_uid", sky)
+	assert_eq(overflow.size(), 4, "a full board: all four give Tide")
+	assert_eq(p.counter(Kit.TIDE), Kit.where(combat, "summon_failed", "id", "hopper").size())
 	var runs: Array[Dictionary] = Kit.triggers(combat, "locust_hoppers_on_death")
 	var died: Array[int] = []
 	for run: Dictionary in runs:
@@ -186,8 +176,8 @@ func test_a_hopper_flood_ends_within_the_limits() -> void:
 
 
 ## Golden on both sides: each Brood Mother's death effect runs three times (golden Dirge-singer),
-## each run asks for 2 Hoppers three times over (golden Mother) and adds +2 to the Hopper bonus
-## for good, so every Hopper lands as 2/2 plus the bonus at that moment.
+## each run asks for 1 Hopper three times over (golden Mother) and adds +2 to the Hopper bonus
+## for good, so every Hopper enters with the bonus and the Tide at that moment.
 func test_two_hopper_floods_with_big_hoppers_against_each_other() -> void:
 	for player: PlayerState in [p, q]:
 		Kit.put(game, player, "mother-of-thousands", 4, true)
@@ -212,12 +202,20 @@ func test_two_hopper_floods_with_big_hoppers_against_each_other() -> void:
 		for uid: int in mothers:
 			var times: int = runs.filter(func(e: Dictionary) -> bool: return e["uid"] == uid).size()
 			assert_eq(times, 3, "side %d: each death effect three times" % side)
-			assert_eq(_asked(combat, uid), 3 * 2 * 3, "three runs of 2 Hoppers, tripled")
-		for hopper: Dictionary in Kit.hopper_summons(combat, side):
-			assert_true(hopper["golden"] == false, "a Hopper is a plain token")
-			assert_eq(hopper["attack"] - 2, hopper["health"] - 2, "the bonus is +N/+N")
-			assert_gte(CoreUtil.to_int(hopper["attack"]), 2 + 20, "with the bonus it had then")
+			assert_eq(_asked(combat, uid), 3 * 1 * 3, "three runs of 1 Hopper, tripled")
+		var tide: int = 0
+		for event: Dictionary in combat.events:
+			if event.get("side") != side:
+				continue
+			if event["type"] == "player_counter" and event["key"] == "locust_tide":
+				tide = event["value"]
+			if event["type"] != "summon" or event["id"] != "hopper":
+				continue
+			assert_false(event["golden"], "a Hopper is a plain token")
+			assert_eq(event["attack"] - tide, event["health"], "Tide adds only Attack")
+			assert_gte(CoreUtil.to_int(event["health"]), 22, "the initial bonus was 20")
+		var overflow: Array[Dictionary] = Kit.where(combat, "summon_failed", "side", side)
+		assert_gt(overflow.size(), 0, "some Hoppers could not fit")
+		assert_eq(player.counter(Kit.TIDE), overflow.size(), "one Tide per overflow")
 	var end: Dictionary = Kit.events(combat, "combat_end")[0]
 	assert_true(Combat.REASONS.has(end["reason"]))
-	var made: int = Kit.hopper_summons(combat, 0).size() + Kit.hopper_summons(combat, 1).size()
-	assert_gt(made, 40, "a flood")

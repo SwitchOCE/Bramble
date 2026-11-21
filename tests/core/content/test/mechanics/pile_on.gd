@@ -1,7 +1,6 @@
 extends Mechanic
 ## Pile on: whenever a neighbour (next to, in front of or behind: up to four, 8.2.3) attacks,
-## this hits the target. Every pile-on hit lands together (Combat.hit while friends hear an
-## attack), so a later piler still lands when an earlier one's hit was enough.
+## this queues a hit on the target (Combat.hit while friends hear an attack).
 
 
 func on_friendly_attack(

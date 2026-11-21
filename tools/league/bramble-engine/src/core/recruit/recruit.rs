@@ -110,7 +110,11 @@ impl Recruit {
     }
 
     // 3.2.1 in order: gold, upgrade discount, refresh counter, shop refill, start-of-turn triggers.
-    pub fn start_turn(recruit: &RecruitRef, player: &PlayerStateRef) {
+    pub fn start_turn(
+        recruit: &RecruitRef,
+        player: &PlayerStateRef,
+        report: Option<&FightReportRef>,
+    ) {
         let game = Self::_session(recruit);
         player.borrow_mut().turn_ended = false;
         for unit in player.borrow().all_cards().iter_live() {
@@ -141,7 +145,13 @@ impl Recruit {
         player.borrow_mut().frozen = false;
         Self::_log(recruit, player, &crate::state_dict!{"type"=>"turn_start", "gold"=>&player.borrow().gold,"shop"=>&Self::_shop_view(recruit,player)}.as_dict());
         let mut ctx = RecruitContext::new(&game, recruit, player);
-        Self::notify(&mut ctx, Hook::OnStartOfTurn, &HookArgs::None);
+        Self::notify(
+            &mut ctx,
+            Hook::OnStartOfTurn,
+            &HookArgs::StartOfTurn {
+                report: report.cloned(),
+            },
+        );
         Self::_settle(recruit, player);
     }
 
@@ -956,20 +966,6 @@ impl Recruit {
             i += 1;
             ctx.invoke(None, &bound, hook, args);
         }
-    }
-
-    // After this player's fight (GameSession): after_fight for the real board, then standing.
-    pub fn after_fight(recruit: &RecruitRef, player: &PlayerStateRef, report: &FightReportRef) {
-        let mut ctx = RecruitContext::new(&Self::_session(recruit), recruit, player);
-        ctx.track_work = false;
-        Self::notify(
-            &mut ctx,
-            Hook::AfterFight,
-            &HookArgs::AfterFight {
-                report: report.clone(),
-            },
-        );
-        Self::_settle(recruit, player);
     }
 
     // A death effect resolving in the Recruit Phase, from where the unit stands (Mechanic

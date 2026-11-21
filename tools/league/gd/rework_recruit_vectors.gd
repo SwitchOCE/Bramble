@@ -15,19 +15,18 @@ func _initialize() -> void:
 		printerr("rework_recruit_vectors: expected a writable out= path and valid content")
 		quit(1)
 		return
-	file.store_line(
-		JSON.stringify(
-			{
-				"supply": _supply(content),
-				"quartermaster": _quartermaster(content),
-				"grenadier": _grenadier(content),
-				"sell_discover_pick": _sale(content, 1, 0, &"", -1),
-				"sell_real_triple": _sale(content, 3, 0, &"", 0),
-				"sell_token_triple": _sale(content, 0, 3, &"bramble-runner", -1),
-				"sell_bought_token_triple": _sale(content, 0, 2, &"pip", -1),
-			}
-		)
-	)
+	var vectors: Dictionary = {
+		"supply": _supply(content),
+		"tide_on_sell": _tide_on_sell(content),
+		"shop_overflow": _shop_overflow(content),
+		"quartermaster": _quartermaster(content),
+		"grenadier": _grenadier(content),
+		"sell_discover_pick": _sale(content, 1, 0, &"", -1),
+		"sell_real_triple": _sale(content, 3, 0, &"", 0),
+		"sell_token_triple": _sale(content, 0, 3, &"bramble-runner", -1),
+		"sell_bought_token_triple": _sale(content, 0, 2, &"pip", -1),
+	}
+	file.store_line(JSON.stringify(vectors))
 	file.close()
 	quit(0)
 
@@ -163,3 +162,35 @@ func _sale(
 		"result": result,
 		"after": RecordState.state_hash(game),
 	}
+
+
+func _tide_on_sell(content: GameContent) -> Dictionary:
+	var game: GameSession = content.new_session(42)
+	game.start_round()
+	var player: PlayerState = game.player(0)
+	player.gold = 20
+	var levels: Array[int] = []
+	var actions: Array[String] = []
+	var slot: int = 0
+	for id: StringName in [&"horde-runner", &"bumblebee", &"hopper", &"green-recruit"]:
+		player.hand.append(game.new_unit(game.library.get_card(id), false))
+		actions.append(game.act(0, {"type": "play", "hand": 0, "slot": slot}))
+		slot += 1
+	for sold: int in [1, 2, 3]:
+		actions.append(game.act(0, {"type": "sell", "slot": sold}))
+		levels.append(player.counter(&"locust_tide"))
+	return {"actions": actions, "levels": levels, "hash": RecordState.state_hash(game)}
+
+
+func _shop_overflow(content: GameContent) -> Dictionary:
+	var game: GameSession = content.new_session(42)
+	game.start_round()
+	var player: PlayerState = game.player(0)
+	player.gold = 20
+	for slot: int in game.geometry.slot_count:
+		var id: StringName = &"gorger" if slot == 0 else &"bumblebee"
+		player.place(game.new_unit(game.library.get_card(id), false), slot)
+	var ctx := RecruitContext.new(game, game.recruit, player)
+	ctx.give_card(&"green-recruit", null)
+	var sold: String = game.act(0, {"type": "sell", "hand": 0})
+	return {"sell": sold, "tide": player.counter(&"locust_tide"), "hash": RecordState.state_hash(game)}

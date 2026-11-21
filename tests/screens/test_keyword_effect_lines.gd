@@ -176,28 +176,20 @@ func test_campaigner_survival_addendum_stays_with_its_base_effect() -> void:
 		content,
 		"old-campaigner",
 		false,
-		["After each fight, give this slot 1 Renown, or 2 if this survived."]
+		["At the start of your turn, give this slot 1 Renown, or 2 if this survived last fight."]
 	)
 	_assert_groups(
 		content,
 		"old-campaigner",
 		true,
-		["After each fight, give this slot 2 Renown, or 4 if this survived."]
+		["At the start of your turn, give this slot 2 Renown, or 4 if this survived last fight."]
 	)
 
 
 func test_grudge_keeper_explanation_stays_with_the_granted_effect() -> void:
 	var content: GameContent = GameContent.load_default()
-	_assert_groups(content, "grudge-keeper", false, ["Fury 1.", "Your Knights have Grudge."])
-	_assert_groups(
-		content,
-		"grudge-keeper",
-		true,
-		[
-			"Fury 2.",
-			"Your Knights have Grudge. The Grudge it gives is +2 Health, and +2/+2 more for each."
-		]
-	)
+	_assert_groups(content, "grudge-keeper", false, ["Fury 1.", "Your Knights have Grudge 1."])
+	_assert_groups(content, "grudge-keeper", true, ["Fury 2.", "Your Knights have Grudge 2."])
 
 
 func test_seed_addendum_stays_joined_and_crab_apple_death_summon_is_separate() -> void:
@@ -232,32 +224,38 @@ func test_independent_keyword_and_triggered_effects_have_authored_boundaries() -
 			content,
 			"shrew-cutpurse",
 			golden,
-			["Pile on 1.", "After this piles on, gain %d gold." % factor]
+			["Pile on %d." % factor, "After this piles on, gain 2 gold."]
 		)
 		_assert_groups(
 			content,
 			"flying-ace",
 			golden,
-			["Cleave.", "Charge 2: After this kills, give this slot %d Renown." % factor]
+			[
+				"Cleave.",
+				"Charge %d: After this kills, give this slot %d Renown." % [2 * factor, factor]
+			]
 		)
 
 
 func test_return_buff_and_global_modifier_are_separate_even_when_they_reference_a_keyword() -> void:
 	var content: GameContent = GameContent.load_default()
 	for golden: bool in [false, true]:
-		var amount: int = 4 if golden else 2
+		var sapling_gain: int = 2 if golden else 1
 		_assert_groups(
 			content,
 			"blackthorn-sapling",
 			golden,
-			["Root 1.", "After this returns, gain +%d/+%d permanently." % [amount, amount]]
+			[
+				"Root 1.",
+				"After this returns, gain +%d/+%d permanently." % [sapling_gain, sapling_gain]
+			]
 		)
 		_assert_groups(
 			content,
 			"dame-bodkin",
 			golden,
 			[
-				"Pile on 2.",
+				"Pile on %d." % (4 if golden else 2),
 				"Your Mice's pile-on hits deal %s damage." % ("triple" if golden else "double")
 			]
 		)

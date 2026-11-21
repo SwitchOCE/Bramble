@@ -233,3 +233,62 @@ fn sales_match_discover_and_real_and_token_triples() {
         );
     }
 }
+
+#[test]
+fn horde_runner_raises_tide_on_the_first_locust_sold() {
+    let (game, player) = session();
+    let mut actions = Vec::new();
+    for (slot, id) in ["horde-runner", "bumblebee", "hopper", "green-recruit"]
+        .into_iter()
+        .enumerate()
+    {
+        in_hand(&game, &player, id);
+        let play = state_dict! {"type"=>"play","hand"=>&0_i64,"slot"=>&(slot as i64)}.as_dict();
+        actions.push(GameSession::act(&game, 0, &play));
+    }
+    let mut levels = Vec::new();
+    for slot in [1_i64, 2, 3] {
+        let sell = state_dict! {"type"=>"sell","slot"=>&slot}.as_dict();
+        actions.push(GameSession::act(&game, 0, &sell));
+        levels.push(player.borrow().counter("locust_tide"));
+    }
+    assert!(actions.iter().all(String::is_empty));
+    assert_eq!(levels, [0, 1, 1]);
+    check(
+        "tide_on_sell",
+        &state_dict! {"actions"=>&Array::from(actions), "levels"=>&Array::from(levels), "hash"=>&RecordState::state_hash(&game.borrow())},
+    );
+}
+
+#[test]
+fn a_hopper_overflow_in_recruit_raises_tide_immediately() {
+    let (game, player) = session();
+    let slots = game.borrow().geometry.as_ref().unwrap().borrow().slot_count;
+    for slot in 0..slots {
+        let id = if slot == 0 { "gorger" } else { "bumblebee" };
+        let card = game
+            .borrow()
+            .library
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .get_card(id)
+            .unwrap();
+        let unit = game.borrow_mut().new_unit(&card, false);
+        player.borrow_mut().place(&unit, slot);
+    }
+    let recruit = game.borrow().recruit.clone().unwrap();
+    let mut ctx = RecruitContext::new(&game, &recruit, &player);
+    ctx.give_card("green-recruit", None);
+    let sold = GameSession::act(
+        &game,
+        0,
+        &state_dict! {"type"=>"sell","hand"=>&0_i64}.as_dict(),
+    );
+    let tide = player.borrow().counter("locust_tide");
+    assert_eq!(tide, 1);
+    check(
+        "shop_overflow",
+        &state_dict! {"sell"=>&sold,"tide"=>&tide,"hash"=>&RecordState::state_hash(&game.borrow())},
+    );
+}

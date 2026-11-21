@@ -48,7 +48,7 @@
 		"_halt_reason",
 		"_active_side",
 		"_starting_uids",
-		"_hit_by",
+		"_killers",
 		"_units_cache",
 		"_bridges",
 		"_depth",
@@ -57,11 +57,11 @@
 		"_counted_start",
 		"_started",
 		"_acting",
-		"_from_attack",
-		"_own_attack",
-		"_next_own_attack",
+		"_damage_kind",
 		"_joining",
 		"_joined_hits",
+		"_death_effect_source",
+		"_striking_back",
 		"_placing",
 		"_held",
 		"_holding"
@@ -93,7 +93,6 @@
 	],
 	"src/core/combat/fight_arrivals.gd": [
 		"reserve",
-		"waiting",
 		"called",
 		"witnessed",
 		"_combat_ref"
@@ -134,9 +133,6 @@
 		"_id",
 		"_payloads"
 	],
-	"src/core/ghosts/ghost_store.gd": [
-		"directory"
-	],
 	"src/core/mechanics/bound_mechanic.gd": [
 		"id",
 		"mechanic",
@@ -169,7 +165,8 @@
 		"_ints",
 		"_texts",
 		"_kinds",
-		"_golden_ints"
+		"_golden_ints",
+		"_golden_texts"
 	],
 	"src/core/mechanics/mechanic_registry.gd": [
 		"errors",
@@ -197,6 +194,7 @@
 		"armor",
 		"gold",
 		"gold_next_turn",
+		"last_fight_report",
 		"tier",
 		"turns_waited",
 		"refreshes_paid",
@@ -232,7 +230,7 @@
 		"rng",
 		"target_index",
 		"recruit_source",
-		"track_work",
+		"_paying_fight_reward",
 		"_source",
 		"_modifiers",
 		"_recruit",

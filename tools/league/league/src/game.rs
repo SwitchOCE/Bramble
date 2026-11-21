@@ -3,6 +3,7 @@
 use crate::baselines::SimpleBot;
 use crate::watchdog::Watch;
 use bramble_engine::core::{
+    ghosts::ghost_run::RunsBySeat,
     records::{game_record::GameRecord, record_state::RecordState},
     session::{
         game_session::{GameSession, GameSessionRef},
@@ -140,28 +141,48 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
     let game = engine
         .content
         .borrow()
-        .new_session(plan.seed, &bramble_engine::Array::new());
+        .new_session(plan.seed, &Array::new());
+    play_session(engine, plan, watch, game)
+}
+
+pub(crate) fn play_async(
+    engine: &Engine,
+    plan: GamePlan,
+    watch: &Watch,
+    runs: RunsBySeat,
+) -> Result<GameOut, String> {
+    let game = engine
+        .content
+        .borrow()
+        .new_async_session(plan.seed, runs, &Array::new())?;
+    Ok(play_session(engine, plan, watch, game))
+}
+
+fn play_session(engine: &Engine, plan: GamePlan, watch: &Watch, game: GameSessionRef) -> GameOut {
     game.borrow_mut().keep_fight_events = false;
     // The harness writes the record itself (same lines as GameRecord), so the session must not.
     let recipe = std::mem::take(&mut game.borrow_mut().record_recipe);
     let mut rec = Writer {
         lines: String::new(),
     };
-    {
+    let (mode, runs) = {
         let g = game.borrow();
+        let mode = if g.is_async() { "async" } else { "live" };
+        let runs = GameRecord::run_entries(&g).to_state();
         let config = RecordState::fields(&*g.config.as_ref().expect("config").borrow(), &[]);
         rec.put(&[
             ("op", "header".into()),
             ("format", GameRecord::FORMAT.into()),
-            ("mode", "live".into()),
-            ("runs", Variant::array(Vec::new())),
+            ("mode", mode.into()),
+            ("runs", runs.clone()),
             ("seed", g.seed_value.to_string().into()),
             ("build", engine.build.clone()),
             ("recipe", Variant::Dictionary(recipe)),
             ("config", Variant::Dictionary(config)),
             ("initial_hash", RecordState::state_hash(&g).into()),
         ]);
-    }
+        (mode, runs)
+    };
     let mut seats: Vec<Seat> = Vec::new();
     for (id, plan_seat) in plan.seats.into_iter().enumerate() {
         let deadline = Rc::new(Cell::new(0));
@@ -251,30 +272,38 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         ]);
         let alive = game.borrow().alive_ids().to_vec();
         for id in alive {
-            take_turn(&mut ctx, &mut seats[id as usize], &mut rec);
+            if let Some(seat) = seats.get_mut(id as usize) {
+                take_turn(&mut ctx, seat, &mut rec);
+            }
         }
-        // Every alive player has ended its turn, so this is the state `finish_round` records.
-        let payloads = harness::payloads(&game);
-        rec.put(&[
-            ("op", "fight_boards".into()),
-            ("turn", round.into()),
-            (
-                "players",
-                Variant::Array(
-                    payloads
-                        .iter()
-                        .map(|payload| Variant::Dictionary(harness::payload_raw(payload)))
-                        .collect(),
-                ),
-            ),
-            ("hash", hash(&game)),
-        ]);
-        timed(4, || round_stats(&ctx, &mut seats));
         // _eliminate in finish_round can replace the ghost for the NEXT round.
         let ghost_of = game.borrow().ghost_of;
+        let mut payloads = Vec::new();
         let mut fight_stats = Vec::new();
-        let round_fights = GameSession::finish_round_with_events(
+        let round_fights = GameSession::finish_round_observed(
             &game,
+            |run_boards| {
+                payloads = harness::payloads(&game);
+                let mut entry = vec![
+                    ("op", "fight_boards".into()),
+                    ("turn", round.into()),
+                    (
+                        "players",
+                        Variant::Array(
+                            payloads
+                                .iter()
+                                .map(|payload| Variant::Dictionary(harness::payload_raw(payload)))
+                                .collect(),
+                        ),
+                    ),
+                    ("hash", hash(&game)),
+                ];
+                if mode == "async" {
+                    entry.push(("run_boards", run_boards.to_state()));
+                }
+                rec.put(&entry);
+                timed(4, || round_stats(&ctx, &mut seats));
+            },
             Some(&mut |events| fight_stats.push(combat_log(events))),
         );
         // Append the recorded boards of opponents actually fought. Views and
@@ -303,7 +332,7 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
             fight_stats,
         ));
         // Keep the board snapshot before combat, but count all card gold generated this round,
-        // including after_fight effects (Relic Seeker) and deferred combat gold (Cutpurse).
+        // including start-of-turn rewards (Relic Seeker) and deferred combat gold (Cutpurse).
         for seat in &mut seats {
             if let Some(stats) = seat.rounds.last_mut()
                 && stats["round"] == round
@@ -341,14 +370,21 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         }));
         cpu.push(json!({"seat": seat.id, "cpu_ms": seat.used_ns as f64 / 1e6}));
     }
+    let mut game_line = json!({
+        "game": plan.index, "seed": plan.seed.to_string(), "swapped": plan.swapped,
+        "red_seats": (0..seats.len()).filter(|&s| plan.red_seats[s] != plan.swapped).collect::<Vec<_>>(),
+        "rounds": rounds, "round_limit_hit": rounds >= round_limit,
+        "seats": seat_lines, "fights": fight_log,
+    });
+    if mode == "async" {
+        game_line["mode"] = mode.into();
+        game_line["runs"] = serde_json::from_str(&godot_json::stringify(&runs)).expect("runs JSON");
+        game_line["live_team"] = seats[0].colour.into();
+    }
     GameOut {
         index: plan.index,
         record: rec.lines,
-        game: json!({
-            "game": plan.index, "seed": plan.seed.to_string(), "swapped": plan.swapped,
-            "red_seats": (0..8).filter(|&s| plan.red_seats[s] != plan.swapped).collect::<Vec<_>>(), "rounds": rounds, "round_limit_hit": rounds >= round_limit,
-            "seats": seat_lines, "fights": fight_log,
-        }),
+        game: game_line,
         cpu: json!({"game": plan.index, "seats": cpu}),
         shops: ctx.shops,
         discovers: ctx.discovers,
@@ -898,6 +934,8 @@ fn round_card_gold(game: &GameSessionRef, id: i64) -> i64 {
 
 /// Per-round board facts for every alive seat, after all turns and before the fights.
 fn round_stats(ctx: &Ctx, seats: &mut [Seat]) {
+    const TRIBES: [&str; 5] = ["Badger", "Mouse", "Pigeon", "Locust", "Briar"];
+
     let game = &ctx.game;
     let round = game.borrow().round_number;
     let events = game.borrow().events.to_vec();
@@ -923,10 +961,7 @@ fn round_stats(ctx: &Ctx, seats: &mut [Seat]) {
             board.push(json!({"card": def.id, "golden": u.golden, "slot": u.slot, "attack": a, "health": h}));
             let names = def.tribes.to_vec();
             let names: Vec<String> = if names.iter().any(|t| t == "All") {
-                crate::baselines::TRIBES
-                    .iter()
-                    .map(|t| t.to_string())
-                    .collect()
+                TRIBES.iter().map(|t| t.to_string()).collect()
             } else {
                 names
             };
@@ -1022,9 +1057,65 @@ fn tribe_story(seat: &Seat) -> (Option<String>, Option<i64>, Vec<Value>) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use bramble_engine::core::recruit::{recruit::Recruit, recruit_context::RecruitContext};
+    use bramble_engine::core::recruit::recruit_context::RecruitContext;
     use bramble_engine::core::state::fight_report::FightReport;
     use std::cell::RefCell;
+
+    #[test]
+    fn eight_live_seats_match_the_format_three_reference() {
+        use bramble_engine::core::records::record_replay::RecordReplay;
+        use sha2::{Digest, Sha256};
+
+        let root = crate::default_root();
+        let engine = crate::engine_for(&root, &|| crate::load_content(&root, None)).unwrap();
+        let watch = crate::watchdog::Watchdog::default().register();
+        let output = play(
+            &engine,
+            GamePlan {
+                index: 0,
+                seed: 1001,
+                swapped: false,
+                red_seats: [false; 8],
+                seats: crate::selfcheck::records_gd_seats(1001),
+                clock_ns: 5_000_000_000,
+                log_decisions: false,
+            },
+            &watch,
+        );
+        let entries: Array<Dictionary> = output
+            .record
+            .lines()
+            .map(|line| godot_json::parse_string(line).as_dict())
+            .take_while(|entry| entry.get("turn").as_i64() <= 2)
+            .collect();
+        let header = entries.get(0).unwrap();
+        assert_eq!(header.get("format").as_i64(), 4);
+        assert_eq!(header.get("mode").as_text(), "live");
+        assert!(header.get("runs").as_array().is_empty());
+        let replay = RecordReplay::rebuild(&root, &entries);
+        assert!(replay.ok, "{}", replay.message);
+        assert_eq!(replay.checkpoints, 6);
+
+        // The legacy GDScript prefix in test_async_session.gd uses res:// paths.
+        for path in header
+            .get("recipe")
+            .as_dict()
+            .get("paths")
+            .as_array()
+            .borrow_mut()
+            .iter_mut()
+        {
+            *path = RecordReplay::content_folder(&root, &path.as_text()).into();
+        }
+        for key in ["format", "build", "mode", "runs"] {
+            header.erase(key);
+        }
+        let canonical = godot_json::stringify(&RecordState::value(&entries.to_state()));
+        assert_eq!(
+            format!("{:x}", Sha256::digest(canonical)),
+            "93ba8d730b9f10fbc3bfb782212e4ad928acaf4946e1627972ddb72276d44d2c"
+        );
+    }
 
     #[test]
     fn fight_log_counts_cleave_and_ghost_summon_kills() {
@@ -1086,7 +1177,7 @@ mod tests {
     }
 
     #[test]
-    fn card_gold_includes_after_fight_payouts_and_counts_deferred_gold_once() {
+    fn card_gold_counts_start_of_turn_rewards_and_deferred_gold_once() {
         let content = crate::load_content(&crate::default_root(), None).unwrap();
         let game = content.borrow().new_session(11, &Array::new());
         game.borrow_mut().record_recipe.clear();
@@ -1108,25 +1199,27 @@ mod tests {
             outnumbered_by: 4,
             ..Default::default()
         }));
-        // The real Relic Seeker effect pays two gold after fighting, via a card-source event.
-        Recruit::after_fight(&recruit, &player, &report);
-        assert_eq!(round_card_gold(&game, 0), 2);
+        // Relic Seeker pays on the next recruit turn.
+        player.borrow_mut().last_fight_report = Some(report);
+        assert_eq!(round_card_gold(&game, 0), 0);
         let mut ctx = RecruitContext::new(&game, &recruit, &player);
         ctx.gain_gold(3, Some(&relic));
         ctx.gain_gold(5, None); // A source-less standing effect is not a card payout.
         ctx.gain_gold(-1, Some(&relic)); // Spending is not gross gold gained.
         player.borrow_mut().gold_next_turn = 7; // FightSide::add_gold's deferred payout.
-        assert_eq!(round_card_gold(&game, 0), 12);
+        assert_eq!(round_card_gold(&game, 0), 10);
         assert_eq!(round_card_gold(&game, 1), 0);
         let before = player.borrow().gold;
         game.borrow().events.clear();
         GameSession::start_round(&game);
-        assert!(player.borrow().gold >= before + 7);
+        assert!(player.borrow().gold >= before + 13);
         assert_eq!(player.borrow().gold_next_turn, 0);
+        assert!(player.borrow().last_fight_report.is_none());
+        assert!(!relic.borrow().worked_this_turn);
         assert_eq!(
             round_card_gold(&game, 0),
-            0,
-            "last fight's credit must not count twice"
+            6,
+            "Relic Seeker pays two plus one for each of four excess opponents"
         );
     }
 }

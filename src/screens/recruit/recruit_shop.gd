@@ -54,7 +54,9 @@ static func build_buttons(screen: RecruitScreen) -> void:
 	var right: float = screen.geom("shopL") + screen.geom("shopW") + BUTTON_GAP
 	var top: float = screen.geom("shopTop") + screen.card_box().y / 2.0 - BUTTON_UP
 	var gold: GlassBox = _button(screen, "gold", Vector2(left, top), true)
-	_row(gold, [GoldCoin.make(-1, 40.0), _text(str(screen._counts.gold()), 34, true)])
+	var amount: GlassText = _text(str(screen._counts.gold()), 34, true)
+	amount.name = "GoldValue"
+	_row(gold, [GoldCoin.make(-1, 40.0), amount])
 	if screen.state.get("upgrade_cost") != null:
 		var tier: int = GlassPieces.as_int(screen.state.get("tier", 1))
 		var value: int = GlassPieces.as_int(screen.state["upgrade_cost"])

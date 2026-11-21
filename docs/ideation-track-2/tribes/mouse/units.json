@@ -38,7 +38,7 @@
       "tribe": "Mouse",
       "type": "Mouse Page",
       "text": "Pile on 1.",
-      "golden": "Pile on 1.",
+      "golden": "Pile on 2.",
       "reminders": []
     },
     {
@@ -88,8 +88,8 @@
       "health": 4,
       "tribe": "Mouse",
       "type": "Shrew Rogue",
-      "text": "Pile on 1.\nAfter this piles on, gain 1 gold.",
-      "golden": "Pile on 1.\nAfter this piles on, gain 2 gold.",
+      "text": "Pile on 1.\nAfter this piles on, gain 2 gold.",
+      "golden": "Pile on 2.\nAfter this piles on, gain 2 gold.",
       "reminders": []
     },
     {
@@ -117,7 +117,7 @@
       "tribe": "Mouse",
       "type": "Mouse Swordmaster",
       "text": "Pile on 2.\nAfter this piles on, it gains +2 Attack permanently.",
-      "golden": "Pile on 2.\nAfter this piles on, it gains +4 Attack permanently.",
+      "golden": "Pile on 4.\nAfter this piles on, it gains +4 Attack permanently.",
       "reminders": []
     },
     {
@@ -168,7 +168,7 @@
       "tribe": "Mouse",
       "type": "Mouse",
       "text": "Charge 4: After one of your Mice gains a Hand-me-down, give it +4 Attack permanently.",
-      "golden": "Charge 4: After one of your Mice gains a Hand-me-down, give it +8 Attack permanently.",
+      "golden": "Charge 8: After one of your Mice gains a Hand-me-down, give it +8 Attack permanently.",
       "reminders": [
         "Charge: All uses come back at the start of each fight.",
         "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight."
@@ -235,7 +235,7 @@
       "tribe": "Mouse",
       "type": "Dormouse Duellist",
       "text": "Pile on 2.\nYour Mice's pile-on hits deal double damage.",
-      "golden": "Pile on 2.\nYour Mice's pile-on hits deal triple damage.",
+      "golden": "Pile on 4.\nYour Mice's pile-on hits deal triple damage.",
       "reminders": []
     },
     {
@@ -247,7 +247,7 @@
       "tribe": "Mouse",
       "type": "Mouse Pikeman",
       "text": "Pile on 5.\nCan't attack.\nAfter this piles on, your Mice with Pile on gain +2 Attack permanently.",
-      "golden": "Pile on 5.\nCan't attack.\nAfter this piles on, your Mice with Pile on gain +4 Attack permanently.",
+      "golden": "Pile on 10.\nCan't attack.\nAfter this piles on, your Mice with Pile on gain +4 Attack permanently.",
       "reminders": []
     },
     {
@@ -258,11 +258,12 @@
       "health": 24,
       "tribe": "Mouse",
       "type": "Mouse King",
-      "text": "Whenever this attacks, fill your empty slots with Cousins.",
-      "golden": "Whenever this attacks, fill your empty slots with golden Cousins (4/4).",
+      "text": "Charge 2: After one of your other Mice dies, summon a Cousin in its slot with its Attack.",
+      "golden": "Charge 4: After one of your other Mice dies, summon a golden Cousin (4/4) in its slot with its Attack.",
       "reminders": [
         "Cousin: A 2/2 Mouse with Hand-me-down.",
-        "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight."
+        "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight.",
+        "Charge: Works this many times, then stops. Refills each fight."
       ]
     },
     {

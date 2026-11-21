@@ -27,10 +27,13 @@ target/release/league bots          # every registered bot name
 
 ```sh
 # A match: 2 games per seed line (colours swapped), one game per thread.
-target/release/league match --red flow --blue tribe --games 1000 --seeds seeds.txt \
+target/release/league match --red flow --blue random --games 1000 --seeds seeds.txt \
   --clock-ms 1000 --threads 4 --out /home/alex/league/matches/m1 [--content standin] [--secret HEX] \
   [--red-label red-m1] [--blue-label blue-m1]
 target/release/league analyze /home/alex/league/matches/m1
+
+# An async match: each bot plays the live seat against the same seven runs in its pair.
+target/release/league ghost-match --red red --blue blue --field field --games 200 +  --seeds seeds.txt --clock-ms 5000 --threads 4 --out ghost-match [--secret HEX]
 
 # Baselines against the GDScript reference records (records.gd's games, line for line).
 target/release/league selfcheck --records /home/alex/league/records/gd/c0 \
@@ -48,6 +51,23 @@ target/release/league bench --games 20 --fight-records /home/alex/league/records
 
 Exit codes: 0 done, 1 a failure (`selfcheck` mismatch, `check-crate` problem, bad input),
 2 usage, 3 the watchdog aborted the match.
+
+## Async matches
+
+`ghost-match` takes an even number of games. Each seed creates a lobby using
+seven runs from the field with the current rules hash. Game `2p` puts red in
+seat 0 and game `2p+1` puts blue there. Both games use the same seed and runs
+in the same seats. A run is eligible for only one pair, so 200 games need at
+least 700 eligible runs. Reuse the match secret and seeds to reproduce the draw.
+
+The score is each team's mean placement from seat 0. The mean of the paired
+red-minus-blue differences is `gap_red_minus_blue`. The lower placement wins.
+The session plays out after seat 0 is eliminated, and fight logs cover all seats.
+Optional `--red-label` and `--blue-label` tag the live seat for later cutting.
+
+To save the live seats' runs, use
+`bramble-ghosts cut --match ghost-match --ghost-store field --store new-runs --made TIME`.
+Keep the field available to replay the source match.
 
 ## Seats, seeds and the secret
 
@@ -146,15 +166,16 @@ names it. The doc tests in `league-api/src/lib.rs` show the rest of the surface 
 
 ## Baselines
 
-The baselines `simple`, `flow`, `random` and `tribe` play through `BotView`. In a league match,
-`tribe` gives seat `s` the tribe `TRIBES[(s + game seed) % 5]`, so every lobby has all five tribes.
-Use `tribe-badger`, `tribe-mouse`, `tribe-pigeon`, `tribe-locust` or `tribe-briar` to lock a
-bot to one tribe. Use `tribe-v1` or `tribe-v1-<tribe>` for the frozen 18 Nov baseline.
+The baselines `simple`, `flow` and `random` play through `BotView`. TribeBot is not a player:
+no match, ghost match or field cut can use it (owner note
+[`2026-11-20a`](../../../docs/design/owner-notes/2026-11-20a-strong-bots-for-balance.md)). It only
+drives the engine check below.
 
 `league selfcheck` plays the GDScript reference seeds through the harness and compares every
 action, result and state hash. Its default lobby gives FlowBot even seats and RandomBot odd
-seats. `league selfcheck --bots tribe --records <dir>` checks the current `tribe` against
-`gd/tribe_records.gd`. Both lobbies seed each bot with `Rng.derive(seed, "bot:%d" % seat)`.
+seats. `league selfcheck --bots tribe --records <dir>` checks TribeBot's games against
+`gd/tribe_records.gd`: it is the check that tribe mechanics play the same in Rust and GDScript,
+since the simple baselines rarely trigger them. Both lobbies seed each bot with `Rng.derive(seed, "bot:%d" % seat)`.
 
 ## The teams' crates
 
@@ -224,29 +245,3 @@ The bounded speed pass and its complete parity proofs are in
 [proof/SPEED.md](../proof/SPEED.md). A repeatable recruit sandbox benchmark is available as
 `cargo run --release --offline --locked -p league-api --example recruit_bench -- /home/alex/league/proof/late-cases.jsonl 5000`.
 
-## Schema 1 verification (18 Nov 2026)
-
-The 20-game `tribe` versus `random` match with `gate-seeds.txt` and secret `abc` produced
-byte-identical `records/*.jsonl` before and after these logging changes (`cmp` on every file).
-The same held for the 100-game size sample. All 108 deterministic files in that sample
-matched at 1 and 3 threads, excluding `summary.git_sha`; shop text also matched after
-unpacking gzip. The regression gate replays records to check the logged decision and round
-states, and tests repeated seed text as distinct pairs.
-
-The 100-game sample uses the ten gate seeds repeated five times, `tribe` versus `random`,
-secret `abc`, all content, 3 threads and the default 1,000 ms clock. Sizes in bytes:
-
-| Output | Before | Schema 1 |
-|---|---:|---:|
-| `games.jsonl` | 2,811,787 | 6,545,134 |
-| `decisions.jsonl.gz` | 3,437,373 | 3,590,959 |
-| `shops.jsonl` → `shops.jsonl.gz` | 16,931,141 | 830,850 |
-| `library.json` | absent | 12,826 |
-| `discovers.jsonl` | 199,286 | 199,286 |
-| `reports.jsonl` | 0 | 0 |
-| `summary.json` | 195 | 507 |
-| `cpu.jsonl` (variable) | 25,299 | 25,306 |
-| `timing.json` (variable) | 82 | 83 |
-| `private/secret.txt` | 4 | 4 |
-| `records/*.jsonl` (100 files, each unchanged) | 20,185,343 | 20,185,343 |
-| **Total** | **43,590,510** | **31,390,298** |

@@ -14,8 +14,7 @@ use std::{cell::RefCell, rc::Rc};
 // Source: src/content/thorn/mechanics/compost.gd
 // The Compost (standing, every player): a Bought unit sold goes in, one entry for each Bought
 // copy in it (a golden adds one for each); Created units add nothing. It also gives an Elder
-// Mother copy its bonus when it lands (a summon, at once or after waiting), even after the Elder
-// Mother has died. on_fight_enter hears summons only, never a return, which is all this needs.
+// Mother copy its bonus as it enters the fight.
 
 use crate::content::thorn::lib::compost_rules::CompostRules as CompostLib;
 #[derive(Clone, Default)]

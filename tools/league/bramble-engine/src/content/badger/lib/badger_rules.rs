@@ -29,6 +29,7 @@ pub const GRUDGE: &str = "badger_grudge";
 pub const SEXTON: &str = "badger_sexton";
 pub const KNIGHT: &str = "Knight";
 pub const BADGER: &str = "Badger";
+pub const FRONT_ROW: &str = "front_row";
 #[derive(Clone, Default)]
 pub struct BadgerRules;
 pub type BadgerRulesRef = Rc<RefCell<BadgerRules>>;
@@ -41,6 +42,38 @@ impl ToState for BadgerRules {
     }
 }
 impl BadgerRules {
+    pub fn front_target_set(params: &MechanicParamsRef) -> &'static str {
+        if params.borrow().text("target_set") == FRONT_ROW {
+            FRONT_ROW
+        } else {
+            "in_front"
+        }
+    }
+
+    pub fn front_target_slots(
+        geometry: &crate::core::board::board_geometry::BoardGeometry,
+        source_slot: i64,
+        params: &MechanicParamsRef,
+    ) -> Array<i64> {
+        if source_slot < 0 {
+            return Array::new();
+        }
+        if Self::front_target_set(params) == FRONT_ROW {
+            geometry.front.clone()
+        } else {
+            geometry.in_front_of(source_slot)
+        }
+    }
+    pub fn front_target_words(params: &MechanicParamsRef) -> Dictionary {
+        let front_row = Self::front_target_set(params) == FRONT_ROW;
+        let words = if front_row {
+            "Your front-row units"
+        } else {
+            "The units in front of this"
+        };
+        crate::state_dict! {"front_targets" => words}.as_dict()
+    }
+
     pub fn fury(unit: Option<&CombatUnitRef>) -> i64 {
         let unit = unit.expect("Fury unit");
         let mut total = 0;

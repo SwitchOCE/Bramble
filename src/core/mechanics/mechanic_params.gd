@@ -1,8 +1,8 @@
 class_name MechanicParams
 extends RefCounted
 ## Typed mechanic parameters, their kinds declared once by the mechanic (Mechanic.param_kinds)
-## and checked when the library loads (prototype lesson 3). 7.3.5: a golden unit doubles every
-## NUMBER; THRESHOLD values (counters, "after 3 deaths") keep their value; TEXT is an id.
+## and checked when the library loads. NUMBER defaults to doubling on a golden. THRESHOLD
+## keeps its value, and TEXT is an id. Card data can override golden NUMBER and TEXT values.
 
 enum Kind { NUMBER, THRESHOLD, TEXT }
 
@@ -12,31 +12,25 @@ var _texts: Dictionary = {}
 var _kinds: Dictionary = {}
 ## NUMBER parameters with their own golden value (card data "golden"), in place of double.
 var _golden_ints: Dictionary = {}
+var _golden_texts: Dictionary = {}
 
 
 ## Builds params from raw data against declared kinds. Returns null and fills `errors` on a
-## missing or unknown parameter or a wrong type. An optional "golden" entry gives a NUMBER its
-## own golden value where it is not double ({"amount": 4, "golden": {"amount": 6}}).
+## missing or unknown parameter or a wrong type. A "golden" entry gives a
+## NUMBER or TEXT its own golden value ({"amount": 4, "golden": {"amount": 6}}).
 static func parse(
 	raw: Dictionary, kinds: Dictionary, where: String, errors: PackedStringArray
 ) -> MechanicParams:
 	var params := MechanicParams.new()
 	var ok: bool = true
 	if raw.has("golden"):
+		if not raw["golden"] is Dictionary:
+			errors.append("%s: golden must be an object" % where)
+			return null
 		raw = raw.duplicate()
-		var overrides: Dictionary = CoreUtil.to_dict(raw["golden"])
+		var overrides: Dictionary = raw["golden"]
 		raw.erase("golden")
-		for key: Variant in overrides:
-			var value: Variant = overrides[key]
-			var known: bool = kinds.has(str(key))
-			if not known or CoreUtil.to_int(kinds[str(key)]) != Kind.NUMBER:
-				errors.append("%s: golden '%s' is not a NUMBER parameter" % [where, key])
-				ok = false
-			elif typeof(value) != TYPE_INT and typeof(value) != TYPE_FLOAT:
-				errors.append("%s: golden '%s' must be a number" % [where, key])
-				ok = false
-			else:
-				params._golden_ints[str(key)] = CoreUtil.to_int(value)
+		ok = params._parse_golden(overrides, raw, kinds, where, errors)
 	for key: Variant in raw:
 		if not kinds.has(str(key)):
 			errors.append("%s: unknown parameter '%s'" % [where, key])
@@ -63,6 +57,35 @@ static func parse(
 	return params if ok else null
 
 
+func _parse_golden(
+	overrides: Dictionary,
+	raw: Dictionary,
+	kinds: Dictionary,
+	where: String,
+	errors: PackedStringArray
+) -> bool:
+	var ok: bool = true
+	for key: String in overrides:
+		var kind: int = CoreUtil.to_int(kinds.get(key, -1))
+		var value: Variant = overrides[key]
+		var problem: String = ""
+		if not raw.has(key) or (kind != Kind.NUMBER and kind != Kind.TEXT):
+			problem = "must override a NUMBER or TEXT with a base value"
+		elif kind == Kind.TEXT:
+			if value is String:
+				_golden_texts[key] = value
+			else:
+				problem = "must be text"
+		elif value is int or value is float:
+			_golden_ints[key] = CoreUtil.to_int(value)
+		else:
+			problem = "must be a number"
+		if problem != "":
+			errors.append("%s: golden '%s' %s" % [where, key, problem])
+			ok = false
+	return ok
+
+
 ## The same values, as a golden copy reads them (7.3.5).
 func with_golden(is_golden: bool) -> MechanicParams:
 	var copy := MechanicParams.new()
@@ -71,6 +94,7 @@ func with_golden(is_golden: bool) -> MechanicParams:
 	copy._texts = _texts
 	copy._kinds = _kinds
 	copy._golden_ints = _golden_ints
+	copy._golden_texts = _golden_texts
 	return copy
 
 
@@ -85,6 +109,8 @@ func num(param: StringName) -> int:
 
 
 func text(param: StringName) -> String:
+	if golden and _golden_texts.has(String(param)):
+		return CoreUtil.to_text(_golden_texts[String(param)])
 	return CoreUtil.to_text(_texts.get(String(param), ""))
 
 
@@ -93,5 +119,5 @@ func to_dict() -> Dictionary:
 	for key: Variant in _ints:
 		out[key] = num(StringName(str(key)))
 	for key: Variant in _texts:
-		out[key] = _texts[key]
+		out[key] = text(StringName(str(key)))
 	return out

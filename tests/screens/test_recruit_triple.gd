@@ -17,7 +17,7 @@ func before_all() -> void:
 
 
 func before_each() -> void:
-	_flow = GameFlow.create(_content, 3)
+	_flow = FlowFixture.live(_content, 3)
 	_flow.start_round()
 	var me: PlayerState = _flow.human()
 	me.gold = 30
@@ -403,15 +403,15 @@ func test_flying_copies_and_revealed_golden_keep_border_marks() -> void:
 		var source: Dictionary = value
 		var node: Control = source["node"]
 		assert_true(node.visible)
-		_assert_border_marks(node, "Fury 1")
+		_assert_border_marks(node, 1)
 	_screen._triple._process(0.4)
 	var golden: Control = run["reveal"]
 	assert_true(golden.visible)
-	_assert_border_marks(golden, "Fury 2")
+	_assert_border_marks(golden, 2)
 	_screen._triple.finish()
 
 
-func _assert_border_marks(card: Control, fury: String) -> void:
+func _assert_border_marks(card: Control, number: int) -> void:
 	var words: Array[String] = []
 	for child: Node in card.get_children():
 		var mark: KeywordMark = child as KeywordMark
@@ -419,7 +419,7 @@ func _assert_border_marks(card: Control, fury: String) -> void:
 			continue
 		words.append(mark.words)
 		assert_gte(mark.position.y, card.size.y * 0.86)
-	assert_eq(words, [fury, "Grudge"] as Array[String])
+	assert_eq(words, ["Fury %d" % number, "Grudge %d" % number] as Array[String])
 
 
 func test_reward_waits_for_its_beat_then_uses_the_keepers_hand_arrival() -> void:

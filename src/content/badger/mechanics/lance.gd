@@ -1,8 +1,22 @@
 extends Mechanic
-## Hedge Lancer: Start of fight (main pass): this attacks immediately and takes no damage from
-## anything while that attack resolves (SHARED-RULES 26). Its later attacks are normal.
+## Hedge Lancer: its first attacks take no damage while they resolve (SHARED-RULES 26).
+
+const LANCE: StringName = &"badger_lance"
 
 
-func on_start_of_combat(combat: Combat, unit: CombatUnit, _params: MechanicParams) -> void:
-	if combat.trigger(unit, &"badger_lance"):
-		combat.attack_now(unit, null, true)
+func param_kinds() -> Dictionary:
+	return {"attacks": MechanicParams.Kind.NUMBER}
+
+
+func text_params(params: MechanicParams) -> Dictionary:
+	var count: int = params.num(&"attacks")
+	return {
+		"when_attacking": "time this attacks" if count == 1 else "%d times this attacks" % count,
+	}
+
+
+func protect_attack(combat: Combat, unit: CombatUnit, params: MechanicParams) -> bool:
+	if unit.fight_count(LANCE) >= params.num(&"attacks") or not combat.trigger(unit, LANCE):
+		return false
+	unit.add_fight_count(LANCE)
+	return true

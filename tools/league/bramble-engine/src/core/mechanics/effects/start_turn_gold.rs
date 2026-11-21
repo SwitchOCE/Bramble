@@ -34,6 +34,7 @@ impl Mechanic for StartTurnGold {
         &self,
         ctx: &mut RecruitContext,
         unit: Option<&UnitRef>,
+        _report: Option<&FightReportRef>,
         params: &MechanicParamsRef,
     ) {
         if ctx.trigger(unit, "start_turn_gold") {

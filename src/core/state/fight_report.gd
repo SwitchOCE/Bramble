@@ -1,7 +1,7 @@
 class_name FightReport
 extends RefCounted
-## What a player's units learn after their fight (Mechanic.after_fight): the outcome and which
-## of the player's own units were on the board at the end.
+## What a player's units learn at the start of the next turn: the outcome and which of the
+## player's own units were on the board at the end.
 
 ## 1 won, 0 tie, -1 lost.
 var outcome: int = 0

@@ -7,6 +7,7 @@ license.workspace = true
 
 [dependencies]
 bramble-engine = { path = "../bramble-engine" }
+bramble-ghosts = { path = "../bramble-ghosts" }
 league-api = { path = "../league-api" }
 league-bots = { path = "../bots/registry" }
 libc = "0.2"

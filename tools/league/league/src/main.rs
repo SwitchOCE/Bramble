@@ -1,10 +1,13 @@
-use league::{analyze, bench, checkcrate, matchrun, selfcheck};
+use league::{analyze, bench, checkcrate, ghostmatch, matchrun, selfcheck};
 use std::path::PathBuf;
 
 const USAGE: &str = "usage:
   league match --red <bot> --blue <bot> --games N --seeds <file> [--clock-ms 1000] [--threads K]
                --out <dir> [--content all|standin|<folders>] [--secret <hex>] [--no-records] [--no-decisions]
                [--red-label <tag>] [--blue-label <tag>]
+  league ghost-match --red <bot> --blue <bot> --field <store> --games N --seeds <file>
+                     --out <dir> [--clock-ms 1000] [--threads K] [--secret <hex>] [--no-decisions]
+                     [--red-label <tag>] [--blue-label <tag>]
   league selfcheck --records <dir>... [--bots flow-random|tribe] [--games N] [--threads K] [--keep <dir>]
   league check-crate <path> --name <red|blue> [--keep]
   league analyze <dir>
@@ -94,7 +97,7 @@ fn run(args: &[String]) -> Result<(), String> {
     let rest = &args[1..];
     let root = league::default_root();
     match command.as_str() {
-        "match" => {
+        "match" | "ghost-match" => {
             let o = Opts::parse(rest, &["no-records", "no-decisions"]);
             let m = matchrun::MatchArgs {
                 red: o.need("red")?,
@@ -115,7 +118,11 @@ fn run(args: &[String]) -> Result<(), String> {
             if m.games == 0 {
                 return Err(format!("usage: --games must be positive\n{USAGE}"));
             }
-            let result = matchrun::run(&m)?;
+            let result = if command == "ghost-match" {
+                ghostmatch::run(&m, &PathBuf::from(o.need("field")?))?
+            } else {
+                matchrun::run(&m)?
+            };
             println!("{result:#}");
             Ok(())
         }
@@ -133,6 +140,7 @@ fn run(args: &[String]) -> Result<(), String> {
             let keep = o.get("keep").map(PathBuf::from);
             let seats = match o.get("bots").as_deref() {
                 None | Some("flow-random") => selfcheck::records_gd_seats,
+                // The engine check only; TribeBot can't be a player in a match.
                 Some("tribe") => selfcheck::tribe_seats,
                 Some(other) => return Err(format!("usage: unknown --bots {other}\n{USAGE}")),
             };

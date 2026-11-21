@@ -24,11 +24,9 @@
      "grudge": 1
     }
    ],
-   "text": "Fury {fury}.\nGrudge.",
-   "golden_text": "Fury {fury}.\nGrudge gives +{grudge} Health, and +{grudge}/+{grudge} more for each.",
+   "text": "Fury {fury}.\nGrudge {grudge}.",
    "reminders": [
     "badger_fury",
-    "badger_grudge",
     "badger_outnumbered"
    ]
   },
@@ -84,11 +82,9 @@
      "grudge": 1
     }
    ],
-   "text": "Squire.\nGrudge.\nLends its Health to the units in front of it.",
-   "golden_text": "Squire.\nGrudge gives +{grudge} Health, and +{grudge}/+{grudge} more for each.\nLends its Health to the units in front of it.",
+   "text": "Squire.\nGrudge {grudge}.\nLends its Health to the units in front of it.",
    "reminders": [
     "badger_squire",
-    "badger_grudge",
     "badger_lend_health",
     "badger_outnumbered"
    ]
@@ -116,11 +112,9 @@
      "grudge": 1
     }
    ],
-   "text": "Squire.\nGrudge.\nLends its Attack to the units in front of it.",
-   "golden_text": "Squire.\nGrudge gives +{grudge} Health, and +{grudge}/+{grudge} more for each.\nLends its Attack to the units in front of it.",
+   "text": "Squire.\nGrudge {grudge}.\nLends its Attack to the units in front of it.",
    "reminders": [
     "badger_squire",
-    "badger_grudge",
     "badger_lend_attack",
     "badger_outnumbered"
    ]
@@ -144,15 +138,15 @@
    "effects": [
     {
      "mechanic": "badger_relic",
-     "gold": 1,
-     "more": 2
+     "gold": 2,
+     "more": 1
     }
    ],
-   "text": "Squire.\nAfter each fight, gain {gold} gold, or {more} if you were outnumbered by 3 or more.",
+   "text": "Squire.\nAt the start of your turn, gain {gold} gold, and {more} more for each unit you were outnumbered by last fight.",
    "reminders": [
     "badger_squire",
     "badger_outnumbered",
-    "Only one Relic Seeker pays each fight."
+    "Only one Relic Seeker pays each turn."
    ]
   },
   {
@@ -207,11 +201,9 @@
      "grudge": 1
     }
    ],
-   "text": "Fury {fury}.\nYour Knights have Grudge.",
-   "golden_text": "Fury {fury}.\nYour Knights have Grudge. The Grudge it gives is +{grudge} Health, and +{grudge}/+{grudge} more for each.",
+   "text": "Fury {fury}.\nYour Knights have Grudge {grudge}.",
    "reminders": [
     "badger_fury",
-    "badger_grudge",
     "badger_outnumbered"
    ]
   },
@@ -220,7 +212,7 @@
    "name": "Hedge Lancer",
    "tier": 3,
    "attack": 6,
-   "health": 10,
+   "health": 12,
    "tribes": [
     "Badger"
    ],
@@ -229,7 +221,13 @@
     "Knight"
    ],
    "keywords": [
-    "badger_lance"
+    {
+     "mechanic": "badger_lance",
+     "attacks": 1,
+     "golden": {
+      "attacks": 2
+     }
+    }
    ],
    "effects": [
     {
@@ -237,7 +235,7 @@
      "fury": 1
     }
    ],
-   "text": "Fury {fury}.\nStart of fight: This attacks immediately and takes no damage.",
+   "text": "Fury {fury}.\nThe first {when_attacking} each fight, it takes no damage.",
    "reminders": [
     "badger_fury",
     "badger_outnumbered"
@@ -287,11 +285,17 @@
    ],
    "keywords": [
     "badger_squire",
-    "badger_herald"
+    {
+     "mechanic": "badger_herald",
+     "target_set": "in_front",
+     "fury": 1
+    }
    ],
-   "text": "Squire.\nStart of fight: The units in front of this attack immediately.",
+   "text": "Squire.\n{front_targets} have +{fury} Fury.",
    "reminders": [
-    "badger_squire"
+    "badger_squire",
+    "badger_fury",
+    "badger_outnumbered"
    ]
   },
   {
@@ -309,9 +313,15 @@
    ],
    "keywords": [
     "badger_squire",
-    "badger_greatsword"
+    {
+     "mechanic": "badger_greatsword",
+     "target_set": "in_front",
+     "golden": {
+      "target_set": "front_row"
+     }
+    }
    ],
-   "text": "Squire.\nThe units in front of this have Overrun.",
+   "text": "Squire.\n{front_targets} have Overrun.",
    "reminders": [
     "badger_squire",
     "badger_overrun"
@@ -431,9 +441,9 @@
   {
    "id": "tourney-champion",
    "name": "Tourney Champion",
-   "tier": 5,
-   "attack": 10,
-   "health": 14,
+   "tier": 6,
+   "attack": 14,
+   "health": 20,
    "tribes": [
     "Badger"
    ],
@@ -442,7 +452,13 @@
     "Knight"
    ],
    "keywords": [
-    "badger_tourney"
+    {
+     "mechanic": "badger_tourney",
+     "targets": 2,
+     "golden": {
+      "targets": 3
+     }
+    }
    ],
    "effects": [
     {
@@ -450,7 +466,7 @@
      "fury": 1
     }
    ],
-   "text": "Fury {fury}.\nStart of fight: This attacks the enemy with the most Attack and takes no damage.",
+   "text": "Fury {fury}.\nStart of fight: This attacks {top_enemies} with the most Attack and takes no damage.",
    "reminders": [
     "badger_fury",
     "badger_outnumbered"
@@ -471,7 +487,13 @@
    ],
    "keywords": [
     "badger_overrun",
-    "badger_oakfeller"
+    {
+     "mechanic": "badger_oakfeller",
+     "extra_attacks": 1,
+     "golden": {
+      "extra_attacks": 1
+     }
+    }
    ],
    "effects": [
     {
@@ -479,7 +501,7 @@
      "fury": 3
     }
    ],
-   "text": "Fury {fury}.\nOverrun.\nAfter this attacks and kills a unit, it attacks once more.",
+   "text": "Fury {fury}.\nOverrun.\nAfter this attacks and kills a unit, it attacks {follow_ups} more.",
    "reminders": [
     "badger_fury",
     "badger_overrun",
@@ -513,7 +535,7 @@
   {
    "id": "marshal-of-the-red-mist",
    "name": "Marshal of the Red Mist",
-   "tier": 6,
+   "tier": 5,
    "attack": 10,
    "health": 18,
    "tribes": [
@@ -521,18 +543,21 @@
    ],
    "types": [
     "Badger",
-    "Knight"
+    "Squire"
    ],
-   "keywords": [],
+   "keywords": [
+    "badger_squire"
+   ],
    "effects": [
     {
      "mechanic": "badger_marshal",
      "extra": 1
     }
    ],
-   "text": "Your units' Fury is doubled.",
-   "golden_text": "Your units' Fury is tripled.",
+   "text": "Squire.\nYour units' Fury is doubled.",
+   "golden_text": "Squire.\nYour units' Fury is tripled.",
    "reminders": [
+    "badger_squire",
     "badger_fury",
     "badger_outnumbered"
    ]

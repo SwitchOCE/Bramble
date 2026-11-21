@@ -15,11 +15,9 @@ use std::{cell::RefCell, rc::Rc};
 // Source: src/content/thorn/mechanics/elder_mother.gd
 // Start of fight: Summon copies of the N highest-tier units in your Compost, with +M/+M for each
 // unit in it (Elder Mother; main pass). Each copy goes to the empty slot nearest this unit; with
-// no room it waits in the core's one line of waiting summons and lands after a round of deaths.
-// On arrival it gains +M/+M for each Compost entry, used ones included (the standing Compost
-// mechanic gives it, so it still lands bigger after the Elder Mother has died). The entries stay,
-// marked used for this fight (FightSide.heap_use_highest). Copies don't run Start of fight
-// effects.
+// no room the copy is lost. On arrival the standing Compost mechanic gives it +M/+M per entry,
+// including entries marked used this fight. Entries stay in the heap. Only entries that are
+// copied are marked used (FightSide.heap_use_highest). Copies don't run Start of fight effects.
 
 use crate::content::thorn::lib::compost_rules::CompostRules as Compost;
 #[derive(Clone, Default)]
@@ -50,6 +48,7 @@ impl Mechanic for ElderMother {
         let index = unit.borrow().side;
         let side = combat.bridge(index);
         if side.borrow_mut().heap_unused(combat, HEAP) <= 0
+            || !Compost::has_room(combat, index)
             || !combat.trigger(Some(unit), "thorn_elder_mother")
         {
             return;
@@ -58,6 +57,9 @@ impl Mechanic for ElderMother {
         payload.insert(ELDER_PER, Variant::Int(params.borrow().num("per")));
         let copies = params.borrow().num("copies");
         for _i in 0..copies {
+            if !Compost::has_room(combat, index) {
+                return;
+            }
             let entry = FightSide::heap_use_highest(&side, combat, HEAP, Some(unit));
             if entry.is_empty() {
                 return;
@@ -72,9 +74,9 @@ impl Mechanic for ElderMother {
                 slot,
                 false,
                 Some(unit),
-                true,
                 &payload,
                 false,
+                crate::core::units::stat_block::StatBlock::UNSET,
             );
         }
     }

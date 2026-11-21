@@ -82,14 +82,17 @@ func test_pile_on_two_hits_for_the_first_two_neighbour_attacks_only() -> void:
 	assert_eq(CoreKit.unit(game, "test-pile-two").view()["text"], "Pile on 2.")
 
 
-func test_a_golden_piler_keeps_n_and_hits_with_its_doubled_attack() -> void:
+func test_a_golden_piler_doubles_n_and_hits_with_its_doubled_attack() -> void:
 	Kit.wall(game, p, 0, 1, 1000)
 	var golden: Unit = Kit.golden(game, p, "test-pile-two", 1)
-	assert_eq(golden.view()["text"], "Pile on 2.", "golden never doubles N (7.3.5a)")
+	assert_eq(golden.view()["text"], "Pile on 4.", "a golden doubles N (7.3.5)")
 	var run: Array = _pile_fight()
-	assert_eq(run[2].size(), 2, "still 2 pile-ons")
+	assert_gt(run[1], 4, "the neighbour attacked more than four times")
+	assert_eq(run[2].size(), 4, "4 pile-ons")
 	var combat: Combat = run[0]
-	assert_eq(Kit.damage_by(combat, Kit.uid_at(combat, 0, 1)).slice(0, 2), [6, 6] as Array[int])
+	assert_eq(
+		Kit.damage_by(combat, Kit.uid_at(combat, 0, 1)).slice(0, 4), [6, 6, 6, 6] as Array[int]
+	)
 
 
 func test_pile_on_from_two_sources_adds_up_and_hits_once_an_attack() -> void:

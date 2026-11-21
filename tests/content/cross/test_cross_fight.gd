@@ -40,7 +40,7 @@ func _between(combat: Combat, from: int, to: int, kind: String) -> Array[Diction
 
 ## Rulings 1 and 2: the count is taken before Start of fight and never moves. A Brock Cub on a
 ## board of 2 against 5 is outnumbered by 3; the Sky-darkener's 2 Hoppers don't change it, so the
-## Cub's Fury 1 still gains 1 x (1 + 3) = 4 and its Grudge pays +3/+4 after the round's fight.
+## Cub's Fury 1 still gains 1 x (1 + 3) = 4 and its Grudge pays +3/+4 next turn.
 func test_rulings_1_2_hoppers_summoned_at_start_do_not_change_the_count() -> void:
 	var cub: Unit = Kit.put(game, p, "brock-cub", 0)
 	Kit.put(game, p, "sky-darkener", 4)
@@ -54,6 +54,7 @@ func test_rulings_1_2_hoppers_summoned_at_start_do_not_change_the_count() -> voi
 	assert_eq(gain["attack"], 2 + 1 * (1 + 3))
 	game.finish_round()
 	assert_eq(Kit.fight_of(game, p)["events"][0]["outnumbered_by"], [3, 0], "the round's fight")
+	game.start_round()
 	assert_eq(
 		[cub.stats.perm_attack, cub.stats.perm_health],
 		[3, 1 + 3],
@@ -108,10 +109,9 @@ func test_ruling_6_own_death_summons_before_reserve_and_the_sergeant() -> void:
 	assert_eq(Kit.events(combat, "reserve").size(), 0, "no slot left that a friend died in")
 
 
-## Ruling 6, Reserve before waiting summons: with The Colonel, a Hedge Knight in hand. A golden
-## Green Recruit dies on a full board: one Hopper takes its slot, the other waits. When that Hopper
-## dies, the Knight steps into the slot from Reserve and the waiting Hopper doesn't land.
-func test_ruling_6_reserve_takes_the_slot_before_a_waiting_hopper() -> void:
+## Ruling 6: a golden Recruit on a full board leaves one Hopper and adds one Tide. When the
+## Hopper dies, a Hedge Knight from The Colonel's Reserve steps into its slot.
+func test_ruling_6_reserve_fills_the_slot_after_a_hopper_dies() -> void:
 	Kit.put(game, p, "green-recruit", 0, true)
 	for slot: int in [1, 2, 3, 5, 6]:
 		Kit.wall(game, p, slot, 1, 100)
@@ -124,7 +124,10 @@ func test_ruling_6_reserve_takes_the_slot_before_a_waiting_hopper() -> void:
 	var hoppers: Array[Dictionary] = Kit.where(combat, "summon", "id", "hopper")
 	assert_eq(hoppers.size(), 1, "one Hopper landed")
 	assert_eq(hoppers[0]["slot"], 0, "into the Recruit's slot")
-	assert_eq(Kit.where(combat, "summon_waiting", "id", "hopper").size(), 1, "the other waited")
+	assert_eq(Kit.where(combat, "summon_failed", "id", "hopper").size(), 1)
+	assert_eq(p.counter(&"locust_tide"), 1, "the other Hopper gave Tide")
+	var stats: Array[Dictionary] = Kit.where(combat, "stats", "uid", hoppers[0]["uid"])
+	assert_eq(stats[0]["attack"], 3, "the landed Hopper gets the overflow Tide too")
 	var died: int = Kit.index_of(combat, "death", {"uid": hoppers[0]["uid"]})
 	assert_gt(died, -1, "the Hopper died")
 	var stepped: Array[Dictionary] = Kit.events(combat, "reserve", 0)
@@ -285,10 +288,11 @@ func test_ruling_25_thorns_that_kill_the_attacker_end_the_attack() -> void:
 	assert_eq(compost, ["hedgerow-scout"], "Lone Hawthorn: a Mouse its Thorns killed")
 
 
-## Ruling 26: an attack that takes no damage takes none from Thorns. A Hedge Lancer's Start of
-## fight attack into a Lone Hawthorn: the Thorns' 8 are prevented.
+## Ruling 26: an attack that takes no damage takes none from Thorns. A Hedge Lancer's
+## first attack into a Lone Hawthorn: the Thorns' 8 are prevented.
 func test_ruling_26_a_no_damage_attack_ignores_thorns() -> void:
 	var lancer: Unit = Kit.put(game, p, "hedge-lancer", 0)
+	Kit.wall(game, p, 4, 0, 100)
 	Kit.put(game, q, "lone-hawthorn", 0)
 	game.config.attack_limit = 1
 	var combat: Combat = Kit.fight(game, p, q)

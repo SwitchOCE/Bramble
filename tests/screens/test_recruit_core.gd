@@ -40,7 +40,7 @@ func before_each() -> void:
 ## Round 1 started, the human given gold and these units: {slot: card id} on the board, then the
 ## hand.
 static func _playable(content: GameContent, board: Dictionary, hand: Array[String]) -> GameFlow:
-	var flow: GameFlow = GameFlow.create(content, 3)
+	var flow: GameFlow = FlowFixture.live(content, 3)
 	flow.start_round()
 	var me: PlayerState = flow.human()
 	me.gold = 30

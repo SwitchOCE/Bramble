@@ -204,13 +204,16 @@ func test_a_summon_during_an_attack_piles_on_in_that_attack() -> void:
 	assert_true(second_attack == -1 or first_hit < second_attack, "in the first attack")
 
 
-func test_a_permanent_gain_earned_while_dying_is_kept() -> void:
+func test_a_dead_killer_keeps_credit_without_earning_its_on_kill_gain() -> void:
 	var ace: Unit = _put(p, "b3_ace", 0)
 	var wall: Unit = _put(q, "t1_plain", 0, 2)
 	wall.stats.set_health = 3
 	var combat: Combat = _fight()
-	assert_eq(CoreKit.events_of(combat, "death").size(), 2, "both die in one exchange")
-	assert_eq(ace.stats.perm_attack, 1, "Flying Ace keeps its Mark")
+	var deaths: Array[Dictionary] = CoreKit.events_of(combat, "death")
+	assert_eq(deaths.size(), 2, "both die in one exchange")
+	assert_eq(deaths[0]["killer_uid"], deaths[1]["uid"])
+	assert_eq(deaths[1]["killer_uid"], deaths[0]["uid"])
+	assert_eq(ace.stats.perm_attack, 0, "the dead Ace cannot use its kill trigger")
 
 
 func test_outnumbered_is_fixed_at_fight_start_without_back_row_squires() -> void:

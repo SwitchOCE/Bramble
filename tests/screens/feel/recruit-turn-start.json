@@ -1,0 +1,4 @@
+{
+  "scene": "res://tests/screens/feel/recruit_turn_start_film.tscn",
+  "steps": [{"wait": 2.6}]
+}

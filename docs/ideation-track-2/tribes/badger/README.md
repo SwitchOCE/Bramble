@@ -11,20 +11,32 @@ A badger board is one to three **Knights** in the front row and up to three **Sq
 Everything runs on one number: **how many units you are outnumbered by**. It is counted once, when the fight starts, and stays fixed for that fight. Squires standing in the back row aren't counted. One Knight with three Squires against seven enemies is outnumbered by 6. Nothing during the fight changes the number: not deaths, summons, returns or units stepping in from a hand.
 
 - **In the fight, Fury.** A Knight with Fury gains Attack every time it hits or is hit, times that number. Overrun turns the extra Attack into extra kills.
-- **After the fight, Grudge.** Units with Grudge keep +1/+1 for each unit they were outnumbered by. This is the fury that is kept between fights.
+- **Start of turn, Grudge.** Units with Grudge gain Health and keep +N/+N for each unit they were outnumbered by last fight.
 - **Squires lend.** The Shield-bearer lends its Health and the Armsbearer its Attack to the units in front of them. The stats stay on the Squire, so a Knight can be swapped for a better one and nothing is lost.
 
 | Word | Reminder text |
 |---|---|
 | **Outnumbered** | Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted. |
 | **Fury N** | Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by. |
-| **Grudge** | After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by. |
+| **Grudge N** | At the start of your turn, gain +N Health, and +N/+N more for each unit you were outnumbered by last fight. Works even if this died. |
 | **Squire** | In the back row, this isn't counted for Outnumbered. |
 | **Lends** | The units in front have that much extra while this is on the board. |
 | **Guard** | Enemies must attack this first. (Shared with the other tribes.) |
 | **Overrun** | Damage beyond what kills its target carries on to another enemy. |
 
 *Balance pass 1, 19 Nov 2026 (the balance pass's proposals under test, not the owner's decisions; the owner handed Badgers to the agents): Fury and Grudge pay a floor, so the outnumbered count is a bonus, not a gate; Fury N gives +N Attack and +N more for each unit you're outnumbered by, and Grudge gives +1 Health and +1/+1 more for each. Relic Seeker pays 1 gold, or 2 if you were outnumbered by 3 or more. Gate Warden gains +1/+3 when attacked (was +2/+2). Hedge Lancer is 6/10 (was 8/6). Sett Sexton is 3/12 and, in place of its Fury after a death, gives a unit in front of it +2 Attack for good after that unit gains Attack from Fury (2 a fight each). Tourney Champion has Fury 1 (was 2). Master-at-Arms moved to Tier 3. The owner handed Badgers to the agents: "they're very undertuned. So just try and fix them". The plans, tier check and fight check below were written before these changes.*
+
+## Changed cards, 20 Nov 2026
+
+| Tier | Card | Type | Attack/Health | Text | Golden |
+|---|---|---|---|---|---|
+| 2 | Relic Seeker | Squire | 2/6 | Squire. At the start of your turn, gain 2 gold, and 1 more for each unit you were outnumbered by last fight. | 4 gold and 2 more per unit |
+| 3 | Hedge Lancer | Knight | 6/12 | Fury 1. The first time this attacks each fight, it takes no damage. | Fury 2. The first 2 attacks take no damage. |
+| 4 | Herald of the Charge | Squire | 4/10 | Squire. The units in front of this have +1 Fury. | +2 Fury |
+| 4 | Greatsword Bearer | Squire | 4/12 | Squire. The units in front of this have Overrun. | Your front-row units have Overrun. |
+| 5 | Marshal of the Red Mist | Squire | 10/18 | Squire. Your units' Fury is doubled. | Your units' Fury is tripled. |
+| 6 | Tourney Champion | Knight | 14/20 | Fury 1. Start of fight: This attacks the 2 enemies with the most Attack and takes no damage. | Fury 2. Attacks the 3 enemies with the most Attack. |
+| 6 | The Oakfeller | Knight | 12/22 | Fury 3. Overrun. After this attacks and kills a unit, it attacks once more. | Fury 6. One follow-up attack. |
 
 ## The four plans
 
@@ -34,7 +46,7 @@ Boards are for about turn 9: tier 5 just reached, a wide enemy of seven units at
 
 One Knight in front, outnumbered by 6, so every hit given or taken is a big jump in Attack, and Overrun spends it on several enemies a swing.
 
-- **Key units:** Brock Cub (T1, the Knight until tier 5), Sett Shield-bearer and Armsbearer (T2, enablers), Master-at-Arms (T4), Ironhide Berserker (T5, payoff), The Oakfeller and Marshal (T6).
+- **Key units:** Brock Cub (T1, the Knight until tier 5), Sett Shield-bearer and Armsbearer (T2, enablers), Master-at-Arms (T4), Ironhide Berserker (T5, payoff), Marshal (T5), The Oakfeller (T6).
 - **Board:** F2 Ironhide Berserker (8/18, Fury 4 after one Master-at-Arms; 33/49 with the loans). B1 Sett Shield-bearer 25/31. B2 Armsbearer 25/27. B3 Relic Seeker.
 - **In a fight:** the first enemy hit gives the Berserker +24 Attack before damage. Its own swing adds 24 more and runs through two or three units. The Shield-bearer's loan is what keeps it alive long enough.
 - **Why choose it:** fewest pieces and the most spare gold, for tiers, triples and Master-at-Arms. The best plan against a full board of small units.
@@ -45,7 +57,7 @@ One Knight in front, outnumbered by 6, so every hit given or taken is a big jump
 
 Three Fury Knights in front. The Grudge-keeper gives all of them Grudge, so the whole front row grows every fight, and Dame gives them all more Fury and Overrun.
 
-- **Key units:** Brock Cub and Hedge Knight (T1), Grudge-keeper (T3, enabler), Sett Sexton (T4), Dame of the Old Sett (T5, payoff), Marshal (T6).
+- **Key units:** Brock Cub and Hedge Knight (T1), Grudge-keeper (T3, enabler), Sett Sexton (T4), Dame of the Old Sett and Marshal (T5, payoffs).
 - **Board:** F1 Hedge Knight 15/21 (Guard). F2 Grudge-keeper 17/23. F3 Dame 6/16. B1 Sett Shield-bearer 16/22. B2 Armsbearer 17/19. B3 Sett Sexton. Outnumbered by 4.
 - **In a fight:** with Dame the Hedge Knight and Grudge-keeper have Fury 3, she has Fury 2, and all three have Overrun, so each trigger is +8 to +12 Attack. The Guard takes the first hits and rages first. If a Knight falls, the Sexton gives the others +2 Fury.
 - **Why choose it:** it doesn't lose everything with one unit, each Squire's loan reaches two Knights, and it is the best badger plan against mid-size boards.
@@ -53,13 +65,13 @@ Three Fury Knights in front. The Grudge-keeper gives all of them Grudge, so the 
 
 ### 3. The Charge: win the opening
 
-A Guard holds the front. Next to it, a Lancer or Champion strikes before the fight starts, taking no damage, with Attack lent by the Armsbearer. It leans on banked stats more than on Fury, so it is the plan for when the tribe isn't outnumbered by much.
+A Guard holds the front. Next to it, a Lancer takes no damage the first time it attacks. A Champion strikes before the fight starts. The Armsbearer can lend Attack to either. It leans on banked stats more than on Fury, so it is the plan for when the tribe isn't outnumbered by much.
 
-- **Key units:** Hedge Knight (T1), Armsbearer and Sett Shield-bearer (T2, enablers), Hedge Lancer and Gate Warden (T3), Herald of the Charge and Greatsword Bearer (T4), Tourney Champion (T5, payoff), The Oakfeller (T6).
-- **Board:** F2 Gate Warden 11/19 (Guard; 46 Health with the loan). F3 Hedge Lancer 8/6 (36 Attack with the loan and its first Fury). B1 Sett Shield-bearer 21/27. B2 Armsbearer 23/25. B3 Greatsword Bearer. Outnumbered by 5.
-- **In a fight:** before anyone moves, the Lancer hits for 36 with Overrun and takes nothing back: one or two enemies gone. At tier 5 the Tourney Champion does the same to the enemy's biggest unit, wherever it stands.
-- **Why choose it:** the opening is worth the same against three enemies as against seven, and the Champion removes a carry. The Knight in front of the Armsbearer can be swapped freely.
-- **What beats it:** after the opening the strikers are small bodies: once the Guard falls they go quickly. Units with more Health than the lent Attack shrug the opening off.
+- **Key units:** Hedge Knight (T1), Armsbearer and Sett Shield-bearer (T2, enablers), Hedge Lancer and Gate Warden (T3), Herald of the Charge and Greatsword Bearer (T4), Tourney Champion (T6, payoff), The Oakfeller (T6).
+- **Board:** F2 Gate Warden 11/19 (Guard; 46 Health with the loan). F3 Hedge Lancer 6/12 (35 Attack with the loan and its first Fury). B1 Sett Shield-bearer 21/27. B2 Armsbearer 23/25. B3 Greatsword Bearer. Outnumbered by 5.
+- **In a fight:** on its first attack, the Lancer hits for 35 with Overrun and takes no damage. At tier 6 the Tourney Champion attacks the two enemies with the most Attack at the start of the fight, wherever they stand.
+- **Why choose it:** the protected attacks let the Lancer and Champion spend their borrowed Attack without taking damage. The Knight in front of the Armsbearer can be swapped freely.
+- **What beats it:** once the Guard falls, later attacks expose the strikers to damage. Units with more Health than the lent Attack shrug the opening off.
 
 ### 4. The Last Oath: built to shrink
 
@@ -87,9 +99,9 @@ The open units have no tribe word on them, but most have Fury or Grudge, which o
 
 Who buys what, on purpose:
 
-- **Mice:** Hedge Knight and Gate Warden (a front that takes hits for fragile mice); Armsbearer (slot Attack on its slot is lent to two mice); Greatsword Bearer (Overrun for a mouse with stacked Attack); Herald (a free first attack for Pile on).
+- **Mice:** Hedge Knight and Gate Warden (a front that takes hits for fragile mice); Armsbearer (slot Attack on its slot is lent to two mice); Greatsword Bearer (Overrun for a mouse with stacked Attack); Herald (Fury for front-row attackers).
 - **Pigeons:** Sett Shield-bearer and Armsbearer under a drilled slot (the slot's buff reaches two units in front); Tourney Champion on a drilled post; and a Reserve board that starts fights short-handed can use Grudge, Relic Seeker and Master-at-Arms.
-- **Locusts:** Sword-heir and Old Brock (units keep dying in the same slots, and each death feeds them a unit's own stats: a Hopper is 2/2 to them whatever the Tide is); Herald behind a War-drummer.
+- **Locusts:** Sword-heir and Old Brock (units keep dying in the same slots, and each death feeds them a unit's own stats: a Hopper is 2/2 to them whatever the Tide is).
 - **Briars:** a Regrowth board leaves slots empty for Elder Mother's copies, and the count is taken before they arrive, so Brock Cub, Relic Seeker and the lenders pay for it too.
 
 What badgers take: a slot buff under the one Knight (pigeon Lance Corporal, mouse Whetstone Vole) or under a lender, which doubles it; a briar Ivy Climber behind the Knight; a mouse Needle Pikeman behind the Knight, piling on (it is a counted unit, so the count drops by 1, and a kill its hit makes is not the Knight's); the locust Gorger, which also wants one huge body.
@@ -101,24 +113,24 @@ Names that changed while the other tribes were being written: badgers no longer 
 A "body" is a plain unit's stats at that tier: about 9, 12, 14, 18, 20, 25.
 
 - **Tier 1:** Hedge Knight is the body that holds early fights. Brock Cub is the seed: about a third of a body a turn early, more than a body a turn late if it is the only Knight. Over the guide late, on purpose.
-- **Tier 2:** each lender gives about half a body a turn to one Knight, a full body if it stands behind two. At the top of the guide. Relic Seeker pays up to 3 gold a turn on a one-Knight board, about twice the guide; it takes a back-row seat and only one pays.
+- **Tier 2:** each lender gives about half a body a turn to one Knight, a full body if it stands behind two. At the top of the guide. Relic Seeker pays 2 gold plus 1 per unit outnumbering you last fight. It takes a back-row seat and only one pays.
 - **Tier 3:** Grudge-keeper gives about 24 stats a turn across three Knights, twice the guide, because three bodies are doing the work of seven. Gate Warden, Hedge Lancer and Sword-heir sit on the guide; the Warden fades after turn 6.
 - **Tier 4:** Herald and Greatsword Bearer are about 1 to 2 bodies in a fight. Master-at-Arms is +6 Attack a trigger on a lone Knight, for good: on the guide there, under it on a bigger board. Sexton is strong for its tier when Badgers die and blank when they don't.
-- **Tier 5:** Ironhide Berserker gains about 100 Attack in a fight as the only Knight: five bodies against a guide of four. Dame is worth about that across three Knights. Tourney Champion is a tempo piece.
-- **Tier 6:** The Oakfeller is the Berserker with two swings a turn. Marshal doubles all Fury. Old Brock is 4 to 10 bodies depending on what dies.
+- **Tier 5:** Ironhide Berserker gains about 100 Attack in a fight as the only Knight: five bodies against a guide of four. Dame is worth about that across three Knights. Marshal lends a Fury multiplier from the back row.
+- **Tier 6:** The Oakfeller earns a follow-up after a kill. Tourney Champion strikes the two highest-Attack enemies in the opening. Old Brock is 4 to 10 bodies depending on what dies.
 
 **Where it breaks the guide on purpose:** a badger board has a third of the usual bodies, so the units that scale with the count run at up to twice the guide when the board is very small. They run under it on a big board.
 
 ## Rules it needs
 
-1. **The outnumbered count.** One number per side per fight, set when the boards are counted (rulebook 9.2.1): enemy units minus your units, at least 0, leaving out back-row units with Squire on both sides. Units in hand are never counted. Kept until after-fight effects have resolved. Who attacks first and loss damage still count every unit.
+1. **The outnumbered count.** One number per side per fight, set when the boards are counted (rulebook 9.2.1): enemy units minus your units, at least 0, leaving out back-row units with Squire on both sides. Units in hand are never counted. Kept until the next recruit turn starts. Who attacks first and loss damage still count every unit.
 2. **Fury N.** A trigger when the unit attacks and when it is attacked, before damage: +N Attack times (1 + the count), this fight. Fury from all sources adds into one number; it can be given for good (Master-at-Arms), by an aura (Dame), inherited (Sword-heir) and doubled (Marshal).
-3. **Grudge.** After each fight, the unit on the recruit board gains +1 Health, and +1/+1 more times the count, win or lose. It doesn't stack with itself.
+3. **Grudge N.** At the start of the next recruit turn, the unit gains +N Health and +N/+N more times the last fight's count. The highest Grudge number applies once.
 4. **Lends.** An aura from a unit to the slots in front of it, for Attack or for maximum Health. When the lender leaves, lent Health goes but never takes a unit below 1.
 5. **Overrun.** Damage beyond the target's remaining Health goes to another enemy picked by the normal targeting rules, and so on. Only the first target strikes back.
 6. **An attack in which the attacker takes no damage** from anything, Thorns included (Hedge Lancer, Tourney Champion).
 7. **A start-of-fight attack whose target the card names,** ignoring Guard and rows (Tourney Champion).
-8. **Gold after a fight** (Relic Seeker), paid at the start of the next turn; only one pays.
+8. **Relic Seeker** pays at the start of the turn using the last fight's count. Only one pays.
 9. **One more attack after a kill,** not chained (The Oakfeller).
 10. **Taking a dead unit's own stats as they were when it died** (Sword-heir, Old Brock): printed stats and buffs on the unit, this fight's gains included; not its slot's buff, lent stats, auras, the Tide or the Hopper bonus (shared ruling 43).
 11. **Type words on the type line** that card text can read: Knight, Squire.

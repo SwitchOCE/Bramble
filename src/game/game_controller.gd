@@ -11,14 +11,14 @@ extends Control
 ##     a double click on End turn never skips the fight, and a press meant to skip never also
 ##     moves on unseen. Escape opens the pause panel. With the result on
 ##     screen the leaderboard shows everyone's Health and your counters after the round
-##   end: once the human is out, the bots finish the game, and game_finished gives the places
-## Autoplay (F8 in a debug build, or `autoplay` set): a FlowBot plays the human's turns and
+##   end: once the human is out, the ghosts finish the game, and game_finished gives the places
+## Autoplay (F8 in a debug build, or `autoplay` set): a test bot plays the human's turns and
 ## fights are skipped, to reach the end quickly when testing.
 
 signal game_finished(standings: Array[Dictionary], round_number: int)
 signal cards_requested
 
-enum Phase { NONE, RECRUIT, FIGHT, AFTER_FIGHT, PLAY_OUT, OVER }
+enum Phase { NONE, RECRUIT, PAST_BOARDS, FIGHT, AFTER_FIGHT, PLAY_OUT, OVER }
 
 const RECRUIT_SCENE: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 const FIGHT_SCENE: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
@@ -29,9 +29,9 @@ const RESULT_GUARD: float = 0.4
 ## The keys that skip a fight or move on from its result (with a left click).
 const SKIP_KEYS: Array[Key] = [KEY_SPACE, KEY_ENTER, KEY_KP_ENTER]
 const SKIP_HINT: String = "Space or click to skip"
-## STAND-IN words while the bots finish a game the human is out of.
+## Words while the ghosts finish a game the human is out of.
 const PLAY_OUT_WORDS: String = "The others play on"
-## How long the bots may play on in one frame, in milliseconds.
+## How long the ghosts may play on in one frame, in milliseconds.
 const PLAY_OUT_BUDGET: int = 25
 
 var flow: GameFlow
@@ -46,8 +46,12 @@ var _after_wait: float = 0.0
 var _result_age: float = 0.0
 ## How long the fight has played, for the same guard at its start.
 var _fight_age: float = 0.0
-var _autoplayer: FlowBot
+var _autoplayer: SimpleBot
 var _auto_wait: float = 0.0
+var _past_boards: Array[Dictionary] = []
+var _past_screen: FightScreen
+var _past_controls: Control
+var _past_button: Control
 ## A notice for the next recruit turn (gold the last fight earned), "" for none.
 var _notice: String = ""
 
@@ -56,12 +60,11 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
 
-## Starts a game on this content. Call once the controller is in the tree.
-func start(content: GameContent, game_seed: int, tribes: PackedStringArray = []) -> void:
-	flow = GameFlow.create(content, game_seed, tribes)
-	print("game seed: %d (replay with: -- --seed %d)" % [game_seed, game_seed])
-	_catalog = ViewAdapter.catalog(content)
-	_autoplayer = FlowBot.new(Rng.derive(game_seed, "autoplay"))
+## Starts the matched game once the controller is in the tree.
+func start(matched: GameFlow) -> void:
+	flow = matched
+	print("game seed: %d" % flow.game_seed)
+	_catalog.clear()
 	recruit = RECRUIT_SCENE.instantiate()
 	recruit.name = "Recruit"
 	add_child(recruit)
@@ -77,6 +80,9 @@ func start(content: GameContent, game_seed: int, tribes: PackedStringArray = [])
 	fight.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	fight.result_shown.connect(_on_playback_finished)
 	fight.playback_finished.connect(_on_playback_finished)
+	var tools: Control = GlassUi.stage(self)
+	tools.z_index = 8
+	_past_button = GlassUi.button(tools, "Past boards", Vector2(38, 218), 170, _open_past_boards)
 	_show_only(recruit)
 	_next_round()
 
@@ -109,20 +115,28 @@ func _show_recruit(message: String, events: Array = []) -> void:
 func _end_round() -> void:
 	var record: Dictionary = flow.finish_round()
 	_notice = ""
-	if not record.is_empty():
-		var events: Array = CoreUtil.to_array(record["events"])
-		var gold: int = ViewAdapter.fight_gold(events, CoreUtil.to_int(record["you_side"]))
-		if gold > 0:
-			_notice = "+%d gold from the last fight" % gold
-	if record.is_empty() or autoplay:
+	if record.is_empty():
+		_after_fight()
+		return
+	var events: Array = CoreUtil.to_array(record["events"])
+	var base: Dictionary = ViewAdapter.fight_base(flow, record)
+	var gold: int = ViewAdapter.fight_gold(events, CoreUtil.to_int(record["you_side"]))
+	if gold > 0:
+		_notice = "+%d gold from the last fight" % gold
+	if autoplay:
+		ViewAdapter.add_fight_cards(flow.content, [events[0]], _catalog)
+		var opening: FightReplay = FightReplay.start(base, _catalog)
+		opening.apply(CoreUtil.to_dict(events[0]))
+		_past_boards.append(opening.steps[0]["state"])
 		_after_fight()
 		return
 	phase = Phase.FIGHT
 	_fight_age = 0.0
-	var base: Dictionary = ViewAdapter.fight_base(flow, record)
+	ViewAdapter.add_fight_cards(flow.content, events, _catalog)
 	var replay: FightReplay = FightReplay.build(
-		base, CoreUtil.to_array(record["events"]), _catalog, CoreUtil.to_int(record["damage"])
+		base, events, _catalog, CoreUtil.to_int(record["damage"])
 	)
+	_past_boards.append(replay.steps[0]["state"])
 	_show_only(fight)
 	fight.show_leaderboard = false
 	fight.show_state(base)
@@ -146,8 +160,9 @@ func _on_playback_finished() -> void:
 	var opponent: Dictionary = CoreUtil.to_dict(state.get("opponent", {})).duplicate()
 	var last: Dictionary = flow.last_fight
 	if not last.is_empty():
-		var them: Dictionary = flow.opponent_view(CoreUtil.to_int(last["opponent"]))
-		opponent["health"] = maxi(0, CoreUtil.to_int(them.get("health", 0)))
+		var seat: int = CoreUtil.to_int(last["opponent"])
+		if seat >= 0:
+			opponent["health"] = flow.opponent_health(seat)
 	state["opponent"] = opponent
 	fight.show_leaderboard = true
 	fight.show_state(state)
@@ -157,7 +172,7 @@ func _after_fight() -> void:
 	if flow.is_over() or not flow.human_alive():
 		phase = Phase.OVER
 		if not flow.is_over():
-			# the bots finish the game a few rounds a frame, the leaderboard showing it
+			# the ghost lobby finishes over several frames, with the leaderboard showing it
 			phase = Phase.PLAY_OUT
 			fight.show_leaderboard = true
 			_set_hint(true, PLAY_OUT_WORDS)
@@ -168,7 +183,7 @@ func _after_fight() -> void:
 	_next_round()
 
 
-## The leaderboard while the bots play on, with a line saying so.
+## The leaderboard while the ghosts play on, with a line saying so.
 func _show_play_out() -> void:
 	var state: Dictionary = fight.state.duplicate()
 	state["players"] = ViewAdapter.players(flow)
@@ -181,9 +196,55 @@ func _show_play_out() -> void:
 func _finish() -> void:
 	phase = Phase.OVER
 	_set_hint(false)
+	flow.save_player_run()
+	if autoplay and flow.session.record != null:
+		print("game record: %s" % flow.session.record.path)
 	# the round the human went out in; the last round when they won
 	var out: int = flow.out_round if flow.out_round > 0 else flow.session.round_number
 	game_finished.emit(flow.standings(), out)
+
+
+func _open_past_boards() -> void:
+	if phase != Phase.RECRUIT or recruit.is_holding() or _past_boards.is_empty():
+		return
+	phase = Phase.PAST_BOARDS
+	_show_only(null)
+	_past_screen = FIGHT_SCENE.instantiate()
+	_past_screen.name = "PastBoards"
+	add_child(_past_screen)
+	_show_past_board(_past_boards.size() - 1)
+
+
+func _show_past_board(index: int) -> void:
+	_past_screen.show_state(_past_boards[index])
+	_past_screen.settle()
+	if _past_controls != null:
+		remove_child(_past_controls)
+		_past_controls.queue_free()
+	_past_controls = GlassUi.stage(self)
+	_past_controls.z_index = 8
+	var round_number: int = CoreUtil.to_int(_past_boards[index]["turn"])
+	GlassUi.title(_past_controls, "Fight from round %d" % round_number, 960, 14, 24)
+	GlassUi.button(_past_controls, "Back to recruit", Vector2(810, 1000), 300, _close_past_boards)
+	if index > 0:
+		GlassUi.button(
+			_past_controls, "Previous", Vector2(550, 1000), 240, _show_past_board.bind(index - 1)
+		)
+	if index + 1 < _past_boards.size():
+		GlassUi.button(
+			_past_controls, "Next", Vector2(1130, 1000), 240, _show_past_board.bind(index + 1)
+		)
+
+
+func _close_past_boards() -> void:
+	remove_child(_past_screen)
+	_past_screen.queue_free()
+	_past_screen = null
+	remove_child(_past_controls)
+	_past_controls.queue_free()
+	_past_controls = null
+	phase = Phase.RECRUIT
+	_show_only(recruit)
 
 
 func _set_hint(on: bool, words: String = SKIP_HINT) -> void:
@@ -217,6 +278,8 @@ func _process(delta: float) -> void:
 				_after_fight()
 		Phase.RECRUIT:
 			if autoplay:
+				if _autoplayer == null:
+					_autoplayer = SimpleBot.new(Rng.derive(flow.game_seed, "autoplay"))
 				_auto_wait -= delta
 				if _auto_wait <= 0.0:
 					_auto_wait = 0.05
@@ -229,6 +292,10 @@ func _input(event: InputEvent) -> void:
 		return
 	var key: InputEventKey = event as InputEventKey
 	if key != null and key.pressed and not key.echo:
+		if key.keycode == KEY_ESCAPE and phase == Phase.PAST_BOARDS:
+			_close_past_boards()
+			get_viewport().set_input_as_handled()
+			return
 		if key.keycode == KEY_F8 and OS.is_debug_build():
 			autoplay = not autoplay
 			get_viewport().set_input_as_handled()
@@ -260,6 +327,7 @@ func _input(event: InputEvent) -> void:
 ## Shows one screen. The hidden one is disabled too, so it gets no input (a hidden screen still
 ## hears keys such as Tab) and runs no tweens.
 func _show_only(screen: Control) -> void:
+	_past_button.visible = screen == recruit and not _past_boards.is_empty()
 	for each: Control in [recruit, fight]:
 		var on: bool = each == screen
 		each.visible = on

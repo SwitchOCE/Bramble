@@ -53,9 +53,9 @@ impl Mechanic for DeathSummon {
                 slot,
                 true,
                 unit,
-                false,
                 &Dictionary::new(),
                 false,
+                crate::core::units::stat_block::StatBlock::UNSET,
             );
         }
     }

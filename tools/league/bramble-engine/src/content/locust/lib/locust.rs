@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::core::combat::fight_side::FightSide;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -23,16 +24,15 @@ use std::{cell::RefCell, rc::Rc};
 // Hoppers one summon makes in a fight: `count` times the side's multiplier.
 // The same in the Recruit Phase, from the recruit board.
 // Summons `count` Hoppers in a fight from `slot` (own slot first for a dying unit's own
-// effect); with no room they wait (SHARED-RULES, Waiting).
+// effect). Each Hopper that does not fit immediately gives Tide +1.
 // Summons Hoppers on the recruit board from the slot the unit left (an eaten unit's death
 // effect): the first into that slot when it is empty (8.4.1), the rest nearest (8.4.2); with no
-// room they are lost (8.4.5).
+// room each Hopper gives Tide +1.
 // Printed Molt is one charge a fight; Skin-shedder adds MOLT_EXTRA for this fight.
 // Who eats a sale: each sold unit is eaten once. A Gorger that hasn't eaten this turn first
 // (reading order), else, for a sold Locust, the first Granary Glutton. Null for none.
 // Eat: `unit` gains the sold unit's own stats (times `times`) permanently, then the sold
 // unit's death effects resolve in the Recruit Phase (SHARED-RULES, Eat; ruling 43).
-// The sale is eaten once, and a Gorger eats once a turn (turn counters clear each turn).
 pub const TRIBE: &str = "Locust";
 pub const HOPPER: &str = "hopper";
 pub const TIDE: &str = "locust_tide";
@@ -76,22 +76,30 @@ impl Locust {
                 let unit = unit.unwrap().borrow();
                 (unit.side, unit.slot)
             };
-            combat.summon(
-                side,
-                HOPPER,
-                slot,
-                own_slot_first,
-                unit,
-                true,
-                &Dictionary::new(),
-                false,
-            );
+            if combat
+                .summon(
+                    side,
+                    HOPPER,
+                    slot,
+                    own_slot_first,
+                    unit,
+                    &Dictionary::new(),
+                    false,
+                    crate::core::units::stat_block::StatBlock::UNSET,
+                )
+                .is_none()
+            {
+                let bridge = combat.bridge(side);
+                FightSide::add_counter(&bridge, combat, TIDE, 1, unit);
+            }
         }
     }
     pub fn recruit_summon_hoppers(ctx: &mut RecruitContext, unit: Option<&UnitRef>, count: i64) {
         for _i in 0..Self::recruit_hopper_count(ctx, count) {
             let slot = unit.unwrap().borrow().slot;
-            ctx.summon(HOPPER, slot, true, false);
+            if ctx.summon(HOPPER, slot, true, false).is_none() {
+                ctx.add_counter(TIDE, 1, unit);
+            }
         }
     }
     pub fn molt_charges(unit: Option<&CombatUnitRef>) -> i64 {
