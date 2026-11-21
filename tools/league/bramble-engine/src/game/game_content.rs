@@ -211,9 +211,6 @@ impl GameContent {
     }
     pub fn _read_folder(&mut self, repo_root: &Path, path: &str) {
         let manifest = Self::_json(repo_root, &format!("{path}/tribe.json"));
-        if manifest.get_or("prefix", "".into()).as_text().is_empty() {
-            return;
-        }
         let folder = Path::new(path)
             .file_name()
             .unwrap_or_default()
@@ -238,6 +235,9 @@ impl GameContent {
                 let n = counts.borrow().get(&name).copied().unwrap_or(0) + 1;
                 counts.borrow_mut().insert(name, n);
             }
+        }
+        if manifest.get_or("prefix", "".into()).as_text().is_empty() {
+            return;
         }
         let mut named = String::new();
         for (name, count) in counts.borrow().iter() {

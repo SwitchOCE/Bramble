@@ -765,3 +765,26 @@ fn run_factories_plays_given_bots_and_clears_the_manifest_on_failure() {
     );
     assert!(!dir.join("summary.json").exists());
 }
+
+#[test]
+fn analyze_scores_a_ghost_match_where_each_game_has_one_colour() {
+    // A ghost match puts red alone in a pair's first game and blue in its second.
+    let dir = scratch("analyze-ghost");
+    let rows: Vec<String> = [(0, "red", 2), (1, "blue", 5), (2, "red", 4), (3, "blue", 5)]
+        .iter()
+        .map(|(game, colour, place)| {
+            json!({"game": game, "rounds": 10, "seats": [
+                {"seat": 0, "colour": colour, "bot": colour, "place": place}
+            ]})
+            .to_string()
+        })
+        .collect();
+    std::fs::write(dir.join("games.jsonl"), rows.join("\n") + "\n").unwrap();
+    league::analyze::analyze(&dir).unwrap();
+    let analysis: Value =
+        serde_json::from_str(&std::fs::read_to_string(dir.join("analysis.json")).unwrap()).unwrap();
+    let score = &analysis["score"];
+    assert_eq!(score["red_avg_place"], 3.0, "{analysis}");
+    assert_eq!(score["blue_avg_place"], 5.0, "{analysis}");
+    assert_eq!(score["gap_red_minus_blue"], -2.0, "{analysis}");
+}

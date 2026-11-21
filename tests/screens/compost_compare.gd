@@ -21,7 +21,7 @@ const IDS: Array[StringName] = [
 
 func _ready() -> void:
 	super()
-	start(GameContent.load_default(), 4, ["thorn"])
+	start(FlowFixture.live(GameContent.load_default(), 4, ["thorn"]))
 	for i: int in card_count:
 		var def: UnitDef = flow.content.library.get_card(IDS[i % IDS.size()])
 		flow.human().heap(&"thorn_compost").add(def.id, def.tier)

@@ -13,7 +13,7 @@ use crate::core::units::unit_def::UnitDefRef;
 // GDScript rule and contract comments:
 // Card text for the screens. 7.3.5: card data writes its numbers as {param} placeholders
 // ("Gain +{attack}/+{health}"), and the text is filled from the unit's bound parameters, which
-// are already doubled on a golden (NUMBER) or kept (THRESHOLD). So one text serves both.
+// already reflect golden values. Mechanics can supply phrases derived from those values.
 // The card text a unit shows: its card's golden_text on a golden copy when the card has one,
 // else its text; either filled from the bound parameters.
 // `text` with each {name} replaced by the first bound mechanic parameter of that name.
@@ -53,12 +53,38 @@ impl UnitText {
         }
         let mut out = text.to_string();
         for bound in mechanics.borrow().iter() {
-            let values = bound.borrow().params.borrow().to_dict();
+            let bound = bound.borrow();
+            let values = bound.params.borrow().to_dict();
+            let extra = bound
+                .mechanic
+                .as_ref()
+                .expect("bound mechanic")
+                .text_params(&bound.params);
+            for (key, value) in extra.borrow().iter() {
+                if !values.has(key) {
+                    values.insert(key, value.clone());
+                }
+            }
             for (key, value) in values.borrow().iter() {
                 out = out.replace(&format!("{{{key}}}"), &value.as_text());
             }
         }
         out
+    }
+    pub fn repeat_count(count: i64) -> String {
+        match count {
+            1 => "once".into(),
+            2 => "twice".into(),
+            3 => "three times".into(),
+            _ => format!("{count} times"),
+        }
+    }
+    pub fn repeat_suffix(count: i64) -> String {
+        if count == 1 {
+            String::new()
+        } else {
+            format!(" {}", Self::repeat_count(count))
+        }
     }
     pub fn effects_view(mechanics: &Array<BoundMechanicRef>) -> Array<Variant> {
         let out = Array::new();

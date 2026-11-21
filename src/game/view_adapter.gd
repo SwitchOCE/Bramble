@@ -8,6 +8,8 @@ extends RefCounted
 
 ## Recruit.ability_error's words for an ability whose uses this turn are spent.
 const USED_UP: String = "already used this turn"
+const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")
+const GrudgePay := preload("res://src/content/badger/mechanics/grudge_pay.gd")
 
 
 ## The recruit screen's state for the human. `message` is a refusal or notice ("" for none).
@@ -19,7 +21,6 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 	var costs: Dictionary = view["costs"]
 	var upgrade: int = CoreUtil.to_int(costs["upgrade"])
 	var opponent: int = CoreUtil.to_int(view["opponent"])
-	var opp_view: Dictionary = flow.opponent_view(opponent)
 	var upgrade_cost: Variant = null
 	if upgrade >= 0:
 		upgrade_cost = upgrade
@@ -42,7 +43,7 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 		{
 			"name": flow.name_of(opponent),
 			"portrait": flow.portrait_of(opponent),
-			"health": maxi(0, CoreUtil.to_int(opp_view.get("health", 0))),
+			"health": flow.opponent_health(opponent),
 		},
 		"message": message,
 		"shop_units": _shop(flow, me.shop_units, CoreUtil.to_array(costs["shop_units"]), false),
@@ -70,7 +71,121 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 	var gone: Dictionary = leaving(flow, events)
 	if not gone.is_empty():
 		state["leaving"] = gone
+	if events.is_empty():
+		_start_of_turn(session, me, state)
 	return state
+
+
+## Recruit's start block follows the human's turn_start, before the next seat starts.
+static func _turn_start_log(session: GameSession, player_id: int) -> Array[Dictionary]:
+	var end: int = session.events.size()
+	for i: int in range(end - 1, -1, -1):
+		var event: Dictionary = session.events[i]
+		if event["round"] != session.round_number:
+			break
+		if event["type"] == "turn_start":
+			if event["player"] == player_id:
+				return session.events.slice(i, end)
+			end = i
+	return []
+
+
+## Present only effects with a source and a destination in this view.
+static func _start_of_turn(session: GameSession, me: PlayerState, state: Dictionary) -> void:
+	var start_events: Array[Dictionary] = _turn_start_log(session, me.id)
+	if start_events.is_empty():
+		return
+	var fight: Dictionary = _previous_fight(session, me.id)
+	var pair: Array = fight.get("players", [])
+	var side: int = pair.find(me.id)
+	var result: Dictionary = fight.get("result", {})
+	var counts: Array = result.get("outnumbered_by", [])
+	var outnumbered: int = counts[side] if side >= 0 and side < counts.size() else 0
+	var effects: Array[Dictionary] = []
+	var hooks: Dictionary = {}
+	for event: Dictionary in start_events:
+		if event.get("player", -1) != me.id:
+			continue
+		if event["type"] == "trigger":
+			hooks[event["uid"]] = event["mechanic"]
+			continue
+		var uid: int = CoreUtil.to_int(event.get("source_uid", -1))
+		var source: Unit = me.find_uid(uid) if uid >= 0 else null
+		if source == null or source.slot < 0:
+			continue
+		var effect: Dictionary = _start_effect(event, str(hooks.get(uid, "")), me, outnumbered)
+		if not effect.is_empty():
+			effect["source_uid"] = source.uid
+			effect["order"] = source.slot
+			effects.append(effect)
+	if not effects.is_empty():
+		effects.sort_custom(
+			func(a: Dictionary, b: Dictionary) -> bool: return a["order"] < b["order"]
+		)
+		state["turn_start_effects"] = effects
+
+
+static func _start_effect(
+	event: Dictionary, hook: String, me: PlayerState, outnumbered: int
+) -> Dictionary:
+	match [hook, event["type"]]:
+		["badger_grudge", "buff"]:
+			var unit: Unit = me.find_uid(CoreUtil.to_int(event["uid"]))
+			if unit != null and unit.slot >= 0:
+				return _grudge_effect(unit, me, outnumbered)
+		["badger_relic", "gold"]:
+			return {"kind": "relic", "amount": event["amount"]}
+		["pigeon_campaigner", "renown"]:
+			var slot: int = event["slot"]
+			var unit: Unit = me.board[slot]
+			if unit == null:
+				return {}
+			var amount: int = event["amount"]
+			var before: StatBlock = unit.stats.duplicate_block()
+			before.renown -= amount
+			return {
+				"kind": "campaigner",
+				"slot": slot,
+				"amount": amount,
+				"before": CoreUtil.to_int(event["total"]) - amount,
+				"shown_attack": unit.attack() - before.attack(),
+				"shown_health": unit.health() - before.max_health(),
+			}
+	return {}
+
+
+## Buff logs give absolute stats. Recover the change using the fight's count and the same
+## Grudge parameter lookup as the payer. The stat block also accounts for the display cap.
+static func _grudge_effect(unit: Unit, me: PlayerState, outnumbered: int) -> Dictionary:
+	var grudge: int = GrudgePay._biggest(unit, BadgerRules.GRUDGE)
+	if BadgerRules.is_knight(unit.def):
+		for keeper: Unit in me.board_units():
+			grudge = maxi(grudge, GrudgePay._biggest(keeper, GrudgePay.KEEPER))
+	var attack: int = grudge * outnumbered
+	var health: int = grudge * (outnumbered + 1)
+	var before: StatBlock = unit.stats.duplicate_block()
+	before.perm_attack -= attack
+	before.perm_health -= health
+	return {
+		"kind": "grudge",
+		"uid": unit.uid,
+		"slot": unit.slot,
+		"attack": attack,
+		"health": health,
+		"shown_attack": unit.attack() - before.attack(),
+		"shown_health": unit.health() - before.max_health(),
+	}
+
+
+static func _previous_fight(session: GameSession, player_id: int) -> Dictionary:
+	for i: int in range(session.fights.size() - 1, -1, -1):
+		var fight: Dictionary = session.fights[i]
+		if fight["round"] < session.round_number - 1:
+			break
+		var players_in_fight: Array = fight["players"]
+		if fight["round"] == session.round_number - 1 and players_in_fight.has(player_id):
+			return fight
+	return {}
 
 
 ## How many reservists from the hand step in for the player each fight (Rules.reserve_limit), or
@@ -177,6 +292,10 @@ static func fight_base(flow: GameFlow, fight: Dictionary) -> Dictionary:
 	var them: Dictionary = before["opponent"]
 	var you_side: int = CoreUtil.to_int(fight["you_side"])
 	var opponent: int = CoreUtil.to_int(fight["opponent"])
+	var seat: int = CoreUtil.to_int(fight.get("opponent_seat", opponent))
+	var name: String = flow.name_of(seat)
+	if opponent == Matchmaking.GHOST:
+		name = "Ghost of %s" % name if seat >= 0 else "Ghost"
 	var side_slots: Array = [[], []]
 	side_slots[you_side] = slots(flow.content, CoreUtil.to_array(you["slots"]))
 	side_slots[1 - you_side] = slots(flow.content, CoreUtil.to_array(them.get("slots", [])))
@@ -197,8 +316,8 @@ static func fight_base(flow: GameFlow, fight: Dictionary) -> Dictionary:
 		"counters": counters(flow.content, you),
 		"opponent":
 		{
-			"name": flow.name_of(opponent),
-			"portrait": flow.portrait_of(opponent),
+			"name": name,
+			"portrait": flow.portrait_of(seat) if seat >= 0 else "",
 			"health": maxi(0, CoreUtil.to_int(them.get("health", 0))),
 		},
 		"you_side": you_side,
@@ -225,6 +344,23 @@ static func catalog(content: GameContent) -> Dictionary:
 	for card_id: StringName in content.library.ids():
 		out[String(card_id)] = _heap_card(content, String(card_id))
 	return out
+
+
+## A fight names its starting units in the board snapshot and later arrivals and heap entries
+## in individual events. Add just those cards so opening recruit doesn't load every card's art.
+static func add_fight_cards(content: GameContent, events: Array, into: Dictionary) -> void:
+	for value: Variant in events:
+		var event: Dictionary = CoreUtil.to_dict(value)
+		_add_fight_card(content, event, into)
+		for side: Array in event.get("boards", []):
+			for unit: Variant in side:
+				_add_fight_card(content, CoreUtil.to_dict(unit), into)
+
+
+static func _add_fight_card(content: GameContent, view: Dictionary, into: Dictionary) -> void:
+	var id: String = str(view.get("id", ""))
+	if not id.is_empty() and not into.has(id) and content.library.get_card(StringName(id)) != null:
+		into[id] = _heap_card(content, id)
 
 
 ## Heaps keep card identities, not buffed/golden instances: show their plain printed cards.

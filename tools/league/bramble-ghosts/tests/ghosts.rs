@@ -457,3 +457,55 @@ fn cutter_replays_source_runs_but_cuts_only_live_seats() {
     assert_eq!(run.turns[0].payload, fight["players"][0]);
     assert_eq!(store.verify().unwrap(), 1);
 }
+
+#[test]
+fn cutter_refuses_metadata_that_names_a_run_seat() {
+    let _settings = RECORD_SETTINGS.lock().unwrap();
+    let scratch = Scratch::new();
+    let records = scratch.0.join("records");
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+    let field = root.join("tools/league/proof/fixtures/async-store");
+    let id = "2a32d19657c0179f64f9be3060b2c6431d92072d158dfa3d55e25d7f398a12ac";
+    let content = GameContent::load_default(&root);
+    let content = content.borrow();
+    let run = ReplayStore::new(&field)
+        .fetch(
+            id,
+            Some(&content.library.borrow()),
+            Some(&content.registry.borrow()),
+        )
+        .unwrap();
+    let runs = (1..8).map(|seat| (seat, run.clone())).collect();
+    GameRecord::configure(&root, &records);
+    let game = content.new_async_session(101, runs, &Array::new()).unwrap();
+    game.borrow()
+        .config
+        .as_ref()
+        .unwrap()
+        .borrow_mut()
+        .round_limit = 1;
+    GameSession::start_round(&game);
+    GameSession::end_turn(&game, 0);
+    GameSession::finish_round(&game);
+    let record_path = game.borrow().record.as_ref().unwrap().borrow().path.clone();
+    fs::rename(record_path, records.join("game-00000.jsonl")).unwrap();
+    // Seat 3 is one of the recorded runs, not a live player: it can't become a ghost again.
+    let row = json!({"game": 0, "seed": "101", "seats": [
+        {"seat": 0, "bot": "proof"}, {"seat": 3, "bot": "proof"}
+    ]});
+    fs::write(scratch.0.join("games.jsonl"), format!("{row}\n")).unwrap();
+    let store = FolderStore::new(scratch.0.join("store"));
+    let options = CutOptions {
+        match_dir: &scratch.0,
+        repo_root: &root,
+        ghost_store: Some(&field),
+        made: "2026-11-19T11:00:00Z",
+        include_unfinished: false,
+    };
+    let error = cut_match(&options, &store).unwrap_err();
+    assert!(
+        error.contains("games.jsonl names seat 3, a run seat in the record"),
+        "{error}"
+    );
+    assert!(!scratch.0.join("store").exists());
+}

@@ -67,12 +67,12 @@ One UTF-8 JSON object per line, appended and flushed as play proceeds:
 | `act` | Turn, live player, action dictionary, result (including refused inputs) | Action effects and RNG draws |
 | `end` | Turn, live player | Explicit end-turn calls, including bot action-limit fallback |
 | `fight_boards` | Turn, pre-fight payloads for every living seat, SHA-256 state hash, and `run_boards` for async games | Implicit live end turns and run board restoration |
-| `finish` | Turn, SHA-256 state hash, game-over flag | Fights, damage, eliminations, ghost selection, placements |
+| `finish` | Turn, SHA-256 state hash, game-over flag | Fights, pending fight reports for live seats, damage, eliminations, ghost selection, placements |
 
 Hashes cover the full persistent rules state at turn start, after every player's end of turn
 before combat, and after combat. They include private fields: all players, next UID, pairing
 history, recruit RNG words, ghost state, config, run IDs by seat in async games, unit stat layers,
-mechanic parameters, counters, slots and heap entry sequence numbers. They exclude UI display,
+mechanic parameters, counters, slots, heap entry sequence numbers and pending fight reports. They exclude UI display,
 stateless dependencies whose code/data the build fingerprint identifies, and historical event
 and fight logs. Run files are represented in the hash by their IDs. All-live games use the
 implicit all-live seat map, preserving their checkpoint hashes. Replay rebuilds full turn

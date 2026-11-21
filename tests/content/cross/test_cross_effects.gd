@@ -66,9 +66,8 @@ func test_ruling_33_dirge_singer_doubles_a_drummed_death_effect() -> void:
 	assert_eq(Kit.where(combat, "summon", "id", "pip").size(), 2)
 
 
-## Rulings 7 and 32: a Pip never waits. A drumbeat on a Crab-apple on a full board: its slot is
-## taken, so its Pip is lost; the same drumbeat on a golden Green Recruit makes Hoppers that wait.
-func test_ruling_7_a_drummed_pip_with_no_room_is_lost_while_hoppers_wait() -> void:
+## Rulings 7 and 32: a drumbeat on a full board loses a Pip and converts Hoppers to Tide.
+func test_ruling_7_a_drummed_pip_is_lost_and_drummed_hoppers_give_tide() -> void:
 	Kit.put(game, p, "war-drummer", 0)
 	Kit.put(game, p, "crab-apple", 4)
 	for slot: int in [1, 2, 3, 5, 6]:
@@ -77,12 +76,15 @@ func test_ruling_7_a_drummed_pip_with_no_room_is_lost_while_hoppers_wait() -> vo
 	game.config.attack_limit = 1
 	var combat: Combat = Kit.fight(game, p, q)
 	assert_eq(Kit.where(combat, "summon_failed", "id", "pip").size(), 1, "lost")
-	assert_eq(Kit.where(combat, "summon_waiting", "id", "pip").size(), 0, "never waits")
+	assert_eq(Kit.where(combat, "summon", "id", "pip").size(), 0)
+	assert_eq(p.counter(&"locust_tide"), 0)
 	assert_eq(_compost(p), ["crab-apple"], "its Seed still resolved")
 	p.remove_from_board(p.board[4])
 	Kit.put(game, p, "green-recruit", 4, true)
 	combat = Kit.fight(game, p, q)
-	assert_eq(Kit.where(combat, "summon_waiting", "id", "hopper").size(), 2, "Hoppers wait")
+	assert_eq(Kit.where(combat, "summon_failed", "id", "hopper").size(), 2)
+	assert_eq(Kit.where(combat, "summon", "id", "hopper").size(), 0)
+	assert_eq(p.counter(&"locust_tide"), 2, "golden Green Recruit overflows two Hoppers")
 
 
 ## Ruling 34: in the shop, a death effect that needs a fight does nothing. A Gorger eats a sold
@@ -302,5 +304,5 @@ func test_drum_repeatedly_gives_a_living_cousins_attack_to_a_golden_sister() -> 
 	var combat: Combat = Kit.fight(game, p, q)
 	assert_gt(Kit.triggers(combat, "mouse_hand_me_down").size(), 4)
 	assert_eq(Kit.triggers(combat, "mouse_sister").size(), 4)
-	assert_eq(Kit.triggers(combat, "mouse_hob").size(), 4)
-	assert_eq(sister.stats.perm_attack, 4 * 8)
+	assert_eq(Kit.triggers(combat, "mouse_hob").size(), 8, "a golden Hob's Charge 8 (7.3.5)")
+	assert_eq(sister.stats.perm_attack, 8 * 8)

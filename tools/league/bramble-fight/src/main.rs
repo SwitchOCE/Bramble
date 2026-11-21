@@ -335,17 +335,18 @@ fn run_case(saved: &Dictionary, content: &GameContentRef) -> Dictionary {
     game.borrow()
         .pairings
         .push(Variant::array(vec![a.into(), b.into()]));
-    // This owns damage and both after_fight contexts, including effect RNG initialization.
+    // The normal session fight path applies damage and saves the reports for the next turn.
     let fight_started = Instant::now();
     let fight = GameSession::_fight(&game, a, b);
     FIGHT_NS.fetch_add(fight_started.elapsed().as_nanos() as u64, Ordering::Relaxed);
     let result = cases::result(id, &fight, &game.borrow());
     if !trace.is_empty() {
+        let every = trace.has(&Variant::from("*"));
         let selected: Array<_> = fight
             .get("events")
             .as_array()
             .iter_live()
-            .filter(|event| trace.has(&event.as_dict().get("type")))
+            .filter(|event| every || trace.has(&event.as_dict().get("type")))
             .collect();
         result.insert("trace", Variant::Array(selected));
     }
@@ -496,6 +497,16 @@ mod tests {
                 );
             }
         }
+    }
+
+    #[test]
+    fn batch1_fights_match_godot_state_hashes_and_events() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+        let content = load_content(&root, &ContentRecipe::Default, None).unwrap();
+        assert_fight_vectors(
+            include_str!("../tests/fixtures/batch1_fights.jsonl"),
+            &content,
+        );
     }
 
     #[test]

@@ -11,9 +11,8 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/badger/mechanics/tourney.gd
-// Tourney Champion: Start of fight (main pass): this attacks the enemy with the most Attack, in
-// either row, ignoring Guard (9.5.7; a tie goes to the first in reading order), and takes no
-// damage from anything while that attack resolves.
+// Tourney Champion: Start of fight (main pass): attacks the enemies with the most Attack,
+// ignoring Guard (9.5.7). Ties are broken in reading order. These attacks take no damage.
 
 #[derive(Clone, Default)]
 pub struct Tourney;
@@ -27,29 +26,46 @@ impl ToState for Tourney {
     }
 }
 impl Mechanic for Tourney {
+    fn param_kinds(&self) -> Dictionary {
+        crate::state_dict! {"targets" => &(Kind::Number as i64)}.as_dict()
+    }
+
+    fn text_params(&self, params: &MechanicParamsRef) -> Dictionary {
+        let count = params.borrow().num("targets");
+        let words = if count == 1 {
+            "the enemy".into()
+        } else {
+            format!("the {count} enemies")
+        };
+        crate::state_dict! {"top_enemies" => &words}.as_dict()
+    }
+
     fn on_start_of_combat(
         &self,
         combat: &mut Combat,
         unit: Option<&CombatUnitRef>,
-        _params: &MechanicParamsRef,
+        params: &MechanicParamsRef,
     ) {
         let unit = unit.expect("Tourney unit");
         let side = unit.borrow().side;
-        let mut target: Option<CombatUnitRef> = None;
-        let enemies = combat.units(1 - side);
-        let mut i = 0;
-        while i < enemies.len() {
-            let enemy = enemies.get(i).unwrap();
-            if target
-                .as_ref()
-                .is_none_or(|target| enemy.borrow().attack() > target.borrow().attack())
-            {
-                target = Some(enemy);
+        let mut enemies = combat.units(1 - side).to_vec();
+        crate::util::godot_sort::sort_custom(&mut enemies, |a, b| {
+            let (a, b) = (a.borrow(), b.borrow());
+            if a.attack() == b.attack() {
+                a.slot < b.slot
+            } else {
+                a.attack() > b.attack()
             }
-            i += 1;
+        });
+        let count = params.borrow().num("targets").min(enemies.len() as i64);
+        if count <= 0 || !combat.trigger(Some(unit), "badger_tourney") {
+            return;
         }
-        if target.is_some() && combat.trigger(Some(unit), "badger_tourney") {
-            combat.attack_now(Some(unit), target.as_ref(), true, None);
+        for target in enemies.iter().take(count as usize) {
+            let target_alive = !target.borrow().gone && !target.borrow().should_die();
+            if target_alive && !combat.attack_now(Some(unit), Some(target), true, None) {
+                break;
+            }
         }
     }
 }

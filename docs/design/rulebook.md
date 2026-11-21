@@ -4,7 +4,7 @@
 
 This is the full rule set for Bramble, written so the owner can find every place Bramble differs from Hearthstone Battlegrounds (HSBG) and so an engine can be built from it. HSBG is the default for systems (economy, shop, pool, turn flow, combat order) wherever the owner hasn't decided otherwise. Mechanics and keywords from HSBG and Galaxy appear only as [EXAMPLE]s of what the rules must handle. Bramble designs its own (N9). Every difference is tagged. A one-page list of all differences and open items is in [rulebook-deltas.md](rulebook-deltas.md).
 
-No content is defined here: no units, tribes or cards. The only mechanics are the owner's own keywords in 11.7 and Cleave's change (11.2.7a). Examples use placeholder names, or name an HSBG or Galaxy mechanic to show which rule it tests (chapter 11).
+No content is defined here: no units, tribes or cards. The mechanics include the owner's own keywords in 11.7, Venomous (11.2.5) and Cleave's change (11.2.7a). Examples use placeholder names, or name an HSBG or Galaxy mechanic to show which rule it tests (chapter 11).
 
 ## Legend
 
@@ -130,9 +130,9 @@ Note: a recorded run is not a ghost in this sense. Recorded runs take damage and
 
 **2.1.10** [BRAMBLE] **After the live player is eliminated.** The remaining seats keep fighting until the game ends under the usual rules (10.2.3, 2.1.3). All 8 seats receive a placement (C16).
 
-**2.1.11** [PROPOSED] **Combat changes to a run seat.** Changes a fight makes to a run seat's units, hand, slots or other recruit state expire after that fight, including effects that say "permanently" (9.1.1). Hero damage and elimination still apply (2.1.4). *Why:* the seat's board comes from its run for each fight (2.1.4–2.1.5).
+**2.1.11** [BRAMBLE] **Combat changes to a run seat.** Changes a fight makes to a run seat's units, hand, slots or other recruit state expire after that fight, including effects that say "permanently" (9.1.1). Hero damage and elimination still apply (2.1.4). *Why:* the seat's board comes from its run for each fight (2.1.4–2.1.5).
 
-**2.1.12** [PROPOSED] **The ghost of an eliminated run seat.** When the most recently eliminated player (2.1.2) is a run seat, the ghost copies the board that seat last fought with. *Why:* that is the board it was eliminated with, as for a live player; its run's board for a later turn was never in this game.
+**2.1.12** [BRAMBLE] **The ghost of an eliminated run seat.** When the most recently eliminated player (2.1.2) is a run seat, the ghost copies the board that seat last fought with. *Why:* that is the board it was eliminated with, as for a live player; its run's board for a later turn was never in this game. 2.1.11 and 2.1.12: The owner, 21 Nov 2026, agreeing with the recommendations put to them: "I agree with the calls."
 
 ### 2.2 Heroes
 
@@ -173,13 +173,17 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 ### 3.2 Start of the Recruit Phase
 
 **3.2.1** [PROPOSED] At the start of each Recruit Phase, these steps happen in this order:
-1. Gold is set: carried gold plus this turn's income (4.1).
+1. Gold is set: carried gold, this turn's income (4.1), and any gold earned during the last fight.
 2. From turn 2 on, the current upgrade cost drops by the discount for waiting: 1 more than it dropped the turn before (4.6.3).
 3. The refresh counter resets to 0 (4.4.4).
 4. The shop refills, or keeps its frozen cards and fills its empty slots; the freeze then ends (4.5).
-5. Start-of-turn triggers resolve in reading order (1.2.3).
+5. Start-of-turn triggers resolve in reading order (1.2.3), followed by player-wide effects.
 
 *Why:* HSBG's exact order isn't documented, and Bramble adds steps 1 and 3. This order lets start-of-turn effects see the new shop and the full gold total.
+
+**3.2.2** [BRAMBLE] **Effects that use the last fight.** Grudge, Relic Seeker and Old Campaigner pay when their owner next starts a Recruit Phase. They use the board that fought and the last fight's result. They pay after a win, loss or tie, even if the unit died. A player needs a previous fight and another Recruit Phase to receive these rewards. Recorded-run opponents skip this phase (2.1). On 20 Nov 2026, the owner said, "I don't really think we should have any end-of-fight effects. Start-of-turn effects would be better." The owner delegated the details, including paying units that died, on 20 Nov 2026.
+**3.2.2a** [BRAMBLE] Relic Seeker pays 2 gold plus 1 per unit that outnumbered you last fight (9.2.1, shared rulings 1–5). A golden pays 4 plus 2 per unit (owner's pick, 20 Nov 2026). [PROPOSED] With several Relic Seekers only the highest payout applies, with ties resolved in reading order (agent's default).
+
 
 ### 3.3 During the Recruit Phase
 
@@ -361,6 +365,8 @@ Rule 5.1.4 (a pool, or set chances) was removed in v0.10: 5.1.1–5.1.2 settle i
 
 **5.2.7** [BG] Units with no tribe (neutral) can always be offered (rules.md §7).
 
+**5.2.7a** [BRAMBLE] The shared units enter every lobby’s shop with the same per-card weight as a tribe unit of their tier (owner's pick, 20 Nov 2026).
+
 **5.2.8** [OPEN] Whether to add a TFT-style trait system on top of types. The owner is leaning no (N1 §5). v0 has none.
 
 ### 5.3 Units leaving and returning to the pool
@@ -450,17 +456,15 @@ Note: the direction summary's open question 5 assumed bought units go straight t
 
 **7.3.4** [BG] **Golden stats.** The golden unit has double the base stats and keeps every buff and debuff from the three copies. Attack and Health are each at least the golden base value (rules.md §9).
 
-**7.3.5** [BRAMBLE] **Golden text.** A golden unit doubles every number in its effect (stat gains, damage, summons, gold), but thresholds and counters keep their normal value: a counter that fires after 3 deaths still fires after 3 (N6). Example: HSBG's Avenge (3) stays 3. *HSBG:* golden text is written per card. It usually doubles numbers or triggers twice (rules.md §9).
+**7.3.5** [BRAMBLE] **Golden signature.** A golden unit doubles its base stats (7.3.4) and its signature, the effect a player buys it for. A signature number doubles. An action with no number happens twice or applies to twice as many units. Charge can provide the extra uses when it is how the signature action repeats. A small side number may also double when its cost in power is low. An effect can double its magnitude or its frequency, with the other staying as printed. Multipliers and repeat counts rise by one step, so “twice” becomes “three times.” Thresholds, costs and per-fight caps written into an effect stay as printed. A keyword's number doubles like any other number (Thorns 8 becomes 16, Fury 1 becomes 2). That includes Charge N and Pile on N, even where the effect's own number doubles too: shown that a golden Flying Ace would gain four times the Renown, the owner said "Double them too" (20 Nov). Supply N is the open case in 7.3.5a. A golden never changes how a keyword works: no extra returns, no "twice each fight". A keyword without a number, such as Guard, stays as it is, so some goldens gain less than others; the owner: "Not all goldens need to be balanced, but all base cards should be" ([owner note, 20 Nov](owner-notes/2026-11-20b-goldens-keep-keywords-working.md)). A card may break the rule for the rule of cool, and its golden text states the effect. Per-card golden values live in card data. The owner's own rule. In the owner's words, “They double the coolest effect on the card” (20 Nov 2026), and on 21 Nov 2026: “That comes directly from me, the golden rule. Keywords: some things can't be doubled. We need to keep balanced *[probably "balance"]* considerations in mind with goldens. You can't have it completely consistent, no matter how much you might like to.”
 
-**7.3.5a** [PROPOSED] **Golden and counts.** A golden unit keeps every count of uses as printed when its effect has a number to double: Charge N, Supply N (11.7.3–11.7.5) and Pile on N (11.7.11) stay N, and golden doubles the effect's numbers and the unit's stats (7.3.5). Where the effect has no number (a Private steps in; a reservist attacks at once), the golden doubles the Charge instead, as the Pigeon pitch says: the golden Recruiting Sergeant, Bugler and Air Marshal. Golden never doubles an Active's cost (11.7.2). Pile on N always stays N: a golden piler's hits are already twice as strong through its doubled Attack. *Why:* doubling an effect's numbers and its uses together makes a golden worth about four copies; a golden must still be better when the effect has nothing else to double. This is the balance orchestrator's rule, narrowed after review to keep the pitch's own golden lines, which the owner accepted; not the owner's words.
+**7.3.5a** [PROPOSED] A golden keeps Supply N as printed: a triple adds the three copies' remaining Supply (11.7.5) and doesn't double it. An Active's cost and a cost such as Root N never double. *Why:* a triple already brings three copies' Supply. The owner's "Double them too" (7.3.5) named Charge and Pile on, not Supply.
 
 **7.3.6** [BRAMBLE] **Triple Reward.** When a triple forms, a Triple Reward spell is added to hand: Discover a unit from the tier above the player's current tier, or tier 6 if the player is at 6. Playing the golden unit gives nothing more. In the owner's words (17 Nov 2026): "Triples occur on recruit, not on play." (C15) *HSBG:* the reward comes when the golden minion is played (tier used at cast is uncertain in HSBG — see rules.md §9).
 
 **7.3.7** [PROPOSED] If a triple forms while the hand is full and all three copies were on the board, the golden goes into the vacated slot that comes first in reading order. *Why:* engine edge case; with Created copies counting, three board copies and a full hand is reachable.
 
 **7.3.8** [OPEN] **Multiple-copy strategies.** It's undecided whether Bramble supports strategies built on finding many copies of one unit, like TFT's 1-, 2- and 3-star levels, or keeps HSBG's single triple (N11 §5.6). The owner notes that a combining system is tied to the shop, the pool and the power jump per step. HSBG's doubling leaves no room for a level above golden, while TFT's ~60% steps allow three levels (N11 §6).
-
-Note: 7.3.5 (golden doubles every number) stands. The owner's reasoning about stat scale (1.2.5) is that doubling is forced by small numbers. At Bramble's larger scale, a golden step smaller than ×2 becomes possible. That's a question to revisit when content is costed, not a change made here.
 
 ---
 
@@ -534,6 +538,8 @@ The diagonal lines are the "in front of / behind" links.
 
 **8.4.1** [BRAMBLE] **Dead unit's slot first.** (N4 §4) When a unit's own death effect (text like "when this dies, summon…") or return effect (9.7.2) puts units on the board, the first one goes into the dying unit's slot if that slot is empty. *Why:* fixed slots give summons a natural home (BLO). *HSBG:* death-effect summons appear where the minion died (rules.md §11.7). *Galaxy:* a death effect's first summon takes the KO'd character's slot. Examples: HSBG's Deathrattle and Reborn; Galaxy's Farewell.
 
+**8.4.1a** [PROPOSED] King Speck summons a Cousin in the exact slot an allied Mouse died in, at 9.7.2 step 3. If the slot is occupied, the effect does not spend a charge or summon. The Cousin starts with the dead Mouse's own Attack this fight (11.7.13) and its normal token Health, 4 if golden. Agent's default for the owner's 20 Nov 2026 picks.
+
 **8.4.2** [BRAMBLE] **Nearest empty slot.** (N4 §4) Every other summon goes into the empty slot nearest its source: first the same row, then the other row. Within a row, the nearest by x position wins, and a tie goes to the slot on the right. The source of a death effect is the dying unit's slot; a living source is its own slot. *Why:* keeps summons near their source, as HSBG summons appear next to it, usually on the right (rules.md §11.7).
 
 | Source slot | Order in which empty slots are tried |
@@ -550,7 +556,7 @@ The diagonal lines are the "in front of / behind" links.
 
 **8.4.4** [PROPOSED] Several summons from one effect are placed one at a time, each into the next slot by 8.4.1–8.4.3 as the board stands at that moment. *Why:* deterministic.
 
-**8.4.5** [BG] If the board has no empty slot, the summon fails and is lost. Effects that explicitly "summon when there is space" wait instead (rules.md §11.7).
+**8.4.5** [BRAMBLE] (owner's pick, 20 Nov 2026) If the board has no empty slot, the summon fails. Each Hopper that fails this way gives its player Tide +1 immediately, in the Recruit Phase or in combat. Other summons, including Elder Mother's Compost copies, are lost. [PROPOSED] A failed summon does not trigger effects that listen for a summon (agent's default).
 
 **8.4.6** [PROPOSED] Card text that names a slot ("summon into the slot behind this") overrides 8.4.1–8.4.3. If the named slot is full, the summon fails. *Why:* lets position-based cards be precise.
 
@@ -656,19 +662,25 @@ Note, worked example. Side A has units in F1, F3 and B2. Its order is F1, F3, B2
 
 ### 9.6 Resolving one attack
 
-**9.6.1** [BG] An attack resolves in this order (uncertain in HSBG — see rules.md §11.5, SIM):
+**9.6.1** [BRAMBLE] An attack resolves in this order. Skipping hits on dead units and ending a dead unit's actions is the owner's (20 Nov 2026), and so is the strike back: a defender killed by the attacker's hit still hits back, Venomous included (owner, 20 Nov 2026, choosing "Yes, both hits land"). The order within steps 2–3 and a skipped Hit or splash being lost are [PROPOSED] agent defaults.
 1. The defender's "when attacked" effects.
-2. The attacker's "whenever this attacks" effects.
-3. Damage exchange: attacker and defender deal damage equal to their Attack to each other at the same time. Splash effects damage their extra targets at the same time.
-4. "After this attacks" effects.
+2. The attacker's "whenever this attacks" effects, then its allies hear the attack. Queued pile-on Hits resolve in the order queued. Each Hit checks that both its source and its chosen target are alive.
+3. Damage exchange. If both units are alive when this step begins, they commit damage equal to their Attack to each other. Resolve the attacker's direct damage and its effects (including Overrun), then the chosen Cleave splash, then the defender's committed strike back, which keeps its own damage effects (Venomous) even if the defender died to the attacker's hit, since the two hits are one exchange (owner, 20 Nov 2026). Skip damage aimed at a unit already dead and skip splash from a dead attacker. A skipped splash or Hit keeps its original target and is lost.
+4. The living attacker's "after this attacks" effects.
 5. Death resolution (9.7).
 6. "After an attack" effects of player-level modifiers.
 
-If the defender is gone after step 1 or 2, the attack ends without damage (not in rules.md). Examples: HSBG's Rally (step 2) and Cleave (step 3).
+If either combatant dies in step 1, go straight to the death step. If either dies in step 2, skip the exchange. A surviving attacker still resolves its "after this attacks" effects when a pile-on kills the defender.
+
+**9.6.1a** [PROPOSED] An attack that takes no damage protects its attacker from before step 1 through step 5. Hedge Lancer's first attack each fight is protected (first two when golden), whether in turn or out of turn. Tourney Champion's start-of-fight attacks are protected. Agent's default for the owner's 20 Nov 2026 picks.
 
 **9.6.2** [BG] In the damage exchange, the attacker's damage triggers resolve before the defender's (rules.md §11.5, standard Hearthstone).
 
-**9.6.3** [BG] **Health and death.** A unit's Health is its maximum Health minus damage taken. A unit with Health 0 or less dies. Deaths are checked after each damage event, and all units at 0 or less die together (rules.md §11.6, SIM).
+**9.6.2a** [PROPOSED] For “only attacks can damage this,” both participants in the direct damage exchange can deal damage. Hits, Thorns, Cleave splash, Overrun carry and other effects deal zero. A destroy still works (agent's default for the owner's 20 Nov 2026 picks).
+
+**9.6.3** [BRAMBLE] **Health and death.** A unit's Health is its maximum Health minus damage taken. It dies as soon as its Health reaches 0 or less or it is destroyed. Its auras end immediately. Skip Hits, damage and destruction aimed at a dead unit, and skip its attacks, pile-ons, Hits and other triggers. Its own death effects and any return resolve in the death step. At each death check, all dead units still on the board enter the same batch (9.7).
+
+“A unit shouldn't be hit again if it's already been killed” and “dying units should not be able to perform any actions they're dead” (owner, 20 Nov 2026).
 
 **9.6.4** [BG] Damage taken in combat stays for the rest of that combat (rules.md §11).
 
@@ -685,6 +697,10 @@ If the defender is gone after step 1 or 2, the attack ends without damage (not i
 6. New deaths start another pass.
 
 Examples: HSBG's Deathrattle, Avenge and Reborn.
+
+**9.7.2a** [PROPOSED] After the killer's own kill effects in step 1, its allies hear the kill. The killer is credited even if it also died. Wing Commander counts each kill by a friendly Pigeon with Sortie, including granted Sortie and its own kills, and awards Renown to the killer's slot for the next fight (11.7.6). Wing Commander's text is the owner's pick (20 Nov 2026); this timing is the agent's default.
+
+**9.7.2b** [BRAMBLE] “The unit that killed it” is the source of the first damage that reduced its Health to 0 or less, or the first effect that destroyed it, from either row (owner, 20 Nov 2026). A dead killer still gets credit and living allies can hear the kill. Only a living killer runs its own kill effects. A death effect that targets the killer needs a living killer from that death.
 
 **9.7.3** [PROPOSED] **Order of dying units.** The active side's dying units resolve first, then the other side's. Within a side, they resolve in reading order. The active side is the side whose unit is attacking, or, outside an attack, the side whose effect caused the deaths. *Why:* HSBG resolves left to right within a side, but which side goes first is unknown and the simulator picks at random (rules.md §11.6). A fixed rule is easier to read and to test.
 
@@ -804,7 +820,7 @@ Note: recorded runs (2.1.1) are players, not ghosts in this sense: they deal and
 
 ## 11. Example mechanics and Bramble keywords
 
-Except 11.2.7a–b and 11.7, none of these is a Bramble mechanic. They are mechanics from HSBG (at 36.6.3; rules.md §13, keywords.md) and Galaxy (Galaxy rules.md §10), kept as [EXAMPLE]s of how good mechanics break the system rules and of what Bramble's rules and code must be able to handle. Bramble designs its own, some of which exist in neither game (N9). Each entry says what the mechanic does in its source game and which rule it tests. Where a rule already decides how it would work on two rows, that worked version follows.
+Except 11.2.5, 11.2.7a–b and 11.7, none of these is a Bramble mechanic. They are mechanics from HSBG (at 36.6.3; rules.md §13, keywords.md) and Galaxy (Galaxy rules.md §10), kept as [EXAMPLE]s of how good mechanics break the system rules and of what Bramble's rules and code must be able to handle. Bramble designs its own, some of which exist in neither game (N9). Each entry says what the mechanic does in its source game and which rule it tests. Where a rule already decides how it would work on two rows, that worked version follows.
 
 ### 11.1 General
 
@@ -820,7 +836,7 @@ Except 11.2.7a–b and 11.7, none of these is a Bramble mechanic. They are mecha
 
 **11.2.4** [EXAMPLE] **Reborn.** HSBG: the first time this minion dies in a combat, it returns with 1 Health. Tests: return effects (9.7.2 step 4, 9.8.2) and the return limit (9.10.3). Two rows: its slot is chosen by 9.8.3.
 
-**11.2.5** [EXAMPLE] **Venomous.** HSBG: destroys the first minion it deals damage to each combat. Divine Shield blocks it and uses it up (shield interaction uncertain in HSBG — see keywords.md §A). Tests: destroy-on-damage and its order against damage prevention. No rule decides either yet; they wait for the hook list.
+**11.2.5** [BRAMBLE] **Venomous.** Destroys the first unit this damages each fight. Used by neutral cards (owner's pick, 20 Nov 2026). [PROPOSED] Fully prevented damage leaves Venomous available (agent's default).
 
 **11.2.6** [EXAMPLE] **Stealth.** HSBG: can't be targeted until it attacks or deals damage. Tests: untargetable candidates (9.5.2, 9.5.3). Two rows: a Stealthed front-row unit still protects the back row (9.5.3), and a Stealthed back-row unit stays untargetable after the front row falls, until it attacks.
 
@@ -888,7 +904,7 @@ Note: Bramble's own keywords, from the owner's answers on the Pigeon and Mouse r
 
 **11.7.1** [BRAMBLE] **Active.** An activated ability is written as a gold cost and a colon, "{1}: effect", and shown as a gold coin holding the number, 0 when it is free. The card prints no keyword word. Any tribe's unit can have one. It replaces the Pigeons' Orders. The owner: "I think Active should just have a little gold cost. We don't need to say it's an Active, then people will figure it out. Put a little zero there or a one inside the gold icon, depending on its cost", and earlier the same day, "that's just a global keyword any tribe can have access to" (N14).
 
-**11.7.2** [PROPOSED] An Active is used in the Recruit Phase (3.3.1), from the board, never from the hand, once a turn for each unit unless its card says otherwise. Using it pays the cost (4.1). A golden unit's Active has the doubled effect and the same cost (7.3.5a). *Why:* the Pigeon pitch's rule; Orders worked the same way. Example: HSBG's Activate (11.4.5).
+**11.7.2** [PROPOSED] An Active is used in the Recruit Phase (3.3.1), from the board, never from the hand, once a turn for each unit unless its card says otherwise. Using it pays the cost (4.1). A golden unit pays the same cost and follows the signature rule (7.3.5). *Why:* the Pigeon pitch's rule; Orders worked the same way. Example: HSBG's Activate (11.4.5).
 
 **11.7.3** [BRAMBLE] **Charge N.** The effect works N times, then stops. All N uses come back at the start of every fight. It replaces limits written "(N a fight)" and "the first time each fight". The owner: "Charge is just a set number of uses, so we don't have to consistently go '(up to N times)'", then the pick of two words, Charge that refills and Supply that never refills (P2, N14).
 
@@ -898,7 +914,7 @@ Note: the Charge the owner picked also refills at the start of each turn, for ef
 
 **11.7.5** [PROPOSED] Charge and Supply are written in front of the effect they limit, like a trigger word: "Charge 4: After a friendly unit dies, …". Each time the effect resolves it uses one. Supply left is a count on the unit and moves with it (7.2.5). A triple adds the three copies' remaining Supply. A golden that isn't made by a triple (a Discover pick) starts with full Supply N. *Why:* the pitch's rules for the triple; full Supply for a given golden is the simplest default.
 
-**11.7.6** [BRAMBLE] **Renown.** A number on a slot. Each point gives +1/+1 to the unit that starts the fight in that slot, while it lives, and to each reservist that steps into the slot (11.7.8). Nothing else gets it: not summons, returns or a unit moved there in the fight. Renown is permanent: it stays on the slot when the unit is moved, sold or dies, and never moves with a unit. Renown gained in a fight goes on the real slot at once and counts from the next fight. The owner: "Maybe instead of buffing slots, we give a slot a renown, and we can change the size of the renown maybe through the game ... And renown gives stats only to starting units or reservists"; then the picks of even Renown (P1) and of Renown earned in a fight counting from the next fight (P5) (N14).
+**11.7.6** [BRAMBLE] **Renown.** A number on a slot. Each point gives +1/+1 to the unit that starts the fight in that slot, while it lives, and to each reservist that steps into the slot (11.7.8). Nothing else gets it: not summons, returns or a unit moved there in the fight. Renown is permanent: it stays on the slot when the unit is moved, sold or dies, and never moves with a unit. Renown gained in a fight goes on the real slot at once and counts from the next fight. Old Campaigner adds Renown in the next Recruit Phase (3.2.2). The owner: "Maybe instead of buffing slots, we give a slot a renown, and we can change the size of the renown maybe through the game ... And renown gives stats only to starting units or reservists"; then the picks of even Renown (P1) and of Renown earned in a fight counting from the next fight (P5) (N14).
 
 **11.7.7** [PROPOSED] Renown is borrowed: an effect that only reads a unit's Attack or Health reads it, and an effect that copies, keeps or takes a unit's stats leaves it out (shared ruling 43). On the recruit board a unit shows its stats with its slot's Renown, since that is what it starts the next fight with. *Why:* the Pigeon pitch's rules, matching the retired slot buffs.
 
@@ -906,13 +922,15 @@ Note: the Charge the owner picked also refills at the start of each turn, for ef
 
 **11.7.9** [PROPOSED] **Which slot a reservist fills.** After a round of deaths, reservists fill the empty slots friendly units died in this fight, in this order: your Guard post, then the slot with the most Renown, then reading order (1.2.3). The leftmost reservist in hand goes first. Reserve is not a summon or a return, reservists aren't counted for Outnumbered, and the hand is the same after the fight. *Why:* the Pigeon pitch's order: the most famous company is refilled first. It replaces "Guard post first, then reading order" in the build's shared ruling 6.
 
-**11.7.10** [PROPOSED] **Privates step in.** A Pigeon card's "a Private steps in" puts a Private into that slot as a reservist: it has the slot's Renown but doesn't count against the limit, and its card's Charge limits it. In a round of deaths it comes after reservists from the hand and after waiting summons (shared ruling 6, step 5), and only if the slot is still empty. *Why:* the Pigeon pitch's rules: Pigeon summons get Renown, other tribes' summons don't.
+**11.7.10** [PROPOSED] (owner's pick, 20 Nov 2026) **Privates step in.** A Pigeon card's "a Private steps in" puts a Private into that slot as a reservist: it has the slot's Renown but doesn't count against the limit, and its card's Charge limits it. In a round of deaths it comes after reservists from the hand (shared ruling 6, step 4), and only if the slot is still empty. *Why:* the Pigeon pitch's rules: Pigeon summons get Renown, other tribes' summons don't.
 
 **11.7.11** [BRAMBLE] **Pile on N.** The first N times a neighbour attacks each fight, this hits the target first: it deals its Attack to the target before the attack and takes none back. Every Pile on card prints its N. The owner's pick of Pile on counted for every card, "Pile on N" (M3, N14).
 
 **11.7.12** [BRAMBLE] **Hand-me-down.** When this dies, the nearest friendly Mouse gains its Attack this fight. The Mice's Kin mechanic, the owner's pick (M1, N14); the rule is the Mouse pitch's.
 
 **11.7.13** [PROPOSED] Hand-me-down passes the unit's own Attack only (shared ruling 43): this fight's buffs on the unit pass; Renown and auras don't. With no friendly Mouse on the board, nothing happens. It is a death effect (9.7.2 step 2). **Nearest** is the friendly Mouse on the board fewest neighbour steps (8.2.3) from the dying unit's slot; ties go in reading order. *Why:* the pitch's rule notes. The pitch doesn't define nearest; neighbour steps use an existing term and suit two staggered rows.
+
+**11.7.14** [BRAMBLE] **Grudge N.** At the start of your turn, the unit gains +N Health and +N/+N more for each unit you were outnumbered by last fight (3.2.2). Count the boards at the start of that fight, before start-of-fight effects, leaving out back-row Squires on both sides. Grudge-keeper gives Grudge to your Knights. Use the highest Grudge number once for each unit. Delegated by the owner on 20 Nov 2026.
 
 ---
 

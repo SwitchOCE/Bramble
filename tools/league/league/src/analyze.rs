@@ -37,8 +37,9 @@ pub fn analyze(dir: &Path) -> Result<String, String> {
         .ok()
         .and_then(|t| serde_json::from_str(&t).ok());
 
-    // Per game: each colour's mean place. Per seed pair: their average.
-    let mut by_pair: BTreeMap<u64, Vec<(f64, f64)>> = BTreeMap::new();
+    // Per seed pair, each colour's mean place over the pair's seats of that colour. A live
+    // match puts both colours in both games; a ghost match puts red in one, blue in the other.
+    let mut by_pair: BTreeMap<u64, BTreeMap<String, (f64, f64)>> = BTreeMap::new();
     let mut seat_places: BTreeMap<i64, Vec<f64>> = BTreeMap::new();
     let mut colour_places: BTreeMap<String, Vec<f64>> = BTreeMap::new();
     let mut seat_colour: BTreeMap<(i64, String), Vec<f64>> = BTreeMap::new();
@@ -79,23 +80,23 @@ pub fn analyze(dir: &Path) -> Result<String, String> {
             limit_games += 1;
         }
         rounds += g["rounds"].as_i64().unwrap_or(0);
-        let mean = |c: &str| sums.get(c).map_or(f64::NAN, |(s, n)| s / n);
-        by_pair
+        let pair = by_pair
             .entry(g["game"].as_u64().ok_or("games.jsonl: no game index")? / 2)
-            .or_default()
-            .push((mean("red"), mean("blue")));
+            .or_default();
+        for (colour, (sum, n)) in sums {
+            // Each game counts once per colour, as before: its mean place for that colour.
+            let e = pair.entry(colour).or_insert((0.0, 0.0));
+            e.0 += sum / n;
+            e.1 += 1.0;
+        }
     }
-    let pair_red: Vec<f64> = by_pair
-        .values()
-        .map(|v| v.iter().map(|x| x.0).sum::<f64>() / v.len() as f64)
-        .collect();
-    let pair_blue: Vec<f64> = by_pair
-        .values()
-        .map(|v| v.iter().map(|x| x.1).sum::<f64>() / v.len() as f64)
-        .collect();
+    let mean =
+        |pair: &BTreeMap<String, (f64, f64)>, c: &str| pair.get(c).map_or(f64::NAN, |(s, n)| s / n);
+    let pair_red: Vec<f64> = by_pair.values().map(|p| mean(p, "red")).collect();
+    let pair_blue: Vec<f64> = by_pair.values().map(|p| mean(p, "blue")).collect();
     let pair_gap: Vec<f64> = by_pair
         .values()
-        .map(|v| v.iter().map(|x| x.0 - x.1).sum::<f64>() / v.len() as f64)
+        .map(|p| mean(p, "red") - mean(p, "blue"))
         .collect();
     let (red, red_ci) = mean_ci(&pair_red);
     let (blue, blue_ci) = mean_ci(&pair_blue);

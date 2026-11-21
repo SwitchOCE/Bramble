@@ -193,7 +193,9 @@ jobs:
       # Godot reads the JDK and SDK paths from JAVA_HOME and ANDROID_HOME and makes its own
       # debug keystore.
       - name: export_smoke.sh
-        run: REQUIRE_ANDROID=1 ./scripts/export_smoke.sh --aab build/export-smoke
+        run: |
+          rustup toolchain install "$RUST_VERSION" --profile minimal
+          RUSTUP_TOOLCHAIN="$RUST_VERSION" REQUIRE_ANDROID=1 ./scripts/export_smoke.sh --aab build/export-smoke
 
       # Short retention and never fatal: builds are large.
       - name: Upload builds

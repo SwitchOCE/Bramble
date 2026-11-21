@@ -258,7 +258,9 @@ impl GameSession {
             if game.borrow().is_run_seat(each.borrow().id) {
                 each.borrow_mut().turn_ended = true;
             } else {
-                Recruit::start_turn(&recruit, &each);
+                let report = each.borrow().last_fight_report.clone();
+                Recruit::start_turn(&recruit, &each, report.as_ref());
+                each.borrow_mut().last_fight_report = None;
             }
         }
         let record = game.borrow().record.clone();
@@ -563,12 +565,12 @@ impl GameSession {
             let player_b = game.borrow().player(b);
             Self::_after_fight(game, &player_b, &result, 1, a);
         }
-        // What after_fight changed on the real boards, for the screen that shows the fight.
         let after = Array::from(game.borrow().events.borrow()[first_after..].to_vec());
         fight.insert("after", after.to_state());
         game.borrow_mut().log_event(&crate::state_dict!{"type"=>"fight","players"=>&vec![a,b],"winner"=>&winner,"loser"=>&loser_id,"damage"=>&damage,"reason"=>&result.get("reason")}.as_dict());
         fight
     }
+    // Save what the fight showed for this player's next recruit turn.
     pub fn _after_fight(
         game: &GameSessionRef,
         each: &PlayerStateRef,
@@ -608,7 +610,9 @@ impl GameSession {
             .as_ref()
             .expect("session recruit")
             .clone();
-        Recruit::after_fight(&recruit, each, &report);
+        each.borrow_mut().last_fight_report = Some(report);
+        // Permanent changes made during combat still update the recruit board immediately.
+        Recruit::refresh_auras(&recruit, each);
     }
     pub fn view_for(&self, player_id: i64) -> Dictionary {
         let each = self.player(player_id);

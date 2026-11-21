@@ -5,6 +5,7 @@ extends RefCounted
 ##   {"id", "name", "tier", "attack", "health", "types": [], "tribes": [], "keywords": [],
 ##    "effects": [{"mechanic": id, <params>}], "token": bool, "kind": "unit" | "spell",
 ##    "cost": int (spells), "offered": bool (spells the shop never offers), "text"}
+## Keywords are ids or objects in the same shape as an effect.
 ## Load errors are kept in `errors`; a library with errors must not be played.
 
 const TRIPLE_REWARD_ID: StringName = &"triple_reward"
@@ -86,9 +87,11 @@ func _parse(raw: Dictionary, registry: MechanicRegistry) -> UnitDef:
 	if not ok:
 		errors.append("%s: tier must be 1-7 and Health at least 1" % card.id)
 	for keyword: Variant in CoreUtil.to_array(raw.get("keywords", [])):
-		var mechanic_id := StringName(str(keyword))
+		var params: Dictionary = CoreUtil.to_dict(keyword).duplicate()
+		var mechanic_id := StringName(str(params.get("mechanic", keyword)))
+		params.erase("mechanic")
 		card.keywords.append(mechanic_id)
-		ok = _add_mechanic(card, mechanic_id, {}, registry) and ok
+		ok = _add_mechanic(card, mechanic_id, params, registry) and ok
 	for effect: Variant in CoreUtil.to_array(raw.get("effects", [])):
 		var params: Dictionary = CoreUtil.to_dict(effect).duplicate()
 		var mechanic_id := StringName(CoreUtil.to_text(params.get("mechanic", "")))

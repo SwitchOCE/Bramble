@@ -29,7 +29,7 @@ func _returns(combat: Combat, card_id: String) -> Array[Dictionary]:
 ## Ruling 17 and 16, the full order: a Blackthorn Sapling (Root 1) given Molt by a Skin-shedder,
 ## Compost 1, a 200/5000 killer opposite. Its first death returns by Root, as the recruit unit
 ## stands at full Health; its next by the given Molt, a plain copy with 1 Health then +2/+2. The
-## Sapling's own "after this returns, +2/+2 permanently" pays on both.
+## Sapling's own "after this returns, +1/+1 permanently" pays on both.
 func test_ruling_17_root_first_when_the_compost_pays_then_molt_on_a_later_death() -> void:
 	Kit.fill(game, p, ["bramble-runner"])
 	var sapling: Unit = Kit.put(game, p, "blackthorn-sapling", 0)
@@ -40,15 +40,15 @@ func test_ruling_17_root_first_when_the_compost_pays_then_molt_on_a_later_death(
 	assert_eq(
 		back.map(func(e: Dictionary) -> String: return e["mechanic"]), ["thorn_root", "locust_molt"]
 	)
-	assert_eq([back[0]["attack"], back[0]["health"]], [5 + 2, 6 + 2], "Root: full, then +2/+2")
+	assert_eq([back[0]["attack"], back[0]["health"]], [5 + 1, 6 + 1], "Root: full, then +1/+1")
 	assert_eq(
 		[back[1]["attack"], back[1]["health"]],
-		[5 + 2 + 2, 1 + 2 + 2],
-		"Molt: a plain 5/6 on 1 Health, +2/+2 from Molt and +2/+2 from the Sapling"
+		[5 + 2 + 1, 1 + 2 + 1],
+		"Molt: a plain 5/6 on 1 Health, +2/+2 from Molt and +1/+1 from the Sapling"
 	)
 	assert_eq(p.heap(Kit.COMPOST).size(), 0, "Root spent the one entry")
-	assert_eq(sapling.stats.perm_attack, 2 + 2 + 2, "two Sapling gains and Molt's, for good")
-	assert_eq(sapling.stats.perm_health, 2 + 2 + 2)
+	assert_eq(sapling.stats.perm_attack, 1 + 1 + 2, "two Sapling gains and Molt's, for good")
+	assert_eq(sapling.stats.perm_health, 1 + 1 + 2)
 
 
 ## Ruling 17, the other half: with an empty Compost, Molt takes the first death.
@@ -176,7 +176,7 @@ func test_a_plain_copy_return_drops_counters_and_given_fury_the_recruit_unit_kee
 
 
 ## A Campaigner that returned alive earns the survival bonus.
-func test_ruling_40_after_fight_renown_for_a_surviving_return() -> void:
+func test_start_of_turn_renown_for_a_surviving_return() -> void:
 	var campaigner: Unit = Kit.put(game, p, "old-campaigner", 0)
 	Kit.put(game, p, "skin-shedder", 1)
 	Kit.put(game, p, "territorial", 4)
@@ -190,6 +190,8 @@ func test_ruling_40_after_fight_renown_for_a_surviving_return() -> void:
 	assert_eq(back.size(), 1, "it died once and Molted")
 	var end: Dictionary = fight_log[-1]
 	assert_eq(end["winner"], 0)
+	assert_eq(p.slots[0].renown, 0)
+	game.start_round()
 	assert_eq(p.slots[0].renown, 2)
 	assert_eq(campaigner.stats.perm_attack, 2, "only Molt buffs the unit")
 
@@ -209,6 +211,14 @@ func test_ruling_38_padre_improves_the_slot_a_locust_died_in_for_good() -> void:
 	assert_eq(combat.events[gift]["amount"], 1)
 	assert_true(combat.events[gift]["permanent"])
 	assert_eq(p.slots[0].renown, 1, "on the real slot")
+
+
+func test_combat_renown_updates_the_recruit_board_before_the_next_turn() -> void:
+	var ace: Unit = Kit.put(game, p, "flying-ace", 0)
+	Kit.wall(game, q, 0, 0, 1)
+	game.finish_round()
+	assert_eq(p.slots[0].renown, 1)
+	assert_eq(ace.stats.renown, 1, "the recruit unit already shows its slot's Renown")
 
 
 ## Ruling 21: a returned unit is the same unit for every "a fight" limit. A Needle Pikeman given

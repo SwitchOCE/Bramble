@@ -141,7 +141,7 @@ func _run(saved: Dictionary) -> Dictionary:
 	if game.keep_fight_events:
 		var events: Array = []
 		for event: Dictionary in fight["events"]:
-			if trace.has(event["type"]):
+			if trace.has("*") or trace.has(event["type"]):
 				events.append(event)
 		output["trace"] = events
 	return output
@@ -268,10 +268,14 @@ func _validate_player(saved: Dictionary, seen: Dictionary) -> String:
 		for key: String in ["_ints", "_kinds", "_golden_ints"]:
 			if not _numbers(params.get(key)):
 				return "invalid standing parameter fields"
-		var texts: Dictionary = params["_texts"]
-		for key: String in texts:
-			if not texts[key] is String:
-				return "standing text parameter must be text"
+		for key: String in ["_texts", "_golden_texts"]:
+			var field: Variant = params.get(key, {})
+			if not field is Dictionary:
+				return "invalid standing parameter fields"
+			var texts: Dictionary = field
+			for value: Variant in texts.values():
+				if not value is String:
+					return "standing text parameter must be text"
 	return ""
 
 

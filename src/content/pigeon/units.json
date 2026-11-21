@@ -83,11 +83,9 @@
    "effects": [
     {
      "mechanic": "pigeon_recruiting_sergeant",
-     "limit": 1,
-     "golden_limit": 2
+     "limit": 1
     }
-   ],
-   "golden_text": "Charge {golden_limit}: After a unit in front of this dies, a Private steps in there."
+   ]
   },
   {
    "id": "lance-corporal",
@@ -125,7 +123,7 @@
    "types": [
     "Pigeon"
    ],
-   "text": "After each fight, give this slot {amount} Renown, or {survived} if this survived.",
+   "text": "At the start of your turn, give this slot {amount} Renown, or {survived} if this survived last fight.",
    "reminders": [
     "renown"
    ],
@@ -329,11 +327,9 @@
    "effects": [
     {
      "mechanic": "pigeon_bugler",
-     "limit": 2,
-     "golden_limit": 4
+     "limit": 2
     }
-   ],
-   "golden_text": "Charge {golden_limit}: After a friendly unit dies, a Private steps in there."
+   ]
   },
   {
    "id": "quartermaster",
@@ -347,17 +343,21 @@
    "tier": 4,
    "attack": 3,
    "health": 12,
-   "text": "Recruit: Give a unit in your hand Reserve.\nYou can call {amount} more reservist each fight.",
+   "text": "Recruit: Give {reserve_units} in your hand Reserve.\nYou can call {amount} more reservist each fight.",
    "reminders": [
     "pigeon_reserve"
    ],
    "effects": [
     {
      "mechanic": "pigeon_quartermaster",
-     "amount": 1
+     "amount": 1,
+     "reserve_targets": 1,
+     "golden": {
+      "reserve_targets": 1
+     }
     }
    ],
-   "golden_text": "Recruit: Give {amount} units in your hand Reserve.\nYou can call {amount} more reservists each fight."
+   "golden_text": "Recruit: Give {reserve_units} in your hand Reserve.\nYou can call {amount} more reservists each fight."
   },
   {
    "id": "colour-ensign",
@@ -384,17 +384,19 @@
    "id": "wing-commander",
    "name": "Wing Commander",
    "tier": 5,
-   "attack": 10,
-   "health": 8,
+   "attack": 8,
+   "health": 14,
    "tribes": [
     "Pigeon"
    ],
    "types": [
     "Pigeon"
    ],
-   "text": "Sortie.\nStart of fight: Your Pigeons with Sortie attack immediately.",
+   "text": "Sortie.\nCharge {limit}: After one of your Pigeons with Sortie kills, give its slot {amount} Renown.",
    "reminders": [
-    "pigeon_sortie"
+    "pigeon_sortie",
+    "charge",
+    "renown"
    ],
    "keywords": [
     "pigeon_sortie"
@@ -402,13 +404,10 @@
    "effects": [
     {
      "mechanic": "pigeon_wing_commander",
-     "attacks": 1,
-     "golden": {
-      "attacks": 2
-     }
+     "limit": 4,
+     "amount": 3
     }
-   ],
-   "golden_text": "Sortie.\nStart of fight: Your Pigeons with Sortie attack immediately, twice."
+   ]
   },
   {
    "id": "group-captain",
@@ -499,11 +498,9 @@
    "effects": [
     {
      "mechanic": "pigeon_air_marshal",
-     "limit": 3,
-     "golden_limit": 6
+     "limit": 3
     }
-   ],
-   "golden_text": "Charge {golden_limit}: After a reservist steps in, it attacks immediately."
+   ]
   }
  ]
 }

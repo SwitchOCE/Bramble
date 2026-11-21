@@ -213,6 +213,9 @@ impl CombatUnit {
     pub fn health(&self) -> i64 {
         self.max_health() - self.damage
     }
+    pub fn is_dead(&self) -> bool {
+        self.gone || self.should_die()
+    }
     pub fn should_die(&self) -> bool {
         !self.gone && (self.health() <= 0 || self.destroyed)
     }
@@ -283,13 +286,15 @@ impl CombatUnit {
     }
     pub fn view(&self, geometry: &BoardGeometryRef) -> Dictionary {
         let keywords = Array::new();
+        let def = self.def.as_ref().unwrap();
         for bound in self.hooks().to_vec() {
             let bound = bound.borrow();
-            if bound.params.borrow().is_empty() && !keywords.has(&bound.id) {
+            if (def.borrow().keywords.has(&bound.id) || bound.params.borrow().is_empty())
+                && !keywords.has(&bound.id)
+            {
                 keywords.push(bound.id.clone());
             }
         }
-        let def = self.def.as_ref().unwrap();
         let renown = self.stats.as_ref().expect("combat stats").borrow().renown;
         crate::state_dict!{"uid"=>&self.uid,"recruit_uid"=>&self.recruit_uid,"id"=>&def.borrow().id,"side"=>&self.side,"slot"=>&self.slot,"label"=>&geometry.borrow().label(self.slot),"attack"=>&self.attack(),"health"=>&self.health(),"renown"=>&renown,"golden"=>&self.golden,"bought"=>&self.bought,"keywords"=>&keywords,"grants"=>&self._grants_view(),"effects"=>&UnitText::effects_view(&self.mechanics),"totals"=>&UnitText::totals_view(&self.hooks()),"counters"=>&UnitText::counters_view(&self.counters),"uses"=>&self.uses.duplicate(),"text"=>&UnitText::text_of(def,&self.mechanics,self.golden),"reminders"=>&def.borrow().reminders}.as_dict()
     }

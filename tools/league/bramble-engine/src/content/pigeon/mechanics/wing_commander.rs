@@ -11,9 +11,7 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/pigeon/mechanics/wing_commander.gd
-// Wing Commander (with pigeon_sortie): Start of fight (main pass): each friendly Pigeon that has
-// Sortie, this one and those a Squadron Leader gives it included, makes `attacks` out-of-turn
-// attacks (9.4.12) in reading order. A golden gives two each.
+// Wing Commander gives permanent Renown to a friendly Sortie Pigeon's slot after it kills.
 pub const SORTIE: &str = "pigeon_sortie";
 #[derive(Clone, Default)]
 pub struct WingCommander;
@@ -28,49 +26,55 @@ impl ToState for WingCommander {
 }
 impl Mechanic for WingCommander {
     fn param_kinds(&self) -> Dictionary {
-        let out = Dictionary::new();
-        out.insert("attacks", Variant::Int(Kind::Number as i64));
-        out
+        crate::state_dict! {"limit" => &(Kind::Number as i64),"amount" => &(Kind::Number as i64)}
+            .as_dict()
     }
-    fn on_start_of_combat(
+    fn on_kill(
         &self,
         combat: &mut Combat,
         unit: Option<&CombatUnitRef>,
+        victim: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        let unit = unit.expect("Wing Commander unit");
-        let side = unit.borrow().side;
-        let flyers = Array::new();
-        let friends = combat.units(side);
-        let mut index = 0;
-        while index < friends.len() {
-            let friend = friends.get(index).unwrap();
-            index += 1;
-            if friend
+        self.on_friendly_kill(combat, unit, unit.unwrap(), victim, params);
+    }
+    fn on_friendly_kill(
+        &self,
+        combat: &mut Combat,
+        unit: Option<&CombatUnitRef>,
+        killer: &CombatUnitRef,
+        _victim: &CombatUnitRef,
+        params: &MechanicParamsRef,
+    ) {
+        const WING: &str = "pigeon_wing_commander";
+        let Some(unit) = unit else {
+            return;
+        };
+        let limit = params.borrow().num("limit");
+        if unit.borrow().fight_count(WING) >= limit
+            || !killer
                 .borrow()
                 .def
                 .as_ref()
                 .unwrap()
                 .borrow()
                 .has_tribe("Pigeon")
-                && friend.borrow().has_mechanic(SORTIE)
-            {
-                flyers.push(friend);
-            }
-        }
-        if flyers.is_empty() || !combat.trigger(Some(unit), "pigeon_wing_commander") {
+            || !killer.borrow().has_mechanic(SORTIE)
+            || !combat.trigger(Some(unit), WING)
+        {
             return;
         }
-        let mut index = 0;
-        while index < flyers.len() {
-            let flyer = flyers.get(index).unwrap();
-            index += 1;
-            for _attack in 0..params.borrow().num("attacks") {
-                if flyer.borrow().gone || flyer.borrow().should_die() || combat.halted() {
-                    break;
-                }
-                combat.attack_now(Some(&flyer), None, false, None);
-            }
-        }
+        unit.borrow_mut().add_fight_count(WING, 1);
+        let side = combat.bridge(unit.borrow().side);
+        let slot = killer.borrow().slot;
+        crate::core::combat::fight_side::FightSide::add_renown(
+            &side,
+            combat,
+            slot,
+            params.borrow().num("amount"),
+            Some(unit),
+        );
+        let left = limit - unit.borrow().fight_count(WING);
+        combat.show_uses(Some(unit), "pigeon_wing_commander_uses", left, Some(unit));
     }
 }

@@ -18,10 +18,12 @@ pub struct UnitLibrary {
 }
 impl UnitLibrary {
     pub const TRIPLE_REWARD_ID: &str = "triple_reward";
+    /// SYSTEM_CARDS in unit_library.gd, as JSON text. The ghost cutter fingerprints these entries.
+    pub const SYSTEM_CARDS: &str = r#"[{"id":"triple_reward","name":"Triple Reward","kind":"spell","tier":1,"cost":0,"offered":false,"effects":[{"mechanic":"triple_reward"}]}]"#;
     pub fn with_system_cards(registry: &MechanicRegistryRef) -> UnitLibraryRef {
         let out = Rc::new(RefCell::new(Self::default()));
         // 7.3.6: the core's own spell is the only card definition embedded in the source.
-        let cards=crate::util::godot_json::parse_string(r#"[{"id":"triple_reward","name":"Triple Reward","kind":"spell","tier":1,"cost":0,"offered":false,"effects":[{"mechanic":"triple_reward"}]}]"#).as_array();
+        let cards = crate::util::godot_json::parse_string(Self::SYSTEM_CARDS).as_array();
         out.borrow_mut().add_cards(&cards, registry);
         out
     }
@@ -113,9 +115,11 @@ impl UnitLibrary {
             ));
         }
         for keyword in raw.get("keywords").as_array().borrow().iter() {
-            let id = keyword.as_text();
+            let params = CoreUtil::to_dict(keyword).duplicate();
+            let id = params.get_or("mechanic", keyword.clone()).as_text();
+            params.erase("mechanic");
             card.borrow().keywords.push(id.clone());
-            ok = self._add_mechanic(&card, &id, &Dictionary::new(), registry) && ok;
+            ok = self._add_mechanic(&card, &id, &params, registry) && ok;
         }
         for effect in raw.get("effects").as_array().borrow().iter() {
             let params = effect.as_dict().duplicate();

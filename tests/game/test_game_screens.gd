@@ -10,7 +10,7 @@ const CoreKit := preload("res://tests/core/core_kit.gd")
 func test_the_screens_action_reaches_the_core_and_its_picker_is_used() -> void:
 	var game := GameController.new()
 	add_child_autofree(game)
-	game.start(GameContent.load_default(), 4)
+	game.start(FlowFixture.live(GameContent.load_default(), 4))
 	_check_game_slots(game)
 	game.recruit.action_requested.emit({"type": "buy", "spell": false, "index": 0})
 	_check_game_slots(game)
@@ -92,7 +92,7 @@ func test_skipping_is_one_rule_at_the_start_middle_and_end() -> void:
 func _game_in_fight() -> GameController:
 	var game := GameController.new()
 	add_child(game)
-	game.start(GameContent.load_default(), 4)
+	game.start(FlowFixture.live(GameContent.load_default(), 4))
 	_check_game_slots(game)
 	game.request({"type": "buy", "spell": false, "index": 0})
 	_check_game_slots(game)
@@ -165,7 +165,7 @@ static func _space() -> InputEventKey:
 func test_the_result_shows_counters_after_the_fight() -> void:
 	var game := GameController.new()
 	add_child_autofree(game)
-	game.start(GameContent.load_default(), 4)
+	game.start(FlowFixture.live(GameContent.load_default(), 4))
 	_check_game_slots(game)
 	game.request({"type": "buy", "spell": false, "index": 0})
 	_check_game_slots(game)
@@ -187,7 +187,7 @@ func test_the_result_shows_counters_after_the_fight() -> void:
 func test_the_others_play_on_over_frames_once_you_are_out() -> void:
 	var game := GameController.new()
 	add_child_autofree(game)
-	game.start(GameContent.load_default(), 4)
+	game.start(FlowFixture.live(GameContent.load_default(), 4))
 	_check_game_slots(game)
 	var ends: Array[int] = []
 	game.game_finished.connect(func(_places: Array[Dictionary], out: int) -> void: ends.append(out))
@@ -221,7 +221,7 @@ func test_a_units_sources_name_where_its_extra_numbers_come_from() -> void:
 	if content.tribe_name("locust") == "":
 		pass_test("no locust folder")
 		return
-	var flow: GameFlow = GameFlow.create(content, 4, PackedStringArray(["locust"]))
+	var flow: GameFlow = FlowFixture.live(content, 4, PackedStringArray(["locust"]))
 	flow.start_round()
 	var me: PlayerState = flow.human()
 	var unit: Unit = CoreKit.put(flow.session, me, "husk-sentry", 0)
@@ -291,7 +291,7 @@ func test_ordinals() -> void:
 func test_controller_plays_a_round_with_its_fight() -> void:
 	var game := GameController.new()
 	add_child_autofree(game)
-	game.start(GameContent.load_default(), 4)
+	game.start(FlowFixture.live(GameContent.load_default(), 4))
 	_check_game_slots(game)
 	assert_eq(game.phase, GameController.Phase.RECRUIT)
 	game.request({"type": "buy", "spell": false, "index": 0})
@@ -310,6 +310,31 @@ func test_controller_plays_a_round_with_its_fight() -> void:
 	game.call("_after_fight")
 	assert_eq(game.phase, GameController.Phase.RECRUIT)
 	assert_eq(game.flow.session.round_number, 2, "the next round")
+
+
+func test_past_boards_show_the_ghost_that_fought_that_round() -> void:
+	var content: GameContent = GameContent.load_default()
+	var matched: Dictionary = GameFlow.create(content, 4, FlowFixture.test_store())
+	assert_true(matched["ok"])
+	var game := GameController.new()
+	add_child_autofree(game)
+	game.start(matched["flow"])
+	assert_false(game._past_button.visible)
+	game.request({"type": "end_turn"})
+	var opening: Dictionary = game.fight._replay.steps[0]["state"]
+	game.fight.skip()
+	game._after_fight()
+	assert_true(game._past_button.visible)
+	var recruit: Dictionary = game.recruit.state
+	game._open_past_boards()
+	assert_eq(game.phase, GameController.Phase.PAST_BOARDS)
+	assert_eq(game._past_screen.state["turn"], 1)
+	assert_eq(game._past_screen.state["opponent"], opening["opponent"])
+	assert_eq(game._past_screen.state["boards"], opening["boards"])
+	game._close_past_boards()
+	assert_eq(game.recruit.state, recruit)
+	assert_eq(game.phase, GameController.Phase.RECRUIT)
+	await wait_process_frames(2)
 
 
 func _check_game_slots(game: GameController) -> void:

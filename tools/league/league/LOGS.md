@@ -75,7 +75,7 @@ Each seat's `rounds[]` entry:
 | `tier` | `PlayerState.tier` before fights |
 | `gold_start` | gold in the seat's first decision view, after start-of-turn effects and before choosing any action; null if the seat had no decision |
 | `gold_left` | `PlayerState.gold` after the turn |
-| `gold_from_cards` | gross positive gold **generated** by cards this round, finalized after fights: positive `amount` in session `gold` events for this player with `source_uid >= 0` (`RecruitContext::gain_gold`, including start/end-turn and after-fight Relic Seeker payouts), plus positive `PlayerState.gold_next_turn` after combat (`FightSide::add_gold`, e.g. Cutpurse). `start_turn` resets `gold_next_turn`, so each combat payout counts in the round earned, not again when credited next turn. Excludes normal income, ordinary sale proceeds, spending, and source-less standing effects. Combat payouts become spendable next round, so the next `gold_start` includes them too. Combat events need not be retained |
+| `gold_from_cards` | gross positive gold **generated** by cards this round, finalized after fights: positive `amount` in session `gold` events for this player with `source_uid >= 0` (`RecruitContext::gain_gold`, including start-of-turn Relic Seeker payouts and end-of-turn effects), plus positive `PlayerState.gold_next_turn` after combat (`FightSide::add_gold`, e.g. Cutpurse). `start_turn` resets `gold_next_turn`, so each combat payout counts in the round earned, not again when credited next turn. Excludes normal income, ordinary sale proceeds, spending, and source-less standing effects. Combat payouts become spendable next round, so the next `gold_start` includes them too. Combat events need not be retained |
 | `triple` | whether the session events contain a `triple` for this player this round |
 | `golden_gained` | whether the count of golden cards in board and hand increased since the last round (not a count of triples) |
 | `slot_buff` | whether serialized `PlayerState.slots` changed since the previous round (keywords or Renown; slots have no stats since S9) |
@@ -84,8 +84,8 @@ Each seat's `rounds[]` entry:
 session round number. `players` is all seats, in seat order, **after** fights and elimination:
 `[{seat, hp, armor, alive}]` from `PlayerState.id`, `health`, `armor`, `alive`.
 
-The round's `renown` contains the game log's Renown events in order, including after-fight
-Recruit hooks. Each carries `type`, `round`, `player`, `slot`, `amount`, `total` and `source_uid`.
+The round's `renown` contains the game log's Renown events in order, including start-of-turn
+rewards such as Old Campaigner. Each carries `type`, `round`, `player`, `slot`, `amount`, `total` and `source_uid`.
 Each nested `fights[]` item has `a`, `b`, `winner`, `loser`, `damage`, `result`,
 `ghost_of`, `kills`, `summons` and `renown`.
 

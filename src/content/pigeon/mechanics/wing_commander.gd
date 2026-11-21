@@ -1,24 +1,34 @@
 extends Mechanic
-## Wing Commander (with pigeon_sortie): Start of fight (main pass): each friendly Pigeon that has
-## Sortie, this one and those a Squadron Leader gives it included, makes `attacks` out-of-turn
-## attacks (9.4.12) in reading order. A golden gives two each.
+## Wing Commander gives permanent Renown to a friendly Sortie Pigeon's slot after it kills.
 
 const SORTIE: StringName = &"pigeon_sortie"
+const WING: StringName = &"pigeon_wing_commander"
 
 
 func param_kinds() -> Dictionary:
-	return {"attacks": MechanicParams.Kind.NUMBER}
+	return {"limit": MechanicParams.Kind.NUMBER, "amount": MechanicParams.Kind.NUMBER}
 
 
-func on_start_of_combat(combat: Combat, unit: CombatUnit, params: MechanicParams) -> void:
-	var flyers: Array[CombatUnit] = []
-	for friend: CombatUnit in combat.units(unit.side):
-		if friend.def.has_tribe("Pigeon") and friend.has_mechanic(SORTIE):
-			flyers.append(friend)
-	if flyers.is_empty() or not combat.trigger(unit, &"pigeon_wing_commander"):
+func on_kill(combat: Combat, unit: CombatUnit, victim: CombatUnit, params: MechanicParams) -> void:
+	on_friendly_kill(combat, unit, unit, victim, params)
+
+
+func on_friendly_kill(
+	combat: Combat,
+	unit: CombatUnit,
+	killer: CombatUnit,
+	_victim: CombatUnit,
+	params: MechanicParams
+) -> void:
+	var limit: int = params.num(&"limit")
+	if (
+		unit == null
+		or unit.fight_count(WING) >= limit
+		or not killer.def.has_tribe("Pigeon")
+		or not killer.has_mechanic(SORTIE)
+		or not combat.trigger(unit, WING)
+	):
 		return
-	for flyer: CombatUnit in flyers:
-		for _attack: int in params.num(&"attacks"):
-			if flyer.gone or flyer.should_die() or combat.halted():
-				break
-			combat.attack_now(flyer)
+	unit.add_fight_count(WING)
+	combat.bridge(unit.side).add_renown(killer.slot, params.num(&"amount"), unit)
+	combat.show_uses(unit, &"pigeon_wing_commander_uses", limit - unit.fight_count(WING), unit)

@@ -40,8 +40,9 @@ struct GameRow {
 #[derive(Deserialize)]
 struct SeatRow {
     seat: i64,
-    bot: String,
     label: Option<String>,
+    bot: Option<String>,
+    player: Option<String>,
 }
 
 #[derive(Deserialize)]
@@ -185,16 +186,26 @@ fn cut_record(
     let survivors = game.alive_players().len();
     let mut runs = Vec::new();
     for (seat, data) in seats {
-        let label = meta
+        let metadata = meta
             .get(&seat)
             .ok_or_else(|| format!("missing seat {seat} in games.jsonl"))?;
-        if label.bot == "tribe" || label.bot.starts_with("tribe-") {
-            return Err(format!(
-                "seat {seat} is TribeBot ({}), retired as a player on 20 Nov 2026 (owner): \
-                 its runs can't become ghosts",
-                label.bot
-            ));
-        }
+        let (kind, name) = match (&metadata.bot, &metadata.player) {
+            (None, Some(player)) => (SourceKind::Player, player),
+            (Some(bot), None) => {
+                if bot == "tribe" || bot.starts_with("tribe-") {
+                    return Err(format!(
+                        "seat {seat} is TribeBot ({bot}), retired as a player on 20 Nov 2026 (owner): \
+                         its runs can't become ghosts"
+                    ));
+                }
+                (SourceKind::Bot, bot)
+            }
+            _ => {
+                return Err(format!(
+                    "seat {seat} needs one bot or player in games.jsonl"
+                ));
+            }
+        };
         let player = game.player(seat);
         let player = player.borrow();
         let ended = if !player.alive {
@@ -223,9 +234,9 @@ fn cut_record(
             content: content.clone(),
             tribes: header.recipe.tribes.clone(),
             source: RunSource {
-                kind: SourceKind::Bot,
-                label: label.label.clone().unwrap_or_else(|| label.bot.clone()),
-                player: label.bot.clone(),
+                kind,
+                label: metadata.label.clone().unwrap_or_else(|| name.clone()),
+                player: name.clone(),
                 rating: None,
                 record_sha256: record_sha256.clone(),
                 record_mode: mode.into(),
@@ -319,16 +330,17 @@ fn parse_line<T: serde::de::DeserializeOwned>(line: &str, number: usize) -> Resu
 }
 
 fn card_fingerprints(root: &Path, recipe: &Recipe) -> Result<BTreeMap<String, String>, String> {
-    // UnitLibrary embeds this raw data entry in with_system_cards and exposes only its
-    // parsed definition. Hash the raw entry, like the entries in units.json.
-    let triple_reward = serde_json::json!({
-        "id": UnitLibrary::TRIPLE_REWARD_ID, "name": "Triple Reward", "kind": "spell",
-        "tier": 1, "cost": 0, "offered": false, "effects": [{"mechanic": "triple_reward"}]
-    });
-    let mut cards = BTreeMap::from([(
-        UnitLibrary::TRIPLE_REWARD_ID.into(),
-        fingerprint(triple_reward)?,
-    )]);
+    // Fingerprint the engine's own raw entries, like the entries in units.json.
+    let system: Vec<Value> =
+        serde_json::from_str(UnitLibrary::SYSTEM_CARDS).map_err(|e| e.to_string())?;
+    let mut cards = BTreeMap::new();
+    for entry in system {
+        let id = entry["id"]
+            .as_str()
+            .ok_or("system card without an id")?
+            .to_owned();
+        cards.insert(id, fingerprint(entry)?);
+    }
     let files = recipe.paths.iter().map(|folder| {
         resolve(root, &RecordReplay::content_folder(root, folder)).join("units.json")
     });
@@ -364,4 +376,63 @@ fn fingerprint(mut entry: Value) -> Result<String, String> {
     entry.sort_all_objects();
     let bytes = serde_json::to_vec(&entry).map_err(|e| e.to_string())?;
     Ok(sha256(&bytes)[..16].to_owned())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use bramble_engine::ToState;
+
+    // The same value is pinned in tests/core/test_ghost_run_writer.gd, so both cutters
+    // give Triple Reward the fingerprint GDScript's UnitLibrary.SYSTEM_CARDS gives it.
+    #[test]
+    fn triple_reward_fingerprint_is_the_engines_own_entry() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+        let recipe = Recipe {
+            kind: "game".into(),
+            paths: Vec::new(),
+            tribes: Vec::new(),
+        };
+        let cards = card_fingerprints(&root, &recipe).unwrap();
+        assert_eq!(
+            cards.get(UnitLibrary::TRIPLE_REWARD_ID).map(String::as_str),
+            Some("369b9d3c1b948dba")
+        );
+    }
+
+    #[test]
+    fn every_single_tribe_lobby_offers_and_fingerprints_the_shared_cards() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+        let content = GameContent::load_default(&root);
+        let content = content.borrow();
+        let tribes = content.tribe_ids();
+        assert_eq!(tribes.len(), 5);
+        assert!(!tribes.has(&"shared".to_string()));
+        let shared: Value =
+            serde_json::from_slice(&fs::read(root.join("src/content/shared/units.json")).unwrap())
+                .unwrap();
+        let cards = shared["cards"].as_array().unwrap();
+        assert_eq!(cards.len(), 8);
+        for tribe in tribes.iter_live() {
+            let game = content.new_session(4, &Array::from([content.tribe_name(&tribe)]));
+            let game = game.borrow();
+            let recipe: Recipe =
+                serde_json::from_str(&godot_json::stringify(&game.record_recipe.to_state()))
+                    .unwrap();
+            let fingerprints = card_fingerprints(&root, &recipe).unwrap();
+            let config = game.config.as_ref().unwrap().borrow();
+            let odds = game.unit_odds.as_ref().unwrap();
+            for card in cards {
+                let id = card["id"].as_str().unwrap();
+                let tier = card["tier"].as_u64().unwrap() as usize;
+                let weight = config.unit_weights_by_tier.get(tier - 1).unwrap();
+                assert_eq!(odds.weight_of(id), weight, "{id} in {tribe}");
+                assert_eq!(
+                    fingerprints.get(id),
+                    Some(&fingerprint(card.clone()).unwrap()),
+                    "{id} in {tribe}"
+                );
+            }
+        }
+    }
 }

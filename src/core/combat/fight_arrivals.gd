@@ -4,15 +4,12 @@ extends RefCounted
 ## round of deaths: first each dying unit's own summons and returns (Combat's death steps 2 and
 ## 4), then Reserve units step into the slots friends died in (the side's fill-first slot, such
 ## as a Guard post, then the slot with the most Renown, then reading order), at most the side's
-## reserve limit a fight (GameConfig.reserve_limit, raised by Q_RESERVE_LIMIT), then waiting
-## summons in one line (Hoppers, Compost copies) into empty slots in reading order, then the
+## reserve limit a fight (GameConfig.reserve_limit, raised by Q_RESERVE_LIMIT), then the
 ## after_death_round hook (a Recruiting Sergeant's Private, which steps in through
 ## Combat.step_in and doesn't count against the limit). SHARED-RULES ruling 6.
 
 ## Per side: CombatUnits from the hand waiting to step in (Reserve), in hand order.
 var reserve: Array = [[], []]
-## Per side: waiting summons, {"id", "source", "payload"}, in landing order.
-var waiting: Array = [[], []]
 ## Per side: reservists from the hand that have stepped in this fight (the reserve limit).
 var called: Array[int] = [0, 0]
 ## Officer UID to slots where it witnessed a friendly death in the current round of deaths.
@@ -59,18 +56,6 @@ func reserve_view(geometry: BoardGeometry) -> Array:
 	return out
 
 
-## Queues a summon that found no room; it keeps its source and payload.
-func wait(
-	side_index: int,
-	card_id: StringName,
-	source: CombatUnit,
-	payload: Dictionary,
-	golden: bool = false
-) -> void:
-	var queue: Array = waiting[side_index]
-	queue.append({"id": card_id, "source": source, "payload": payload, "golden": golden})
-
-
 ## The slot-fill order after one round of deaths. `emptied` [[slot], [slot]]: slots units died
 ## in this round. Active side first.
 func after_deaths(emptied: Array, active_side: int) -> void:
@@ -78,8 +63,6 @@ func after_deaths(emptied: Array, active_side: int) -> void:
 	for side_index: int in [active_side, 1 - active_side]:
 		var died_in: Array = emptied[side_index]
 		_step_in(side_index, died_in)
-	for side_index: int in [active_side, 1 - active_side]:
-		_land(side_index)
 	for side_index: int in [active_side, 1 - active_side]:
 		combat._notify(side_index, &"after_death_round", [])
 
@@ -147,26 +130,3 @@ func step_in(
 func limit(side_index: int) -> int:
 	var combat: Combat = _combat()
 	return combat.side_query(side_index, Mechanic.Q_RESERVE_LIMIT, combat.config.reserve_limit)
-
-
-func _land(side_index: int) -> void:
-	var combat: Combat = _combat()
-	var queue: Array = waiting[side_index]
-	while not queue.is_empty() and not combat.halted():
-		var slot: int = combat.geometry.summon_slot(combat._occupied(side_index), -1, false)
-		if slot < 0:
-			return
-		var entry: Dictionary = queue.pop_front()
-		var card_id: StringName = entry["id"]
-		var source: CombatUnit = entry["source"]
-		var payload: Dictionary = entry["payload"]
-		var unit: CombatUnit = CombatUnit.fresh(
-			combat.library.get_card(card_id),
-			combat._take_uid(),
-			side_index,
-			CoreUtil.to_bool(entry.get("golden", false)),
-			combat.registry,
-			combat.config.stat_max
-		)
-		unit.state.merge(payload, true)
-		combat._enter(unit, slot, source, "summon", {"waited": true, "payload": payload})

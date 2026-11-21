@@ -42,10 +42,21 @@ impl RecordReplay {
         }
     }
     pub fn read_entries(path: &Path) -> Result<Array<Dictionary>, ReplayResult> {
-        let text = std::fs::read_to_string(path)
+        let bytes = std::fs::read(path)
             .map_err(|_| Self::_failure(0, &format!("cannot open {}", path.display())))?;
+        Self::decode(&bytes)
+    }
+    /// Decode the exact saved bytes (RecordReplay.decode).
+    pub fn decode(bytes: &[u8]) -> Result<Array<Dictionary>, ReplayResult> {
+        let text =
+            std::str::from_utf8(bytes).map_err(|_| Self::_failure(0, "record must be UTF-8"))?;
+        // Godot's UTF-8 conversion strips a leading BOM and ends at a raw NUL.
+        if text.starts_with('\u{feff}') || text.contains('\0') {
+            return Err(Self::_failure(0, "record must be UTF-8"));
+        }
         let entries = Array::new();
-        for (i, line) in text.lines().enumerate() {
+        let lines = text.split_terminator('\n');
+        for (i, line) in lines.enumerate() {
             let v = crate::util::godot_json::parse_string(line);
             if !matches!(v, Variant::Dictionary(_)) {
                 return Err(Self::_failure(
@@ -74,6 +85,17 @@ impl RecordReplay {
         entries: &Array<Dictionary>,
         stop_at: Option<usize>,
         store: Option<&Path>,
+    ) -> ReplayResult {
+        Self::rebuild_with_observer(repo_root, entries, stop_at, store, |_, _| {})
+    }
+
+    /// The observer sees each verified entry and the game after applying it.
+    pub fn rebuild_with_observer(
+        repo_root: &Path,
+        entries: &Array<Dictionary>,
+        stop_at: Option<usize>,
+        store: Option<&Path>,
+        observe: impl FnMut(&Dictionary, &GameSessionRef),
     ) -> ReplayResult {
         if entries.is_empty() {
             return Self::_failure(0, "empty record");
@@ -104,7 +126,7 @@ impl RecordReplay {
         if let Err(error) = Self::_load_runs(&header, &mut game.borrow_mut(), store.as_ref()) {
             return error;
         }
-        Self::_replay(entries, game, &header, stop_at)
+        Self::_replay(entries, game, &header, stop_at, observe)
     }
 
     fn _replay(
@@ -112,6 +134,7 @@ impl RecordReplay {
         game: GameSessionRef,
         header: &Dictionary,
         stop_at: Option<usize>,
+        mut observe: impl FnMut(&Dictionary, &GameSessionRef),
     ) -> ReplayResult {
         if header.get("initial_hash").as_text() != RecordState::state_hash(&game.borrow()) {
             return Self::_failure(0, "initial state differs");
@@ -127,6 +150,7 @@ impl RecordReplay {
                 Ok(next) => next,
                 Err(e) => return e,
             };
+            observe(&entry, &game);
             if entry.has("hash") {
                 checkpoints += 1;
             }

@@ -332,7 +332,7 @@ fn play_session(engine: &Engine, plan: GamePlan, watch: &Watch, game: GameSessio
             fight_stats,
         ));
         // Keep the board snapshot before combat, but count all card gold generated this round,
-        // including after_fight effects (Relic Seeker) and deferred combat gold (Cutpurse).
+        // including start-of-turn rewards (Relic Seeker) and deferred combat gold (Cutpurse).
         for seat in &mut seats {
             if let Some(stats) = seat.rounds.last_mut()
                 && stats["round"] == round
@@ -1057,7 +1057,7 @@ fn tribe_story(seat: &Seat) -> (Option<String>, Option<i64>, Vec<Value>) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use bramble_engine::core::recruit::{recruit::Recruit, recruit_context::RecruitContext};
+    use bramble_engine::core::recruit::recruit_context::RecruitContext;
     use bramble_engine::core::state::fight_report::FightReport;
     use std::cell::RefCell;
 
@@ -1113,7 +1113,7 @@ mod tests {
         let canonical = godot_json::stringify(&RecordState::value(&entries.to_state()));
         assert_eq!(
             format!("{:x}", Sha256::digest(canonical)),
-            "ae912a5649cdc8672db4c0f7e6ed1f2e501c96cdac69f589d7af47ed7d3fada9"
+            "93ba8d730b9f10fbc3bfb782212e4ad928acaf4946e1627972ddb72276d44d2c"
         );
     }
 
@@ -1177,7 +1177,7 @@ mod tests {
     }
 
     #[test]
-    fn card_gold_includes_after_fight_payouts_and_counts_deferred_gold_once() {
+    fn card_gold_counts_start_of_turn_rewards_and_deferred_gold_once() {
         let content = crate::load_content(&crate::default_root(), None).unwrap();
         let game = content.borrow().new_session(11, &Array::new());
         game.borrow_mut().record_recipe.clear();
@@ -1199,25 +1199,27 @@ mod tests {
             outnumbered_by: 4,
             ..Default::default()
         }));
-        // The real Relic Seeker effect pays two gold after fighting, via a card-source event.
-        Recruit::after_fight(&recruit, &player, &report);
-        assert_eq!(round_card_gold(&game, 0), 2);
+        // Relic Seeker pays on the next recruit turn.
+        player.borrow_mut().last_fight_report = Some(report);
+        assert_eq!(round_card_gold(&game, 0), 0);
         let mut ctx = RecruitContext::new(&game, &recruit, &player);
         ctx.gain_gold(3, Some(&relic));
         ctx.gain_gold(5, None); // A source-less standing effect is not a card payout.
         ctx.gain_gold(-1, Some(&relic)); // Spending is not gross gold gained.
         player.borrow_mut().gold_next_turn = 7; // FightSide::add_gold's deferred payout.
-        assert_eq!(round_card_gold(&game, 0), 12);
+        assert_eq!(round_card_gold(&game, 0), 10);
         assert_eq!(round_card_gold(&game, 1), 0);
         let before = player.borrow().gold;
         game.borrow().events.clear();
         GameSession::start_round(&game);
-        assert!(player.borrow().gold >= before + 7);
+        assert!(player.borrow().gold >= before + 13);
         assert_eq!(player.borrow().gold_next_turn, 0);
+        assert!(player.borrow().last_fight_report.is_none());
+        assert!(!relic.borrow().worked_this_turn);
         assert_eq!(
             round_card_gold(&game, 0),
-            0,
-            "last fight's credit must not count twice"
+            6,
+            "Relic Seeker pays two plus one for each of four excess opponents"
         );
     }
 }

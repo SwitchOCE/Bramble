@@ -1,7 +1,7 @@
 # Isolated fight cases, version 1
 
 The oracle is the pinned GDScript engine, unchanged. These cases exercise one fight and its
-permanent write-back, damage and `after_fight` hooks. The generator builds synthetic pre-fight
+permanent write-back, damage and the saved fight reports. The generator builds synthetic pre-fight
 states by mutating live records’ `fight_boards` payloads (formats 3 and 4).
 There is no recruit phase, End of Turn, elimination, matchmaking or placement pass.
 
@@ -19,7 +19,7 @@ The `{}` placeholders above must be complete player payloads. The required keys 
 zeroes or plus sign; zero is `"0"`. All JSON numbers must be integers exactly representable as
 IEEE-754 doubles (absolute value at most 9,007,199,254,740,991). The seed uses text to avoid
 that restriction. An optional `trace` array selects combat event types to include in the output.
-The reference corpus selects `["uses"]`. Unknown top-level fields do not affect the fight.
+`["*"]` selects every event; the reference corpus selects `["uses"]`. Unknown top-level fields do not affect the fight.
 
 `a` and `b` have exactly the shape emitted by `RecordState.fight_players` for living players:
 
@@ -70,7 +70,8 @@ duplicates. These details matter to the complete state hash.
 5. Set `game.pairings = [[a.id, b.id]]`. Do not append opponent history or advance `_rr_index`.
 6. Call `game._fight(a.id, b.id)` **once**, directly. Never call `start_round`, `end_turn` or
    `finish_round`: the payload was already captured after End of Turn. `_fight` handles loss
-   damage and both players' `after_fight` hooks. Do not call `_eliminate` or `_check_end`.
+   damage, saves each player's report for the next turn and refreshes recruit auras. Do not
+   call `_eliminate` or `_check_end`.
 7. Immediately serialize `JSON.stringify(RecordState.session_state(game))`. This exact string
    is the comparison state, including all eight seats, RNG caches and private fields.
 
@@ -88,8 +89,7 @@ Defaults, beyond the explicitly restored fields:
 - `seed_value` is the case seed; `_rr_order` is the factory's seed-derived shuffle,
   `_rr_index = 0`, `_any_eliminated = false`, `over = false`. Ghost board and hand are empty,
   ghost tier is 1, ghost id/of is -1, and ghost player is null. Recruit RNG caches start empty
-  (the `after_fight` contexts initialize both participants' effect RNG streams even when no
-  ability fires; hooks may also draw from or populate these caches during `_fight`).
+  and saving the fight reports does not create any recruit effect RNG streams.
 - Record recipe/display/dependencies stay as the factory created them, and `record` is null.
   No record file is opened because no round starts. These fields and event/fight logs are
   excluded by `RecordState.SESSION_SKIP`. Trace selection leaves the comparison state hash unchanged.

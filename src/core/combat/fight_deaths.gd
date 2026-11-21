@@ -21,7 +21,7 @@ func _combat() -> Combat:
 ## then, in order active side first then reading order (9.7.3): step 1 kills and "whenever a
 ## unit dies"; step 2 own death effects and friendly death counters; step 3 "after a friendly
 ## unit dies"; step 4 returns; step 5 "after a friendly unit returns"; then the slot-fill order
-## (FightArrivals: Reserve, waiting summons, after_death_round); new deaths start another pass
+## (FightArrivals: Reserve, after_death_round); new deaths start another pass
 ## (step 6).
 func resolve(active_side: int) -> void:
 	var c: Combat = _combat()
@@ -41,7 +41,7 @@ func resolve(active_side: int) -> void:
 			var row: Array = c.sides[unit.side]
 			row[unit.slot] = null
 			c._units_cache[unit.side] = null
-			var killer: CombatUnit = c._hit_by.get(unit.uid, null)
+			var killer: CombatUnit = c.killer_of(unit)
 			(
 				c
 				. _log(
@@ -64,7 +64,7 @@ func resolve(active_side: int) -> void:
 			if returned != null:
 				back.append(returned)
 		for unit: CombatUnit in back:
-			c._notify_friends(unit, &"after_friendly_return", [unit])
+			c._notify(unit.side, &"after_friendly_return", [unit], unit)
 		c.arrivals.after_deaths(emptied, active_side)
 		c.arrivals.witnessed = outer_witnessed
 
@@ -72,15 +72,21 @@ func resolve(active_side: int) -> void:
 func _death_steps(dying: Array[CombatUnit], active_side: int) -> void:
 	var c: Combat = _combat()
 	for unit: CombatUnit in dying:
-		var killer: CombatUnit = c._hit_by.get(unit.uid, null)
+		var killer: CombatUnit = c.killer_of(unit)
 		if killer != null and killer.side != unit.side:
 			for bound: BoundMechanic in killer.hooks():
+				if killer.is_dead():
+					break
 				bound.mechanic.on_kill(c, killer, unit, bound.params)
+			c._notify(killer.side, &"on_friendly_kill", [killer, unit], killer)
 	for unit: CombatUnit in dying:
 		for side_index: int in [active_side, 1 - active_side]:
 			c._notify(side_index, &"on_any_death", [unit])
 	for unit: CombatUnit in dying:
-		c.run_death_effects(unit)
+		var outer_source: CombatUnit = c._death_effect_source
+		c._death_effect_source = unit
+		c._run_death_effects(unit)
+		c._death_effect_source = outer_source
 		c._notify(unit.side, &"on_friendly_death", [unit])
 	# SHARED-RULES (The Eighth Plague): a side's deaths are counted as each one resolves, so the
 	# first of two deaths in one batch reads 1 and the second 2 in "after a friendly unit dies".
@@ -124,7 +130,7 @@ func _try_return(unit: CombatUnit) -> CombatUnit:
 	var as_recruit: bool = chosen.mechanic.return_as_recruit(chosen.params)
 	var slot: int = c.geometry.summon_slot(c._occupied(unit.side), unit.slot, true)
 	var mechanic_id: StringName = chosen.id
-	if slot < 0 or not c.trigger(unit, mechanic_id):
+	if slot < 0 or not c._trigger_unit(unit, mechanic_id):
 		return null
 	var back: CombatUnit = CombatUnit.fresh(
 		unit.def, c._take_uid(), unit.side, unit.golden, c.registry, c.config.stat_max

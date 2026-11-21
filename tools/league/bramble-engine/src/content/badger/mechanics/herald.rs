@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::content::badger::lib::badger_rules::BadgerRules;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -11,9 +12,7 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/badger/mechanics/herald.gd
-// Herald of the Charge: Start of fight (main pass): the units in front of this, any tribe,
-// attack immediately, the left one first. Normal attacks: they take damage and their "whenever
-// this attacks" effects trigger. A unit that can't attack doesn't.
+// Herald of the Charge lends Fury to the units in its target slots, of any tribe.
 
 #[derive(Clone, Default)]
 pub struct Herald;
@@ -27,39 +26,35 @@ impl ToState for Herald {
     }
 }
 impl Mechanic for Herald {
-    fn on_start_of_combat(
+    fn param_kinds(&self) -> Dictionary {
+        crate::state_dict! {"target_set" => &(Kind::Text as i64), "fury" => &(Kind::Number as i64)}
+            .as_dict()
+    }
+
+    fn text_params(&self, params: &MechanicParamsRef) -> Dictionary {
+        BadgerRules::front_target_words(params)
+    }
+
+    fn has_aura(&self) -> bool {
+        true
+    }
+    fn aura_parts(&self) -> u8 {
+        AURA_GRANTS
+    }
+    fn aura_grants(
         &self,
-        combat: &mut Combat,
-        unit: Option<&CombatUnitRef>,
-        _params: &MechanicParamsRef,
-    ) {
-        let unit = unit.expect("Herald unit");
-        let (slot, side) = {
-            let u = unit.borrow();
-            (u.slot, u.side)
-        };
-        let slots = combat.geometry.as_ref().unwrap().borrow().in_front_of(slot);
-        crate::util::godot_sort::sort(&mut slots.borrow_mut());
-        let charging = Array::new();
-        let mut i = 0;
-        while i < slots.len() {
-            if let Some(front) = combat.unit_at(side, slots.get(i).unwrap())
-                && !front.borrow().gone
-            {
-                charging.push(front);
-            }
-            i += 1;
+        view: &mut AuraContext,
+        source_slot: i64,
+        target_slot: i64,
+        params: &MechanicParamsRef,
+    ) -> Array<Dictionary> {
+        let geometry = view.geometry.as_ref().unwrap().borrow();
+        if !BadgerRules::front_target_slots(&geometry, source_slot, params).has(&target_slot) {
+            return Array::new();
         }
-        if charging.is_empty() || !combat.trigger(Some(unit), "badger_herald") {
-            return;
-        }
-        i = 0;
-        while i < charging.len() {
-            let front = charging.get(i).unwrap();
-            if !front.borrow().gone && !front.borrow().should_die() {
-                combat.attack_now(Some(&front), None, false, None);
-            }
-            i += 1;
-        }
+        Array::from([
+            crate::state_dict! {"mechanic"=>"badger_fury","fury"=>&params.borrow().num("fury")}
+                .as_dict(),
+        ])
     }
 }

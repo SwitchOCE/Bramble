@@ -14,10 +14,11 @@ On ghosts: "there should be no reason we can't take replay files from the Rust b
 
 On the pool: "having a minion pool doesn't make sense for async play when you can't adjust."
 
-## Where it stands (20 Nov 2026)
+## Where it stands (21 Nov 2026)
 
 - **Steps 1 and 2 are done.** The Rust engine is level with `dev`, including the Mouse and Pigeon tuning (PR 196), and is proved hash for hash. The pool is gone in both engines.
-- **Step 3 is done on the Rust side, and in GDScript for records.** Ghost runs, the cutter, the local store and matchmaker, the async game in both engines, records that name their runs, and `league ghost-match` (paired games against a field) are built and proved. The Rust bots' live games are cut into a field that the harness plays against and Godot replays exactly. **Still to do:** the playable game on ghosts (the game's own store and matchmaker, and the screens), and step E's extra proof (a full fight-log comparison on a 10,000-case sample).
+- **Step 3 is done.** Ghost runs, the cutter, the local store and matchmaker, the async game in both engines, records that name their runs, and `league ghost-match` (paired games against a field) are built and proved. The playable game runs on ghosts: its own store and matchmaker in `src/ghosts`, the screens, and the owner's finished runs saved as ghosts. Step E's extra proof is in `recheck.sh`: `proof/fight_logs.sh` compares every fight event on 10,000 reference cases (on 21 Nov: 649,706 events of 27 types, no difference).
+- **Step 4 is done.** The Windows build ships a field of 8,000 runs from 1,000 live red-vs-blue games at the batch-1 rules (21 Nov). The bots predate batch 1, so the field tests the system, not balance.
 - **TribeBot** is not a balance bot and can't play any match, ghost match or field (owner note `2026-11-20a`). It drives only the `selfcheck --bots tribe` engine check, until the league bots use every tribe mechanic in their own games.
 
 ## The plan, in order
@@ -70,7 +71,7 @@ The pieces, each "build now" (with why it would be costly later) or "plan only".
 
 **The plan for the server**, written as a short design note in the same step: what it stores, what it checks, what each local interface becomes. No server code.
 
-**Done in Rust and for records; the playable game on ghosts is still to do.**
+**Done.**
 
 ### Step 4. A first field of ghosts, and a Windows build to play it
 
@@ -81,6 +82,7 @@ The final league bots, unchanged, play 1,000 live 8-player games at the tuned ru
 The owner, 20 Nov: "We need strong bots for balance." "They have to hill climb and at least reach a local maximum. Even if it's not the actual maximum, we need to at least reach local. And I prefer not to get stuck at a local maximum." The run makes those bots, and balance is measured with them, so **the run comes before the balance sign-off.**
 
 - **Rules frozen during a climb** (owner: "Freeze per climb"). No card numbers change while the bots climb. Balance tunes between climbs, then the bots climb again on the new numbers, starting from where they were.
+- **One fixed thread count for scored matches.** The final league bots time their search by CPU, so the same game at a different thread count can play differently (19 of 20 games matched at 1 vs 8 threads). Every scored match and stopping test uses one thread count, stated in the referee brief. The owner, 21 Nov 2026, agreeing with the recommendations put to them: "I agree with the calls."
 - **Climbing.** Each team changes its bot one idea at a time. The referee keeps a change only if the new version beats the current one in a paired ghost match (same seeds, same 7 ghosts) with a 95% interval that excludes zero.
 - **The stopping test** (a local maximum), on one reference field frozen for the test, with each match sized to see 0.1 in mean placement:
   - **Numbers:** for each of up to 10 numbers the team names up front, one step up and one step down (steps stated up front) don't beat the current version.

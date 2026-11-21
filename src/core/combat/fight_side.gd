@@ -308,7 +308,7 @@ func give_keyword(
 	unit: CombatUnit, keyword: StringName, permanent: bool, source: CombatUnit = null
 ) -> bool:
 	var combat: Combat = _combat()
-	if unit == null or unit.gone or not combat.registry.has(keyword):
+	if unit == null or unit.is_dead() or not combat.registry.has(keyword):
 		return false
 	var lasting: bool = false
 	if permanent:
@@ -341,7 +341,7 @@ func give_effect(
 	unit: CombatUnit, mechanic_id: StringName, raw: Dictionary, permanent: bool, source: CombatUnit
 ) -> bool:
 	var combat: Combat = _combat()
-	if unit == null or unit.gone:
+	if unit == null or unit.is_dead():
 		return false
 	var bound: BoundMechanic = combat.registry.bind_given(mechanic_id, raw)
 	if bound == null:

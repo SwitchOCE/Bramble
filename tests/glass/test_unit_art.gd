@@ -25,7 +25,8 @@ static func art_problem(tribe: String, id: String, tex: Texture2D, waiting: bool
 	if waiting:
 		if tex != null:
 			return "%s/%s has art: take it off %s" % [tribe, id, WAITING]
-		if not ResourceLoader.exists(GameContent.PANEL_PATH % tribe):
+		var panel: String = "neutral" if tribe == ContentSet.SHARED else tribe
+		if not ResourceLoader.exists(GameContent.PANEL_PATH % panel):
 			return "%s/%s waits for art, but %s has no stand-in panel" % [tribe, id, tribe]
 		return ""
 	if tex == null:
@@ -69,7 +70,8 @@ func test_every_shipped_card_has_art_at_card_size_with_mipmaps() -> void:
 			assert_eq(problem, "", "%s/%s art" % [tribe, id])
 	for id: String in waiting:
 		assert_true(shipped.has(id), "%s on the waiting list is a shipped card" % id)
-	assert_eq(cards.size(), 5, "five tribes ship")
+	assert_has(cards, ContentSet.SHARED, "the shared pool ships")
+	assert_eq(cards.size() - 1, 5, "five tribes ship alongside the shared pool")
 
 
 func test_the_waiting_list_reads_ids_and_skips_comments() -> void:
@@ -95,3 +97,14 @@ func test_a_waiting_card_draws_its_tribe_panel() -> void:
 	content._folder_of[FAKE_ID] = "pigeon"
 	assert_eq(content.art_for(FAKE_ID), GameContent.PANEL_ART % "pigeon", "the tribe's panel")
 	assert_not_null(GlassPieces.art(content.art_for(FAKE_ID)), "it draws")
+
+
+func test_shared_cards_draw_their_own_art_or_the_neutral_stand_in() -> void:
+	var content: GameContent = GameContent.load_folders([SHARED])
+	var waiting: PackedStringArray = waiting_ids(FileAccess.get_file_as_string(WAITING))
+	for id: String in shipped_cards()[ContentSet.SHARED]:
+		var expected: String = "../../units/shared/%s" % id
+		if waiting.has(id):
+			expected = GameContent.PANEL_ART % "neutral"
+		assert_eq(content.art_for(id), expected, id)
+		assert_not_null(GlassPieces.art(expected), id)

@@ -63,9 +63,23 @@ static func parse(
 		return _failure(problem)
 	var hasher := HashingContext.new()
 	hasher.start(HashingContext.HASH_SHA256)
-	hasher.update(bytes)
+	if not bytes.is_empty():
+		hasher.update(bytes)
 	run._id = hasher.finish().hex_encode()
-	return {"ok": true, "run": run}
+	var source: Dictionary = data["source"]
+	var info: Dictionary = {
+		"id": run.id,
+		"rules_hash": data["rules"]["rules_hash"],
+		"kind": source["kind"],
+		"label": source["label"],
+		"placement": CoreUtil.to_int(data["placement"]),
+		"last_turn": run.last_turn,
+		"made": data["made"],
+		"record_sha256": source["record_sha256"],
+		"seat": CoreUtil.to_int(source["seat"]),
+		"ended": data["ended"],
+	}
+	return {"ok": true, "run": run, "info": info}
 
 
 ## Rounds are one-based. A finished run supplies its last saved board.
@@ -104,6 +118,9 @@ func _read_turns(data: Dictionary, library: UnitLibrary, registry: MechanicRegis
 		for number: int in range(1, _payloads.size() + 2):
 			if not _payloads.has(number):
 				return "missing turn %d (expected every turn in 1..%d)" % [number, final_turn]
+	for number: int in range(1, final_turn + 1):
+		if CoreUtil.to_int(data["turns"][number - 1]["turn"]) != number:
+			return "turns must be ordered, starting at turn 1"
 	for card_id: String in held_cards:
 		if not cards.has(card_id):
 			return "cards is missing fingerprint for %s" % card_id
@@ -337,10 +354,14 @@ static func _standing_problem(raw: Variant, registry: MechanicRegistry) -> Strin
 	var params: Dictionary = effect["params"]
 	if not params.get("golden") is bool or not params.get("_texts") is Dictionary:
 		return "payload.standing params require a golden boolean and a _texts object"
-	var texts: Dictionary = params["_texts"]
-	for value: Variant in texts.values():
-		if not value is String:
-			return "payload.standing _texts values must be strings"
+	for key: String in ["_texts", "_golden_texts"]:
+		var field: Variant = params.get(key, {})
+		if not field is Dictionary:
+			return "payload.standing params.%s must be an object" % key
+		var texts: Dictionary = field
+		for value: Variant in texts.values():
+			if not value is String:
+				return "payload.standing params.%s values must be strings" % key
 	for key: String in ["_ints", "_kinds", "_golden_ints"]:
 		if not _integers(params.get(key)):
 			return "payload.standing params.%s must be an integer dictionary" % key
@@ -392,7 +413,7 @@ static func _hex(raw: Variant, length: int) -> bool:
 	if digits.length() != length:
 		return false
 	for index: int in length:
-		if not "0123456789abcdefABCDEF".contains(digits[index]):
+		if not "0123456789abcdef".contains(digits[index]):
 			return false
 	return true
 

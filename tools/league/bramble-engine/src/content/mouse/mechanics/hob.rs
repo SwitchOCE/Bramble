@@ -16,6 +16,6 @@ impl ToState for Hob {
 
 impl Mechanic for Hob {
     fn param_kinds(&self) -> Dictionary {
-        crate::state_dict! { "limit" => &(Kind::Threshold as i64), "attack" => &(Kind::Number as i64), }.as_dict()
+        crate::state_dict! { "limit" => &(Kind::Number as i64), "attack" => &(Kind::Number as i64), }.as_dict()
     }
 }

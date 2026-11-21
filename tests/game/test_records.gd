@@ -15,7 +15,7 @@ func after_all() -> void:
 	GameRecord.directory = _previous_directory
 
 
-func _play(game_seed: int, turns: int = 3) -> GameSession:
+func _play(game_seed: int, turns: int = 3, idle_seat: int = -1) -> GameSession:
 	var game: GameSession = _content.new_session(game_seed)
 	game.config.round_limit = turns
 	game.keep_fight_events = false
@@ -25,7 +25,8 @@ func _play(game_seed: int, turns: int = 3) -> GameSession:
 	while not game.over:
 		game.start_round()
 		for player: PlayerState in game.alive_players():
-			bots[player.id].take_turn(game, player.id)
+			if player.id != idle_seat:
+				bots[player.id].take_turn(game, player.id)
 		game.finish_round()
 	return game
 
@@ -75,7 +76,7 @@ func test_one_changed_action_names_the_first_differing_turn() -> void:
 
 
 func test_partial_human_game_records_refusals_and_explicit_end_turns() -> void:
-	var flow: GameFlow = GameFlow.create(_content, 41, ["mouse", "badger"])
+	var flow: GameFlow = FlowFixture.live(_content, 41, ["mouse", "badger"])
 	flow.start_round()
 	assert_ne(flow.act({"type": "upgrade"}), "", "refused input is also retained")
 	flow.session.end_turn(0)
@@ -91,6 +92,42 @@ func test_partial_human_game_records_refusals_and_explicit_end_turns() -> void:
 	var header: Dictionary = _entries(flow.session.record.path)[0]
 	assert_true(header.has("build"))
 	assert_eq(str(header["seed"]), "41")
+
+
+func test_record_between_turns_replays_and_pays_the_saved_fight_once() -> void:
+	var game: GameSession = _content.new_session(1, ["Badger"])
+	game.start_round()
+	# Play from a seat offered the Grudge unit in this lobby.
+	var seat: int = -1
+	for player: PlayerState in game.players:
+		if player.shop_units.has(&"brock-cub"):
+			seat = player.id
+			break
+	assert_gte(seat, 0, "the seeded lobby offers a Brock Cub")
+	if seat < 0:
+		return
+	var shop_slot: int = game.player(seat).shop_units.find(&"brock-cub")
+	assert_eq(game.act(seat, {"type": "buy", "index": shop_slot}), "")
+	assert_eq(game.act(seat, {"type": "play", "hand": 0, "slot": 0}), "")
+	game.finish_round()
+	assert_eq(game.player(seat).board[0].stats.perm_health, 0)
+
+	var replay: Dictionary = RecordReplay.read(game.record.path)
+	assert_true(CoreUtil.to_bool(replay["ok"]), str(replay.get("message", "")))
+	if not CoreUtil.to_bool(replay["ok"]):
+		return
+	assert_false(CoreUtil.to_bool(replay["complete"]))
+	var rebuilt: GameSession = replay["session"]
+	assert_eq(RecordState.state_hash(rebuilt), RecordState.state_hash(game))
+	var report: FightReport = rebuilt.player(seat).last_fight_report
+	assert_not_null(report)
+	assert_true(report.survived(rebuilt.player(seat).board[0]))
+
+	game.start_round()
+	rebuilt.start_round()
+	assert_eq(RecordState.state_hash(rebuilt), RecordState.state_hash(game))
+	assert_eq(rebuilt.player(seat).board[0].stats.perm_health, 1)
+	assert_null(rebuilt.player(seat).last_fight_report)
 
 
 func test_core_bot_runner_recipe_and_nondefault_config_replay() -> void:
@@ -157,6 +194,12 @@ func test_hash_covers_state_that_the_ui_omits() -> void:
 	game.player(0).gold_next_turn += 1
 	assert_ne(RecordState.state_hash(game), previous)
 	previous = RecordState.state_hash(game)
+	game.player(0).last_fight_report = FightReport.new()
+	assert_ne(RecordState.state_hash(game), previous, "pending fight report")
+	previous = RecordState.state_hash(game)
+	game.player(0).last_fight_report.outnumbered_by = 3
+	assert_ne(RecordState.state_hash(game), previous, "fight report contents")
+	previous = RecordState.state_hash(game)
 	game.recruit.shop_rng(game.player(0)).next_u32()
 	assert_ne(RecordState.state_hash(game), previous, "RNG words")
 	previous = RecordState.state_hash(game)
@@ -208,7 +251,8 @@ func test_missing_checkpoint_or_unknown_operation_fails() -> void:
 
 
 func test_ghost_opponents_keep_their_actual_board_and_reserve_hand() -> void:
-	var game: GameSession = _play(3, 50)
+	# An idle seat loses ahead of the bots, so this record reaches a round with a ghost.
+	var game: GameSession = _play(3, 50, 0)
 	var ghost_fights: int = 0
 	for entry: Dictionary in _entries(game.record.path):
 		if entry.get("op") != "fight_boards":
