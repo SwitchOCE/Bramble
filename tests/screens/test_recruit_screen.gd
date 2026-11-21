@@ -353,14 +353,34 @@ func test_dragging_on_the_board_moves_and_up_into_the_shop_sells() -> void:
 
 
 func test_buttons_and_end_turn() -> void:
-	_make(_mockup())
+	var state: Dictionary = _mockup()
+	state.merge({"next_turn_income": 13, "tier_up_drop": 3, "refreshes_left": 7})
+	_make(state)
 	watch_signals(_screen)
-	var tier: Control = _find("Button_tier")
-	var refresh: Control = _find("Button_refresh")
-	var freeze: Control = _find("Button_freeze")
-	var end: Control = _find("EndTurn")
-	for node: Control in [tier, refresh, freeze, end]:
-		_click(node.position + node.size / 2.0)
+	var positions: Dictionary = {
+		"Button_gold": Vector2(390, 185.5),
+		"Button_tier": Vector2(390, 269.5),
+		"Button_refresh": Vector2(1354, 185.5),
+		"Button_freeze": Vector2(1354, 269.5),
+		"EndTurn": Vector2(1734, 930),
+	}
+	for node_name: String in positions:
+		var button: Control = _find(node_name)
+		var expected: Vector2 = positions[node_name]
+		assert_eq(button.position, expected, node_name)
+		_click(button.position + button.size / 2.0)
+	var drop: GlassText = _find("TierUpDrop")
+	assert_eq(drop.words, "−3 next turn")
+	assert_eq(drop.position + Vector2(drop.size.x / 2.0, 0.0), Vector2(478, 343.5))
+	var counter: GlassText = _find("RefreshCounter")
+	assert_eq(counter.words, "7 left at this price")
+	assert_eq(counter.position + Vector2(counter.size.x / 2.0, 0.0), Vector2(1442, 155.5))
+	var income: GlassBox = _find("NextTurnIncome")
+	assert_eq(income.position, Vector2(1846, 900))
+	assert_eq(income.size.y, 30.0)
+	assert_lte(income.get_rect().end.x, _stage().size.x)
+	assert_eq((income.get_node("Value") as GlassText).words, "+13")
+	_click(income.position + income.size / 2.0)
 	assert_signal_emit_count(_screen, "action_requested", 4)
 	var kinds: Array[String] = []
 	for i: int in 4:

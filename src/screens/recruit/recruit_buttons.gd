@@ -53,6 +53,14 @@ func build_end_turn() -> void:
 		height - GlassPieces.number("stage.recruit.end.hp_up")
 	)
 	_screen._front.add_child(hp)
+	if _screen.state.has("next_turn_income"):
+		var income: int = GlassPieces.as_int(_screen.state["next_turn_income"])
+		# A2 in after.js: (1846, 900), relative to the portrait at (1734, 930).
+		var at: Vector2 = port.position + Vector2(112.0, -30.0)
+		var right: float = _screen._stage.size.x
+		var badge: GlassBox = _income_badge(income)
+		badge.position = Vector2(minf(at.x, right - badge.box_size.x), at.y)
+		_screen._front.add_child(badge)
 	_screen._targets.append(
 		{
 			"kind": "button",
@@ -62,6 +70,37 @@ func build_end_turn() -> void:
 			"poly": GlassScreen._circle(port.box_size)
 		}
 	)
+
+
+## A2's .rd.incbadge: a 30 px cream plate, with a 21 px value and a 26 px coin, padded 8 px
+## left and 2 px right (the mock-up's 4 px puts its border past the screen edge at 1846).
+static func _income_badge(income: int) -> GlassBox:
+	var height: float = 30.0
+	var value: GlassText = GlassText.new()
+	value.name = "Value"
+	value.words = "+%d" % income
+	value.family = "display"
+	value.weight = 900
+	value.font_px = 21.0
+	value.colour = GlassPieces.rule_colour("stage", ".chipv", "color")
+	value.refresh()
+	var coin: GoldCoin = GoldCoin.make(-1, 26.0)
+	var badge: GlassBox = GlassBox.new()
+	badge.name = "NextTurnIncome"
+	badge.z_index = 1  # The mock-up draws the badge above the vignette.
+	badge.use_css("stage", ".chipv")
+	badge.border_width = 3.0
+	badge.shadows = [
+		{"x": 0.0, "y": 3.0, "blur": 6.0, "spread": 0.0, "inset": false, "colour": "00000099"}
+	]
+	value.position = Vector2(badge.border_width + 8.0, (height - value.size.y) / 2.0)
+	coin.position = Vector2(value.position.x + value.size.x + 4.0, (height - coin.size.y) / 2.0)
+	badge.box_size = Vector2(coin.position.x + coin.size.x + 2.0 + badge.border_width, height)
+	badge.radii = Vector4.ONE * badge.box_size.y / 2.0
+	badge.refresh()
+	badge.add_child(value)
+	badge.add_child(coin)
+	return badge
 
 
 ## A board unit's ability buttons, on its card (extra's `abilities`), stacked up from
