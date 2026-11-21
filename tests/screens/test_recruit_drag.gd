@@ -320,11 +320,19 @@ func test_a_hand_swap_previews_then_moves_both_units() -> void:
 	_carry(from, _slot_middle(0))
 	var preview: Control = _screen._front.get_node_or_null("DropPreview")
 	assert_not_null(preview)
-	assert_not_null(preview.get_node_or_null("SwapGhost"))
-	assert_false(_board_node(0).visible, "the lifted preview replaces the resting card")
+	var resting: Control = _board_node(0)
+	assert_eq(_screen._board._swap_unit, resting, "the unit that will move lifts (protos.js swap)")
+	assert_true(resting.visible, "the unit itself lifts: no copy in its place")
+	await get_tree().create_timer(0.2).timeout
+	assert_almost_eq(
+		resting.position.y,
+		_screen.slot_xy(0).y - RecruitMotion.SWAP_LIFT,
+		1.0,
+		"lifted 12 px"
+	)
 	_move(_slot_middle(3))
-	assert_true(_board_node(0).visible, "moving away restores the original card")
-	assert_null(_screen.find_child("SwapGhost", true, false))
+	assert_null(_screen._board._swap_unit)
+	_at(resting, _screen.slot_xy(0), "moving away puts it back")
 	_move(_slot_middle(0))
 	_press(_slot_middle(0), false)
 	assert_eq(
@@ -334,7 +342,7 @@ func test_a_hand_swap_previews_then_moves_both_units() -> void:
 	assert_eq(_refused, [] as Array[String])
 	assert_eq(_flow.human().board[0], incoming)
 	assert_eq(_flow.human().hand[0], other)
-	assert_null(_screen.find_child("SwapGhost", true, false))
+	assert_true(_screen._motion.active(), "the unit that left arcs into the hand")
 	await _settle()
 	_at(_board_node(0), _screen.slot_xy(0))
 	var place: Vector3 = _screen.hand_place(0, 1)
@@ -348,7 +356,7 @@ func test_a_refused_swap_goes_home() -> void:
 	var card: Control = _screen.node_for("hand", 0)
 	var home: Vector3 = _screen.hand_place(0, 1)
 	_carry(_hand_grip(0), _slot_middle(0))
-	assert_null(_screen.find_child("SwapGhost", true, false), "a worked unit has no swap preview")
+	assert_null(_screen._board._swap_unit, "a worked unit does not lift: it will not move")
 	_press(_slot_middle(0), false)
 	assert_eq(_refused, ["Worked this turn: stays for the fight."] as Array[String])
 	await _settle()
@@ -538,7 +546,8 @@ func test_a_buy_onto_a_slot_with_a_full_hand_lights_targets_and_lands() -> void:
 		assert_not_null(_slot_node(slot).get_node_or_null("Lit"))
 	assert_not_null(_screen._front.get_node_or_null("DropPreview"))
 	var tag: Control = _screen.node_for("shop", 0).get_node("ShopTag")
-	assert_true(tag.is_visible_in_tree(), "the price follows the carried shop card")
+	assert_false(tag.is_visible_in_tree(), "the price tag dropped off as the card was lifted")
+	assert_not_null(_screen._front.get_node_or_null("DroppedTag"), "and falls where it hung")
 	_press(_slot_middle(3), false)
 	assert_eq(_played(), [] as Array[Dictionary])
 	assert_eq(_refused, [] as Array[String])

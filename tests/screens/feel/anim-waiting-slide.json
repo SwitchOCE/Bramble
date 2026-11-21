@@ -1,0 +1,19 @@
+{
+  "about": "Recruit batch (plan step 12), prototype 41: play a card out of a full hand; the waiting card slides from its stack into the hand as the played card lands, the hand closing and opening again, the stack's count going.",
+  "scene": "res://tests/screens/feel/feel_game.tscn",
+  "seed": 7,
+  "setup": {
+    "gold": 9,
+    "board": {"0": "brock-cub", "1": "hedge-knight", "2": "old-campaigner", "3": "padre", "4": "relic-seeker", "6": "horde-runner"},
+    "hand": ["lance-corporal", "master-at-arms", "sett-shield-bearer", "cousin", "private", "pip", "needle-page"],
+    "waiting": ["hopper"]
+  },
+  "steps": [
+    {"wait": 0.4},
+    {"move": "hand:3", "time": 0.4},
+    {"press": true, "note": "play from a full hand pickup"},
+    {"move": "slot:5", "time": 0.52},
+    {"release": true, "note": "played: the waiting card joins"},
+    {"wait": 1.0}
+  ]
+}

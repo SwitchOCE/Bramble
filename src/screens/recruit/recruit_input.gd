@@ -234,9 +234,6 @@ func _start_drag() -> void:
 	# now a drag: the detail fades (and the carried card stays drawn over everything)
 	_tips.fade()
 	_carry.node.z_index = CARRIED_Z
-	var tag: Control = _carry.node.get_node_or_null("ShopTag")
-	if tag != null:
-		tag.show()
 
 
 ## A card a press picks up: not during a Discover or a target choice, which take clicks only.
@@ -259,6 +256,8 @@ func _pick_up() -> void:
 	var card: Dictionary = _press["card"]
 	var tag: Control = node.get_node_or_null("ShopTag")
 	if tag != null:
+		# protos.js buy: the price tag drops off where the card was
+		_screen._motion.drop_tag(node)
 		tag.hide()
 	var index: int = GlassPieces.as_int(_press["index"])
 	if _press["kind"] == "board":

@@ -10,12 +10,15 @@ extends RefCounted
 ## Slot pills are drawn over the resting cards and under a hovered or carried card.
 const SLOT_PILL_Z: int = 1
 const DROP_AMBER: Color = Color("ffd590")
-const SWAP_BLUE: Color = Color("bfe4ff")
+## protos.js swap and play: a lit slot's rim fades as the card is let go (0.15 s, easing in).
+const UNLIGHT_TIME: float = 0.15
 
 var _screen: RecruitScreen
 var _preview_slot: int = -1
 var _drop_preview: Control
 var _swap_unit: Control
+## The lifted unit's resting pose and its lift: {pivot, position, scale, modulate, tween}.
+var _swap_rest: Dictionary = {}
 
 
 func _init(screen: RecruitScreen) -> void:
@@ -176,7 +179,7 @@ func preview_drop(kind: String, from: int, slot: int) -> void:
 	var outline: PackedVector2Array = GlassBox.hexagon(
 		Rect2(at, _screen.card_box()), _screen._slot_shoulder()
 	)
-	var edge: Color = SWAP_BLUE if occupied else DROP_AMBER
+	var edge: Color = DROP_AMBER
 	_drop_preview.draw.connect(
 		func() -> void:
 			var rim: PackedVector2Array = outline.duplicate()
@@ -187,37 +190,52 @@ func preview_drop(kind: String, from: int, slot: int) -> void:
 			_drop_preview.draw_polyline(rim, edge, 4.0, true)
 	)
 	if occupied:
-		_preview_swap(from, slot, at)
+		_lift_swap(slot)
 
 
-func _preview_swap(from: int, slot: int, at: Vector2) -> void:
-	var card: Dictionary = _screen.state["board"][slot]
-	var lifted: Control = _screen._make_card("board", card, {})
-	lifted.name = "SwapLifted"
-	lifted.position = at + Vector2(-6, 10)
-	lifted.rotation_degrees = -2.0
-	lifted.modulate = Color(0.67, 0.75, 0.83, 0.72)
-	_drop_preview.add_child(lifted)
+## protos.js swap: the unit a carried hand card would swap with lifts a little to show it will
+## move (12 px up, to 0.94, dimmed to 0.85, over 0.14 s, eased out).
+func _lift_swap(slot: int) -> void:
 	_swap_unit = _screen.node_for("board", slot)
-	_swap_unit.hide()
-	var hand: Array = _screen.state["hand"]
-	var place: Vector3 = _screen.hand_place(from, hand.size())
-	var ghost: GlassCard = _screen._make_card("hand", card, {}) as GlassCard
-	ghost.name = "SwapGhost"
-	ghost.position = Vector2(place.x, place.y - 24.0)
-	ghost.rotation_degrees = place.z
-	ghost.modulate = Color(0.78, 0.88, 1.0, 0.48)
-	_drop_preview.add_child(ghost)
-	ghost.pivot_offset = Vector2(ghost.size.x / 2.0, ghost.size.y)
-	var renown: int = GlassPieces.as_int(card.get("renown", 0))
-	ghost.max_health -= renown
-	ghost.set_numbers(ghost.attack - renown, ghost.health - renown)
+	if _swap_unit == null:
+		return
+	var unit: Control = _swap_unit
+	_screen._keeper.finish(unit)
+	_swap_rest = {
+		"pivot": unit.pivot_offset,
+		"position": unit.position,
+		"scale": unit.scale,
+		"modulate": unit.modulate,
+	}
+	CardKeeper.set_pivot(unit, unit.size / 2.0)
+	var rest: Vector2 = unit.position
+	var lift: Tween = unit.create_tween()
+	_swap_rest["tween"] = lift
+	lift.tween_method(
+		func(u: float) -> void:
+			var k: float = GlassMotion.bezier(GlassMotion.OUT, u)
+			unit.position = rest - Vector2(0.0, RecruitMotion.SWAP_LIFT * k)
+			unit.scale = Vector2.ONE * lerpf(1.0, RecruitMotion.SWAP_SCALE, k)
+			var v: float = lerpf(1.0, RecruitMotion.SWAP_DIM, k)
+			unit.modulate = Color(v, v, v, unit.modulate.a),
+		0.0,
+		1.0,
+		0.14
+	)
 
 
 func clear_drop_preview() -> void:
-	if is_instance_valid(_swap_unit):
-		_swap_unit.show()
+	if is_instance_valid(_swap_unit) and not _swap_rest.is_empty():
+		var lift: Tween = _swap_rest["tween"]
+		if lift != null and lift.is_valid():
+			lift.kill()
+		_swap_unit.position = _swap_rest["position"]
+		_swap_unit.scale = _swap_rest["scale"]
+		_swap_unit.modulate = _swap_rest["modulate"]
+		var pivot: Vector2 = _swap_rest["pivot"]
+		CardKeeper.set_pivot(_swap_unit, pivot)
 	_swap_unit = null
+	_swap_rest = {}
 	if is_instance_valid(_drop_preview):
 		_drop_preview.get_parent().remove_child(_drop_preview)
 		_drop_preview.queue_free()
@@ -250,10 +268,29 @@ func light(kind: String, targets: Array[int], skip: Control = null) -> void:
 			GlassParts.add_lit(node, GlassBox.hexagon(Rect2(Vector2.ZERO, node.size), shoulder))
 
 
-## Every card's and persistent slot's lit rim taken off (each drawing lights afresh).
+## Every card's and persistent slot's lit rim taken off (each drawing lights afresh). A slot's
+## rim fades out (protos.js: as a card is let go, its lit slots fade over 0.15 s).
 func unlight() -> void:
+	var fade: bool = _screen._keeper.animate and _screen.is_inside_tree()
 	for child: Node in _screen._cards.get_children() + _screen._slots.get_children():
 		for lit: Node in child.get_children():
-			if lit.has_meta(&"lit"):
-				child.remove_child(lit)
-				lit.queue_free()
+			if not lit.has_meta(&"lit"):
+				continue
+			if fade and child.get_parent() == _screen._slots:
+				_fade_lit(lit as Control)
+				continue
+			child.remove_child(lit)
+			lit.queue_free()
+
+
+func _fade_lit(lit: Control) -> void:
+	lit.remove_meta(&"lit")
+	lit.name = "LitFading"
+	var fade: Tween = lit.create_tween()
+	fade.tween_method(
+		func(u: float) -> void: lit.modulate.a = 1.0 - GlassMotion.bezier(GlassMotion.IN, u),
+		0.0,
+		1.0,
+		UNLIGHT_TIME
+	)
+	fade.tween_callback(lit.queue_free)

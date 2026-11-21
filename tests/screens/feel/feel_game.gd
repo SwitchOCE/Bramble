@@ -2,8 +2,8 @@ extends Control
 ## The real game for the film tool (tools/feel/film): a GameController with the scenario's seed,
 ## then the human's board, hand, gold and Renown set as the scenario's "setup" says. Named
 ## targets for the scenario: "shop:i", "spell:k", "slot:i", "hand:i" (a hand card's upper part),
-## "sell" (over the shop's middle).
-## setup: {gold, board {slot: card id}, hand [card ids], renown {slot: amount}}
+## "sell" (over the shop's middle), "button:<id>" (a shop button: gold, tier, refresh, freeze).
+## setup: {gold, board {slot: card id}, hand [card ids], waiting [card ids], renown {slot: amount}}
 ## "drop_by_middle": true films with cards dropping where their middle is (GameSettings, not
 ## saved); absent or false, where the pointer is.
 
@@ -33,6 +33,8 @@ func feel_setup(scenario: Dictionary) -> void:
 		me.place(_unit(session, str(board[key])), str(key).to_int())
 	for card_id: Variant in setup.get("hand", []):
 		me.hand.append(_unit(session, str(card_id)))
+	for card_id: Variant in setup.get("waiting", []):
+		me.waiting_pile.append(_unit(session, str(card_id)))
 	var renown: Dictionary = setup.get("renown", {})
 	for key: Variant in renown:
 		me.slots[str(key).to_int()].renown = GlassPieces.as_int(renown[key])
@@ -64,6 +66,12 @@ func feel_point(target: String) -> Vector2:
 			return Vector2(place.x, place.y) + Vector2(box.x / 2.0, box.y * 0.3)
 		"sell":
 			return screen.shop_xy(2) + Vector2(box.x, box.y / 2.0)
+		"button":
+			var button: Control = screen._back.get_node_or_null("Button_" + parts[1])
+			if button == null:
+				button = screen._back.get_node_or_null("Button_%s_short" % parts[1])
+			if button != null:
+				return button.position + button.size / 2.0
 	push_error("feel_game: no target '%s'" % target)
 	return Vector2.ZERO
 
