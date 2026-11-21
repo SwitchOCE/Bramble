@@ -30,7 +30,7 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 | Team | Kept | Since | Verdict line |
 |---|---|---|---|
 | red | red-c2 | 21 Nov | red-c2 vs red-c1: 1,000 games, gap −0.452 ± 0.217 (2.432 against 2.884) |
-| blue | blue-c4 | 21 Nov | blue-c4 vs blue-c2: 1,000 games, gap −0.198 ± 0.168 (3.480 against 3.678) |
+| blue | blue-c6 | 21 Nov | blue-c6 vs blue-c4: 1,000 games, gap −0.936 ± 0.230 (2.702 against 3.638) |
 
 ## Log
 - **21 Nov, Ghost Build Orchestrator:** it accepted both points. It is landing the check-crate fix (`a5c90160`) on dev on its own, and will send each future engine port as a dev tag for the referee to bring in the same way. When the fix is merged, bring it into both clones as one referee commit, and move each clone's `third-run-engine-v1` to the engine tree plus the fix, so the teams can run check-crate themselves.
@@ -57,3 +57,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - **Ruling, off switches and whole-card values (blue asked; both told):** whole-card values learned from play (fit coefficients, lift tables, refit card tables) stay intact with a switch off. A switch turns off only the explicit choices and value terms for that mechanic. If a mechanic's value lives only in whole-card numbers, a switch that costs nothing is reported as that, with the team's line from `knobs.txt`.
 - **blue-c6** (`8039682d`: capped whole-card fight-value adjustments to buys and keeps; free-slot threshold back to c4's 1, stopping neighbours 0 and 2) against blue-c4: 1,000 games, gap −0.936 ± 0.230 (2.702 against 3.638). **Kept.** The match was clean. Method summary sent to red.
   - **Switch fix `14f28bdf`** (blue, after the tag): it removes a broad search disable on Pile on and Hand-me-down boards, so those switches now only annotate reports. Read by the referee: with the switches at 0, play is unchanged. Switch tests of blue-c6 use `14f28bdf`.
+  - blue-c6 field cut: 10,500 runs, verified. Tribe picks: Locust 50.0% (3.20), none 34.4% (2.16), Pigeon 15.2% (2.28), Mouse 0.4%; 4.6 in hand. It moved from Pigeon to Locust once it valued cards from fights. Interim report sent.
