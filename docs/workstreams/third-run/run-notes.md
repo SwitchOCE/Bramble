@@ -94,3 +94,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - **blue-c10** (`4685dd3e`: combat evaluator samples up to 5 opponents instead of 3, 3 seeds each) against blue-c9: 1,000 games, gap +0.014 ± 0.117 (2.258 against 2.244). **Rejected**: not better. The match was clean. blue-c9 places 2.244 here against 1.938 in its own match, because the field now holds its runs.
 - **blue-c11** (`6b13a3be`: pair bonus 6 → 12) against blue-c9: 1,000 games, gap −0.038 ± 0.130 (2.064 against 2.102). **Rejected**: not better. The match was clean.
 - **red-c5** (`20a50816`: positioning search budgets 60% of the remaining clock each round, was 90%; adds options off by default) against red-c3: 1,000 games, gap +0.036 ± 0.157 (2.782 against 2.746). **Rejected**: not better. The match was clean.
+- **red-c6** (`4a8f2a83`: positioning search tries each Pile on and Hand-me-down unit in every slot first) against red-c3: playing.
