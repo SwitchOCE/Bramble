@@ -23,24 +23,32 @@ files and byte counts.
   --verdict kept|rejected`. For a kept version, cut and verify its ghosts and supply
   `--cut-verified`. The match keeps the manifest, analysis, timing and a one-line JSON
   verdict with bot tags, seeds SHA, game count, placement gap and 95% interval bounds.
-- **Balance reading.** Use `--kind reading` to keep the gzip-compressed manifest, library,
-  games, shops, decisions, CPU data, records and any replayed event log. Decision rows
+- **Balance reading.** Run `league analyze MATCH` before pruning if the match will go
+  through `reading-done`. Use `--kind reading` to keep the gzip-compressed manifest,
+  analysis (when present), library, games, shops, decisions, CPU data, records and
+  any replayed event log. Decision rows
   retain the selected `action`, Discover offers and the remaining Gorger and Glutton
   candidates for accepted sales, where applicable. Python reports
   read the compressed data directly. If a replay or ghost tool needs a plain replay
   file, decompress a copy into scratch storage. Keep a legacy match intact for reading
   if its analysis still uses the standalone debug logs.
+- **Reading finished, build still current.** Use `--kind reading-done --finding FILE`
+  once the report is written. Repeat `--finding` to include more reports. The match
+  keeps `summary.json`, `analysis.json`, `cards.csv`, `tribes.csv` and the reports in
+  `findings/`. This works on plain match output or a previously pruned reading match.
 - **Field cut.** Run `bramble-ghosts cut` and `bramble-ghosts verify` on a separate store,
   then use `--kind field --cut-verified` to keep only the match manifest.
-- **Old build.** Use `--kind old-build --archive-dir ARCHIVES` for each match. Supply
-  findings reports with repeatable `--finding FILE`. The archive uses
-  `ARCHIVES/<rules-hash>/<match-name>/`. It keeps each summary and any verdict, and
-  writes CSVs for card buys by team, round band and final tribe and for final tribe
-  shares and placements when the game logs are still available. The script publishes
-  the archive entry before emptying the source folder. Keep both paths on the same
-  filesystem. The 2,000,000-byte limit covers all file contents for the build. If a new
-  entry would exceed it, the source match stays available for the referee to decide
-  which findings to retain.
+- **Old build.** Use `--kind old-build --archive-dir ARCHIVES` for each match, with
+  a distinct match folder name within each build. It takes findings from
+  `reading-done` or from repeatable `--finding FILE` arguments. Each rules hash has
+  one folder with shared `cards.csv` and `tribes.csv`, labelled summaries and available
+  analysis files, gzipped findings and a `verdicts.jsonl` file when there are verdicts.
+  Tables sum purchase and opportunity counts by team, card, round band and final tribe,
+  and seat, placement, win and top-four counts by team and final tribe. Divide placement
+  sum by seats for mean place. Divide seats by the team's total across tribes for tribe
+  share. The 2,000,000-byte limit covers the complete build archive. An entry that would
+  exceed it leaves the archive and source match intact so the referee can choose which
+  findings to keep. Store the match and archive on the same filesystem.
 
 ## Reports
 

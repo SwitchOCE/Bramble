@@ -10,6 +10,7 @@ import re
 import shutil
 import subprocess
 from tempfile import TemporaryDirectory
+from urllib.parse import quote
 
 from cards import card_stats
 from match_data import BANDS, Match, chosen_action, sale_eaters
@@ -19,8 +20,12 @@ from tribes import final_tribes
 BUILD_LIMIT = 2_000_000
 VERDICT = "verdict.jsonl"
 READING_FILES = (
-    "summary.json", "library.json", "games.jsonl", "shops.jsonl", "decisions.jsonl",
+    "summary.json", "analysis.json", "library.json", "games.jsonl", "shops.jsonl", "decisions.jsonl",
     "cpu.jsonl", "events.jsonl",
+)
+TABLES = (
+    ("cards.csv", ("team", "card", "round_band", "final_tribe", "purchases", "buyable_shops"), 4),
+    ("tribes.csv", ("team", "final_tribe", "seats", "placement_sum", "wins", "top4"), 2),
 )
 
 
@@ -150,68 +155,155 @@ def reading(root, summary):
     return kept
 
 
-def write_tables(root, stage):
+def read_table(path, columns, dimensions):
+    with path.open(newline="", encoding="utf-8") as source:
+        rows = csv.reader(source)
+        if tuple(next(rows, ())) != columns:
+            raise ValueError(f"{path}: unexpected CSV columns")
+        return {tuple(row[:dimensions]): tuple(map(int, row[dimensions:])) for row in rows}
+
+
+def match_tables(root):
+    tables = [root / name for name, _, _ in TABLES]
+    if all(path.is_file() for path in tables):
+        return [read_table(root / name, columns, dimensions) for name, columns, dimensions in TABLES]
+    if any(path.exists() for path in tables):
+        raise ValueError(f"{root}: expected both retained tables")
+    if not any((root / name).is_file() for name in ("games.jsonl", "games.jsonl.gz")):
+        if any((root / name).exists() for name in ("records", "shops.jsonl", "shops.jsonl.gz")):
+            raise ValueError(f"{root}: missing games log for the tables")
+        return []
+
     match = Match(root)
-    cards = card_stats(match)
-    with (stage / "cards.csv").open("w", newline="", encoding="utf-8") as target:
-        writer = csv.writer(target, lineterminator="\n")
-        writer.writerow(("team", "card", "round_band", "final_tribe", "purchases", "buyable_shops"))
-        for team, by_card in cards.items():
-            for card, data in sorted(by_card.items()):
-                writer.writerow((team, card, "all", "all", data["buy"]["hits"], data["buy"]["count"]))
-                for band in BANDS:
-                    for tribe, stat in sorted(data["band_and_final_tribe"].get(band, {}).items()):
-                        writer.writerow((team, card, band, tribe, stat["hits"], stat["count"]))
-    with (stage / "tribes.csv").open("w", newline="", encoding="utf-8") as target:
-        writer = csv.writer(target, lineterminator="\n")
-        writer.writerow(("team", "final_tribe", "seats", "total_seats", "mean_place", "wins", "top4"))
-        for team, tribes in final_tribes(match).items():
-            for tribe, data in sorted(tribes.items()):
-                writer.writerow((team, tribe, data["share"]["hits"], data["share"]["count"],
-                                 data["placement"]["mean"], data["win"]["hits"], data["top4"]["hits"]))
+    cards = {}
+    for team, by_card in card_stats(match).items():
+        for card, data in by_card.items():
+            cards[team, card, "all", "all"] = data["buy"]["hits"], data["buy"]["count"]
+            for band in BANDS:
+                for tribe, stat in data["band_and_final_tribe"].get(band, {}).items():
+                    cards[team, card, band, tribe] = stat["hits"], stat["count"]
+    tribes = {}
+    for team, by_tribe in final_tribes(match).items():
+        for tribe, data in by_tribe.items():
+            seats = data["share"]["hits"]
+            place_sum = round(data["placement"]["mean"] * seats) if seats else 0
+            tribes[team, tribe] = seats, place_sum, data["win"]["hits"], data["top4"]["hits"]
+    return [cards, tribes]
 
 
-def archive(root, summary, archive_dir, findings):
+def merge_tables(stage, tables):
+    for (name, columns, dimensions), incoming in zip(TABLES, tables):
+        path = stage / name
+        totals = read_table(path, columns, dimensions) if path.exists() else {}
+        for key, counts in incoming.items():
+            if key in totals:
+                counts = tuple(a + b for a, b in zip(totals[key], counts, strict=True))
+            totals[key] = counts
+        with path.open("w", newline="", encoding="utf-8") as target:
+            writer = csv.writer(target, lineterminator="\n")
+            writer.writerow(columns)
+            writer.writerows((*key, *counts) for key, counts in sorted(totals.items()))
+
+
+def finding_paths(root, supplied):
+    paths = {}
+    for path in (*sorted((root / "findings").glob("*")), *supplied):
+        if not path.is_file():
+            raise ValueError(f"{path}: expected a findings file")
+        if path.name in paths and path.resolve() != paths[path.name].resolve():
+            raise ValueError(f"{path.name}: findings must have distinct filenames")
+        paths[path.name] = path
+    return paths.values()
+
+
+def write_summary(path, summary):
+    path.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+
+
+def copy_analysis(root, destination):
+    plain = root / "analysis.json"
+    compressed = root / "analysis.json.gz"
+    if plain.is_file():
+        shutil.copyfile(plain, destination)
+    elif compressed.is_file():
+        with gzip.open(compressed, "rb") as source, destination.open("wb") as target:
+            shutil.copyfileobj(source, target)
+
+
+def reading_done(root, summary, supplied):
+    findings = finding_paths(root, supplied)
+    if not findings:
+        raise ValueError("reading-done requires a findings report (--finding FILE)")
+    with TemporaryDirectory(dir=root, prefix=".prune-") as staging:
+        stage = Path(staging)
+        copy_analysis(root, stage / "analysis.json")
+        if not (stage / "analysis.json").is_file():
+            raise ValueError("reading-done requires analysis.json from league analyze; run it before reading prune")
+        tables = match_tables(root)
+        if not tables:
+            raise ValueError("reading-done requires match logs or retained CSV tables")
+        merge_tables(stage, tables)
+        write_summary(stage / "summary.json", summary)
+        (stage / "findings").mkdir()
+        for path in findings:
+            shutil.copyfile(path, stage / "findings" / path.name)
+        files = set()
+        for path in sorted(p for p in stage.rglob("*") if p.is_file()):
+            destination = root / path.relative_to(stage)
+            destination.parent.mkdir(exist_ok=True)
+            path.replace(destination)
+            files.add(destination)
+        return files
+
+
+def archive(root, summary, archive_dir, supplied):
     rules_hash = summary["rules_hash"]
     if not re.fullmatch("[0-9a-f]{64}", rules_hash):
         raise ValueError("summary.json: invalid rules hash")
     build = physical_path(archive_dir / rules_hash)
     if root == build or root in build.parents or build in root.parents:
         raise ValueError("the match and build archive must be separate directories")
-    if len({path.name for path in findings}) != len(findings):
-        raise ValueError("findings must have distinct filenames")
-    if any(not path.is_file() for path in findings):
-        raise ValueError("--finding must name a regular file")
-
-    build.mkdir(parents=True, exist_ok=True)
-    destination = build / root.name
-    if destination.exists():
-        raise ValueError(f"{destination}: match name already archived")
-    existing_bytes = sum(p.stat().st_size for p in checked_entries(build) if p.is_file())
-    findings_bytes = sum(path.stat().st_size for path in findings)
+    backup = root / ".previous-build-archive"
+    if backup.exists():
+        raise ValueError(f"{backup}: interrupted archive publication; check the archive and backup before pruning")
+    label = quote(root.name, safe="")
+    manifest = f"{label}.summary.json"
+    if build.exists():
+        if any(p.is_dir() for p in checked_entries(build)):
+            raise ValueError(f"{build}: expected a flat build archive")
+        if (build / manifest).exists():
+            raise ValueError(f"{build}: match name already archived: {root.name}")
+    findings = finding_paths(root, supplied)
     with TemporaryDirectory(dir=root, prefix=".prune-") as staging:
-        stage = Path(staging) / "match"
-        stage.mkdir()
-        (stage / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+        stage = Path(staging) / "build"
+        if build.exists():
+            shutil.copytree(build, stage)
+        else:
+            stage.mkdir()
+        merge_tables(stage, match_tables(root))
+        write_summary(stage / manifest, summary)
+        copy_analysis(root, stage / f"{label}.analysis.json")
         if (root / VERDICT).is_file():
-            shutil.copyfile(root / VERDICT, stage / VERDICT)
-        if any((root / ("games.jsonl" + suffix)).is_file() for suffix in ("", ".gz")):
-            write_tables(root, stage)
-        elif any(p.name in ("records", "shops.jsonl", "shops.jsonl.gz") for p in root.iterdir()):
-            raise ValueError("missing games log for archive tables")
-        total = existing_bytes + findings_bytes + sum(p.stat().st_size for p in stage.iterdir())
+            with (stage / "verdicts.jsonl").open("a", encoding="utf-8") as out:
+                for line in (root / VERDICT).read_text(encoding="utf-8").splitlines():
+                    out.write(json.dumps(dict(json.loads(line), match=root.name), separators=(",", ":")) + "\n")
+        for path in findings:
+            name = f"{label}+{quote(path.name, safe='')}.gz"
+            gzip_copy(path, stage / name)
+        total = sum(p.stat().st_size for p in stage.iterdir())
         if total > BUILD_LIMIT:
-            raise ValueError(f"{build}: archive would be {total:,} bytes (limit {BUILD_LIMIT:,})")
-        if findings:
-            out = stage / "findings"
-            out.mkdir()
-            for path in findings:
-                shutil.copyfile(path, out / path.name)
-            copied_bytes = sum(p.stat().st_size for p in out.iterdir())
-            if total - findings_bytes + copied_bytes > BUILD_LIMIT:
-                raise ValueError(f"{build}: findings changed size and would exceed {BUILD_LIMIT:,} bytes")
-        # Publish the complete entry before removing any source file.
-        stage.rename(destination)
+            raise ValueError(f"{build}: archive would be {total:,} bytes (limit {BUILD_LIMIT:,}). "
+                             "The source match and existing archive are intact.")
+        # Keep the previous archive inside the match until the replacement is published.
+        build.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            if build.exists():
+                build.rename(backup)
+            stage.rename(build)
+        except BaseException:
+            if backup.exists() and not build.exists():
+                backup.rename(build)
+            raise
     return build
 
 
@@ -226,6 +318,8 @@ def prune(root, kind, *, verdict=None, cut_verified=False, archive_dir=None, fin
         files = climb(root, summary, verdict, cut_verified)
     elif kind == "reading":
         files = reading(root, summary)
+    elif kind == "reading-done":
+        files = reading_done(root, summary, findings)
     elif kind == "field":
         if not cut_verified:
             raise ValueError("field: cut and verify the ghosts, then pass --cut-verified")
@@ -246,16 +340,18 @@ def prune(root, kind, *, verdict=None, cut_verified=False, archive_dir=None, fin
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("match", type=Path)
-    parser.add_argument("--kind", required=True, choices=("climb", "reading", "field", "old-build"))
+    parser.add_argument("--kind", required=True, choices=("climb", "reading", "reading-done", "field", "old-build"))
     parser.add_argument("--verdict", choices=("kept", "rejected"), help="referee decision for climb")
     parser.add_argument("--cut-verified", action="store_true", help="confirm ghost cut and verify passed")
     parser.add_argument("--archive-dir", type=Path, help="parent of the per-build archives")
-    parser.add_argument("--finding", type=Path, action="append", default=[], help="findings report to archive; repeatable")
+    parser.add_argument("--finding", type=Path, action="append", default=[], help="findings report to keep, repeatable")
     args = parser.parse_args()
     if args.verdict and args.kind != "climb":
         parser.error("--verdict applies to climb")
-    if (args.archive_dir or args.finding) and args.kind != "old-build":
-        parser.error("--archive-dir and --finding apply to old-build")
+    if args.archive_dir and args.kind != "old-build":
+        parser.error("--archive-dir applies to old-build")
+    if args.finding and args.kind not in ("reading-done", "old-build"):
+        parser.error("--finding applies to reading-done and old-build")
     try:
         kept = prune(args.match, args.kind, verdict=args.verdict, cut_verified=args.cut_verified,
                      archive_dir=args.archive_dir, findings=args.finding)

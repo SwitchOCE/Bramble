@@ -1,6 +1,7 @@
 import gzip
 import json
 from pathlib import Path
+import shutil
 import sys
 import tempfile
 import unittest
@@ -132,24 +133,46 @@ class Pruning(unittest.TestCase):
         self.assertEqual(hand["sale_eaters"], ["gorger", "granary-glutton"])
         self.assertNotIn("sale_eaters", refused)
 
-    def test_old_build_publishes_tables_and_enforces_shared_limit(self):
+    def test_reading_done_keeps_findings_summary_analysis_and_tables(self):
         self.reading_logs()
-        archive = self.scratch / "archive"
         finding = self.scratch / "findings.md"
-        finding.write_text("## Finding\n" + "x" * 1500, encoding="utf-8")
-        build = archive / self.rules
-        build.mkdir(parents=True)
-        previous = build / "previous.md"
-        previous.write_bytes(b"a" * 1000)
+        finding.write_text("## Finding\n", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "requires analysis.json"):
+            prune(self.match, "reading-done", findings=[finding])
+        self.assertTrue(self.record.is_file())
+        self.write("analysis.json", {"games": 2})
         prune(self.match, "reading")
-        with patch("prune_match.BUILD_LIMIT", 2500):
-            with self.assertRaisesRegex(ValueError, "archive would be"):
-                prune(self.match, "old-build", archive_dir=archive, findings=[finding])
-        self.assertTrue(self.record.with_suffix(".jsonl.gz").is_file())
-        self.assertFalse((build / "match").exists())
-        self.assertEqual(prune(self.match, "old-build", archive_dir=archive, findings=[finding]), build)
+        prune(self.match, "reading-done", findings=[finding])
+        self.assertEqual({str(path.relative_to(self.match)) for path in self.match.rglob("*") if path.is_file()},
+                         {"summary.json", "analysis.json", "cards.csv", "tribes.csv", "findings/findings.md"})
+        self.assertEqual((self.match / "analysis.json").read_text(), '{"games": 2}\n')
+        self.assertEqual((self.match / "findings/findings.md").read_bytes(), finding.read_bytes())
+        self.assertIn("red,acorn,1-3,(none),0,1", (self.match / "cards.csv").read_text())
+        self.assertIn("blue,(none),1,2,0,1", (self.match / "tribes.csv").read_text())
+
+    def test_old_build_merges_tables_and_enforces_shared_limit(self):
+        self.reading_logs()
+        self.write("analysis.json", {"games": 2})
+        finding = self.scratch / "findings.md"
+        finding.write_text("## Finding\n", encoding="utf-8")
+        prune(self.match, "reading-done", findings=[finding])
+        second = self.scratch / "second"
+        shutil.copytree(self.match, second)
+        archive = self.scratch / "archive"
+        build = archive / self.rules
+        self.assertEqual(prune(self.match, "old-build", archive_dir=archive), build)
         self.assertEqual(list(self.match.iterdir()), [])
-        self.assertIn("red,acorn,1-3,(none),0,1", (build / "match/cards.csv").read_text())
-        self.assertIn("blue,(none),1,1,2.0,0,1", (build / "match/tribes.csv").read_text())
-        self.assertEqual((build / "match/findings/findings.md").read_bytes(), finding.read_bytes())
-        self.assertEqual(previous.stat().st_size, 1000)
+        prior = {p.name: p.read_bytes() for p in build.iterdir()}
+        with patch("prune_match.BUILD_LIMIT", sum(map(len, prior.values()))):
+            with self.assertRaisesRegex(ValueError, "archive would be"):
+                prune(second, "old-build", archive_dir=archive)
+        self.assertTrue((second / "summary.json").is_file())
+        self.assertEqual({p.name: p.read_bytes() for p in build.iterdir()}, prior)
+        self.assertEqual(prune(second, "old-build", archive_dir=archive), build)
+        self.assertEqual(list(second.iterdir()), [])
+        self.assertTrue(all(p.is_file() for p in build.iterdir()))
+        self.assertIn("red,acorn,1-3,(none),0,2", (build / "cards.csv").read_text())
+        self.assertIn("blue,(none),2,4,0,2", (build / "tribes.csv").read_text())
+        self.assertEqual(gzip.decompress((build / "second+findings.md.gz").read_bytes()), finding.read_bytes())
+        self.assertTrue((build / "second.summary.json").is_file())
+        self.assertTrue((build / "second.analysis.json").is_file())
