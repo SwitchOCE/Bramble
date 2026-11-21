@@ -1,109 +1,105 @@
 # Merge and tidy, 21 Nov 2026: what was done, and what blocks progress
 
-The owner's words, 21 Nov (dictated): "I want to get all branches merged. And not all branches. All relevant branches that are required from improvements that I've asked for merge from dev in domain. All old work trees and branches cleaned up on both this PC and the Ocuplex, and I also want to get all outstanding issues that prevent forward progress logged in a report." Read as: merge the asked-for work into `dev`, then `dev` into `main`; clean up both machines; report the blockers.
+The owner's words, 21 Nov (dictated): "I want to get all branches merged. And not all branches. All relevant branches that are required from improvements that I've asked for merge from dev in domain. All old work trees and branches cleaned up on both this PC and the Ocuplex, and I also want to get all outstanding issues that prevent forward progress logged in a report."
+
+Then: "I want you to get us a full playable build. [...] I want all things blocking us fixed." And on the loose ends: "Can you fix the loose ends? I would like you to fix them. I agree with all the actions you imply."
 
 This report covers the Optiplex. The assurance session cleans the PC.
 
-## 1. The owner's answers (21 Nov)
+## 1. Where things stand
 
-The owner, dictated: "I want you to get us a full playable build. So I don't want PR213 merged. I want all things blocking us fixed. [...] I agree with the calls. The passport [Past boards] screen, actually, I don't mind that. [...] If it's been added already, no reason to take it out. If it's not been added, then don't add it to scope yet [...] No ghost to play against in this version. That should be a failing bug. We should always generate ghosts right now. You can have an error code for it, I guess, but it shouldn't ever occur for failure tests."
+- **The playable build is done.** `Bramble-windows-340224dc8-1121-1043-ghosts-batch-1.zip` (169 MB) went to the owner's PC by Taildrop on 21 Nov.
+  - It plays against 8,000 ghosts from 1,000 bot games, with balance batch 1.
+  - It finished a whole ghost game on the Linux runtime and under Wine.
+  - No one has played it on real Windows hardware yet.
+- **`main`:** PR 216 carries everything on `dev` (see section 3).
+- **Optiplex:** cleaned (section 4). 27 worktrees are now 10, and 80 local branches are now 12.
 
-*[Read as "not only PR 213": merge it, and fix everything that blocks. "The calls" are this report's recommendations.]*
+## 2. What still blocks progress
 
-- PR 213: merge. Done.
-- Ghost step B: no save on a mid-game quit; keep the Past boards screen (it is built); no ghosts is an error ("Error G1"), and the build and tests fail on it. In progress.
-- Fixed thread count for scored matches; rulebook 2.1.11 and 2.1.12 accepted. Done (PR 217).
-- `dev` into `main` after 214 and its Rust port, in one merge.
+### Waiting on the owner
 
-## 2. The owner's decisions still open, most blocking first
-
-| # | What is stopped | The decision | Owner of the work | Recommendation |
-|---|---|---|---|---|
-| 1 | Fix round steps 1–5 (the bugs you raised) | Plan decisions 1–5 on PR 206: hand overflow pile; buying to the board with a full hand and swapping; the Skip button; duplicate marks; art A or B for 16 cards | Fix-round session | All 12, with recommendations, are in one message in the fix-round thread and on its [recommendation page](https://claude.ai/artifact/LuKsXGPJzCxSkneGpM8kAc) |
-| 2 | Fix round steps 6, 7, 11, 12 (shop layout, type line, tooltips, animations) | Plan decisions 6–9 and 13 | Fix-round session | The same message |
-| 3 | `dev` into `main` (PR 216) | Is rulebook 7.3.5's golden rule ("stats and the signature double", "twice becomes three times", caps stay) decided? It is tagged decided by delegation, but plan decision 10 isn't settled, and it replaces your 27 Oct "doubles every number" | Fix-round session | Confirm it, or it is tagged PROPOSED before `main` |
-| 4 | Golden Supply | Does a golden double Supply N? (rulebook 7.3.5a, PROPOSED; plays as before) | Balance and fix-round sessions | Your call; nothing waits on it yet |
-| 5 | Owner notes | Edit a changed instruction into the existing note, or write a new note? `CLAUDE.md` says new note; the 20 Nov rule says edit in place | Any | Edit in place, and change `CLAUDE.md` to match |
-| 6 | Codex worker briefs | Change the `codex-workers` skill's "remove your scratch files" to "never run `rm -rf`; list leftovers"? (It caused the overnight stalls) | Your skill | Yes |
-| 7 | The reworks mock-up (`docs/ideation-track-2/mockups/recruit_tribes.json`) shows pre-tuning numbers | Update it, or leave it as the look reference? | Balance Orchestrator 2 | Leave it; the real numbers live in `units.json` |
-| 8 | PR 204 (CI result on docs-only PRs) | Two answers the assurance session is waiting on | Assurance session | — |
-| 9 | Old review-queue items | Rulebook's ~45 proposed defaults (skim, flag); the unreviewed pillars; the unnamed board-lock keyword; the build's agent calls (`docs/design/review-queue.md` 16–20) | Owner | Not blocking today's work |
-
-## 3. The road to a full playable build
-
-The Ghost Build Orchestrator's order and estimates, 21 Nov:
-
-1. **Worker C (running, 4–6 hours, then 1–2 for gates):** finishes step B as above; `make_field.sh` plays the final bots and cuts a field; `build_windows.sh` always ships a field that matches the build's rules, `index.jsonl` included; the exported game plays a whole ghost game at boot as a check.
-2. **Interim build, `before-balance-batch-1`:** from C's commit, with a 1,000-game field, sent to your PC by Taildrop.
-3. **The Rust port of PR 214** (balance batch 1, merged 21 Nov): about a day, the biggest risk, since the dead-unit rule changes combat.
-4. **The real field** (1,000 games, about 8,000 runs) and **the final Windows build**: about 2 hours.
-
-About 1.5 days in all if nothing breaks. Other unfinished work:
-
-- **No balance number can be measured yet.** It needs step 3, then bots that pass the stopping test. The final league bots predate batch 1's cards, so the field tests the system, not balance. (Balance Orchestrator 2)
-- **The recruit screen doesn't show start-of-turn payouts** (Grudge, Relic Seeker, Old Campaigner, Horde-runner's Hopper, Cutpurse's gold). A Codex worker is building it (fix-round step 8b). PR 209's to-dos are void: the Molt and Root shapes were removed, and Brood Mother's wording landed in 214. (Fix-round session)
-- **`t3-approval-watch.py`** exited with code 144 and no output for the fix-round session; it runs for this one. (Unowned)
-
-## 4. What was merged
-
-- PR 213 (Rust engine port of 208, 209, 212), PR 217 (2.1.11, 2.1.12, fixed thread count): by the Ghost Build Orchestrator.
-- PR 214 (balance batch 1): by Balance Orchestrator 2. Its Rust port has started.
-- PR 218 (`tools/look` and `tools/feel` clear the desktop input method, as `check.sh` does): by this session.
-- Waiting: PR 206 (the plan, not decided), PR 204 (the assurance session's), PR 216 (`dev` into `main`, after the port).
-- PR 216's gates on `dev` c2b25876: `check.sh` passed all 13 steps; scope review: no cuts, two asks (decision 3, and the Rust proof, now fixed by 213). It carries PRs 199–203 and 207–212. Three change play: 208 (end-of-fight effects pay at the start of the next turn; Grudge N; delegated by you), 209 (golden data and rule text, no power change), 212 (a golden doubles Charge and Pile on; your "Double them too").
-
-## 5. What was deleted on the Optiplex
-
-Each one was clean, had every commit on GitHub, and had its work on `main` or `dev`.
-
-- **7 worktrees** (108 MB each) at 13f44dd9, which is on `main`: `t3/tune-mouse-pigeon`, `t3/tune-round3-mice`, `t3/tune-pigeon-round-four`, `t3/mouse-pigeon-round2-tuning`, `t3/fix-recruit-pitch-timing`, `t3/pile-on-jab-timing`, `t3/pile-on-jab-impact`.
-- **48 local branches**: 43 already in `main` or `dev`, and 5 whose commits are on `dev` as identical patches (`git cherry` lists none missing): `t3/rust-level-dev-rework-s6`, `-s7`, `t3/port-created-unit-sell`, `t3/rust-engine-dev-rework`, `t3/tribebot-pigeon-mouse`.
-- **Dead remote branches**, tagged `archive/branches/<name>` first: `engine/badgers`, `engine/badgers-port`, `engine/pass1-cleave`, `engine/night-integration`, and their local copies. Their only commits not on `dev` are rules-pin refreshes for old fingerprints; the ghost session agreed.
-- **`engine/refight`** (the `league refight` command, built on an old engine), tagged `archive/branches/engine/refight` first, on the balance session's word: it will ask for a port if it needs the command again.
-- **Merged remote branches**: `orch/ghost-system`, `design/pigeon-mouse-reworks`, `night/keywords-action-strip`.
-- Other sessions removed their own at the same time: `balance/endcheck-films` (worktree and both branches), `t3/golden-card-shapes`, and four merged balance branches.
-
-Result: 27 worktrees became 18, and 80 local branches became 23. `~/code/Bramble` was brought up to `origin/main`.
-
-## 6. What was left, and why
-
-| Thing | Why kept | Recommendation |
+| What is stopped | The decision | Where |
 |---|---|---|
-| Worktrees of the live orchestrators (`orch-balance-2-*`, `orch-ghost-build-*`), `/data/worktrees/fix-round-dev`, `t3-b6e69f25` (PR 213's source) | In use | Their owners remove them when their PRs merge |
-| `t3-27a05123` on `t3/play-against-ghosts`, and `/data/ghost-b` (127 MB) | Ghost step B, pushed as `ghost/b-play-against-ghosts`; worker C finishes it | The ghost session removes them when C merges |
-| Six `.claude/worktrees/` (`admiring-hopper`, `gifted-lumiere`, `night-18-nov`, `recursing-williamson`, `resource-guardrails`, `league-engine-463b0c`) | Each has a Claude desktop session process running since 18 Nov. All their work is on `main`, except `league-engine-463b0c`, which is the league's | Close those six desktop sessions; then the five can go |
-| `league-t3-amend` worktree and `league/t3-amend` (47 commits not on GitHub), `claude/league-engine-463b0c`, remote `league/engine` | The league referee's. `pin_teams.sh` (pid 386835) still runs from it, last pinning on 19 Nov | Stop `pin_teams.sh`; push or bundle `league/t3-amend`; then archive all three |
-| `~/league/*` (57 GB on `/`; `blue` 24 GB, `fights` 15 GB, `matches` 7.5 GB) | The old league's teams and match data. Plan decision 6d carries the team sessions over | The biggest thing filling `/` (88% full). Keep until you've seen the third-run briefs, then move `fights` and `matches` to `/data` or R2 |
+| Fix round steps 1–7, 11, 12 (the bugs you raised, shop layout, type line, tooltips, keyword looks, animations) | Plan decisions 1–9, 12 and 13 | One message in the fix-round thread, with its [recommendation page](https://claude.ai/artifact/LuKsXGPJzCxSkneGpM8kAc) |
+| Batch 1's agent defaults (8.4.1a, the order within 9.6.1, 9.6.1a, 9.6.2a) | You'll test the build and come back ("I'll test and come back with feedback") | Tagged PROPOSED until then |
+| Golden Supply | Does a golden double Supply N? (rulebook 7.3.5a, PROPOSED; plays as before) | Nothing waits on it yet |
+| The reworks mock-up (`docs/ideation-track-2/mockups/recruit_tribes.json`) shows pre-tuning numbers | Update it, or leave it as the look reference? Recommended: leave it; the real numbers live in `units.json` | Balance session |
+| Owner notes | Edit a changed instruction into the existing note, or write a new one? `CLAUDE.md` says new note; the 20 Nov rule says edit in place. Recommended: edit in place, and change `CLAUDE.md` | — |
+| Codex worker briefs | Change the `codex-workers` skill's "remove your scratch files" to "never run `rm -rf`; list leftovers"? Recommended: yes | Your skill |
+| PR 204 (CI result on docs-only PRs) | Two answers the assurance session is waiting on | Assurance session |
+| Old review-queue items | Rulebook's ~45 proposed defaults; the unreviewed pillars; the unnamed board-lock keyword (`docs/design/review-queue.md` 16–20) | Not blocking today's work |
+
+### Unfinished work
+
+- **Balance is not measured.** The final league bots predate batch 1's cards, so the ghosts test the system, not balance. A balance reading needs bots that pass the stopping test, on the current cards. (Balance Orchestrator 2, then the third run)
+- **Step E:** comparing whole fight logs between the game and the Rust engine; then the third-run briefs for you. (Ghost Build Orchestrator, next)
+- **`t3-approval-watch.py`** once exited with code 144 and no output for the fix-round session; it runs with the arguments `30 60`. (Unowned)
+- **The `check.sh` log scan drops every "Error G1" line** (`scripts/check.sh:206`). A test that hits G1 by accident would not fail on that line. The build and export checks still fail with no ghosts, so it is minor. (Ghost Build Orchestrator)
+
+## 3. What was merged
+
+Into `dev`, 21 Nov:
+
+| PR | What | By |
+|---|---|---|
+| 213 | Rust engine port of 208, 209, 212 | Ghost Build Orchestrator |
+| 214 | Balance batch 1: your card picks, 8 tribeless cards, Hopper overflow, dead-unit rules | Balance Orchestrator 2 |
+| 217 | Your calls: rulebook 2.1.11 and 2.1.12; a fixed thread count for scored matches | Ghost Build Orchestrator |
+| 218 | `tools/look` and `tools/feel` clear the desktop input method, as `check.sh` does | This session |
+| 219, 223 | Balance hand-over brought up to date; your picks retagged BRAMBLE | Balance Orchestrator 2 |
+| 220 | The game against ghosts: no save on a mid-game quit, Past boards kept, no ghosts is "Error G1" and fails the build and tests, every build ships a field at its rules | Ghost Build Orchestrator |
+| 221 | The recruit screen plays the start-of-turn payouts | Fix-round session |
+| 222 | Rust engine port of batch 1 | Ghost Build Orchestrator |
+| 224 | Rulebook 7.3.5: the golden rule is yours, in your words; `STATUS.md` says the game plays ghosts | This session |
+
+`dev` into `main` is PR 216. Your say-so, 21 Nov: batch 1 "can go to main"; "the four agent calls we will keep as proposed"; the golden rule "comes directly from me".
+
+Its gates:
+- `check.sh` passed on `dev` c2b25876; each later PR passed it on its own merge.
+- Two scope reviews, at c2b25876 and at 340224dc: no cuts. All their asks are answered above. Only docs changed after 340224dc.
+
+## 4. What was deleted on the Optiplex
+
+Each one was clean, had every commit on GitHub, and had its work on `main` or `dev`. Unmerged branches were tagged `archive/branches/<name>` on GitHub before they were deleted.
+
+- **14 worktrees:**
+  - 7 T3 worker worktrees at 13f44dd9, which is on `main`.
+  - 6 `.claude/worktrees` held by Claude desktop sessions from 18 Nov. Those sessions were closed first.
+  - `league-t3-amend`, after its branch was pushed.
+- **Local branches:** about 65.
+  - In `main` or `dev`, or on `dev` as identical patches (`git cherry` lists none missing).
+  - Batch 1's and ghost step B and C's worker branches, after their PRs merged.
+- **Remote branches, archive-tagged first:**
+  - `engine/badgers`, `engine/badgers-port`, `engine/pass1-cleave`, `engine/night-integration`: their only commits not on `dev` were rules-pin refreshes for old fingerprints.
+  - `engine/refight`: the `league refight` command, on an old engine. The balance session will ask for a port if it needs it.
+  - `league/engine`, `league/t3-amend`: the league's engine history and the referee's amendments, including `pin_teams.sh`.
+  - `ideation/track-2`: frozen 17 Nov, already on `dev`.
+- **Remote branches already merged:** `orch/ghost-system`, `design/pigeon-mouse-reworks`, `night/keywords-action-strip`.
+- **Stopped:** `pin_teams.sh` (running since 18 Nov; its last pin was on 19 Nov). The League Data and Storage session has been told.
+- **Folders:**
+  - `/data/bramble-builds/1112-0603-ideation9` (2.4 GB, a 12 Nov build), superseded.
+  - `/data/balance-endcheck` and `/data/measure/reworks-scripts`: the balance hand-over called them safe.
+  - This session's own gate folders.
+- `~/code/Bramble` is at `origin/main`.
+
+## 5. What was left, and why
+
+| Thing | Why kept | Next |
+|---|---|---|
+| Live sessions' worktrees: `orch-balance-2-*`, `orch-ghost-build-*`, `/data/worktrees/fix-round-dev` | In use | Their owners remove them when done |
+| Ghost session's worker worktrees and `/data/ghost-b`, `/data/ghost-c`, `/data/port-b1` (3.8 GB), `/data/port-fr` (9.1 GB) | The ghost session's | It removes them; it keeps `port-b1`, the reference data at batch 1's rules, until the next card change |
+| `~/league/*` (57 GB, on `/`, now 87% full) and its four git worktrees | The owner asked for a separate session | League Data and Storage session |
 | `measure/baseline`, `measure/arm-b`, `measure/arm-c` and `/data/measure` (2.8 GB) | The only league readings of balance pass 1 | Archive once the third run's readings replace them |
-| `design/glass-mockups` | Your mock-ups. `tools/glass/pull_mockups.py` and `compare.py` read them from this branch, so it is live | Keep; or, on your say-so, move them onto `main` |
-| `ideation/track-2` (remote) | Frozen 17 Nov; on `dev` already | Can go whenever you like |
-| Batch 1's worker branches (`t3/ignore-dead-units`, `t3/add-neutral-pool-mechanics`, `t3/badger-mouse-card-updates`, `t3/hopper-overflow-locust-briar`) | Their work is in PR 214, not yet on `dev` | Delete when 214 merges |
-| `balance/batch-1`, `plan/fix-round-dev-20-nov`, `orch/*` | Open PRs and live sessions | — |
+| `design/glass-mockups` | Your mock-ups; `tools/glass/pull_mockups.py` and `compare.py` read them from this branch | Keep |
+| `orch/balance-2`, `orch/ghost-build`, `plan/fix-round-dev-20-nov`, `ci/docs-only-result` | Live sessions and open PRs | — |
+| `/data/bramble-reference` (432 MB), `/data/bramble-gallery` (112 MB), `/data/bramble-builds/region-compare-2026-11-17` and `track-2` (274 MB) | Reference pictures of other games, art-direction gallery images, and screen compares. None is in git, and I couldn't confirm a copy in R2 | Upload to R2 or delete: your call |
+| `/data/bramble-art` (1.4 GB) | `fix-round-20-nov` (71 MB) waits on the art pick (plan decision 5) | Check the rest is in R2, then delete |
+| `~/.codex/sessions` (7.8 GB, on `/`) | Codex's own session logs | Trim the oldest if `/` gets tight |
 
-## 7. Folders outside git, for you to decide
+## 6. Is the problem fixed?
 
-| Folder | Size | Recommendation |
-|---|---|---|
-| `/data/port-fr` and `/data/cargo-target/port-fr` | 9.1 GB + 2.0 GB | PR 213's proof output. The ghost session deletes them when 213 merges |
-| `/data/bramble-builds` | 2.7 GB | Keep the newest build; delete the rest |
-| `/data/cargo-target` | 2.4 GB | Build cache. Safe to delete any time; it rebuilds |
-| `/data/bramble-art` | 1.4 GB | `fix-round-20-nov` (71 MB) waits on the art pick (plan decision 5). Check the rest is in R2, then delete |
-| `/data/bramble-reference` | 432 MB | Old reference data. Delete if nothing names it |
-| `/data/bramble-gallery` | 112 MB | The gallery server on port 8790 isn't running any more. Delete |
-| `/data/bramble-portal` | gone | — |
-| `/data/night-19nov` | 72 KB (was 11 GB) | Already cleared; keep `brief-common.md` |
-| `/data/balance-endcheck`, `/data/measure/reworks-scripts` | small | The balance hand-over says safe to delete |
-| `/data/balance2`, `/data/ghost-b`, `/data/orch-ghost` | small | Live sessions' notes; they clear them |
-| `~/.codex/sessions` (7.8 GB, on `/`) | 7.8 GB | Old Codex session logs. Trim the oldest if `/` gets tight |
-| `/data/tmp-tidy`, `/data/cargo-target/tidy` | — | This session's gate run; I deleted them at the end |
-
-## 8. What this does not fix yet
-
-**The playable build is done.** `Bramble-windows-340224dc8-1121-1043-ghosts-batch-1.zip` (169 MB) went to the owner's PC by Taildrop on 21 Nov. It is built from `dev` 340224dc, with balance batch 1, and plays against 8,000 ghosts from 1,000 bot games. It finished a whole ghost game on the Linux runtime and under Wine. No one has played it on real Windows hardware yet.
-
-**`main` doesn't have the work yet.** PR 216 waits on three owner answers, from its second scope review (`dev` 340224dc, no cuts):
-1. Balance batch 1 goes to `main` with the ghost game? (It can't be split out: the ghosts and the Rust engine are built on its rules.) Recommended: yes.
-2. One yes or no on four agent defaults that change play: 8.4.1a (where King Speck's Cousin goes when its slot is taken), 9.6.1 (the order within fight steps; a skipped Hit is lost), 9.6.1a (the protected attack), 9.6.2a ("only attacks can damage this"). Recommended: yes.
-3. The golden rule, 7.3.5: decided, or tag it PROPOSED.
-
-After the merge: `docs/STATUS.md` still says "a whole game against bots", and needs updating. The fix round waits on the owner's 12 decisions (section 2).
+- **The full playable build:** yes. It is on your PC.
+- **Asked-for work merged into `main`:** yes, once PR 216 merges.
+- **Old worktrees and branches on the Optiplex:** done, apart from what live sessions and the league session hold (section 5).
+- **Blockers logged:** section 2. The fix round's 12 decisions block the most.
