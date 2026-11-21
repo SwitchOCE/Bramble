@@ -213,7 +213,8 @@ function recruitScreen(st, o) {
   st.append(place(html(`<div class="hp">40</div>`), 1722, 1014));
   if (o.layout === "A2") {
     // the next turn's gold, on the top-right of the next opponent's portrait
-    st.append(place(html(`<div class="rd incbadge" style="height:34px;padding:0 6px 0 10px"><b>+${ctl.income}</b>${COIN}</div>`), 1804, 918));
+    // beside the circle's top right, not over it (owner, 21 Nov)
+    st.append(place(html(`<div class="rd incbadge" style="height:30px;gap:4px;padding:0 4px 0 8px"><b style="font-size:21px">+${ctl.income}</b>${COIN}</div>`), 1846, 900));
   }
   return { G, els, cards };
 }
