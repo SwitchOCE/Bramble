@@ -1,5 +1,5 @@
 extends GutTest
-## Rulebook 7.1.2/7.2.6: entering the hand fires unit Recruit effects.
+## Rulebook 7.1.2/7.2.6: waiting units recruit after the action that frees a hand place.
 
 @warning_ignore_start("unsafe_call_argument")
 
@@ -20,8 +20,37 @@ class GiveHandReserve:
 
 	func on_played(ctx: RecruitContext, unit: Unit, _target: Unit, _params: MechanicParams) -> void:
 		for card: Unit in ctx.player.hand:
-			if not card.is_spell() and card.def.id != &"quartermaster":
+			if not card.is_spell():
 				ctx.give_keyword(card, &"pigeon_reserve", unit)
+
+
+class SaleEffects:
+	extends Mechanic
+
+	func on_sold(ctx: RecruitContext, unit: Unit, _params: MechanicParams) -> void:
+		for card: Unit in ctx.player.hand:
+			ctx.buff(card, 1, 0, true, unit)
+		ctx.give_card(&"sp_seek", unit)
+
+	func on_any_sold(ctx: RecruitContext, unit: Unit, _sold: Unit, _params: MechanicParams) -> void:
+		for card: Unit in ctx.player.hand:
+			ctx.buff(card, 0, 1, true, unit)
+
+
+class RecruitReadsAttack:
+	extends Mechanic
+
+	func on_recruited(
+		ctx: RecruitContext, unit: Unit, _target: Unit, _params: MechanicParams
+	) -> void:
+		ctx.buff(unit, ctx.player.board[0].attack(), 0, true, unit)
+
+
+class EndTurnGift:
+	extends Mechanic
+
+	func on_end_of_turn(ctx: RecruitContext, unit: Unit, _params: MechanicParams) -> void:
+		ctx.give_card(&"master-at-arms", unit)
 
 
 var game: GameSession
@@ -211,7 +240,49 @@ func test_waiting_targeted_pick_chooses_from_the_hand_and_board_at_join() -> voi
 	assert_eq(played.view()["totals"]["badger_fury"]["fury"], 3)
 
 
-func test_cast_can_use_all_targets_of_a_quartermaster_that_joined_mid_action() -> void:
+func test_waiting_pick_refuses_an_explicit_target_without_consuming_the_offer() -> void:
+	for i: int in 7:
+		p.hand.append(Kit.unit(game, "brock-cub", true))
+	_offer("master-at-arms")
+	for target: int in [mouse.uid, -1, -2]:
+		assert_eq(
+			game.act(p.id, {"type": "pick", "index": 0, "target": target}),
+			"choose a recruit target when the card joins your hand"
+		)
+	assert_eq(p.discover_options, [&"master-at-arms"] as Array[StringName])
+	assert_true(p.waiting_pile.is_empty())
+	assert_true(p.recruit_choices.is_empty())
+	assert_true(Kit.log_of(game, "pick").is_empty())
+	assert_eq(game.act(p.id, {"type": "pick", "index": 0}), "")
+	assert_eq(p.waiting_pile.size(), 1)
+
+
+func test_sell_effects_finish_before_the_waiting_card_joins_and_recruits() -> void:
+	var id: StringName = &"core_test_waiting_sale_effects"
+	assert_true(game.registry.register(id, SaleEffects.new()))
+	for i: int in 7:
+		p.hand.append(Kit.unit(game, "brock-cub", true))
+	var sale: BoundMechanic = game.registry.bind(MechanicSpec.new(id), false, true)
+	p.hand[0].mechanics.append(sale)
+	mouse.mechanics.append(sale)
+	var ctx := RecruitContext.new(game, game.recruit, p)
+	var piper: Unit = ctx.give_card(&"harvest-piper", null)
+	assert_eq(game.act(p.id, {"type": "sell", "hand": 0}), "")
+	assert_eq(p.hand.back(), piper)
+	assert_eq(p.hand[0].stats.perm_attack, 1, "the sold unit buffed the existing hand")
+	assert_eq(p.hand[0].stats.perm_health, 1, "the sale listener buffed the existing hand")
+	assert_eq(piper.stats.perm_attack, 0, "the waiting card missed the Sell effect")
+	assert_eq(piper.stats.perm_health, 0, "the waiting card missed the any-sold effect")
+	assert_eq(p.waiting_pile.size(), 1, "the sale's gift queued behind the older card")
+	assert_eq(p.waiting_pile[0].def.id, &"sp_seek")
+	assert_eq(mouse.attack(), 9, "Piper recruited after the sale")
+	var buffs: Array[Dictionary] = Kit.log_of(game, "buff")
+	var joined: Dictionary = Kit.log_of(game, "waiting_join")[0]
+	assert_lt(game.events.find(buffs[-2]), game.events.find(joined))
+	assert_lt(game.events.find(joined), game.events.find(buffs[-1]))
+
+
+func test_cast_finishes_before_waiting_quartermaster_joins_and_checks_targets() -> void:
 	var spell: Unit = Kit.unit(game, "sp_sharpen")
 	var id: StringName = &"core_test_give_hand_reserve"
 	assert_true(game.registry.register(id, GiveHandReserve.new()))
@@ -224,12 +295,36 @@ func test_cast_can_use_all_targets_of_a_quartermaster_that_joined_mid_action() -
 	_offer("quartermaster")
 	assert_eq(game.act(p.id, {"type": "pick", "index": 0}), "")
 	var officer: Unit = p.waiting_pile[0]
+	assert_eq(
+		game.act(p.id, {"type": "play", "hand": 0, "target": officer.uid}), "not a valid target"
+	)
 	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "target": mouse.uid}), "")
+	assert_eq(mouse.attack(), 6)
 	assert_eq(p.hand.back(), officer)
 	assert_true(p.hand[0].has_mechanic(&"pigeon_reserve"))
 	assert_true(p.hand[1].has_mechanic(&"pigeon_reserve"))
+	assert_false(officer.has_mechanic(&"pigeon_reserve"), "the spell never saw the waiting card")
+	assert_eq(_triggers("pigeon_quartermaster"), 0, "the spell used the eligible targets first")
 	assert_true(p.recruit_choices.is_empty())
 	assert_true(game.legal_actions(p.id).has({"type": "end_turn"}))
+
+
+func test_play_applies_the_units_aura_before_the_waiting_card_recruits() -> void:
+	var banner: Unit = Kit.unit(game, "t3_banner")
+	p.hand.append(banner)
+	for i: int in 6:
+		p.hand.append(Kit.unit(game, "brock-cub", true))
+	var ctx := RecruitContext.new(game, game.recruit, p)
+	var waiting: Unit = ctx.give_card(&"t1_plain", null)
+	var id: StringName = &"core_test_waiting_recruit_reads_attack"
+	assert_true(game.registry.register(id, RecruitReadsAttack.new()))
+	waiting.mechanics.append(game.registry.bind(MechanicSpec.new(id), false, true))
+	assert_eq(mouse.attack(), 4)
+	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 1}), "")
+	assert_eq(p.board[1], banner)
+	assert_eq(p.hand.back(), waiting)
+	assert_true(p.waiting_pile.is_empty())
+	assert_eq(waiting.stats.perm_attack, 6, "Recruit read the mouse after Banner's +2 aura")
 
 
 func test_bought_third_copy_fires_only_the_golden_before_play() -> void:
@@ -322,6 +417,21 @@ func test_end_turn_auto_resolves_discover_and_targeted_golden() -> void:
 	assert_eq(
 		p.hand[0].view()["totals"]["badger_fury"]["fury"], 2, "only the golden recruit gives Fury"
 	)
+	assert_eq(_triggers("badger_arms_master"), 1)
+
+
+func test_end_turn_resolves_the_target_of_a_golden_formed_by_an_end_of_turn_gift() -> void:
+	var id: StringName = &"core_test_waiting_end_turn_gift"
+	assert_true(game.registry.register(id, EndTurnGift.new()))
+	mouse.mechanics.append(game.registry.bind(MechanicSpec.new(id), false, true))
+	p.hand.append(Kit.unit(game, "master-at-arms"))
+	p.hand.append(Kit.unit(game, "master-at-arms"))
+	game.end_turn(p.id)
+	assert_true(p.turn_ended)
+	assert_true(p.recruit_choices.is_empty())
+	assert_eq(p.hand[0].def.id, &"master-at-arms")
+	assert_true(p.hand[0].golden)
+	assert_eq(p.hand[0].view()["totals"]["badger_fury"]["fury"], 2)
 	assert_eq(_triggers("badger_arms_master"), 1)
 
 

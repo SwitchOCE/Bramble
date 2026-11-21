@@ -13,6 +13,7 @@ extends RefCounted
 ##   {"type": "to_hand", "slot": int}               7.2.4-7.2.5
 ##   {"type": "end_turn"}                               3.4
 ## Buy/pick target -1 means the recruited unit itself; omit it to choose after gaining.
+## A pick that will wait must omit the target.
 ##   {"type": "recruit_target", "target": uid} resolves that pending choice.
 ## act() returns "" when the action was taken, otherwise why it is illegal (and changes nothing).
 
@@ -92,6 +93,7 @@ func end_turn(player: PlayerState) -> void:
 	notify(ctx, &"on_end_of_turn", [])
 	_resolve_discovers(player)
 	_settle(player)
+	# Settling End of Turn gifts can form a golden that needs a Recruit target.
 	_resolve_discovers(player)
 	for unit: Unit in player.all_cards() + player.waiting_pile:
 		unit.stats.end_turn()
@@ -165,11 +167,7 @@ func _act_simple(player: PlayerState, kind: String, action: Dictionary) -> Strin
 		"upgrade":
 			return _upgrade(player)
 		"pick":
-			return _pick(
-				player,
-				CoreUtil.to_int(action.get("index", -1)),
-				CoreUtil.to_int(action.get("target", -2))
-			)
+			return _pick(player, action)
 		"end_turn":
 			end_turn(player)
 			return ""
@@ -238,7 +236,6 @@ func _sell(player: PlayerState, slot: int, hand: int = -1) -> String:
 			"bought": unit.bought_copies > 0
 		}
 	)
-	_admit_waiting(player)
 	var ctx := RecruitContext.new(session, self, player)
 	for bound: BoundMechanic in unit.hooks():
 		ctx.invoke(unit, bound, &"on_sold")
@@ -267,8 +264,6 @@ func _play(player: PlayerState, hand_index: int, slot: int, target_uid: int) -> 
 		return ""
 	player.place(card, slot)
 	_log(player, {"type": "play", "uid": card.uid, "id": String(card.def.id), "slot": slot})
-	_admit_waiting(player)
-	refresh_auras(player)
 	_settle(player)
 	return ""
 
@@ -285,7 +280,6 @@ func _cast(ctx: RecruitContext, spell: Unit, target: Unit) -> void:
 			"target": ctx.target_index,
 		}
 	)
-	_admit_waiting(player)
 	for bound: BoundMechanic in spell.mechanics:
 		bound.mechanic.on_played(ctx, spell, target, bound.params)
 	_settle(player)
@@ -487,9 +481,13 @@ func _upgrade(player: PlayerState) -> String:
 
 
 ## 6.2 take one Discover option and close the offer. The pick is Created (4.3.2).
-func _pick(player: PlayerState, index: int, target: int = -2) -> String:
+func _pick(player: PlayerState, action: Dictionary) -> String:
+	var index: int = CoreUtil.to_int(action.get("index", -1))
 	if index < 0 or index >= player.discover_options.size():
 		return "no such Discover option"
+	if action.has("target") and gain_waits(player):
+		return "choose a recruit target when the card joins your hand"
+	var target: int = CoreUtil.to_int(action.get("target", -2))
 	var card: UnitDef = session.library.get_card(player.discover_options[index])
 	var error: String = _gain_target_error(player, card, target)
 	if error != "":
@@ -513,7 +511,10 @@ func _resolve_discovers(player: PlayerState) -> void:
 			_recruit_unit(player, unit, -1)
 			_settle(player)
 		else:
-			_pick(player, 0, -1)
+			var pick: Dictionary = {"index": 0}
+			if not gain_waits(player):
+				pick["target"] = -1
+			_pick(player, pick)
 
 
 # --- Pieces mechanics use (through RecruitContext) -----------------------------------------------
@@ -585,10 +586,15 @@ func run_death_effects(ctx: RecruitContext, unit: Unit) -> void:
 			ctx.invoke(unit, bound, &"on_recruit_death")
 
 
-## 7.1.2/7.2.6: a gained card recruits only when it enters the hand.
+## Gains made by an action's effects queue behind older waiting cards, even if it freed space.
+func gain_waits(player: PlayerState) -> bool:
+	return not player.waiting_pile.is_empty() or player.hand.size() >= _rules().hand_limit(player)
+
+
+## 7.1.2/7.2.6: an ordinary gained card recruits only when it enters the hand.
 ## Returns whether it entered the hand immediately.
 func _gain(player: PlayerState, unit: Unit, target: int = -2) -> bool:
-	var waits: bool = player.hand.size() >= _rules().hand_limit(player)
+	var waits: bool = gain_waits(player)
 	if waits:
 		player.waiting_pile.append(unit)
 	else:
@@ -749,8 +755,11 @@ func _shop_view(player: PlayerState) -> Dictionary:
 # --- Triples and upkeep ---------------------------------------------------------------------------
 
 
-## After every action: triples form (7.3.1-7.3.2, after all summons) and auras are recomputed.
+## After action effects resolve, waiting cards join and triples form (7.1.2, 7.3.1-7.3.2).
 func _settle(player: PlayerState) -> void:
+	if not player.waiting_pile.is_empty() and player.hand.size() < _rules().hand_limit(player):
+		# A joining Recruit sees the auras and slot effects of the updated board.
+		refresh_auras(player)
 	while true:
 		_admit_waiting(player)
 		if not player.recruit_choices.is_empty():

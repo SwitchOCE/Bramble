@@ -426,7 +426,7 @@ Note: on 12 Nov the owner leaned toward TFT-style rarities, and asked to come ba
 
 **7.1.1** [BRAMBLE] The hand holds up to 7 cards. In the owner's words (16 Nov 2026): "I don't see any reason now that we've changed the UI it can't go to 7. I think 7's a good fit." (C14) *HSBG:* 10 (uncertain in HSBG — see rules.md §5.3).
 
-**7.1.2** [BRAMBLE] A card gained while the hand is full goes into an unlimited waiting pile that carries over between turns. When a hand place frees, the oldest waiting card joins the hand. A waiting unit resolves its Recruit effect when it joins (7.2.6). Decided by the owner, 21 Nov 2026.
+**7.1.2** [BRAMBLE] A card gained while the hand is full goes into an unlimited waiting pile that carries over between turns. When a hand place frees, the oldest waiting card joins the hand. A waiting card joins after the action that freed the place has fully resolved. A waiting unit resolves its Recruit effect when it joins (7.2.6). Decided by the owner, 21 Nov 2026: "The sale or spell resolves fully, then the waiting card joins."
 
 **7.1.2a** [PROPOSED] Waiting cards can't be played, cast, sold or counted toward a triple. Agent default.
 
@@ -442,7 +442,7 @@ Note: on 12 Nov the owner leaned toward TFT-style rarities, and asked to come ba
 
 **7.2.5** [BRAMBLE] A unit can't be moved back to a full hand (7.1.1). A unit keeps its stats, buffs and origin (4.3.6) when it moves between hand and board. Proposed as a default on 17 Nov 2026; the owner accepted it that day ("Yes.", C15).
 
-**7.2.6** [BRAMBLE] A Recruit effect (7.2.3) also resolves for a unit gained without buying it, including a Discover pick, a Triple Reward pick, or a unit another effect gives. It resolves when the unit enters the hand, including from the waiting pile (7.1.2). If the unit completes a triple on entry, only the golden's Recruit effect resolves. The owner answered "Yes" on 17 Nov 2026 when asked "Does a recruit effect fire for a unit you didn't buy?" (C15). On 18 Nov the owner said "Only the golden fires" for the completing copy.
+**7.2.6** [BRAMBLE] A Recruit effect (7.2.3) also resolves for a unit gained without buying it, including a Discover pick, a Triple Reward pick, or a unit another effect gives. It resolves when the unit enters the hand, including from the waiting pile (7.1.2), or when a newly formed golden enters the board under 7.3.7. If the unit completes a triple on entry, only the golden's Recruit effect resolves. The owner answered "Yes" on 17 Nov 2026 when asked "Does a recruit effect fire for a unit you didn't buy?" (C15). On 18 Nov the owner said "Only the golden fires" for the completing copy.
 
 Note: free moving lets a player take a unit off the board once it has paid out, or put it on only when it pays. The owner's direction for units that give an advantage during the Recruit Phase is a keyword that locks them onto the board for the turn ([owner-ideas-log.md](owner-ideas-log.md), entries 3 and 4). It has no name and is not a rule yet.
 

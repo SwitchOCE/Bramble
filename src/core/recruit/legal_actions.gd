@@ -17,7 +17,7 @@ static func of(session: GameSession, player: PlayerState) -> Array[Dictionary]:
 	if not player.discover_options.is_empty():
 		for i: int in player.discover_options.size():
 			var pick: Dictionary = {"type": "pick", "index": i}
-			if player.hand.size() >= session.rules.hand_limit(player):
+			if session.recruit.gain_waits(player):
 				out.append(pick)
 			else:
 				var card: UnitDef = session.library.get_card(player.discover_options[i])
