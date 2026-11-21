@@ -13,7 +13,7 @@ Written by the orchestrator on 20 Nov 2026 against `dev`. Approved by the owner 
 3. **Settled 21 Nov.** A "Skip" button, with Space still skipping; clicks elsewhere do nothing. Enter no longer skips: asked whether Enter should keep skipping, the owner picked "Space only" (21 Nov).
 4. **Settled 21 Nov.** Duplicate and triple marks count only cards you own; the faint edge on your own copies stays.
 5. **Settled 21 Nov.** Art: B for all 16 cards ("I want B for all images").
-6. **Settled 21 Nov.** Shop layout: A (two wings), changed: nothing under the gold, the same gaps on both sides, and the next turn's gold as a small "+X" gold mark on the top-right corner of the next opponent's portrait on the End turn button. A mock-up goes to the owner before it is built.
+6. **Settled 21 Nov.** Shop layout: A (two wings), changed: nothing under the gold, the same gaps on both sides, and the next turn's gold as a small "+X" gold mark beside the top right of the next opponent's portrait on the End turn button, not on top of it (the owner's correction: "next to the top right of the circle down near the profile picture, not on top of it"). Built in PR 237. A mock-up goes to the owner before it is built.
 7. **Settled 21 Nov.** Type line: above the stats.
 8. **Settled 21 Nov.** Keyword tooltips: option 1, the left light.
 9. **Not doing** (owner, 21 Nov): "The keyword stuff I don't like. It's too busy. I deny all changes to 10. We'll revisit that. It can go into the backlog. We'll keep the small marks for now and iterate later." Step 11 is dropped; the item is in `docs/workstreams/backlog-briefs.md`.
