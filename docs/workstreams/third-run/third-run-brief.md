@@ -27,7 +27,7 @@ The league brief, `docs/workstreams/bot-league/brief.md`, still holds where this
 2. **The clones.** Merge `third-run-engine-v1` into `league/red` and `league/blue` in `/home/alex/league/red` and `/home/alex/league/blue`. Each team's tools crate moves from `league::matchrun::run_factories` (live) to `league::ghostmatch::run_factories(&args, new, old, field)`. A team's diff is then checked against `third-run-engine-v1`, not `league-engine-v1`.
 3. **The fields.** Two folders of ghost runs, each made with `tools/league/proof/make_field.sh` (1,000 live games of the final league bots, cut and verified):
    - **The climbing field**, which grows. It starts as `/data/third-run/field-f82d9c94`: 8,000 runs from red-m2 and blue-m2 at the current rules, made 21 Nov. Every kept version's runs are added (decision 6b), and the field keeps the newest **[Proposed: 4,000]** runs per bot version, so old versions age out.
-   - **The reference field**, frozen for the stopping test: **[Proposed: a 1,500-game field, about 12,000 runs, cut once at the start and never added to]**, so every version is tested against the same opponents. It must be that big: a stopping-test match needs about 1,510 seed pairs, each pair uses 7 runs, and no run is used twice in a match (section 9).
+   - **The reference field** for the stopping test: **[Proposed: a 1,500-game field, about 12,000 runs, cut fresh from the current kept versions at the start of each stopping test (about 45 minutes) and frozen for that test]**, so every neighbour in one test meets the same opponents, and the opponents are as strong as the bots being tested. It must be that big: a stopping-test match needs about 1,510 seed pairs, each pair uses 7 runs, and no run is used twice in a match (section 9).
 4. **The teams' practice field.** Each team gets read access to the climbing field only, never the reference field.
 
 ## 4. One thread count
@@ -37,17 +37,20 @@ The final league bots time their search by CPU, so the same game at a different 
 ## 5. Climbing
 
 - Each team changes its bot **one idea at a time** and hands the referee a tag (`red-c<n>`, `blue-c<n>`).
-- The referee plays the new tag against the team's current kept version in a **paired ghost match**: `league ghost-match --red <new> --blue <current> --field <climbing field>`, the same seeds and the same 7 ghosts per pair, then `league analyze` and `tools/league/proof/check_ghost_match.py`.
+- The referee plays the new tag against the team's current kept version in a **paired ghost match** (decision 6c's paired scoring, used here for a bot against its own last version; red against blue is the "each team's best plays the other's" match in section 6): `league ghost-match --red <new> --blue <current> --field <climbing field>`, the same seeds and the same 7 ghosts per pair, then `league analyze` and `tools/league/proof/check_ghost_match.py`.
 - **Keep** the new version only if it places better with a 95% interval that excludes zero. Otherwise the current version stays.
 - Size: **[Proposed: 1,000 games (500 pairs)]**. That sees a gain of about 0.17 in mean placement (section 9). A smaller real gain is usually rejected here; the stopping test is where 0.1 is checked.
 - A kept version's runs join the climbing field.
 
 ## 6. The stopping test: a local maximum
 
-On the reference field, each match sized to see 0.1 in mean placement: **about 3,020 games (1,510 pairs)**, 20–35 minutes each (section 9). Up to 10 numbers with a step each way is up to 20 matches, so **a full stopping test takes about 7–12 hours per bot**, plus one match per tribe for the per-tribe report:
+On the reference field, each match sized to see 0.1 in mean placement: **about 3,020 games (1,510 pairs)**, 20–35 minutes each (section 9). That size gives a ±0.1 interval, so a neighbour that is really 0.1 better is caught only about half the time; catching it 4 times in 5 takes about 3,080 pairs, double the time (owner's choice, section 11). Up to 10 numbers with a step each way is up to 20 matches, so **a full stopping test takes about 7–12 hours per bot**, plus one match per tribe for the per-tribe report:
 - **Numbers.** For each of up to 10 numbers the team names up front, one step up and one step down (the steps named up front) don't beat the current version.
 - **Ideas.** The team's last 8 ideas, covering economy, tribe choice, board order and each reworked mechanic, were all rejected.
-- **Both bots** pass, on overall placement. The test also plays each bot made to stay in each tribe and reports its placement per tribe (owner: "Overall + per-tribe report").
+- **Both bots** pass, on overall placement. The test also plays each bot made to stay in each tribe and reports its placement per tribe (owner: "Overall + per-tribe report"). Caution: in the measured games red-m2 played Locust in 441 of 500 games, Mouse in 7 and Badger in none, so a bot forced into a tribe it never climbed in measures its own play there as much as the tribe (section 11).
+- **Chance fails.** About 20 comparisons at 95% each means a bot that really is at a local maximum fails about 2 times in 5 by luck. **[Proposed:** a neighbour that beats the current version is replayed once on fresh seeds; it counts only if it beats it again.**]**
+- **Saving time. [Proposed:]** a neighbour's match stops at 500 pairs when it is already clearly worse (its interval's best end below zero); only close calls go to full size.
+- **The ideas.** Climbing matches see about 0.17, so ideas worth less are rejected there by noise, and "the last 8 ideas were rejected" can be met by noise. **[Proposed:** the 8 ideas are replayed at stopping-test size inside the test, 8 more matches.**]**
 
 **Not getting stuck.** At a bot's first local maximum its team climbs again from 2 different strategies it names; the best of the three is kept. The teams use different model families, and each team's best plays the other's. **Open, for the owner:** in the league both teams were Opus orchestrators, and decision 6d keeps the same sessions, so they are one family today. **[Proposed:** red's session carries on in Opus; blue's continues from its own notes in a new session on a different family (Codex `gpt-6.2-astra` as the orchestrator, or Fable)**.]** The run ends when both bots have passed the stopping test after their restarts, or the owner stops it.
 
@@ -76,7 +79,9 @@ Pairing works: the same bot's two games against the same 7 ghosts correlate at 0
 
 - **Field capacity.** A ghost match never reuses a run within a match, and each seed pair uses 7, so a field of R runs supports about R ÷ 3.5 games per match: 8,000 runs, about 2,280 games (1,140 pairs). That is enough for climbing matches and too few for a stopping-test match, hence the bigger reference field.
 - **Time.** 1,000 games of the final bots on 5 threads: 7–11 minutes as a ghost match, 21 minutes as a live match (8 bots per game instead of 1).
-- **Disk.** Today a 1,000-game ghost match writes about 355 MB, and a live match about 0.9 GB. A full stopping test is about 20 matches, about 20 GB at today's defaults; `/` was 89% full on 21 Nov before the league data was cleared. What a match keeps is the League Data and Storage session's question for the owner; the run follows what the owner picks.
+- **Disk.** Today a 1,000-game ghost match writes about 355 MB, and a live match about 0.9 GB. One stopping test is about 25 matches of about 3,000 games, about 27 GB at today's defaults, and the run needs up to 6 (section 11); `/` was 89% full on 21 Nov before the league data was cleared. What a match keeps is the League Data and Storage session's question for the owner; the run follows what the owner picks.
+
+- **The total.** Each bot needs a stopping test at its first maximum and after each of its 2 restarts: up to 6 tests, plus the per-tribe and mechanic-off matches. Run one after another on 4 cores that is roughly **70–110 hours per balance round** before any retests, and it repeats after every balance change. The early stop above roughly halves it.
 
 ## 10. The team brief (same for both, apart from the colour)
 
@@ -90,3 +95,14 @@ Pairing works: the same bot's two games against the same 7 ghosts correlate at 0
 - Support a per-mechanic off switch (section 7).
 - Card numbers don't change during a climb. Report a port bug at once, with a seed and the actions.
 - Workers never run `rm -rf`; each lists the files it made that should go.
+
+## 11. Questions for the owner
+
+1. **Per-tribe numbers.** May balance tune per tribe from bots forced into tribes they rarely play, or only from overall placement, or must each forced-tribe bot climb first?
+2. **Stopping-test power.** Half power at about 1,510 pairs, or 4 times in 5 at about 3,080 pairs (double the machine time)?
+3. **Restarts.** Does each of the 2 restart climbs need a full stopping test, or a smaller check, with the full test for the best of the three? This decides about 2 tests or 6.
+4. **After a balance change.** A full stopping test with restarts again, or a lighter re-check from where the bots were? Days against hours per balance round.
+5. **Model families.** Red stays on Opus and blue moves to Codex or Fable, or both stay on Opus?
+6. **Disk.** What a match keeps, given about 27 GB per stopping test today (with the League Data and Storage session).
+
+The plan check (a fresh agent, `/plan-interrogate`, 21 Nov) raised these and the fixes marked Proposed above; it reproduced the measured numbers in section 9.
