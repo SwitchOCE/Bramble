@@ -155,32 +155,6 @@ func after_state(before: Dictionary) -> void:
 		_timeline.on_end(_after_end)
 
 
-## A shop card's price tag drops off as the card is lifted (protos.js buy: it falls 14 px as it
-## fades over 0.14 s, easing in), left hanging where the card was.
-func drop_tag(card: Control) -> void:
-	var tag: Control = card.get_node_or_null("ShopTag")
-	if tag == null or not tag.visible or not _screen._keeper.animate:
-		return
-	var price: GoldCoin = tag.get_node_or_null("Price") as GoldCoin
-	var ghost: Control = RecruitShop.price_tag(
-		price.amount if price != null else 0, price != null and price.poor
-	)
-	ghost.name = "DroppedTag"
-	var at: Vector2 = card.get_transform() * tag.position
-	_screen._front.add_child(ghost)
-	var fall: Tween = ghost.create_tween()
-	fall.tween_method(
-		func(u: float) -> void:
-			var k: float = GlassMotion.bezier(GlassMotion.IN, u)
-			ghost.position = at + Vector2(0.0, 14.0 * k)
-			ghost.modulate.a = 1.0 - k,
-		0.0,
-		1.0,
-		0.14
-	)
-	fall.tween_callback(ghost.queue_free)
-
-
 # ---- refresh (protos.js refresh) ----
 
 

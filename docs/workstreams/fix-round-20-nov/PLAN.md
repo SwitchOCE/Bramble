@@ -25,6 +25,9 @@ Written by the orchestrator on 20 Nov 2026 against `dev`. Approved by the owner 
     - both land before the first climb, in the shared window.
 12. **Settled 21 Nov.** Old Brock goes to the balance session with the rest of the Badgers.
 13. **Settled 21 Nov.** Animations: all of them ("I accept all changes"), built in batches the owner plays between.
+14. **Settled 22 Nov.** The Charge and Supply pips sit above the type strip, as built in PR 249. Asked the morning pack's questions, the owner said (22 Nov): "I will accept all the recommendations except the rules, which I want a reminder on first."
+15. **Settled 22 Nov.** A carried shop card keeps its price tag (recruit/NOTES.md §2), not prototype 18's drop. Same answer as 14.
+16. **Settled 22 Nov.** The turn-start income coins and new shop drop-in (prototypes 9 and 10) go in the next animation batch, not the recruit batch. Same answer as 14.
 
 ## Steps
 

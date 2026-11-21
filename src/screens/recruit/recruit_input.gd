@@ -22,10 +22,6 @@ const AIM_LIFT: float = 70.0
 ## A carried card is drawn above everything on the table, slot bonus pills and the vignette too
 ## (the Discover veil is 8; the hovered card 5). Let go, it is put down at once (CardKeeper.land).
 const CARRIED_Z: int = 7
-## OPEN, the owner's to choose: whether a carried shop card keeps its price tag. True: the tag
-## travels with the card once it is a drag (recruit/NOTES.md 2, what the owner has on dev). False:
-## the tag drops off where the card was at the press (anim-recruit prototype 18).
-const SHOP_TAG_TRAVELS: bool = true
 
 var _screen: RecruitScreen
 var _keeper: CardKeeper
@@ -239,7 +235,8 @@ func _start_drag() -> void:
 	_tips.fade()
 	_carry.node.z_index = CARRIED_Z
 	var tag: Control = _carry.node.get_node_or_null("ShopTag")
-	if tag != null and SHOP_TAG_TRAVELS:
+	# the price travels with a carried shop card (recruit/NOTES.md 2; the owner, 22 Nov)
+	if tag != null:
 		tag.show()
 
 
@@ -263,9 +260,6 @@ func _pick_up() -> void:
 	var card: Dictionary = _press["card"]
 	var tag: Control = node.get_node_or_null("ShopTag")
 	if tag != null:
-		if not SHOP_TAG_TRAVELS:
-			# protos.js buy: the price tag drops off where the card was
-			_screen._motion.drop_tag(node)
 		# hidden at the press; it comes back on the card once the press is a drag
 		tag.hide()
 	var index: int = GlassPieces.as_int(_press["index"])

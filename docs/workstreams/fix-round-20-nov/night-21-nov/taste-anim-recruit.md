@@ -30,10 +30,9 @@ Code: `src/glass/glass_motion.gd` (the prototype's easings and paths), `src/glas
 - Chose: every drop in gold within a turn counts down over 0.26 s and dips the gold button (buy to hand too, and an Active's cost). Gains are unchanged (the sale's coin is not tonight's).
 - Rests on it: the sell batch, when built, adds the count-up.
 
-**5. The price tag travels with a carried shop card, pending the owner.**
-- Deciding: the two sources the owner approved disagree. The buy-to-board mock-up (`recruit/NOTES.md` §2, item 2): "The price coin travels with the card, so you see what you'll pay". Prototypes 18 and 19: the tag drops off when the card is lifted.
-- Chose: nothing; only the owner can. Until they do, the build keeps what they approved and have on dev: the tag is hidden at the press and comes back on the card once the press is a drag, so a plain click looks as before.
-- The switch: `RecruitInput.SHOP_TAG_TRAVELS` in `src/screens/recruit/recruit_input.gd`. Set it to false for the prototype's drop: the tag falls 14 px as it fades over 0.14 s, easing in, left where the card was (`RecruitMotion.drop_tag`). `test_recruit_drag` checks whichever the switch says.
+**5. The price tag travels with a carried shop card (the owner's pick, 22 Nov).**
+- Deciding: the two sources the owner approved disagreed. The buy-to-board mock-up (`recruit/NOTES.md` §2, item 2): "The price coin travels with the card, so you see what you'll pay". Prototypes 18 and 19: the tag drops off when the card is lifted.
+- The owner chose the mock-up (PLAN decision 15). The tag is hidden at the press and comes back on the card once the press is a drag, so a plain click looks as before. `test_recruit_drag` checks it.
 
 **6. Lit slots fade as the card is let go.**
 - Deciding: prototypes 19, 32, 39 and 41 fade the lit slots over 0.15 s (ease in) at the let-go; the build dropped them at once.
