@@ -30,7 +30,7 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 | Team | Kept | Since | Verdict line |
 |---|---|---|---|
 | red | red-c3 | 21 Nov | red-c3 vs red-c2: 1,000 games, gap −0.338 ± 0.165 (2.450 against 2.788) |
-| blue | blue-c6 | 21 Nov | blue-c6 vs blue-c4: 1,000 games, gap −0.936 ± 0.230 (2.702 against 3.638) |
+| blue | blue-c7 | 22 Nov | blue-c7 vs blue-c6: 1,000 games, gap −0.274 ± 0.158 (2.686 against 2.960) |
 
 ## Log
 - **21 Nov, Ghost Build Orchestrator:** it accepted both points. It is landing the check-crate fix (`a5c90160`) on dev on its own, and will send each future engine port as a dev tag for the referee to bring in the same way. When the fix is merged, bring it into both clones as one referee commit, and move each clone's `third-run-engine-v1` to the engine tree plus the fix, so the teams can run check-crate themselves.
@@ -82,3 +82,6 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
   - Results are unaffected: the bot clock is per-thread CPU time, and there were no clock-outs or faults.
   - Not stopped. The owner was asked whether to pause (brief section 8 lists a busy machine).
 - **Heartbeat 22 Nov 00:34.** Load is back to about 6, so the busy spell is over. No unplayed tags. Red is waiting on its number probes. Blue had been idle for 43 minutes with nothing running, so it was nudged.
+- **blue-c7** (`aef302d5`: +25 whole-card buy/keep value for Sword-heir, from measured replacement fights) against blue-c6: 1,000 games, gap −0.274 ± 0.158 (2.686 against 2.960). **Kept.** The match was clean; field now 11,500.
+  - Tribe picks: Locust 50.6% (3.19), none 31.4% (2.31), Pigeon 17.2% (1.92), Briar 0.4%, Mouse 0.4%; 4.7 in hand. Interim report and method summary sent.
+- **blue-c8** (`0a8b7333`: tier 2 delayed from round 3 to 4) against blue-c7: playing.
