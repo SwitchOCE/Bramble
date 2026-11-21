@@ -5,7 +5,7 @@ extends Control
 ## (docs/ideation-track-2/mockups/menus.js, cog(); stand-ins.html ?m=cog and ?m=fightcog). A click
 ## on it opens the pause panel, as Escape does; the panel's dim covers it, and while the game is
 ## paused it takes nothing (it pauses with the game). It reads the pointer in _input, ahead of the
-## screens (a fight takes any click to skip), and does nothing while a card is held.
+## screens, and does nothing while a card is held.
 
 signal pressed
 

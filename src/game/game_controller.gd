@@ -4,7 +4,7 @@ extends Control
 ## human's fight, then the next round, until the human is out or wins. It owns a GameFlow and
 ## draws its state through ViewAdapter; the screens hold no rules.
 ##   recruit: the player acts at their own pace; no turn timer in this build; End turn ends it
-##   fight: Skip, Space or Enter shows the result. The result advances with Space or Enter,
+##   fight: Skip or Space shows the result. The result advances with Space,
 ##     or after AFTER_FIGHT seconds. Both phases guard against skipping in their first
 ##     RESULT_GUARD seconds. Escape opens the pause panel. The result's leaderboard shows
 ##     everyone's Health and your counters after the round
@@ -24,7 +24,7 @@ const AFTER_FIGHT: float = 2.5
 ## How long the result stays on screen before an input may move on, in seconds.
 const RESULT_GUARD: float = 0.4
 ## The keys that skip a fight or move on from its result.
-const SKIP_KEYS: Array[Key] = [KEY_SPACE, KEY_ENTER, KEY_KP_ENTER]
+const SKIP_KEYS: Array[Key] = [KEY_SPACE]
 ## Words while the ghosts finish a game the human is out of.
 const PLAY_OUT_WORDS: String = "The others play on"
 ## How long the ghosts may play on in one frame, in milliseconds.

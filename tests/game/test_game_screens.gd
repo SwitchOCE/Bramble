@@ -41,7 +41,7 @@ func test_one_input_shows_the_result_and_the_next_moves_on() -> void:
 ## while the fight plays shows the result, with every card in its place; with the result on
 ## screen, an input moves on, but not in the result's first moments (it is seen first).
 func test_skip_keys_work_at_the_start_middle_and_end() -> void:
-	for input: InputEvent in [_space(), _key(KEY_KP_ENTER)]:
+	for input: InputEvent in [_space()]:
 		for at: String in ["start", "middle", "end"]:
 			var game := _game_in_fight()
 			var steps: int = game.fight._replay.steps.size()
@@ -105,15 +105,15 @@ func _game_in_fight(parent: Node = null) -> GameController:
 
 
 ## Only the skip keys leave playback, and the guard lets its opening beat show.
-func test_enter_skips_and_space_respects_the_fight_guard() -> void:
+func test_only_space_skips_and_it_respects_the_fight_guard() -> void:
 	var game := _game_in_fight()
-	for keycode: Key in [KEY_ALT, KEY_SHIFT, KEY_PRINT, KEY_ESCAPE, KEY_A]:
+	for keycode: Key in [KEY_ALT, KEY_SHIFT, KEY_PRINT, KEY_ESCAPE, KEY_A, KEY_ENTER, KEY_KP_ENTER]:
 		game._input(_key(keycode))
 		_check_game_slots(game)
 		assert_eq(game.phase, GameController.Phase.FIGHT, "key %d does not skip" % keycode)
-	game._input(_key(KEY_ENTER))
+	game._input(_space())
 	_check_game_slots(game)
-	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "Enter skips")
+	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "Space skips")
 	game._process(GameController.RESULT_GUARD)
 	_check_game_slots(game)
 	game._input(_key(KEY_SHIFT))
@@ -121,7 +121,10 @@ func test_enter_skips_and_space_respects_the_fight_guard() -> void:
 	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "Shift does not move on")
 	game._input(_key(KEY_ENTER))
 	_check_game_slots(game)
-	assert_eq(game.phase, GameController.Phase.RECRUIT, "Enter moves on")
+	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "Enter does not move on")
+	game._input(_space())
+	_check_game_slots(game)
+	assert_eq(game.phase, GameController.Phase.RECRUIT, "Space moves on")
 	game.request({"type": "end_turn"})
 	_check_game_slots(game)
 	assert_eq(game.phase, GameController.Phase.FIGHT)

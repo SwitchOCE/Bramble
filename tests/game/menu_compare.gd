@@ -42,7 +42,7 @@ func _ready() -> void:
 			var stage: Control = GlassUi.stage(self)
 			GlassUi.backdrop(stage)
 			if which == "hint":
-				GlassUi.title(stage, "Space to skip", 960, 1040, 22, GlassUi.MUTED)
+				GlassUi.title(stage, "Space or click to skip", 960, 1040, 22, GlassUi.MUTED)
 				GlassUi.vignette(stage)
 			else:
 				GlassUi.vignette(stage)

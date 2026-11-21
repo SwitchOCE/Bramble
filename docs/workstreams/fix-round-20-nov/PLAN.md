@@ -10,7 +10,7 @@ Written by the orchestrator on 20 Nov 2026 against `dev`. Approved by the owner 
 
 1. **Settled 21 Nov** (all other proposals approved). Hand overflow: a waiting pile next to the hand, with no limit.
 2. **Settled 21 Nov.** Buying straight onto the board with a full hand, and swapping a hand card with a board unit, are rules; the bots get both moves now.
-3. **Settled 21 Nov.** A "Skip" button, with Space still skipping; clicks elsewhere do nothing.
+3. **Settled 21 Nov.** A "Skip" button, with Space still skipping; clicks elsewhere do nothing. Enter no longer skips: asked whether Enter should keep skipping, the owner picked "Space only" (21 Nov).
 4. **Settled 21 Nov.** Duplicate and triple marks count only cards you own; the faint edge on your own copies stays.
 5. **Settled 21 Nov.** Art: B for all 16 cards ("I want B for all images").
 6. **Settled 21 Nov.** Shop layout: A (two wings), changed: nothing under the gold, the same gaps on both sides, and the next turn's gold as a small "+X" gold mark on the top-right corner of the next opponent's portrait on the End turn button. A mock-up goes to the owner before it is built.
