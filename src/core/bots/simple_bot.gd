@@ -46,9 +46,10 @@ func _score(session: GameSession, player: PlayerState, action: Dictionary) -> fl
 		"buy":
 			score = _buy_score(session, player, action)
 		"sell":
-			score = (
-				_sell_score(player, CoreUtil.to_int(action["slot"])) if action.has("slot") else -1.0
-			)
+			if action.has("slot"):
+				score = _sell_score(player, CoreUtil.to_int(action["slot"]))
+			else:
+				score = _hand_sell_score(player, CoreUtil.to_int(action["hand"]))
 		"ability":
 			score = 2.0  # an ability a card offers is worth using
 	return score
@@ -126,6 +127,18 @@ func _sell_score(player: PlayerState, slot: int) -> float:
 		if not unit.is_spell() and _unit_worth(unit) > _unit_worth(weakest):
 			return 35.0
 	return -1.0
+
+
+## A hand unit the full board will never take (no better than its weakest unit), such as one a
+## swap sent back, is sold so the hand doesn't clog.
+func _hand_sell_score(player: PlayerState, index: int) -> float:
+	var unit: Unit = player.hand[index]
+	if unit.is_spell() or not player.empty_slots().is_empty():
+		return -1.0
+	var weakest: Unit = _weakest(player)
+	if weakest == null or _swap_worth(unit) > _swap_worth(weakest):
+		return -1.0
+	return 35.0
 
 
 static func _weakest(player: PlayerState) -> Unit:
