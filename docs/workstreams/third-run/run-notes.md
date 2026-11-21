@@ -29,8 +29,8 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 
 | Team | Kept | Since | Verdict line |
 |---|---|---|---|
-| red | red-c1 | 21 Nov | red-c1 vs red-m2: 1,000 games, gap −0.914 ± 0.204 (2.886 against 3.800) |
-| blue | blue-c2 | 21 Nov | blue-c2 vs blue-m2: 1,000 games, gap −1.094 ± 0.210 (3.256 against 4.350) |
+| red | red-c2 | 21 Nov | red-c2 vs red-c1: 1,000 games, gap −0.452 ± 0.217 (2.432 against 2.884) |
+| blue | blue-c4 | 21 Nov | blue-c4 vs blue-c2: 1,000 games, gap −0.198 ± 0.168 (3.480 against 3.678) |
 
 ## Log
 - **21 Nov, Ghost Build Orchestrator:** it accepted both points. It is landing the check-crate fix (`a5c90160`) on dev on its own, and will send each future engine port as a dev tag for the referee to bring in the same way. When the fix is merged, bring it into both clones as one referee commit, and move each clone's `third-run-engine-v1` to the engine tree plus the fix, so the teams can run check-crate themselves.
@@ -47,3 +47,9 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
   - Tribe picks: Locust 77.0% (2.40), none 15.0% (3.99), Pigeon 5.4% (6.56), Briar 2.2%, Mouse 0.4%; 2.6 units in hand at the end. Interim report sent to Balance Orchestrator 2, and the method summary to blue.
 - **blue-c3** (`f013c890`: moves unused front-row Lance Corporals back so they issue their Renown order before combat) against blue-c2: playing.
   - blue-c3 against blue-c2: 1,000 games, gap −0.044 ± 0.169 (3.360 against 3.404). **Rejected** (within noise). The match was clean and is pruned.
+- **red-c2** (`c82fcdd6`: card table refit for the new cards, from a fight model on red's own ghost fights; 97 cards moved by a capped step, 18 new rows) against red-c1: 1,000 games, gap −0.452 ± 0.217 (2.432 against 2.884). **Kept.** The match was clean; field now 9,500.
+  - Tribe picks: Locust 78.6% (2.12), none 16.6%, Briar 2.6%, Pigeon 2.0%, Mouse 0.2%; 2.4 in hand.
+- **blue-c4** (`717ecf77`: on a full board with at most one free hand slot, sells a weaker non-Reserve hand unit before a board sale; c3 removed) against blue-c2: 1,000 games, gap −0.198 ± 0.168 (3.480 against 3.678). **Kept.** The match was clean; field now 10,000.
+  - Tribe picks: Pigeon 50.0% (3.92), none 30.8% (2.52), Locust 17.0% (4.19), Briar 2.0%, Mouse 0.2%; 4.3 in hand.
+  - blue-c2 placed 3.678 here against 3.404 in its last match: the field is getting stronger as kept versions join it.
+- Method summaries and interim reports for both were sent. No bot picks Badger, and Mouse is under 1%.
