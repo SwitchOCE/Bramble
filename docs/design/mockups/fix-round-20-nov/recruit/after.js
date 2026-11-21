@@ -128,6 +128,14 @@ function controls(st, layout, s) {
     left(1354, 155.5); at(refEl(), 1354, 185.5); at(frzEl(), 1354, 269.5);
     return;
   }
+  if (layout === "A2") {
+    // A as the owner changed it (21 Nov): the buttons keep today's places and gaps on both sides,
+    // nothing under the gold; the next turn's gold moves to a badge on the next opponent's portrait
+    at(goldEl(), 390, 185.5); at(tierEl(), 390, 269.5);
+    st.append(place(html(`<div class="sbsub" style="width:176px;font-size:18px">−${s.drop} next turn</div>`), 390, 343.5));
+    left(1354, 155.5); at(refEl(), 1354, 185.5); at(frzEl(), 1354, 269.5);
+    return;
+  }
   if (layout === "B") {
     // one purse: all four controls in a block left of the shop, the gold top-left; each readout under what it explains
     const w = 150, x1 = 264, x2 = 422;
@@ -203,6 +211,11 @@ function recruitScreen(st, o) {
   st.append(place(html(`<div class="lbl endlbl" style="font-size:22px">End turn</div>`), 1728, 892));
   st.append(place(html(`<div class="port endturn" style="width:128px;height:128px;background-image:url(assets/portraits/old_mother_mousewife.jpg)"></div>`), 1734, 930));
   st.append(place(html(`<div class="hp">40</div>`), 1722, 1014));
+  if (o.layout === "A2") {
+    // the next turn's gold, on the top-right of the next opponent's portrait
+    // beside the circle's top right, not over it (owner, 21 Nov)
+    st.append(place(html(`<div class="rd incbadge" style="height:30px;gap:4px;padding:0 4px 0 8px"><b style="font-size:21px">+${ctl.income}</b>${COIN}</div>`), 1846, 900));
+  }
   return { G, els, cards };
 }
 function handXY(i, N) {
