@@ -46,3 +46,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
   - Cut with the new `keep_version.sh`. The first run stopped at the tribe tally on an empty board slot (`None`), which is now fixed; the field had already verified at 9,000 runs.
   - Tribe picks: Locust 77.0% (2.40), none 15.0% (3.99), Pigeon 5.4% (6.56), Briar 2.2%, Mouse 0.4%; 2.6 units in hand at the end. Interim report sent to Balance Orchestrator 2, and the method summary to blue.
 - **blue-c3** (`f013c890`: moves unused front-row Lance Corporals back so they issue their Renown order before combat) against blue-c2: playing.
+  - blue-c3 against blue-c2: 1,000 games, gap −0.044 ± 0.169 (3.360 against 3.404). **Rejected** (within noise). The match was clean and is pruned.
