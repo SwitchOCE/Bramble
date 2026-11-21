@@ -13,14 +13,26 @@ use std::{
 };
 
 pub fn run(args: &MatchArgs, field: &Path) -> Result<Value, String> {
+    let red = crate::factory(&args.red)?;
+    let blue = crate::factory(&args.blue)?;
+    run_factories(args, red, blue, field)
+}
+
+/// `run` with the two bots given as constructors, as `matchrun::run_factories` is for live
+/// matches. A team's tools crate uses it to play two versions of its own bot against a field:
+/// `ghostmatch::run_factories(&args, red::new_bot, old_red::new_bot, field)`.
+pub fn run_factories(
+    args: &MatchArgs,
+    red: league_api::Factory,
+    blue: league_api::Factory,
+    field: &Path,
+) -> Result<Value, String> {
     if args.games == 0 || !args.games.is_multiple_of(2) {
         return Err("usage: ghost-match --games must be a positive even number".into());
     }
     if !args.records {
         return Err("usage: ghost-match writes records for replay and cutting".into());
     }
-    let red = crate::factory(&args.red)?;
-    let blue = crate::factory(&args.blue)?;
     crate::matchrun::run_match(args, red, blue, Some(field))
 }
 

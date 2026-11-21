@@ -80,7 +80,7 @@ Set `CARGO_TARGET_DIR` and `TMPDIR` on `/data`; run `godot --headless --import` 
 
 ## 10. What I'd do next, in order
 
-1. **Third-run briefs** for the referee and both teams, from ghost-plan step 5. Two gaps first: the teams' tools crates call `run_factories`, which is live-only, and `run_match` is private, so they can't run ghost matches yet; and `league analyze` has never run on ghost-match output (it averages each seed pair by colour, and an async game has one).
+1. **Third-run briefs** for the referee and both teams, from ghost-plan step 5. A team's tools crate can play two versions of its bot against a field with `league::ghostmatch::run_factories` (the teams' tools still call the live one, pinned at the engine tag: the briefs move them), and `league analyze` scores ghost matches (each colour's mean over a seed pair's games of that colour).
 2. **Archive the GDScript bots** (note 19e). Warning: the proof's 1,000 reference records are GDScript FlowBot and RandomBot games; replace that check first (Rust plays, Godot replays: the r2g steps already do this one way).
 
 **Warnings.** Chain cleanup with `&&`, never `;` (a failed `git add` once let my chain delete a worker's branch). Clippy fails on the `blue` crate: use `--no-deps` on your crates. `cargo test` stops at the first failing binary without `--no-fail-fast`. Piping hides `regen_curated.py`'s exit code. Stale GUT class cache: rerun `godot --headless --import`. The committed `proof/fixtures/async-store` is at old rules: Godot tests and `async_session.rs` use it for its fixed IDs, while recheck cuts a fresh async field from a current Godot game (`proof/current_async_field.sh`). The league page builder fails on old matches until `analysis/deep/run.py` reruns with records.
