@@ -11,6 +11,7 @@ here="$(cd "$(dirname "$0")/.." && pwd)"
 repo="$(cd "$here/../.." && pwd)"
 bin="$(realpath -m "${CARGO_TARGET_DIR:-$here/target}")/release"
 mkdir -p "$out"
+rm -f -- "$out"/fight-logs-*.jsonl
 sample="$out/fight-logs-cases.jsonl"
 python3 - "$cases" "$sample" "$count" <<'EOF'
 import json, random, sys
@@ -40,7 +41,8 @@ pids+=($!)
 status=0
 for pid in "${pids[@]}"; do wait "$pid" || status=1; done
 (( status == 0 )) || { echo "a fight runner failed; logs in $out"; exit 1; }
-cat "$out"/fight-logs-gd-*.jsonl > "$out/fight-logs-gd.jsonl"
+for (( shard = 0; shard < jobs; shard++ )); do cat "$out/fight-logs-gd-$shard.jsonl"; done \
+  > "$out/fight-logs-gd.jsonl"
 python3 "$here/bramble-fight/compare.py" --require-trace --trace-values \
   "$out/fight-logs-gd.jsonl" "$out/fight-logs-rust.jsonl"
 rm -f -- "$sample" "$out"/fight-logs-*.jsonl
