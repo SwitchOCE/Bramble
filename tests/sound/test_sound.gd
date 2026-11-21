@@ -135,11 +135,11 @@ func test_a_real_fight_through_the_screen_asks_for_its_hits() -> void:
 		ViewAdapter.catalog(content),
 		CoreUtil.to_int(record["damage"])
 	)
-	var splash_steps: int = 0
+	# every cue each step should ask for, in order, from the step itself
+	var expected: Array[String] = []
 	for step: Dictionary in replay.steps:
-		if str(step["kind"]) == "splash":
-			splash_steps += 1
-	assert_gt(splash_steps, 0, "the fight has hits")
+		expected.append_array(_names(SoundCues.for_fight_step(step, _table)))
+	assert_gt(expected.size(), 0, "the fight has hits")
 	Sound.keep_log = true
 	Sound.heard.clear()
 	var screen: FightScreen = SCREEN.instantiate()
@@ -149,12 +149,16 @@ func test_a_real_fight_through_the_screen_asks_for_its_hits() -> void:
 		if not screen.is_playing():
 			break
 		screen._process(0.1)
+	# staggered cues start a moment later
+	await wait_seconds(0.2)
 	Sound.keep_log = false
-	var hits: int = 0
+	var asked: Array[String] = []
 	for entry: Dictionary in Sound.heard:
-		if str(entry["cue"]).begins_with("fight.hit."):
-			hits += 1
-	assert_gte(hits, splash_steps, "at least one hit cue per hit step")
+		asked.append(str(entry["cue"]))
+	# staggered cues land after the steps that follow them, so compare as sets with counts
+	asked.sort()
+	expected.sort()
+	assert_eq(asked, expected, "the log holds exactly the cues the fight's steps call for")
 	Sound.heard.clear()
 
 

@@ -1,6 +1,8 @@
-# Sound in the game: plan (draft, 21 Nov 2026, not approved)
+# Sound in the game: plan (approved 21 Nov 2026)
 
 The owner's words (21 Nov, dictated, as heard): "I gave neon feedback, so you can now begin the next round. And we should probably run inside this repo, right? Anyway, let's get Nissan's into the game. Trust Neon to build the sound files and then have Opus models implement them based on its instruction. They can collaborate with it" *[probably "these sounds"]*
+
+The owner approving it (21 Nov): "I approve the plan Put the mute in the pause menu on a volume slider as well". So step 1 also adds a volume slider and a mute to the pause menu.
 
 Split: Neon (Gemini, branch `sound/files`) makes the files and says how they are used. This session (Opus, branch `sound/engine`) builds the code that plays them, the checks and the PRs to `dev`.
 
@@ -24,7 +26,7 @@ No sound code. Playback speed is fixed at 1. A fight lasts about 20 s (p90 28 s)
 
 - `scripts/check.sh` (tests, type check, lint).
 - Sound never changes a fight: it reads only the finished fight's replay. A check fails if anything in `src/core` refers to sound. No core file changes, so ghost and Rust comparisons are untouched.
-- A scripted game writes a log of every cue asked for, checked against the events that caused it.
+- A real fight played through the fight screen logs every cue asked for, checked against the cues its steps call for (`tests/sound/test_sound.gd`).
 - The Windows export carries the files and the game plays them without errors.
 - Only if the owner hears clipping: mix the busiest fight offline and measure its peak.
 - What no check can tell: whether it sounds right, and how late the sound comes on the owner's hardware. Only the owner, on a Windows build.

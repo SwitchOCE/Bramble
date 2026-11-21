@@ -39,7 +39,6 @@ func _ready() -> void:
 	# the pause panel plays a hit at the new volume while the game is paused
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_rng.randomize()
-	keep_log = keep_log or OS.get_cmdline_user_args().has("--sound-log")
 	load_table(TABLE_PATH)
 	_ensure_bus()
 	for i: int in VOICES:
@@ -147,8 +146,6 @@ func _note(entry: Dictionary, dropped: String) -> void:
 	entry["dropped"] = dropped
 	if keep_log:
 		heard.append(entry)
-		if OS.get_cmdline_user_args().has("--sound-log"):
-			print("sound: %s %s %s" % [entry["cue"], entry["file"], dropped])
 
 
 ## A take: never the one before it, nor (while others are left) one already used in this step.

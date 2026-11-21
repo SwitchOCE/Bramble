@@ -63,8 +63,8 @@ Each item says what is hidden, how we know, what covers part of it today, and wh
 ## 8. Sound
 
 - **Hidden:** everything an agent would need to hear.
-- **How we know:** no agent can listen. There is no sound in the build yet.
-- **Might close it:** when sound arrives, agents can check that a sound is triggered and how loud the file is; whether it sounds right is a person's call.
+- **How we know:** no agent can listen. Since 21 Nov the build plays fight hits (src/sound/; Neon makes the files, docs/workstreams/sound/).
+- **Covers part of it:** tests/sound/test_sound.gd checks which cue each fight step asks for; Neon measures each file's loudness and peak. Whether it sounds right, and how late it plays on real hardware, is the owner's call.
 
 ## 9. Reviews share these limits
 
