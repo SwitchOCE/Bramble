@@ -30,7 +30,7 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 | Team | Kept | Since | Verdict line |
 |---|---|---|---|
 | red | red-c3 | 21 Nov | red-c3 vs red-c2: 1,000 games, gap −0.338 ± 0.165 (2.450 against 2.788) |
-| blue | blue-c8 | 22 Nov | blue-c8 vs blue-c7: 1,000 games, gap −0.570 ± 0.202 (2.478 against 3.048) |
+| blue | blue-c9 | 22 Nov | blue-c9 vs blue-c8: 1,000 games, gap −0.558 ± 0.143 (1.938 against 2.496) |
 
 ## Log
 - **21 Nov, Ghost Build Orchestrator:** it accepted both points. It is landing the check-crate fix (`a5c90160`) on dev on its own, and will send each future engine port as a dev tag for the referee to bring in the same way. When the fix is merged, bring it into both clones as one referee commit, and move each clone's `third-run-engine-v1` to the engine tree plus the fix, so the teams can run check-crate themselves.
@@ -88,4 +88,6 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - **blue-c8** (`0a8b7333`: tier 2 delayed from round 3 to 4) against blue-c7: 1,000 games, gap −0.570 ± 0.202 (2.478 against 3.048). **Kept.** The match was clean; field now 12,000.
   - Tribe picks: Locust 42.8% (3.04), none 34.8% (2.32), Pigeon 22.0% (1.65), Mouse 0.4%; 4.7 in hand. Interim report and method summary sent.
 - **red-c4** (`3419e496`: positioning search scores by margin, 0.4 per surviving unit) against red-c3: 1,000 games, gap −0.072 ± 0.152 (2.470 against 2.542). **Rejected**: not better. The match was clean.
-- **blue-c9** (`80b63def`: Sword-heir buy/keep bonus 25 → 50) against blue-c8: playing.
+- **blue-c9** (`80b63def`: Sword-heir buy/keep bonus 25 → 50) against blue-c8: 1,000 games, gap −0.558 ± 0.143 (1.938 against 2.496). **Kept.** The match was clean; field now 12,500.
+  - Tribe picks: none 53.6% (1.81), Locust 28.0% (2.61), Pigeon 17.4% (1.28), Badger 0.8%, Briar 0.2%; 4.8 in hand.
+  - Sword-heir on the final board: blue-c8 4.4% of runs, blue-c9 40.6% (place 2.27 with it, 1.71 without), red-c3 0.2%. Interim report and method summary sent.
