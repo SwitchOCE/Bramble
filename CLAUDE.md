@@ -51,7 +51,7 @@ tools/checks/                    The quality gate's own checks (version drift, c
 tools/look/                      Run any scene on a virtual display: screenshots, clicks, keys and the game's errors; compare a scene with an HTML mock-up, region by region
 tools/feel/                      Film any scene with a scripted pointer at a true 60 frames a second, to judge motion and feel
 tools/glass/                     pull_mockups.py pulls the glass mock-ups' pieces into assets/glass; compare.py is the ideation build's whole-screen compare of a scene with its mock-up
-scripts/                         Cloud setup, session hook, quality gate (check.sh), export smoke test, the Windows build (build_windows.sh), the bot soak (soak.sh)
+scripts/                         Cloud setup, session hook, quality gate (check.sh), export smoke test, the Windows build (build_windows.sh), the macOS build (build_macos.sh, only when the owner asks for one), the bot soak (soak.sh)
 project.godot, src/, tests/      The Godot project, the playable build: rules core (src/core), ghost store and matchmaker (src/ghosts), tribes and cards as data (src/content), screens (src/screens, src/glass), game flow and bots (src/game)
 assets/glass/                    The glass mock-ups' frames, card data, layout numbers and fonts, pulled by tools/glass/pull_mockups.py
 assets/units/                    Card art for the five tribes' units
