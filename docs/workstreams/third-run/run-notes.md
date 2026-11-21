@@ -29,7 +29,7 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 
 | Team | Kept | Since | Verdict line |
 |---|---|---|---|
-| red | red-m2 | start | — |
+| red | red-c1 | 21 Nov | red-c1 vs red-m2: 1,000 games, gap −0.914 ± 0.204 (2.886 against 3.800) |
 | blue | blue-c2 | 21 Nov | blue-c2 vs blue-m2: 1,000 games, gap −1.094 ± 0.210 (3.256 against 4.350) |
 
 ## Log
@@ -42,3 +42,7 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
   - **Into the field.** It was cut into a scratch store (1,000 runs, verified), and only the 500 `blue-c2` runs were copied into the climbing field. The cut tool has no label filter. Reindexed and verified: 8,500 runs (red 4,000, blue 4,000, blue-c2 500). Match pruned.
   - **Interim report to Balance Orchestrator 2** (section 8). blue-c2's main tribes on the final board, counting 4 or more units and ignoring the hand: Pigeon 40.8% (place 4.10), none 34.2% (2.21), Locust 22.2% (3.55), Briar 2.8% (1.36). Hand at the end: 5.2 units, against 3.4 for blue-m2.
   - **For later kept versions:** take tribe picks from the cut runs, because pruning deletes `games.jsonl`.
+- **red-c1** (`43f82c68`: holds Reserve units in hand on a full board, returns a Reserve unit to hand instead of selling it, drops Colonel hand-stocking; built after blue-c2's summary) against red-m2: 1,000 games, gap −0.914 ± 0.204. **Kept.** The match was clean.
+  - Cut with the new `keep_version.sh`. The first run stopped at the tribe tally on an empty board slot (`None`), which is now fixed; the field had already verified at 9,000 runs.
+  - Tribe picks: Locust 77.0% (2.40), none 15.0% (3.99), Pigeon 5.4% (6.56), Briar 2.2%, Mouse 0.4%; 2.6 units in hand at the end. Interim report sent to Balance Orchestrator 2, and the method summary to blue.
+- **blue-c3** (`f013c890`: moves unused front-row Lance Corporals back so they issue their Renown order before combat) against blue-c2: playing.
