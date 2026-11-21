@@ -39,11 +39,19 @@ All paths are in the checkout unless they start with `/data`.
   - D. The glazier's bench (diegetic light table)
   - E. Glass in the forest (no window; cards in a woodland scene)
   - F. The reading book (side by side; names and keywords in words on the cards)
-- All six side by side: `/data/ui-ideation/concepts/compare-mid.png` and `compare-fight.png`. Use them to get your bearings; judge from the full-size renders.
+- All six side by side with today's game: `/data/ui-ideation/concepts/compare-mid.png`, `compare-first.png`, `compare-fight.png` and `compare-after.png`. Use them to get your bearings; judge from the full-size renders.
 - Today's game, same state: `/data/ui-ideation/baseline/shots/recruit-mid.png`, `recruit-t1.png`, `fight-mid-t9-start.png`, `fight-mid-t9-result-defeat.png` (more in that folder). The state itself: `docs/workstreams/ui-ideation/map/state.md`. What a player decides on each screen: `map/map.md`. A critique of today's screens: `map/critique.md`.
 - The gallery of games players love: `/data/ui-ideation/gallery/sheet-1.jpg`, `sheet-2.jpg`, `index.md`, full size in `images/`.
 - The owner's method for judging a game screen: `/data/ui-ideation/skills/game-ui-design/SKILL.md` (the critique checks; the hundredth game, not the first; teachable).
 - The owner's earlier decisions about the screens: `docs/workstreams/ui-ideation/owner-decisions.md`.
+
+## Facts from the orchestrator (mine, not the owner's and not a judgement)
+
+- The fight's end: `map/state.md` says the opponent keeps all seven units. One designer replayed the game's record and found six survivors (Briar King fell). Do not mark a concept down for showing either number.
+- The build keeps no fight log. Any "what beat you" account in an `after` view was reasoned by the designer from the two boards; judge how it is shown, not whether the game records it today.
+- The 13 damage is 10 for turn 9 plus 3 for a heavy loss, as several designers checked in the code.
+- D and E each have one new background picture, made by a separate art worker from the designer's written request (`art-request.md` in their folders). The other four had no new pictures: only today's art and what they drew in SVG and CSS.
+- Designers were told to read `owner-decisions.md` only after their first full draft, and were not given `map/critique.md`.
 
 ## What to do
 
