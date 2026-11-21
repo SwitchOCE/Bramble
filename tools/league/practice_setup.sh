@@ -195,7 +195,7 @@ staged=$(mktemp -d "$practice/.practice-match.XXXXXXXX")
   --clock-ms 1000 --threads 2 --out "$staged"
 "$league" analyze "$staged" | sed -n '1,8p'
 # The practising bot is red. The referee's 19 Nov ruling keeps blue's card
-# values and strategy labels private, including in the older standalone reports.
+# values and strategy labels private.
 python3 - "$staged" <<'PY'
 import gzip
 import json
@@ -203,7 +203,7 @@ from pathlib import Path
 import sys
 
 match = Path(sys.argv[1])
-for log in ("shops", "decisions", "reports"):
+for log in ("shops", "decisions"):
     for suffix in (".jsonl", ".jsonl.gz"):
         path = match / (log + suffix)
         if not path.is_file():
@@ -217,8 +217,6 @@ for log in ("shops", "decisions", "reports"):
                 for line in source:
                     row = json.loads(line)
                     if row["colour"] == "blue":
-                        if log == "reports":
-                            continue
                         if "values" in row or "strategy" in row:
                             row.pop("values", None)
                             row.pop("strategy", None)

@@ -175,4 +175,4 @@ class Pruning(unittest.TestCase):
         self.assertIn("blue,(none),2,4,0,2", (build / "tribes.csv").read_text())
         self.assertEqual(gzip.decompress((build / "second+findings.md.gz").read_bytes()), finding.read_bytes())
         self.assertTrue((build / "second.summary.json").is_file())
-        self.assertTrue((build / "second.analysis.json").is_file())
+        self.assertFalse((build / "second.analysis.json").exists())

@@ -282,7 +282,6 @@ def archive(root, summary, archive_dir, supplied):
             stage.mkdir()
         merge_tables(stage, match_tables(root))
         write_summary(stage / manifest, summary)
-        copy_analysis(root, stage / f"{label}.analysis.json")
         if (root / VERDICT).is_file():
             with (stage / "verdicts.jsonl").open("a", encoding="utf-8") as out:
                 for line in (root / VERDICT).read_text(encoding="utf-8").splitlines():
