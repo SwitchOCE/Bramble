@@ -81,3 +81,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - **Busy machine, 23:51.** Load average 30 on 6 cores from other sessions: a `league match` in the sound-engine worktree and several Godot review and test runs. Match wall time went from 0.27 to 1.09 s a game.
   - Results are unaffected: the bot clock is per-thread CPU time, and there were no clock-outs or faults.
   - Not stopped. The owner was asked whether to pause (brief section 8 lists a busy machine).
+- **Heartbeat 22 Nov 00:34.** Load is back to about 6, so the busy spell is over. No unplayed tags. Red is waiting on its number probes. Blue had been idle for 43 minutes with nothing running, so it was nudged.
