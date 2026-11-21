@@ -378,7 +378,7 @@
      "to": "target"
     }
    ],
-   "art": "spell-sharpen",
+   "art": "spell-1",
    "text": "Give a friendly unit +{attack}/+{health}."
   },
   {
@@ -392,7 +392,7 @@
      "mechanic": "discover"
     }
    ],
-   "art": "spell-seek",
+   "art": "spell-2",
    "text": "Discover a unit."
   },
   {
@@ -409,7 +409,7 @@
      "mechanic": "discover"
     }
    ],
-   "art": "spell-forage",
+   "art": "spell-1",
    "text": "Discover two units."
   }
  ]
