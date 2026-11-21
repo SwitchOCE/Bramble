@@ -22,3 +22,9 @@
 - **Live Grudge wording.** The brief defers a Grudge wording change. The requested dev base
   already contains the start-of-turn wording and numbered Grudge from commit `5aca3419`.
   I kept the data and let the live reminder render from it.
+
+## Charge and Supply pips move above the type strip (orchestrator)
+
+- **What:** the pips sat just over the stat discs, where the new type strip now is, so on the Home Guard they covered its type. Neither mock-up shows pips.
+- **Options:** pips above the strip; pips below it, which would cover the discs; or a shorter strip on cards with pips.
+- **Chose:** above the strip (`CardPips.make(..., type_line)`), so both stay readable and the strip stays the same on every card. `test_pips_clear_the_type_line` checks it.
