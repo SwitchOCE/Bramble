@@ -8,6 +8,8 @@ const LIFT: float = 14.0
 const WARM: Color = Color(1.18, 1.13, 1.06)
 const AMBER: Color = Color("ffd678")
 
+static var _disc: Texture2D
+
 var _screen: RecruitScreen
 var _timeline: Tween
 var _poses: Dictionary = {}
@@ -155,7 +157,7 @@ func _grudge(effect: Dictionary, start: float) -> void:
 	var origin: Vector2 = card.position
 	_fire(card, start, 0.42)
 	var words: String = "+%d/+%d" % [effect["attack"], effect["health"]]
-	var pill: Control = _gain_tag(words, Color("c8f7ba"), Color("284c32"))
+	var pill: Control = _gain_tag(words, Color("fbffef"), Color("4f9a3a"))
 	pill.name = "GrudgeGain"
 	var mark: KeywordMark = _grudge_mark(card)
 	var from: Vector2 = origin + Vector2(card.size.x / 2.0, card.size.y * KeywordStyle.CARD_Y)
@@ -163,14 +165,24 @@ func _grudge(effect: Dictionary, start: float) -> void:
 		from = origin + mark.position + mark.size / 2.0
 		_remember(mark)
 		mark.pivot_offset = mark.size / 2.0
-		_pulse(mark, start + 0.04, 0.38, 1.6)
+		_pop(mark, start + 0.04, 0.38, [[0.0, 1.0], [0.3, 1.6], [1.0, 1.0]], 1.6)
 	from.y -= LIFT
 	var mid: Vector2 = origin + card.size * Vector2(0.5, 0.42) - Vector2(0.0, LIFT)
-	_move(pill, start + LAUNCH, 0.09, from, from - Vector2(0, 10), 0.5, 0.9)
-	_move(pill, start + 0.20, 0.24, from - Vector2(0, 10), mid, 0.9, 1.1)
-	_move(pill, start + 0.44, 0.10, mid, mid + Vector2(0, 62), 1.1, 0.5)
-	_fade(pill, start + LAUNCH, 0.09, 0.0, 1.0)
-	_fade(pill, start + 0.44, 0.10, 1.0, 0.0)
+	# protos.js fxGrudge: one run of keyframes (0, 90, 330, 430 ms) under one ease-out
+	var steps: Array = [
+		[0.0, Vector4(from.x, from.y, 0.5, 0.0)],
+		[0.09 / 0.43, Vector4(from.x, from.y - 10.0, 0.9, 1.0)],
+		[0.33 / 0.43, Vector4(mid.x, mid.y, 1.1, 1.0)],
+		[1.0, Vector4(mid.x, mid.y + 62.0, 0.5, 0.0)],
+	]
+	_phase(
+		start + LAUNCH,
+		0.43,
+		func(t: float) -> void:
+			var v: Vector4 = GlassMotion.keyframes(steps, GlassMotion.bezier(GlassMotion.OUT, t))
+			_pose(pill, Vector2(v.x, v.y), v.z, 0.0)
+			pill.modulate.a = v.w
+	)
 	_gain_stats(card, effect, start + 0.52)
 
 
@@ -180,15 +192,24 @@ func _coin(source: GlassCard, amount: int, start: float) -> void:
 	_remember(button)
 	button.pivot_offset = button.size / 2.0
 	var from: Vector2 = _centre(source) - Vector2(0.0, LIFT)
+	# protos.js coinToGold: to the coin on the gold button
 	var to: Vector2 = _centre(button)
-	var coin: GoldCoin = GoldCoin.make(amount, 50.0, false, true)
-	coin.show_plus = true
+	for child: Node in button.get_children():
+		if child is GoldCoin:
+			var icon: GoldCoin = child
+			to = button.get_transform() * (icon.position + icon.size / 2.0)
+			break
+	# protos.js coinEl: a plain coin, what it gains beside it (.fxcoin b)
+	var coin: GoldCoin = GoldCoin.make(-1, 50.0)
 	coin.name = "GoldGain"
+	var gain: GlassText = _words("+%d" % amount, Color("ffe08a"), 32, 6.0)
+	gain.position = Vector2(coin.size.x + 2.0, (coin.size.y - gain.size.y) / 2.0)
+	coin.add_child(gain)
 	_add_effect(coin)
 	_arc(coin, start + LAUNCH, 0.42, from, to, 140.0, 0.7)
 	_fade(coin, start + LAUNCH, 0.06, 0.0, 1.0)
 	_fade(coin, start + 0.59, 0.14, 1.0, 0.0)
-	_ring(to, start + 0.50, 44.0)
+	_ring(to, start + 0.50, 44.0, Color("ffd65a"))
 	var balance: int = _gold
 	_gold += amount
 	_phase(
@@ -196,7 +217,7 @@ func _coin(source: GlassCard, amount: int, start: float) -> void:
 		0.26,
 		func(t: float) -> void: _screen._counts.show_gold(balance + roundi(amount * _out(t)))
 	)
-	_pulse(button, start + 0.53, 0.28, 1.07)
+	_pop(button, start + 0.53, 0.28, [[0.0, 1.0], [0.3, 1.07], [1.0, 1.0]], 1.5)
 
 
 func _campaigner(source: GlassCard, effect: Dictionary, start: float) -> void:
@@ -223,7 +244,7 @@ func _campaigner(source: GlassCard, effect: Dictionary, start: float) -> void:
 				under.show()
 	)
 	banner.pivot_offset = banner.size / 2.0
-	_pulse(banner, start + 0.50, 0.32, 1.7)
+	_pop(banner, start + 0.50, 0.32, [[0.0, 1.7], [1.0, 1.0]], 1.5)
 	var to: Vector2 = _centre(banner)
 	var peak: Vector2 = to - Vector2(0, 100)
 	var star: Control = _renown_star(GlassPieces.as_int(effect["amount"]))
@@ -264,17 +285,21 @@ static func _grudge_mark(card: GlassCard) -> KeywordMark:
 	return null
 
 
+## protos.js gainPill (.gain): green glass, 44 px tall and round-ended, a dark lead edge and a
+## green glow, the gain in 26 px display figures.
 func _gain_tag(words: String, ink: Color, pane: Color) -> Control:
 	var tag: Panel = Panel.new()
 	tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var style: StyleBoxFlat = StyleBoxFlat.new()
 	style.bg_color = pane
-	style.border_color = Color("20170d")
+	style.border_color = Color("16120e")
 	style.set_border_width_all(3)
-	style.set_corner_radius_all(18)
+	style.set_corner_radius_all(22)
+	style.shadow_color = Color(0.667, 1.0, 0.471, 0.65)
+	style.shadow_size = 8
 	tag.add_theme_stylebox_override("panel", style)
-	var label: GlassText = _words(words, ink)
-	tag.size = Vector2(maxf(72.0, label.size.x + 24.0), 42.0)
+	var label: GlassText = _words(words, ink, 26, 5.0)
+	tag.size = Vector2(maxf(72.0, label.size.x + 28.0), 44.0)
 	label.position = (tag.size - label.size) / 2.0
 	tag.add_child(label)
 	_add_effect(tag)
@@ -282,47 +307,113 @@ func _gain_tag(words: String, ink: Color, pane: Color) -> Control:
 
 
 func _renown_star(amount: int) -> Control:
-	var star: TextureRect = TextureRect.new()
+	# protos.js starEl (.fxstar): a 60 px gold disc, its light at 38% 30%, a 3 px dark rim and a
+	# warm glow, with the Renown star drawn in dark line at two thirds of its size
+	var star: Control = Control.new()
 	star.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	star.texture = KeywordStyle.icon("Renown")
-	star.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	star.size = Vector2.ONE * 54
+	star.size = Vector2.ONE * 60
 	star.name = "RenownGain"
-	var label: GlassText = _words("+%d" % amount, AMBER)
-	label.position = Vector2(star.size.x - 8, (star.size.y - label.size.y) / 2.0)
+	var disc: Texture2D = _star_disc()
+	star.draw.connect(
+		func() -> void:
+			var mid: Vector2 = star.size / 2.0
+			var r: float = star.size.x / 2.0
+			# box-shadow 0 0 18px rgba(255,200,80,.85), 0 3px 5px rgba(0,0,0,.6)
+			for i: int in 6:
+				var k: float = (i + 1) / 6.0
+				star.draw_circle(mid, r + 18.0 * k, Color(1.0, 0.784, 0.314, 0.14 * (1.0 - k)))
+			star.draw_circle(mid + Vector2(0, 3), r + 1.0, Color(0, 0, 0, 0.35))
+			star.draw_texture_rect(disc, Rect2(Vector2.ZERO, star.size), false)
+	)
+	# protos.js starEl (.fxstar em): the Renown it carries at its lower right, 26 px
+	var label: GlassText = _words("+%d" % amount, Color("ffe08a"), 26, 5.0)
+	label.position = star.size + Vector2(22.0, 10.0) - label.size
 	star.add_child(label)
 	_add_effect(star)
 	return star
 
 
-static func _words(words: String, ink: Color) -> GlassText:
+## The .fxstar disc, drawn once at twice its size: radial-gradient(circle at 38% 30%, #fff6c4,
+## #ffcf3d 55%, #c98a10) out to the farthest corner, a 3 px #16120e rim, and the Renown star in
+## dark line at two thirds of its size.
+static func _star_disc() -> Texture2D:
+	if _disc != null:
+		return _disc
+	var side: int = 120
+	var image: Image = Image.create(side, side, false, Image.FORMAT_RGBA8)
+	var mid: Vector2 = Vector2.ONE * side / 2.0
+	var light: Vector2 = Vector2(0.38, 0.30) * side
+	var reach: float = (Vector2.ONE * side - light).length()
+	var r: float = side / 2.0
+	for y: int in side:
+		for x: int in side:
+			var at: Vector2 = Vector2(x + 0.5, y + 0.5)
+			var d: float = at.distance_to(mid)
+			var k: float = at.distance_to(light) / reach
+			var c: Color = (
+				Color("fff6c4").lerp(Color("ffcf3d"), k / 0.55)
+				if k < 0.55
+				else Color("ffcf3d").lerp(Color("c98a10"), (k - 0.55) / 0.45)
+			)
+			c = c.lerp(Color("16120e"), clampf(d - (r - 6.0) + 0.5, 0.0, 1.0))
+			c.a = clampf(r - d + 0.5, 0.0, 1.0)
+			image.set_pixel(x, y, c)
+	var mark: Image = _star_line()
+	var inset: int = roundi(side * 0.17)
+	mark.resize(side - 2 * inset, side - 2 * inset, Image.INTERPOLATE_LANCZOS)
+	image.blend_rect(mark, Rect2i(Vector2i.ZERO, mark.get_size()), Vector2i(inset, inset))
+	image.generate_mipmaps()
+	_disc = ImageTexture.create_from_image(image)
+	return _disc
+
+
+static func _star_line() -> Image:
+	var spec: Dictionary = KeywordStyle.entry("Renown")
+	var svg: String = (
+		'<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24"'
+		+ ' fill="none" stroke="#16120e" stroke-width="2.4" stroke-linecap="round"'
+		+ ' stroke-linejoin="round">%s</svg>' % KeywordStyle.data()["icons"][spec["icon"]]
+	)
+	var image: Image = Image.new()
+	image.load_svg_from_string(svg)
+	return image
+
+
+static func _words(words: String, ink: Color, px: float = 30, stroke: float = 3.0) -> GlassText:
 	var label: GlassText = GlassText.new()
 	label.words = words
-	label.font_px = 30
+	label.font_px = px
 	label.weight = 900
 	label.family = "display"
 	label.lining = true
 	label.colour = ink
-	label.stroke_colour = Color("291c10")
-	label.stroke_width = 3.0
+	label.stroke_colour = Color("16120e")
+	label.stroke_width = stroke
 	return label.refresh()
 
 
-func _ring(at: Vector2, start: float, radius: float) -> void:
+## protos.js ring(): a ring of light where a gain lands, 4 px with a soft glow, from 0.3 to 0.6 of
+## its size as it shows (a quarter of the way) and out to 1.3 as it fades, over 0.38 s eased out.
+func _ring(at: Vector2, start: float, radius: float, colour: Color = AMBER) -> void:
 	var ring: Node2D = Node2D.new()
 	ring.position = at
 	ring.modulate.a = 0.0
 	ring.draw.connect(
-		func() -> void: ring.draw_arc(Vector2.ZERO, radius, 0, TAU, 48, AMBER, 2, true)
+		func() -> void:
+			ring.draw_arc(Vector2.ZERO, radius, 0, TAU, 64, Color(colour, 0.35), 14, true)
+			ring.draw_arc(Vector2.ZERO, radius, 0, TAU, 64, Color(colour, 0.95), 4, true)
 	)
 	add_child(ring)
+	var steps: Array = [
+		[0.0, Vector2(0.3, 0.0)], [0.25, Vector2(0.6, 1.0)], [1.0, Vector2(1.3, 0.0)]
+	]
 	_phase(
 		start,
 		0.38,
 		func(t: float) -> void:
-			var mix: float = _out(t)
-			ring.scale = Vector2.ONE * lerpf(0.3, 1.3, mix)
-			ring.modulate.a = minf(t * 4.0, 1.0 - mix)
+			var v: Vector2 = GlassMotion.keyframes(steps, GlassMotion.bezier(GlassMotion.OUT, t))
+			ring.scale = Vector2.ONE * v.x
+			ring.modulate.a = v.y
 	)
 
 
@@ -358,13 +449,25 @@ func _fade(node: Control, at: float, time: float, from: float, to: float) -> voi
 	_phase(at, time, func(t: float) -> void: node.modulate.a = lerpf(from, to, t))
 
 
-func _pulse(node: Control, at: float, time: float, swell: float) -> void:
+## A scale keyframe run under one ease-out (protos.js), brightening up to `bright` with the
+## swell (a value of 1 stays as it was).
+func _pop(node: Control, at: float, time: float, steps: Array, bright: float) -> void:
+	var first: Array = steps[0]
+	var rest: float = first[1]
+	var peak: float = rest
+	for step: Array in steps:
+		var size: float = step[1]
+		peak = maxf(peak, size)
 	_phase(
 		at,
 		time,
 		func(t: float) -> void:
-			var bump: float = minf(t / 0.25, _out(1.0 - t) / _out(0.75))
-			node.scale = Vector2.ONE * lerpf(1.0, swell, bump)
+			var size: float = GlassMotion.keyframes(steps, GlassMotion.bezier(GlassMotion.OUT, t))
+			node.scale = Vector2.ONE * size
+			var lit: float = 1.0
+			if peak > 1.0:
+				lit = lerpf(1.0, bright, clampf((size - 1.0) / (peak - 1.0), 0.0, 1.0))
+			node.modulate = Color(lit, lit, lit, node.modulate.a)
 	)
 
 

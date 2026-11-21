@@ -235,6 +235,7 @@ func _start_drag() -> void:
 	_tips.fade()
 	_carry.node.z_index = CARRIED_Z
 	var tag: Control = _carry.node.get_node_or_null("ShopTag")
+	# the price travels with a carried shop card (recruit/NOTES.md 2; the owner, 22 Nov)
 	if tag != null:
 		tag.show()
 
@@ -259,6 +260,7 @@ func _pick_up() -> void:
 	var card: Dictionary = _press["card"]
 	var tag: Control = node.get_node_or_null("ShopTag")
 	if tag != null:
+		# hidden at the press; it comes back on the card once the press is a drag
 		tag.hide()
 	var index: int = GlassPieces.as_int(_press["index"])
 	if _press["kind"] == "board":

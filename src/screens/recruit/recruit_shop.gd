@@ -66,12 +66,15 @@ static func build_buttons(screen: RecruitScreen) -> void:
 		var title: TextureRect = _icon("shop_up", 18, Color("c9bda6"))
 		title.name = "ShopUp"
 		var tiers: GlassText = _text("%d → %d" % [tier, tier + 1], 27, true)
+		tiers.name = "Tiers"
 		title.position.x = (tiers.size.x - title.size.x) / 2.0
 		tiers.position.y = 15.0
 		words.size = Vector2(maxf(title.size.x, tiers.size.x), 43.0)
 		words.add_child(title)
 		words.add_child(tiers)
-		_row(upgrade, [words, GoldCoin.make(value, BUTTON_COIN, value > screen._counts.gold())])
+		var price: GoldCoin = GoldCoin.make(value, BUTTON_COIN, value > screen._counts.gold())
+		price.name = "Cost"
+		_row(upgrade, [words, price])
 		var drop: int = GlassPieces.as_int(screen.state.get("tier_up_drop", 0))
 		if drop > 0:
 			_shop_readout(
@@ -187,20 +190,27 @@ static func dress_card(node: Control, data: Dictionary, poor: bool) -> void:
 		price_coin.position = Vector2(-16.0, node.size.y * 0.16)
 		node.add_child(price_coin)
 		return
-	var price: int = GlassPieces.as_int(data.get("price", 0))
+	var tag: Control = price_tag(GlassPieces.as_int(data.get("price", 0)), poor)
+	tag.position = Vector2(node.size.x / 2.0, node.size.y)
+	node.add_child(tag)
+
+
+## A shop unit's hanging price tag: a pin and a short cord, the price coin hanging from it. Its
+## origin is the pin (it swings about it).
+static func price_tag(price: int, poor: bool) -> Control:
 	var tag: Control = Control.new()
 	tag.name = "ShopTag"
 	tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	tag.position = Vector2(node.size.x / 2.0, node.size.y)
 	tag.draw.connect(
 		func() -> void:
 			tag.draw_circle(Vector2(0, 0), 3, Color("16120e"))
 			tag.draw_line(Vector2(0, -1), Vector2(0, 14), Color("16120e"), 3, true)
 	)
 	var coin: GoldCoin = GoldCoin.make(price, TAG_COIN, poor)
+	coin.name = "Price"
 	coin.position = Vector2(-TAG_COIN / 2.0, TAG_DROP)
 	tag.add_child(coin)
-	node.add_child(tag)
+	return tag
 
 
 ## Mirrors the existing board-sale drop area; no selling or origin rules live in the UI.

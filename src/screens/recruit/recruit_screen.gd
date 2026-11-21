@@ -40,6 +40,7 @@ var _input: RecruitInput
 var _triple: RecruitTripleMotion
 var _turn_start: RecruitTurnStart
 var _waiting: RecruitWaitingPile
+var _motion: RecruitMotion
 var _last_turn: int = -1
 
 
@@ -65,6 +66,8 @@ func _ensure_stage() -> void:
 		_stage.add_child(_triple)
 		_turn_start = RecruitTurnStart.new(self)
 		_stage.add_child(_turn_start)
+		_motion = RecruitMotion.new(self)
+		_stage.add_child(_motion)
 		_keeper.flown_out.connect(func(_node: Control) -> void: _counts.arrived())
 		_keeper.flown.connect(func(_node: Control) -> void: _counts.flight_over())
 
@@ -79,7 +82,10 @@ func _ready_line() -> String:
 
 ## No hover detail while the button is held on a card or a card is carried.
 func _hover_allowed() -> bool:
-	return _input == null or (not _input.is_busy() and not _turn_start.active())
+	return (
+		_input == null
+		or (not _input.is_busy() and not _turn_start.active() and not _motion.moving_cards())
+	)
 
 
 ## A hovered hand card stands up off its place in the fan: the pointer still over that place is
@@ -126,6 +132,7 @@ func _process(delta: float) -> void:
 
 func _layout() -> void:
 	_turn_start.finish()
+	_motion.finish()
 	_board.clear_drop_preview()
 	super()
 	_triple.present()
@@ -136,6 +143,8 @@ func _layout() -> void:
 func settle() -> void:
 	if _turn_start != null:
 		_turn_start.finish()
+	if _motion != null:
+		_motion.finish()
 	super()
 	if _triple != null:
 		_triple.finish()
@@ -150,6 +159,8 @@ func show_state(new_state: Dictionary) -> void:
 	if _triple != null:
 		_triple.prepare(new_state)
 	var before: Dictionary = state
+	if _motion != null:
+		_motion.before_state(before, new_state)
 	if _counts != null:
 		_counts.before_state(before, new_state)
 	var turn: int = _i(new_state.get("turn", -1))
@@ -163,8 +174,8 @@ func show_state(new_state: Dictionary) -> void:
 				var card: Dictionary = new_state["board"][slot]
 				_keeper.quiet_numbers[card_key("board", slot, card)] = true
 	super(new_state)
-	_waiting.animate_hidden_arrivals(before)
 	_counts.after_state(before)
+	_motion.after_state(before)
 	if not effects.is_empty() and is_inside_tree():
 		_turn_start.play(effects)
 
@@ -179,6 +190,7 @@ func _on_new_state() -> void:
 
 ## Reports what the player asks for (action_requested).
 func ask(action: Dictionary) -> void:
+	_motion.asked(action)
 	action_requested.emit(action)
 
 
@@ -489,6 +501,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		_triple.finish()
 	if event.is_pressed() and _turn_start != null:
 		_turn_start.finish()
+		_motion.finish()
 	var key: InputEventKey = event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_ESCAPE:
 		if is_aiming():
@@ -505,6 +518,7 @@ func _gui_input(event: InputEvent) -> void:
 		_triple.finish()
 	if event.is_pressed():
 		_turn_start.finish()
+		_motion.finish()
 	var button: InputEventMouseButton = event as InputEventMouseButton
 	if button != null and button.button_index == MOUSE_BUTTON_RIGHT and button.pressed:
 		cancel_aim()

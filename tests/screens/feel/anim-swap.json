@@ -1,0 +1,19 @@
+{
+  "about": "Recruit batch (plan step 12), prototype 39: carry a hand card over an occupied slot (that unit lifts a little), let go: the new unit drops in and the old one arcs into the hand where the new one was, and hops.",
+  "scene": "res://tests/screens/feel/feel_game.tscn",
+  "seed": 7,
+  "setup": {
+    "gold": 9,
+    "board": {"0": "brock-cub", "1": "hedge-knight", "2": "old-campaigner", "3": "padre", "4": "relic-seeker", "5": "colour-sergeant", "6": "horde-runner"},
+    "hand": ["lance-corporal", "master-at-arms", "sett-shield-bearer"]
+  },
+  "steps": [
+    {"wait": 0.4},
+    {"move": "hand:1", "time": 0.4},
+    {"press": true, "note": "swap pickup"},
+    {"move": "slot:3", "time": 0.56},
+    {"wait": 0.3},
+    {"release": true, "note": "swap drop"},
+    {"wait": 0.9}
+  ]
+}
