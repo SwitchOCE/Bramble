@@ -9,10 +9,14 @@ var diameter: float = 24.0
 var words: String = ""
 var number: String = ""
 var _icon: Texture2D
+var _word_px: int
 
 
 static func make(
-	mark: Dictionary, small: bool = false, side: float = KeywordStyle.TOOLTIP_MARK_H
+	mark: Dictionary,
+	small: bool = false,
+	side: float = KeywordStyle.TOOLTIP_MARK_H,
+	word_px: int = int(KeywordStyle.MARK_PX)
 ) -> KeywordMark:
 	var node: KeywordMark = KeywordMark.new()
 	node.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -20,6 +24,7 @@ static func make(
 	node.compact = small
 	node.diameter = side
 	node.words = str(mark.get("words", mark.get("name", "")))
+	node._word_px = word_px
 	if GlassPieces.as_bool(mark.get("coin", false)):
 		node.coin = true
 		node.number = node.words
@@ -36,9 +41,7 @@ static func make(
 			(
 				GlassPieces
 				. display_font(800)
-				. get_string_size(
-					node.words, HORIZONTAL_ALIGNMENT_LEFT, -1, roundi(KeywordStyle.MARK_PX)
-				)
+				. get_string_size(node.words, HORIZONTAL_ALIGNMENT_LEFT, -1, word_px)
 				. x
 			)
 			+ KeywordStyle.WORD_PAD
@@ -135,7 +138,7 @@ func _draw() -> void:
 				KeywordStyle.NUMBER
 			)
 	else:
-		var px: int = roundi(KeywordStyle.MARK_PX)
+		var px: int = _word_px
 		var at: Vector2 = Vector2(
 			diameter + KeywordStyle.WORD_GAP,
 			(diameter - font.get_height(px)) / 2.0 + font.get_ascent(px)

@@ -120,7 +120,7 @@ func hover(here: Vector2) -> void:
 	var mark: KeywordMark = null if preview else _border_at(node, here)
 	if mark != null:
 		if hot != node or _icon_mark != mark:
-			show_keyword(over, mark, here)
+			show_keyword(over, mark)
 		return
 	if hot != node or _icon_mark != null or not tip.visible:
 		if preview:
@@ -320,12 +320,12 @@ func set_hot(node: Control) -> void:
 
 
 ## A border mark replaces the card pane while the pointer is over its enlarged hit area.
-func show_keyword(target: Dictionary, mark: KeywordMark, at: Vector2) -> void:
+func show_keyword(target: Dictionary, mark: KeywordMark) -> void:
 	clear()
 	_icon_mark = mark
 	var node: Control = target["node"]
 	set_hot(node)
-	tip.position = at + Vector2(KeywordStyle.GAP, 0)
+	tip.position = KeywordStyle.DETAIL_ORIGIN
 	tip.visible = true
 	_add_keywords([mark.term])
 	_layout_details(target)
@@ -371,25 +371,40 @@ func _add_keyword(term: Dictionary, seen: Dictionary) -> KeywordText:
 	var box: GlassBox = GlassBox.new()
 	box.name = "KeywordDetail_%d" % details.size()
 	box.use_css("stage", "#tip .txt")
-	var pad: float = KeywordStyle.PAD
-	var pane: GlassBox = tip.get_node_or_null("Words")
-	var width: float = pane.size.x if pane != null else KeywordStyle.DETAIL_W
+	# tooltips.html, option 1: the left-light boxes use the same glass as Words.
+	box.layers = [
+		{
+			"kind": "radial",
+			"shape": "ellipse",
+			"size": "farthest-corner",
+			"at": [50.0, 15.0],
+			"stops": [["#ffffff1a", null], ["#0000004d", null]],
+		},
+		box.layers[1],
+		{"kind": "colour", "colour": "#2d333b"},
+	]
+	box.shadows = [
+		{"inset": false, "x": 0, "y": 12, "blur": 26, "spread": 0, "colour": "#000000bf"}
+	]
+	var pad: float = KeywordStyle.DETAIL_SIDE + box.border_width
+	var width: float = KeywordStyle.DETAIL_W
 	var said: String = str(term["reminder"])
-	var top: float = pad
+	var top: float = KeywordStyle.DETAIL_TOP + box.border_width
 	if GlassPieces.as_bool(term.get("coin", false)):
 		# a cost coin heads its own line, as on the card: "(1): Once a turn, pay 1 gold ..."
 		said = "%s: %s" % [term.get("words", ""), said]
 	else:
-		var header: KeywordMark = KeywordMark.make(term)
-		header.position = Vector2.ONE * pad
+		var px: int = KeywordStyle.DETAIL_HEADER_PX
+		var header: KeywordMark = KeywordMark.make(term, false, 1.55 * px, px)
+		header.position = Vector2(pad, top)
 		box.add_child(header)
-		top += header.size.y + KeywordStyle.GAP
+		top += header.size.y + KeywordStyle.DETAIL_HEADER_GAP
 	var body: KeywordText = KeywordText.make(
-		said, _screen._display_table(), width - 2.0 * pad, [], key
+		said, _screen._display_table(), width - 2.0 * pad, [], key, true
 	)
 	body.position = Vector2(pad, top)
 	box.add_child(body)
-	box.box_size = Vector2(width, body.position.y + body.size.y + pad)
+	box.box_size = Vector2(width, top + body.size.y + KeywordStyle.DETAIL_BOTTOM + box.border_width)
 	box.radii = Vector4.ONE * KeywordStyle.DETAIL_RADIUS
 	box.refresh()
 	tip.add_child(box)
@@ -398,30 +413,38 @@ func _add_keyword(term: Dictionary, seen: Dictionary) -> KeywordText:
 
 
 func _layout_details(target: Dictionary) -> void:
+	var start: Vector2 = KeywordStyle.DETAIL_ORIGIN
+	var height: float = KeywordStyle.GAP * maxi(0, details.size() - 1)
+	for box: GlassBox in details:
+		height += box.size.y
+	var max_height: float = KeywordStyle.DETAIL_FOOT - start.y
+	var fit: float = max_height / maxf(height, max_height)
+	var column: Rect2 = Rect2(start, fit * Vector2(KeywordStyle.DETAIL_W, height))
+	_place_primary(target, column)
+	var at: Vector2 = start - tip.position
+	for box: GlassBox in details:
+		box.position = at
+		box.scale = Vector2.ONE * fit
+		at.y += (box.size.y + KeywordStyle.GAP) * fit
+
+
+## Keep the usual card and Words pane placement unless they would cover a control or the column.
+func _place_primary(target: Dictionary, column: Rect2) -> void:
 	var card: Control = tip.get_node_or_null("Card")
 	var words: Control = tip.get_node_or_null("Words")
+	if words == null:
+		return
 	var card_rect: Rect2 = Rect2(card.position, card.size) if card != null else Rect2()
-	var words_rect: Rect2 = Rect2(words.position, words.size) if words != null else Rect2()
-	var sizes: Array[Vector2] = []
-	for box: GlassBox in details:
-		sizes.append(box.size)
-	var protected: Array[Rect2] = []
+	var words_rect: Rect2 = Rect2(words.position, words.size)
+	var source: Control = target["node"]
+	var protected: Array[Rect2] = [column, _source_rect(source)]
 	for node_name: String in [
 		"Hero", "HeroHealth", "EndTurn", "EndTurnWords", "Opponent", "OpponentHealth"
 	]:
 		var control: Control = _screen._front.get_node_or_null(node_name)
 		if control != null and control.is_visible_in_tree():
 			protected.append(_source_rect(control))
-	var node: Control = target["node"]
-	var places: Array[Vector2] = KeywordLayout.arrange(
-		card_rect, words_rect, tip.position, _source_rect(node), sizes, protected
-	)
-	assert(not places.is_empty(), "Grouped keyword panes must fit clear of the card and controls")
-	if places.is_empty():
-		return
-	tip.position = places[0]
-	for i: int in details.size():
-		details[i].position = places[i + 1] - tip.position
+	tip.position = KeywordLayout.place(card_rect, words_rect, tip.position, protected)
 
 
 func _source_rect(node: Control) -> Rect2:
