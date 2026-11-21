@@ -70,3 +70,9 @@ Non-blocking: tier cue on the card face not done (it would add a mark the frame 
 2. Done. Card names and cues are 18 px and fit inside every plate (a script checks each view; none overflows). Shop plates are 164 wide, so the gold, tier-up, Refresh and Freeze moved 90 px left. Cues corrected against the card data: Sweetbriar "Compost in: +1/+1", Hedge Lancer "First attack: unhurt", and also Bell-ringer "Hand-me-downs +3". Squadron Leader ("Front: Sortie +3") and Blackberry Sprawl ("Grow 2") were shortened to fit. Tally labels and lantern names are 18 px. Dimmed states now dim the portraits and the plate glass, not the text: rank, health on ruby (about 8:1) and "Fell" keep full contrast.
 
 Non-blocking, both done: spell plates sit on the unit plates' baseline; the reading pane in extra1 ends above the Fight March Hare button.
+
+## Round 3 fixes
+1. Done. Renown sits on its own card's upper-left shoulder in every view, not on the top point, so it no longer falls between the row above's plates; a script measures the nearest badge to any plate at 11 px in fight and after (21 px in recruit). The after view keeps slot Renown on fallen units: Briar King 4, Famine-caller 7, Bell-ringer 2, Wing Commander 3.
+2. Done. In extra1 the roster stays above the veil: its lanterns and plate glass dim, its rank and health text do not; the reading pane starts below Little King Wren so no row is cut. In after, fallen cards no longer show their dimmed numbers; the "Fell" label carries the state.
+
+Optional, done: the result plaque is 22 px narrower, so it ends 8 px short of Greatsword Bearer's plate (Weasel's line shortened to "hit both reservists as they arrived" to fit).

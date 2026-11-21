@@ -316,7 +316,7 @@ function placeCard(o, x, y, H, extra={}){
     row.append(tribeMark(o.t, ms));
     for (const [kind,n] of (o.kw||[])) row.append(mark(kind,n,ms));
     add(row, parent); made.push(row);
-    if (o.renown){ const r = el("div","e-renown",`left:${x+W/2}px;top:${y-4}px`,`<svg viewBox="0 0 24 24">${STAR}</svg>${o.renown}`); add(r,parent); made.push(r); }
+    if (o.renown){ const r = el("div","e-renown",`left:${x+2}px;top:${y+H*.17}px`,`<svg viewBox="0 0 24 24">${STAR}</svg>${o.renown}`); add(r,parent); made.push(r); }
   }
   if (extra.plate){
     const [name, cue] = o.spell ? SPELLS[o.art] : (()=>{ const n=NAMES[o.id]; return [n[0], extra.plate==="fight"?n[2]:n[1]]; })();
@@ -324,7 +324,7 @@ function placeCard(o, x, y, H, extra={}){
     const p = el("div","e-np",`left:${x+W/2-pw/2}px;top:${extra.plateTop!=null?extra.plateTop:y+H+16}px;width:${pw}px`,`<b>${name}</b><span>${cue}</span>`);
     add(p,parent); made.push(p);
   }
-  if (extra.dim) made.forEach(m=>{ if(m===c) return; if(m.classList.contains("e-np")) m.classList.add("e-np-dim"); else m.style.filter=(m.style.filter||"")+" brightness(.45)"; });
+  if (extra.dim) made.forEach(m=>{ if(m===c) return; if(m.classList.contains("e-np")) m.classList.add("e-np-dim"); else if(m.classList.contains("e-renown")) return; else m.style.filter=(m.style.filter||"")+" brightness(.45)"; });
   return c;
 }
 // a price: a leaded tag hung on the card's chain (a shape the stat discs do not have)
@@ -531,7 +531,7 @@ function treeLights(players, opts={}){
        <path d="M1922 ${y-46} C 1900 ${y-46}, 1886 ${y-40}, ${x-8} ${y-40}" stroke="#6f5239" stroke-width="4.5" fill="none" stroke-linecap="round"/>
        <path d="M1904 ${y-45} q 8 -14 20 -12 q -6 12 -20 12z" fill="#3f7a3a" stroke="#0b0907" stroke-width="2"/>
        <line x1="${x}" y1="${y-40}" x2="${x}" y2="${y-d/2-2}" stroke="#0b0907" stroke-width="4"/><line x1="${x}" y1="${y-40}" x2="${x}" y2="${y-d/2-2}" stroke="#9a8a6a" stroke-width="1.6"/></g>`);
-    const r = roundel(x,y,d,who, st==="out"?"e-dim":""); r.style.zIndex=3;
+    const r = roundel(x,y,d,who, st==="out"?"e-dim":""); r.style.zIndex=3; r.classList.add("e-lantern");
     if (st==="next") r.style.boxShadow="0 0 0 3px #ffd77a,0 0 16px 4px rgba(255,200,100,.55),0 4px 10px rgba(0,0,0,.7)";
     if (st==="you") r.style.boxShadow="0 0 0 3px #e9e2d0,0 4px 10px rgba(0,0,0,.7)";
     if (dim) r.style.filter="brightness(.55)";
@@ -765,7 +765,8 @@ async function viewAfter(){
   const key = {5:1, 4:2, 2:3};
   const at = i => i>=4 ? oBack[i-4] : oFront[i];
   const fallen = (o,x,y,pw) => {
-    placeCard({...o, hcur:0, renown:null}, x, y, H, {plate:"fight", pw, filter:"grayscale(1) brightness(.38) ", dim:true});
+    const c = placeCard({...o, hcur:0}, x, y, H, {plate:"fight", pw, filter:"grayscale(1) brightness(.38) ", dim:true});
+    c.querySelectorAll(".e-num").forEach(n=>n.remove());
     S(`<g stroke="#0b0907" stroke-width="3.5" fill="none" stroke-linejoin="round">
         <path d="M${x+W*.18} ${y+H*.22} l${W*.3} ${H*.16} l-${W*.12} ${H*.14} l${W*.42} ${H*.2}"/>
         <path d="M${x+W*.86} ${y+H*.3} l-${W*.3} ${H*.2} l${W*.1} ${H*.22}"/></g>`);
@@ -781,7 +782,7 @@ async function viewAfter(){
     fallen(o, x, y, 172);
   });
   // the reckoning: a leaded plaque in the oak's shadow on the left
-  const box = add(el("div","e-leaded",`left:196px;top:356px;width:398px`));
+  const box = add(el("div","e-leaded",`left:196px;top:356px;width:376px`));
   const chip = id => `<span style="flex:none;width:30px;height:44px;background:url(${u(FOE.find(f=>f.id===id).t,id)}) center/cover;clip-path:${HEX};"></span>`;
   const row = (n,id,name,what) => `<div class="e-why"><span class="e-bead e-bead-s">${n}</span>${chip(id)}<div><b>${name}</b><span>${what}</span></div></div>`;
   box.innerHTML = `
@@ -794,7 +795,7 @@ async function viewAfter(){
     <div style="margin-top:6px;font:400 19px/1.3 'Alegreya Sans';color:var(--cream-dim)">4 kills make a small loss: 10, not 13.</div>
     <div style="margin-top:16px;padding-top:10px;border-top:2px solid #6b5436;font:700 17px/1 'Alegreya Sans';color:var(--cream-dim);letter-spacing:.06em">WHAT BEAT YOU</div>
     ${row(1,"gorger","Gorger","golden, 38 / 57 at the end: killed 3")}
-    ${row(2,"weasel","Weasel","hit both reservists as they stepped in")}
+    ${row(2,"weasel","Weasel","hit both reservists as they arrived")}
     ${row(3,"holly-knight","Holly Knight","gave its front Briars Thorns 4")}
     <div style="display:flex;gap:12px;margin-top:20px">
       <div class="e-btn" style="position:static;transform:none;flex:1;text-align:center;padding:12px 8px">Watch again</div>
@@ -813,6 +814,8 @@ async function viewRead(){
   await viewMid();
   // a card being read: click Home Guard; the pane docks in the open path, clear of the units it names
   add(el("div","",`position:absolute;inset:0;background:rgba(5,8,10,.55);z-index:8`));
+  document.querySelectorAll(".e-light").forEach(p=>{ p.style.zIndex=9; p.classList.add("e-light-dim"); });
+  document.querySelectorAll(".e-lantern").forEach(r=>{ r.style.zIndex=9; r.style.filter="brightness(.45)"; });
   const lift = (o,x,y,H,extra) => { const before = ui.children.length; placeCard(o,x,y,H,extra);
     [...ui.children].slice(before).forEach(e=>e.style.zIndex=9); };
   const W=SHOP_H*.56, x=SHOP_X0 + SHOP_PITCH;
@@ -822,7 +825,7 @@ async function viewRead(){
   const ring = "drop-shadow(0 0 3px #ffe08a) drop-shadow(0 0 10px #ffc65a) ";
   lift(BOARD9[1], pos[1][0], pos[1][1], BOARD_H, {plate:"recruit", pw:172, filter:ring});
   lift(BOARD9[4], pos[4][0], pos[4][1], BOARD_H, {plate:"recruit", pw:172, filter:ring});
-  const pane = add(el("div","e-leaded",`left:1358px;top:352px;width:440px;z-index:10`));
+  const pane = add(el("div","e-leaded",`left:1358px;top:374px;width:440px;z-index:10`));
   pane.innerHTML = `
     <div style="display:flex;align-items:center;gap:12px">
       <span style="flex:none;width:36px;height:52px;background:url(${u("pigeon","home-guard")}) center/cover;clip-path:${HEX}"></span>
@@ -841,6 +844,12 @@ function checkOverflow(){
   const bad=[];
   document.querySelectorAll(".e-np, .e-plate, .e-light").forEach(p=>{ if (p.scrollWidth > p.clientWidth+1) bad.push((p.textContent||"").trim().slice(0,30)+" "+p.scrollWidth+"/"+p.clientWidth); });
   document.body.dataset.overflow = bad.join(" | ") || "none";
+  const R=[...document.querySelectorAll(".e-renown")].map(e=>[e.textContent,e.getBoundingClientRect()]);
+  const P=[...document.querySelectorAll(".e-np")].map(e=>[e.querySelector("b").textContent,e.getBoundingClientRect()]);
+  let worst=[1e9,""];
+  for (const [rn,r] of R) for (const [pn,q] of P){ const g=Math.max(q.left-r.right, r.left-q.right, q.top-r.bottom, r.top-q.bottom);
+    if (g<worst[0]) worst=[Math.round(g), "renown "+rn+" vs "+pn]; }
+  document.body.dataset.renown = R.length ? worst.join(" ") : "no badges";
 }
 const view = new URLSearchParams(location.search).get("view") || "mid";
 ({mid:viewMid, first:viewFirst, fight:viewFight, after:viewAfter, extra1:viewRead})[view]().then(checkOverflow);
