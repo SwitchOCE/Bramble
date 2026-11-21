@@ -12,7 +12,7 @@
   <div class="byline"><span>20 Nov 2026</span><span>Proposal drawn by an agent, not decided</span><span>1920 × 1080, scaled to fit</span></div>
 </div>
 <div class="ctl" role="group" aria-label="Layout">
-  <div class="grp"><span class="k">Layout</span><button data-k="layout" data-v="built">As built</button><button data-k="layout" data-v="A">A · Two wings</button><button data-k="layout" data-v="B">B · One purse</button><button data-k="layout" data-v="C">C · Gold on top</button></div>
+  <div class="grp"><span class="k">Layout</span><button data-k="layout" data-v="built">As built</button><button data-k="layout" data-v="A">A · Two wings</button><button data-k="layout" data-v="A2">A, as you changed it</button><button data-k="layout" data-v="B">B · One purse</button><button data-k="layout" data-v="C">C · Gold on top</button></div>
 </div>
 <div id="box"><div id="stage"></div></div>
 <p class="cap" id="cap"></p>
@@ -43,10 +43,11 @@
 <script src="../../design/mockups/fix-round-20-nov/recruit/cards.js"></script>
 <script src="../../design/mockups/fix-round-20-nov/recruit/after.js"></script>
 <script>
-const S = { layout: "A" };
+const S = { layout: "A2" };
 const CAP = {
   built: "As built: gold and tier-up left, refresh and freeze right, the two readouts on the sill at the far corners.",
   A: "A · Two wings: your money and tier on the left, the shop's controls on the right; each readout under its button.",
+  A2: "A, as you changed it (21 Nov): the buttons keep today's places and the same gaps on both sides; nothing under the gold; the next turn's gold is a badge on the next opponent's portrait, by End turn.",
   B: "B · One purse: every control in one block beside the gold, each readout under its button.",
   C: "C · Gold on top: the gold in the middle of the arch, the spells one card outward.",
 };
