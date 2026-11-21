@@ -1,6 +1,6 @@
 # Taste log: the recruit batch of animations (plan step 12), night of 21 Nov
 
-Made by the animation worker while the owner slept. Each entry is a call the accepted prototypes (`docs/design/mockups/fix-round-20-nov/anim-recruit/`) left open, or a place where the game differs from them. None of these is the owner's decision. The prototype was not changed to fit the build.
+Made by the animation worker while the owner slept. Each entry is a call the accepted prototypes (`docs/design/mockups/fix-round-20-nov/anim-recruit/`) left open, or a place where the game differs from them. None of these is the owner's decision, except entry 5, which the owner settled on 22 Nov. The prototype was not changed to fit the build.
 
 Code: `src/glass/glass_motion.gd` (the prototype's easings and paths), `src/glass/glass_timeline.gd` (its timeline), `src/screens/recruit/recruit_motion.gd` (the batch), with small changes in `recruit_board.gd`, `recruit_input.gd`, `recruit_shop.gd`, `recruit_waiting_pile.gd`, `recruit_turn_start.gd` and `recruit_screen.gd`.
 
@@ -45,7 +45,7 @@ Code: `src/glass/glass_motion.gd` (the prototype's easings and paths), `src/glas
 **7. The drop and hop stay the build's own.**
 - Deciding: prototype 19 says "Same as playing a unit: drop 4 to 6 frames, hop 0.2 s", and NOTES says the build's own motion is the reference for re-created moves. The prototype's re-created drop (90 ms, ease in) and hop (peak at 45%) differ a little from the build's (4 to 6 frames eased out, a sine hop of 12 frames).
 - Weighed: copy the prototype's re-creation; keep the build's.
-- Chose: keep the build's drop and hop; add what the prototype changes: the tag (5), the lit slots fading (6), the gold counting down (4).
+- Chose: keep the build's drop and hop; add the price tag travelling with the card (5, from the buy-to-board mock-up), and what the prototype changes: the lit slots fading (6), the gold counting down (4).
 - Rests on it: playing a unit and buying onto the board feel the same, as the prototype asks.
 
 ## Swap (prototype 39)
