@@ -1,6 +1,6 @@
 # The third bot run: referee and team briefs (draft for the owner)
 
-**Status: a draft, not started.** Written 21 Nov 2026 by the ghost orchestrator from ghost-plan step 5 and decision 6, which the owner approved on 19 Nov. The owner reads it before anything starts: "You prepare it, we revisit for the third run." No session starts and no bot climbs until the owner says go. Everything marked **Proposed** is my choice, not the owner's.
+**Status: answered by the owner on 21 Nov (section 11); not started.** Written 21 Nov 2026 by the ghost orchestrator from ghost-plan step 5 and decision 6, which the owner approved on 19 Nov. The owner reads it before anything starts: "You prepare it, we revisit for the third run." No session starts and no bot climbs until the owner says go. Everything marked **Proposed** is my choice, not the owner's.
 
 ## 1. Why
 
@@ -97,13 +97,16 @@ Pairing works: the same bot's two games against the same 7 ghosts correlate at 0
 - Card numbers don't change during a climb. Report a port bug at once, with a seed and the actions.
 - Workers never run `rm -rf`; each lists the files it made that should go.
 
-## 11. Questions for the owner
+## 11. The owner's answers (21 Nov 2026)
 
-1. **Per-tribe numbers.** May balance tune per tribe from bots forced into tribes they rarely play, or only from overall placement, or must each forced-tribe bot climb first?
-2. **Stopping-test power.** Half power at about 1,450 pairs, or 4 times in 5 at about 2,900 pairs (double the machine time, and a reference field of about 20,000 runs)?
-3. **Restarts.** Does each of the 2 restart climbs need a full stopping test, or a smaller check, with the full test for the best of the three? This decides about 2 tests or 6.
-4. **After a balance change.** A full stopping test with restarts again, or a lighter re-check from where the bots were? Days against hours per balance round.
-5. **Model families.** Red stays on Opus and blue moves to Codex or Fable, or both stay on Opus?
-6. **Disk.** What a match keeps, given about 27 GB per stopping test today (with the League Data and Storage session).
+The owner, dictated: "I don't think we need to be too sure on the *[probably "stopping test"]*. These are always intended for loose tuning. So lenient is fine. The per tribe results as a report is fine, I guess. Yeah, that's fine. Yep. yep. Agree with the four I think yeah you can use a *[unclear: "nautal"]* family, I guess we can look at that. I guess just the team [lead] can be one family, but they can always call on the other if they want … The match should only keep whatever we need to make balance decisions. And then, once those decisions have been made and we no longer need it, as soon as a match is outdated and the build that the data was generated for is an old build, we should only keep a very small summary, nothing more than a couple of megabytes, right? Like we don't need comprehensive data, just the high-level findings report".
 
-The plan check (a fresh agent, `/plan-interrogate`, 21 Nov) raised these and the fixes marked Proposed above; it reproduced the measured numbers in section 9.
+So:
+1. **Per-tribe numbers** are a report. Balance tunes from overall placement, and trusts a per-tribe result only for a tribe the bots pick on their own in at least 5% of games.
+2. **The stopping test is lenient:** half power, about 1,450 pairs a match, with the fresh-seed replay rule.
+3. **Restarts:** a smaller check for each restart climb; the full stopping test only for the best of the three.
+4. **After a balance change:** the bots climb on from where they were and pass one stopping test each, without full restarts.
+5. **Model families:** each team's lead is one family: red's lead stays on Opus, blue's lead moves to Codex (`gpt-6.2-astra`), continuing from blue's notes. Either lead may call on the other family's helpers.
+6. **Disk:** a match keeps only what balance decisions need. Once those decisions are made and the match's build is old, only a high-level findings report stays, a couple of megabytes at most. The League Data and Storage session sets what that means file by file.
+
+The plan check (a fresh agent, `/plan-interrogate`, 21 Nov) raised these questions and the fixes marked Proposed above; it reproduced the measured numbers in section 9.
