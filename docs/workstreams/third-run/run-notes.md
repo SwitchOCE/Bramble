@@ -96,4 +96,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - **red-c5** (`20a50816`: positioning search budgets 60% of the remaining clock each round, was 90%; adds options off by default) against red-c3: 1,000 games, gap +0.036 ± 0.157 (2.782 against 2.746). **Rejected**: not better. The match was clean.
 - **red-c6** (`4a8f2a83`: positioning search tries each Pile on and Hand-me-down unit in every slot first) against red-c3: 1,000 games, gap −0.030 ± 0.138 (2.658 against 2.688). **Rejected**: not better. The match was clean.
 - **blue-c12** (`49a7fc5c`: spare-gold threshold 6 → 4) against blue-c9: 1,000 games, gap −0.010 ± 0.130 (2.130 against 2.140). **Rejected**: not better, though blue's 400-pair practice showed −0.147 ± 0.134. The match was clean.
-- **red-c7** (`ed9700bc`: uses units' Actives before buying instead of after; adds a tribe-lock option, off) against red-c3: playing.
+- **red-c7** (`ed9700bc`: uses units' Actives before buying instead of after; adds a tribe-lock option, off) against red-c3: 1,000 games, gap +0.154 ± 0.144 (2.738 against 2.584). **Rejected**: worse, just outside the margin. The match was clean.
