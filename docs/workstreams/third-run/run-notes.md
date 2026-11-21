@@ -88,3 +88,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - **blue-c8** (`0a8b7333`: tier 2 delayed from round 3 to 4) against blue-c7: 1,000 games, gap −0.570 ± 0.202 (2.478 against 3.048). **Kept.** The match was clean; field now 12,000.
   - Tribe picks: Locust 42.8% (3.04), none 34.8% (2.32), Pigeon 22.0% (1.65), Mouse 0.4%; 4.7 in hand. Interim report and method summary sent.
 - **red-c4** (`3419e496`: positioning search scores by margin, 0.4 per surviving unit) against red-c3: 1,000 games, gap −0.072 ± 0.152 (2.470 against 2.542). **Rejected**: not better. The match was clean.
+- **blue-c9** (`80b63def`: Sword-heir buy/keep bonus 25 → 50) against blue-c8: playing.
