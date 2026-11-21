@@ -61,3 +61,6 @@ tools/league/target
 # Fix round 20 Nov: art masters and before shots kept in R2 (tools/assets)
 docs/workstreams/fix-round-20-nov/media/**/*.png
 docs/workstreams/fix-round-20-nov/media/**/*.jpg
+
+# Night of 21 Nov films and shots (in R2, see tools/assets)
+docs/workstreams/fix-round-20-nov/night-21-nov/films/
