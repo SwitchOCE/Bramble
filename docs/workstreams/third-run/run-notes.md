@@ -53,3 +53,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
   - Tribe picks: Pigeon 50.0% (3.92), none 30.8% (2.52), Locust 17.0% (4.19), Briar 2.0%, Mouse 0.2%; 4.3 in hand.
   - blue-c2 placed 3.678 here against 3.404 in its last match: the field is getting stronger as kept versions join it.
 - Method summaries and interim reports for both were sent. No bot picks Badger, and Mouse is under 1%.
+- **blue-c5** (`206e212a`: clears weak non-Reserve hand units from three free hand slots instead of one) against blue-c4: 1,000 games, gap −0.096 ± 0.177 (3.502 against 3.598). **Rejected** (within noise). The match was clean and is pruned.
