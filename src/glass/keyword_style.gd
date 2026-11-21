@@ -9,6 +9,7 @@ const CARD_ROOM: float = 0.5
 const CARD_Y: float = 0.925
 const CARD_GAP: float = 3.0
 const PANE_W: float = 340.0
+const PAD: float = 23.0
 const TITLE_PX: float = 27.0
 const PANE_PAD_X: float = 18.0
 const PANE_PAD_Y: float = 16.0

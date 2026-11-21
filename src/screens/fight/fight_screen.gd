@@ -72,6 +72,12 @@ func _leaderboard_key() -> String:
 	return "stage.fight.leaderboard"
 
 
+func _make_tips() -> GlassTips:
+	var tips: GlassTips = super()
+	tips.fixed_keywords = true
+	return tips
+
+
 func _ensure_stage() -> void:
 	super()
 	if not _keeper is FightMotion:

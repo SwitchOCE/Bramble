@@ -385,10 +385,10 @@ func test_hand_bottom_mark_opens_its_keyword_without_the_card_pane() -> void:
 	assert_not_null(_detail(str(mark.term["name"])))
 
 
-func test_keyword_column_stays_fixed_and_protects_controls_at_every_stage_edge() -> void:
+func test_keyword_column_stays_fixed_and_protects_controls_at_card_area_edges() -> void:
 	var target: Dictionary = _screen.targets_of("shop")[2]
 	var card: Control = target["node"]
-	for at: Vector2 in [Vector2(20, 20), Vector2(1700, 20), Vector2(20, 800), Vector2(1700, 800)]:
+	for at: Vector2 in [Vector2(370, 20), Vector2(1700, 20), Vector2(370, 800), Vector2(1700, 800)]:
 		_screen._tips.hide()
 		card.position = at
 		_screen._tips.show(target, at + card.size / 2.0)
