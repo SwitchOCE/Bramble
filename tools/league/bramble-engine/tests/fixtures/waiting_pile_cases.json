@@ -39,7 +39,7 @@
     ["give", "brock-cub"], ["grant_waiting", "waiting_proof"],
     ["act", {"type":"play","hand":0,"slot":4}]
   ],
-  "merge_created_space_uses_the_premerge_aura": [
+  "merge_created_space_uses_the_postmerge_aura": [
     ["board", "needle-page", 0], ["board", "squadron-leader", 4], ["auras"],
     ["hand", "squadron-leader", 2], ["hand", "brock-cub*", 5],
     ["give", "brock-cub"], ["grant_waiting", "waiting_proof"],

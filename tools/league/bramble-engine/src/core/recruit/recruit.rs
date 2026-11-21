@@ -1503,6 +1503,8 @@ impl Recruit {
             s.turn_attack = (i64::from(perm.0) + i64::from(turn.0)).max(0) - s.perm_attack;
             s.turn_health = (i64::from(perm.1) + i64::from(turn.1)).max(0) - s.perm_health;
         }
+        // The copies have left: a Recruit that runs now sees the board without their auras.
+        Self::refresh_auras(recruit, player);
         if (player.borrow().hand.len() as i64) < Self::_rules(recruit).borrow().hand_limit(player)
             || vacated.is_empty()
         {
@@ -1514,6 +1516,7 @@ impl Recruit {
             player
                 .borrow_mut()
                 .place(&golden, vacated.get(0).expect("vacated slot"));
+            Self::refresh_auras(recruit, player);
             Self::_recruit_unit(recruit, player, &golden, -2);
         }
         // 7.3.6: every formation grants its spell now, through the ordinary gain path.
