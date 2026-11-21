@@ -726,7 +726,7 @@ pub fn check(root: &Path, path: &Path, name: &str, keep: bool) -> Result<String,
     let fail = |e: String| vec![e];
     let _ = std::fs::remove_dir_all(&work);
     let io = |e: std::io::Error| vec![format!("building the check tree: {e}")];
-    for part in ["bramble-engine", "league-api", "league"] {
+    for part in ["bramble-engine", "bramble-ghosts", "league-api", "league"] {
         copy_tree(&league.join(part), &work.join(part), &["target"]).map_err(io)?;
     }
     copy_tree(&league.join("vendor"), &work.join("vendor"), &[]).map_err(io)?;
@@ -773,7 +773,7 @@ pub fn check(root: &Path, path: &Path, name: &str, keep: bool) -> Result<String,
     std::fs::write(
         work.join("Cargo.toml"),
         format!(
-            "[workspace]\nmembers = [\"bramble-engine\", \"league-api\", \"league\", \"bots/registry\", \"bots/{name}\"]\nresolver = \"3\"\n\n[workspace.package]{shared}"
+            "[workspace]\nmembers = [\"bramble-engine\", \"bramble-ghosts\", \"league-api\", \"league\", \"bots/registry\", \"bots/{name}\"]\nresolver = \"3\"\n\n[workspace.package]{shared}"
         ),
     )
     .map_err(io)?;
