@@ -29,6 +29,7 @@ ROUNDELS = [((110, 780), 60), ((450, 780), 60)]
 # Where the glass base starts on each side (its tip), per tier: the base climbs a little as the tier rises.
 TIP = {1: 700, 2: 685, 3: 670, 4: 655, 5: 640, 6: 620}
 TIP_LOW = 720        # the low-base alternates
+TIP_R2 = 690         # round 2: one height for every tier (the climb did not read at 112 px)
 # Highest the ornament at the bottom point may rise into the window, per tier.
 CREST = {1: 905, 2: 893, 3: 881, 4: 869, 5: 857, 6: 845}
 BEAD_R = 11
@@ -128,8 +129,11 @@ def main():
     draw_card(3, TIP_LOW).save(os.path.join(out, "guide-low-t3.png"), optimize=True)
     draw_card(6, TIP_LOW).save(os.path.join(out, "guide-low-t6.png"), optimize=True)
     draw_spell().save(os.path.join(out, "guide-spell.png"), optimize=True)
+    # round 2: no beads (3-4 px at 112 px: they did not read), the glass starting at one height on every tier
+    for t in range(1, 7):
+        draw_card(t, TIP_R2, beads=False).save(os.path.join(out, f"guide-r2-t{t}.png"), optimize=True)
     geo = {"card_units": [560, 1000], "canvas": CANVAS, "scale": SCALE, "origin": ORIGIN, "outer": OUTER,
-           "rim": RIM, "roundels": ROUNDELS, "tip": TIP, "tip_low": TIP_LOW, "crest": CREST, "bead_r": BEAD_R,
+           "rim": RIM, "roundels": ROUNDELS, "tip": TIP, "tip_low": TIP_LOW, "tip_r2": TIP_R2, "crest": CREST, "bead_r": BEAD_R,
            "beads": {t: bead_positions(t) for t in range(1, 7)},
            "window": {t: window_poly(TIP[t]) for t in range(1, 7)},
            "spell": {"centre": [280, 500], "outer_r": 280, "window_r": 250, "glass_from_deg_below_horizontal": 30}}

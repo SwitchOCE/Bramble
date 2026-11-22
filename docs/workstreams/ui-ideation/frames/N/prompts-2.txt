@@ -1,0 +1,30 @@
+You are making card frame art for a woodland auto-battler game. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time, in order: items 7 to 12 use pictures made by items 1 to 6. Do not write code or other files. No logos, watermarks, titles or captions. No text, letters or numerals anywhere. Reply with just the saved filenames.
+
+Folders. GUIDES = /data/bramble-art/uiid-frames/N/guide. R1 = /data/bramble-art/uiid-frames/N (the first round's pictures; the current working folder is a different folder, so they are never overwritten). Each item names the pictures to attach; open each one as an image first and pass every one of them to the image tool for that item.
+
+This is a second round. Each of items 1 to 6 attaches two pictures:
+1. A guide: thin grey lines on black, on the same portrait 2:3 canvas you draw on. Draw the card exactly on its lines, the same size and in the same place. Its outer six-sided line is the card's outer edge; its inner six-sided line is the inside edge of the frame (everything inside is the empty window); the two short slanting lines low on each side mark where the coloured glass begins; the two large circles are the stat discs; a short curved line above the bottom point, where there is one, is the highest the ornament there may reach. Take nothing else from the guide: it has no style.
+2. The first-round card for that tier. Keep its glass: the same tier colour, the same streaky back-lit glass texture, the same pieces along the bottom edges and the same ornament at the bottom point. Change only what the list below says.
+
+What changes from the first round, on every unit card:
+- The lead above the glass becomes ONE solid, rounded strip of cast lead filling the whole band between the outer line and the inner line of the guide, like the thick lead ring of a church window: dark brown-grey, matte, slightly uneven and hand-made, with one soft pewter highlight running along the middle of its rounded top. Not two thin lines with a flat channel between them, not a bevelled picture frame, not a metal moulding.
+- No small pale beads anywhere. Where the first round had beads, continue the glass pieces instead.
+- On each side the glass begins exactly at the guide's short slanting line, as a slim wedge pointed at the top, tucked inside the outer lead, widening downward. Never a flat or square top edge across the band.
+- The two stat discs fill the guide's two large circles exactly, the same size on every tier: a plain smooth ivory glass disc, lit from behind, completely blank, inside a thin lead ring with a thin outer ring of the tier's own coloured glass. No segments in the ring, no numerals, no marks.
+- Everything else stays: mirror-symmetric left to right; the window inside the inner line is empty, plain flat dark slate grey, one even colour, with no picture and no texture; outside the card a plain flat dark charcoal background. Big simple shapes, clean even lead lines, sharp edges; nothing tiny, so it reads when shown 112 pixels wide.
+
+Golden versions (items 7 to 12): attach the normal card named in the item (made by items 1 to 6, in the current working folder) and the same guide. Copy that card exactly, piece for piece, with the same glass, colours and ornament. Change one thing only: every piece of lead on the card becomes pale polished champagne gold metal. That means the whole wide solid strip above the glass, which must turn gold all the way across its width (not only its edges), the outer edge, every lead line between the glass pieces, and the rings round the discs. The gold is bright, with darker burnished gold along each strip's edges so it stays clearly outlined, and it is paler and less saturated than any yellow glass. The glass stays exactly its tier colour, and each disc keeps its thin outer ring of the tier's coloured glass. The discs stay blank ivory; the window stays empty flat dark slate.
+
+Items:
+1. tier1.png -- Tier 1. Attach GUIDES/guide-r2-t1.png and R1/tier1.png. Pearl grey glass in a few long pieces; a plain small grey diamond at the bottom point.
+2. tier2.png -- Tier 2. Attach GUIDES/guide-r2-t2.png and R1/tier2.png. Leaf-green glass; the sprig of two green leaves at the bottom point.
+3. tier3.png -- Tier 3. Attach GUIDES/guide-r2-t3.png and R1/tier3.png. Sapphire blue glass; the trefoil of three rounded blue petals at the bottom point, kept below the curved line.
+4. tier4.png -- Tier 4. Attach GUIDES/guide-r2-t4.png and R1/tier4.png. Violet glass; the fleur of five pointed violet petals at the bottom point.
+5. tier5.png -- Tier 5. Attach GUIDES/guide-r2-t5.png and R1/tier5.png. Deep marigold glass with the small leaf-green accents in the side wedges; the fan of five marigold petals round a small amber jewel at the bottom point.
+6. tier6.png -- Tier 6. Attach GUIDES/guide-r2-t6.png and R1/tier6.png. Ruby red glass with flame-orange accents; the crest of seven red and orange petals round a small orange jewel at the bottom point, reaching up to the curved line; a soft red glow from the glass part only, none from the lead above.
+7. tier1-golden.png -- Golden version of tier1.png. Attach tier1.png from the current working folder and GUIDES/guide-r2-t1.png.
+8. tier2-golden.png -- Golden version of tier2.png. Attach tier2.png and GUIDES/guide-r2-t2.png.
+9. tier3-golden.png -- Golden version of tier3.png. Attach tier3.png and GUIDES/guide-r2-t3.png.
+10. tier4-golden.png -- Golden version of tier4.png. Attach tier4.png and GUIDES/guide-r2-t4.png.
+11. tier5-golden.png -- Golden version of tier5.png. Attach tier5.png and GUIDES/guide-r2-t5.png. Keep the gold metal clearly paler than the marigold glass, with dark burnished edges, so glass and metal never merge.
+12. tier6-golden.png -- Golden version of tier6.png. Attach tier6.png and GUIDES/guide-r2-t6.png.

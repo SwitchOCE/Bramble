@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frame take N</title>
+<style>
+@font-face { font-family: "AlegreyaSans"; font-weight: 700; src: url("../../../../../assets/glass/fonts/AlegreyaSans-Bold.ttf"); }
+@font-face { font-family: "AlegreyaSans"; font-weight: 400; src: url("../../../../../assets/glass/fonts/AlegreyaSans-Regular.ttf"); }
+:root { --ground: #141519; --ink: #b9b4a8; --muted: #7d796f; --board: #33433f; }
+html, body { margin: 0; background: var(--ground); color: var(--ink); font-family: "AlegreyaSans", sans-serif; }
+body { width: 1920px; height: 1080px; overflow: hidden; position: relative; }
+.view { display: none; position: absolute; inset: 0; }
+.view.on { display: block; }
+h1 { position: absolute; left: 40px; top: 18px; margin: 0; font-size: 20px; font-weight: 700; color: var(--ink); letter-spacing: .02em; }
+.lab { position: absolute; font-size: 15px; color: var(--muted); }
+.card { position: absolute; }
+.card img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.card .art { clip-path: polygon(50% 4.339%, 95.911% 18.365%, 95.911% 81.635%, 50% 95.661%, 4.089% 81.635%, 4.089% 18.365%); }
+.card .num { position: absolute; transform: translate(-50%, -52%); font-weight: 700; color: #2b1e12; line-height: 1; }
+.spell img { border-radius: 50%; }
+.spell .art { clip-path: circle(44% at 50% 50%); object-fit: cover; }
+.board { position: absolute; background: var(--board); border-radius: 6px; }
+.ref { position: absolute; }
+.ref img { height: 100%; display: block; }
+</style>
+</head>
+<body>
+<div id="sheet" class="view"></div>
+<div id="board" class="view"></div>
+<div id="large" class="view"></div>
+<div id="compare" class="view"></div>
+<script>
+const CUT = "file:///data/ui-ideation/frames/N/cut";
+const TODAY = "../../../../../docs/design/art-direction/frame-lab/final";
+const UNITS = "../../../../../assets/units";
+const NAMES = ["common", "uncommon", "rare", "epic", "legendary", "mythic"];
+const ART = ["thorn/bramble-runner", "mouse/fencing-master", "pigeon/flying-ace", "locust/hopper", "badger/hedge-knight", "badger/the-oakfeller"];
+const STATS = [[2, 3], [3, 4], [4, 6], [6, 7], [11, 17], [24, 38]];
+// Disc centres measured on the cut frames, card units (560 x 1000).
+const DISC = [[108, 784], [451, 784]];
+
+function frameSrc(set, t) {
+  if (set === "today") return `${TODAY}/tier${t}-${NAMES[t - 1]}.png`;
+  return `${CUT}/${set}/tier${t}-${NAMES[t - 1]}.png`;
+}
+
+function card(parent, x, y, w, t, opts = {}) {
+  const set = opts.set || (opts.golden ? "golden" : "normal");
+  const h = w / 0.56, el = document.createElement("div");
+  el.className = "card";
+  Object.assign(el.style, { left: x + "px", top: y + "px", width: w + "px", height: h + "px" });
+  if (opts.art) { const a = new Image(); a.className = "art"; a.src = `${UNITS}/${opts.art}.jpg`; el.appendChild(a); }
+  const f = new Image(); f.src = frameSrc(set, t); el.appendChild(f);
+  if (opts.stats !== false) {
+    const s = opts.statsVal || STATS[t - 1];
+    DISC.forEach(([cx, cy], k) => {
+      const n = document.createElement("div"); n.className = "num"; n.textContent = s[k];
+      const size = w * (String(s[k]).length > 1 ? 0.125 : 0.14);
+      Object.assign(n.style, { left: (cx / 560 * 100) + "%", top: (cy / 1000 * 100) + "%", fontSize: size + "px" });
+      el.appendChild(n);
+    });
+  }
+  parent.appendChild(el);
+  return h;
+}
+
+function spell(parent, x, y, d, t, art) {
+  const el = document.createElement("div");
+  el.className = "card spell";
+  Object.assign(el.style, { left: x + "px", top: y + "px", width: d + "px", height: d + "px" });
+  if (art) { const a = new Image(); a.className = "art"; a.src = art; el.appendChild(a); }
+  const f = new Image(); f.src = `${CUT}/spell/spell-t${t}.png`; el.appendChild(f);
+  parent.appendChild(el);
+}
+
+function label(parent, x, y, text) {
+  const l = document.createElement("div"); l.className = "lab"; l.textContent = text;
+  Object.assign(l.style, { left: x + "px", top: y + "px" }); parent.appendChild(l);
+}
+
+function title(parent, text) { const h = document.createElement("h1"); h.textContent = text; parent.appendChild(h); }
+
+// sheet: tiers 1-6, golden beside normal, at 112 and 128 px, blank and with art
+function buildSheet() {
+  const v = document.getElementById("sheet");
+  title(v, "Take N: tiers 1–6, each golden beside its normal card");
+  let y = 70;
+  for (const [w, withArt] of [[112, false], [112, true], [128, false], [128, true]]) {
+    const pairGap = 6, groupGap = 28, pairW = 2 * w + pairGap;
+    const total = 6 * pairW + 5 * groupGap, x0 = (1920 - total) / 2;
+    label(v, 40, y + 4, `${w} px`);
+    label(v, 40, y + 24, withArt ? "art" : "blank");
+    let h = 0;
+    for (let t = 1; t <= 6; t++) {
+      const x = x0 + (t - 1) * (pairW + groupGap);
+      const o = withArt ? { art: ART[t - 1] } : { stats: withArt };
+      h = card(v, x, y, w, t, Object.assign({}, o, withArt ? {} : { stats: true }));
+      card(v, x + w + pairGap, y, w, t, Object.assign({ golden: true }, withArt ? { art: ART[t - 1] } : {}));
+    }
+    y += h + 24;
+  }
+}
+
+// board: seven cards of mixed tiers, two nested rows, 28 px between every pair of neighbours; spells; hover card
+function buildBoard() {
+  const v = document.getElementById("board");
+  title(v, "Take N on the board: 120 px cards, 28 px gaps, one golden (tier 5); spells at 112 px; hover at 300 px");
+  const w = 120, h = w / 0.56, gap = 28, pad = 40;
+  // vertical offset of the nested row so the slanted edges are exactly `gap` apart
+  const pt = 0.17 * h, half = w / 2, dx = (w + gap) / 2;
+  const len = Math.hypot(half, pt);
+  const dy = h - (pt * dx - gap * len) / half;
+  const bw = 4 * w + 3 * gap + 2 * pad, bh = h + dy + 2 * pad;
+  const top = [[2, "mouse/fencing-master"], [4, "locust/hopper"], [3, "pigeon/flying-ace"], [6, "badger/the-oakfeller"]];
+  const bot = [[1, "thorn/bramble-runner"], [5, "badger/hedge-knight", true], [3, "mouse/needle-pikeman"]];
+  [[40, true], [40 + bw + 30, false]].forEach(([bx, withArt]) => {
+    const by = 80;
+    const b = document.createElement("div"); b.className = "board";
+    Object.assign(b.style, { left: bx + "px", top: by + "px", width: bw + "px", height: bh + "px" }); v.appendChild(b);
+    top.forEach(([t, a], k) => card(v, bx + pad + k * (w + gap), by + pad, w, t, withArt ? { art: a } : {}));
+    bot.forEach(([t, a, g], k) => card(v, bx + pad + dx + k * (w + gap), by + pad + dy, w, t, Object.assign({ golden: !!g }, withArt ? { art: a } : {})));
+  });
+  label(v, 40, 80 + bh + 8, `Ground: the mock-up's board colour. Nested row offset ${dy.toFixed(1)} px, so slanted edges sit 28 px apart.`);
+  const sy = 80 + bh + 70;
+  label(v, 40, sy - 26, "Spells, 112 px: tier 1 and tier 6, with art and blank");
+  spell(v, 40, sy, 112, 1, "../../../../../assets/glass/art/spell-1.jpg");
+  spell(v, 180, sy, 112, 6, "../../../../../assets/glass/art/spell-2.jpg");
+  spell(v, 320, sy, 112, 1); spell(v, 460, sy, 112, 6);
+  const hx = 40 + 2 * bw + 30 + 40;
+  label(v, hx, 54, "Hover, 300 px: tier 4");
+  card(v, hx, 80, 300, 4, { art: "locust/hopper" });
+}
+
+// large: tiers 1-6 and golden at 290 px
+function buildLarge() {
+  const v = document.getElementById("large");
+  const w = 290, g = 26, x0 = (1920 - (6 * w + 5 * g)) / 2, h = w / 0.56;
+  for (let t = 1; t <= 6; t++) {
+    card(v, x0 + (t - 1) * (w + g), 6, w, t, {});
+    card(v, x0 + (t - 1) * (w + g), 6 + h + 20, w, t, { golden: true });
+  }
+}
+
+// compare: tier 3 and 6 against today's frame and two reference board pieces, all 420 px tall
+function buildCompare() {
+  const v = document.getElementById("compare");
+  title(v, "Art to border, all 380 px tall: take N, today's frame, Battlegrounds token (normal, golden), Runeterra follower");
+  const H = 380, w = H * 0.56, y = 110;
+  let x = 60;
+  const items = [
+    ["take N tier 3", (xx) => card(v, xx, y, w, 3, { art: "pigeon/flying-ace" })],
+    ["take N tier 6", (xx) => card(v, xx, y, w, 6, { art: "badger/the-oakfeller" })],
+    ["today tier 3", (xx) => card(v, xx, y, w, 3, { art: "pigeon/flying-ace", set: "today", stats: [4, 6] })],
+    ["today tier 6", (xx) => card(v, xx, y, w, 6, { art: "badger/the-oakfeller", set: "today" })],
+  ];
+  for (const [name, fn] of items) { label(v, x, y - 28, name); fn(x); x += w + 30; }
+  for (const [name, src] of [["Battlegrounds token", "file:///data/ui-ideation/tmp/frame-N/refcrop/bg-token.png"],
+                             ["Battlegrounds golden token", "file:///data/ui-ideation/tmp/frame-N/refcrop/bg-token-golden.png"],
+                             ["Runeterra follower", "file:///data/ui-ideation/frames/study/img/lor-common-01DE002.png"]]) {
+    const r = document.createElement("div"); r.className = "ref";
+    Object.assign(r.style, { left: x + "px", top: y + "px", height: H + "px" });
+    const i = new Image(); i.src = src; r.appendChild(i); v.appendChild(r);
+    label(v, x, y - 28, name);
+    i.onload = () => {}; x += (src.includes("lor") ? H * 680 / 1024 : src.includes("golden") ? H * 136 / 210 : H * 132 / 167) + 30;
+  }
+  label(v, 60, y + H + 30, "Same art under take N and today's frame. Reference pictures are other studios' cards, used only for this comparison and kept out of Git.");
+}
+
+// today's frames use numbers on gold discs; place them per today's roundels.json is not needed for the ratio check
+const view = (location.hash || "#sheet").slice(1);
+({ sheet: buildSheet, board: buildBoard, large: buildLarge, compare: buildCompare })[view]();
+document.getElementById(view).classList.add("on");
+</script>
+</body>
+</html>

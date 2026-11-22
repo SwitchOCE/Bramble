@@ -1,0 +1,31 @@
+You are making card frame art for a woodland auto-battler game. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time, in the order given. Do not write code or other files. No logos, watermarks, titles or captions. Every design is original: do not depict or closely imitate any existing game's cards. Reply with just the saved filenames.
+
+ATTACHMENTS. Each item names the images to attach, by full path. Open each as an image first and pass every one named to the image tool for that item.
+- A GUIDE (tier1-r2.png to tier6-r2.png in /data/bramble-art/uiid-frames/M/guide/): thin grey lines on black. The outer line is the card's edge. The inner line is the inside edge of its border. The two circles are the outer edges of the two roundels. The two BOLD ticks that cross the border on the left and right sides, and stick out past the card's edge, mark the JOIN: the exact height where the stained glass starts. Draw the card exactly on these lines, at exactly this position and size on the canvas. Take nothing else from the guide: it has no style.
+- THE EARLIER CARD of the same tier (t1.png to t6.png in /data/bramble-art/uiid-frames/M/): keep its stained glass exactly: the colours, the streaky back-lit texture, the glow, the leaf-shaped pieces, the bottom crest and the cream-gold roundel discs. It is WRONG in three ways, which this item fixes: its upper lead is too thin and striped, its join is at the wrong height, and its roundels are not on the guide's circles.
+- For golden items, the NORMAL CARD you made earlier in this run, from the current working folder.
+
+THE THREE FIXES, for every normal card item:
+1. THE UPPER LEAD. Above the join, the border is ONE solid, heavy lead came that fills the whole band between the guide's two lines: dark warm charcoal-brown, nearly black, with one thin soft highlight running along its middle and a crisp dark edge on both sides. It must read as a strong dark outline round the card. NOT two or three thin separate rails with gaps between them. No glass, no colour and no ornament above the join, except the one small round bead of the tier's glass at the very top point.
+2. THE JOIN. The glass starts EXACTLY at the bold ticks, not higher and not lower; on this card the join is in a different place from the earlier card, so move it. At the ticks the solid came splits into an outer rail and an inner rail; the inner rail curves away in a smooth pointed leaf tip, closed by a small round blob of solder, and the tier's glass fills the space between the rails from there down. Both rails keep the same dark lead as the upper border.
+3. THE ROUNDELS sit exactly on the guide's two circles, the same size as the circles.
+
+Everything else as the earlier card: below the join the tier's glass between the two rails, with dark lead lines between the pieces, round the roundels and along the two lower slopes; the bottom crest at the bottom point; the window inside the border empty, plain flat dark slate, no picture; the roundel discs BLANK, no numerals; clean even lead, sharp edges, stylised and hand-made, little fine detail; no text anywhere.
+
+GOLDEN, for items marked golden: copy the attached normal card exactly, with the same glass, colours, pieces, crest, join and roundels, in the same place. Change only the metal: the whole lead came, above and below the join, turns bright pale leaf gold, almost yellow-white, shiny with a white highlight, as heavy as the lead it replaces. The outer rims of the roundels turn the same gold, but the small glass pieces ringing each roundel keep the tier's colour. Add one small crest of three gilt leaves sitting on the top point of the card, around the bead. The thin lead lines BETWEEN the glass pieces stay dark. No gold glass, no extra leaves or pieces, no added glow.
+
+Every item: a portrait 2:3 image, the canvas the guide is drawn on, plain dark charcoal background around the card.
+
+Items:
+1. t1r2.png -- Tier 1. Attach tier1-r2.png and t1.png. Pearl grey glass. The join is low, level with the top half of the roundels, so tier 1 is almost all dark lead. Roundel rings pearl grey, not cream.
+2. t2r2.png -- Tier 2. Attach tier2-r2.png and t2.png. Leaf green glass.
+3. t3r2.png -- Tier 3. Attach tier3-r2.png and t3.png. Sapphire blue glass.
+4. t4r2.png -- Tier 4. Attach tier4-r2.png and t4.png. Violet glass with the small cyan jewels.
+5. t5r2.png -- Tier 5. Attach tier5-r2.png and t5.png. Deep honey amber glass with small green leaves.
+6. t6r2.png -- Tier 6. Attach tier6-r2.png and t6.png. Ruby glass with orange and amber; the join is high, so the glass climbs nearly halfway up the card.
+7. t1r2-gold.png -- Tier 1, golden. Attach tier1-r2.png and t1r2.png.
+8. t2r2-gold.png -- Tier 2, golden. Attach tier2-r2.png and t2r2.png.
+9. t3r2-gold.png -- Tier 3, golden. Attach tier3-r2.png and t3r2.png.
+10. t4r2-gold.png -- Tier 4, golden. Attach tier4-r2.png and t4r2.png. The roundel rings stay violet glass.
+11. t5r2-gold.png -- Tier 5, golden. Attach tier5-r2.png and t5r2.png. The gold must stay paler and shinier than the amber glass, so the two never merge.
+12. t6r2-gold.png -- Tier 6, golden. Attach tier6-r2.png and t6r2.png.

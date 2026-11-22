@@ -40,3 +40,10 @@ The metal changes, not the glass: both rails turn pale, shiny leaf gold all the 
 - **Roundels:** today's glowing cream disc, ringed in tier glass, drawn blank, in one position for all tiers: centres (111, 766), (449, 766), ring radius 78.
 - **Tier mark:** colour plus height, repeated in the top bead. No numeral.
 - **Spell:** a round came ring (radius 238), same rule: lower arc in tier glass with a small crest. No stats.
+
+## What I would still fix
+
+- **Upper lead is too thin and striped.** At 112 px it blends into the art; round 2 asks for one solid, near-black came.
+- **The tier step by height failed.** The joins came out at 542 to 617, in no order, so in greyscale tiers 2 to 6 look the same. Round 2 uses bolder ticks and 32-unit steps.
+- **Roundels copied today's per-tier positions,** not the guide.
+- **Not yet fixed:** the glass is as saturated as the art, the spell ring is thin, and the top bead is under 3 px.

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Take M frames</title>
+<!-- Frames live outside Git, in /data/ui-ideation/frames/M/frames/ (fit.py). Views: #sheet, #large, #compare.
+     Rendered at 1920 wide, 1 CSS px = 1 screen px, so card sizes are real game sizes at 1920x1080. -->
+<style>
+@font-face { font-family: Alegreya; src: url("../../../../../assets/glass/fonts/Alegreya[wght].ttf"); font-weight: 400 900; }
+@font-face { font-family: AlegreyaSans; src: url("../../../../../assets/glass/fonts/AlegreyaSans-Bold.ttf"); font-weight: 700; }
+:root { --ground: #16181b; --ink: #cfc6b4; --dim: #8a8478; }
+html, body { margin: 0; background: var(--ground); color: var(--ink); font-family: AlegreyaSans, sans-serif; }
+body { width: 1920px; }
+.view { display: none; padding: 22px 40px 30px; box-sizing: border-box; width: 1920px; }
+.view.on { display: block; }
+h2 { font: 700 15px AlegreyaSans, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--dim); margin: 14px 0 10px; }
+.row { display: flex; align-items: flex-end; gap: 16px; flex-wrap: nowrap; }
+.pair { display: flex; gap: 6px; align-items: flex-end; }
+.lab { font-size: 13px; color: var(--dim); text-align: center; margin-top: 4px; }
+.cell { display: flex; flex-direction: column; align-items: center; }
+.card { position: relative; flex: none; }
+.card img.art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.card .blank { position: absolute; inset: 0; background: #2b3036; }
+.card img.frame { position: absolute; inset: 0; width: 100%; height: 100%; }
+.card .num { position: absolute; transform: translate(-50%, -52%); font-family: Alegreya, serif; font-weight: 800;
+  color: #2a1d10; line-height: 1; text-align: center; }
+.split { display: flex; gap: 60px; align-items: flex-start; }
+.board { position: relative; }
+.ref { height: 520px; }
+.note { font-size: 14px; color: var(--dim); max-width: 300px; line-height: 1.35; }
+</style>
+<script src="frames.js"></script>
+</head>
+<body>
+<div id="sheet" class="view"></div>
+<div id="large" class="view"></div>
+<div id="compare" class="view"></div>
+<script>
+const F = "file:///data/ui-ideation/frames/M/frames/";
+const U = "../../../../../assets/units/";
+const ART = { 1: "badger/brock-cub", 2: "mouse/dormouse-cook", 3: "badger/hedge-knight", 4: "locust/gorger",
+              5: "pigeon/flying-ace", 6: "thorn/the-old-hedge" };
+const STATS = { 1: [2, 3], 2: [4, 5], 3: [6, 7], 4: [9, 11], 5: [14, 17], 6: [22, 30] };
+// Art window with the recipe's 8-unit bleed (window.json "art"), as a CSS clip in card units.
+const ARTWIN = [[280,43.4],[537.1,183.7],[537.1,816.3],[280,956.6],[22.9,816.3],[22.9,183.7]];
+const clip = "polygon(" + ARTWIN.map(([x, y]) => (x / 5.6).toFixed(2) + "% " + (y / 10).toFixed(2) + "%").join(",") + ")";
+const CARDCLIP = "polygon(50% 0,100% 17%,100% 83%,50% 100%,0 83%,0 17%)";
+
+function card(key, w, opt = {}) {
+  const t = +key[1], h = w / 0.56, el = document.createElement("div");
+  el.className = "card"; el.style.width = w + "px"; el.style.height = h + "px";
+  if (opt.art) {
+    const a = document.createElement("img"); a.className = "art"; a.src = U + (opt.artName || ART[t]) + ".jpg";
+    a.style.clipPath = clip; el.appendChild(a);
+  } else {
+    const b = document.createElement("div"); b.className = "blank"; b.style.clipPath = clip; el.appendChild(b);
+  }
+  const f = document.createElement("img"); f.className = "frame"; f.src = opt.src || (F + key + ".png"); el.appendChild(f);
+  const r = (window.FRAMES || {})[key];
+  if (r && opt.stats !== false) {
+    const [atk, hp] = STATS[t].map(v => key.includes("gold") ? v * 2 : v);
+    for (const [side, v] of [["attack", atk], ["health", hp]]) {
+      const d = r[side]; if (!d) continue;
+      const n = document.createElement("div"); n.className = "num";
+      n.style.left = (d.cx / 560 * 100) + "%"; n.style.top = (d.cy / 1000 * 100) + "%";
+      n.style.fontSize = Math.round(d.r / 560 * w * (String(v).length > 1 ? 1.15 : 1.35)) + "px";
+      n.textContent = v; el.appendChild(n);
+    }
+  }
+  return el;
+}
+function spell(key, d, art) {
+  const el = document.createElement("div"); el.className = "card"; el.style.width = el.style.height = d + "px";
+  const k = (window.FRAMES[key] || {}).r_window_frac || 0.84;
+  const inner = document.createElement(art ? "img" : "div");
+  if (art) { inner.src = "../../../../../assets/glass/art/" + art + ".jpg"; inner.className = "art"; inner.style.objectFit = "cover"; }
+  else { inner.className = "blank"; }
+  inner.style.position = "absolute"; inner.style.inset = "0"; inner.style.width = inner.style.height = "100%";
+  inner.style.clipPath = "circle(" + (k * 50 + 1.5) + "% at 50% 50%)"; el.appendChild(inner);
+  const f = document.createElement("img"); f.className = "frame"; f.src = F + key + ".png"; el.appendChild(f);
+  return el;
+}
+function cell(node, label) {
+  const c = document.createElement("div"); c.className = "cell"; c.appendChild(node);
+  if (label) { const l = document.createElement("div"); l.className = "lab"; l.textContent = label; c.appendChild(l); }
+  return c;
+}
+function h(parent, text) { const e = document.createElement("h2"); e.textContent = text; parent.appendChild(e); }
+function row(parent) { const r = document.createElement("div"); r.className = "row"; parent.appendChild(r); return r; }
+
+// Seven cards, nested rows, one gap g along the vertical edges and along both slopes.
+function board(w, g, keys) {
+  const H = w / 0.56, s = 0.17 * H;
+  // slope direction (w/2, -s); the offset row sits dx = (w+g)/2 across; solve dy so the slopes are g apart
+  const dx = (w + g) / 2, len = Math.hypot(w / 2, s);
+  // A's lower-right slope passes (w/2, H); B's upper-left slope passes (dx, dy + s). Distance = g.
+  const dy = (g * len - s * (dx - w / 2)) / (w / 2) + (H - s);
+  const el = document.createElement("div"); el.className = "board";
+  const pos = [];
+  for (let i = 0; i < 4; i++) pos.push([i * (w + g), 0]);
+  for (let i = 0; i < 3; i++) pos.push([dx + i * (w + g), dy]);
+  el.style.width = (4 * w + 3 * g) + "px"; el.style.height = (dy + H) + "px";
+  keys.forEach((k, i) => { const c = card(k, w, { art: true }); c.style.position = "absolute";
+    c.style.left = pos[i][0] + "px"; c.style.top = pos[i][1] + "px"; el.appendChild(c); });
+  return el;
+}
+
+function buildSheet() {
+  const v = document.getElementById("sheet");
+  for (const w of [112, 128]) {
+    h(v, w + " px wide (board) — normal and golden side by side, tiers 1 to 6; blank panes, then today's card art");
+    for (const art of [false, true]) {
+      const r = row(v); r.style.gap = (w === 112 ? 26 : 20) + "px";
+      for (let t = 1; t <= 6; t++) {
+        const p = document.createElement("div"); p.className = "pair";
+        p.appendChild(cell(card("t" + t, w, { art }), art ? "" : "Tier " + t));
+        p.appendChild(cell(card("t" + t + "-gold", w, { art }), art ? "" : "golden"));
+        r.appendChild(p);
+      }
+    }
+  }
+  const sp = document.createElement("div"); sp.className = "split"; v.appendChild(sp);
+  const a = document.createElement("div"); sp.appendChild(a);
+  h(a, "Spells, 96 px");
+  const r1 = row(a);
+  r1.appendChild(cell(spell("spell1", 96), "Tier 1")); r1.appendChild(cell(spell("spell6", 96), "Tier 6"));
+  r1.appendChild(cell(spell("spell1", 96, "spell-forage"), "")); r1.appendChild(cell(spell("spell6", 96, "spell-triple-reward"), ""));
+  h(a, "Join: leaf tip vs straight bar, 128 px");
+  const r2 = row(a);
+  for (const k of ["t1", "t1-bar", "t6", "t6-bar"]) r2.appendChild(cell(card(k, 128, { art: true }), k.includes("bar") ? "bar" : "leaf tip"));
+  const b = document.createElement("div"); sp.appendChild(b);
+  h(b, "Hover, 300 px");
+  const r3 = row(b); r3.appendChild(card("t3", 300, { art: true }));
+  const c = document.createElement("div"); sp.appendChild(c);
+  h(c, "Board: 7 cards at 112 px, one 28 px gap everywhere");
+  c.appendChild(board(112, 28, ["t1", "t3", "t2", "t5", "t4-gold", "t6", "t3"]));
+}
+function buildLarge() {
+  const v = document.getElementById("large"); v.style.padding = "22px 30px";
+  h(v, "300 px wide: tiers 1 to 6, normal (top) and golden (bottom), with art");
+  for (const g of ["", "-gold"]) {
+    const r = row(v); r.style.gap = "12px"; r.style.marginBottom = "14px";
+    for (let t = 1; t <= 6; t++) r.appendChild(card("t" + t + g, 300, { art: true }));
+  }
+}
+function buildCompare() {
+  const v = document.getElementById("compare");
+  h(v, "Same height (520 px): take M tier 3 and tier 6, today's tier 3, a Runeterra follower, a Magic common");
+  const r = row(v); r.style.gap = "28px"; r.style.alignItems = "flex-start";
+  const W = 520 * 0.56;
+  r.appendChild(cell(card("t3", W, { art: true }), "Take M, tier 3"));
+  r.appendChild(cell(card("t6", W, { art: true }), "Take M, tier 6"));
+  r.appendChild(cell(card("t3", W, { art: true, stats: false, src: "../../../../design/art-direction/frame-lab/final/tier3-rare.png" }), "Today, tier 3"));
+  for (const [f, l] of [["lor-common-01DE002.png", "Runeterra follower"], ["mtg-normal-llanowar-elves-dom.png", "Magic common"]]) {
+    const i = document.createElement("img"); i.className = "ref"; i.src = "file:///data/ui-ideation/frames/study/img/" + f;
+    r.appendChild(cell(i, l));
+  }
+}
+buildSheet(); buildLarge(); buildCompare();
+const view = (location.hash || "#sheet").slice(1);
+document.getElementById(view).classList.add("on");
+</script>
+</body>
+</html>

@@ -43,3 +43,15 @@ All the lead turns to pale polished gilt: rim, upper band and base cames. Most o
 - **Stats:** blank ivory glass discs (radius 60, today's places) in a lead ring edged with the tier's glass. Gold stays for golden.
 - **Tier mark:** the beads.
 - **Spell:** round, with the same lead ring. Its lower third is the tier's glass with a small fleuron. No discs.
+
+## What I would still fix
+
+- At 112 px the upper lead reads as a thin double outline, not solid lead.
+- The beads (3–4 px) don't read, so they are dropped.
+- The glass climb can't be seen, so every tier now starts at 690; the tier shows by colour and bottom ornament.
+- Disc sizes vary from 47 to 60 units.
+- Golden tier 1's band stays dark, and golden tier 2 lost its green rings.
+- Tier 1's glass has a flat top.
+- The tier 6 spell ring is thinner than tier 1's.
+
+`prompts-2.txt` fixes all but the spell.
