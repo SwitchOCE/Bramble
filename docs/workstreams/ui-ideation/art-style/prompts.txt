@@ -1,0 +1,32 @@
+You are making card art for a woodland auto-battler game. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No logos, watermarks, titles or captions. Every design is original: do not depict or closely imitate any existing game's cards. Reply with just the saved filenames.
+
+The attached image is a shape guide, not a style guide. It shows the exact outline of the panel and exactly where it sits in the image. Pass it to the image tool as a reference for every item. It is empty and grey only because it is a guide: take the outline, size and position from it and nothing else.
+
+Each item is a REPAINT of an existing card picture in a new style. The item names that picture's file, a path relative to the repository root (in this checkout: /home/alex/.t3/worktrees/Bramble/ideation-ui-ux-dce1598bde386004/). Open it as an image and pass it to the image tool as a second reference, for that item only. From it take only the subject, its pose, costume, weapon and the layout of the scene. Do NOT take its colours, its sky, its sun or its background panes: those come from the item's STYLE below. The shape and position of the panel still come from the shape guide, not from the old picture.
+
+Every item: tall 2:3 portrait image on a plain near-black background. It shows ONE stained-glass panel in exactly the outline of the guide: the same tall six-sided shape, the same size, in the same place.
+
+No numerals, text or lettering anywhere.
+
+Look: stylised, with big simple shapes and a hand-made feel. Sculpted, but not photoreal and not fussy: little fine detail. It should look like something a small art team could produce a hundred of.
+
+The design, the same for every item: A stained-glass window panel: dark lead lines, chunky coloured glass panes that glow as if lit from behind, the subject itself built from glass pieces. There is no border of panes: the picture runs right to the edge of the panel, with only one dark lead line round the outside.
+
+There are three STYLES. Each item names its style; use that style's sentence as the picture's description.
+
+STYLE P (quiet ground): The picture is: the subject named in the item, drawn in flat hard-edged shapes in strong, bright colour, against the place named in the item. The place is built from a few large, calm panes in soft, muted tones of the one colour family the item names, so the subject stands out from it at a glance. No sun rays or sunbursts.
+
+STYLE Q (clear-glass ground): The picture is: the subject named in the item, drawn in flat hard-edged shapes in full colour, standing in front of the place named in the item. The place is made in a different glass: almost colourless pale clear and opal-white glass, with the place's shapes painted on in soft grey-brown linework and at most a touch of pale gold. Only the subject is coloured glass.
+
+STYLE R (single field): The picture is: the subject named in the item, drawn in flat hard-edged shapes in full colour, full body, standing on a simple strip of ground. Behind it there is no scene: one plain field of large, calm panes in a single soft colour taken from the place named in the item, with at most one simple shape from that place. The subject fills most of the panel's height.
+
+Items:
+1. P-sweetbriar.png -- STYLE P. Reference: assets/units/thorn/sweetbriar.jpg. A living briar-rose warrior built of thorny green stems and pink dog-roses, full body, striding with a thorned blade held out, on a lane between hedgerows on a summer day. The place's colour family: soft dusty blue-grey.
+2. P-bell-ringer.png -- STYLE P. Reference: assets/units/mouse/bell-ringer.jpg. A mouse bell-ringer in a green cloak and cream tunic, full body, hauling on a bell rope with a brass bell above, inside a stone bell tower with arched windows, a barrel and a lantern. The place's colour family: muted warm stone and straw.
+3. P-hedge-lancer.png -- STYLE P. Reference: assets/units/badger/hedge-lancer.jpg. A badger lancer in steel plate armour with a short red cape, full body, charging with a long spear levelled, on a woodland path under an oak. The place's colour family: muted moss and olive green.
+4. Q-sweetbriar.png -- STYLE Q. Reference: assets/units/thorn/sweetbriar.jpg. A living briar-rose warrior built of thorny green stems and pink dog-roses, full body, striding with a thorned blade held out, on a lane between hedgerows on a summer day.
+5. Q-bell-ringer.png -- STYLE Q. Reference: assets/units/mouse/bell-ringer.jpg. A mouse bell-ringer in a green cloak and cream tunic, full body, hauling on a bell rope with a brass bell above, inside a stone bell tower with arched windows, a barrel and a lantern.
+6. Q-hedge-lancer.png -- STYLE Q. Reference: assets/units/badger/hedge-lancer.jpg. A badger lancer in steel plate armour with a short red cape, full body, charging with a long spear levelled, on a woodland path under an oak.
+7. R-sweetbriar.png -- STYLE R. Reference: assets/units/thorn/sweetbriar.jpg. A living briar-rose warrior built of thorny green stems and pink dog-roses, full body, striding with a thorned blade held out, on a lane between hedgerows on a summer day; the one shape is a single round hedge bush.
+8. R-bell-ringer.png -- STYLE R. Reference: assets/units/mouse/bell-ringer.jpg. A mouse bell-ringer in a green cloak and cream tunic, full body, hauling on a bell rope with a brass bell above, inside a stone bell tower; the one shape is a single arched window.
+9. R-hedge-lancer.png -- STYLE R. Reference: assets/units/badger/hedge-lancer.jpg. A badger lancer in steel plate armour with a short red cape, full body, charging with a long spear levelled, on a woodland path; the one shape is a single oak tree.
