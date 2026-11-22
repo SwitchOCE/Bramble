@@ -1,0 +1,49 @@
+You are making card frame art for a woodland auto-battler game. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time, in order: items 7 to 12 use pictures made by items 1 to 6. Do not write code or other files. No logos, watermarks, titles or captions. No text, letters or numerals anywhere. Reply with just the saved filenames.
+
+Folders. GUIDES = /data/bramble-art/uiid-frames/N/guide. TODAY = /home/alex/.t3/worktrees/Bramble/ideation-ui-ux-dce1598bde386004/docs/design/art-direction/frame-lab/final. Each item names the pictures to attach; open each one as an image first and pass every one of them to the image tool for that item.
+
+What a guide is. Each guide is thin grey lines on black, on the same portrait 2:3 canvas you draw on. Draw the card so it lies exactly on the guide's lines, the same size and in the same place. Take nothing else from a guide: it has no style. Its lines mean:
+- The outer six-sided line is the card's outer edge: a tall hexagon, pointed at the top and the bottom.
+- The inner six-sided line is the inside edge of the frame. Everything inside it is the empty window.
+- On each side, low down, a short slanting line runs from the outer edge in to the inner line. That is where the coloured glass begins. Above those two short lines the frame is lead only; below them it is stained glass.
+- Two large circles at the lower corners are the two stat roundels.
+- Small circles along the bottom are pale glass beads.
+- A short curved line above the bottom point, where there is one, is the highest the ornament at the bottom point may reach into the window.
+
+The design, for every unit card (items 1 to 12, 15, 16):
+- One continuous outer lead came, an even rounded strip of dark lead, runs unbroken around the whole card edge.
+- Upper part, above the two short slanting lines: the frame is plain lead and nothing else. A wide band of dark brown-grey cast lead, matte, with one soft pewter highlight along its rounded profile, like the lead in an old church window. No glass, no jewels, no ornament, no studs anywhere in this upper part, and nothing at the top point except the lead itself meeting in a clean point.
+- Lower part, below the two short slanting lines: back-lit stained glass in the tier's colour, set in the same dark lead. On each side the glass begins as a slim wedge pointed at the top, tucked inside the outer came, like a leaf growing upward, and widens downward into the band that runs along the two bottom edges to the bottom point. Every piece of glass is outlined by a lead line of the same weight as the rest. The glass is textured, streaky, glowing from behind, with uneven pieces.
+- At the bottom point: one simple symmetric glass ornament (the item says what), staying below the guide's curved line.
+- The beads: small round beads of pale clear-white glass, each in a thin lead ring, exactly where the guide's small circles are, and no others.
+- The roundels: on the two large circles, two round discs of plain smooth ivory glass, lit from behind, completely blank. Each disc sits in a lead ring with a thin outer ring of the tier's coloured glass. No numbers or marks on the discs.
+- Everything is mirror-symmetric left to right.
+- The window, inside the inner line, is empty: plain flat dark slate grey, one even colour, no picture, no texture, no glow.
+- Outside the card: a plain flat dark charcoal background, no shadow, no glow except where the item asks for one.
+- The look: big simple shapes, clean even lead lines, sharp edges, crisp at this size. Not fussy: the frame must still read when shown only 112 pixels wide, so no fine filigree and no tiny pieces.
+
+Colour reference (items 1 to 6, 13 and 14): a picture from TODAY is attached only to show the glass colour and the glass texture for that tier. Match its glass colour and texture. Do not copy anything else from it: not its layout, not its glass along the upper sides, not its hanging top diamond, not its petals, not its gold discs.
+
+The tier colours: tier 1 a light pearl grey, quiet and common, not bright white. Tier 2 a rich true leaf green, clearly green, not pale. Tier 3 sapphire blue with a hint of teal. Tier 4 violet purple. Tier 5 deep marigold yellow, warm and saturated. Tier 6 ruby red with small flame-orange accents.
+
+Golden versions (items 7 to 12): attach the normal card named in the item and the same guide. Copy that card exactly, piece for piece, with the same glass, the same colours, the same beads and the same ornament. Change one thing only: every piece of lead on the card (the outer came, the wide upper band, every lead line in the glass and the rings round the discs and beads) becomes pale polished champagne gold metal, bright, with darker burnished gold along its edges so each strip stays clearly outlined. The gold is paler and less saturated than any yellow glass. The glass stays exactly its tier colour; the discs stay blank ivory; the window stays empty dark slate.
+
+The spell (items 13 and 14) is round: attach GUIDES/guide-spell.png. The outer circle is the card's edge and the inner circle the inside edge of the frame; the window inside is empty, flat dark slate. The ring between them is plain dark lead, with one continuous outer lead came, exactly as on the unit card's upper part, except its lower third: below the two short slanting lines the ring is stained glass in the tier's colour, set in lead, with one small symmetric ornament at the very bottom. No roundels, no beads, no numerals.
+
+Items:
+1. tier1.png -- Tier 1 unit card. Attach GUIDES/guide-t1.png and TODAY/tier1-common.png. Pearl grey glass in few, long pieces: two long panes on each side, a plain band along the bottom edges, and at the bottom point one plain small diamond of the same grey glass. One bead. Calm and common.
+2. tier2.png -- Tier 2 unit card. Attach GUIDES/guide-t2.png and TODAY/tier2-uncommon.png. Leaf-green glass, a few more pieces than tier 1: three panes on each side; at the bottom point a small sprig of two green leaves meeting at a short stem. Two beads.
+3. tier3.png -- Tier 3 unit card. Attach GUIDES/guide-t3.png and TODAY/tier3-rare.png. Sapphire blue glass in smaller pieces than tier 2; at the bottom point a trefoil of three rounded blue petals. Three beads, the middle one at the bottom point below the trefoil.
+4. tier4.png -- Tier 4 unit card. Attach GUIDES/guide-t4.png and TODAY/tier4-epic.png. Violet glass in smaller pieces again; at the bottom point a fleur of five pointed violet petals, the middle one tallest. Four beads.
+5. tier5.png -- Tier 5 unit card. Attach GUIDES/guide-t5.png and TODAY/tier5-legendary.png. Deep marigold glass in small rich pieces, with a few small leaf-green accent pieces in the side wedges; at the bottom point a fan of five marigold petals around a small round amber jewel. Five beads, the middle one at the bottom point.
+6. tier6.png -- Tier 6 unit card. Attach GUIDES/guide-t6.png and TODAY/tier6-mythic.png. Ruby red glass in the most and smallest pieces of the set (still none tiny), with small flame-orange accent pieces; at the bottom point a crest of seven pointed red and orange petals around a small round orange jewel, reaching up to the curved line. A soft red glow spills a little way out from the glass part only, not from the lead above. Six beads.
+7. tier1-golden.png -- Golden version of tier1.png. Attach tier1.png from the current working folder and GUIDES/guide-t1.png.
+8. tier2-golden.png -- Golden version of tier2.png. Attach tier2.png and GUIDES/guide-t2.png.
+9. tier3-golden.png -- Golden version of tier3.png. Attach tier3.png and GUIDES/guide-t3.png.
+10. tier4-golden.png -- Golden version of tier4.png. Attach tier4.png and GUIDES/guide-t4.png.
+11. tier5-golden.png -- Golden version of tier5.png. Attach tier5.png and GUIDES/guide-t5.png. Keep the gold metal clearly paler than the marigold glass, and its burnished edges dark, so glass and metal never merge.
+12. tier6-golden.png -- Golden version of tier6.png. Attach tier6.png and GUIDES/guide-t6.png.
+13. spell-t1.png -- Round spell, tier 1. Attach GUIDES/guide-spell.png and TODAY/tier1-common.png. Pearl grey glass in a few long pieces in the lower third; a plain small grey diamond at the bottom.
+14. spell-t6.png -- Round spell, tier 6. Attach GUIDES/guide-spell.png and TODAY/tier6-mythic.png. Ruby red glass with flame-orange accents in small pieces in the lower third; a small crest of five red and orange petals at the bottom; a soft red glow from the glass only.
+15. low-t3.png -- Tier 3 unit card exactly as item 3, but drawn to GUIDES/guide-low-t3.png, where the glass begins lower on the sides. Attach GUIDES/guide-low-t3.png and TODAY/tier3-rare.png.
+16. low-t6.png -- Tier 6 unit card exactly as item 6, but drawn to GUIDES/guide-low-t6.png, where the glass begins lower on the sides. Attach GUIDES/guide-low-t6.png and TODAY/tier6-mythic.png.

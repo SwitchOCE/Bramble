@@ -1,0 +1,38 @@
+You are making card frame art for a woodland auto-battler game. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time, in the order given. Do not write code or other files. No logos, watermarks, titles or captions. Every design is original: do not depict or closely imitate any existing game's cards. Reply with just the saved filenames.
+
+ATTACHMENTS. Each item names the images to attach, by full path. Open each as an image first and pass every one named to the image tool for that item.
+- A GUIDE (tier1.png to tier6.png, spell1.png, spell6.png in /data/bramble-art/uiid-frames/M/guide/): thin grey lines on black. The outer line is the card's edge. The inner line is the inside edge of its border. The two circles are the outer edges of its two roundels. The two short ticks across the border on the left and right sides mark the JOIN: where the stained glass starts. Draw the card exactly on these lines, filling the guide exactly, at exactly this position and size on the canvas. Take nothing else from the guide: it has no style.
+- A GLASS REFERENCE (today-tier1.png to today-tier6.png, same folder): an older frame of the same tier. Copy ONLY its stained glass: the colour, the streaky back-lit texture, the glow and the dark lead lines between the pieces. Do NOT copy its layout, its petals, its top ornament or its glass on the upper sides. The new design below replaces all of that.
+- For golden items, the NORMAL CARD you made earlier in this run, from the current working folder.
+
+THE DESIGN, for every card item. A tall pointed hexagonal card border made of lead and stained glass, seen straight on, flat, lit from behind.
+- The border is a lead came: two rounded metal rails side by side with a fine seam between them, dark warm grey-brown lead with a soft highlight along each rail. It runs unbroken all the way round the card.
+- ABOVE the two join ticks the border is ONLY this plain lead: no glass, no colour, no ornament, no petals, no jewels, except one small round bead of the tier's glass set into the lead at the very top point.
+- AT the join ticks the two rails part: the inner rail curves away from the outer rail in a smooth pointed leaf tip, closed by a small round blob of solder, and stained glass fills the space between the rails from there down. The glass grows out of the lead like a leaf from a stem. It must look made by a glazier, not cut off.
+- BELOW the join, down both sides, around both roundels and along the two lower sloping edges, the border is the tier's stained glass held between the two rails, with dark lead lines between the pieces. At the bottom point a small crest of glass and lead rises into the window, never higher than the lower edge of the roundels.
+- ROUNDELS: on the two circles, a smooth glowing cream-gold glass disc, ringed by small pieces of the tier's glass and the lead rails. The discs are BLANK: no numerals, no marks.
+- THE WINDOW inside the border is empty: plain flat dark slate, with no picture in it. Nothing from the frame enters it except the bottom crest and the roundels.
+- The lead is the same weight on every tier. Clean, even lead lines, sharp edges, drawn crisply. Stylised and hand-made, not photoreal, little fine detail.
+- No text or lettering anywhere.
+
+GOLDEN, for items marked golden: copy the attached normal card exactly, with the same glass, colours, pieces, crest and roundels, in the same place. Change only the metal: both rails of the lead came turn bright, pale leaf gold, almost yellow-white, shiny with a white highlight, all the way round the card including the plain upper border. The roundel rims turn the same gold. Add one small crest of three gilt leaves sitting on the top point of the card, around the bead. The thin lead lines BETWEEN the glass pieces stay dark, so the glass keeps its colour. No glow added, no gold glass.
+
+Every card item: a portrait 2:3 image, the canvas the guide is drawn on, plain dark charcoal background around the card.
+
+Items:
+1. t1.png -- Tier 1. Attach tier1.png and today-tier1.png. Glass: frosted pearl grey, cool and quiet, not white, with no glow. One long piece down each side below the join, one piece along each lower slope. No crest: the two lower slopes meet in a plain mitre at the bottom point. The top bead is pearl grey.
+2. t2.png -- Tier 2. Attach tier2.png and today-tier2.png. Glass: rich leaf green, clearly green, not pale and not greyish. Two pieces down each side, two along each lower slope. Crest: a small single green bud at the bottom point. Faint glow. Top bead green.
+3. t3.png -- Tier 3. Attach tier3.png and today-tier3.png. Glass: sapphire blue with a few small teal pieces. Three pieces down each side, three along each lower slope. Crest: a small trefoil of three blue petals. Soft glow. Top bead blue.
+4. t4.png -- Tier 4. Attach tier4.png and today-tier4.png. Glass: violet purple with two small cyan jewels, one at each join tip. Four pieces down each side, four along each lower slope. Crest: a trefoil of violet petals with a small cyan jewel at its centre. Soft glow. Top bead violet.
+5. t5.png -- Tier 5. Attach tier5.png and today-tier5.png. Glass: deep honey amber, warm and saturated, darker and more orange than lemon yellow, with a few small green leaf pieces. Five pieces down each side, five along each lower slope. Crest: a fleur of amber petals with two small green leaves. Warm glow. Top bead amber.
+6. t6.png -- Tier 6. Attach tier6.png and today-tier6.png. Glass: ruby red with orange and small amber jewel pieces. Six smaller pieces down each side, six along each lower slope. Crest: the largest fleur, red petals around an amber jewel, still below the roundels' lower edge. A warm glow spilling a little past the lower border. Top bead ruby.
+7. t1-gold.png -- Tier 1, golden. Attach tier1.png and t1.png.
+8. t2-gold.png -- Tier 2, golden. Attach tier2.png and t2.png.
+9. t3-gold.png -- Tier 3, golden. Attach tier3.png and t3.png.
+10. t4-gold.png -- Tier 4, golden. Attach tier4.png and t4.png.
+11. t5-gold.png -- Tier 5, golden. Attach tier5.png and t5.png. The gold rails must stay paler and shinier than the amber glass, so the two never merge.
+12. t6-gold.png -- Tier 6, golden. Attach tier6.png and t6.png.
+13. spell1.png -- A round spell, tier 1. Attach spell1.png and t1.png. Not a hexagon: a circular border between the guide's two circles, the same lead came and the same rule as t1.png: plain lead round the upper part, with the pearl grey bead at the very top; at the two ticks the rails part in the same leaf tip and solder blob, and pearl grey glass fills the lower arc between them. A plain mitre at the bottom, no crest. No roundels. The circle inside is empty flat dark slate.
+14. spell6.png -- A round spell, tier 6. Attach spell6.png and t6.png. As item 13 but in t6.png's ruby glass, pieces, glow and bead, with a small fleur crest at the bottom rising into the circle no more than a fifth of the way to its centre.
+15. t1-bar.png -- Tier 1, a different join. Attach tier1.png and t1.png. Copy t1.png exactly except the join: instead of the leaf tip, a straight horizontal lead bar crosses the border at each tick, slightly thicker than the rails, with a small round lead boss on it, and the glass starts square below it.
+16. t6-bar.png -- Tier 6, a different join. Attach tier6.png and t6.png. Copy t6.png exactly except the join, changed as in item 15.
