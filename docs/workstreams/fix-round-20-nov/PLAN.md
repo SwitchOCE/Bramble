@@ -26,8 +26,8 @@ Written by the orchestrator on 20 Nov 2026 against `dev`. Approved by the owner 
 12. **Settled 21 Nov.** Old Brock goes to the balance session with the rest of the Badgers.
 13. **Settled 21 Nov.** Animations: all of them ("I accept all changes"), built in batches the owner plays between.
 14. **Lapsed 22 Nov.** The Charge and Supply pips sit over the stat discs, as before PR 249: there is no type strip for them to clear (decision 7).
-15. **Settled 22 Nov.** A carried shop card keeps its price tag (recruit/NOTES.md §2), not prototype 18's drop. Same answer as 14.
-16. **Settled 22 Nov.** The turn-start income coins and new shop drop-in (prototypes 9 and 10) go in the next animation batch, not the recruit batch. Same answer as 14.
+15. **Settled 22 Nov.** A carried shop card keeps its price tag (recruit/NOTES.md §2), not prototype 18's drop. Asked the morning pack's questions, the owner said (22 Nov): "I will accept all the recommendations except the rules, which I want a reminder on first."
+16. **Settled 22 Nov.** The turn-start income coins and new shop drop-in (prototypes 9 and 10) go in the next animation batch, not the recruit batch. Same answer as 15.
 
 ## Steps
 
@@ -69,7 +69,7 @@ Every step that changes code passes two gates before it merges to dev: the runti
 **Step 6. Type line and tooltips.** Items 8, 9 and 13's tooltip line.
 - Changes: the hover's kind line prints the card's types ("Badger Knight") in place of "Unit"; nothing is printed on the card face (decision 7). Keyword boxes move to a fixed place apart from the card's tooltip. Grudge's reminder says when it pays.
 - Depends on: decisions 7 and 8; step 8's wording for Grudge.
-- Checked by: compares with `type-line.html` and `tooltips.html`; shots of hovers on the shop, the board, the hand and the fight; a check that every card's type fits.
+- Checked by: compares with `tooltips.html`; shots of hovers on the shop, the board, the hand and the fight; a check that every card's type fits.
 
 **Step 7. Shop layout.** Item 7.
 - Changes: the gold, tier-up, refresh and freeze controls and their readouts move to the chosen layout.

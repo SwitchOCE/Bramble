@@ -16,9 +16,11 @@ func test_every_unit_type_is_in_the_hover_kind_line_and_not_on_the_card() -> voi
 		for height: float in [170.0, 250.0, 400.0]:
 			var card: GlassCard = screen._unit_card(data, height)
 			add_child(card)
-			assert_null(
-				card.find_child("TypeLine", true, false), "%s prints no type on its face" % id
-			)
+			for text: Node in card.find_children("*", "GlassText", true, false):
+				assert_false(
+					(text as GlassText).words.to_lower().contains(expected.to_lower()),
+					"%s prints no type on its face" % id
+				)
 			card.free()
 		data["sell_value"] = 3
 		var pane: GlassBox = GlassParts.tip_text(

@@ -65,6 +65,8 @@ Open any page from this folder in a browser (it sets its base to `docs/ideation-
 
 ## 8. Card type on the card
 
+*Not used: the owner had the type kept off the card face on 22 Nov; it shows only in the hover ([PLAN](../../../../workstreams/fix-round-20-nov/PLAN.md) decision 7).*
+
 - Page: `type-line.html?view=sheet | screen&at=stats | crest`
 - PNGs: `8-type-line-sheet-stats.png`, `8-type-line-sheet-crest.png`, `8-type-line-screen-stats.png`, `8-type-line-screen-crest.png`
 - Chosen: a cream strip set in lead across the card, with the card's `types` in dark Alegreya Sans, 15 px at board size. Long types shrink to fit; the longest in the game is "Mouse Standard-bearer". Two places to compare: just above Attack and Health (it covers the bottom 20 px of the art), or under the top point (it covers the sky). The sheet shows Badgers, Mice and Locusts at tiers 1, 3 and 6 at board size, three cards at hover size, and the hover's kind line "TIER 1 · BADGER KNIGHT · SELLS FOR 1".
