@@ -136,6 +136,43 @@ body{font-family:"Alegreya Sans",sans-serif;color:var(--cream)}
 .e-why .e-bead-s{display:grid;font:900 18px/1 Alegreya,serif;color:var(--ink)}
 .e-why span:not(.e-bead){display:block;font:400 17px/1.25 "Alegreya Sans",sans-serif;color:var(--cream-dim)}
 .e-btn.e-go{font-size:24px;padding:16px 28px}
+/* ---------- pass 2: calm frame, states, tooltip, keyword panel ---------- */
+.e-card .e-art{background-size:cover;background-position:center 30%;transition:filter .15s}
+.e-card .e-fr{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.e-card{filter:drop-shadow(0 8px 10px rgba(0,0,0,.6))}
+.e-lit .e-art{filter:none}
+.e-rest .e-art{filter:saturate(.68) brightness(.7)}
+.e-quiet .e-art{filter:saturate(.5) brightness(.5)}
+.e-hover .e-art{filter:brightness(1.05)}
+.e-card.e-hover{filter:drop-shadow(0 0 3px #fff1c4) drop-shadow(0 0 14px rgba(255,226,160,.7)) drop-shadow(0 10px 12px rgba(0,0,0,.7));transform:translateY(-6px)}
+.e-st{position:absolute;display:grid;place-items:center;border-radius:50%;border:3px solid var(--lead);font-family:Alegreya,serif;font-weight:900;line-height:1;padding-top:.06em;
+  color:#fbf1da;box-shadow:0 0 0 1.5px rgba(255,236,200,.35),0 2px 4px rgba(0,0,0,.7);letter-spacing:-.03em}
+.e-st-a{background:radial-gradient(circle at 38% 32%,#8a6424,#4a3210 70%)}
+.e-st-h{background:radial-gradient(circle at 38% 32%,#86242c,#46101a 70%)}
+.e-st.e-hurt{color:#ffb3a6;box-shadow:0 0 0 2px #e0505c,0 2px 4px rgba(0,0,0,.7)}
+.e-st.e-buff{color:#b9f0a8}
+.e-mks{position:absolute;left:50%;transform:translate(-50%,-50%);display:flex;gap:3px;z-index:2}
+.e-mk{display:grid;place-items:center;border-radius:50%;background:#17120d;border:2px solid var(--lead)}
+.e-mk svg{width:62%;height:62%;fill:none;stroke:#efe3c6;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.e-spell{position:absolute;filter:drop-shadow(0 8px 10px rgba(0,0,0,.6))}
+.e-spell .e-art{position:absolute;inset:0}
+.e-spell .e-fr{position:absolute;inset:0;width:100%;height:100%}
+.e-spell.e-hover{filter:drop-shadow(0 0 3px #fff1c4) drop-shadow(0 0 14px rgba(255,226,160,.7));transform:translateY(-6px)}
+.e-tip{position:absolute;z-index:30;padding:18px 20px 20px;color:var(--cream);
+  background:url(../../../../../assets/glass/ui/pane.jpg) center/300px,linear-gradient(170deg,#3a2c1f,#15100b 70%);background-blend-mode:multiply;
+  border:3px solid var(--lead);border-radius:6px;box-shadow:0 0 0 2px #b08a4a,inset 0 0 0 1.5px rgba(255,228,170,.16),0 12px 28px rgba(0,0,0,.75)}
+.e-tip-n{font:900 28px/1 Alegreya,serif}
+.e-tip-t{margin-top:6px;font:700 18px/1 "Alegreya Sans";color:var(--cream-dim)}
+.e-tip-x{margin-top:12px;padding-top:12px;border-top:2px solid #5d4a33;font:400 21px/1.35 "Alegreya Sans"}
+.e-tip-x b{color:var(--amber-hi)}
+.e-tip-a{position:absolute;width:20px;height:20px;background:#2c2117;border-left:3px solid var(--lead);border-bottom:3px solid var(--lead);box-shadow:-2px 2px 0 0 #b08a4a}
+.e-tip-r .e-tip-a{left:-13px;transform:rotate(45deg)}
+.e-tip-l .e-tip-a{right:-13px;transform:rotate(225deg)}
+.e-kw{position:absolute;z-index:20;padding:14px 16px;display:flex;flex-direction:column;gap:12px;
+  background:rgba(14,11,8,.86);border:2px solid #4a3b27;border-left:4px solid #8a6a3a;border-radius:4px}
+.e-kw-i b{display:block;font:900 19px/1 Alegreya,serif;color:var(--amber-hi)}
+.e-kw-i span{display:block;margin-top:4px;font:400 18px/1.3 "Alegreya Sans";color:var(--cream-dim)}
+.e-cap{position:absolute;transform:translateX(-50%);font:700 18px/1 "Alegreya Sans";color:var(--cream-dim);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -240,94 +277,79 @@ const S = (html) => svg.insertAdjacentHTML("beforeend", html);
 function rng(seed){ return function(){ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
 
 // name, the recruit cue, the fight cue (keyword first)
-const NAMES = {
-  "famine-caller":["Famine-caller","Dies: Tide +2","Dies: Tide +2"],
-  "squadron-leader":["Squadron Leader","Front: Sortie +3","Front gets Sortie"],
-  "bell-ringer":["Bell-ringer","Hand-me-downs +3","Hand-me-down"],
-  "granary-glutton":["Granary Glutton","Eats sold Locusts","Eat"],
-  "wing-commander":["Wing Commander","Kills give Renown","Sortie, Charge 4"],
-  "blackberry-sprawl":["Blackberry Sprawl","Grow 2","Grow 2"],
-  "hedge-lancer":["Hedge Lancer","First attack: unhurt","Fury 1"],
-  "bramble-runner":["Bramble Runner","Seed","Seed"],
-  "home-guard":["Home Guard","Guard, Reserve","Guard, Reserve"],
-  "hayloft-aunt":["Hayloft Aunt","Recruit: a Cousin","Hand-me-down"],
-  "sweetbriar":["Sweetbriar","Compost in: +1/+1","Compost in: +1/+1"],
-  "shrew-cutpurse":["Shrew Cutpurse","Pile on 1: +2 gold","Pile on 1"],
-  "sentry":["Sentry","Supply 6: Renown","Supply 6"],
-  "hedgerow-scout":["Hedgerow Scout","Hand-me-down","Hand-me-down"],
-  "territorial":["Territorial","Reserve","Reserve"],
-  "bumblebee":["Bumblebee","Dies: hits its killer","Dies: hits killer"],
-  "green-recruit":["Green Recruit","Dies: a Hopper","Dies: a Hopper"],
-  "greatsword-bearer":["Greatsword Bearer","Squire","Squire"],
-  "briar-king":["Briar King","Thorns 4","Thorns 4"],
-  "holly-knight":["Holly Knight","Grow 2, Thorns 4","Grow 2, Thorns 4"],
-  "the-eighth-plague":["The Eighth Plague","Hits after deaths","Hits after deaths"],
-  "weasel":["Weasel","Charge 6: Hit","Charge 6: Hit"],
-  "gorger":["Gorger","Golden, Eat","Golden, Eat"],
-  "dame-bodkin":["Dame Bodkin","Pile on 2","Pile on 2"],
-  "cousin":["Cousin","Hand-me-down","Hand-me-down"],
+// ======================================================================
+// Pass 2: what a card shows at rest, its frame, and the hover states
+// ======================================================================
+// At rest a card shows only what a player who knows it cannot infer: Attack, Health
+// (hurt or buffed), slot Renown, Golden, charge left, and small keyword marks
+// (owner rows 22, 23). Name, rules and reminders are hover states.
+const TEXT = {
+  "home-guard":["Home Guard","Pigeon · Tier 3","<k>Guard</k>. <k>Reserve</k>.",["guard","reserve"]],
+  "hedge-lancer":["Hedge Lancer","Badger · Tier 3","<k>Fury</k> 1. The first time it attacks each fight, it takes no damage.",["fury"]],
+  "spell-sharpen":["Sharpen","Spell · Tier 1","Give a friendly unit +2/+2.",[]],
 };
-const SPELLS = {"spell-sharpen":["Sharpen","+2/+2"],"spell-seek":["Seek","Discover a unit"]};
-
-function mark(kind, n, size){
+const REMIND = {
+  guard:["Guard","Enemies must attack this first."],
+  reserve:["Reserve","In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight."],
+  fury:["Fury","Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by."],
+};
+// tier: the colour of the thin came inside the lead, and 1-6 clear beads in the top point
+const TIERC = {1:"#8f969c",2:"#b97a4c",3:"#b6974e",4:"#a9bccf",5:"#e8c15a",6:"#f4e7c8"};
+const HEXPTS = "50,0 100,17 100,83 50,100 0,83 0,17";
+const inset = (p) => [[50,p*1.0],[100-p*.92,17+p*.45],[100-p*.92,83-p*.45],[50,100-p],[p*.92,83-p*.45],[p*.92,17+p*.45]];
+const poly = pts => pts.map(([a,b])=>`${a}% ${b}%`).join(",");
+function mark(kind, size){
   const [col, path] = KW[kind];
-  return el("span","e-mark"+(n!=null?" e-has-n":""),`width:${size}px;height:${size}px;background:radial-gradient(circle at 40% 35%,${col}ee,${col} 70%)`,
-    `<svg viewBox="0 0 24 24">${path}</svg>` + (n!=null?`<b>${n}</b>`:""));
+  return `<span class="e-mk" style="width:${size}px;height:${size}px;box-shadow:inset 0 0 0 2px ${col}"><svg viewBox="0 0 24 24">${path}</svg></span>`;
 }
-function tribeMark(t, size){
-  const T = TRIBE[t];
-  return el("span","e-mark e-tribe",`width:${size}px;height:${size*1.08}px;background:radial-gradient(circle at 40% 30%,${T.c},${T.c} 60%,#00000055);`,
-    `<svg viewBox="0 0 24 24">${T.g}</svg>`);
-}
-
-// a card: real art + tier frame, numbers on the frame's own discs (never under 18 px)
+// card(o) -> a positioned div; state: lit | rest | quiet | hover
 function card(o, x, y, H, extra={}){
-  const W = H*0.56, k = H/1000;
-  const c = el("div","e-card"+(o.golden?" e-golden":""),`left:${x}px;top:${y}px;width:${W}px;height:${H}px;`);
-  c.style.filter = (extra.filter||"") + "drop-shadow(0 0 10px rgba(255,236,190,.28)) drop-shadow(0 8px 10px rgba(0,0,0,.65))";
-  if (o.spell){
-    // a leaded spell edge: lead, a came line, then the art at its own proportions
-    c.append(el("div","e-spell-lead",`clip-path:${HEX}`));
-    c.append(el("div","e-spell-came",`clip-path:${HEX}`));
-    c.append(el("div","e-art e-spell-art",`background-image:url(${A}glass/art/${o.art}.jpg);clip-path:${HEX}`));
-    return c;
+  const W = H*0.56, st = extra.state||"rest";
+  const c = el("div","e-card e-"+st+(o.golden?" e-golden":""),`left:${x}px;top:${y}px;width:${W}px;height:${H}px;`);
+  if (extra.filter) c.style.filter = extra.filter;
+  const lw = Math.max(4, W*.045), cw = Math.max(2, W*.02), col = o.golden ? "#f0c75a" : TIERC[o.tier];
+  c.append(el("div","e-art",`clip-path:polygon(${poly(inset(2.4))});background-image:url(${u(o.t,o.id)})`));
+  let beads = "";
+  const n=o.tier, bw = 5.2, gap=1.6, tot = n*bw+(n-1)*gap;
+  for (let i=0;i<n;i++){ const cx = 50 - tot/2 + bw/2 + i*(bw+gap);
+    beads += `<ellipse cx="${cx}" cy="6.6" rx="${bw/2}" ry="${bw/2*.56}" fill="${col}" stroke="#0c0a08" stroke-width="1.4" vector-effect="non-scaling-stroke"/>`; }
+  c.insertAdjacentHTML("beforeend", `<svg class="e-fr" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <polygon points="${inset(1.2).map(p=>p.join(',')).join(' ')}" fill="none" stroke="#0c0a08" stroke-width="${lw}" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>
+    <polygon points="${inset(2.6).map(p=>p.join(',')).join(' ')}" fill="none" stroke="${col}" stroke-width="${cw*(o.golden?1.8:1)}" vector-effect="non-scaling-stroke" stroke-linejoin="round" opacity=".92"/>
+    <polygon points="${inset(3.6).map(p=>p.join(',')).join(' ')}" fill="none" stroke="#0c0a08" stroke-width="${Math.max(1.2,cw*.6)}" vector-effect="non-scaling-stroke" stroke-linejoin="round" opacity=".8"/>
+    <path d="M38 ${2.6} L50 1.2 L62 ${2.6} L62 9.5 L50 11.6 L38 9.5Z" fill="#14100c" stroke="#0c0a08" stroke-width="2" vector-effect="non-scaling-stroke" opacity=".85"/>
+    ${beads}</svg>`);
+  // Attack and Health: dark leaded glass discs on the lower shoulders
+  const d = Math.max(34, W*.3);
+  for (const [k,val,hurt,buff] of [["a",o.a,false,o.abuff],["h",o.hcur!=null?o.hcur:o.h,o.hcur!=null&&o.hcur<o.h,o.hbuff]]){
+    const s = String(val), fs = Math.max(18, d*(s.length>1?.5:.6));
+    c.append(el("span","e-st e-st-"+k+(hurt?" e-hurt":"")+(buff?" e-buff":""),
+      `width:${d}px;height:${d}px;left:${(k==="a"?.14:.86)*W - d/2}px;top:${.845*H - d/2}px;font-size:${fs.toFixed(1)}px`, s));
   }
-  c.append(el("div","e-art",`background-image:url(${u(o.t,o.id)});clip-path:${ARTCLIP}`));
-  const fr = el("img","e-frame"); fr.src = `${A}glass/frames/tier${o.tier}.webp`; fr.alt=""; c.append(fr);
-  const r = RD["tier"+o.tier];
-  for (const [key,val,hurt] of [["a",o.a,false],["h",o.hcur!=null?o.hcur:o.h,o.hcur!=null&&o.hcur<o.h]]){
-    const [cx,cy,rad] = r[key]; const s=String(val);
-    const fs = Math.max(18, rad*(s.length>1?1.2:1.42)*k);
-    c.append(el("span","e-num"+(hurt?" e-hurt":""),`left:${cx/5.6}%;top:${cy/10}%;font-size:${fs.toFixed(1)}px;width:${2*rad*k}px;height:${2*rad*k}px`, s));
+  if (o.kw && o.kw.length){
+    const ms = Math.max(18, Math.round(W*.13));
+    c.insertAdjacentHTML("beforeend", `<div class="e-mks" style="top:${.935*H}px">${o.kw.map(([k])=>mark(k,ms)).join("")}</div>`);
   }
-  if (o.pips){ const p=el("div","e-pips",`top:${H*.635}px`); for(let i=0;i<o.pips;i++) p.append(el("i")); c.append(p); }
+  if (o.pips){ const p=el("div","e-pips",`top:${H*.70}px`); for(let i=0;i<o.pips;i++) p.append(el("i")); c.append(p); }
   return c;
 }
-// card + its marks (tribe crest first) at the bottom point, Renown above the top point,
-// and (with plate:"recruit"|"fight") a lead-set name plate under it
 function placeCard(o, x, y, H, extra={}){
-  const parent = extra.parent||ui;
-  const c = card(o,x,y,H,extra); add(c, parent);
-  const W=H*.56;
-  const made = [c];
-  if (!o.spell){
-    const ms = Math.round(Math.max(26, H*.095));
-    const row = el("div","e-marks",`left:${x+W/2}px;top:${y+H-2}px`);
-    row.append(tribeMark(o.t, ms));
-    for (const [kind,n] of (o.kw||[])) row.append(mark(kind,n,ms));
-    add(row, parent); made.push(row);
-    if (o.renown){ const r = el("div","e-renown",`left:${x+2}px;top:${y+H*.17}px`,`<svg viewBox="0 0 24 24">${STAR}</svg>${o.renown}`); add(r,parent); made.push(r); }
-  }
-  if (extra.plate){
-    const [name, cue] = o.spell ? SPELLS[o.art] : (()=>{ const n=NAMES[o.id]; return [n[0], extra.plate==="fight"?n[2]:n[1]]; })();
-    const pw = extra.pw || 160;
-    const p = el("div","e-np",`left:${x+W/2-pw/2}px;top:${extra.plateTop!=null?extra.plateTop:y+H+16}px;width:${pw}px`,`<b>${name}</b><span>${cue}</span>`);
-    add(p,parent); made.push(p);
-  }
-  if (extra.dim) made.forEach(m=>{ if(m===c) return; if(m.classList.contains("e-np")) m.classList.add("e-np-dim"); else if(m.classList.contains("e-renown")) return; else m.style.filter=(m.style.filter||"")+" brightness(.45)"; });
+  const c = card(o,x,y,H,extra); add(c, extra.parent||ui);
+  if (o.renown){ add(el("div","e-renown",`left:${x+2}px;top:${y+H*.17}px`,`<svg viewBox="0 0 24 24">${STAR}</svg>${o.renown}`), extra.parent||ui); }
   return c;
 }
-// a price: a leaded tag hung on the card's chain (a shape the stat discs do not have)
+// a spell is a round leaded rondel: lead, a pale came ring, eight short spokes
+function spellCard(s, cx, cy, d, st="lit"){
+  const c = el("div","e-spell e-"+st,`left:${cx-d/2}px;top:${cy-d/2}px;width:${d}px;height:${d}px`);
+  c.append(el("div","e-art",`clip-path:circle(43.5%);background-image:url(${A}glass/art/${s.art}.jpg);background-size:cover;background-position:center`));
+  const sp = Array.from({length:8},(_,i)=>{ const a=i*Math.PI/4+Math.PI/8, c1=Math.cos(a), s1=Math.sin(a);
+    return `<line x1="${50+41*c1}" y1="${50+41*s1}" x2="${50+46*c1}" y2="${50+46*s1}" stroke="#0c0a08" stroke-width="2.4"/>`; }).join("");
+  c.insertAdjacentHTML("beforeend", `<svg class="e-fr" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="47" fill="none" stroke="#0c0a08" stroke-width="4"/>
+    <circle cx="50" cy="50" r="44" fill="none" stroke="#c9d3e6" stroke-width="3.6" opacity=".85"/>${sp}
+    <circle cx="50" cy="50" r="41.5" fill="none" stroke="#0c0a08" stroke-width="2"/></svg>`);
+  return add(c);
+}
 function priceTag(cx, top, v, cls=""){
   return add(el("div","e-tag "+cls,`left:${cx-18}px;top:${top}px`,`<div class="e-tag-in">${v}</div>`));
 }
@@ -338,8 +360,28 @@ function gem(x,y,v,size=40){
   return add(w);
 }
 function roundel(x,y,d,img,cls=""){
-  const r = el("div","e-round "+cls,`left:${x}px;top:${y}px;width:${d}px;height:${d}px`, `<img src="${A}glass/portraits/${img}.jpg" alt="">`);
-  return add(r);
+  return add(el("div","e-round "+cls,`left:${x}px;top:${y}px;width:${d}px;height:${d}px`, `<img src="${A}glass/portraits/${img}.jpg" alt="">`));
+}
+// ---- hover states ----
+// the pointer
+function pointer(x,y){ S(`<g transform="translate(${x} ${y})" style="filter:drop-shadow(0 2px 2px rgba(0,0,0,.7))"><path d="M0 0 L0 26 L7 20 L12 31 L17 29 L12 18 L21 18 Z" fill="#fff8e8" stroke="#0c0a08" stroke-width="2" stroke-linejoin="round"/></g>`); }
+// card details: a leaded tooltip pinned beside the card (right if room, else left), clamped on screen
+function tooltip(r, key){
+  const [name, type, text] = TEXT[key];
+  const w = 360, right = r.x + r.W + 18 + w < 1900;
+  const t = add(el("div","e-tip"+(right?" e-tip-r":" e-tip-l"),`left:${right ? r.x+r.W+18 : r.x-18-w}px;top:0;width:${w}px`,
+    `<div class="e-tip-n">${name}</div><div class="e-tip-t">${type}</div><div class="e-tip-x">${text.replace(/<k>/g,'<b>').replace(/<\/k>/g,'</b>')}</div><i class="e-tip-a"></i>`));
+  const h = t.offsetHeight, want = r.y + r.H*.3 - 40;
+  const top = Math.max(16, Math.min(1064 - h, want));
+  t.style.top = top+"px";
+  t.querySelector(".e-tip-a").style.top = Math.max(18, Math.min(h-30, r.y + r.H*.3 - top)) + "px";
+  return t;
+}
+// keyword reminders: one fixed place on every screen, low on the left over the oak; a setting turns them off
+function kwPanel(keys){
+  if (!keys.length) return;
+  add(el("div","e-kw",`left:24px;bottom:${1080-712}px;width:300px`,
+    keys.map(k=>`<div class="e-kw-i"><b>${REMIND[k][0]}</b><span>${REMIND[k][1]}</span></div>`).join("")));
 }
 
 // ======================================================================
@@ -518,26 +560,22 @@ function chain(x, y2, col="#9a8a6a"){
 }
 
 // ======================================================================
-// The other players: lanterns hung on twigs among the trees, each with its own plate
+// The other players: lanterns hung on twigs; health on each; name on hover (row 40)
 // ======================================================================
 const PNAME = {pipkin:"Pipkin", old_mother_mousewife:"Old Mother Mousewife", dame_hoolet:"Dame Hoolet", little_king_wren:"Little King Wren",
   march_hare:"March Hare", hob_mumblecrust:"Hob Mumblecrust", dame_farthing:"Dame Farthing", brother_bracken:"Brother Bracken"};
 function treeLights(players, opts={}){
   players.forEach(([who,hp,st],i)=>{
-    const x=1880, y=132+i*72, d=56;
-    const dim = opts.dim && st!=="next" && st!=="you";
-    // a twig from the trunk at the right edge, and a short thread that ends on its own lantern
-    S(`<g ${dim?'opacity=".6"':''}><path d="M1922 ${y-46} C 1900 ${y-46}, 1886 ${y-40}, ${x-8} ${y-40}" stroke="#0b0907" stroke-width="9" fill="none" stroke-linecap="round"/>
-       <path d="M1922 ${y-46} C 1900 ${y-46}, 1886 ${y-40}, ${x-8} ${y-40}" stroke="#6f5239" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-       <path d="M1904 ${y-45} q 8 -14 20 -12 q -6 12 -20 12z" fill="#3f7a3a" stroke="#0b0907" stroke-width="2"/>
-       <line x1="${x}" y1="${y-40}" x2="${x}" y2="${y-d/2-2}" stroke="#0b0907" stroke-width="4"/><line x1="${x}" y1="${y-40}" x2="${x}" y2="${y-d/2-2}" stroke="#9a8a6a" stroke-width="1.6"/></g>`);
-    const r = roundel(x,y,d,who, st==="out"?"e-dim":""); r.style.zIndex=3; r.classList.add("e-lantern");
-    if (st==="next") r.style.boxShadow="0 0 0 3px #ffd77a,0 0 16px 4px rgba(255,200,100,.55),0 4px 10px rgba(0,0,0,.7)";
+    const x=1862, y=136+i*74, d=60;
+    S(`<g opacity="${opts.dim?.6:1}"><path d="M1922 ${y-48} C 1900 ${y-48}, 1884 ${y-42}, ${x-6} ${y-42}" stroke="#0b0907" stroke-width="9" fill="none" stroke-linecap="round"/>
+       <path d="M1922 ${y-48} C 1900 ${y-48}, 1884 ${y-42}, ${x-6} ${y-42}" stroke="#6f5239" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+       <line x1="${x}" y1="${y-42}" x2="${x}" y2="${y-d/2-2}" stroke="#0b0907" stroke-width="4"/><line x1="${x}" y1="${y-42}" x2="${x}" y2="${y-d/2-2}" stroke="#9a8a6a" stroke-width="1.6"/></g>`);
+    const out = st==="out" || hp<=0;
+    const r = roundel(x,y,d,who, out?"e-dim":""); r.classList.add("e-lantern");
+    if (st==="next") r.style.boxShadow="0 0 0 3px #ffd77a,0 0 14px 3px rgba(255,200,100,.5),0 4px 10px rgba(0,0,0,.7)";
     if (st==="you") r.style.boxShadow="0 0 0 3px #e9e2d0,0 4px 10px rgba(0,0,0,.7)";
-    if (dim) r.style.filter="brightness(.55)";
-    const right = (st==="out" || hp<=0) ? `<span class="e-out">Out</span>` : `<span class="e-hp">${hp}</span>`;
-    const p = add(el("div","e-plate e-light"+(st==="next"?" e-light-next":st==="you"?" e-light-you":"")+(dim?" e-light-dim":""),`left:1584px;top:${y-18}px;width:292px;height:36px`,
-      `<span class="e-rank">${opts.noPlace?"–":i+1}</span><span class="e-pname">${PNAME[who]}</span>${right}`));
+    if (opts.dim && !st) r.style.filter="brightness(.6) saturate(.7)";
+    if (!out) gem(x-36, y+14, hp, 32);
   });
 }
 function systemTags(turn){
@@ -549,71 +587,74 @@ function archiveTags(){
 }
 const HEAP='<path d="M2.5 19h19c-1-5-4-8-6-8-1 0-2 .7-2.5 1.5C12 10 10 8 8 8c-3 0-5 5-5.5 11z"/>';
 const WAVE='<path d="M3 10c3-3 6 3 9 0s6 3 9 0M3 16c3-3 6 3 9 0s6 3 9 0"/>';
-// your corner (bottom left): counters with their names, your name, portrait and health
+// your corner (bottom left): counters as named plates (row A6), portrait and health
 function yourCorner(hp, counters, opts={}){
   (counters||[]).forEach(([icon,label,n,col],i)=>{
-    add(el("div","e-plate e-counter",`left:24px;top:${730+i*46}px;width:168px;height:40px;
+    add(el("div","e-plate e-counter",`left:24px;top:${738+i*46}px;width:168px;height:40px;
       background:url(../../../../../assets/glass/ui/pane.jpg) center/200px,linear-gradient(170deg,${col},#16110c 80%);background-blend-mode:multiply`,
       `<svg viewBox="0 0 24 24">${icon}</svg><span>${label}</span><b>${n}</b>`));
   });
-  const r = roundel(108, 988, 132, "dame_farthing", opts.dim?"e-dim":"");
-  add(el("div","e-label e-name",`left:108px;top:912px`,"Dame Farthing"));
-  gem(160, 1040, hp, 40);
-  return r;
+  roundel(108, 980, 140, "dame_farthing", opts.dim?"e-dim":"");
+  gem(164, 1036, hp, 40);
 }
-// the hand: cards stand on the fallen log; the count is a plate nailed to the log
-function hand(cards, count, H=190, x0=216){
-  const W=H*.56, stride = cards.length>4 ? (452-W)/(cards.length-1) : W+8;
+// the hand rests on the fallen log; quiet until you reach for it
+function hand(cards, H=190, x0=226, st="quiet"){
+  const W=H*.56, stride = W+10;
   cards.forEach((o,i)=>{
     const x = x0+i*stride;
-    placeCard(o, x, 1008-H, H);
-    if (o.spell) priceTag(x+W/2, 1008-H-26, o.cost, "e-tag-cream");
+    if (o.spell){ spellCard(o, x+W/2, 1004-H/2, W*1.1, st); priceTag(x+W/2, 1004-H/2-W*.55-30, o.cost, "e-tag-cream"); }
+    else placeCard(o, x, 1004-H, H, {state:st});
   });
-  add(el("div","e-plate",`left:340px;top:782px;height:34px;padding:0 10px;font-size:18px`,`Hand ${count}/7`));
 }
 
 // ======================================================================
 // Shop (recruit): everything hangs from the bough
 // ======================================================================
-const SHOP_TOP = 132, SHOP_H = 236, SHOP_PITCH = 170, SPELL_H = 170, SHOP_X0 = 480, SHOP_PW = 164;
+const SHOP_TOP = 120, SHOP_H = 270, SHOP_PITCH = 182, SHOP_X0 = 590, SPELL_D = 132;
+const shopX = i => SHOP_X0 + i*SHOP_PITCH;
+const spellC = i => [SHOP_X0 + 4*SHOP_PITCH + SHOP_H*.56 + 40 + SPELL_D/2 + i*(SPELL_D+22), SHOP_TOP + SPELL_D/2 - 4];
 function shopCluster(gold, tier, upCost, refresh, canUp){
-  // gold: an amber roundel, quiet (no glow), a ring of panes round its centre
-  chain(355, 104);
+  chain(445, 104);
   const sp = Array.from({length:10},(_,a)=>{ const t=a*.62832, c=Math.cos(t), s=Math.sin(t);
-    return `<line x1="${(355+38*c).toFixed(1)}" y1="${(160+38*s).toFixed(1)}" x2="${(355+54*c).toFixed(1)}" y2="${(160+54*s).toFixed(1)}" stroke="#0c0a08" stroke-width="3.5"/>`; }).join("");
+    return `<line x1="${(445+38*c).toFixed(1)}" y1="${(160+38*s).toFixed(1)}" x2="${(445+54*c).toFixed(1)}" y2="${(160+54*s).toFixed(1)}" stroke="#0c0a08" stroke-width="3.5"/>`; }).join("");
   S(`<defs><radialGradient id="eAmb" cx=".42" cy=".36" r=".7"><stop offset="0" stop-color="#e9c77e"/><stop offset=".6" stop-color="#c28a36"/><stop offset="1" stop-color="#8a5a1c"/></radialGradient>
        <radialGradient id="eRing" cx=".5" cy=".5" r=".5"><stop offset=".6" stop-color="#8f6024"/><stop offset="1" stop-color="#5a3810"/></radialGradient></defs>
-     <circle cx="355" cy="160" r="54" fill="url(#eRing)" stroke="#0c0a08" stroke-width="6"/>${sp}
-     <circle cx="355" cy="160" r="38" fill="url(#eAmb)" stroke="#0c0a08" stroke-width="4"/>`);
-  add(el("div","",`position:absolute;left:315px;top:122px;width:80px;height:80px;display:grid;place-items:center;font:900 40px/1 Alegreya,serif;color:#1e1208;padding-top:4px`, gold));
-  S(`<line x1="355" y1="214" x2="355" y2="228" stroke="#0b0907" stroke-width="5"/><line x1="355" y1="214" x2="355" y2="228" stroke="#9a8a6a" stroke-width="2.4"/>`);
-  add(el("div","e-plate",`left:255px;top:228px;width:200px;height:72px;flex-direction:column;gap:5px`,
+     <circle cx="445" cy="160" r="54" fill="url(#eRing)" stroke="#0c0a08" stroke-width="6"/>${sp}
+     <circle cx="445" cy="160" r="38" fill="url(#eAmb)" stroke="#0c0a08" stroke-width="4"/>`);
+  add(el("div","",`position:absolute;left:405px;top:122px;width:80px;height:80px;display:grid;place-items:center;font:900 40px/1 Alegreya,serif;color:#1e1208;padding-top:4px`, gold));
+  S(`<line x1="445" y1="214" x2="445" y2="228" stroke="#0b0907" stroke-width="5"/><line x1="445" y1="214" x2="445" y2="228" stroke="#9a8a6a" stroke-width="2.4"/>`);
+  add(el("div","e-plate",`left:345px;top:228px;width:200px;height:72px;flex-direction:column;gap:5px`,
     `<div style="display:flex;align-items:center;gap:8px;font-family:Alegreya;font-weight:900;font-size:22px">Tier ${tier}<span style="color:var(--cream-dim)">→</span>${tier+1} ${coin(upCost,32,!canUp)}</div>`
-    + (canUp?``:`<div style="font-size:16px;font-weight:700;color:var(--cream-dim)">${upCost-gold} gold short</div>`)));
-  // refresh (its price inside) and freeze
-  add(el("div","e-plate",`left:255px;top:312px;width:200px;height:46px;justify-content:flex-start;padding:0 12px;border-radius:23px`,
+    + (canUp?``:`<div style="font-size:18px;font-weight:700;color:var(--cream-dim)">${upCost-gold} gold short</div>`)));
+  add(el("div","e-plate",`left:345px;top:312px;width:200px;height:46px;justify-content:flex-start;padding:0 12px;border-radius:23px`,
     `<svg class="e-ico" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6"/><path d="M20 4v7h-7"/></svg><span style="flex:1;text-align:left">Refresh</span>${coin(refresh,30)}`));
-  add(el("div","e-plate",`left:255px;top:368px;width:200px;height:46px;justify-content:flex-start;padding:0 12px;border-radius:23px`,
+  add(el("div","e-plate",`left:345px;top:368px;width:200px;height:46px;justify-content:flex-start;padding:0 12px;border-radius:23px`,
     `<svg class="e-ico" viewBox="0 0 24 24"><path d="M12 2v20M3.3 7l17.4 10M3.3 17 20.7 7"/><path d="M9.5 3.5 12 6l2.5-2.5M9.5 20.5 12 18l2.5 2.5"/></svg><span style="flex:1;text-align:left">Freeze</span>`));
 }
 function shopRow(offers, spells, opts={}){
-  const W=SHOP_H*.56, x0=SHOP_X0;
+  const W=SHOP_H*.56;
   offers.forEach((o,i)=>{
-    const x = x0+i*SHOP_PITCH;
+    const x = shopX(i);
     chain(x+W/2, SHOP_TOP);
-    placeCard(o, x, SHOP_TOP, SHOP_H, {plate:"recruit", pw:SHOP_PW});
+    placeCard(o, x, SHOP_TOP, SHOP_H, {state: opts.state && opts.state[i] || "lit"});
     priceTag(x+W/2, SHOP_TOP-38, o.price, o.price>opts.gold?"e-tag-short":"");
   });
   spells.forEach((s,i)=>{
-    const sw=SPELL_H*.56, x = x0+4*SHOP_PITCH+W+28 + i*112;
-    chain(x+sw/2, SHOP_TOP);
-    placeCard({spell:true, art:s.art, cost:s.cost, t:"neutral"}, x, SHOP_TOP, SPELL_H, {plate:"recruit", pw:104, plateTop:SHOP_TOP+SHOP_H+16});
-    priceTag(x+sw/2, SHOP_TOP-38, s.cost);
+    const [cx,cy] = spellC(i);
+    chain(cx, cy-SPELL_D/2);
+    spellCard(s, cx, cy, SPELL_D, opts.spellState && opts.spellState[i] || "lit");
+    priceTag(cx, cy-SPELL_D/2-34, s.cost);
   });
+}
+// a warm pool of light under the bough draws the eye to the shop first
+function shopLight(){
+  const fx=document.getElementById("bg").getContext("2d");
+  const g=fx.createRadialGradient(1010,250,40,1010,250,620); g.addColorStop(0,"rgba(255,214,150,.16)"); g.addColorStop(1,"rgba(255,214,150,0)");
+  fx.fillStyle=g; fx.fillRect(0,0,1920,1080);
 }
 
 // ======================================================================
-// Board: 4 in front, 3 behind, each unit over its own name plate
+// Board: 4 in front, 3 behind, interlocked like a honeycomb; no labels
 // ======================================================================
 function slotStone(x,y,W,H){
   S(`<polygon points="${x+W/2},${y} ${x+W},${y+H*.17} ${x+W},${y+H*.83} ${x+W/2},${y+H} ${x},${y+H*.83} ${x},${y+H*.17}"
@@ -621,19 +662,16 @@ function slotStone(x,y,W,H){
      <polygon points="${x+W/2},${y+6} ${x+W-5},${y+H*.17+3} ${x+W-5},${y+H*.83-3} ${x+W/2},${y+H-6} ${x+5},${y+H*.83-3} ${x+5},${y+H*.17+3}"
       fill="none" stroke="rgba(190,210,170,.22)" stroke-width="2"/>`);
 }
-// rows do not overlap: the back row's top point sits in the gap between the front row's plates
-function boardPos(H, topFront, pitch=196, plateH=46){
-  const W=H*.56, x0=960-(3*pitch+W)/2, front=[], back=[];
-  const step = H + 16 + plateH - 10;
-  for(let i=0;i<4;i++) front.push([x0+i*pitch, topFront]);
-  for(let i=0;i<3;i++) back.push([x0+(i+.5)*pitch, topFront+step]);
+function boardPos(H, topFront, pitch=200){
+  const W=H*.56, x0=960-(3*pitch+W)/2, step = Math.round(H*.66 + (pitch<=200 && H>=280 ? 70 : 52));
+  const front=[0,1,2,3].map(i=>[x0+i*pitch, topFront]), back=[0,1,2].map(i=>[x0+(i+.5)*pitch, topFront+step]);
   return front.concat(back);
 }
-const BOARD_TOP = 446, BOARD_H = 254;
+const BOARD_TOP = 414, BOARD_H = 300;
 function board(units, opts={}){
   const H=opts.H||BOARD_H, pos = boardPos(H, opts.top||BOARD_TOP);
   pos.forEach(([x,y],i)=>{ if(!units[i]) slotStone(x,y,H*.56,H); });
-  pos.forEach(([x,y],i)=>{ const o=units[i]; if(o) placeCard(o, x, y, H, {plate:"recruit", pw:172, ...opts}); });
+  pos.forEach(([x,y],i)=>{ const o=units[i]; if(o) placeCard(o, x, y, H, {state: (opts.state&&opts.state[i]) || "rest"}); });
   return pos;
 }
 // End turn: the next opponent's lantern at the end of the path; the one brightest action
@@ -658,60 +696,97 @@ function baseScene(opts={}){
     img.onerror=()=>{ drawForest(bg); finish(); };
     img.src = "background.webp";
     function finish(){ const go=()=>{
+        // the scene steps back: darker at the edges so the lit glass leads
+        const v=bg.createRadialGradient(960,470,260,960,520,1150); v.addColorStop(0,"rgba(4,8,10,.18)"); v.addColorStop(1,"rgba(4,8,10,.62)");
+        bg.fillStyle=v; bg.fillRect(0,0,1920,1080);
         if (pane.naturalWidth){ const o=document.createElement("canvas"); o.width=o.height=512; const c=o.getContext("2d");
           c.filter="grayscale(1) brightness(.538) contrast(9)"; c.drawImage(pane,0,0); PANE = fx.createPattern(o,"repeat"); }
-        drawFireflies(fx); if(!opts.noBough) drawBough(fx); if(!opts.noLog) drawLog(fx, 200, 690, 1012); res(); };
+        drawFireflies(fx); if(!opts.noBough) drawBough(fx); if(!opts.noLog) drawLog(fx, 200, 690, 1008); res(); };
       pane.complete? go() : (pane.onload=go, pane.onerror=go); }
   });
 }
-
-async function viewMid(){
-  await baseScene();
+const SPELLS9 = [{art:"spell-sharpen",cost:1},{art:"spell-sharpen",cost:1}];
+async function recruit9(o={}){
+  await baseScene(); shopLight();
   systemTags(9); archiveTags();
   shopCluster(20, 5, 23, 1, false);
-  shopRow(SHOP9, [{art:"spell-sharpen",cost:1},{art:"spell-sharpen",cost:1}], {gold:20});
-  board(BOARD9);
+  shopRow(SHOP9, SPELLS9, {gold:20, state:o.shopState, spellState:o.spellState});
+  const pos = board(BOARD9, {state:o.boardState});
   treeLights(PLAYERS9);
   yourCorner(11, [[HEAP,"Compost",3,"#6a5a2c"],[WAVE,"Tide",2,"#245a70"]]);
-  hand([{spell:true,art:"spell-seek",cost:3,t:"neutral"}], 1);
+  hand([{spell:true,art:"spell-seek",cost:3,t:"neutral"}]);
   endTurn("march_hare","March Hare", 16, 19);
+  return pos;
+}
+async function viewMid(){ await recruit9(); }
+
+// hover a shop unit with keywords: Home Guard
+async function viewHoverShop(kwOn=true){
+  const st = ["rest","hover","rest","rest","rest"];
+  await recruit9({shopState:st, spellState:["rest","rest"]});
+  const W=SHOP_H*.56, x=shopX(1);
+  tooltip({x, y:SHOP_TOP, W, H:SHOP_H}, "home-guard");
+  pointer(x+W*.55, SHOP_TOP+SHOP_H*.42);
+  if (kwOn) kwPanel(TEXT["home-guard"][3]);
+}
+// hover your own unit near the bottom edge: Hedge Lancer, back row right; the tooltip lifts to stay on screen
+async function viewHoverBoard(){
+  const pos = await recruit9({boardState:["rest","rest","rest","rest","rest","rest","hover"], shopState:Array(5).fill("rest"), spellState:["rest","rest"]});
+  const [x,y]=pos[6], H=BOARD_H, W=H*.56;
+  tooltip({x, y, W, H}, "hedge-lancer");
+  pointer(x+W*.5, y+H*.62);
+  kwPanel(TEXT["hedge-lancer"][3]);
+}
+// hover a spell: Sharpen, near the right; the tooltip flips to the left
+async function viewHoverSpell(){
+  await recruit9({shopState:Array(5).fill("rest"), spellState:["rest","hover"]});
+  const [cx,cy] = spellC(1);
+  tooltip({x:cx-SPELL_D/2, y:cy-SPELL_D/2, W:SPELL_D, H:SPELL_D}, "spell-sharpen");
+  pointer(cx+6, cy+8);
+}
+// hover a lantern: the player card from row 40, never their board
+async function viewHoverLight(){
+  await recruit9({shopState:Array(5).fill("rest"), spellState:["rest","rest"]});
+  const y = 136+4*74;
+  add(el("div","e-tip e-tip-r",`left:${1862-30-18-330}px;top:${y-60}px;width:330px`,
+    `<div class="e-tip-n">March Hare</div><div class="e-tip-t">Next opponent · Tier 5 · Health 16</div>
+     <div class="e-tip-x">Last fight with them: you won, −6 to them (turn 6).</div><i class="e-tip-a" style="top:50px;left:auto;right:-13px;transform:rotate(225deg)"></i>`));
+  pointer(1866, y+4);
 }
 
 async function viewFirst(){
-  await baseScene();
+  await baseScene(); shopLight();
   systemTags(1); archiveTags();
   shopCluster(5, 1, 8, 1, false);
-  shopRow(SHOP1, [{art:"spell-sharpen",cost:1},{art:"spell-sharpen",cost:1}], {gold:5});
+  shopRow(SHOP1, SPELLS9, {gold:5});
   const pos = board([null,null,null,null,null,null,null]);
-  treeLights(PLAYERS1, {noPlace:true});
+  treeLights(PLAYERS1);
   yourCorner(40, []);
-  hand([], 0);
   endTurn("march_hare","March Hare", 40, 7, true);
-  // the one tutorial cue: an overlay, nothing moves when it goes
-  const W=SHOP_H*.56, sx = SHOP_X0 + SHOP_PITCH + W/2, sy = SHOP_TOP+SHOP_H+64;
+  // the one tutorial cue (first game only): an overlay, nothing moves when it goes
+  const W=SHOP_H*.56, sx = shopX(1)+W/2, sy = SHOP_TOP+SHOP_H+20;
   const tx = pos[1][0]+BOARD_H*.28+20, ty = pos[1][1]+BOARD_H*.4;
   const cue = el("div","e-cue",`left:0;top:0;width:1920px;height:1080px;pointer-events:none`);
   cue.innerHTML = `<svg viewBox="0 0 1920 1080" style="position:absolute;inset:0">
-     <path d="M${sx} ${sy} C ${sx} ${sy+50}, ${tx+10} ${ty-80}, ${tx} ${ty}" stroke="#ffe29a" stroke-width="4" stroke-dasharray="2 12" stroke-linecap="round" fill="none"/>
+     <path d="M${sx} ${sy} C ${sx} ${sy+60}, ${tx+10} ${ty-90}, ${tx} ${ty}" stroke="#ffe29a" stroke-width="4" stroke-dasharray="2 12" stroke-linecap="round" fill="none"/>
      <path d="M${tx-12} ${ty-14} L${tx} ${ty} L${tx+14} ${ty-12}" stroke="#ffe29a" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
      <div class="e-plate" style="left:${tx+60}px;top:${ty-10}px;padding:14px 20px;font-size:22px;box-shadow:0 0 0 2px #c9a45a,0 4px 10px rgba(0,0,0,.6)">Drag a card into the clearing to buy it</div>`;
   add(cue);
 }
 
-// the fight's layout: H 196, both boards, plates under every unit
-const F_H = 196, F_PITCH = 196;
+// the fight: full size again (250), interlocked rows, no labels
+const F_H = 250, F_PITCH = 200;
 function fightPos(){
-  const H=F_H, W=H*.56, x0=960-(3*F_PITCH+W)/2, step = H+16+46-10;
-  const oBack = [0,1,2].map(i=>[x0+(i+.5)*F_PITCH, 24]);
-  const oFront = [0,1,2,3].map(i=>[x0+i*F_PITCH, 24+step]);
-  const mine = boardPos(H, 556, F_PITCH);
+  const H=F_H, W=H*.56, x0=960-(3*F_PITCH+W)/2, step = 216;
+  const oBack = [0,1,2].map(i=>[x0+(i+.5)*F_PITCH, 14]);
+  const oFront = [0,1,2,3].map(i=>[x0+i*F_PITCH, 14+step]);
+  const mine = [0,1,2,3].map(i=>[x0+i*F_PITCH, 510]).concat([0,1,2].map(i=>[x0+(i+.5)*F_PITCH, 510+step]));
   return {W, oBack, oFront, mine};
 }
-function tallyAt(x,y,n,killed,label){
+function tallyAt(x,y,n,killed){
   const t = el("div","e-tally",`left:${x}px;top:${y}px`);
   for (let i=0;i<n;i++){ if(i===Math.ceil(n/2)) t.append(el("span","e-bar")); t.append(el("i",i<killed?"e-gone":"")); }
   add(t);
-  if (label) add(el("div","e-tally-label",`left:${x}px;top:${y+16}px`, label));
 }
 function opponentCorner(){
   add(el("div","e-label e-name",`left:108px;top:98px`,"March Hare"));
@@ -723,32 +798,28 @@ async function viewFight(){
   await baseScene({noBough:true});
   systemTags(9);
   const {W, oBack, oFront, mine:pos} = fightPos(), H=F_H;
-  const foe = FOE.map(o=>({...o}));
-  foe[1].hcur = 5; // Briar King took 15
-  [4,5,6].forEach((i,k)=>placeCard(foe[i], oBack[k][0], oBack[k][1], H, {plate:"fight", pw:172}));
-  [0,1,2,3].forEach(i=>placeCard(foe[i], oFront[i][0], oFront[i][1], H, {plate:"fight", pw:172}));
-  const mine = MINE_FIGHT.map(o=>o&&({...o})); mine[0].hcur = 7; // Thorns 4 back
+  const foe = FOE.map(o=>({...o})); foe[1].hcur = 5;
+  // eye order: the strike first, then both boards, then the tallies
+  [4,5,6].forEach((i,k)=>placeCard(foe[i], oBack[k][0], oBack[k][1], H, {state:"rest"}));
+  [0,1,2,3].forEach(i=>placeCard(foe[i], oFront[i][0], oFront[i][1], H, {state: i===1?"lit":"rest"}));
+  const mine = MINE_FIGHT.map(o=>o&&({...o})); mine[0].hcur = 7;
   slotStone(pos[3][0],pos[3][1],W,H);
-  [4,5,6,1,2].forEach(i=> placeCard(mine[i], pos[i][0], pos[i][1], H, {plate:"fight", pw:172}));
-  // the attacker, lifted out of its slot, has struck Briar King and caught its Thorns
-  const tx = oFront[1][0], ax = pos[0][0], ay = pos[0][1]-8;
-  const ty = oFront[1][1]+H;
+  [4,5,6,1,2].forEach(i=> placeCard(mine[i], pos[i][0], pos[i][1], H, {state:"rest"}));
+  const tx = oFront[1][0], ax = pos[0][0], ay = pos[0][1]-10, ty = oFront[1][1]+H;
   S(`<path d="M${ax+W*.6} ${ay+6} Q ${ax+W*.9} ${ay-30}, ${tx+W*.3} ${ty-8}" stroke="#ffe29a" stroke-width="12" stroke-linecap="round" fill="none" opacity=".35"/>
      <path d="M${ax+W*.6} ${ay+6} Q ${ax+W*.9} ${ay-30}, ${tx+W*.3} ${ty-8}" stroke="#fff3c4" stroke-width="3.5" stroke-dasharray="3 9" stroke-linecap="round" fill="none"/>`);
   const n0 = ui.children.length;
-  placeCard(mine[0], ax, ay, H, {plate:"fight", pw:172, filter:"brightness(1.12) drop-shadow(0 0 16px #fff1b0) "});
-  [...ui.children].slice(n0).forEach((e,k)=>e.style.zIndex = k ? 6 : 5);
+  placeCard(mine[0], ax, ay, H, {state:"lit", filter:"drop-shadow(0 0 16px rgba(255,241,176,.8))"});
+  [...ui.children].slice(n0).forEach((e,k)=>e.style.zIndex = k ? 7 : 5);
   add(el("div","e-splash",`left:${tx+W*.5}px;top:${oFront[1][1]+H*.42}px`,"−15"));
   add(el("div","e-splash",`left:${ax+W*.5}px;top:${ay+H*.4}px;width:92px;height:80px;font-size:32px`,"−4"));
-  // fighters: both on the left, the opponent above you
   opponentCorner();
-  tallyAt(108, 296, 7, 0, "Small loss at 4 kills");
+  tallyAt(108, 296, 7, 0);
   yourCorner(11, [[HEAP,"Compost",4,"#6a5a2c"],[WAVE,"Tide",2,"#245a70"]]);
-  tallyAt(108, 836, 6, 0, "Their small loss at 3");
-  // the hand: reservists wait on the log
+  tallyAt(108, 870, 6, 0);
   const cards=[{id:"home-guard",t:"pigeon",tier:3,a:3,h:11,kw:[["guard"],["reserve"]]},{id:"hayloft-aunt",t:"mouse",tier:2,a:2,h:9,kw:[["hmd"]]},
-    {id:"cousin",t:"mouse",tier:1,a:2,h:2,kw:[["hmd"]]},{id:"hedge-lancer",t:"badger",tier:3,a:6,h:12,kw:[["fury",1]]}];
-  hand(cards, 4, 186);
+    {id:"cousin",t:"mouse",tier:1,a:2,h:2,kw:[["hmd"]]}];
+  hand(cards, 186, 226, "quiet");
   treeLights(PLAYERS9, {dim:true});
   add(el("div","e-btn",`left:1772px;top:944px`,`<span style="display:inline-flex;align-items:center;gap:10px"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:var(--cream)"><path d="M3 5l9 7-9 7zM12 5l9 7-9 7z"/></svg>Skip</span>`));
 }
@@ -758,30 +829,24 @@ async function viewAfter(){
   systemTags(9);
   const {W, oBack, oFront, mine:pos} = fightPos(), H=F_H;
   const foe = FOE.map(o=>({...o}));
-  // the recorded end of the turn-9 fight: Briar King fell, six survived with these stats
+  // the recorded end of the turn-9 fight
   Object.assign(foe[0],{h:15,hcur:10}); Object.assign(foe[2],{a:24,h:27}); Object.assign(foe[4],{hcur:2});
   Object.assign(foe[5],{hcur:57}); foe[3].hcur=14; foe[6].hcur=9;
-  // survivors stay lit; the three that beat you are ringed and numbered; Briar King is dark glass
   const key = {5:1, 4:2, 2:3};
   const at = i => i>=4 ? oBack[i-4] : oFront[i];
-  const fallen = (o,x,y,pw) => {
-    const c = placeCard({...o, hcur:0}, x, y, H, {plate:"fight", pw, filter:"grayscale(1) brightness(.38) ", dim:true});
-    c.querySelectorAll(".e-num").forEach(n=>n.remove());
+  const fallen = (o,x,y) => {
+    const c = placeCard({...o, hcur:0}, x, y, H, {state:"quiet", filter:"grayscale(1) brightness(.5)"});
+    c.querySelectorAll(".e-st,.e-mks").forEach(n=>n.remove());
     S(`<g stroke="#0b0907" stroke-width="3.5" fill="none" stroke-linejoin="round">
         <path d="M${x+W*.18} ${y+H*.22} l${W*.3} ${H*.16} l-${W*.12} ${H*.14} l${W*.42} ${H*.2}"/>
         <path d="M${x+W*.86} ${y+H*.3} l-${W*.3} ${H*.2} l${W*.1} ${H*.22}"/></g>`);
     add(el("div","e-fallen",`left:${x+W/2}px;top:${y+H*.5}px`,"Fell"));
   };
-  [4,5,6,0,2,3].forEach(i=> placeCard(foe[i], at(i)[0], at(i)[1], H, {plate:"fight", pw:172, filter: (i in key) ? "drop-shadow(0 0 4px #ffe08a) drop-shadow(0 0 12px #ffc65a) " : ""}));
-  fallen(foe[1], at(1)[0], at(1)[1], 172);
-  Object.entries(key).forEach(([i,n])=>{ const [x,y]=at(+i);
-    add(el("div","e-bead",`left:${x+W-12}px;top:${y+H*.14}px`, n)); });
-  // your clearing: every unit fell; each slot shows its unit as broken, unlit glass
-  MINE_FIGHT.forEach((o,i)=>{ const [x,y]=pos[i];
-    if (!o) { slotStone(x,y,W,H); return; }
-    fallen(o, x, y, 172);
-  });
-  // the reckoning: a leaded plaque in the oak's shadow on the left
+  [4,5,6,0,2,3].forEach(i=> placeCard(foe[i], at(i)[0], at(i)[1], H, {state: (i in key) ? "lit" : "rest",
+     filter: (i in key) ? "drop-shadow(0 0 4px #ffe08a) drop-shadow(0 0 12px #ffc65a)" : ""}));
+  fallen(foe[1], ...at(1));
+  Object.entries(key).forEach(([i,n])=>{ const [x,y]=at(+i); add(el("div","e-bead",`left:${x+W-12}px;top:${y+H*.12}px`, n)); });
+  MINE_FIGHT.forEach((o,i)=>{ const [x,y]=pos[i]; if (!o) { slotStone(x,y,W,H); return; } fallen(o, x, y); });
   const box = add(el("div","e-leaded",`left:196px;top:356px;width:376px`));
   const chip = id => `<span style="flex:none;width:30px;height:44px;background:url(${u(FOE.find(f=>f.id===id).t,id)}) center/cover;clip-path:${HEX};"></span>`;
   const row = (n,id,name,what) => `<div class="e-why"><span class="e-bead e-bead-s">${n}</span>${chip(id)}<div><b>${name}</b><span>${what}</span></div></div>`;
@@ -800,59 +865,46 @@ async function viewAfter(){
     <div style="display:flex;gap:12px;margin-top:20px">
       <div class="e-btn" style="position:static;transform:none;flex:1;text-align:center;padding:12px 8px">Watch again</div>
       <div class="e-btn e-go" style="position:static;transform:none;flex:1.3;text-align:center;padding:12px 8px">See the standings</div></div>`;
-  // fighters
   opponentCorner();
-  tallyAt(108, 296, 7, 1, "Small loss at 4 kills");
+  tallyAt(108, 296, 7, 1);
   yourCorner(0, [[HEAP,"Compost",4,"#6a5a2c"],[WAVE,"Tide",4,"#245a70"]], {dim:true});
   add(el("div","e-splash",`left:108px;top:980px`,"−13"));
-  tallyAt(108, 836, 6, 6, "");
+  tallyAt(108, 870, 6, 6);
   treeLights([["dame_hoolet",23],["pipkin",21],["little_king_wren",18],["old_mother_mousewife",18],
     ["march_hare",16,"next"],["hob_mumblecrust",16],["dame_farthing",0,"you"],["brother_bracken",0,"out"]], {dim:true});
 }
 
-async function viewRead(){
-  await viewMid();
-  // a card being read: click Home Guard; the pane docks in the open path, clear of the units it names
-  add(el("div","",`position:absolute;inset:0;background:rgba(5,8,10,.55);z-index:8`));
-  document.querySelectorAll(".e-light").forEach(p=>{ p.style.zIndex=9; p.classList.add("e-light-dim"); });
-  document.querySelectorAll(".e-lantern").forEach(r=>{ r.style.zIndex=9; r.style.filter="brightness(.45)"; });
-  const lift = (o,x,y,H,extra) => { const before = ui.children.length; placeCard(o,x,y,H,extra);
-    [...ui.children].slice(before).forEach(e=>e.style.zIndex=9); };
-  const W=SHOP_H*.56, x=SHOP_X0 + SHOP_PITCH;
-  lift(SHOP9[1], x, SHOP_TOP, SHOP_H, {plate:"recruit", pw:SHOP_PW, filter:"drop-shadow(0 0 14px #ffd77a) "});
-  priceTag(x+W/2, SHOP_TOP-38, 4).style.zIndex=9;
-  const pos = boardPos(BOARD_H, BOARD_TOP);
-  const ring = "drop-shadow(0 0 3px #ffe08a) drop-shadow(0 0 10px #ffc65a) ";
-  lift(BOARD9[1], pos[1][0], pos[1][1], BOARD_H, {plate:"recruit", pw:172, filter:ring});
-  lift(BOARD9[4], pos[4][0], pos[4][1], BOARD_H, {plate:"recruit", pw:172, filter:ring});
-  const pane = add(el("div","e-leaded",`left:1358px;top:374px;width:440px;z-index:10`));
-  pane.innerHTML = `
-    <div style="display:flex;align-items:center;gap:12px">
-      <span style="flex:none;width:36px;height:52px;background:url(${u("pigeon","home-guard")}) center/cover;clip-path:${HEX}"></span>
-      <div style="flex:1"><div style="font:900 30px/1 Alegreya,serif">Home Guard</div>
-      <div style="margin-top:6px;font:700 17px/1 'Alegreya Sans';color:var(--cream-dim)">Pigeon · Tier 3 · 3 Attack, 11 Health</div></div></div>
-    <div style="margin-top:14px;font:700 22px/1.3 'Alegreya Sans'">Guard. Reserve.</div>
-    <div style="margin-top:10px;padding-top:10px;border-top:2px solid #6b5436;font:400 19px/1.4 'Alegreya Sans';color:var(--cream-dim)">
-      <b style="color:var(--cream)">Guard:</b> enemies must attack this first.<br>
-      <b style="color:var(--cream)">Reserve:</b> in a fight, steps from your hand into a slot a friendly unit died in; your Guard post first; up to 2 a fight.</div>
-    <div style="margin-top:10px;font:400 19px/1.4 'Alegreya Sans';color:var(--cream-dim)">Your Pigeons, lit on the board: Squadron Leader, Wing Commander.</div>
-    <div style="margin-top:14px;display:flex;align-items:center;gap:10px;font:700 19px/1 'Alegreya Sans'">Buy for <span class="e-tag" style="position:relative;left:0;top:0"><span class="e-tag-in">4</span></span></div>`;
+// the frame sheet: tiers 1-6, golden, spell, hovered; board size above, twice that below
+async function viewCards(){
+  await baseScene({noBough:true, noLog:true});
+  add(el("div","",`position:absolute;inset:0;background:rgba(6,9,10,.55)`));
+  const T = [{id:"bramble-runner",t:"briar",tier:1,a:4,h:5,kw:[["seed"]]},{id:"hayloft-aunt",t:"mouse",tier:2,a:2,h:9,kw:[["hmd"]]},
+    {id:"home-guard",t:"pigeon",tier:3,a:3,h:11,kw:[["guard"],["reserve"]]},{id:"granary-glutton",t:"locust",tier:4,a:7,h:7},
+    {id:"wing-commander",t:"pigeon",tier:5,a:11,h:17,kw:[["sortie"]],pips:4},{id:"briar-king",t:"briar",tier:6,a:12,h:20,kw:[["thorns"]]}];
+  const gold = {id:"gorger",t:"locust",tier:4,a:38,h:68,golden:true};
+  const cap = (x,y,t) => add(el("div","e-cap",`left:${x}px;top:${y}px`,t));
+  const H=300, W=H*.56, p=W+30, x0=60;
+  T.forEach((o,i)=>{ placeCard(o, x0+i*p, 40, H, {state:"rest"}); cap(x0+i*p+W/2, 352, "Tier "+o.tier); });
+  placeCard(gold, x0+6*p, 40, H, {state:"rest"}); cap(x0+6*p+W/2, 352, "Golden");
+  placeCard({...T[2], renown:3}, x0+7*p, 40, H, {state:"hover"}); cap(x0+7*p+W/2, 352, "Hovered");
+  spellCard({art:"spell-sharpen"}, x0+8*p+66, 40+H/2, 132, "rest"); cap(x0+8*p+66, 352, "Spell");
+  const H2=600, W2=H2*.56, p2=W2+34, y2=420;
+  placeCard(T[2], 60, y2, H2, {state:"rest"}); cap(60+W2/2, y2+612, "Tier 3, twice size");
+  placeCard(T[5], 60+p2, y2, H2, {state:"rest"}); cap(60+p2+W2/2, y2+612, "Tier 6");
+  placeCard(gold, 60+2*p2, y2, H2, {state:"rest"}); cap(60+2*p2+W2/2, y2+612, "Golden");
+  placeCard({...T[2], renown:3}, 60+3*p2, y2, H2, {state:"hover"}); cap(60+3*p2+W2/2, y2+612, "Hovered");
+  spellCard({art:"spell-sharpen"}, 60+4*p2+130, y2+300, 264, "rest"); cap(60+4*p2+130, y2+612, "Spell");
 }
 
 // layout check: report any plate whose text overflows it (read with --dump-dom)
 function checkOverflow(){
   const bad=[];
-  document.querySelectorAll(".e-np, .e-plate, .e-light").forEach(p=>{ if (p.scrollWidth > p.clientWidth+1) bad.push((p.textContent||"").trim().slice(0,30)+" "+p.scrollWidth+"/"+p.clientWidth); });
+  document.querySelectorAll(".e-plate, .e-tip-n, .e-tip-t, .e-tip-x, .e-kw-i").forEach(p=>{ if (p.scrollWidth > p.clientWidth+1) bad.push((p.textContent||"").trim().slice(0,30)+" "+p.scrollWidth+"/"+p.clientWidth); });
   document.body.dataset.overflow = bad.join(" | ") || "none";
-  const R=[...document.querySelectorAll(".e-renown")].map(e=>[e.textContent,e.getBoundingClientRect()]);
-  const P=[...document.querySelectorAll(".e-np")].map(e=>[e.querySelector("b").textContent,e.getBoundingClientRect()]);
-  let worst=[1e9,""];
-  for (const [rn,r] of R) for (const [pn,q] of P){ const g=Math.max(q.left-r.right, r.left-q.right, q.top-r.bottom, r.top-q.bottom);
-    if (g<worst[0]) worst=[Math.round(g), "renown "+rn+" vs "+pn]; }
-  document.body.dataset.renown = R.length ? worst.join(" ") : "no badges";
 }
 const view = new URLSearchParams(location.search).get("view") || "mid";
-({mid:viewMid, first:viewFirst, fight:viewFight, after:viewAfter, extra1:viewRead})[view]().then(checkOverflow);
+({mid:viewMid, first:viewFirst, fight:viewFight, after:viewAfter, "hover-shop":()=>viewHoverShop(true), "hover-board":viewHoverBoard,
+  "hover-spell":viewHoverSpell, "keywords-off":()=>viewHoverShop(false), cards:viewCards, extra1:viewHoverLight})[view]().then(checkOverflow);
 </script>
 </body>
 </html>

@@ -76,3 +76,16 @@ Non-blocking, both done: spell plates sit on the unit plates' baseline; the read
 2. Done. In extra1 the roster stays above the veil: its lanterns and plate glass dim, its rank and health text do not; the reading pane starts below Little King Wren so no row is cut. In after, fallen cards no longer show their dimmed numbers; the "Fell" label carries the state.
 
 Optional, done: the result plaque is 22 px narrower, so it ends 8 px short of Greatsword Bearer's plate (Weasel's line shortened to "hit both reservists as they arrived" to fit).
+
+## Pass 2, round 1
+**At rest** a card shows art, Attack, Health, small keyword marks along the bottom (rows 22, 23), slot Renown, charge left and Golden. These change during a game or can't be inferred. Names, cues, crests and labels are gone; cards are back to full size (shop 270, board 300, fight 250).
+
+**Eye order (mid):** 1) the shop, under a warm pool of light, at full colour; 2) your board, its art dimmed one step; 3) gold and "Fight March Hare". The hand, lanterns and counters stay quiet, and the scene darkens towards the edges.
+
+**Frame:** one lead line, a thin inner came in the tier's metal (iron, copper, bronze, silver, gold, white gold), and 1–6 clear beads in the top point. Stats are dark leaded glass discs, so they no longer look like gold (26). Golden doubles the gold came. Spells are round rondels with a pale came and eight spokes.
+
+**Hover:** a leaded tooltip pinned beside the card: right if there is room, else left, lifted to stay on screen. It doesn't follow the pointer. **Keyword reminders** always sit low on the left over the oak (x 24–324, ending at y 712); a setting hides them (`keywords-off`). Hovering a lantern shows that player (`extra1`; its history line is illustrative). No board is ever shown.
+
+**Reversed:** 24 (no type line at rest); 42 (price tags hang above the card on its chain).
+
+**Suggestions:** paint future card art with a calmer, darker edge zone so frames need less dimming.

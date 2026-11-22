@@ -77,3 +77,19 @@ Non-blocking tier cue: not done; it adds a mark to every card face, which works 
 3. Renown tabs and effect lines: done, both 18 px. Labels now hang from the card's bottom tip, which keeps 9–11 px between a front-row label and the Renown tab below it and about 25 px above the fight's lead strip. Squadron Leader reads "Ahead: Sortie, +3 Attack".
 
 Non-blocking light table: half done. It now glows from below, brightest at the centre and dark at the edges. Not narrowed: the picture's own lit table lies under the margins, so narrowing would show that bright glass rather than bench, and the reading panel (`extra1`) docks in the right margin.
+
+## Pass 2, round 1
+
+*This pass replaces the label-based reading above.*
+
+**At rest a card shows Attack, Health and its tier, nothing else.** Stats decide every buy and fight; tier says what it is worth and is quicker to read than art. Charge (pips) and Renown (a violet diamond on the slot) stay because they change what you do and cannot be inferred. Names, rules and keywords leave the screen; the room went to bigger cards (shop 262 px, board 270, fight 250) and space on the table.
+
+**Eye order, mid-game:** 1 your panel, lit from below at the table's centre; 2 the offers in the window, matted down at rest; 3 Gold and End turn, the one warm pane. In fights only the blow being struck is lit; after, only the three that beat you.
+
+**Frame:** one band of smoky glass in lead, no tier colour or ornament. Tier is 1–6 clear beads in a lead cartouche at the bottom point; golden turns the band gold. Spells are round medallions.
+
+**Hover:** the card lifts to full light; a tooltip sits beside it and flips to the side with room. Keyword reminders go to one fixed shelf at the foot of the left lane, never by the cursor; a setting hides it (`keywords-off`).
+
+**Reversed:** 20 (tier beads on the face), 23, 36, 38, 40, 42, 43, 50, 55, 73, 74.
+
+**Suggestions:** withdrawn: clicking a player to see their last board. Not judged: hover timing and motion.
