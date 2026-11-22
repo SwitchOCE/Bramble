@@ -60,3 +60,15 @@ Opened all four 1920×1080 renders. Checked alignment, icons, type, contrast (4.
 
 1. **Done** · Moved each Renown tab inside its slot surround at the upper-left shoulder, including fallen Briar King’s slot. The smallest gap between tab and plaque edges is 13.7 px.
 2. **Done** · Raised the three recruit back-row plaques to leave 11.5 px above the stone sill, with keyword clearance preserved. The back-row frames stay undistorted at their slightly smaller size.
+
+## Pass 2, round 1
+
+The tall hexes show art, Attack, Health and one tier number. Charges and slot Renown show changing state. Shop prices sit off-card. Spells use a short arched frame and carry no unit stats. Names, tribes and effects appear on inspection. The next opponent’s name and health stay visible during recruit.
+
+**Eye order at turn nine.** Read the warm shop and its prices first. Check gold and shop controls second. Read the cooler formation before checking the matchup and End turn. First recruit adds one drop cue. Opposing fighters lead in combat, then yours and Skip. Defeat leads with damage and placement.
+
+Each tier shares the same lead bevel. A muted tint backs the numeral, while golden has a second brass seam and a footer diamond. Hover lifts the card’s lighting. The tooltip follows the pointer along the card’s side, flips inward and clamps above the sill. Keyboard focus opens the same detail. Keyword reminders appear only in the left light and can be toggled from Game. The close-ups use one board-size sheet and two sheets at 2×.
+
+**Owner rows reversed in this pass.** 8 (shared frame), 20 (tier seal), 22 and 23 (leave static keyword marks to inspection), 24 (type in the tooltip), 50 (arched spell tiles beside the shop), 68 (ordinary inspection opens separate, optional reminders). Earlier layout reversals still apply where used.
+
+**Suggestion for the owner.** Use the same localized lighting for the active attacker. Eleven views checked. Motion, timing, hover feel and sound are not judged.
