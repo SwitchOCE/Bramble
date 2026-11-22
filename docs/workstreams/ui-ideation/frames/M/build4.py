@@ -7,10 +7,9 @@ to glass gradually and the border never steps. Two versions (the owner then adde
 the bottom is wider and bigger, but it's not jarring"):
   near  below the join the border widens smoothly over 90 units from 31 (6.2 px at 112 px) to 46 (9.2 px), with 31
         units of glass; the stat discs float over the art, clear of the border
-  flow  the same came, rails and all, swells smoothly from 31 units at y 640 to 62 (12.4 px) at the shoulders and
-        stays that wide round the foot, whatever the tier, as the Magic frame's foot is bigger but one piece with
-        its sides; each tier's glass opens inside it at its join; the stat discs sit on the band's lower corners,
-        breaking its inner edge, as the Magic stat box sits on its frame's corner
+  flow  (recommended) from the tier's join the band widens smoothly, by the glass only, to 62 units (12.4 px) round
+        the foot, as the Magic frame's foot is bigger but one piece with its sides; the stat discs sit on the band's
+        lower corners. Glass is the generated strips (prompts-4.txt) laid along the band; lead is a cast H-section.
 The bottom crest is gone in both (it made the glass wide).
 Tiers: the glass climbs 60 units (12 px at 112) a tier, its pieces get shorter, and the colours are spread in value.
 
@@ -44,7 +43,8 @@ GLASS = {  # (darker, lighter) pane colours per tier, spread in value so neighbo
     6: ((140, 18, 20), (206, 48, 30)),       # ruby, the deepest
 }
 DISC_C = {"near": ((116, 770), (444, 770)), "flow": ((74, 788), (486, 788))}
-DISC_R, DISC_CAME = 58, 6
+DISC_R, DISC_CAME = 54, 6
+DR = (54, 59, 70, 75)   # ivory face | came | tier glass ring | outer came (units); 30 px across at 112 px
 FLOW_MAX, FLOW_RAMP = 62, 190
 SPELL_R = 238
 SPELL_JOIN = {1: 62, 6: 112}                                   # glass arc, degrees each side of straight down
@@ -81,7 +81,10 @@ def border(s, d, s_join, tier, pal, version, mott=None, s_flow_top=517.6):
     if version == "near":
         width = BAND + 15 * smooth(below / 90)
     else:  # flow: the came swells towards the foot, the same for every tier
-        width = BAND + (FLOW_MAX - BAND) * smooth((s_flow_top - s) / FLOW_RAMP)
+        # the came swells only where the glass opens, so the extra width is always glass, never a fat lead pipe;
+        # the swell starts at the leaf tip and reaches full width FLOW_RAMP units further down
+        top = np.minimum(s_join, s_flow_top + 140)
+        width = BAND + (FLOW_MAX - BAND) * smooth((top - s) / FLOW_RAMP)
     gw = np.maximum(width - RAIL_O - RAIL_I, 0) * open_
     g0, g1 = RAIL_O, RAIL_O + gw
     inside = d <= width
@@ -92,45 +95,52 @@ def border(s, d, s_join, tier, pal, version, mott=None, s_flow_top=517.6):
     is_glass = (d > g0) & (d < g1) & (gw > 0.3)
     lead_t = np.where(d <= g0, t_out, np.where(d >= g1, t_in, 0))
     lead_t = np.where(gw > 0.3, lead_t, d / width)
-    lead = ramp(np.clip(lead_t, 0, 1).ravel(), pal).reshape(s.shape + (3,))
+    pal = LEAD if pal is PEWTER else GOLD
+    lead = lead_ramp(lead_t, pal)
     if mott is not None:
-        lead = lead * (1 + 0.025 * mott)[..., None]
+        lead = lead * (1 + 0.05 * mott)[..., None]
     rgb[:] = lead
-    # glass: panes cut by slanted lead, alternating slope, two shades, streaks along the pane, lit in the middle
+    # glass: the tier's generated strip, laid along the border; it opens with the rails, so its panes taper in
     u = np.clip((d - g0) / np.maximum(gw, 1e-3), 0, 1)
-    pl = PIECE[tier]
-    k = np.floor(s / pl)
-    sgn = np.where(k % 2 == 0, 1.0, -1.0)
-    q = s + sgn * (d - g0) * 0.9
-    frac = (q / pl) % 1.0
-    line = (np.minimum(frac, 1 - frac) * pl < 1.1) | (np.abs(s) < 1.1)
-    A, B = (np.array(c, float) for c in GLASS[tier])
-    shade = np.where(np.floor(q / pl) % 2 == 0, 0.0, 1.0)[..., None]
-    base = A[None] * (1 - shade) + B[None] * shade
-    si = np.clip((s * 2).astype(int), 0, NOISE.shape[0] - 1); di = np.clip((d * 2).astype(int), 0, NOISE.shape[1] - 1)
-    streak = NOISE[si, di]
-    lit = 0.80 + 0.30 * np.sin(np.pi * u) * (0.6 + 0.4 * np.sin(np.pi * frac)) + 0.07 * streak
-    glass = base * lit[..., None]
-    rgb = np.where(is_glass[..., None], glass, rgb)
-    edge = np.array(pal["edge"], float) * 1.35
-    rgb = np.where((is_glass & line)[..., None], edge[None], rgb)
-    # solder knot where the rails part
+    gref = (FLOW_MAX if version == "flow" else BAND + 15) - RAIL_O - RAIL_I
+    if tier not in TEX:
+        TEX[tier] = strip_texture(tier)
+    th = TEX[tier][0].shape[0]
+    m = is_glass
+    gcol, seam = sample_glass(tier, s[m], u[m], th / gref)
+    edge = np.array(pal["edge"], float) * 1.2
+    gcol[seam] = edge
+    rgb[m] = gcol
     a = np.clip((width + 0.5 - d) * P, 0, 1) * inside
     return rgb, a, width
 
 
-def draw_disc(rgb, a, cx, cy, pal, xx, yy, k):
-    """One ivory glass disc with a came ring, floating over the art."""
+def draw_disc(rgb, a, cx, cy, pal, xx, yy, k, tier):
+    """One stat roundel: a clean ivory glass face, a came, a ring of the tier's own leaded glass, an outer came."""
+    pal = LEAD if pal is PEWTER else GOLD
     d = np.hypot(xx - cx, yy - cy)
-    ring = (d >= DISC_R - 0.5) & (d <= DISC_R + DISC_CAME + 0.5)
-    t = np.clip((d - DISC_R) / DISC_CAME, 0, 1)
-    c = ramp(t[ring], pal)
-    kk = np.clip(np.minimum(d - (DISC_R - 0.5), DISC_R + DISC_CAME + 0.5 - d)[ring] * k, 0, 1)[:, None]
-    rgb[ring] = rgb[ring] * (1 - kk) + c * kk
-    a[ring] = np.maximum(a[ring], kk[:, 0])
-    face = np.clip((DISC_R - d) * k + 0.5, 0, 1)
-    u = (xx - cx) / DISC_R; v = (yy - cy) / DISC_R
-    sh = 1.0 - 0.10 * np.hypot(u + 0.3, v + 0.35) + 0.035 * np.sin(9 * (u - v))
+    reach = d <= DR[3] + 1
+    # rings, outermost first
+    ring = reach & (d >= DR[1]) & (d < DR[2])
+    if ring.any():
+        ang = np.arctan2(yy[ring] - cy, xx[ring] - cx)
+        rm = (DR[1] + DR[2]) / 2
+        if tier not in TEX:
+            TEX[tier] = strip_texture(tier)
+        th = TEX[tier][0].shape[0]
+        gcol, seam = sample_glass(tier, (ang + np.pi) * rm + 900, (d[ring] - DR[1]) / (DR[2] - DR[1]), th / (DR[2] - DR[1]))
+        gcol[seam] = np.array(pal["edge"], float) * 1.2
+        rgb[ring] = gcol; a[ring] = 1
+    for r0, r1 in ((DR[2], DR[3]), (DR[0], DR[1])):
+        band = reach & (d >= r0 - 0.5) & (d <= r1 + 0.5)
+        lit = -0.25 * ((yy[band] - cy) + (xx[band] - cx)) / (r1 * 1.4)
+        c = lead_ramp((d[band] - r0) / (r1 - r0), pal, lit)
+        kk = np.clip(np.minimum(d[band] - (r0 - 0.5), r1 + 0.5 - d[band]) * k, 0, 1)[:, None]
+        rgb[band] = rgb[band] * (1 - kk) + c * kk
+        a[band] = np.maximum(a[band], kk[:, 0])
+    face = np.clip((DR[0] - d) * k + 0.5, 0, 1) * reach
+    u = (xx - cx) / DR[0]; v = (yy - cy) / DR[0]
+    sh = 1.02 - 0.12 * np.clip(np.hypot(u + 0.35, v + 0.4), 0, 1.6) ** 1.5
     fc = np.array(IVORY, float)[None, None] * sh[..., None]
     rgb[:] = rgb * (1 - face[..., None]) + fc * face[..., None]
     a[:] = np.maximum(a, face)
@@ -140,14 +150,70 @@ def solder(rgb, a, xx, yy, cx, cy, pal, k, r=5.0):
     d = np.hypot(xx - cx, yy - cy)
     m = np.clip((r - d) * k + 0.5, 0, 1)
     t = np.clip(0.5 + 0.5 * (-(xx - cx) - (yy - cy)) / r, 0, 1)   # lit from the upper left
-    col = ramp(np.clip(0.2 + 0.6 * t, 0, 1).ravel(), pal).reshape(xx.shape + (3,))
+    pal = LEAD if pal is PEWTER else GOLD
+    col = lead_ramp(np.clip(0.2 + 0.6 * t, 0, 1), pal)
     rgb[:] = rgb * (1 - m[..., None]) + col * m[..., None]
     a[:] = np.maximum(a, m)
 
 
+# Cast lead, not a vector stroke: an H-section came (two rounded flanges with a groove between), lit from the upper
+# left, with patina at two scales. Golden is modelled gilt with deep shadow and bright highlight, as wide as the lead.
+LEAD = dict(edge=(22, 23, 27), body=(78, 80, 88), light=(170, 174, 182))
+GOLD = dict(edge=(74, 42, 8), body=(206, 152, 46), light=(255, 238, 172))
+
+
+def lead_ramp(t, pal, lit=0.0):
+    t = np.clip(t, 0, 1)
+    flange = np.sin(np.pi * t) ** 0.55
+    groove = 0.20 * np.exp(-((t - 0.5) / 0.09) ** 2)
+    hl = 0.75 * np.exp(-((t - 0.30) / 0.06) ** 2) + 0.35 * np.exp(-((t - 0.70) / 0.06) ** 2)
+    v = np.clip(flange - groove, 0, 1)
+    e, b, l = (np.array(pal[k], float) for k in ("edge", "body", "light"))
+    c = e * (1 - v[..., None]) + b * v[..., None]
+    h = np.clip(hl + lit, 0, 1)[..., None]
+    return c * (1 - h) + l * h
+
+
+def strip_texture(tier):
+    """The tier's glass strip: its four bands cut out and laid end to end, with a lead joint at every seam."""
+    im = np.asarray(Image.open(f"/data/bramble-art/uiid-frames/M/strip{tier}.png").convert("RGB")).astype(float)
+    h, w, _ = im.shape
+    bands = []
+    for i in range(4):
+        y0, y1 = int(i * h / 4) + 10, int((i + 1) * h / 4) - 10
+        bands.append(im[y0:y1, 12:w - 12])
+    th = min(b.shape[0] for b in bands)
+    tex = np.concatenate([b[:th] for b in bands], axis=1)
+    lum = tex @ np.array([0.299, 0.587, 0.114])
+    sat = TONE.get(tier, (0.9, 1.0))
+    tex = lum[..., None] + (tex - lum[..., None]) * sat[0]
+    tex = 255 * (np.clip(tex, 0, 255) / 255) ** sat[1]
+    return tex, bands[0].shape[1]
+
+
+TONE = {3: (0.82, 1.12), 4: (0.82, 1.10), 6: (0.9, 1.06)}   # (saturation, gamma): sapphire and violet came out neon
+
+
+TEX = {}
+
+
+def sample_glass(tier, s, u, kx):
+    """Glass colour at distance s along the border and fraction u across the glass."""
+    if tier not in TEX:
+        TEX[tier] = strip_texture(tier)
+    tex, bw = TEX[tier]
+    th, tw = tex.shape[:2]
+    x = (np.abs(s) * kx) % tw
+    y = np.clip(u, 0, 1) * (th - 1)
+    out = np.stack([ndi.map_coordinates(tex[..., c], [y, x], order=1, mode="wrap") for c in range(3)], -1)
+    seam = (np.minimum(x % bw, bw - (x % bw)) < 1.4 * kx) | (np.abs(s) < 1.2)
+    return out, seam
+
+
 S_CARD = card_s()
-MOTT = ndi.gaussian_filter(np.random.default_rng(7).standard_normal((H, W)), 5.0)
-MOTT /= MOTT.std()
+_r = np.random.default_rng(7)
+MOTT = ndi.gaussian_filter(_r.standard_normal((H, W)), 22.0); MOTT /= MOTT.std()
+_g = ndi.gaussian_filter(_r.standard_normal((H, W)), 1.3); MOTT = 0.7 * MOTT + 0.5 * _g / _g.std()
 
 
 def build_card(tier, version, golden):
@@ -159,7 +225,7 @@ def build_card(tier, version, golden):
         x = RAIL_O + 3.5 if side == 0 else 560 - RAIL_O - 3.5
         solder(rgb, a, XX, YY, x, JOIN[tier] + 2, pal, P)
     for cx, cy in DISC_C[version]:
-        draw_disc(rgb, a, cx, cy, pal, XX, YY, P)
+        draw_disc(rgb, a, cx, cy, pal, XX, YY, P, tier)
     a = a * CARD_A
     return rgb, a
 

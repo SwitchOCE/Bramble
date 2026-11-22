@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Take M frames</title>
-<!-- Frames live outside Git, in /data/ui-ideation/frames/M/frames/ (fit.py). Views: #sheet, #large, #compare.
+<!-- Frames live outside Git, in /data/ui-ideation/frames/M/frames/ (build3.py, build4.py). Views: #sheet, #large, #compare, #board.
      Rendered at 1920 wide, 1 CSS px = 1 screen px, so card sizes are real game sizes at 1920x1080. -->
 <style>
 @font-face { font-family: Alegreya; src: url("../../../../../assets/glass/fonts/Alegreya[wght].ttf"); font-weight: 400 900; }
@@ -30,6 +30,7 @@ h2 { font: 700 15px AlegreyaSans, sans-serif; letter-spacing: .06em; text-transf
 .note { font-size: 14px; color: var(--dim); max-width: 300px; line-height: 1.35; }
 </style>
 <script src="frames3.js"></script>
+<script src="frames4.js"></script>
 </head>
 <body>
 <div id="sheet" class="view"></div>
@@ -38,7 +39,8 @@ h2 { font: 700 15px AlegreyaSans, sans-serif; letter-spacing: .06em; text-transf
 <div id="board" class="view"></div>
 <script>
 const F = "file:///data/ui-ideation/frames/M/frames/";
-const R = "r3-";  // round 3: build3.py frames, one roundel for every tier
+const R = "r4-flow-";  // round 4, recommended: build4.py "flow"; "r4-near-" is the other version, "r3-" round 3
+const OTHER = "r4-near-";
 const U = "../../../../../assets/units/";
 const ART = { 1: "badger/brock-cub", 2: "mouse/dormouse-cook", 3: "badger/hedge-knight", 4: "locust/gorger",
               5: "pigeon/flying-ace", 6: "thorn/the-old-hedge" };
@@ -57,8 +59,9 @@ function card(key, w, opt = {}) {
   } else {
     const b = document.createElement("div"); b.className = "blank"; b.style.clipPath = clip; el.appendChild(b);
   }
-  const f = document.createElement("img"); f.className = "frame"; f.src = opt.src || (F + R + key + ".png"); el.appendChild(f);
-  const R0 = window.FRAMES3.roundel;
+  const pre = opt.ver || R;
+  const f = document.createElement("img"); f.className = "frame"; f.src = opt.src || (F + pre + key + ".png"); el.appendChild(f);
+  const R0 = pre === "r3-" ? window.FRAMES3.roundel : window.FRAMES4.roundel[pre.split("-")[1]];
   const r = { attack: { cx: R0.cx[0], cy: R0.cy, r: R0.r }, health: { cx: R0.cx[1], cy: R0.cy, r: R0.r } };
   if (r && opt.stats !== false) {
     const [atk, hp] = STATS[t].map(v => key.includes("gold") ? v * 2 : v);
@@ -74,7 +77,7 @@ function card(key, w, opt = {}) {
 }
 function spell(key, d, art) {
   const el = document.createElement("div"); el.className = "card"; el.style.width = el.style.height = d + "px";
-  const k = (window.FRAMES3[R + key] || {}).r_window_frac || 0.84;
+  const k = R === "r3-" ? ((window.FRAMES3[R + key] || {}).r_window_frac || 0.84) : window.FRAMES4.spell_window_frac[R.split("-")[1]];
   const inner = document.createElement(art ? "img" : "div");
   if (art) { inner.src = "../../../../../assets/glass/art/" + art + ".jpg"; inner.className = "art"; inner.style.objectFit = "cover"; }
   else { inner.className = "blank"; }
@@ -92,7 +95,7 @@ function h(parent, text) { const e = document.createElement("h2"); e.textContent
 function row(parent) { const r = document.createElement("div"); r.className = "row"; parent.appendChild(r); return r; }
 
 // Seven cards, nested rows, one gap g along the vertical edges and along both slopes.
-function board(w, g, keys) {
+function board(w, g, keys, ver) {
   const H = w / 0.56, s = 0.17 * H;
   // slope direction (w/2, -s); the offset row sits dx = (w+g)/2 across; solve dy so the slopes are g apart
   const dx = (w + g) / 2, len = Math.hypot(w / 2, s);
@@ -103,7 +106,7 @@ function board(w, g, keys) {
   for (let i = 0; i < 4; i++) pos.push([i * (w + g), 0]);
   for (let i = 0; i < 3; i++) pos.push([dx + i * (w + g), dy]);
   el.style.width = (4 * w + 3 * g) + "px"; el.style.height = (dy + H) + "px";
-  keys.forEach((k, i) => { const c = card(k, w, { art: true }); c.style.position = "absolute";
+  keys.forEach((k, i) => { const c = card(k, w, { art: true, ver }); c.style.position = "absolute";
     c.style.left = pos[i][0] + "px"; c.style.top = pos[i][1] + "px"; el.appendChild(c); });
   return el;
 }
@@ -145,6 +148,9 @@ function buildLarge() {
     const r = row(v); r.style.gap = "12px"; r.style.marginBottom = "14px";
     for (let t = 1; t <= 6; t++) r.appendChild(card("t" + t + g, 300, { art: true }));
   }
+  h(v, "The other version (near: the border widens only a little, the stat discs float over the art): tiers 3 and 6, normal and golden");
+  const r = row(v); r.style.gap = "12px";
+  for (const k of ["t3", "t6", "t3-gold", "t6-gold"]) r.appendChild(card(k, 300, { art: true, ver: OTHER }));
 }
 function buildCompare() {
   const v = document.getElementById("compare");
@@ -161,18 +167,26 @@ function buildCompare() {
 }
 function buildBoard() {
   const v = document.getElementById("board");
-  h(v, "Board, 112 px, one 28 px gap: on the teal ground of the round-5 screen (left) and on near-black (right); the darkest unit art in the middle");
-  const r = row(v); r.style.gap = "40px"; r.style.alignItems = "flex-start";
   const keys = ["t1", "t3", "t2", "t5", "t4-gold", "t6", "t3"];
   const arts = { 1: "locust/gleaner", 3: "badger/marshal-of-the-red-mist", 0: "mouse/shrew-cutpurse" };
-  const mk = () => { const b = board(112, 28, keys);
+  const mk = ver => { const b = board(112, 28, keys, ver);
     [...b.children].forEach((c, i) => { if (i === 1 || i === 5 || i === 6) {
       const img = c.querySelector("img.art"); img.src = U + [arts[1], arts[3], arts[0]][[1, 5, 6].indexOf(i)] + ".jpg"; } });
     return b; };
-  const teal = document.createElement("div"); teal.style.position = "relative"; teal.style.width = "1190px"; teal.style.height = "460px";
-  teal.style.background = "url(" + F + "r3-teal-ground.png)"; const b1 = mk();
-  b1.style.position = "absolute"; b1.style.left = "330px"; b1.style.top = "30px"; teal.appendChild(b1); r.appendChild(teal);
-  const dark = document.createElement("div"); dark.style.paddingTop = "30px"; dark.appendChild(mk()); r.appendChild(dark);
+  const vers = [["r3-", "Round 3"], [R, "Round 4: flow (recommended)"], [OTHER, "Round 4: near"]];
+  h(v, "Board, 112 px, one 28 px gap, on the teal ground of the round-5 screen; the darkest unit art in the middle");
+  const r = row(v); r.style.gap = "40px"; r.style.alignItems = "flex-start";
+  for (const [ver, lab] of vers) {
+    const teal = document.createElement("div"); teal.style.position = "relative"; teal.style.width = "600px"; teal.style.height = "460px";
+    teal.style.background = "url(" + F + "r3-teal-ground.png) -296px 0"; const b1 = mk(ver);
+    b1.style.position = "absolute"; b1.style.left = "34px"; b1.style.top = "30px"; teal.appendChild(b1); r.appendChild(cell(teal, lab));
+  }
+  h(v, "The same on near-black");
+  const r2 = row(v); r2.style.gap = "40px"; r2.style.alignItems = "flex-start";
+  for (const [ver, lab] of vers) {
+    const dark = document.createElement("div"); dark.style.width = "600px"; dark.style.padding = "10px 0 0 34px";
+    dark.style.boxSizing = "border-box"; dark.appendChild(mk(ver)); r2.appendChild(cell(dark, lab));
+  }
 }
 buildSheet(); buildLarge(); buildCompare(); buildBoard();
 const view = (location.hash || "#sheet").slice(1);
