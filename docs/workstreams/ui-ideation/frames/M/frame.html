@@ -29,14 +29,16 @@ h2 { font: 700 15px AlegreyaSans, sans-serif; letter-spacing: .06em; text-transf
 .ref { height: 520px; }
 .note { font-size: 14px; color: var(--dim); max-width: 300px; line-height: 1.35; }
 </style>
-<script src="frames.js"></script>
+<script src="frames3.js"></script>
 </head>
 <body>
 <div id="sheet" class="view"></div>
 <div id="large" class="view"></div>
 <div id="compare" class="view"></div>
+<div id="board" class="view"></div>
 <script>
 const F = "file:///data/ui-ideation/frames/M/frames/";
+const R = "r3-";  // round 3: build3.py frames, one roundel for every tier
 const U = "../../../../../assets/units/";
 const ART = { 1: "badger/brock-cub", 2: "mouse/dormouse-cook", 3: "badger/hedge-knight", 4: "locust/gorger",
               5: "pigeon/flying-ace", 6: "thorn/the-old-hedge" };
@@ -55,15 +57,16 @@ function card(key, w, opt = {}) {
   } else {
     const b = document.createElement("div"); b.className = "blank"; b.style.clipPath = clip; el.appendChild(b);
   }
-  const f = document.createElement("img"); f.className = "frame"; f.src = opt.src || (F + key + ".png"); el.appendChild(f);
-  const r = (window.FRAMES || {})[key];
+  const f = document.createElement("img"); f.className = "frame"; f.src = opt.src || (F + R + key + ".png"); el.appendChild(f);
+  const R0 = window.FRAMES3.roundel;
+  const r = { attack: { cx: R0.cx[0], cy: R0.cy, r: R0.r }, health: { cx: R0.cx[1], cy: R0.cy, r: R0.r } };
   if (r && opt.stats !== false) {
     const [atk, hp] = STATS[t].map(v => key.includes("gold") ? v * 2 : v);
     for (const [side, v] of [["attack", atk], ["health", hp]]) {
       const d = r[side]; if (!d) continue;
       const n = document.createElement("div"); n.className = "num";
       n.style.left = (d.cx / 560 * 100) + "%"; n.style.top = (d.cy / 1000 * 100) + "%";
-      n.style.fontSize = Math.round(d.r / 560 * w * (String(v).length > 1 ? 1.15 : 1.35)) + "px";
+      n.style.fontSize = Math.round(d.r / 560 * w * (String(v).length > 1 ? 1.25 : 1.5)) + "px";
       n.textContent = v; el.appendChild(n);
     }
   }
@@ -71,13 +74,13 @@ function card(key, w, opt = {}) {
 }
 function spell(key, d, art) {
   const el = document.createElement("div"); el.className = "card"; el.style.width = el.style.height = d + "px";
-  const k = (window.FRAMES[key] || {}).r_window_frac || 0.84;
+  const k = (window.FRAMES3[R + key] || {}).r_window_frac || 0.84;
   const inner = document.createElement(art ? "img" : "div");
   if (art) { inner.src = "../../../../../assets/glass/art/" + art + ".jpg"; inner.className = "art"; inner.style.objectFit = "cover"; }
   else { inner.className = "blank"; }
   inner.style.position = "absolute"; inner.style.inset = "0"; inner.style.width = inner.style.height = "100%";
   inner.style.clipPath = "circle(" + (k * 50 + 1.5) + "% at 50% 50%)"; el.appendChild(inner);
-  const f = document.createElement("img"); f.className = "frame"; f.src = F + key + ".png"; el.appendChild(f);
+  const f = document.createElement("img"); f.className = "frame"; f.src = F + R + key + ".png"; el.appendChild(f);
   return el;
 }
 function cell(node, label) {
@@ -156,7 +159,22 @@ function buildCompare() {
     r.appendChild(cell(i, l));
   }
 }
-buildSheet(); buildLarge(); buildCompare();
+function buildBoard() {
+  const v = document.getElementById("board");
+  h(v, "Board, 112 px, one 28 px gap: on the teal ground of the round-5 screen (left) and on near-black (right); the darkest unit art in the middle");
+  const r = row(v); r.style.gap = "40px"; r.style.alignItems = "flex-start";
+  const keys = ["t1", "t3", "t2", "t5", "t4-gold", "t6", "t3"];
+  const arts = { 1: "locust/gleaner", 3: "badger/marshal-of-the-red-mist", 0: "mouse/shrew-cutpurse" };
+  const mk = () => { const b = board(112, 28, keys);
+    [...b.children].forEach((c, i) => { if (i === 1 || i === 5 || i === 6) {
+      const img = c.querySelector("img.art"); img.src = U + [arts[1], arts[3], arts[0]][[1, 5, 6].indexOf(i)] + ".jpg"; } });
+    return b; };
+  const teal = document.createElement("div"); teal.style.position = "relative"; teal.style.width = "1190px"; teal.style.height = "460px";
+  teal.style.background = "url(" + F + "r3-teal-ground.png)"; const b1 = mk();
+  b1.style.position = "absolute"; b1.style.left = "330px"; b1.style.top = "30px"; teal.appendChild(b1); r.appendChild(teal);
+  const dark = document.createElement("div"); dark.style.paddingTop = "30px"; dark.appendChild(mk()); r.appendChild(dark);
+}
+buildSheet(); buildLarge(); buildCompare(); buildBoard();
 const view = (location.hash || "#sheet").slice(1);
 document.getElementById(view).classList.add("on");
 </script>
