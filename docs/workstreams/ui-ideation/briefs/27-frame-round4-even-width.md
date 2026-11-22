@@ -12,6 +12,12 @@ Moments later, with a picture of a Magic card in the 2014 frame (kept outside Gi
 
 > "It seemed to like flow in, right? It seems to flow in and like be connected almost, right? Like the bottom is wider and bigger, but it's not jarring."
 
+And on my instructions to the art director:
+
+> "Don't be too stringent. We're trying to do good design, right? That's the number one priority. [...] I expect that maybe if you overcorrect on the magic card, for example, like I'll expect everything to look exactly like that. I don't want things to look exactly like that. I'm trying to get things that look similar to hundreds of different concepts that are blended together, right? Like I just know what looks right. It's just good design. And I think if the agents follow good design principles, we'll be okay. I'm just giving you a steer in the right direction to try and explain and illustrate what I'm saying is the issue."
+
+*[After this the art director was told: the Magic card only illustrates the problem; everything below the owner's words in this brief is a suggestion, to keep, change or drop; solve the problem (the border's two parts do not blend) with good design.]*
+
 ## My reading
 
 *[Corrected after the owner's second and third remarks, which were sent to the art director while it worked: the owner is not asking for a strictly equal width. On the Magic card the lower part is wider and bigger, and it works because it flows in and is connected. The `even` version below was replaced by `flow`: the bottom wider and bigger, but flowing out of the upper border, with shared edges and lines and no step.]*
