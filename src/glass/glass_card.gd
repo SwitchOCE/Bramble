@@ -22,16 +22,11 @@ const STAT_ATTACK: Color = Color("50391f")
 const STAT_HEALTH: Color = Color("542d34")
 const STAT_EDGE: Color = Color("d5c6a5")
 const STAT_NUMBER: Color = Color("fff0ce")
-## type-line.html, above the stats. This span is inside the straight sides of the frame.
-const TYPE_TOP: float = 0.615
-const TYPE_HEIGHT: float = 0.078
-const TYPE_ROOM: float = 0.88
 
 var tier: int = 1
 var art: Texture2D
 var attack: int = 0
 var health: int = 0
-var type_line: String = ""
 ## The card's height in pixels; its width follows the frame's 560 x 1000 shape.
 var card_height: float = 250.0
 ## What the card prints and its Health before damage, when known (-1: not): set_numbers colours
@@ -72,8 +67,6 @@ func _ready() -> void:
 	custom_minimum_size = card_size(card_height)
 	size = custom_minimum_size
 	_make_shadows()
-	if not type_line.is_empty():
-		_add_type_label()
 
 
 ## stage.css .card.hot: brighter, with a warm glow and a deeper shadow in place of the card's own.
@@ -217,47 +210,6 @@ func _draw() -> void:
 	_draw_number(
 		health, GlassPieces.disc(tier, "health"), hurt, number_pop.y, up_health and not hurt
 	)
-	if not type_line.is_empty():
-		_draw_type_band()
-
-
-func _type_band() -> Rect2:
-	return Rect2(0.0, card_height * TYPE_TOP, size.x, card_height * TYPE_HEIGHT)
-
-
-func _add_type_label() -> void:
-	var label: GlassText = GlassText.new()
-	label.name = "TypeLine"
-	label.words = type_line
-	label.weight = 700
-	label.colour = Color("1b130b")
-	label.line_height = 1.0
-	label.font_px = roundf(card_height * 0.06)
-	var room: float = size.x * TYPE_ROOM
-	while true:
-		label.spacing = label.font_px * 0.02
-		label.refresh()
-		if label.size.x <= room or label.font_px <= 1.0:
-			break
-		label.font_px -= 1.0
-	label.position = _type_band().get_center() - label.size / 2.0
-	add_child(label)
-
-
-func _draw_type_band() -> void:
-	var band: Rect2 = _type_band()
-	var lead: float = maxf(2.0, card_height * 0.009)
-	var face: Rect2 = Rect2(
-		band.position + Vector2(0.0, lead), band.size - Vector2(0.0, 2.0 * lead)
-	)
-	draw_rect(band, Color("16120e"))
-	draw_rect(face, Color("ead9b4"))
-	var cream: Texture2D = GlassPieces.texture("ui/rd-cream.png")
-	var tex_size: Vector2 = cream.get_size()
-	var sample_size: Vector2 = face.size * (tex_size.x / (face.size.x * 2.2))
-	draw_texture_rect_region(cream, face, Rect2((tex_size - sample_size) / 2.0, sample_size))
-	draw_rect(Rect2(face.position, Vector2(face.size.x, 1.0)), Color(1.0, 1.0, 1.0, 0.55))
-	draw_rect(Rect2(0.0, face.end.y - 1.0, face.size.x, 1.0), Color(0.47, 0.31, 0.12, 0.35))
 
 
 func _draw_stat_setting(disc: Vector3, shield: bool) -> void:

@@ -14,7 +14,7 @@ Written by the orchestrator on 20 Nov 2026 against `dev`. Approved by the owner 
 4. **Settled 21 Nov.** Duplicate and triple marks count only cards you own; the faint edge on your own copies stays.
 5. **Settled 21 Nov.** Art: B for all 16 cards ("I want B for all images").
 6. **Settled 21 Nov.** Shop layout: A (two wings), changed: nothing under the gold, the same gaps on both sides, and the next turn's gold as a small "+X" gold mark beside the top right of the next opponent's portrait on the End turn button, not on top of it (the owner's correction: "next to the top right of the circle down near the profile picture, not on top of it"). Built in PR 237. A mock-up goes to the owner before it is built.
-7. **Settled 21 Nov.** Type line: above the stats.
+7. **Settled 22 Nov.** The creature type shows in the hover only, never on the card face. The owner, after playing the night build (22 Nov): "Someone put labels, one of the agents put labels on cards, like these creature types are labeled across the card now instead of just in the tooltip where they should be. That needs to go immediately. … That's the kind of visual change that should need to be okayed by me, but anyway, I guess people mistook me asking for the creature type to be clearly displayed in the tooltip as, for some reason, having to be displayed on the card as well." The 21 Nov entry here ("above the stats") came from the blanket "All other proposals I approve", not from the owner choosing a strip on the card; it was built in PR 249 and taken off again.
 8. **Settled 21 Nov.** Keyword tooltips: option 1, the left light.
 9. **Not doing** (owner, 21 Nov): "The keyword stuff I don't like. It's too busy. I deny all changes to 10. We'll revisit that. It can go into the backlog. We'll keep the small marks for now and iterate later." Step 11 is dropped; the item is in `docs/workstreams/backlog-briefs.md`.
 10. **Settled 21 Nov.** The golden rule comes from the owner: "Keywords, you know, some things can't be doubled. We need to keep balanced considerations, you know, in mind with goldens. You can't have it completely consistent no matter how much you might like to." Rulebook 7.3.5 says so (PR 224). How strong each golden ends up goes to the balance session.
@@ -25,9 +25,9 @@ Written by the orchestrator on 20 Nov 2026 against `dev`. Approved by the owner 
     - both land before the first climb, in the shared window.
 12. **Settled 21 Nov.** Old Brock goes to the balance session with the rest of the Badgers.
 13. **Settled 21 Nov.** Animations: all of them ("I accept all changes"), built in batches the owner plays between.
-14. **Settled 22 Nov.** The Charge and Supply pips sit above the type strip, as built in PR 249. Asked the morning pack's questions, the owner said (22 Nov): "I will accept all the recommendations except the rules, which I want a reminder on first."
-15. **Settled 22 Nov.** A carried shop card keeps its price tag (recruit/NOTES.md §2), not prototype 18's drop. Same answer as 14.
-16. **Settled 22 Nov.** The turn-start income coins and new shop drop-in (prototypes 9 and 10) go in the next animation batch, not the recruit batch. Same answer as 14.
+14. **Lapsed 22 Nov.** The Charge and Supply pips sit over the stat discs, as before PR 249: there is no type strip for them to clear (decision 7).
+15. **Settled 22 Nov.** A carried shop card keeps its price tag (recruit/NOTES.md §2), not prototype 18's drop. Asked the morning pack's questions, the owner said (22 Nov): "I will accept all the recommendations except the rules, which I want a reminder on first."
+16. **Settled 22 Nov.** The turn-start income coins and new shop drop-in (prototypes 9 and 10) go in the next animation batch, not the recruit batch. Same answer as 15.
 
 ## Steps
 
@@ -67,9 +67,9 @@ Every step that changes code passes two gates before it merges to dev: the runti
 ### Design steps
 
 **Step 6. Type line and tooltips.** Items 8, 9 and 13's tooltip line.
-- Changes: each card prints its types ("Badger Knight") on the card and in the hover's kind line, in place of "Unit". Keyword boxes move to a fixed place apart from the card's tooltip. Grudge's reminder says when it pays.
+- Changes: the hover's kind line prints the card's types ("Badger Knight") in place of "Unit"; nothing is printed on the card face (decision 7). Keyword boxes move to a fixed place apart from the card's tooltip. Grudge's reminder says when it pays.
 - Depends on: decisions 7 and 8; step 8's wording for Grudge.
-- Checked by: compares with `type-line.html` and `tooltips.html`; shots of hovers on the shop, the board, the hand and the fight; a check that every card's type fits.
+- Checked by: compares with `tooltips.html`; shots of hovers on the shop, the board, the hand and the fight; a check that every card's type fits.
 
 **Step 7. Shop layout.** Item 7.
 - Changes: the gold, tier-up, refresh and freeze controls and their readouts move to the chosen layout.
