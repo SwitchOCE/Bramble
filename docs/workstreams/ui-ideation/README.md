@@ -29,6 +29,16 @@ Nothing is decided and nothing is built. The owner's page: https://claude.ai/art
 
 From stills, motion, timing, hover and drag feel and sound were not judged.
 
+## Pass 2 (22 Nov 2026): the owner's reactions, in short loops
+
+The owner looked at the result and redirected the work, twice. The owner's words are quoted in `briefs/08-pass2-designer.md` and `briefs/13-pass2-round3.md`. In short: nothing at rest explains a card, details show on hover, keyword reminders sit in a fixed place; the card frame may change and spells may take another shape; card size is free (shape and proportions stay); no dimming filters over card art; layouts are judged with blank cards; the art's colour is handled as an art-style recommendation.
+
+The council changed too, on the owner's yes: two Claude Opus voters (a player's eye, and craft) and Gemini Neon, with GPT Sol checking measurable defects only, without a vote.
+
+Rounds 1 to 4 for A, D and E are in `concepts/`, with each round's council answers in `council/p2r<n>-*.md` and what was agreed in `council/p2r<n>-agreed.md`. The council's spacing rule (round 3): a gap of a quarter of the card's width across and down, rows offset and never nested, half a card between zones. After round 4, two of three voters call E's layout ready and the voters split on the board card's width (112, 120 or 128 px), which is the owner's call.
+
+The owner's pages: the rounds, https://claude.ai/artifact/5FHCCWaLvNacStTEfYCW4K ; three card-art styles before and after, https://claude.ai/artifact/HkVAmemUdBwEqQk7oGWC7p (`art-style/`, pictures in `/data/bramble-art/uiid-style/`). The owner's rule on tooltips is `docs/design/owner-notes/2026-11-22a-card-details-on-hover.md`. Nothing is decided and nothing is built.
+
 ## Where things are
 
 | What | Where |
