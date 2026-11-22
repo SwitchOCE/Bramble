@@ -26,7 +26,7 @@ The came's two rails part to hold the glass: the inner rail curves away in a lea
 
 Read at 112 px:
 - **Colour:** pearl grey, strong leaf green, sapphire, violet, deep honey amber, ruby.
-- **Height:** the join rises from y 690 (glass on the lowest 31%) to y 560 (44%), 26 units a tier.
+- **Height:** the join rises from y 704 (glass on the lowest 30%) to y 554 (45%), 30 units a tier. Code sets it (`fit2.py`); the image tool would not.
 - **Bottom crest:** none, bud, trefoil, trefoil with jewel, fleur with leaves, fleur with jewel and glow.
 
 Pieces per side rise 1 to 6; glow from none to warm.
@@ -37,13 +37,15 @@ The metal changes, not the glass: both rails turn pale, shiny leaf gold all the 
 
 ## 7. Stats, tier mark, spell
 
-- **Roundels:** today's glowing cream disc, ringed in tier glass, drawn blank, in one position for all tiers: centres (111, 766), (449, 766), ring radius 78.
+- **Roundels:** today's glowing cream disc, ringed in tier glass, drawn blank. Each frame's discs are measured (`frames.js`); they sit within a few units across tiers.
 - **Tier mark:** colour plus height, repeated in the top bead. No numeral.
 - **Spell:** a round came ring (radius 238), same rule: lower arc in tier glass with a small crest. No stats.
 
 ## What I would still fix
 
-- **Upper lead is too thin and striped.** At 112 px it blends into the art; round 2 asks for one solid, near-black came.
-- **The tier step by height failed.** The joins came out at 542 to 617, in no order, so in greyscale tiers 2 to 6 look the same. Round 2 uses bolder ticks and 32-unit steps.
-- **Roundels copied today's per-tier positions,** not the guide.
-- **Not yet fixed:** the glass is as saturated as the art, the spell ring is thin, and the top bead is under 3 px.
+Round 2 fixed the upper lead; code fixed the join ladder.
+- **In greyscale, neighbouring tiers differ by only about 6 px of glass height.** Hue still does most of the work. Larger steps would push tier 6 past half the card.
+- **Tier 5's roundels are oversized,** and the spells are still round 1's thin lead (prompts-3).
+- **The frame glass is as saturated as the art** (study rule 8).
+- **The golden leaf crest and the top bead are under 6 px.**
+- **Tier 3's squeezed glass** shows at 300 px.

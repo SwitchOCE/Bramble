@@ -125,9 +125,9 @@ function buildSheet() {
   const r1 = row(a);
   r1.appendChild(cell(spell("spell1", 96), "Tier 1")); r1.appendChild(cell(spell("spell6", 96), "Tier 6"));
   r1.appendChild(cell(spell("spell1", 96, "spell-forage"), "")); r1.appendChild(cell(spell("spell6", 96, "spell-triple-reward"), ""));
-  h(a, "Join: leaf tip vs straight bar, 128 px");
-  const r2 = row(a);
-  for (const k of ["t1", "t1-bar", "t6", "t6-bar"]) r2.appendChild(cell(card(k, 128, { art: true }), k.includes("bar") ? "bar" : "leaf tip"));
+  h(a, "Check: tiers 1 to 6 in greyscale, 112 px");
+  const r2 = row(a); r2.style.gap = "10px"; r2.style.filter = "grayscale(1)";
+  for (let t = 1; t <= 6; t++) r2.appendChild(cell(card("t" + t, 112), ""));
   const b = document.createElement("div"); sp.appendChild(b);
   h(b, "Hover, 300 px");
   const r3 = row(b); r3.appendChild(card("t3", 300, { art: true }));

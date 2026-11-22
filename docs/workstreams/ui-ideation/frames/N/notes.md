@@ -36,3 +36,12 @@ See "What I would still fix" in `spec.md`.
 ## Rendering
 
 The page is `frame.html`, with one view per hash: `#sheet`, `#board`, `#large`, `#compare`. It was rendered with Playwright's chromium headless shell, using `--no-sandbox` for local files only.
+
+## Round 2 (method change)
+
+The image tool twice placed the lead and the discs by its own judgement. Round 2's lead was solid, but tier 1's was thin, and the discs ran from 34 to 54 units across tiers. So `assemble_r2.py` now does three things:
+- Takes the upper lead from one generated card (tier 4, or golden tier 4) for every tier.
+- Repeats its plain side lead down under each tier's own glass.
+- Lays one roundel, cut from tier 2's and recoloured to each tier's glass, at one place and size.
+
+The glass, ornament and gilt are still each tier's own generated picture. Round 1's renders are in `r1/`.

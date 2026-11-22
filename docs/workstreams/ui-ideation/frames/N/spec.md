@@ -1,6 +1,6 @@
 # Frame, take N: a lead window with a glass base
 
-Units: card 560 × 1000; shapes in `make_guides.py`.
+Units: card 560 × 1000; shapes in `make_guides.py`; assembly in `assemble_r2.py`.
 
 ## 1. What it is for
 
@@ -29,29 +29,26 @@ An unbroken outer came runs round the whole card and ties the zones together. On
 ## 5. Tier ladder
 
 - **Colour:** grey, green, blue, purple, yellow, red, in the owner's order.
-- **Height:** the glass tip rises from 700 (tier 1) to 620 (tier 6), so the base is 30–38% of the card's height.
-- **Count:** the tier's number of pale glass beads in the bottom chevrons. Pale reads on every colour and in greyscale.
+- **Mass:** glass grows from 8% of the card (tier 1) to 15% (tier 6), measured.
+- **Ornament:** the bottom point goes plain diamond, leaf pair, trefoil, fleur, fan and jewel, crest and glow.
 
-The fleuron grows from a plain diamond to a crest with a faint glow; pieces grow from about 5 to 15.
+Beads and a climbing glass line were tried and didn't read at 112 px.
 
 ## 6. Golden
 
-All the lead turns to pale polished gilt: rim, upper band and base cames. Most of the frame changes, so golden reads at a glance. The glass and beads stay the same. Against tier 5's deep marigold, the gilt is a paler champagne gold with dark burnished edges. Each golden card is drawn from its normal card.
+All the lead turns to pale polished gilt: rim, upper band and base cames. Most of the frame changes, so golden reads at a glance. The glass stays the same. Against tier 5's deep marigold, the gilt is a paler champagne gold with dark burnished edges. Each golden card is drawn from its normal card.
 
 ## 7. Stats, tier mark, spell
 
-- **Stats:** blank ivory glass discs (radius 60, today's places) in a lead ring edged with the tier's glass. Gold stays for golden.
-- **Tier mark:** the beads.
+- **Stats:** one roundel on every tier: a blank ivory disc (radius 52) in a lead ring edged with the tier's glass, outer radius 64, centres (108, 784) and (452, 784). Gold stays for golden.
+- **Tier mark:** colour, mass and the ornament.
 - **Spell:** round, with the same lead ring. Its lower third is the tier's glass with a small fleuron. No discs.
 
 ## What I would still fix
 
-- At 112 px the upper lead reads as a thin double outline, not solid lead.
-- The beads (3–4 px) don't read, so they are dropped.
-- The glass climb can't be seen, so every tier now starts at 690; the tier shows by colour and bottom ornament.
-- Disc sizes vary from 47 to 60 units.
-- Golden tier 1's band stays dark, and golden tier 2 lost its green rings.
-- Tier 1's glass has a flat top.
-- The tier 6 spell ring is thinner than tier 1's.
-
-`prompts-2.txt` fixes all but the spell.
+- Between neighbours at 112 px, the ladder reads by colour first. Mass and ornament separate low tiers from high, not tier 3 from tier 4.
+- Tier 1's roundel has a dark inner ring, from recolouring green to grey.
+- The side glass starts at different heights (tiers 4–6 sit higher).
+- The spells are round 1's: tier 6's ring is thinner, and there is no golden spell.
+- The lead and roundels are assembled by code from one generated tier. A human artist would draw them once.
+- Motion and glow: not judged.

@@ -31,14 +31,15 @@ h1 { position: absolute; left: 40px; top: 18px; margin: 0; font-size: 20px; font
 <div id="large" class="view"></div>
 <div id="compare" class="view"></div>
 <script>
-const CUT = "file:///data/ui-ideation/frames/N/cut";
+const CUT = "file:///data/ui-ideation/frames/N/asm-r2";  // round 2, assembled by assemble_r2.py
+const SPELLS = "file:///data/ui-ideation/frames/N/cut/spell";  // round 1
 const TODAY = "../../../../../docs/design/art-direction/frame-lab/final";
 const UNITS = "../../../../../assets/units";
 const NAMES = ["common", "uncommon", "rare", "epic", "legendary", "mythic"];
 const ART = ["thorn/bramble-runner", "mouse/fencing-master", "pigeon/flying-ace", "locust/hopper", "badger/hedge-knight", "badger/the-oakfeller"];
 const STATS = [[2, 3], [3, 4], [4, 6], [6, 7], [11, 17], [24, 38]];
 // Disc centres measured on the cut frames, card units (560 x 1000).
-const DISC = [[108, 784], [451, 784]];
+const DISC = [[108, 784], [452, 784]];
 
 function frameSrc(set, t) {
   if (set === "today") return `${TODAY}/tier${t}-${NAMES[t - 1]}.png`;
@@ -70,7 +71,7 @@ function spell(parent, x, y, d, t, art) {
   el.className = "card spell";
   Object.assign(el.style, { left: x + "px", top: y + "px", width: d + "px", height: d + "px" });
   if (art) { const a = new Image(); a.className = "art"; a.src = art; el.appendChild(a); }
-  const f = new Image(); f.src = `${CUT}/spell/spell-t${t}.png`; el.appendChild(f);
+  const f = new Image(); f.src = `${SPELLS}/spell-t${t}.png`; el.appendChild(f);
   parent.appendChild(el);
 }
 
