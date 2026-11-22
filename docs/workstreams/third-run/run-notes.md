@@ -29,7 +29,7 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 
 | Team | Kept | Since | Verdict line |
 |---|---|---|---|
-| red | red-c10 | 22 Nov | red-c10 vs red-c9: 1,000 games, gap −0.242 ± 0.175 (2.238 against 2.480) |
+| red | red-c14 | 22 Nov | red-c14 vs red-c10: 1,000 games, gap −0.242 ± 0.161 (2.062 against 2.304) |
 | blue | blue-c13 | 22 Nov | blue-c13 vs blue-c9: 1,000 games, gap −0.826 ± 0.210 (1.634 against 2.460) |
 
 ## Log
@@ -136,3 +136,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - Incidents: both team leads stalled 08:38–10:40 (nudged). Approval watches were killed by name across sessions; the referee's now runs renamed.
 - **red-c14** (`c219a71d`: swap_margin −3 → 5, a shop unit must beat the worst board unit by 5 to replace it) against red-c10: 1,000 games, gap −0.242 ± 0.161 (2.062 against 2.304). **Kept.** The match was clean. It came from the stopping test's `swap_margin+` result and red's practice sweep of swap_margin (−1 to +12, a plateau from +1 to +8).
 - **Red-c10's stopping test stopped at 19:05**, 14 of 37 matches done, because red-c14 was kept and red-c10 can no longer pass. Results are in `/data/third-run/stopping/red-1/results.txt` and were sent to red. Worse: swap_margin −5, growth_turns 0.05, max_refresh 8, syn_per_unit 2. Beats: swap_margin −1. No clear difference: the other 8. Blue's test started at once (`tools/league/stop_chain_1b.sh`), on the same reference field.
+  - red-c14's tribe picks: Locust 70.0% (1.99), none 22.6% (2.23), Badger 5.6% (1.75), Briar 1.4%, Pigeon 0.4%; 2.1 in hand. Field now 14,500. Interim report sent.
