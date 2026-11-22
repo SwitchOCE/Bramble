@@ -27,8 +27,8 @@ h1,h2,h3,strong,b{font-weight:700}
 .glyph.ward-color{color:#f6dfa7}.glyph.shop-color{color:#bdddde}
 .cap{font:700 18px/1 var(--sans);letter-spacing:.115em;text-transform:uppercase;color:#ecd8ad}
 .section-name{font:700 29px/1 var(--serif)}
-.side{position:absolute;left:47px;width:256px}
-.side.right{left:1617px}
+.side{position:absolute;left:55px;width:327px}
+.side.right{left:1538px}
 .seamed{background:linear-gradient(165deg,#252e28,#14221f 58%,#172725),var(--pane-texture);background-blend-mode:normal,screen;border:1px solid #72644e;box-shadow:0 0 0 3px #0b1110,inset 0 1px #b39a6259,inset 0 -2px #050c09,0 5px 7px #080a0890}
 .left-top{top:126px;text-align:center}
 .turn{display:table;margin:0 auto;padding:3px 11px 2px;border-radius:3px;background:#272b22;border:1px solid #8d7b55;box-shadow:0 0 0 2px #1a2019;font:750 27px/1 var(--serif);color:#f4deb0}
@@ -43,11 +43,11 @@ h1,h2,h3,strong,b{font-weight:700}
 .counter{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;min-height:37px;background:#1e2925;border:1px solid #776a4c;box-shadow:0 0 0 2px #111614;border-radius:4px;font:700 18px/1 var(--sans)}
 .counter .glyph{width:17px;height:17px;color:#d3bd86}
 .counter b{font:800 22px/1 var(--serif)}
-.hand{top:542px}
-.hand-count{height:25px;margin:0 7px;border-bottom:1px solid #b6a07895;font:790 23px/1 var(--serif);color:#fff1cf}
-.hand-tray{display:grid;grid-template-columns:repeat(3,74px);gap:10px;justify-content:center;margin-top:7px}
-.hand-slot{position:relative;width:74px;aspect-ratio:560/1000;display:grid;align-items:center}
-.hand-slot:last-child{grid-column:2}
+.hand{position:absolute;top:884px;left:447px;width:1026px}
+.hand-count{position:absolute;top:55px;left:51px;padding:6px 12px;border:1px solid #98855e;border-radius:4px;background:#293e36;font:790 23px/1 var(--serif);color:#fff1cf}
+.hand-tray{display:grid;grid-template-columns:repeat(7,84px);gap:21px;justify-content:center}
+.hand-slot{position:relative;width:84px;aspect-ratio:560/1000;display:grid;align-items:center}
+.hand-slot .slot-trace{width:100%;height:100%;fill:none;stroke:#cfb987;stroke-opacity:.65;stroke-width:8}
 .hand-slot.has-spell{align-content:start}
 .hand-slot > .coin{position:absolute;left:50%;bottom:0;transform:translateX(-50%)}
 .hand-slot .unit-stat{font-size:18px;width:23px}
@@ -58,18 +58,18 @@ h1,h2,h3,strong,b{font-weight:700}
 .game-menu-content{position:absolute;bottom:56px;left:0;width:100%;padding:9px 13px;background:#182520;border:1px solid #a18959;z-index:10;border-radius:5px;box-shadow:0 8px 15px #090b09}
 .game-menu-content button{width:100%;min-height:46px;text-align:left;padding:0 8px;font-size:19px}
 .game-menu-content button+button{border-top:1px solid #71654b}
-.shop-controls{top:132px;left:355px;width:132px}
+.shop-controls{top:322px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.shop-controls .purse,.upgrade-group{grid-column:1/-1}
 .purse{height:56px;display:flex;align-items:center;justify-content:center;gap:7px;border-radius:7px 7px 4px 4px;background:linear-gradient(145deg,#433626,#2b281d 70%);border:1px solid #92774c;box-shadow:0 0 0 3px #10130e,inset 0 1px #c6a16b7d}
 .purse strong{font:850 36px/1 var(--serif)}
 .purse .coin{width:26px;height:26px}
 .purse .gold-word{font-size:18px;color:#e0cc9d}
 .shop-controls .plate-button{width:100%;padding:0 9px}
-.upgrade-group{margin-top:8px;padding-bottom:4px;border-bottom:1px solid #9d855962}
-.refresh-button{margin-top:9px;flex-direction:column;gap:3px;padding-block:5px!important}
+.upgrade-group{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.refresh-button{flex-direction:column;gap:3px;padding-block:6px!important}
 .refresh-title{display:flex;align-items:center;gap:5px}
 .readout{font:700 19px/1.05 var(--sans);color:#fff0cb}
-.upgrade-meta{display:grid;gap:4px;margin:4px 0 0;padding:4px 2px;text-align:center;color:#ead8b7;background:#25261d;border:1px solid #746344;border-radius:4px}
-#freeze{margin-top:8px}
+.upgrade-meta{display:grid;gap:4px;padding:5px 2px;text-align:center;color:#ead8b7;background:#25261d;border:1px solid #746344;border-radius:4px}
 .plate-button{display:flex;align-items:center;justify-content:center;gap:6px;min-height:47px;padding:0 13px;border:1px solid #8e7853;border-radius:5px;background:linear-gradient(168deg,#394034,#222e28 47%,#18221f 49%,#222c24);box-shadow:0 0 0 2px #101410,inset 0 2px #bfa47432,inset 0 -2px #0b1510,0 4px 6px #0a0d0a9c;font:730 20px/1 var(--serif);text-align:center}
 .plate-button .glyph{color:#e4cb95}
 .plate-button:hover{border-color:#d2c097}
@@ -113,7 +113,7 @@ h1,h2,h3,strong,b{font-weight:700}
 .fallen .empty-slot .slot-layer path:first-child{fill:#222321;stroke:#201615}
 .fallen-mark{display:grid;place-items:center;position:absolute;top:39%;left:29%;width:42%;aspect-ratio:1;border:1px solid #8d6256;border-radius:50%;background:#302422;color:#edc0aa}
 .fallen-mark .glyph{width:25px;height:25px}
-.cue{top:559px;left:444px;width:148px;padding:10px 11px;border-radius:4px;text-align:left;color:#e8f6e4;background:#223932;border:1px solid #87ad99;box-shadow:0 0 0 3px #131b16;font:700 19px/1.12 var(--sans)}
+.cue{top:469px;left:492px;width:165px;padding:10px 11px;border-radius:4px;text-align:left;color:#e8f6e4;background:#223932;border:1px solid #87ad99;box-shadow:0 0 0 3px #131b16;font:700 19px/1.12 var(--sans)}
 .cue .glyph{position:absolute;width:29px;height:24px;right:-31px;top:calc(50% - 12px);color:#c9ead8;filter:drop-shadow(0 1px 1px #071814)}
 .roster{top:158px}
 .roster-list{margin:0;padding:0;list-style:none;display:grid;gap:6px}
@@ -126,8 +126,8 @@ h1,h2,h3,strong,b{font-weight:700}
 .roster-end.out{font:700 18px/1 var(--sans);color:#d7c5b1}
 .roster-row.next{background:linear-gradient(105deg,#3c3527,#302e24);border:1px solid #a68957;box-shadow:0 0 0 2px #141912}
 .roster-row.you{border-inline-start:3px solid #a7aa89;padding-left:4px}
-.roster-row.eliminated .portrait{filter:saturate(.42) brightness(.82)}
-.turn-action{top:907px;text-align:center}
+.turn-action{top:728px;text-align:center}
+.end-turn{width:100%;min-height:55px;justify-content:space-between;padding-inline:19px;font-size:23px}
 .action-button{position:relative;width:100%;min-height:66px;display:flex;justify-content:center;align-items:center;gap:9px;border-radius:5px;border:2px solid #e1ae67;color:#fff0cf;background:linear-gradient(168deg,#754f2e 0%,#5e3a22 48%,#4c2c1b 49%,#683f22 100%);box-shadow:0 0 0 3px #20170e,0 0 0 4px #8c613c,inset 0 0 0 3px #b684554f,0 0 24px #d58b373e,0 5px 8px #0d130f;font:800 30px/1 var(--serif)}
 .action-button::before,.action-button::after{content:"";width:9px;height:9px;position:absolute;top:calc(50% - 5px);background:#dcb574;border:1px solid #473222;transform:rotate(45deg)}
 .action-button::before{left:10px}.action-button::after{right:10px}
@@ -138,11 +138,11 @@ h1,h2,h3,strong,b{font-weight:700}
 .fight-profile .portrait{margin:34px auto 11px;width:120px;height:120px;border-width:4px}
 .fight-profile .rival-id{width:186px;margin:0 auto;padding:9px 6px 10px;border:1px solid #917c59;border-radius:5px;background:#28362b}
 .fight-profile .section-name{margin:0 0 7px}
-.fight-skip{top:931px}
-.strike-mark{position:absolute;top:521px;left:calc(var(--strike-x) - 18px);width:36px;height:36px;display:grid;place-items:center;color:#d8fff2;background:#284942;border:1px solid #abebd3;border-radius:50%;box-shadow:0 0 0 3px #14241e,0 0 24px #84e4cdaa;z-index:2;pointer-events:none}
+.fight-skip{top:866px}
+.strike-mark{position:absolute;top:522px;left:calc(var(--strike-x) - 18px);width:36px;height:36px;display:grid;place-items:center;color:#d8fff2;background:#284942;border:1px solid #abebd3;border-radius:50%;box-shadow:0 0 0 3px #14241e,0 0 24px #84e4cdaa;z-index:2;pointer-events:none}
 .strike-mark .glyph{width:22px;height:22px}
 .after .roster{top:158px}
-.after-action{top:906px}
+.after-action{top:758px}
 .after-action .secondary-actions{margin-top:19px;display:flex;gap:9px}
 .secondary-actions .plate-button{flex:1;padding:0 8px;white-space:nowrap}
 .result{position:absolute;left:651px;top:610px;width:618px;min-height:390px;padding:23px 38px 30px;text-align:center;isolation:isolate;z-index:3;filter:drop-shadow(0 8px 19px #060807cb)}
@@ -158,7 +158,7 @@ h1,h2,h3,strong,b{font-weight:700}
 .loss-detail{font-size:19px;color:#fae6c9;line-height:1.18;margin-top:12px}
 .loss-detail + .loss-detail{margin-top:5px}
 .loss-threats{margin:13px 0 0;padding:11px 0 0;border-top:1px solid #ad8c627d;list-style:none;display:grid;gap:5px;font-size:18px;color:#f5dfc4}
-.keywords-panel{top:316px;max-height:219px;overflow-y:auto;padding:10px 13px 11px;border-radius:5px;border-color:#6f7859;background:linear-gradient(155deg,#24342c,#16241f)}
+.keywords-panel{top:564px;max-height:282px;overflow-y:auto;padding:13px 16px 15px;border-radius:5px;border-color:#6f7859;background:linear-gradient(155deg,#24342c,#16241f)}
 .keywords-panel h2{padding-bottom:6px;border-bottom:1px solid #6c74595e;color:#eddbb1;letter-spacing:.05em}
 .keyword-notes{margin:0}
 .keyword-notes dt{display:flex;align-items:center;gap:6px;margin-top:7px;color:#f0d8a5;font-weight:700;font-size:20px}
@@ -209,7 +209,7 @@ const asset = "../../../../../assets/";
 const stage = document.getElementById("stage");
 const screen = document.getElementById("screen");
 const requestedView = new URLSearchParams(location.search).get("view");
-const gameViews = ["mid","mid-b","first","fight","after","hover-shop","hover-board","hover-spell","keywords-off"];
+const gameViews = ["mid","first","fight","after","hover-shop","hover-board","hover-spell","keywords-off"];
 const studyViews = ["cards","extra1","extra2"];
 const view = [...gameViews,...studyViews].includes(requestedView) ? requestedView : "mid";
 const first = view === "first";
@@ -255,9 +255,9 @@ function icon(name) {
 }
 
 const timber = {
-  middle:"M339 1058V151C339 99 585 52 831 40Q914 35 960 18Q1006 35 1089 40C1335 52 1581 99 1581 151V1058Z",
-  left:"M27 1058V177Q27 106 175 52Q323 106 323 177V1058Z",
-  right:"M1597 1058V177Q1597 106 1745 52Q1893 106 1893 177V1058Z"
+  middle:"M425 1058V151C425 99 635 52 831 40Q914 35 960 18Q1006 35 1089 40C1285 52 1495 99 1495 151V1058Z",
+  left:"M27 1058V177Q27 110 218 52Q409 110 409 177V1058Z",
+  right:"M1511 1058V177Q1511 110 1702 52Q1893 110 1893 177V1058Z"
 };
 
 function tracery(cx, peak, edge, height) {
@@ -266,10 +266,11 @@ function tracery(cx, peak, edge, height) {
   <path d="M${cx} ${peak + 25}V${peak + 137} M${cx} ${peak + 82}l-30 -15m30 15 30 -15" stroke="#b29a65" stroke-opacity=".35" stroke-width="1.2" fill="none"/>`;
 }
 
-function rose(cx, cy, r) {
-  const petals = Array.from({length:8}, (_,i) => `<path d="M0 0Q-${r*.37} -${r*.44} 0 -${r*.88}Q${r*.37} -${r*.44} 0 0Z" transform="rotate(${i*45})" fill="${["#8c6b46","#64684d","#397064","#8f5c45"][i%4]}"/>`).join("");
+function rose(cx, cy, r, sun=false) {
+  const glass = sun ? ["#f8d484","#fdf0b7","#dd9e54","#fedf97"] : ["#8c6b46","#64684d","#397064","#8f5c45"];
+  const petals = Array.from({length:8}, (_,i) => `<path d="M0 0Q-${r*.37} -${r*.44} 0 -${r*.88}Q${r*.37} -${r*.44} 0 0Z" transform="rotate(${i*45})" fill="${glass[i%4]}"/>`).join("");
   return `<g transform="translate(${cx} ${cy})" stroke="#18201a" stroke-width="2.3">
-  <circle r="${r+4}" fill="#221e16" stroke="#9e856045" stroke-width="1.4"/><circle r="${r}" fill="url(#quarry)"/>
+  <circle r="${r+4}" fill="#221e16" stroke="#9e856075" stroke-width="1.4"/><circle r="${r}" fill="${sun ? "#b37542" : "#454434"}"/>
   ${petals}<circle r="${r*.15}" fill="#c2a268" stroke="#332820"/></g>`;
 }
 
@@ -297,76 +298,72 @@ function oakBadge(x,y,scale=1) {
   </g>`;
 }
 
+function woodlandEdge(x,direction) {
+  return `<g transform="translate(${x} 0) scale(${direction} 1)" stroke="#253c33" stroke-width="3" stroke-linejoin="round">
+    <path d="M0 396Q45 369 80 392Q117 380 145 414Q172 419 191 456Q160 480 130 469Q109 489 74 473Q44 502 0 475Z" fill="#799467"/>
+    <path d="M0 457Q32 441 58 457Q86 434 120 461Q150 453 163 482Q190 488 195 515Q170 548 134 535Q108 558 77 547Q42 578 0 550Z" fill="#4d796c"/>
+    <path d="M0 542Q30 519 58 536Q97 518 126 550Q150 545 154 569Q137 599 107 594Q84 615 62 601Q42 642 0 617Z" fill="#648158"/>
+    <path d="M0 416Q68 400 115 448T191 456M0 491Q52 475 104 506T195 515M0 577Q70 561 114 581" fill="none" stroke="#b6ad79" stroke-opacity=".66" stroke-width="1.6"/>
+    <path d="M0 1058V909Q43 892 62 830Q83 756 77 663L66 564 33 496 52 476 92 545 112 530 136 479 152 487 129 549 106 580Q132 738 103 871L133 969 112 1058Z" fill="#5d5140"/>
+    <path d="M62 830 103 871 133 969 112 1058H63L86 973 42 926ZM66 564 92 545 106 580 94 664 77 663Z" fill="#8b7250"/>
+    <path d="M0 952Q83 957 157 894L226 892 200 936 146 966 109 1017 207 1031 227 1058H0Z" fill="#526f55"/>
+    <path d="M0 1010 54 988 109 1017 207 1031 227 1058H0Z" fill="#48736d"/>
+    ${bough(105,735,1,.66)}${bough(25,983,1,.76)}
+  </g>`;
+}
+
 function windowArt() {
   const profiles = Object.entries(timber);
   const outlines = profiles.map(([,d])=>`<path d="${d}" fill="none" stroke="#080b09" stroke-width="25"/><path d="${d}" fill="none" stroke="url(#stone-mould)" stroke-width="19"/><path d="${d}" fill="none" stroke="#0b100d" stroke-width="12"/><path d="${d}" fill="none" stroke="#85704c" stroke-width="7"/><path d="${d}" fill="none" stroke="#4f4232" stroke-width="4.5" stroke-dasharray="13 2 9 2 20 2"/><path d="${d}" fill="none" stroke="#b69763" stroke-width="1.2"/>`).join("");
-  const edgePaths = [
-    "M345 159Q457 110 604 95T835 63","M1575 159Q1463 110 1316 95T1085 63",
-    "M346 434C491 417 554 417 684 435S874 448 948 465",
-    "M1574 434C1429 417 1366 417 1236 435S1046 448 972 465",
-    "M345 1023Q488 1013 582 937T752 867","M1575 1023Q1432 1013 1338 937T1168 867",
-    "M345 693Q534 676 649 732T957 755","M1575 693Q1386 676 1271 732T963 755"
-  ];
-  const rails = edgePaths.map(d=>`<path d="${d}" fill="none" stroke="#121b16" stroke-width="4"/><path d="${d}" fill="none" stroke="#927748" stroke-opacity=".4" stroke-width="1"/>`).join("");
-  const transom = recruit ? 444 : 539;
+  const rails = (recruit ? [[371,8],[614,2],[856,8]] : [[298,2],[540,8],[782,2]]).map(([y,w])=>
+    `<path d="M425 ${y}H1495" stroke="#1d2d24" stroke-width="${w+3}"/><path d="M425 ${y}H1495" stroke="url(#beam)" stroke-width="${w}"/>`).join("");
   return `<svg viewBox="0 0 1920 1080" width="1920" height="1080" xmlns="http://www.w3.org/2000/svg">
   <defs>
     ${profiles.map(([name,d])=>`<clipPath id="clip-${name}"><path d="${d}"/></clipPath>`).join("")}
     <linearGradient id="stone-mould" x1="0" y1="0" x2=".18" y2="1"><stop stop-color="#75634d"/><stop offset=".44" stop-color="#3b392d"/><stop offset="1" stop-color="#585444"/></linearGradient>
-    <linearGradient id="field" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#866747"/><stop offset=".30" stop-color="#5a4c35"/><stop offset=".51" stop-color="#384f40"/><stop offset="1" stop-color="#253f3b"/></linearGradient>
-    <linearGradient id="side-field" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#716044"/><stop offset=".33" stop-color="#41473a"/><stop offset=".65" stop-color="#314a3e"/><stop offset="1" stop-color="#38463a"/></linearGradient>
-    <radialGradient id="backlight"><stop stop-color="#eec782" stop-opacity=".44"/><stop offset="1" stop-color="#bb9261" stop-opacity="0"/></radialGradient>
-    <radialGradient id="floorlight"><stop stop-color="#a2b78a" stop-opacity=".3"/><stop offset="1" stop-color="#95b2aa" stop-opacity="0"/></radialGradient>
+    <linearGradient id="field" x2=".11" y2="1"><stop stop-color="#8b603d"/><stop offset=".24" stop-color="#927850"/><stop offset=".45" stop-color="#62754f"/><stop offset=".75" stop-color="#3b665f"/><stop offset="1" stop-color="#355950"/></linearGradient>
+    <linearGradient id="side-field" x2=".25" y2="1"><stop stop-color="#7d6946"/><stop offset=".35" stop-color="#5c6548"/><stop offset=".64" stop-color="#405c50"/><stop offset="1" stop-color="#435f5d"/></linearGradient>
+    <radialGradient id="daylight" gradientUnits="userSpaceOnUse" cx="960" cy="55" r="620" gradientTransform="translate(0 -28) scale(1 1.52)"><stop stop-color="#ffe9ac"/><stop offset=".31" stop-color="#f2bd76" stop-opacity=".77"/><stop offset=".69" stop-color="#eac483" stop-opacity=".21"/><stop offset="1" stop-color="#d3c181" stop-opacity="0"/></radialGradient>
+    <linearGradient id="ray" gradientUnits="userSpaceOnUse" x2="0" y1="53" y2="780"><stop stop-color="#ffe3a1" stop-opacity=".65"/><stop offset=".52" stop-color="#f4d689" stop-opacity=".23"/><stop offset="1" stop-color="#eacc82" stop-opacity="0"/></linearGradient>
+    <radialGradient id="floorlight"><stop stop-color="#a5c48b" stop-opacity=".35"/><stop offset="1" stop-color="#95c4a6" stop-opacity="0"/></radialGradient>
     <radialGradient id="strike-light"><stop stop-color="#b1ebd0" stop-opacity=".43"/><stop offset="1" stop-color="#b1ebd0" stop-opacity="0"/></radialGradient>
     <linearGradient id="beam" x2="0" y2="1"><stop stop-color="#a39069"/><stop offset=".27" stop-color="#524531"/><stop offset=".5" stop-color="#2d2b21"/><stop offset=".83" stop-color="#555039"/><stop offset="1" stop-color="#181d16"/></linearGradient>
     <pattern id="glass-grain" width="512" height="512" patternUnits="userSpaceOnUse"><image href="${asset}glass/ui/pane.jpg" width="512" height="512"/></pattern>
-    <pattern id="quarry" width="148" height="190" patternUnits="userSpaceOnUse">
-       <path d="M0 0 74 95 148 0 74 -95Z" fill="#8b7951" opacity=".12"/>
-       <path d="M0 0 74 95 0 190 -74 95Z" fill="#657052" opacity=".15"/>
-       <path d="M74 95 148 190 222 95 148 0Z" fill="#497166" opacity=".14"/>
-       <path d="M0 0 148 190M148 0 0 190m0-190 74 95 74-95m-148 190 74-95 74 95" fill="none" stroke="#18211a" stroke-width="2.7"/>
-       <path d="M3 0 77 95 3 190M145 0 71 95 145 190" fill="none" stroke="#a89b6b" stroke-opacity=".22"/>
-    </pattern>
   </defs>
   <path d="M11 1065H1909M11 1080H1909" stroke="#070b08" stroke-width="10"/>
   <path d="M12 1066H1908" stroke="#6a5b43" stroke-opacity=".7" stroke-width="1.5"/>
   ${profiles.map(([name,d])=>`<path d="${d}" fill="#000" stroke="#080908" stroke-width="33" opacity=".6"/>`).join("")}
   <g clip-path="url(#clip-middle)">
-    <rect x="338" y="17" width="1244" height="1042" fill="url(#field)"/>
-    <rect x="338" y="17" width="1244" height="1042" fill="url(#glass-grain)" opacity=".37" style="mix-blend-mode:overlay"/>
-    <ellipse cx="980" cy="176" rx="618" ry="348" fill="url(#backlight)"/>
-    <ellipse cx="960" cy="746" rx="652" ry="363" fill="url(#floorlight)"/>
-    ${view === "fight" ? `<ellipse cx="${strikeCentre}" cy="539" rx="146" ry="261" fill="url(#strike-light)"/>` : ""}
-    <rect x="338" y="17" width="1244" height="1042" fill="url(#quarry)" opacity=".36"/>
+    <rect x="425" y="17" width="1070" height="1042" fill="url(#field)"/>
+    <rect x="425" y="17" width="1070" height="1042" fill="url(#daylight)"/>
+    <ellipse cx="948" cy="690" rx="540" ry="310" fill="url(#floorlight)"/>
+    <path d="M946 57 438 427 439 499ZM955 57 624 766 767 738ZM967 57 1077 733 1245 723ZM972 57 1495 430 1495 510Z" fill="url(#ray)"/>
+    <path d="M425 1033Q594 933 726 1058H425Zm1070 0q-169-100-301 25h301Z" fill="#6c8156" stroke="#314735" stroke-width="3"/>
+    ${woodlandEdge(422,1)}${woodlandEdge(1498,-1)}
+    ${bough(431,119,1,.94)}${bough(1489,119,-1,.94)}
+    <path d="M425 153Q575 86 714 95Q826 61 933 62M1495 153Q1345 86 1206 95Q1094 61 987 62" stroke="#574d35" stroke-width="4" fill="none"/>
+    <rect x="425" y="17" width="1070" height="1042" fill="url(#glass-grain)" opacity=".38" style="mix-blend-mode:overlay"/>
+    ${view === "fight" ? `<ellipse cx="${strikeCentre}" cy="540" rx="146" ry="261" fill="url(#strike-light)"/>` : ""}
     ${rails}
-    ${bough(356,100,1,.78)}${bough(1564,100,-1,.78)}
-    ${bough(359,930,1,.86)}${bough(1561,930,-1,.86)}
-    ${bough(407,588,1,.6)}${bough(1513,588,-1,.6)}
-    <g stroke="#151b16" stroke-width="8" fill="none"><path d="M340 151Q413 94 493 110Q615 55 751 68Q867 38 934 62M1580 151Q1507 94 1427 110Q1305 55 1169 68Q1053 38 986 62"/></g>
-    <g stroke="#998058" stroke-width="1.4" fill="none"><path d="M340 151Q413 94 493 110Q615 55 751 68Q867 38 934 62M1580 151Q1507 94 1427 110Q1305 55 1169 68Q1053 38 986 62"/></g>
-    <path d="M339 ${transom}H1581" stroke="#10150f" stroke-width="13"/>
-    <path d="M339 ${transom}H1581" stroke="url(#beam)" stroke-width="8"/>
-    <path d="M339 ${transom-3}H1581" stroke="#ae9163" stroke-opacity=".55" stroke-width="1"/>
   </g>
-  ${[["left",27,175,323],["right",1597,1745,1893]].map(([name,x,cx,edge])=>{
-    const handRail = recruit && name === "left" ? 566 : 653;
-    const seams = `M${x} 144Q${cx} 160 ${edge} 144M${x} ${handRail}H${edge}M${x} 849H${edge}M${x} 1019Q${cx} 955 ${edge} 1019`;
+  ${[["left",27,218,409],["right",1511,1702,1893]].map(([name,x,cx,edge])=>{
+    const seams = `M${x} 151Q${cx} 180 ${edge} 151M${x} 916Q${cx} 854 ${edge} 916M${x} 1016Q${cx} 970 ${edge} 1016`;
     return `<g clip-path="url(#clip-${name})">
-    <rect x="${x}" y="51" width="298" height="1008" fill="url(#side-field)"/>
-    <rect x="${x}" y="51" width="298" height="1008" fill="url(#glass-grain)" opacity=".44" style="mix-blend-mode:overlay"/>
-    <rect x="${x}" y="51" width="298" height="1008" fill="url(#quarry)" opacity=".53"/>
-    <ellipse cx="${cx}" cy="270" rx="220" ry="354" fill="url(#backlight)" opacity=".58"/>
-    <ellipse cx="${cx}" cy="867" rx="240" ry="340" fill="url(#floorlight)"/>
+    <rect x="${x}" y="51" width="382" height="1008" fill="url(#side-field)"/>
+    <ellipse cx="${cx}" cy="740" rx="210" ry="410" fill="url(#floorlight)"/>
+    <path d="M${x} 579Q${cx-140} 670 ${cx-60} 705T${edge} 790V1058H${x}Z" fill="#456a5b" stroke="#344f40" stroke-width="3"/>
+    <path d="M${x} 681Q${cx-110} 737 ${cx-21} 749T${edge} 874V1058H${x}Z" fill="#4a6c65" stroke="#344f40" stroke-width="3"/>
+    <rect x="${x}" y="51" width="382" height="1008" fill="url(#glass-grain)" opacity=".43" style="mix-blend-mode:overlay"/>
     <path d="${seams}" stroke="#101915" stroke-width="4" fill="none"/>
     <path d="${seams}" stroke="#a2885d" stroke-opacity=".51" stroke-width="1" fill="none"/>
     ${tracery(cx,55,edge,177)}
     ${rose(cx,96,25)}
-    ${name==="right" && view==="fight" ? oakBadge(1745,477,1) : ""}
-    ${bough(x+17,869,1,1.1)}${bough(edge-14,975,-1,1.06)}
+    ${name==="right" && view==="fight" ? oakBadge(cx,483,1) : ""}
+    ${bough(x+17,842,1,1.22)}${bough(edge-14,972,-1,1.25)}
     <path d="M${x+13} 178V1045H${edge-13}V178" fill="none" stroke="#96845c" stroke-opacity=".43" stroke-width="1"/>
   </g>`;}).join("")}
   ${outlines}
-  ${rose(960,38,17)}
+  ${rose(960,45,18,true)}
   </svg>`;
 }
 
@@ -444,8 +441,9 @@ function emptySlot(label, fallenId = null) {
     ? `<button type="button" class="card-face empty-slot" data-card="${fallenId}" aria-label="${label}">${picture}<span class="fallen-mark">${icon("fallen")}</span></button>`
     : `<div class="card-face empty-slot" role="img" aria-label="${label}">${picture}</div>`;
 }
-const boardCardWidth = 140;
-const shopUnitWidth = 144, shopSpellWidth = 112;
+const boardCardWidth = 112, unitGap = boardCardWidth / 4, unitPitch = boardCardWidth + unitGap;
+const shopSpellWidth = 96, spellGap = shopSpellWidth / 4;
+const boardCentre = 960;
 function cardBevel(spell,golden) {
   if (spell) return `<svg class="card-frame" viewBox="0 0 560 760" aria-hidden="true">
     <path d="M20 686V266C20 139 135 46 280 14C425 46 540 139 540 266V686L492 741H68Z M39 676V267C39 154 141 72 280 39C419 72 521 154 521 267V676L481 722H79Z" fill="#211d17" fill-rule="evenodd" stroke="#151714" stroke-width="11"/>
@@ -489,9 +487,13 @@ function placement(x,y,w) {
 }
 function shop() {
   const gold = first ? 5 : 20, tier = first ? 1 : 5, upgrade = first ? 8 : 23;
-  const offer = (id,x,width,spell=false) => `<div class="shop-offer" ${placement(x,383-width*(spell?760:1000)/560,width)}>${cardFace(id,{zone:"shop"})}${coin(cards[id].price)}</div>`;
+  const unitsWidth = (offers.length-1)*unitPitch + boardCardWidth;
+  const groupGap = boardCardWidth / 2;
+  const left = boardCentre - (unitsWidth + groupGap + 2*shopSpellWidth + spellGap)/2;
+  const spellsStart = left + unitsWidth + groupGap + shopSpellWidth/2;
+  const offer = (id,x,width,spell=false) => `<div class="shop-offer" ${placement(x,302-width*(spell?760:1000)/560,width)}>${cardFace(id,{zone:"shop"})}${coin(cards[id].price)}</div>`;
   return `<section aria-label="Shop">
-    <div class="placed shop-controls">
+    <div class="side shop-controls">
       <div class="purse"><span class="coin">${icon("spark")}</span><strong>${gold}</strong><span class="gold-word">Gold</span></div>
       <div class="upgrade-group">
         <button class="plate-button upgrade" aria-disabled="true" aria-describedby="upgrade-meta" aria-label="Upgrade for ${upgrade} gold. Need ${upgrade-gold} more.">${icon("up")} Upgrade ${coin(upgrade)}</button>
@@ -500,15 +502,13 @@ function shop() {
       <button class="plate-button refresh-button" aria-label="Refresh for 1 gold, 10 at this price"><span class="refresh-title">${icon("refresh")} Refresh ${coin(1)}</span><span class="readout refresh-meta">10 at this price</span></button>
       <button class="plate-button" id="freeze" type="button" aria-pressed="false">${icon("freeze")} <span>Freeze</span></button>
     </div>
-    ${offers.map((id,i)=>offer(id,574+i*164,shopUnitWidth)).join("")}
+    ${offers.map((id,i)=>offer(id,left+boardCardWidth/2+i*unitPitch,boardCardWidth)).join("")}
     <section aria-label="Shop spells">
-      ${[1378,1510].map(x=>offer("sharpen",x,shopSpellWidth,true)).join("")}
+      ${[spellsStart,spellsStart+shopSpellWidth+spellGap].map(x=>offer("sharpen",x,shopSpellWidth,true)).join("")}
     </section>
   </section>`;
 }
-const boardCentre = 960;
-const fightCardWidth = 112, fightGap = 36, fightPitch = fightCardWidth + fightGap;
-const strikeCentre = boardCentre + fightPitch/2;
+const strikeCentre = boardCentre + unitPitch/2;
 const yourFrontRenown = [7,0,2,0], yourBackRenown = [3,0,0];
 const enemyFrontRenown = [3,4,7,2], enemyBackRenown = [1,0,0];
 const fightStart = {"blackberry-sprawl":{fightAttack:8,fightHealth:12}};
@@ -519,10 +519,10 @@ const fightEnd = {
   "weasel":{fightHealth:2,wounded:true},
   "gorger":{fightHealth:57,wounded:true}
 };
-function boardRow(ids, renown, y, width, pitch, kind, {variants={},outcome=false,tutorial=false}={}) {
+function boardRow(ids, renown, y, kind, {variants={},outcome=false,tutorial=false}={}) {
   const zone = recruit ? "board" : "fight";
   return ids.map((id,i)=>{
-    const x = boardCentre + pitch * (i - (ids.length-1)/2);
+    const x = boardCentre + unitPitch * (i - (ids.length-1)/2);
     const state = variants[id] ?? {};
     const status = outcome ? (state.fallen ? "Fell" : "Survived") : state.status;
     const value = renown[i];
@@ -530,7 +530,7 @@ function boardRow(ids, renown, y, width, pitch, kind, {variants={},outcome=false
     const art = id && !state.fallen
       ? cardFace(id,{...state,status,renown:value,zone})
       : emptySlot(state.fallen ? `${slotName}, ${cards[id].name} fell` : `${slotName}, empty`,state.fallen ? id : null);
-    return `<div class="board-piece ${state.fallen ? "fallen" : ""} ${state.strike ?? ""}" ${placement(x,y,width)}>
+    return `<div class="board-piece ${state.fallen ? "fallen" : ""} ${state.strike ?? ""}" ${placement(x,y,boardCardWidth)}>
       <div class="board-slot ${tutorial && i === 0 ? "tutorial-target" : ""}">
         <svg class="slot-surround" viewBox="0 0 560 1000" preserveAspectRatio="none" aria-hidden="true">
           <path d="M280 9 552 174V826L280 991 8 826V174Z" fill="none" stroke="${value ? "#8c784e" : "#425448"}" stroke-width="8"/>
@@ -544,12 +544,9 @@ function boardRow(ids, renown, y, width, pitch, kind, {variants={},outcome=false
 function recruitBoard() {
   const fronts = first ? Array(4).fill(null) : yourFront;
   const backs = first ? Array(3).fill(null) : yourBack;
-  const alternate = view === "mid-b";
-  const width = alternate ? 154 : boardCardWidth;
-  const pitch = width + (alternate ? 62 : 36);
   return `<section aria-label="Your board">
-    ${boardRow(fronts,first ? [] : yourFrontRenown,alternate ? 483 : 480,width,pitch,"Front",{tutorial:first})}
-    ${boardRow(backs,first ? [] : yourBackRenown,alternate ? 716 : 766,width,pitch,"Back")}
+    ${boardRow(fronts,first ? [] : yourFrontRenown,400,"Front",{tutorial:first})}
+    ${boardRow(backs,first ? [] : yourBackRenown,628,"Back")}
     ${first ? `<p class="cue placed">Drag a unit here from the shop.${icon("arrow")}</p>` : ""}
   </section>`;
 }
@@ -558,23 +555,23 @@ function fightBoard() {
   const opponent = {variants:after ? fightEnd : {"holly-knight":{strike:"striking",status:"Attacking Bell-ringer"}},outcome:after};
   const ally = {variants:{"bell-ringer":{strike:"struck",status:"Defending against Holly Knight"}}};
   return `<section class="enemy-board" aria-label="March Hare’s board">
-    ${boardRow(enemyBack,enemyBackRenown,70,fightCardWidth,fightPitch,"Back",opponent)}
-    ${boardRow(enemyFront,enemyFrontRenown,306,fightCardWidth,fightPitch,"Front",opponent)}
+    ${boardRow(enemyBack,enemyBackRenown,84,"Back",opponent)}
+    ${boardRow(enemyFront,enemyFrontRenown,312,"Front",opponent)}
   </section>
   ${after ? "" : `<section aria-label="Your board">
     <span class="strike-mark" style="--strike-x:${strikeCentre}px" aria-hidden="true">${icon("swords")}</span>
-    ${boardRow(front,yourFrontRenown,574,fightCardWidth,fightPitch,"Front",ally)}
-    ${boardRow(yourBack,yourBackRenown,810,fightCardWidth,fightPitch,"Back",{variants:fightStart})}
+    ${boardRow(front,yourFrontRenown,568,"Front",ally)}
+    ${boardRow(yourBack,yourBackRenown,796,"Back",{variants:fightStart})}
   </section>`}`;
 }
 function hand() {
   const seek = cards.seek;
   const count = first ? 0 : 1;
-  return `<section class="side hand" aria-label="Hand, ${count} of 7">
+  return `<section class="hand" aria-label="Hand, ${count} of 7">
     <p class="hand-count" aria-hidden="true">${count}/7</p>
     <div class="hand-tray">${Array.from({length:7},(_,i)=>i < count
       ? `<div class="hand-slot has-spell">${cardFace(seek.id,{zone:"hand"})}${coin(seek.price)}</div>`
-      : `<div class="hand-slot">${emptySlot("Empty hand slot")}</div>`).join("")}</div>
+      : `<div class="hand-slot"><svg class="slot-trace" viewBox="0 0 560 1000" role="img" aria-label="Empty hand slot"><path d="M280 17 544 177V823L280 983 16 823V177Z"/></svg></div>`).join("")}</div>
   </section>`;
 }
 function menu() {
@@ -601,8 +598,9 @@ function standings() {
   </section>`;
 }
 function turnAction() {
+  const label = `End turn ${icon("arrow")}`;
   return `<section class="side right turn-action" aria-label="End turn">
-    ${first ? '<button class="action-button" type="button">End turn</button>' : '<a class="action-button" href="?view=fight">End turn</a>'}
+    ${first ? `<button class="plate-button end-turn" type="button">${label}</button>` : `<a class="plate-button end-turn" href="?view=fight">${label}</a>`}
     <p class="income">${icon("spark")} +${first?7:19} gold next turn</p>
   </section>`;
 }
@@ -697,9 +695,10 @@ if (!study) {
     const rect = node.getBoundingClientRect();
     const scene = stage.getBoundingClientRect();
     const {width,height} = tip.getBoundingClientRect();
-    const inWindow = ["shop","board","fight"].includes(node.dataset.zone);
+    const zone = node.dataset.zone;
+    const inWindow = ["shop","board","fight"].includes(zone);
     const bounds = inWindow
-      ? {left:352,right:1568,top:28,bottom:1033}
+      ? {left:443,right:1477,top:54,bottom:{shop:359,board:846,fight:1033}[zone]}
       : {left:20,right:scene.width-20,top:20,bottom:scene.height-20};
     const cardLeft = rect.left - scene.left;
     const cardRight = rect.right - scene.left;

@@ -116,3 +116,19 @@ No art, no filters. One gap per zone, equal across and down.
 `mid-b`: smaller cards (shop 106 × 190, board 118 × 210), honeycomb, 28 edge to edge. More air, but rows merge into one block. I pick `mid`.
 
 Council: 1 done: tier in the top point's lead, no disc. 2 done: buffs ringed green; wounds dark disc, red ring. 3 done: lantern smaller (112), not dimmed. 4 done: Holly Knight 24/31; extra1 tip clears health. Golden: gold metal, no glow. Optional, done: Seek in a socket, no fight log, "Fell" plates and made-up history cut. Prices under cards (row 42).
+
+## Pass 2, round 4
+Spacing rule applied; shop and board share a 140 px pitch.
+
+| Zone | W × H | Across | Down | Next zone |
+|---|---|---|---|---|
+| Shop | 112 × 200 | 28 (0.25) | – | 56 (0.5) |
+| Spells | ⌀112 | 28 (0.25) | – | 56 (0.5) |
+| Board | 112 × 200 | 28 (0.25) | 28 (0.25) | 56 (0.5) |
+| Hand | 67 × 120 | 17 (0.25) | – | – |
+| Fight | 112 × 200 | 28 (0.25) | 28 (0.25) | 56 (0.5) |
+
+1. Done: hand is a full row under the board, 0.6 size.
+2. Done: Seek fills its slot; cost coin below.
+3. Done: fight centred, 84 px from the top.
+Optional, done: standings margin; plaque clear of the tally.

@@ -109,3 +109,24 @@ Card bounds in px.
 - Softened Upgrade’s readout.
 
 Ten renders opened. Measured text contrast ≥5.46:1.
+
+## Pass 2, round 4
+
+| Zone | Size (px) | Across | Down |
+| --- | ---: | ---: | ---: |
+| Shop | 112×200 | 28 (¼w) | — |
+| Board | 112×200 | 28 (¼w) | 28 (¼w) |
+| Hand | 84×150 | 21 (¼w) | — |
+| Fight | 112×200 | 28 (¼w) | 28 (¼w) |
+| Spells | 96×130.3 shop, 84×114 hand | 24 (¼w) shop, 21 (¼w) hand | — |
+
+Zone gaps 56px (½w), 57px (0.51w) after prices.
+
+1. Single-row hand with Seek’s 3-gold coin.
+2. Wider 382px lights. Controls move left, End turn rises.
+3. Shared 140px pitch. Spells sit 56px (½w) away.
+4. Vacant slots use thin outlines.
+5. End turn uses a standard plate.
+6. Amber roundel lights the woodland panes.
+
+Nine renders checked. Minimum text contrast 6.66:1.

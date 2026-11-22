@@ -112,7 +112,9 @@ body.sheet #bg{background:#2b2620}
   box-shadow:0 0 0 4px #6a5e50,0 0 0 7px var(--lead),0 12px 26px rgba(0,0,0,.55)}
 /* the fight field is the picture's own glass: theirs the green window, yours the white light table */
 .panel .q{position:absolute;inset:0;background:url(background.jpg) -760px -120px/3840px 2160px no-repeat}
-.panel.mine .q{background-position:-1000px -1020px}
+.panel.mine .q{background:radial-gradient(ellipse 48% 58% at 50% 50%,#ead9b2,#d6c095 55%,#bea67b 100%)}
+.panel.mine .q::after{content:"";position:absolute;inset:0;background:url(g/pane.jpg) center/320px auto;mix-blend-mode:soft-light;opacity:.7}
+.panel .q::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 50% 90% at 50% 0%,rgba(255,250,215,.6),rgba(255,246,200,0) 70%);mix-blend-mode:screen}
 .transom{position:absolute;background:url(g/stone.jpg) center/280px auto,var(--stone);box-shadow:inset 0 0 0 3px rgba(0,0,0,.5),0 4px 10px rgba(0,0,0,.5);z-index:1}
 .splash{position:absolute;font-family:Alegreya,serif;font-weight:900;font-size:50px;color:#fff3e0;
   text-shadow:0 0 3px #6e0000,0 0 9px #6e0000,0 2px 0 #3a0000;transform:translate(-50%,-50%);z-index:9}
@@ -148,12 +150,12 @@ function frameSVG(tier,{golden=false,charge=null,uid,small=false}={}){
                    :`<linearGradient id="b${uid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6f6252"/><stop offset=".55" stop-color="#4c4134"/><stop offset="1" stop-color="#3a3128"/></linearGradient>`;
   const cuts=OUT.map((p,i)=>`M${p[0]} ${p[1]} L${INN[i][0]} ${INN[i][1]}`).join(" ")+" M6 500 L44 500 M554 500 L516 500";
   // tier: one numeral in a lead roundel at the bottom point; Charge sits as pips under the top point, well apart
-  const beads=small?"":`<circle cx="280" cy="934" r="58" fill="${golden?"#f3cf6a":"#2a221b"}" stroke="#15100b" stroke-width="10"/>
-    <text x="280" y="962" text-anchor="middle" font-family="Alegreya,serif" font-weight="900" font-size="80" fill="${golden?"#2a1a05":"#f3ead6"}">${tier}</text>`;
+  const beads=small?"":`<circle cx="280" cy="128" r="64" fill="${golden?"#f3cf6a":"#2a221b"}" stroke="#15100b" stroke-width="10"/>
+    <text x="280" y="160" text-anchor="middle" font-family="Alegreya,serif" font-weight="900" font-size="92" fill="${golden?"#2a1a05":"#f3ead6"}">${tier}</text>`;
   let ch="";
   if(charge){const [tot,left]=charge, sp=46, w0=(tot-1)*sp;
-    ch=`<rect x="${280-w0/2-30}" y="${246}" width="${w0+60}" height="48" rx="24" fill="#2a221b" stroke="#15100b" stroke-width="8"/>`;
-    for(let i=0;i<tot;i++) ch+=`<circle cx="${280-w0/2+i*sp}" cy="270" r="14" fill="${i<left?"#efe6d2":"#2a221b"}" stroke="#e8dcc0" stroke-width="${i<left?0:4}"/>`;}
+    ch=`<rect x="${280-w0/2-30}" y="${226}" width="${w0+60}" height="48" rx="24" fill="#2a221b" stroke="#15100b" stroke-width="8"/>`;
+    for(let i=0;i<tot;i++) ch+=`<circle cx="${280-w0/2+i*sp}" cy="250" r="14" fill="${i<left?"#efe6d2":"#2a221b"}" stroke="#e8dcc0" stroke-width="${i<left?0:4}"/>`;}
   return `<svg class="fr" viewBox="0 0 560 1000" preserveAspectRatio="none"><defs>${band}</defs>
     <path fill-rule="evenodd" d="M${pts(OUT).replace(/ /g," L")} Z M${pts(INN).replace(/ /g," L")} Z" fill="url(#b${uid})"/>
     <path fill-rule="evenodd" d="M${pts(OUT).replace(/ /g," L")} Z M${pts(INN).replace(/ /g," L")} Z" fill="url(#gl)" opacity=".5"/>
@@ -256,50 +258,74 @@ const PLAYERS9=[
 ];
 const ORD=["","1st","2nd","3rd","4th","5th","6th","7th","8th"];
 
-/* ---------- round 3: the picture's own zones, and one spacing rule ----------
-   Window glass y 14-410, light table y 438-900, bench front y 900-1080 (from background.jpg).
-   G is the one gap: across, between cards' straight sides; down, measured square to the slanted edges
-   when rows nest (mid), or between the rows' bounding boxes when they do not (mid-b). */
-const PIC={win:{top:14,bottom:410},tab:{top:438,bottom:900},bench:{top:900,bottom:1080}};
-const VB=view==="mid-b";
-const LAY=VB?{shopH:160,shopG:64,spellD:86,boardH:160,boardG:64,nest:false,handH:104,handG:52}
-            :{shopH:210,shopG:40,spellD:112,boardH:200,boardG:32,nest:true,handH:120,handG:36};
+/* ---------- round 4: one spacing rule ----------
+   Gap G = a quarter of the card's width, across between flat sides and down tip to tip.
+   Rows are offset by half a slot and never nest. Half a card's width (Z) between zones, with a lead line in it.
+   The shop and the board share one column pitch P. The centre column is redrawn as glass in lead:
+   the window (shop) over the picture's window, an amber light table below it, the hand on the picture's bench. */
+const LAY={shopH:228,boardH:228,spellD:116,handH:154};
+const CW=LAY.boardH*.56, G=Math.round(CW/4), P=CW+G, Z=Math.round(CW/2);
+const COIN_Y=40, SHOP_TOP=62;
+const WZ={top:8,bottom:SHOP_TOP+LAY.shopH+Z/2};            // the window
+const TZ={top:WZ.bottom+8,bottom:900};                      // the light table, down to the picture's bench
+const BY=SHOP_TOP+LAY.shopH+Z;                              // board front row top
+function windowGlass(cols){
+  const W=put(root,"div","",`position:absolute;left:${CL}px;top:${WZ.top}px;width:${CR-CL}px;height:${WZ.bottom-WZ.top}px;border:5px solid #15100b;border-radius:4px;overflow:hidden;
+    box-shadow:inset 0 0 0 2px rgba(255,246,214,.35),0 3px 8px rgba(0,0,0,.5)`);
+  put(W,"div","",`position:absolute;inset:0;background:radial-gradient(ellipse 50% 90% at 50% 0%,rgba(255,250,215,.7),rgba(255,246,200,0) 70%);mix-blend-mode:screen`);
+  put(W,"div","",`position:absolute;inset:0;background:url(g/pane.jpg) center/300px auto;mix-blend-mode:soft-light;opacity:.6`);
+  const h=WZ.bottom-WZ.top;
+  W.insertAdjacentHTML("beforeend",`<svg style="position:absolute;left:0;top:0" width="${CR-CL}" height="${h}">${cols.map(x=>`<path d="M${x-CL} 0 V${h}" stroke="#15100b" stroke-width="5"/><path d="M${x-CL+2} 0 V${h}" stroke="rgba(255,246,214,.3)" stroke-width="1.5"/>`).join("")}</svg>`);
+  put(root,"div","bar",`left:${CL-6}px;top:${WZ.bottom}px;width:${CR-CL+12}px;height:${TZ.top-WZ.bottom}px;background:linear-gradient(180deg,#4a3422,#2a1c11)`);
+}
+function tableGlass(rowLeadY){
+  const h=TZ.bottom-TZ.top;
+  const T=put(root,"div","",`position:absolute;left:${CL}px;top:${TZ.top}px;width:${CR-CL}px;height:${h}px;border:5px solid #15100b;border-radius:4px;overflow:hidden;
+    background:radial-gradient(ellipse 48% 58% at 50% 50%,#ead9b2,#d6c095 55%,#bea67b 100%);box-shadow:inset 0 0 0 2px rgba(255,240,200,.3),inset 0 0 60px rgba(90,60,20,.25),0 3px 8px rgba(0,0,0,.5)`);
+  put(T,"div","",`position:absolute;inset:0;background:url(g/pane.jpg) center/320px auto;mix-blend-mode:soft-light;opacity:.7`);
+  let q="";for(let k=-12;k<=24;k++){const d=k*80;q+=`M${d} 0 L${d+h*.6} ${h} M${CR-CL-d} 0 L${CR-CL-d-h*.6} ${h} `}
+  T.insertAdjacentHTML("beforeend",`<svg style="position:absolute;left:0;top:0" width="${CR-CL}" height="${h}"><path d="${q}" stroke="rgba(70,50,25,.12)" stroke-width="1.5" fill="none"/>
+    ${rowLeadY?`<path d="M0 ${rowLeadY-TZ.top} H${CR-CL}" stroke="#15100b" stroke-width="5"/><path d="M0 ${rowLeadY-TZ.top+2} H${CR-CL}" stroke="rgba(255,240,200,.35)" stroke-width="1.5"/>`:""}</svg>`);
+}
 function shopWindow(items){
-  const H=LAY.shopH,w=H*.56,D=LAY.spellD,G=LAY.shopG;
-  const gapBefore=i=>i===0?0:(items[i].spell&&!items[i-1].spell?2*G:G);   // spells stand apart as a group
-  const widths=items.map(it=>it.spell?D:w);
-  const total=widths.reduce((a,b)=>a+b,0)+items.reduce((a,_,i)=>a+gapBefore(i),0);
-  const cy=Math.round((PIC.win.top+PIC.win.bottom)/2), top=cy-H/2, out=[];
-  let x=CX-total/2;
+  const H=LAY.shopH,w=CW,D=LAY.spellD;
+  // units on the board's lattice (columns CX-3P … CX+P); spells after half a card's width
+  const out=[], leads=[]; let lastRight=0;
+  const pos=[]; let ui=0;
   items.forEach((it,i)=>{
-    x+=gapBefore(i);
-    const wd=widths[i],cx=x+wd/2;let c;
-    if(it.spell){c=spell({art:it.art,d:D,x:cx,y:cy,state:"shop"});root.append(c);roundel(root,"amber",cx-D*.5,cy-D*.5,40,it.price,22).style.zIndex=8;
-      out.push({x,w:wd,cx,cy,top:cy-D/2,bot:cy+D/2,c,it});}
-    else{c=card({...it,h:H,x:cx,y:top,state:"shop"});root.append(c);roundel(root,"amber",cx-w/2-4,top+8,40,it.price,22).style.zIndex=8;
-      out.push({x,w:wd,cx,cy,top,bot:top+H,c,it});}
-    x+=wd;
+    if(!it.spell){const cx=CX+(ui-3)*P; pos.push(cx); lastRight=cx+w/2; ui++;}
+    else{const left=(items[i-1].spell?lastRight+G:lastRight+Z); const cx=left+D/2; pos.push(cx); lastRight=cx+D/2;}
+  });
+  pos.forEach((cx,i)=>{if(i>0){const prevR=pos[i-1]+(items[i-1].spell?D:w)/2, l=cx-(items[i].spell?D:w)/2; leads.push((prevR+l)/2);}});
+  windowGlass(leads);
+  const cy=SHOP_TOP+H/2;
+  items.forEach((it,i)=>{
+    const cx=pos[i]; let c;
+    if(it.spell){c=spell({art:it.art,d:D,x:cx,y:cy,state:"shop"});root.append(c);out.push({x:cx-D/2,w:D,cx,cy,top:cy-D/2,bot:cy+D/2,c,it});}
+    else{c=card({...it,h:H,x:cx,y:SHOP_TOP,state:"shop"});root.append(c);out.push({x:cx-w/2,w,cx,cy,top:SHOP_TOP,bot:SHOP_TOP+H,c,it});}
+    roundel(root,"amber",cx,COIN_Y,36,it.price,20).style.zIndex=8;   // every price on one line, above the piece
   });
   return out;
 }
-function boardPos(H=LAY.boardH,G=LAY.boardG,nest=LAY.nest,zone=PIC.tab){
-  const w=H*.56,P=w+G;
-  const step=nest?Math.round(.83*H+.866*G):H+G;
-  const top=Math.round((zone.top+zone.bottom-(step+H))/2);
-  return {H,w,P,step,front:[-1.5,-.5,.5,1.5].map(k=>CX+k*P),back:[-1,0,1].map(k=>CX+k*P),yf:top,yb:top+step};
+function boardPos(){
+  const H=LAY.boardH;
+  return {H,w:CW,P,front:[-1.5,-.5,.5,1.5].map(k=>CX+k*P),back:[-1,0,1].map(k=>CX+k*P),yf:BY,yb:BY+H+G};
 }
+function rnAt(x,y,h,n){put(root,"div","rn",`left:${x}px;top:${y+h-4}px`,`<span>${n}</span>`)}   // Renown hangs from the slot's bottom tip
 function slotOutline(x,y,h,{renown=0,dashed=true}={}){
   const sw=h*.56,pad=5;
   const sl=put(root,"div","slot",`left:${x-sw/2-pad}px;top:${y-pad}px;width:${sw+2*pad}px;height:${h+2*pad}px`);
-  sl.innerHTML=`<svg viewBox="0 0 560 1000" preserveAspectRatio="none"><polygon points="280,0 560,170 560,830 280,1000 0,830 0,170" fill="rgba(60,52,40,.10)" stroke="rgba(42,33,24,.55)" stroke-dasharray="${dashed?"9 7":"none"}" vector-effect="non-scaling-stroke" style="stroke-width:2.5px" stroke-linejoin="round"/></svg>`;
-  if(renown) put(root,"div","rn",`left:${x}px;top:${y+20}px`,`<span>${renown}</span>`);
+  sl.innerHTML=`<svg viewBox="0 0 560 1000" preserveAspectRatio="none"><polygon points="280,0 560,170 560,830 280,1000 0,830 0,170" fill="rgba(60,42,20,.10)" stroke="rgba(42,30,16,.6)" stroke-dasharray="${dashed?"9 7":"none"}" vector-effect="non-scaling-stroke" style="stroke-width:2.5px" stroke-linejoin="round"/></svg>`;
+  if(renown) rnAt(x,y,h,renown);
 }
 function unitOnBoard(u,x,y,h,opts={}){
-  if(u.renown) put(root,"div","rn",`left:${x}px;top:${y+20}px`,`<span>${u.renown}</span>`);
-  const c=card({...u,h,x,y,...opts});root.append(c);return c;
+  const c=card({...u,h,x,y,...opts});root.append(c);
+  if(u.renown) rnAt(x,y,h,u.renown);
+  return c;
 }
 const BP=boardPos();
 function lightTable(board,{state="rest"}={}){
+  tableGlass(BP.yf+BP.H+G/2);
   const out={};
   BP.front.forEach((x,i)=>{if(board[i]) out[i]={x,y:BP.yf,c:unitOnBoard(board[i],x,BP.yf,BP.H,{state}),u:board[i]}; else slotOutline(x,BP.yf,BP.H)});
   BP.back.forEach((x,i)=>{if(board[i+4]) out[i+4]={x,y:BP.yb,c:unitOnBoard(board[i+4],x,BP.yb,BP.H,{state}),u:board[i+4]}; else slotOutline(x,BP.yb,BP.H)});
@@ -364,12 +390,12 @@ function menuAndTurn(turn,word){
 }
 // the hand: lies on the bench front, no tray; same spacing rule as the board
 function handTray(hand){
-  const H=LAY.handH,w=H*.56,G=LAY.handG,P=w+G,D=Math.round(H*.64),cy=990,top=cy-H/2,out=[];
+  const H=LAY.handH,w=H*.56,G=Math.round(w/4),P=w+G,D=Math.round(H*.62),top=BP.yb+BP.H+Z,cy=top+H/2,out=[];
   for(let i=0;i<7;i++){
     const cx=CX+(i-3)*P, it=hand[i];
     if(!it){const s=put(root,"div","slot",`left:${cx-w/2}px;top:${top}px;width:${w}px;height:${H}px`);
       s.innerHTML=`<svg viewBox="0 0 560 1000" preserveAspectRatio="none"><polygon points="280,0 560,170 560,830 280,1000 0,830 0,170" fill="rgba(0,0,0,.16)" stroke="rgba(240,226,196,.45)" stroke-dasharray="7 6" vector-effect="non-scaling-stroke" style="stroke-width:2px"/></svg>`;continue;}
-    if(it.spell) root.append(spell({art:it.art,d:D,x:cx,y:cy,state:"rest"}));
+    if(it.spell){root.append(spell({art:it.art,d:D,x:cx,y:cy,state:"rest"}));roundel(root,"amber",cx,cy-D/2-20,34,it.price,19).style.zIndex=8;}
     else root.append(card({...it,h:H,x:cx,y:top}));
     out.push({cx,it});
   }
@@ -414,7 +440,7 @@ function viewHoverShop(){
   const L=lights[2]; L.c.className="card hover";
   tooltip(L.it,{x:L.cx-40,y:L.bot+16,side:"below"});
   keywordShelf(L.it.kws);
-  pointer(L.cx+14,L.top+LAY.shopH*.48);
+  pointer(L.cx+14,L.top+LAY.shopH*.5);
 }
 // hover a board unit: the table has room to its right, so the tooltip sits there
 function viewHoverBoard(){
@@ -451,11 +477,11 @@ function viewFirst(){
   // the one tutorial cue (teaching belongs to the tutorial): a lit ring, a dotted path, one lit line
   const L=lights[1]; L.c.className="card lit";
   const T=put(root,"div","",`position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;z-index:20`);
-  put(T,"div","",`position:absolute;left:${L.x-34}px;top:${L.top-30}px;width:${L.w+52}px;height:${LAY.shopH+46}px;border-radius:10px;border:6px solid #ffd45c;box-shadow:0 0 0 3px #15100b,0 0 26px 10px rgba(255,214,110,.95),inset 0 0 26px rgba(255,220,120,.7)`);
+  put(T,"div","",`position:absolute;left:${L.x-16}px;top:${COIN_Y-26}px;width:${L.w+32}px;height:${L.bot-COIN_Y+38}px;border-radius:10px;border:6px solid #ffd45c;box-shadow:0 0 0 3px #15100b,0 0 26px 10px rgba(255,214,110,.95),inset 0 0 26px rgba(255,220,120,.7)`);
   const sx=L.cx, sy=L.bot+20, ex=BP.front[1], ey=BP.yf+70;
   T.insertAdjacentHTML("beforeend",`<svg style="position:absolute;left:0;top:0" width="1920" height="1080"><path d="M${sx} ${sy} C ${sx} ${sy+50}, ${ex} ${ey-80}, ${ex} ${ey-14}" fill="none" stroke="#15100b" stroke-width="12" stroke-dasharray="1 16" stroke-linecap="round"/><path d="M${sx} ${sy} C ${sx} ${sy+50}, ${ex} ${ey-80}, ${ex} ${ey-14}" fill="none" stroke="#fff3b8" stroke-width="7" stroke-dasharray="1 16" stroke-linecap="round"/><path d="M${ex-13} ${ey-22} L${ex} ${ey} L${ex+13} ${ey-22} Z" fill="#fff7d2" stroke="#15100b" stroke-width="2"/></svg>`);
-  const p=put(T,"div","label g-lit",`left:${BP.front[3]+BP.w/2+48}px;top:${BP.yf+40}px;width:290px;padding:12px 22px;box-shadow:0 0 18px 5px rgba(255,238,160,.8),0 2px 5px rgba(0,0,0,.4)`);
-  p.innerHTML=`<div class="nm" style="font-size:26px;line-height:30px;color:var(--ink);white-space:normal">Drag a unit onto your board to buy it.</div>`;
+  const p=put(T,"div","label g-lit",`left:${BP.front[3]+BP.w/2+30}px;top:${BP.yf+40}px;width:268px;padding:12px 18px;box-shadow:0 0 18px 5px rgba(255,238,160,.8),0 2px 5px rgba(0,0,0,.4)`);
+  p.innerHTML=`<div class="nm" style="font-size:24px;line-height:28px;color:var(--ink);white-space:normal">Drag a unit onto your board to buy it.</div>`;
 }
 
 /* ---------- the fight: only the blow being struck is lit; everything else waits in shadow ---------- */
@@ -470,10 +496,10 @@ const OPP=[
 ];
 const MINE=[BOARD9[0],BOARD9[1],BOARD9[2],null,BOARD9[4],{...BOARD9[5],atk:8,hp:12},BOARD9[6]];
 // the fight uses the board's rule: rows nest, one gap G=36 across and square to the slants
-const FH=200, FG=36, FP=FH*.56+FG;
+const FH=200, FG=Math.round(FH*.56/4), FP=FH*.56+FG;
 const FF=[CX-1.5*FP,CX-.5*FP,CX+.5*FP,CX+1.5*FP], FB=[CX-FP,CX,CX+FP];
 const OPP_PANEL={top:4,bottom:528}, MY_PANEL={top:548,bottom:1074};
-const STEP=Math.round(.83*FH+.866*FG);
+const STEP=FH+FG;
 const oppTop=Math.round((OPP_PANEL.top+OPP_PANEL.bottom-STEP-FH)/2), myTop=Math.round((MY_PANEL.top+MY_PANEL.bottom-STEP-FH)/2);
 const FY={oppBack:oppTop,oppFront:oppTop+STEP,myFront:myTop,myBack:myTop+STEP};
 function fightFrame(){
@@ -565,8 +591,8 @@ function viewCards(){
    {folder:"pigeon",id:"wing-commander",tier:5,atk:8,hp:14,charge:[4,3]},{folder:"thorn",id:"briar-king",tier:6,atk:8,hp:16}];
   const cap=(x,y,t,w=170)=>put(root,"div","sheetcap",`left:${x-w/2}px;top:${y}px;width:${w}px`,t);
   const BH=LAY.boardH;
-  put(root,"div","nm",`position:absolute;left:60px;top:24px;font-size:26px`,`The frame, blank, at board size (${BH} px); the shop is ${LAY.shopH} px, the hand ${LAY.handH}`);
-  T.forEach((u,i)=>{const x=150+i*196;root.append(card({...u,h:BH,x,y:80}));cap(x,BH+96,`Tier ${u.tier}`+(u.charge?" · Charge 3 of 4":""))});
+  put(root,"div","nm",`position:absolute;left:60px;top:24px;font-size:26px`,`The frame, blank, at board and shop size (${Math.round(CW)} × ${BH}); hand ${Math.round(LAY.handH*.56)} × ${LAY.handH}`);
+  T.forEach((u,i)=>{const x=150+i*196;root.append(card({...u,h:BH,x,y:80,renown:0}));cap(x,BH+96,`Tier ${u.tier}`+(u.charge?" · Charge 3 of 4":""))});
   const gx=150+6*196; root.append(card({folder:"locust",id:"gorger",tier:4,atk:10,hp:14,golden:true,h:BH,x:gx,y:80})); cap(gx,BH+96,"Golden: in the metal");
   const sx=150+7*196+10; root.append(spell({art:"",d:LAY.spellD,x:sx,y:80+BH/2,state:"rest"})); cap(sx,BH+96,"Spell");
   put(root,"div","nm",`position:absolute;left:60px;top:408px;font-size:26px`,"Twice the size (380 px)");
@@ -581,7 +607,7 @@ function viewCards(){
   pointer(hx+10,560+BH*.45);
 }
 
-const V={mid:()=>viewMid(),"mid-b":()=>viewMid(),first:viewFirst,fight:viewFight,after:viewAfter,"hover-shop":viewHoverShop,"hover-board":viewHoverBoard,"hover-spell":viewHoverSpell,"keywords-off":viewHoverShop,cards:viewCards};
+const V={mid:()=>viewMid(),first:viewFirst,fight:viewFight,after:viewAfter,"hover-shop":viewHoverShop,"hover-board":viewHoverBoard,"hover-spell":viewHoverSpell,"keywords-off":viewHoverShop,cards:viewCards};
 (V[view]||V.mid)();
 document.body.dataset.view=view;
 </script>

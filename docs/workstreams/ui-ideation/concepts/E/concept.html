@@ -562,7 +562,7 @@ const PNAME = {pipkin:"Pipkin", old_mother_mousewife:"Old Mother Mousewife", dam
   march_hare:"March Hare", hob_mumblecrust:"Hob Mumblecrust", dame_farthing:"Dame Farthing", brother_bracken:"Brother Bracken"};
 function treeLights(players, opts={}){
   players.forEach(([who,hp,st],i)=>{
-    const x=1852, y=132+i*78, d=72;
+    const x=1846, y=128+i*84, d=68;
     S(`<g opacity="${opts.dim?.6:1}"><path d="M1922 ${y-48} C 1900 ${y-48}, 1884 ${y-42}, ${x-6} ${y-42}" stroke="#0b0907" stroke-width="9" fill="none" stroke-linecap="round"/>
        <path d="M1922 ${y-48} C 1900 ${y-48}, 1884 ${y-42}, ${x-6} ${y-42}" stroke="#6f5239" stroke-width="4.5" fill="none" stroke-linecap="round"/>
        <line x1="${x}" y1="${y-42}" x2="${x}" y2="${y-d/2-2}" stroke="#0b0907" stroke-width="4"/><line x1="${x}" y1="${y-42}" x2="${x}" y2="${y-d/2-2}" stroke="#9a8a6a" stroke-width="1.6"/></g>`);
@@ -571,7 +571,7 @@ function treeLights(players, opts={}){
     if (st==="next") r.style.boxShadow="0 0 0 3px #ffd77a,0 0 14px 3px rgba(255,200,100,.5),0 4px 10px rgba(0,0,0,.7)";
     if (st==="you") r.style.boxShadow="0 0 0 3px #e9e2d0,0 4px 10px rgba(0,0,0,.7)";
     if (opts.dim && !st) r.style.filter="brightness(.6) saturate(.7)";
-    if (!out) gem(x-60, y+6, hp, 32);
+    if (!out) gem(x-56, y+6, hp, 32);
   });
 }
 function systemTags(turn){
@@ -599,12 +599,13 @@ function yourCorner(hp, counters, opts={}){
 // Layout B (mid-b): smaller cards, true honeycomb, the same G measured edge to edge.
 // ======================================================================
 const LAY = {
-  a: {shopH:225, boardH:240, G:28, interlock:false, boardTop:440},
+  a: {shopH:200, boardH:200, G:28, interlock:false, boardTop:400},
   b: {shopH:190, boardH:210, G:28, interlock:true,  boardTop:400},
 };
 let L = LAY.a;
-const HAND_H = 112, HAND_G = 8, HAND_X = 196, HAND_BOTTOM = 996;
-const SHOP_TOP = 120;
+// the hand: a full row centred under the board, at 0.6 of board size, the same quarter-width gap
+const HAND_H = 120, HAND_G = 17, HAND_X = 960 - (7*HAND_H*.56 + 6*17)/2, HAND_BOTTOM = 1004;
+const SHOP_TOP = 100;
 const shopW = () => L.shopH*.56;
 const shopX0 = () => 960 - (5*shopW()+4*L.G)/2;
 const shopX = i => shopX0() + i*(shopW()+L.G);
@@ -626,7 +627,7 @@ function hand(cards){
   for (let i=0;i<7;i++){
     const x = HAND_X + i*(W+HAND_G), y = HAND_BOTTOM-H, o = cards[i];
     if (!o) { slotStone(x,y,W,H); continue; }
-    if (o.spell){ slotStone(x,y,W,H); spellCard(o, x+W/2, y+H/2, W, "rest"); }
+    if (o.spell){ spellCard(o, x+W/2, y+H/2, W, "rest"); add(el("div","",`position:absolute;left:${x+W/2-16}px;top:${y+H/2+W/2-6}px`, coin(o.cost,32))); }
     else placeCard(o, x, y, H, {state:"rest"});
   }
 }
@@ -784,9 +785,9 @@ async function viewFirst(){
 }
 
 // the fight: four rows, one gap inside each board, a wider gap between the two boards
-const F_H = 215, F_G = 24, F_SPLIT = 64;
+const F_H = 200, F_G = 28, F_SPLIT = 56;
 function fightPos(){
-  const H=F_H, W=H*.56, oBackTop = 40, oFrontTop = oBackTop+H+F_G, mineTop = oFrontTop+H+F_SPLIT;
+  const H=F_H, W=H*.56, oBackTop = 84, oFrontTop = oBackTop+H+F_G, mineTop = oFrontTop+H+F_SPLIT;
   const theirs = boardPos(H, oFrontTop, F_G, false);
   const oFront = theirs.slice(0,4), oBack = theirs.slice(4).map(([x])=>[x, oBackTop]);
   return {W, oBack, oFront, mine: boardPos(H, mineTop, F_G, false)};
@@ -849,7 +850,7 @@ async function viewAfter(){
   fallen(foe[1], ...at(1));
   Object.entries(key).forEach(([i,n])=>{ const [x,y]=at(+i); add(el("div","e-bead",`left:${x+W-10}px;top:${y+H*.12}px`, n)); });
   MINE_FIGHT.forEach((o,i)=>{ const [x,y]=pos[i]; if (!o) { slotStone(x,y,W,H); return; } fallen(o, x, y); });
-  const box = add(el("div","e-leaded",`left:196px;top:356px;width:376px`));
+  const box = add(el("div","e-leaded",`left:230px;top:356px;width:376px`));
   const row = (n,name,what) => `<div class="e-why"><span class="e-bead e-bead-s">${n}</span><div><b>${name}</b><span>${what}</span></div></div>`;
   box.innerHTML = `
     <div style="display:flex;align-items:baseline;gap:14px"><span style="font:900 38px/1 Alegreya,serif">Big loss</span><span style="font:900 38px/1 Alegreya,serif;color:#ffa898">−13</span></div>
@@ -881,17 +882,17 @@ async function viewCards(){
   const T = [{tier:1,a:4,h:5},{tier:2,a:2,h:9},{tier:3,a:3,h:11},{tier:4,a:7,h:7},{tier:5,a:11,h:17,pips:4},{tier:6,a:12,h:20}].map(o=>({...o,t:"neutral",id:"x"}));
   const gold = {t:"neutral",id:"x",tier:4,a:38,h:68,golden:true};
   const cap = (x,y,t) => add(el("div","e-cap",`left:${x}px;top:${y}px`,t));
-  const H=240, W=H*.56, p=W+40, x0=70;
-  T.forEach((o,i)=>{ placeCard(o, x0+i*p, 48, H, {state:"rest"}); cap(x0+i*p+W/2, 304, "Tier "+o.tier); });
-  placeCard(gold, x0+6*p, 48, H, {state:"rest"}); cap(x0+6*p+W/2, 304, "Golden");
-  placeCard({...T[2], renown:3, abuff:true, hcur:6}, x0+7*p, 48, H, {state:"hover"}); cap(x0+7*p+W/2, 304, "Hovered, buffed, hurt");
-  spellCard({art:"spell-sharpen"}, x0+8*p+W/2+20, 48+H/2, W, "rest"); cap(x0+8*p+W/2+20, 304, "Spell");
-  const H2=480, W2=H2*.56, p2=W2+60, y2=370;
-  placeCard(T[2], 70, y2, H2, {state:"rest"}); cap(70+W2/2, y2+494, "Tier 3, twice size");
-  placeCard(T[5], 70+p2, y2, H2, {state:"rest"}); cap(70+p2+W2/2, y2+494, "Tier 6");
-  placeCard(gold, 70+2*p2, y2, H2, {state:"rest"}); cap(70+2*p2+W2/2, y2+494, "Golden");
-  placeCard({...T[2], renown:3, abuff:true, hcur:6}, 70+3*p2, y2, H2, {state:"hover"}); cap(70+3*p2+W2/2, y2+494, "Hovered");
-  spellCard({art:"spell-sharpen"}, 70+4*p2+W2/2, y2+H2/2, W2, "rest"); cap(70+4*p2+W2/2, y2+494, "Spell");
+  const H=200, W=H*.56, p=W+70, x0=80;
+  T.forEach((o,i)=>{ placeCard(o, x0+i*p, 48, H, {state:"rest"}); cap(x0+i*p+W/2, 264, "Tier "+o.tier); });
+  placeCard(gold, x0+6*p, 48, H, {state:"rest"}); cap(x0+6*p+W/2, 264, "Golden");
+  placeCard({...T[2], renown:3, abuff:true, hcur:6}, x0+7*p, 48, H, {state:"hover"}); cap(x0+7*p+W/2, 264, "Hovered, buffed, hurt");
+  spellCard({art:"spell-sharpen"}, x0+8*p+W/2+20, 48+H/2, W, "rest"); cap(x0+8*p+W/2+20, 264, "Spell");
+  const H2=400, W2=H2*.56, p2=W2+90, y2=360;
+  placeCard(T[2], 70, y2, H2, {state:"rest"}); cap(70+W2/2, y2+414, "Tier 3, twice size");
+  placeCard(T[5], 70+p2, y2, H2, {state:"rest"}); cap(70+p2+W2/2, y2+414, "Tier 6");
+  placeCard(gold, 70+2*p2, y2, H2, {state:"rest"}); cap(70+2*p2+W2/2, y2+414, "Golden");
+  placeCard({...T[2], renown:3, abuff:true, hcur:6}, 70+3*p2, y2, H2, {state:"hover"}); cap(70+3*p2+W2/2, y2+414, "Hovered");
+  spellCard({art:"spell-sharpen"}, 70+4*p2+W2/2, y2+H2/2, W2, "rest"); cap(70+4*p2+W2/2, y2+414, "Spell");
 }
 
 // layout check: report any plate whose text overflows it (read with --dump-dom)

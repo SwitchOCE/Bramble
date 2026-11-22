@@ -119,3 +119,24 @@ No art, no filters. Zones follow the picture: shop in the window, board on the t
 **`mid-b`:** smaller cards (160, hand 104), rows not nested, 64 px gaps. I pick `mid`: one gap everywhere; `mid-b`'s tier numerals fall to 13 px.
 
 Council: 1 moot, nothing dimmed; 2 done, End turn plain; 3 done, rank coins mid-pane; 4 done, reserves unnumbered; 5 done, Holly Knight 24/12; golden in metal only; pips under Renown; stakes rule line cut; out row dimmed; wounded red darkened; bare "9" skipped.
+
+## Pass 2, round 4
+
+Spacing rule adopted.
+
+| Zone | W × H | Across | Down |
+|---|---|---|---|
+| Shop | 128 × 228 | 32 (.25) | — |
+| Board | 128 × 228 | 32 (.25) | 32 (.25) |
+| Hand | 86 × 154 | 22 (.25) | — |
+| Fight | 112 × 200 | 28 (.25) | 28 (.25) |
+| Spells | Ø 116 | 32; 64 from units (.5) | — |
+
+1. Board 128 wide; shop shares its pitch.
+2. Rows un-nested.
+3. Window and table redrawn as leaded glass, lit window, amber table; resized over the picture.
+4. Tier moved to the top point (20 px); Renown hangs from the bottom tip.
+5. Prices on one line above; tutorial outline clears neighbours.
+6. Fight cards 200; enemy rows clear.
+
+Optional: hand enlarged; Seek priced.
