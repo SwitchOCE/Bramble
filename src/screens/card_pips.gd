@@ -19,11 +19,8 @@ const ABOVE_DISCS: float = 3.0
 const CRATE_ROUND: float = 0.2
 
 
-## The pips for a card of `height` and `tier`, sized to the whole card. Null for no pips. On a card
-## with a type line (GlassCard.type_line) they sit over its strip instead of over the discs.
-static func make(
-	pips: Array[Dictionary], height: float, tier: int, type_line: bool = false
-) -> CardPips:
+## The pips for a card of `height` and `tier`, sized to the whole card. Null for no pips.
+static func make(pips: Array[Dictionary], height: float, tier: int) -> CardPips:
 	if pips.is_empty():
 		return null
 	var node: CardPips = CardPips.new()
@@ -34,8 +31,6 @@ static func make(
 	var k: float = height / GlassPieces.card_units().y
 	var disc: Vector3 = GlassPieces.disc(tier, "attack")
 	var bottom: float = (disc.y - disc.z * 1.12) * k - ABOVE_DISCS
-	if type_line:
-		bottom = minf(bottom, height * GlassCard.TYPE_TOP - ABOVE_DISCS)
 	for group: Dictionary in pips:
 		var kind: String = str(group["kind"])
 		var total: int = GlassPieces.as_int(group["total"])
