@@ -1,0 +1,336 @@
+<title>Wording the Mechanics</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: house style, one 900px column; each mechanic is a section led by its recommended hover box */
+:root{
+  --bg:#efe7d2; --paper:#f6f0e0; --rule:#d9ceb0; --rule-soft:#e4dbc2;
+  --ink:#26221a; --ink-soft:#5f584a; --ink-faint:#8a8069;
+  --accent:#2f6d8e; --accent-soft:#e0ebef;
+  --pos:#3e7a4e; --neg:#b23a2e; --pos-soft:#e2ecdf; --neg-soft:#f1ddd6;
+  --shadow:rgba(60,48,20,.16);
+  --display:"Zilla Slab",Georgia,serif;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --code:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#181510; --paper:#211d16; --rule:#352f22; --rule-soft:#2a2519;
+  --ink:#ece3cd; --ink-soft:#b3a988; --ink-faint:#847a5f;
+  --accent:#6fb6d2; --accent-soft:#1e3038;
+  --pos:#83bd90; --neg:#e0857a; --pos-soft:#1f2c22; --neg-soft:#31221e; --shadow:rgba(0,0,0,.4); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#181510; --paper:#211d16; --rule:#352f22; --rule-soft:#2a2519;
+  --ink:#ece3cd; --ink-soft:#b3a988; --ink-faint:#847a5f;
+  --accent:#6fb6d2; --accent-soft:#1e3038;
+  --pos:#83bd90; --neg:#e0857a; --pos-soft:#1f2c22; --neg-soft:#31221e; --shadow:rgba(0,0,0,.4); color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:900px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.reading{max-width:680px}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.12;text-wrap:balance}
+p{margin:0 0 1em}
+a{color:var(--accent);text-underline-offset:2px}
+code,.mono{font-family:var(--mono)}
+.muted{color:var(--ink-soft)} .faint{color:var(--ink-faint)} .small{font-size:14px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:500}
+header{border-bottom:2px solid var(--ink);margin-bottom:44px}
+header .wrap{padding-block:56px 30px}
+h1{font-size:clamp(38px,7vw,62px);font-weight:700;letter-spacing:-.01em;margin:.28em 0 .3em}
+.lede{font-size:20px;color:var(--ink-soft);max-width:36ch}
+.byline{margin-top:26px;font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);display:flex;flex-wrap:wrap;gap:6px 18px}
+section{margin-block:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:24px}
+.sec-head .n{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:600;flex:none}
+h2{font-size:clamp(25px,4.4vw,33px);margin:0}
+h3{font-size:19px;margin:32px 0 10px;font-family:var(--sans);font-weight:600}
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:18px 0;font-size:14.5px}
+.callout.warn{border-left-color:var(--neg);background:var(--neg-soft)}
+.tbl-wrap{overflow-x:auto;margin:16px 0}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+thead th{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);border-bottom:1px solid var(--rule);font-weight:600}
+tbody tr:last-child td{border-bottom:1px solid var(--rule)}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.pos{color:var(--pos)} td.neg{color:var(--neg)}
+caption{caption-side:bottom;text-align:left;font-size:12.5px;color:var(--ink-faint);padding-top:8px;font-style:italic}
+.card{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:18px;margin:22px 0}
+.stat{display:inline-flex;flex-direction:column;gap:2px;margin-right:28px;margin-bottom:12px}
+.stat-v{font-family:var(--display);font-weight:700;font-size:34px;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat-l{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft)}
+footer{border-top:2px solid var(--ink);margin-top:70px;padding-block:28px 60px;font-size:13px;color:var(--ink-soft)}
+footer .files{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);margin-top:10px;line-height:1.9;overflow-wrap:anywhere}
+
+/* page's own pieces */
+.pick{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:20px 22px;margin:8px 0 22px}
+.pick .lab{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:10px}
+.hover{font-size:17px;line-height:1.5;margin:0 0 8px}
+.hover b{font-weight:600}
+.hover + .hover{padding-top:8px;border-top:1px dashed var(--rule)}
+.short{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;margin-top:12px;padding-top:12px;border-top:1px dashed var(--rule);font-size:14px}
+.short .k{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint)}
+.was{font-size:14.5px;color:var(--ink-soft);margin:0 0 6px}
+.was .k{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);margin-right:6px}
+.why{font-size:15.5px;margin:12px 0 0}
+.tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.04em;padding:1px 7px;border-radius:4px;border:1px solid var(--rule);color:var(--ink-soft);white-space:nowrap}
+.tag.pos{color:var(--pos);background:var(--pos-soft);border-color:transparent}
+.tag.neg{color:var(--neg);background:var(--neg-soft);border-color:transparent}
+.ask{border-left:3px solid var(--neg);background:var(--neg-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:18px 0;font-size:15px}
+.ask .k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--neg);font-weight:600;display:block;margin-bottom:2px}
+.ref{font-size:14.5px;color:var(--ink-soft)}
+.ref li{margin-bottom:6px}
+.ref q{font-style:italic;color:var(--ink)}
+ol.plain{padding-left:22px} ol.plain li{margin-bottom:8px}
+.summary td:first-child{font-weight:600;white-space:nowrap}
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Bramble · wording pilot · 22 Nov 2026</div>
+    <h1>Wording the Mechanics</h1>
+    <p class="lede">Six mechanics, three new wordings each, tested on fresh readers. Pick one per mechanic.</p>
+    <div class="byline"><span>Orchestrator on the Optiplex</span><span>Branch wording/mechanics</span><span>Nothing in the game has changed</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section>
+  <div class="sec-head"><span class="n">01</span><h2>The short version</h2></div>
+  <div class="reading">
+    <p>For each mechanic below, the recommended wording comes first, then the other options, what readers did with them, and how Magic and Hearthstone word the same idea.</p>
+  </div>
+  <div>
+    <div class="stat"><span class="stat-v">5 of 45</span><span class="stat-l">answers wrong on today's text</span></div>
+    <div class="stat"><span class="stat-v">0 of 135</span><span class="stat-l">answers wrong on the new options</span></div>
+    <div class="stat"><span class="stat-v">12</span><span class="stat-l">readers · Opus, GPT Sol, Gemini Neon</span></div>
+  </div>
+  <div class="tbl-wrap">
+    <table class="summary">
+      <thead><tr><th>Mechanic</th><th>What the recommended wording fixes</th><th class="num">Words now → new</th></tr></thead>
+      <tbody>
+        <tr><td>Divine Shield</td><td>"The first damage" can read as one point of damage.</td><td class="num">7 → 11</td></tr>
+        <tr><td>Fury</td><td>Says the Attack lands before damage; the Outnumbered count is fixed for the fight.</td><td class="num">18 → 21</td></tr>
+        <tr><td>Pile on</td><td>Says a kill spares your attacker; explains "neighbour"; no more "the first 1 times".</td><td class="num">14 → 26</td></tr>
+        <tr><td>Renown</td><td>Renown gained in a fight counts from the next one. <b>All 3 readers got this wrong today.</b></td><td class="num">17 → 32</td></tr>
+        <tr><td>Root</td><td>It comes back without this fight's buffs or Renown. <b>2 of 3 readers got this wrong today.</b></td><td class="num">13 → 21</td></tr>
+        <tr><td>Charge</td><td>A shorter line plus a live "(1 left)" count. Needs a rule from you first.</td><td class="num">9 → 8</td></tr>
+      </tbody>
+      <caption>Word counts are the hover line only, with N = 1 or 2.</caption>
+    </table>
+  </div>
+  <div class="callout warn"><b>The trade-off:</b> five of the six recommended lines are longer than today's. Your rule is "the main effect plainly, in as few words as it takes". The extra words are the facts readers got wrong or had to guess. Where you'd rather keep a line short and let a fact stay implied, say so; that is a rule the process should learn.</div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">02</span><h2>Divine Shield</h2></div>
+  <div class="pick">
+    <div class="lab">Recommended · option 1</div>
+    <p class="hover"><b>Divine Shield:</b> The first time this takes damage each fight, it takes none.</p>
+    <div class="short"><span class="k">Short form</span><span>Takes no damage the first time</span></div>
+  </div>
+  <p class="was"><span class="k">Today</span>The first damage this takes is prevented.</p>
+  <p class="why">Hearthstone's own frame ("the first time this takes damage") makes it one hit of any size. "The first damage" can read as one point, because Magic counts damage in points. It also drops the passive "is prevented".</p>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Option</th><th>Hover line</th><th class="num">Misread</th></tr></thead>
+    <tbody>
+      <tr><td>0 today</td><td>The first damage this takes is prevented.</td><td class="num">0 of 6</td></tr>
+      <tr><td>1</td><td>The first time this takes damage each fight, it takes none.</td><td class="num">0 of 6</td></tr>
+      <tr><td>2</td><td>Breaks the first time this would take damage, and blocks all of it. Back each fight.</td><td class="num">0 of 6</td></tr>
+      <tr><td>3</td><td>Once each fight, when this would take damage, it takes none instead.</td><td class="num">0 of 6</td></tr>
+    </tbody>
+    <caption>No reader misread any option. Two readers on today's text had to guess whether blocked damage still counts for Venomous.</caption>
+  </table></div>
+  <ul class="ref">
+    <li>Hearthstone: <q>The first time this takes damage, ignore it.</q> "Ignore it" tells the player to do something they don't do.</li>
+    <li>Magic: <q>Prevent the next 1 damage that would be dealt to any target this turn.</q> This is the point-counting habit.</li>
+  </ul>
+  <div class="ask"><span class="k">For you</span>No live card has Divine Shield; only two stand-in cards do. Is it in the game?</div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">03</span><h2>Fury</h2></div>
+  <div class="pick">
+    <div class="lab">Recommended · option 1</div>
+    <p class="hover"><b>Fury 1:</b> Whenever this attacks or is attacked, it gains +1 Attack before damage, and +1 more for each unit you're outnumbered by.</p>
+    <p class="hover"><b>Outnumbered:</b> How many more units the enemy had when the fight started. It doesn't change during the fight. Back-row Squires don't count.</p>
+    <div class="short"><span class="k">Short form</span><span>+Attack when fighting, more if outnumbered</span></div>
+  </div>
+  <p class="was"><span class="k">Today</span>Whenever this attacks or is attacked, gain +1 Attack, and +1 more for each unit you're outnumbered by.</p>
+  <p class="why">Two added words ("before damage") and a past-tense Outnumbered line. Under today's text all three readers had to guess the timing. Under option 1, none did.</p>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Option</th><th>Hover line</th><th class="num">Misread</th></tr></thead>
+    <tbody>
+      <tr><td>0 today</td><td>Whenever this attacks or is attacked, gain +1 Attack, and +1 more for each unit you're outnumbered by.</td><td class="num">0 of 9</td></tr>
+      <tr><td>1</td><td>…it gains +1 Attack before damage, and +1 more for each unit you're outnumbered by.</td><td class="num">0 of 9</td></tr>
+      <tr><td>2</td><td>…it first gains +1 Attack, and +1 more for each unit the enemy had beyond yours when the fight started.</td><td class="num">0 of 9</td></tr>
+      <tr><td>3</td><td>…it first gains +1 Attack, or +2 if you're outnumbered by 1, +3 if by 2, and so on.</td><td class="num">0 of 9</td></tr>
+    </tbody>
+    <caption>Nobody misread. The difference is in what readers had to guess: timing under 0, how long the gain lasts under 2.</caption>
+  </table></div>
+  <ul class="ref">
+    <li>Magic's Rampage is the only mechanic in either game that grows with the enemy's numbers: <q>+3/+3 until end of turn for each creature blocking it beyond the first.</q></li>
+    <li>Magic's Bushido has Fury's two-sided trigger: <q>Whenever this creature blocks or becomes blocked, it gets +1/+1 until end of turn.</q></li>
+  </ul>
+  <div class="ask"><span class="k">For you</span>Fury has no rulebook entry; its formula is a 19 Nov balance proposal. Also, the "Fury 1" label hides the Marshal's doubling. That is a display fix, not wording.</div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">04</span><h2>Pile on</h2></div>
+  <div class="pick">
+    <div class="lab">Recommended · option 1</div>
+    <p class="hover"><b>Pile on 1:</b> Whenever a neighbour attacks, this hits the target first, up to this many times each fight. If that kills the target, your attacker isn't hit back.</p>
+    <p class="hover"><b>Neighbour:</b> Next to this in its row, or diagonally in front or behind.</p>
+    <div class="short"><span class="k">Short form</span><span>Hits first when a neighbour attacks</span></div>
+  </div>
+  <p class="was"><span class="k">Today</span>The first 1 times a neighbour attacks each fight, this hits the target first.</p>
+  <p class="why">The only option where readers guessed nothing at all. It says the one thing readers couldn't predict (a kill spares your attacker), and the code counts diagonal slots as neighbours, which no text says today. It also ends "the first 1 times".</p>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Option</th><th>Hover line</th><th class="num">Misread</th></tr></thead>
+    <tbody>
+      <tr><td>0 today</td><td>The first 1 times a neighbour attacks each fight, this hits the target first.</td><td class="num">0 of 6</td></tr>
+      <tr><td>1</td><td>Whenever a neighbour attacks, this hits the target first, up to this many times each fight. If that kills the target, your attacker isn't hit back.</td><td class="num">0 of 6</td></tr>
+      <tr><td>2</td><td>The first time a neighbour attacks each fight, this hits the target before they fight.</td><td class="num">0 of 6</td></tr>
+      <tr><td>3</td><td>Joins this many attacks a fight by units touching it, hitting the target first. A target it kills can't hit back.</td><td class="num">0 of 6</td></tr>
+    </tbody>
+    <caption>Under 0 and 2, all three readers had to guess that a kill means no hit back.</caption>
+  </table></div>
+  <ul class="ref">
+    <li>Battlegrounds, Baby Krush: <q>summon an 8/8 Devilsaur to attack the target first.</q> This is the nearest wording.</li>
+    <li>Hearthstone says "adjacent", "next to" and "neighbors" on different cards. We should pick one word and keep it.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">05</span><h2>Renown</h2></div>
+  <div class="pick">
+    <div class="lab">Recommended · option 1, plus a hover on the slot's Renown counter</div>
+    <p class="hover"><b>Renown:</b> Each Renown on a slot gives +1/+1 to the unit that starts the fight there, and to any reservist who steps in. Renown gained in a fight counts from the next fight.</p>
+    <p class="hover"><b>Renown 3</b> <span class="muted small">(on the slot's counter)</span>: The unit that starts the fight here has +3/+3, and so does a reservist who steps in. Not summons or returns.</p>
+    <div class="short"><span class="k">Short form</span><span>Slot gives +1/+1 per point</span></div>
+  </div>
+  <p class="was"><span class="k">Today</span>The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each. <span class="faint">(The slot's counter has no hover at all.)</span></p>
+  <p class="why">The clearest result of the test. With today's text all three readers gave a reservist the Renown the Padre had just added mid-fight. With any new option, nobody did. "Here" on a card has nothing to point at, so the slot becomes the subject.</p>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Option</th><th>Hover line</th><th class="num">Misread</th></tr></thead>
+    <tbody>
+      <tr><td>0 today</td><td>The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each.</td><td class="num neg">3 of 6</td></tr>
+      <tr><td>1</td><td>Each Renown on a slot gives +1/+1 to the unit that starts the fight there… Renown gained in a fight counts from the next fight.</td><td class="num">0 of 6</td></tr>
+      <tr><td>2</td><td>A unit gets +1/+1 for each Renown on its slot if it started the fight there or stepped in as a reservist. Summons and returns get none. Renown gained in a fight waits for the next.</td><td class="num">0 of 6</td></tr>
+      <tr><td>3</td><td>A bonus that stays on a slot: +1/+1 per point, for the unit that starts the fight there and reservists who step in. Gained in a fight, it counts from the next.</td><td class="num">0 of 6</td></tr>
+    </tbody>
+    <caption>A third board, about what the recruit board shows, was dropped from the scores: no wording says it, so it tested the display, not the words.</caption>
+  </table></div>
+  <ul class="ref">
+    <li>Neither game has a lasting bonus on a board slot. The nearest is Battlegrounds: <q>Start of Combat: Give your left-most minion Divine Shield…</q>, which names the moment, then the place.</li>
+    <li>Magic already has a keyword called Renown: a one-time +1/+1 counter for hitting a player.</li>
+  </ul>
+  <div class="ask"><span class="k">Found on the way</span>On cards that give Renown (Sentry, Padre…), the hover title reads "Renown 1": the amount given, not the slot's Renown. Traced in the code, not seen on screen.</div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">06</span><h2>Root</h2></div>
+  <div class="pick">
+    <div class="lab">Recommended · option 2</div>
+    <p class="hover"><b>Root 1:</b> Once each fight, after this dies, spend 1 Compost to return it at full Health, without this fight's buffs or Renown.</p>
+    <div class="short"><span class="k">Short form</span><span>Returns once a fight for Compost</span></div>
+  </div>
+  <p class="was"><span class="k">Today</span>The first time this dies each fight, spend 1 Compost to return it.</p>
+  <p class="why">Today two of three readers brought the unit back with its Renown. The new options all fixed that, but option 1's "its permanent stats" only worked because readers guessed it meant "no Renown". Option 2 says it outright. "Once each fight" also stays neutral on the open question below.</p>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Option</th><th>Hover line</th><th class="num">Misread</th></tr></thead>
+    <tbody>
+      <tr><td>0 today</td><td>The first time this dies each fight, spend 1 Compost to return it.</td><td class="num neg">2 of 6</td></tr>
+      <tr><td>1</td><td>After this dies, spend 1 Compost to bring it back with full Health and its permanent stats. Once a fight.</td><td class="num">0 of 6</td></tr>
+      <tr><td>2</td><td>Once each fight, after this dies, spend 1 Compost to return it at full Health, without this fight's buffs or Renown.</td><td class="num">0 of 6</td></tr>
+      <tr><td>3</td><td>Comes back after dying, once a fight, if you can pay 1 Compost. It comes back fresh: full Health, no buffs from this fight, no Renown.</td><td class="num">0 of 6</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="ref">
+    <li>Hearthstone, Hollow Direhorn: <q>After a friendly minion dies, spend 3 Corpses to gain Reborn.</q> This is nearly Root, in one line.</li>
+    <li>Hearthstone Mercenaries already has a keyword Root: <q>Rooted characters can't Attack.</q></li>
+  </ul>
+  <div class="ask"><span class="k">For you</span>Root has no rulebook entry. Today's text says "the first time this dies"; the code means "the first death your Compost can pay for". Which is the rule?</div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">07</span><h2>Charge and Supply</h2></div>
+  <div class="pick">
+    <div class="lab">Recommended · option 1</div>
+    <p class="hover"><b>Charge 2 (1 left):</b> Works up to this many times each fight.</p>
+    <p class="hover"><b>Supply 6 (4 left):</b> Works up to this many times in the whole game.</p>
+    <div class="short"><span class="k">Short forms</span><span>Limited uses, refilled each fight</span><span class="faint">·</span><span>Uses for the whole game</span></div>
+  </div>
+  <p class="was"><span class="k">Today</span>Works this many times, then stops. Refills each fight. · Works this many times in all, then never again.</p>
+  <p class="why">The shortest true line. The live count, as Battlegrounds shows "(1 left!)", does the teaching. The test couldn't separate the four options: nobody misread any of them.</p>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Option</th><th>Charge hover line</th><th class="num">Misread</th></tr></thead>
+    <tbody>
+      <tr><td>0 today</td><td>Works this many times, then stops. Refills each fight.</td><td class="num">0 of 6</td></tr>
+      <tr><td>1</td><td>(1 left): Works up to this many times each fight.</td><td class="num">0 of 6</td></tr>
+      <tr><td>2</td><td>Has this many uses each fight. Each time this works, it uses one.</td><td class="num">0 of 6</td></tr>
+      <tr><td>3</td><td>Each time this works, one dot goes dark. They all light again each fight.</td><td class="num">0 of 6</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="ref">
+    <li>Hearthstone: <q>Charge: Can attack immediately.</q> Every Hearthstone player will read our Charge that way first.</li>
+    <li>Magic's Exhaust puts the limit in front of the effect, as our Charge does: <q>Activate each exhaust ability only once.</q></li>
+  </ul>
+  <div class="ask"><span class="k">For you</span>Does an attempt that does nothing (no room to summon) use a charge? Today each card's code decides differently: Thimble Captain spends one, King Speck doesn't. Half the readers assumed it doesn't. A good wording needs your rule first.</div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">08</span><h2>Names that mean something else elsewhere</h2></div>
+  <div class="reading"><p>Nothing is renamed. These are listed so you can decide whether the clash matters.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Name</th><th>What it means elsewhere</th><th>Who picked it</th></tr></thead>
+    <tbody>
+      <tr><td><b>Charge</b></td><td>Hearthstone: "Can attack immediately". Also our own card "Herald of the Charge".</td><td>You (rulebook 11.7.3)</td></tr>
+      <tr><td><b>Renown</b></td><td>Magic: a one-time +1/+1 counter for hitting a player.</td><td>You (11.7.6)</td></tr>
+      <tr><td><b>Root</b></td><td>Hearthstone Mercenaries and most action games: "can't move" or "can't attack".</td><td>The Briar designer, on the ideation track</td></tr>
+      <tr><td><b>Sett Shield-bearer</b></td><td>The name suggests Divine Shield, which it doesn't have.</td><td>Matters only if Divine Shield goes live</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">09</span><h2>What this test can and can't show</h2></div>
+  <div class="reading">
+    <p>Each reader had never seen the game. It got only the card text and hover lines a player would see, plus a small fight in words, and said what happens. Each reader saw one set of wordings only.</p>
+    <p><b>It showed:</b> today's Renown and Root text gets misread, and every new option fixes it. Where nobody misread, the readers' written guesses showed which facts the text leaves out.</p>
+    <p><b>It can't show</b> what you or a new player would do. These readers read every word, never skim, never skip a hover, and don't get tired. Three readers per option is too few to rank options that all scored zero. Your own read is the real test.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">10</span><h2>The process, and what comes next</h2></div>
+  <div class="reading">
+    <p>The draft process was written before any wording, then followed to write these. What the pilot taught it so far:</p>
+    <ol class="plain">
+      <li><b>Find the facts a player can't guess.</b> These are the trap facts: Renown waits a fight; Root drops Renown; a pile-on kill spares the attacker. They are what the extra words buy.</li>
+      <li><b>Check every name against Magic, Hearthstone and our own card names.</b> This found Root's clash, which the first research missed.</li>
+      <li><b>One meaning per trigger word,</b> in a fixed table. The draft table lacked "first" (before damage) and "once each fight", so it needs those rows.</li>
+      <li><b>Readers' guesses tell more than right or wrong.</b> Ask each reader to write what it assumed; that separated options when the scores didn't.</li>
+      <li><b>Copies of reminder text sit on some cards' data</b> and would go stale on any rewording. The process now lists every copy first.</li>
+    </ol>
+    <p><b>Next, once you've picked:</b> the process is revised from your picks and goes into the <code>ux-copy</code> skill by a pull request for you to read. Then a fresh worker, given only that process, words the other ~40 keywords, and you check a sample. That shows whether the process repeats. Your picks go into the game only by a pull request that waits for you.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="eyebrow">Provenance</div>
+    <p>Game text and code from <code>dev</code> at 4eb4f547. Magic text from the Comprehensive Rules (6 Nov 2026) and Scryfall. Hearthstone text from the client's card and string data via HearthstoneJSON. Reader test: 12 readers (4 each from Opus, GPT Sol and Gemini Neon), 15 boards each, scored against the outcomes the code gives.</p>
+    <div class="files">
+      /data/wording-mechanics/wordings.md: all options, checks, code asks<br>
+      /data/wording-mechanics/scores.md: the reader test in full<br>
+      /data/wording-mechanics/references.md: Magic and Hearthstone, with sources<br>
+      /data/wording-mechanics/facts.md: what each mechanic does in the code<br>
+      /data/wording-mechanics/process-v0.md: the draft process
+    </div>
+  </div>
+</footer>
