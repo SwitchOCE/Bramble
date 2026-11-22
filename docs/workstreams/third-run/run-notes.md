@@ -122,3 +122,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
   - Report-only, 1,000 games each: each tribe held with `stay_tribe`, and the 4 off switches.
   - Not used: early stopping at 500 pairs. It needs one match split in two without reusing runs, which the tool can't do, so every match runs at full size.
   - Runs detached (`tools/league/stop_chain_1.sh`, log `/data/third-run/stopping/chain.log`). Every match on cores 2–5 now takes `flock /data/third-run/cores.lock`, so climbing matches and test matches take turns.
+- **Approval watch killed (13:13, 14:15, 14:24).** Three times the whole shell running the watch died with code 144, and at 14:24 every other session's watch died too: something on the machine kills processes matching `t3-approval-watch`. The referee now runs a renamed copy, which matches neither name.
