@@ -84,3 +84,28 @@ Each tier shares the same lead bevel. A muted tint backs the numeral, while gold
 One numeral and one plain frame serve all ordinary tiers. Green up marks and coral down marks distinguish buffs and wounds. In combat, Holly Knight and Bell-ringer get the light.
 
 Opened all eleven renders. Checked alignment, icons, type, contrast (5.78:1 minimum), clipping, spacing, emphasis and frame ratios.
+
+## Pass 2, round 3
+
+Card bounds in px.
+
+| Zone | Width × height | Across | Down | Why |
+| --- | ---: | ---: | ---: | --- |
+| Shop units | 144×257.1 | 20 | — | Shared price line. |
+| Board | 140×250 | 36 | 36 | Equal gutters. |
+| Hand | 74×132.1 | 10 | 10 | Three columns fit. |
+| Fight | 112×200 | 36 | 36 | Four rows, 68 between armies. |
+| Spells | 112×152 shop, 74×100.4 hand | 20 shop | — | Room for coins underneath. |
+
+`mid-b` uses 154×275 board cards, 62 across and 42 interlocked. Pick `mid` for two clearly separated rows.
+
+- Shared: Mint light marks inspection and the strike pair. Gorger’s glass stays unlit.
+- A1: Golden has a brass bevel and diamond foot.
+- A2: Replaced the emblem with a 3+3+1 hand. Seek shows 3 gold.
+- Softened standings numerals. Kept End turn’s accent.
+- Enlarged stat carets.
+- Skipped further dimming.
+- Kept the first-turn cue.
+- Softened Upgrade’s readout.
+
+Ten renders opened. Measured text contrast ≥5.46:1.

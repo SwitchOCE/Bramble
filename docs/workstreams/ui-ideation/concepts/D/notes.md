@@ -103,3 +103,19 @@ Non-blocking light table: half done. It now glows from below, brightest at the c
 5. Standings contrast: done by removing the labels.
 
 All three: changed stats tint the whole stone (green gained, red wounded), no marks; golden glows hard; fights light only the blow. Optional: quiet standings health, coins off the frame, muted shards.
+
+## Pass 2, round 3
+
+No art, no filters. Zones follow the picture: shop in the window, board on the table, hand on the bench. One gap: across between sides, down square to the slants.
+
+| Zone | W × H | Across | Down | Why |
+|---|---|---|---|---|
+| Shop | 118 × 210 | 40 | — | one row; spells set 80 apart |
+| Board | 112 × 200 | 32 | 32 | nested rows fill the table |
+| Hand | 67 × 120 | 36 | — | on the bench, no tray |
+| Fight | 112 × 200 | 36 | 36 | the board's rule |
+| Spells | Ø 112 | 40 | — | shop row |
+
+**`mid-b`:** smaller cards (160, hand 104), rows not nested, 64 px gaps. I pick `mid`: one gap everywhere; `mid-b`'s tier numerals fall to 13 px.
+
+Council: 1 moot, nothing dimmed; 2 done, End turn plain; 3 done, rank coins mid-pane; 4 done, reserves unnumbered; 5 done, Holly Knight 24/12; golden in metal only; pips under Renown; stakes rule line cut; out row dimmed; wounded red darkened; bare "9" skipped.

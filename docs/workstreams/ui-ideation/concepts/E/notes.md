@@ -101,3 +101,18 @@ Optional, done: the result plaque is 22 px narrower, so it ends 8 px short of Gr
 8. Done: the recorded start has no hand, so `fight` shows none.
 
 For all three: board a step darker than the shop; in the fight only the blow is lit; changed stats get a green or red ring; Golden has a gold glow and rings; "What beat you" title cut. Optional, done: hint moved clear of the slots. Not done: tier-up discount (row 47) still reads "3 gold short".
+
+## Pass 2, round 3
+No art, no filters. One gap per zone, equal across and down.
+
+| Zone | W × H | Across | Down | Why |
+|---|---|---|---|---|
+| Shop | 126 × 225 | 28 | – | coins fit below |
+| Spells | ⌀126 | 28 | – | unit width; 56 from units |
+| Board | 134 × 240 | 28 | 28 | rows offset, not interlocked |
+| Hand | 63 × 112 | 8 | – | seven fit beside the board |
+| Fight | 120 × 215 | 24 | 24 | 64 between boards |
+
+`mid-b`: smaller cards (shop 106 × 190, board 118 × 210), honeycomb, 28 edge to edge. More air, but rows merge into one block. I pick `mid`.
+
+Council: 1 done: tier in the top point's lead, no disc. 2 done: buffs ringed green; wounds dark disc, red ring. 3 done: lantern smaller (112), not dimmed. 4 done: Holly Knight 24/31; extra1 tip clears health. Golden: gold metal, no glow. Optional, done: Seek in a socket, no fight log, "Fell" plates and made-up history cut. Prices under cards (row 42).

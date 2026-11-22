@@ -8,7 +8,7 @@
 @font-face{font-family:Alegreya;src:url("../../../../../assets/glass/fonts/Alegreya%5Bwght%5D.ttf");font-weight:400 900;font-display:swap}
 @font-face{font-family:Alegreya Sans;src:url("../../../../../assets/glass/fonts/AlegreyaSans-Regular.ttf");font-weight:400;font-display:swap}
 @font-face{font-family:Alegreya Sans;src:url("../../../../../assets/glass/fonts/AlegreyaSans-Bold.ttf");font-weight:700;font-display:swap}
-:root{--ink:#fff3da;--soft:#d4ccad;--lead:#0b1010;--brass:#988260;--serif:Alegreya,Georgia,serif;--sans:"Alegreya Sans",sans-serif;--hex:polygon(50% 0,100% 17%,100% 83%,50% 100%,0 83%,0 17%);--inner:polygon(50% 4.34%,95.91% 18.37%,95.91% 81.63%,50% 95.66%,4.09% 81.63%,4.09% 18.37%);--pane-texture:url("../../../../../assets/glass/ui/pane.jpg")}
+:root{--ink:#fff3da;--soft:#d4ccad;--lead:#0b1010;--brass:#988260;--serif:Alegreya,Georgia,serif;--sans:"Alegreya Sans",sans-serif;--hex:polygon(50% 0,100% 17%,100% 83%,50% 100%,0 83%,0 17%);--inner:polygon(50% 4.34%,95.91% 18.37%,95.91% 81.63%,50% 95.66%,4.09% 81.63%,4.09% 18.37%);--card-glass:#3b5752;--pane-texture:url("../../../../../assets/glass/ui/pane.jpg")}
 *{box-sizing:border-box}
 html,body{width:1920px;height:1080px;margin:0;overflow:hidden}
 body{color:var(--ink);font:20px/1.2 var(--sans);background:#111412;font-variant-numeric:lining-nums tabular-nums}
@@ -33,7 +33,7 @@ h1,h2,h3,strong,b{font-weight:700}
 .left-top{top:126px;text-align:center}
 .turn{display:table;margin:0 auto;padding:3px 11px 2px;border-radius:3px;background:#272b22;border:1px solid #8d7b55;box-shadow:0 0 0 2px #1a2019;font:750 27px/1 var(--serif);color:#f4deb0}
 .player{display:flex;align-items:center;gap:13px;text-align:left;padding:0 2px}
-.left-top .player{margin-top:11px}
+.left-top .player{margin-top:11px;border-radius:42px 5px 5px 42px;background:#28362b;box-shadow:inset 0 0 0 1px #917c59}
 .portrait{display:block;width:77px;height:77px;object-fit:cover;flex:none;border-radius:50%;border:3px solid #877450;box-shadow:0 0 0 2px #131711,0 0 0 3px #4c423269,0 4px 10px #0a0d0c}
 .player h2{font:720 24px/1 var(--serif);white-space:nowrap}
 .player-meta{margin-top:7px;display:flex;align-items:center;gap:8px;font-size:18px;color:#fff0d4}
@@ -43,11 +43,13 @@ h1,h2,h3,strong,b{font-weight:700}
 .counter{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;min-height:37px;background:#1e2925;border:1px solid #776a4c;box-shadow:0 0 0 2px #111614;border-radius:4px;font:700 18px/1 var(--sans)}
 .counter .glyph{width:17px;height:17px;color:#d3bd86}
 .counter b{font:800 22px/1 var(--serif)}
-.hand{top:679px}
-.hand-count{height:39px;padding:2px 6px 10px;border-bottom:1px solid #9c875674;font:790 23px/1 var(--serif);color:#ecdbad}
-.hand-tray{position:relative;height:241px;margin-top:13px}
-.hand-slot{position:absolute;width:56px;aspect-ratio:560/1000;display:grid;align-items:center}
-.hand-slot .card-face{align-self:center}
+.hand{top:542px}
+.hand-count{height:25px;margin:0 7px;border-bottom:1px solid #b6a07895;font:790 23px/1 var(--serif);color:#fff1cf}
+.hand-tray{display:grid;grid-template-columns:repeat(3,74px);gap:10px;justify-content:center;margin-top:7px}
+.hand-slot{position:relative;width:74px;aspect-ratio:560/1000;display:grid;align-items:center}
+.hand-slot:last-child{grid-column:2}
+.hand-slot.has-spell{align-content:start}
+.hand-slot > .coin{position:absolute;left:50%;bottom:0;transform:translateX(-50%)}
 .hand-slot .unit-stat{font-size:18px;width:23px}
 .game-menu{top:1002px}
 .game-menu summary{cursor:pointer;list-style:none}
@@ -57,17 +59,17 @@ h1,h2,h3,strong,b{font-weight:700}
 .game-menu-content button{width:100%;min-height:46px;text-align:left;padding:0 8px;font-size:19px}
 .game-menu-content button+button{border-top:1px solid #71654b}
 .shop-controls{top:132px;left:355px;width:132px}
-.purse{height:65px;display:flex;align-items:center;justify-content:center;gap:7px;border-radius:7px 7px 4px 4px;background:linear-gradient(145deg,#433626,#2b281d 70%);border:1px solid #92774c;box-shadow:0 0 0 3px #10130e,inset 0 1px #c6a16b7d}
+.purse{height:56px;display:flex;align-items:center;justify-content:center;gap:7px;border-radius:7px 7px 4px 4px;background:linear-gradient(145deg,#433626,#2b281d 70%);border:1px solid #92774c;box-shadow:0 0 0 3px #10130e,inset 0 1px #c6a16b7d}
 .purse strong{font:850 36px/1 var(--serif)}
 .purse .coin{width:26px;height:26px}
 .purse .gold-word{font-size:18px;color:#e0cc9d}
 .shop-controls .plate-button{width:100%;padding:0 9px}
-.upgrade-group{margin-top:11px;padding-bottom:6px;border-bottom:1px solid #9d855962}
+.upgrade-group{margin-top:8px;padding-bottom:4px;border-bottom:1px solid #9d855962}
 .refresh-button{margin-top:9px;flex-direction:column;gap:3px;padding-block:5px!important}
 .refresh-title{display:flex;align-items:center;gap:5px}
 .readout{font:700 19px/1.05 var(--sans);color:#fff0cb}
-.upgrade-meta{display:grid;gap:4px;margin:4px 0 0;padding:6px 2px;text-align:center;background:#25261d;border:1px solid #746344;border-radius:4px}
-#freeze{margin-top:10px}
+.upgrade-meta{display:grid;gap:4px;margin:4px 0 0;padding:4px 2px;text-align:center;color:#ead8b7;background:#25261d;border:1px solid #746344;border-radius:4px}
+#freeze{margin-top:8px}
 .plate-button{display:flex;align-items:center;justify-content:center;gap:6px;min-height:47px;padding:0 13px;border:1px solid #8e7853;border-radius:5px;background:linear-gradient(168deg,#394034,#222e28 47%,#18221f 49%,#222c24);box-shadow:0 0 0 2px #101410,inset 0 2px #bfa47432,inset 0 -2px #0b1510,0 4px 6px #0a0d0a9c;font:730 20px/1 var(--serif);text-align:center}
 .plate-button .glyph{color:#e4cb95}
 .plate-button:hover{border-color:#d2c097}
@@ -78,23 +80,16 @@ h1,h2,h3,strong,b{font-weight:700}
 .shop-offer,.board-piece{position:absolute;width:var(--w);top:var(--y);left:calc(var(--x) - var(--w)/2)}
 .shop-offer > .coin{display:grid;width:31px;height:31px;margin:10px auto 0;font-size:22px}
 .card-face{position:relative;display:block;width:100%;aspect-ratio:560/1000;container-type:inline-size;isolation:isolate;filter:drop-shadow(0 6px 6px #07100dd6)}
-.card-art,.card-frame,.slot-layer{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.card-art{clip-path:var(--inner);object-fit:cover;filter:saturate(.72) brightness(.79)}
+.card-pane,.card-frame,.slot-layer{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.card-pane{clip-path:var(--inner);background:var(--card-glass)}
 .card-face::before{content:"";position:absolute;inset:1px;background:#111614;clip-path:var(--hex);z-index:-1}
 .card-frame{overflow:visible;--rim:#786b53;--edge:#312a21}
-.shop-offer .card-art{filter:saturate(1) brightness(1.02)}
-.board-piece .card-art{filter:saturate(.54) brightness(.59)}
-.fight .board-piece .card-art{filter:saturate(.44) brightness(.53)}
-.after .board-piece .card-art{filter:saturate(.45) brightness(.63)}
-.fight .board-piece.striking .card-art{filter:saturate(.94) brightness(1.03)}
-.fight .board-piece.struck .card-art{filter:saturate(.81) brightness(.87)}
-.board-piece.striking .card-frame{--rim:#ffe4ac;--edge:#8e6944;filter:drop-shadow(0 0 8px #f5ac4d9a)}
-.board-piece.struck .card-frame{--rim:#dbb87f;--edge:#765d3f;filter:drop-shadow(0 0 5px #edaf5a63)}
 .spell-card{aspect-ratio:560/760}
-.spell-card .card-art,.spell-card::before{clip-path:url(#spell-art);object-position:50% 54%}
-.stage .card-face.is-inspected .card-art{filter:saturate(.92) brightness(1.05)}
-.inspecting .card-face:not(.is-inspected) .card-art{filter:saturate(.56) brightness(.64)}
-.card-face.is-inspected .card-frame{--rim:#eed098;--edge:#76634a;filter:drop-shadow(0 0 5px #e4b87585)}
+.spell-card .card-pane,.spell-card::before{clip-path:url(#spell-pane)}
+.card-face.is-inspected,.board-piece.striking,.board-piece.struck{--rim-light:#d6ffef;--halo:#8ae8da;--pane-light:#789e95}
+.board-piece.struck{--pane-light:#638f85}
+.is-inspected .card-pane,.striking .card-pane,.struck .card-pane{background:var(--pane-light)}
+.is-inspected .card-frame,.striking .card-frame,.struck .card-frame{--rim:var(--rim-light);--edge:#4b887c;filter:drop-shadow(0 0 8px var(--halo))}
 .card-face:focus-visible{outline:2px solid #fff1c3;outline-offset:4px}
 .tier-seal{position:absolute;left:50%;top:5.4%;transform:translateX(-50%);width:18%;aspect-ratio:1.22;display:grid;place-items:center;border-radius:3px;border:1px solid #ad9974;background:#282a24;box-shadow:0 0 0 2px #181915,inset 0 1px #ead4a448;font:800 max(18px,11.5cqw)/1 var(--serif);color:#fff0cd}
 .unit-stat{position:absolute;width:24%;aspect-ratio:1;transform:translate(-50%,-50%);display:grid;place-items:center;font:850 max(18px,14.2cqw)/1 var(--serif);color:#fff2d7;text-shadow:0 2px #11090d}
@@ -105,9 +100,9 @@ h1,h2,h3,strong,b{font-weight:700}
 .unit-stat.hp::before{background:#a57f70}.unit-stat.hp::after{background:#442b30}
 .unit-stat.buffed{color:#c7f4ae}
 .unit-stat.wounded{color:#ffb3a5}
-.stat-marker{position:absolute;bottom:calc(100% - 3px);left:50%;transform:translateX(-50%);width:42%;height:12px;padding:0 2px;background:#20241e;border-radius:3px;color:inherit}
-.pips{position:absolute;left:50%;top:88%;transform:translateX(-50%);display:flex;gap:4px}
-.pips i{display:block;width:9px;height:9px;border:1px solid #e0cfaa;box-shadow:0 0 0 2px #1a1413;background:#f1dfb6;border-radius:50%}
+.stat-marker{position:absolute;bottom:calc(100% - 3px);left:50%;transform:translateX(-50%);width:15px;height:14px;padding:0 2px;background:#20241e;border-radius:3px;color:inherit}
+.pips{position:absolute;left:50%;top:87%;transform:translateX(-50%);display:flex;gap:max(2px,2cqw)}
+.pips i{display:block;width:max(5px,5.5cqw);aspect-ratio:1;border:1px solid #e0cfaa;box-shadow:0 0 0 1px #1a1413;background:#f1dfb6;border-radius:50%}
 .pips.supply i{border-radius:1px;background:#c4d5cb}
 .board-slot{position:relative;aspect-ratio:560/1000;isolation:isolate}
 .slot-surround{position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);pointer-events:none}
@@ -118,7 +113,7 @@ h1,h2,h3,strong,b{font-weight:700}
 .fallen .empty-slot .slot-layer path:first-child{fill:#222321;stroke:#201615}
 .fallen-mark{display:grid;place-items:center;position:absolute;top:39%;left:29%;width:42%;aspect-ratio:1;border:1px solid #8d6256;border-radius:50%;background:#302422;color:#edc0aa}
 .fallen-mark .glyph{width:25px;height:25px}
-.cue{top:613px;left:366px;width:140px;padding:10px 11px;border-radius:4px;text-align:left;color:#e8f6e4;background:#223932;border:1px solid #87ad99;box-shadow:0 0 0 3px #131b16;font:700 19px/1.12 var(--sans)}
+.cue{top:559px;left:444px;width:148px;padding:10px 11px;border-radius:4px;text-align:left;color:#e8f6e4;background:#223932;border:1px solid #87ad99;box-shadow:0 0 0 3px #131b16;font:700 19px/1.12 var(--sans)}
 .cue .glyph{position:absolute;width:29px;height:24px;right:-31px;top:calc(50% - 12px);color:#c9ead8;filter:drop-shadow(0 1px 1px #071814)}
 .roster{top:158px}
 .roster-list{margin:0;padding:0;list-style:none;display:grid;gap:6px}
@@ -127,7 +122,7 @@ h1,h2,h3,strong,b{font-weight:700}
 .roster-rank{color:#d1c39f;text-align:center;font:780 20px/1 var(--serif)}
 .roster-name{font:700 19px/.98 var(--sans)}
 .roster-status{display:block;font:700 18px/1 var(--sans);letter-spacing:.018em;color:#ebd5a3;margin-top:3px}
-.roster-end{display:block;font:830 23px/1 var(--serif);text-align:center}
+.roster-end{display:block;font:830 23px/1 var(--serif);color:#e1d8bf;text-align:center}
 .roster-end.out{font:700 18px/1 var(--sans);color:#d7c5b1}
 .roster-row.next{background:linear-gradient(105deg,#3c3527,#302e24);border:1px solid #a68957;box-shadow:0 0 0 2px #141912}
 .roster-row.you{border-inline-start:3px solid #a7aa89;padding-left:4px}
@@ -137,13 +132,14 @@ h1,h2,h3,strong,b{font-weight:700}
 .action-button::before,.action-button::after{content:"";width:9px;height:9px;position:absolute;top:calc(50% - 5px);background:#dcb574;border:1px solid #473222;transform:rotate(45deg)}
 .action-button::before{left:10px}.action-button::after{right:10px}
 .action-button:hover{background:linear-gradient(168deg,#885933,#603c23)}
-.income{font-size:19px;margin-top:13px;display:flex;align-items:center;justify-content:center;gap:7px;color:#f5ddaa}
+.income{font-size:19px;margin-top:13px;padding:3px 10px;display:inline-flex;align-items:center;justify-content:center;gap:7px;color:#f5ddaa;background:#28362b;border:1px solid #897752;border-radius:4px}
 .income .glyph{color:#e5c280}
 .fight-profile{top:160px;text-align:center}
 .fight-profile .portrait{margin:34px auto 11px;width:120px;height:120px;border-width:4px}
-.fight-profile .section-name{margin:8px 0 9px}
+.fight-profile .rival-id{width:186px;margin:0 auto;padding:9px 6px 10px;border:1px solid #917c59;border-radius:5px;background:#28362b}
+.fight-profile .section-name{margin:0 0 7px}
 .fight-skip{top:931px}
-.strike-mark{position:absolute;top:521px;left:1054px;width:36px;height:36px;display:grid;place-items:center;color:#ffe6b8;background:#49331d;border:1px solid #d4a76b;border-radius:50%;box-shadow:0 0 0 3px #231d14,0 0 24px #f9b25a91;z-index:2;pointer-events:none}
+.strike-mark{position:absolute;top:521px;left:calc(var(--strike-x) - 18px);width:36px;height:36px;display:grid;place-items:center;color:#d8fff2;background:#284942;border:1px solid #abebd3;border-radius:50%;box-shadow:0 0 0 3px #14241e,0 0 24px #84e4cdaa;z-index:2;pointer-events:none}
 .strike-mark .glyph{width:22px;height:22px}
 .after .roster{top:158px}
 .after-action{top:906px}
@@ -162,12 +158,11 @@ h1,h2,h3,strong,b{font-weight:700}
 .loss-detail{font-size:19px;color:#fae6c9;line-height:1.18;margin-top:12px}
 .loss-detail + .loss-detail{margin-top:5px}
 .loss-threats{margin:13px 0 0;padding:11px 0 0;border-top:1px solid #ad8c627d;list-style:none;display:grid;gap:5px;font-size:18px;color:#f5dfc4}
-.keywords-panel{top:327px;padding:14px 14px 15px;border-radius:5px;border-color:#6f7859;background:linear-gradient(155deg,#24342c,#16241f)}
-.keywords-panel h2{padding-bottom:10px;border-bottom:1px solid #6c74595e;color:#eddbb1;letter-spacing:.05em}
+.keywords-panel{top:316px;max-height:219px;overflow-y:auto;padding:10px 13px 11px;border-radius:5px;border-color:#6f7859;background:linear-gradient(155deg,#24342c,#16241f)}
+.keywords-panel h2{padding-bottom:6px;border-bottom:1px solid #6c74595e;color:#eddbb1;letter-spacing:.05em}
 .keyword-notes{margin:0}
-.keyword-notes dt{display:flex;align-items:center;gap:6px;margin-top:13px;color:#f0d8a5;font-weight:700;font-size:20px}
-.keyword-notes dt:first-child{margin-top:10px}
-.keyword-notes dd{margin:3px 0 0;color:#e8dfc7;font-size:18px;line-height:1.18}
+.keyword-notes dt{display:flex;align-items:center;gap:6px;margin-top:7px;color:#f0d8a5;font-weight:700;font-size:20px}
+.keyword-notes dd{margin:3px 0 0;color:#e8dfc7;font-size:18px;line-height:1.12}
 .keyword-notes dt .glyph{width:17px;height:17px}
 .keyword-setting{display:flex;justify-content:space-between;align-items:center;gap:5px}
 .setting-state{color:#eed5a6;font-weight:700}
@@ -188,12 +183,10 @@ h1,h2,h3,strong,b{font-weight:700}
 .study-nav{display:flex;justify-content:center;gap:10px}
 .study-nav .plate-button{font-size:20px;padding:0 16px}
 .study-nav [aria-current]{background:#533e2b;border-color:#c9a167}
-.study-strip{position:absolute;top:416px;left:48px;right:48px;display:flex;align-items:flex-start;justify-content:center;gap:16px}
+.study-strip{position:absolute;top:355px;left:48px;right:48px;display:flex;align-items:flex-start;justify-content:center;gap:22px}
 .study-large .study-strip{top:223px;gap:20px}
-.specimen{width:174px;flex:none;margin:0;text-align:center}
-.study-large .specimen{width:348px}
-.specimen-shape{height:310.7px;display:grid;place-items:center}
-.study-large .specimen-shape{height:621.4px}
+.specimen{width:var(--study-width);flex:none;margin:0;text-align:center}
+.specimen-shape{aspect-ratio:560/1000;display:grid;place-items:center}
 .specimen .spell-card{width:var(--spell-study-scale)}
 .specimen figcaption{margin:14px 0 0;padding:8px 0;border-top:1px solid #90794e;background:#1b261f;font:740 22px/1 var(--serif);color:#f7e5c1}
 .study-large .specimen figcaption{font-size:24px}
@@ -204,7 +197,7 @@ h1,h2,h3,strong,b{font-weight:700}
 <h1 class="sr-only">Bramble</h1>
 <div class="window" id="window-art" aria-hidden="true"></div>
 <svg width="0" height="0" class="placed" aria-hidden="true"><defs>
-  <clipPath id="spell-art" clipPathUnits="objectBoundingBox">
+  <clipPath id="spell-pane" clipPathUnits="objectBoundingBox">
     <path d="M.066 .895 V.351 C.066 .201 .251 .09 .5 .043 C.749 .09 .934 .201 .934 .351 V.895 L.86 .949H.14Z"/>
   </clipPath>
 </defs></svg>
@@ -216,7 +209,7 @@ const asset = "../../../../../assets/";
 const stage = document.getElementById("stage");
 const screen = document.getElementById("screen");
 const requestedView = new URLSearchParams(location.search).get("view");
-const gameViews = ["mid","first","fight","after","hover-shop","hover-board","hover-spell","keywords-off"];
+const gameViews = ["mid","mid-b","first","fight","after","hover-shop","hover-board","hover-spell","keywords-off"];
 const studyViews = ["cards","extra1","extra2"];
 const view = [...gameViews,...studyViews].includes(requestedView) ? requestedView : "mid";
 const first = view === "first";
@@ -309,23 +302,22 @@ function windowArt() {
   const outlines = profiles.map(([,d])=>`<path d="${d}" fill="none" stroke="#080b09" stroke-width="25"/><path d="${d}" fill="none" stroke="url(#stone-mould)" stroke-width="19"/><path d="${d}" fill="none" stroke="#0b100d" stroke-width="12"/><path d="${d}" fill="none" stroke="#85704c" stroke-width="7"/><path d="${d}" fill="none" stroke="#4f4232" stroke-width="4.5" stroke-dasharray="13 2 9 2 20 2"/><path d="${d}" fill="none" stroke="#b69763" stroke-width="1.2"/>`).join("");
   const edgePaths = [
     "M345 159Q457 110 604 95T835 63","M1575 159Q1463 110 1316 95T1085 63",
-    "M346 464C491 446 554 447 684 469S874 468 948 485",
-    "M1574 464C1429 446 1366 447 1236 469S1046 468 972 485",
+    "M346 434C491 417 554 417 684 435S874 448 948 465",
+    "M1574 434C1429 417 1366 417 1236 435S1046 448 972 465",
     "M345 1023Q488 1013 582 937T752 867","M1575 1023Q1432 1013 1338 937T1168 867",
     "M345 693Q534 676 649 732T957 755","M1575 693Q1386 676 1271 732T963 755"
   ];
   const rails = edgePaths.map(d=>`<path d="${d}" fill="none" stroke="#121b16" stroke-width="4"/><path d="${d}" fill="none" stroke="#927748" stroke-opacity=".4" stroke-width="1"/>`).join("");
-  const transom = recruit ? 466 : 539;
+  const transom = recruit ? 444 : 539;
   return `<svg viewBox="0 0 1920 1080" width="1920" height="1080" xmlns="http://www.w3.org/2000/svg">
   <defs>
     ${profiles.map(([name,d])=>`<clipPath id="clip-${name}"><path d="${d}"/></clipPath>`).join("")}
     <linearGradient id="stone-mould" x1="0" y1="0" x2=".18" y2="1"><stop stop-color="#75634d"/><stop offset=".44" stop-color="#3b392d"/><stop offset="1" stop-color="#585444"/></linearGradient>
-    <linearGradient id="field" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="${recruit ? "#725433" : "#453c2e"}"/><stop offset=".39" stop-color="${recruit ? "#342b20" : "#302d24"}"/><stop offset=".53" stop-color="#202b25"/><stop offset=".87" stop-color="#192a25"/><stop offset="1" stop-color="#10201e"/></linearGradient>
-    <linearGradient id="side-field" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#63533a"/><stop offset=".23" stop-color="#32372c"/><stop offset=".49" stop-color="#23352e"/><stop offset=".82" stop-color="#1b332c"/><stop offset="1" stop-color="#313426"/></linearGradient>
-    <radialGradient id="backlight"><stop stop-color="#d59b55" stop-opacity=".42"/><stop offset="1" stop-color="#b69a64" stop-opacity="0"/></radialGradient>
-    <radialGradient id="floorlight"><stop stop-color="#769f76" stop-opacity=".16"/><stop offset="1" stop-color="#95b2aa" stop-opacity="0"/></radialGradient>
-    <radialGradient id="glass-falloff"><stop offset=".5" stop-color="#0b100e" stop-opacity="0"/><stop offset="1" stop-color="#0b100e" stop-opacity=".63"/></radialGradient>
-    <radialGradient id="strike-light"><stop stop-color="#dfac5f" stop-opacity=".34"/><stop offset="1" stop-color="#dfac5f" stop-opacity="0"/></radialGradient>
+    <linearGradient id="field" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#866747"/><stop offset=".30" stop-color="#5a4c35"/><stop offset=".51" stop-color="#384f40"/><stop offset="1" stop-color="#253f3b"/></linearGradient>
+    <linearGradient id="side-field" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#716044"/><stop offset=".33" stop-color="#41473a"/><stop offset=".65" stop-color="#314a3e"/><stop offset="1" stop-color="#38463a"/></linearGradient>
+    <radialGradient id="backlight"><stop stop-color="#eec782" stop-opacity=".44"/><stop offset="1" stop-color="#bb9261" stop-opacity="0"/></radialGradient>
+    <radialGradient id="floorlight"><stop stop-color="#a2b78a" stop-opacity=".3"/><stop offset="1" stop-color="#95b2aa" stop-opacity="0"/></radialGradient>
+    <radialGradient id="strike-light"><stop stop-color="#b1ebd0" stop-opacity=".43"/><stop offset="1" stop-color="#b1ebd0" stop-opacity="0"/></radialGradient>
     <linearGradient id="beam" x2="0" y2="1"><stop stop-color="#a39069"/><stop offset=".27" stop-color="#524531"/><stop offset=".5" stop-color="#2d2b21"/><stop offset=".83" stop-color="#555039"/><stop offset="1" stop-color="#181d16"/></linearGradient>
     <pattern id="glass-grain" width="512" height="512" patternUnits="userSpaceOnUse"><image href="${asset}glass/ui/pane.jpg" width="512" height="512"/></pattern>
     <pattern id="quarry" width="148" height="190" patternUnits="userSpaceOnUse">
@@ -342,42 +334,41 @@ function windowArt() {
   <g clip-path="url(#clip-middle)">
     <rect x="338" y="17" width="1244" height="1042" fill="url(#field)"/>
     <rect x="338" y="17" width="1244" height="1042" fill="url(#glass-grain)" opacity=".37" style="mix-blend-mode:overlay"/>
-    ${recruit ? '<ellipse cx="1018" cy="226" rx="630" ry="350" fill="url(#backlight)"/>' : ""}
-    <ellipse cx="960" cy="793" rx="535" ry="308" fill="url(#floorlight)"/>
-    ${view === "fight" ? '<ellipse cx="1072" cy="537" rx="196" ry="332" fill="url(#strike-light)"/>' : ""}
-    <rect x="338" y="17" width="1244" height="1042" fill="url(#quarry)" opacity=".43"/>
+    <ellipse cx="980" cy="176" rx="618" ry="348" fill="url(#backlight)"/>
+    <ellipse cx="960" cy="746" rx="652" ry="363" fill="url(#floorlight)"/>
+    ${view === "fight" ? `<ellipse cx="${strikeCentre}" cy="539" rx="146" ry="261" fill="url(#strike-light)"/>` : ""}
+    <rect x="338" y="17" width="1244" height="1042" fill="url(#quarry)" opacity=".36"/>
     ${rails}
     ${bough(356,100,1,.78)}${bough(1564,100,-1,.78)}
     ${bough(359,930,1,.86)}${bough(1561,930,-1,.86)}
     ${bough(407,588,1,.6)}${bough(1513,588,-1,.6)}
     <g stroke="#151b16" stroke-width="8" fill="none"><path d="M340 151Q413 94 493 110Q615 55 751 68Q867 38 934 62M1580 151Q1507 94 1427 110Q1305 55 1169 68Q1053 38 986 62"/></g>
     <g stroke="#998058" stroke-width="1.4" fill="none"><path d="M340 151Q413 94 493 110Q615 55 751 68Q867 38 934 62M1580 151Q1507 94 1427 110Q1305 55 1169 68Q1053 38 986 62"/></g>
-    <rect x="338" y="17" width="1244" height="1042" fill="url(#glass-falloff)"/>
     <path d="M339 ${transom}H1581" stroke="#10150f" stroke-width="13"/>
     <path d="M339 ${transom}H1581" stroke="url(#beam)" stroke-width="8"/>
     <path d="M339 ${transom-3}H1581" stroke="#ae9163" stroke-opacity=".55" stroke-width="1"/>
   </g>
-  ${[["left",27,175,323],["right",1597,1745,1893]].map(([name,x,cx,edge])=>`<g clip-path="url(#clip-${name})">
+  ${[["left",27,175,323],["right",1597,1745,1893]].map(([name,x,cx,edge])=>{
+    const handRail = recruit && name === "left" ? 566 : 653;
+    const seams = `M${x} 144Q${cx} 160 ${edge} 144M${x} ${handRail}H${edge}M${x} 849H${edge}M${x} 1019Q${cx} 955 ${edge} 1019`;
+    return `<g clip-path="url(#clip-${name})">
     <rect x="${x}" y="51" width="298" height="1008" fill="url(#side-field)"/>
     <rect x="${x}" y="51" width="298" height="1008" fill="url(#glass-grain)" opacity=".44" style="mix-blend-mode:overlay"/>
     <rect x="${x}" y="51" width="298" height="1008" fill="url(#quarry)" opacity=".53"/>
     <ellipse cx="${cx}" cy="270" rx="220" ry="354" fill="url(#backlight)" opacity=".58"/>
     <ellipse cx="${cx}" cy="867" rx="240" ry="340" fill="url(#floorlight)"/>
-    <path d="M${x} 144Q${cx} 160 ${edge} 144M${x} 653H${edge}M${x} 849H${edge}M${x} 1019Q${cx} 955 ${edge} 1019" stroke="#101915" stroke-width="4" fill="none"/>
-    <path d="M${x} 144Q${cx} 160 ${edge} 144M${x} 653H${edge}M${x} 849H${edge}M${x} 1019Q${cx} 955 ${edge} 1019" stroke="#a2885d" stroke-opacity=".51" stroke-width="1" fill="none"/>
+    <path d="${seams}" stroke="#101915" stroke-width="4" fill="none"/>
+    <path d="${seams}" stroke="#a2885d" stroke-opacity=".51" stroke-width="1" fill="none"/>
     ${tracery(cx,55,edge,177)}
     ${rose(cx,96,25)}
-    ${name==="left" ? oakBadge(175,358,.82) : view==="fight" ? oakBadge(1745,477,1) : ""}
+    ${name==="right" && view==="fight" ? oakBadge(1745,477,1) : ""}
     ${bough(x+17,869,1,1.1)}${bough(edge-14,975,-1,1.06)}
     <path d="M${x+13} 178V1045H${edge-13}V178" fill="none" stroke="#96845c" stroke-opacity=".43" stroke-width="1"/>
-    <rect x="${x}" y="51" width="298" height="1008" fill="url(#glass-falloff)" opacity=".53"/>
-  </g>`).join("")}
+  </g>`;}).join("")}
   ${outlines}
   ${rose(960,38,17)}
   </svg>`;
 }
-
-if (!study) document.getElementById("window-art").innerHTML = windowArt();
 
 const cards = {};
 function add(id,folder,name,tribe,tier,attack,health,rules,extra={}) {
@@ -408,8 +399,8 @@ add("weasel","shared","Weasel","Neutral",5,9,13,"Charge 6: After an enemy is sum
 add("gorger","locust","Gorger","Locust",4,38,68,"The first 2 times you sell a unit each turn, this eats it.",{golden:true});
 add("dame-bodkin","mouse","Dame Bodkin","Mouse",5,6,9,"Pile on 2. Your Mice's pile-on hits deal double damage.",{});
 add("cousin","mouse","Cousin","Mouse",1,2,2,"Hand-me-down.",{});
-add("sharpen","spell","Sharpen","Spell",1,null,null,"Give a friendly unit +2/+2.",{price:1,image:"spell-sharpen"});
-add("seek","spell","Seek","Spell",2,null,null,"Discover a unit.",{price:3,image:"spell-seek"});
+add("sharpen","spell","Sharpen","Spell",1,null,null,"Give a friendly unit +2/+2.",{price:1});
+add("seek","spell","Seek","Spell",2,null,null,"Discover a unit.",{price:3});
 
 const offers = first
   ? ["sentry","hedgerow-scout","territorial","bumblebee","green-recruit"]
@@ -453,8 +444,8 @@ function emptySlot(label, fallenId = null) {
     ? `<button type="button" class="card-face empty-slot" data-card="${fallenId}" aria-label="${label}">${picture}<span class="fallen-mark">${icon("fallen")}</span></button>`
     : `<div class="card-face empty-slot" role="img" aria-label="${label}">${picture}</div>`;
 }
-const boardCardWidth = 174;
-const shopUnitWidth = 156, shopSpellWidth = 120;
+const boardCardWidth = 140;
+const shopUnitWidth = 144, shopSpellWidth = 112;
 function cardBevel(spell,golden) {
   if (spell) return `<svg class="card-frame" viewBox="0 0 560 760" aria-hidden="true">
     <path d="M20 686V266C20 139 135 46 280 14C425 46 540 139 540 266V686L492 741H68Z M39 676V267C39 154 141 72 280 39C419 72 521 154 521 267V676L481 722H79Z" fill="#211d17" fill-rule="evenodd" stroke="#151714" stroke-width="11"/>
@@ -477,7 +468,6 @@ function cardBevel(spell,golden) {
 function cardFace(id,{zone,lit=false,...override}={}) {
   const c = {...cards[id],...override};
   const spell = c.folder === "spell";
-  const image = spell ? `glass/art/${c.image}.jpg` : `units/${c.folder}/${id}.jpg`;
   const attackState = atta(c) > (c.baseAttack ?? c.attack) ? "buffed" : "";
   const healthState = c.wounded ? "wounded" : hp(c) > (c.baseHealth ?? c.health) ? "buffed" : "";
   const stat = (value,x,cls,state) => {
@@ -489,7 +479,7 @@ function cardFace(id,{zone,lit=false,...override}={}) {
   const element = study ? "div" : "button";
   const role = study ? 'role="img"' : 'type="button"';
   return `<${element} ${role} class="card-face ${spell ? "spell-card" : ""} ${lit ? "is-inspected" : ""}" data-card="${id}" data-zone="${zone ?? "study"}" aria-label="${label}">
-    <img class="card-art" src="${asset + image}" alt="">${cardBevel(spell,c.golden)}
+    <span class="card-pane" aria-hidden="true"></span>${cardBevel(spell,c.golden)}
     ${spell ? "" : `<span class="tier-seal" aria-hidden="true">${c.tier}</span>` + stat(atta(c),20,"atk",attackState) + stat(hp(c),80,"hp",healthState)}
     ${c.pips ? `<span aria-hidden="true" class="pips ${c.supply?"supply":""}">${"<i></i>".repeat(c.pips)}</span>` : ""}
   </${element}>`;
@@ -499,7 +489,7 @@ function placement(x,y,w) {
 }
 function shop() {
   const gold = first ? 5 : 20, tier = first ? 1 : 5, upgrade = first ? 8 : 23;
-  const offer = (id,x,width,spell=false) => `<div class="shop-offer" ${placement(x,406-width*(spell?760:1000)/560,width)}>${cardFace(id,{zone:"shop"})}${coin(cards[id].price)}</div>`;
+  const offer = (id,x,width,spell=false) => `<div class="shop-offer" ${placement(x,383-width*(spell?760:1000)/560,width)}>${cardFace(id,{zone:"shop"})}${coin(cards[id].price)}</div>`;
   return `<section aria-label="Shop">
     <div class="placed shop-controls">
       <div class="purse"><span class="coin">${icon("spark")}</span><strong>${gold}</strong><span class="gold-word">Gold</span></div>
@@ -510,13 +500,15 @@ function shop() {
       <button class="plate-button refresh-button" aria-label="Refresh for 1 gold, 10 at this price"><span class="refresh-title">${icon("refresh")} Refresh ${coin(1)}</span><span class="readout refresh-meta">10 at this price</span></button>
       <button class="plate-button" id="freeze" type="button" aria-pressed="false">${icon("freeze")} <span>Freeze</span></button>
     </div>
-    ${offers.map((id,i)=>offer(id,577+i*164,shopUnitWidth)).join("")}
+    ${offers.map((id,i)=>offer(id,574+i*164,shopUnitWidth)).join("")}
     <section aria-label="Shop spells">
-      ${[1380,1508].map(x=>offer("sharpen",x,shopSpellWidth,true)).join("")}
+      ${[1378,1510].map(x=>offer("sharpen",x,shopSpellWidth,true)).join("")}
     </section>
   </section>`;
 }
-const spacing = 224, boardCentre = 960;
+const boardCentre = 960;
+const fightCardWidth = 112, fightGap = 36, fightPitch = fightCardWidth + fightGap;
+const strikeCentre = boardCentre + fightPitch/2;
 const yourFrontRenown = [7,0,2,0], yourBackRenown = [3,0,0];
 const enemyFrontRenown = [3,4,7,2], enemyBackRenown = [1,0,0];
 const fightStart = {"blackberry-sprawl":{fightAttack:8,fightHealth:12}};
@@ -527,10 +519,10 @@ const fightEnd = {
   "weasel":{fightHealth:2,wounded:true},
   "gorger":{fightHealth:57,wounded:true}
 };
-function boardRow(ids, renown, y, width, kind, {variants={},outcome=false,tutorial=false}={}) {
+function boardRow(ids, renown, y, width, pitch, kind, {variants={},outcome=false,tutorial=false}={}) {
   const zone = recruit ? "board" : "fight";
   return ids.map((id,i)=>{
-    const x = boardCentre + spacing * (i - (ids.length-1)/2);
+    const x = boardCentre + pitch * (i - (ids.length-1)/2);
     const state = variants[id] ?? {};
     const status = outcome ? (state.fallen ? "Fell" : "Survived") : state.status;
     const value = renown[i];
@@ -552,9 +544,12 @@ function boardRow(ids, renown, y, width, kind, {variants={},outcome=false,tutori
 function recruitBoard() {
   const fronts = first ? Array(4).fill(null) : yourFront;
   const backs = first ? Array(3).fill(null) : yourBack;
+  const alternate = view === "mid-b";
+  const width = alternate ? 154 : boardCardWidth;
+  const pitch = width + (alternate ? 62 : 36);
   return `<section aria-label="Your board">
-    ${boardRow(fronts,first ? [] : yourFrontRenown,486,boardCardWidth,"Front",{tutorial:first})}
-    ${boardRow(backs,first ? [] : yourBackRenown,734,boardCardWidth,"Back")}
+    ${boardRow(fronts,first ? [] : yourFrontRenown,alternate ? 483 : 480,width,pitch,"Front",{tutorial:first})}
+    ${boardRow(backs,first ? [] : yourBackRenown,alternate ? 716 : 766,width,pitch,"Back")}
     ${first ? `<p class="cue placed">Drag a unit here from the shop.${icon("arrow")}</p>` : ""}
   </section>`;
 }
@@ -563,21 +558,23 @@ function fightBoard() {
   const opponent = {variants:after ? fightEnd : {"holly-knight":{strike:"striking",status:"Attacking Bell-ringer"}},outcome:after};
   const ally = {variants:{"bell-ringer":{strike:"struck",status:"Defending against Holly Knight"}}};
   return `<section class="enemy-board" aria-label="March Hare’s board">
-    ${boardRow(enemyBack,enemyBackRenown,66,145,"Back",opponent)}
-    ${boardRow(enemyFront,enemyFrontRenown,274,145,"Front",opponent)}
+    ${boardRow(enemyBack,enemyBackRenown,70,fightCardWidth,fightPitch,"Back",opponent)}
+    ${boardRow(enemyFront,enemyFrontRenown,306,fightCardWidth,fightPitch,"Front",opponent)}
   </section>
   ${after ? "" : `<section aria-label="Your board">
-    <span class="strike-mark" aria-hidden="true">${icon("swords")}</span>
-    ${boardRow(front,yourFrontRenown,551,145,"Front",ally)}
-    ${boardRow(yourBack,yourBackRenown,783,145,"Back",{variants:fightStart})}
+    <span class="strike-mark" style="--strike-x:${strikeCentre}px" aria-hidden="true">${icon("swords")}</span>
+    ${boardRow(front,yourFrontRenown,574,fightCardWidth,fightPitch,"Front",ally)}
+    ${boardRow(yourBack,yourBackRenown,810,fightCardWidth,fightPitch,"Back",{variants:fightStart})}
   </section>`}`;
 }
 function hand() {
-  const ids = first ? [] : ["seek"];
-  const positions = [[6,0],[69,0],[132,0],[195,0],[37,118],[100,118],[163,118]];
-  return `<section class="side hand" aria-label="Hand, ${ids.length} of 7">
-    <p class="hand-count" aria-hidden="true">${ids.length}/7</p>
-    <div class="hand-tray">${positions.map(([x,y],i)=>`<div class="hand-slot" style="top:${y}px;left:${x}px">${ids[i] ? cardFace(ids[i],{zone:"hand"}) : emptySlot("Empty hand slot")}</div>`).join("")}</div>
+  const seek = cards.seek;
+  const count = first ? 0 : 1;
+  return `<section class="side hand" aria-label="Hand, ${count} of 7">
+    <p class="hand-count" aria-hidden="true">${count}/7</p>
+    <div class="hand-tray">${Array.from({length:7},(_,i)=>i < count
+      ? `<div class="hand-slot has-spell">${cardFace(seek.id,{zone:"hand"})}${coin(seek.price)}</div>`
+      : `<div class="hand-slot">${emptySlot("Empty hand slot")}</div>`).join("")}</div>
   </section>`;
 }
 function menu() {
@@ -632,7 +629,7 @@ function defeat() {
 function fightOpponent() {
   return `<section class="side right fight-profile" aria-label="Opponent">
     ${portrait(enemy[1])}
-    <p class="section-name">March Hare</p>${health(16)}
+    <div class="rival-id"><p class="section-name">March Hare</p>${health(16)}</div>
   </section>`;
 }
 function bottomAction() {
@@ -652,7 +649,7 @@ function frameStudy() {
     <h2>Leaded card frames</h2>
     <nav class="study-nav" aria-label="Frame studies">${links.map(([key,label])=>`<a class="plate-button" href="?view=${key}" ${key===view?'aria-current="page"':""}>${label}</a>`).join("")}</nav>
   </header>
-  <div class="study-strip" style="--spell-study-scale:${shopSpellWidth/boardCardWidth*100}%">${specimens.map(([id,label])=>`<figure class="specimen"><div class="specimen-shape">${cardFace(id,{lit:label==="Hover"})}</div><figcaption>${label}</figcaption></figure>`).join("")}</div>`;
+  <div class="study-strip" style="--study-width:${boardCardWidth*(view==="cards" ? 1 : 2)}px;--spell-study-scale:${shopSpellWidth/boardCardWidth*100}%">${specimens.map(([id,label])=>`<figure class="specimen"><div class="specimen-shape">${cardFace(id,{lit:label==="Hover"})}</div><figcaption>${label}</figcaption></figure>`).join("")}</div>`;
 }
 const selfHealth = first ? 40 : after ? 0 : 11;
 const leftProfile = `<section class="side left-top" aria-label="Dame Farthing">
@@ -663,6 +660,7 @@ const overlays = `<aside class="side keywords-panel seamed" aria-label="Keyword 
   <span class="demo-pointer" aria-hidden="true" hidden><svg width="24" height="32" viewBox="0 0 24 32">
     <path d="M2 1 21 20 13 20 17 28 12 31 8 22 2 27Z" fill="#fff1cd" stroke="#201d14" stroke-width="1.9" stroke-linejoin="round"/>
   </svg></span>`;
+if (!study) document.getElementById("window-art").innerHTML = windowArt();
 screen.innerHTML = study ? frameStudy() : leftProfile + (recruit
   ? shop()+recruitBoard()+hand()+standings()+turnAction()+menu()
   : fightBoard()+(after ? defeat()+standings() : fightOpponent())+bottomAction()+menu()) + overlays;
@@ -717,7 +715,7 @@ if (!study) {
   function contentForCard(card,node) {
     const spell = card.folder === "spell";
     const zone = node.dataset.zone;
-    const price = zone === "shop" ? ` · ${card.price} gold` : "";
+    const price = zone === "shop" || (zone === "hand" && spell) ? ` · ${card.price} gold` : "";
     const sale = zone === "board" ? `<p class="tip-note">Sell for ${Math.ceil(card.tier/2)} gold</p>` : "";
     const context = after && card.id === "gorger"
       ? '<p class="tip-note">Started at 38 Attack and 68 Health. Survived with 57 Health.</p>'
@@ -740,7 +738,6 @@ if (!study) {
       active?.classList.remove("is-inspected");
       active?.removeAttribute("aria-describedby");
       active = node;
-      stage.classList.toggle("inspecting",Boolean(node?.dataset.card));
       tip.hidden = !node;
       if (!node) {
         syncReminders(null);
