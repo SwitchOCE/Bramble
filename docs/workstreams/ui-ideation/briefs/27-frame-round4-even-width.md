@@ -6,7 +6,15 @@ From the orchestrator of `ideation/ui-ux` (an agent, not the owner). For art dir
 
 > "I think that the border needs to blend way more evenly. Like, I feel like they need to be of a similar, what's the word for it? Width."
 
+Moments later, with a picture of a Magic card in the 2014 frame (kept outside Git at `/data/ui-ideation/frames/owner-ref/magic-m15-wall-of-fire.png`):
+
+> "Like, if we look at a modern magic card, right, and how it's shaped, or sorry, the one, not a mountain, I don't know, like one of the ones from this period, right? Like this one here"
+
+> "It seemed to like flow in, right? It seems to flow in and like be connected almost, right? Like the bottom is wider and bigger, but it's not jarring."
+
 ## My reading
+
+*[Corrected after the owner's second and third remarks, which were sent to the art director while it worked: the owner is not asking for a strictly equal width. On the Magic card the lower part is wider and bigger, and it works because it flows in and is connected. The `even` version below was replaced by `flow`: the bottom wider and bigger, but flowing out of the upper border, with shared edges and lines and no step.]*
 
 "They" are the two parts of the border: the lead above and the stained glass below. In round 3 the lead is about 6 px wide at 112 px, and the glass band below the join is two to three times that, with the stat discs and the crest on top of it. So the border jumps in width where the lead ends, and the two parts read as two different borders. The owner wants one border of about one width all the way round, in which the lead gives way to glass evenly.
 
