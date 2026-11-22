@@ -16,34 +16,33 @@ Today's art window is kept exactly, so painted art still fits: art is 81% of the
 
 ## 3. Ornament
 
-Round 4 (`build4.py`, version "flow"): the whole border is one cast-lead came, drawn in code, 31 units round the top and sides. The apex is plain; there is no bottom crest.
+Round 5 (`build5.py`): round 4's "flow" outline, unchanged in shape. The whole border is one came, 31 units round the top and sides, cast: an H-section with broken highlights, a slight wobble, oxide in the low parts. The apex is plain.
 
 ## 4. The join
 
-At the join the came's two rails part in a leaf tip and the tier's glass opens between them. From there the band widens smoothly, by the glass only, to 62 units round the foot: the bottom is bigger but one piece with the sides. Glass is the generated strips (`prompts-4.txt`) laid along the band.
+At the join the came's rails part in a rounded leaf tip and the glass opens between them, widening smoothly to 68 units round the foot. The glass is cut into panes in code, each edged in lead, with solder where pane lines meet the rails. Each pane takes its colour and streaks from one pane of the generated strips (`prompts-4.txt`), with their lead painted out.
 
 ## 5. The tier ladder
 
 Read at 112 px:
-- **Colour:** pearl, leaf green, sapphire, violet, honey amber, ruby.
-- **Height and mass:** the join rises from y 800 to y 500, 60 units (12 px at 112) a tier, so higher tiers carry more glass.
-- Panes get shorter by tier.
+- **Colour:** clear glass, leaf green, sapphire, violet, honey amber with green leaves, ruby.
+- **Height and mass:** the join rises from y 800 to y 500, 60 units (12 px at 112) a tier.
+- **Cutting, read at hover:** long quarries; wedges; chevrons; split chevrons; leaves; leaves with jewels. A keystone jewel at the foot from tier 3.
 
 ## 6. Golden
 
-The came turns modelled gilt, as wide as the lead, all the way round. The glass keeps its tier colour.
+The same came in modelled gilt. The glass keeps its tier colour.
 
 ## 7. Stats, tier mark, spell
 
-- **Roundels:** an ivory face (radius 54), a came, a ring of the tier's own glass, an outer came; on the band's lower corners at (74, 788) and (486, 788).
-- **Tier mark:** colour plus glass height. No numeral.
-- **Spell:** a round came (radius 238); the lower arc opens into tier glass the same way.
+- **Roundels:** an ivory face (radius 54), a came, a ring of eight cut panes of the tier's glass, a cast collar; at (74, 788) and (486, 788).
+- **Tier mark:** colour, glass height, cutting. No numeral.
+- **Spell:** a round came (radius 238); the lower arc opens into cut tier glass the same way.
 
 ## What I would still fix
 
-- **Tier 5 amber and tier 6 ruby sit close to warm art,** so on sunset or fire art the glass merges with the picture.
-- **The strips' own lead lines cross the band at fixed steps,** not at pane ends, here and there.
-- **Greyscale tiers 1 to 3 differ only by glass height.**
-- **The lead's cast finish is a code profile;** at 300 px it reads smooth, not cast.
-- **The "near" version is barely different at 112 px;** I show it only for the record.
+- **Tier 6 ruby still meets warm art** in colour; only the dark inner rail separates them.
+- **Tier 3 reads more cyan than sapphire** at 112 px, because its lighter panes are teal.
+- **Greyscale tiers 2 to 4 differ mostly by glass height;** the cutting shows only from about 200 px.
+- **The cast finish is a code profile.** It reads as lead at hover but has no real casting marks.
 - **Glow and sheen are not judged.**
