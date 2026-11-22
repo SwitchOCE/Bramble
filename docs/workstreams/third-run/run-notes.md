@@ -69,6 +69,11 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
   - `head_to_head.sh` has the same guard. The invalid outputs were deleted.
 - **Head-to-head, red-c2 against blue-c6** (fixed build, climbing field of 10,500 runs): 1,000 games, red 2.636, blue 2.952, gap −0.316 ± 0.244. **Red ahead.** The match was clean and is pruned to its summary.
 
+### Machine restart (23 Nov, overnight; resumed 08:36)
+
+- The restart killed both stopping-test chains and the approval watch. Red-2 had 19 of 36 matches done; none was lost. Blue-2 was still building ref-3 (a 7.7 GB partial live match, deleted).
+- Resumed at 08:36: ref-3 rebuilt from red-c14 and blue-c17, then blue-2's 27 matches; red-2 resumes at reserve_value+. Both teams were told.
+
 ## Daily report, 21 Nov (sent to the owner)
 
 - Kept: red-c1 and red-c2 (2 of 2 hand-ins); blue-c2, blue-c4 and blue-c6 (3 of 6).
