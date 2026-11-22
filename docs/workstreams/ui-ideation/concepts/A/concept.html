@@ -27,8 +27,8 @@ h1,h2,h3,strong,b{font-weight:700}
 .glyph.ward-color{color:#f6dfa7}.glyph.shop-color{color:#bdddde}
 .cap{font:700 18px/1 var(--sans);letter-spacing:.115em;text-transform:uppercase;color:#ecd8ad}
 .section-name{font:700 29px/1 var(--serif)}
-.side{position:absolute;left:55px;width:327px}
-.side.right{left:1538px}
+.side{position:absolute;left:47px;width:270px}
+.side.right{left:1603px}
 .seamed{background:linear-gradient(165deg,#252e28,#14221f 58%,#172725),var(--pane-texture);background-blend-mode:normal,screen;border:1px solid #72644e;box-shadow:0 0 0 3px #0b1110,inset 0 1px #b39a6259,inset 0 -2px #050c09,0 5px 7px #080a0890}
 .left-top{top:126px;text-align:center}
 .turn{display:table;margin:0 auto;padding:3px 11px 2px;border-radius:3px;background:#272b22;border:1px solid #8d7b55;box-shadow:0 0 0 2px #1a2019;font:750 27px/1 var(--serif);color:#f4deb0}
@@ -44,12 +44,11 @@ h1,h2,h3,strong,b{font-weight:700}
 .counter .glyph{width:17px;height:17px;color:#d3bd86}
 .counter b{font:800 22px/1 var(--serif)}
 .hand{position:absolute;top:884px;left:447px;width:1026px}
-.hand-count{position:absolute;top:55px;left:51px;padding:6px 12px;border:1px solid #98855e;border-radius:4px;background:#293e36;font:790 23px/1 var(--serif);color:#fff1cf}
-.hand-tray{display:grid;grid-template-columns:repeat(7,84px);gap:21px;justify-content:center}
+.hand-count{position:absolute;top:55px;left:78px;padding:6px 12px;border:1px solid #98855e;border-radius:4px;background:#293e36;font:790 23px/1 var(--serif);color:#fff1cf}
+.hand-tray{display:grid;grid-template-columns:repeat(7,84px);gap:var(--card-gap);justify-content:center}
 .hand-slot{position:relative;width:84px;aspect-ratio:560/1000;display:grid;align-items:center}
-.hand-slot .slot-trace{width:100%;height:100%;fill:none;stroke:#cfb987;stroke-opacity:.65;stroke-width:8}
-.hand-slot.has-spell{align-content:start}
-.hand-slot > .coin{position:absolute;left:50%;bottom:0;transform:translateX(-50%)}
+.hand-slot.has-spell{align-content:start;padding-top:12px}
+.hand-slot > .coin{position:absolute;left:50%;bottom:17px;transform:translateX(-50%)}
 .hand-slot .unit-stat{font-size:18px;width:23px}
 .game-menu{top:1002px}
 .game-menu summary{cursor:pointer;list-style:none}
@@ -58,14 +57,15 @@ h1,h2,h3,strong,b{font-weight:700}
 .game-menu-content{position:absolute;bottom:56px;left:0;width:100%;padding:9px 13px;background:#182520;border:1px solid #a18959;z-index:10;border-radius:5px;box-shadow:0 8px 15px #090b09}
 .game-menu-content button{width:100%;min-height:46px;text-align:left;padding:0 8px;font-size:19px}
 .game-menu-content button+button{border-top:1px solid #71654b}
-.shop-controls{top:322px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.shop-controls{top:322px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .shop-controls .purse,.upgrade-group{grid-column:1/-1}
 .purse{height:56px;display:flex;align-items:center;justify-content:center;gap:7px;border-radius:7px 7px 4px 4px;background:linear-gradient(145deg,#433626,#2b281d 70%);border:1px solid #92774c;box-shadow:0 0 0 3px #10130e,inset 0 1px #c6a16b7d}
 .purse strong{font:850 36px/1 var(--serif)}
 .purse .coin{width:26px;height:26px}
 .purse .gold-word{font-size:18px;color:#e0cc9d}
-.shop-controls .plate-button{width:100%;padding:0 9px}
-.upgrade-group{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.shop-controls .plate-button{width:100%;padding:0 4px;gap:5px}
+.shop-controls .plate-button .glyph{width:17px;height:17px}
+.upgrade-group{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .refresh-button{flex-direction:column;gap:3px;padding-block:6px!important}
 .refresh-title{display:flex;align-items:center;gap:5px}
 .readout{font:700 19px/1.05 var(--sans);color:#fff0cb}
@@ -79,41 +79,44 @@ h1,h2,h3,strong,b{font-weight:700}
 .coin .glyph{width:15px;height:15px;fill:currentColor;stroke:none}
 .shop-offer,.board-piece{position:absolute;width:var(--w);top:var(--y);left:calc(var(--x) - var(--w)/2)}
 .shop-offer > .coin{display:grid;width:31px;height:31px;margin:10px auto 0;font-size:22px}
-.card-face{position:relative;display:block;width:100%;aspect-ratio:560/1000;container-type:inline-size;isolation:isolate;filter:drop-shadow(0 6px 6px #07100dd6)}
-.card-pane,.card-frame,.slot-layer{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.card-face{position:relative;display:block;width:100%;aspect-ratio:560/1000;container-type:inline-size;isolation:isolate;filter:drop-shadow(0 5px 6px #07100dd1) drop-shadow(0 0 8px var(--halo,transparent))}
+.card-pane,.card-frame,.frame-glass,.slot-trace{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .card-pane{clip-path:var(--inner);background:var(--card-glass)}
-.card-face::before{content:"";position:absolute;inset:1px;background:#111614;clip-path:var(--hex);z-index:-1}
-.card-frame{overflow:visible;--rim:#786b53;--edge:#312a21}
-.spell-card{aspect-ratio:560/760}
-.spell-card .card-pane,.spell-card::before{clip-path:url(#spell-pane)}
+.card-pane[src]{object-fit:cover}
+.card-face::before{content:"";position:absolute;inset:0;background:#151914;clip-path:var(--hex);z-index:-1}
+.card-frame{overflow:visible;--rim:#83857a;--edge:#373d35}
+.frame-glass{clip-path:inset(var(--glass-start) 0 0)}
+.cut-quarter .frame-glass{clip-path:url(#quarter-foot)}
+.spell-card{aspect-ratio:1;border-radius:50%}
+.spell-card .card-pane{clip-path:circle(46%)}
+.spell-card::before{clip-path:circle(50%)}
 .card-face.is-inspected,.board-piece.striking,.board-piece.struck{--rim-light:#d6ffef;--halo:#8ae8da;--pane-light:#789e95}
 .board-piece.struck{--pane-light:#638f85}
 .is-inspected .card-pane,.striking .card-pane,.struck .card-pane{background:var(--pane-light)}
-.is-inspected .card-frame,.striking .card-frame,.struck .card-frame{--rim:var(--rim-light);--edge:#4b887c;filter:drop-shadow(0 0 8px var(--halo))}
+.is-inspected .card-frame,.striking .card-frame,.struck .card-frame{--rim:var(--rim-light);--edge:#4b887c}
 .card-face:focus-visible{outline:2px solid #fff1c3;outline-offset:4px}
 .tier-seal{position:absolute;left:50%;top:5.4%;transform:translateX(-50%);width:18%;aspect-ratio:1.22;display:grid;place-items:center;border-radius:3px;border:1px solid #ad9974;background:#282a24;box-shadow:0 0 0 2px #181915,inset 0 1px #ead4a448;font:800 max(18px,11.5cqw)/1 var(--serif);color:#fff0cd}
-.unit-stat{position:absolute;width:24%;aspect-ratio:1;transform:translate(-50%,-50%);display:grid;place-items:center;font:850 max(18px,14.2cqw)/1 var(--serif);color:#fff2d7;text-shadow:0 2px #11090d}
-.unit-stat::before,.unit-stat::after{content:"";position:absolute;inset:0;z-index:-2;clip-path:var(--stat-shape);background:#a58b5b}
-.unit-stat::after{inset:1.5px;z-index:-1;background:#292b23}
-.unit-stat.atk{--stat-shape:polygon(50% 0,86% 14%,100% 50%,86% 86%,50% 100%,14% 86%,0 50%,14% 14%)}
-.unit-stat.hp{--stat-shape:polygon(8% 7%,92% 7%,98% 52%,84% 81%,50% 100%,16% 81%,2% 52%)}
-.unit-stat.hp::before{background:#a57f70}.unit-stat.hp::after{background:#442b30}
-.unit-stat.buffed{color:#c7f4ae}
-.unit-stat.wounded{color:#ffb3a5}
-.stat-marker{position:absolute;bottom:calc(100% - 3px);left:50%;transform:translateX(-50%);width:15px;height:14px;padding:0 2px;background:#20241e;border-radius:3px;color:inherit}
-.pips{position:absolute;left:50%;top:87%;transform:translateX(-50%);display:flex;gap:max(2px,2cqw)}
+.unit-stat{position:absolute;width:22%;aspect-ratio:1;transform:translate(-50%,-50%);display:grid;place-items:center;font:850 max(18px,15.5cqw)/1 var(--serif);color:#2c1b12}
+.unit-stat.buffed{color:#234115}
+.unit-stat.wounded{color:#781f26}
+.stat-marker{position:absolute;bottom:calc(100% + 3px);left:50%;transform:translateX(-50%);width:15px;height:14px;padding:0 2px;background:#20241e;border-radius:3px}
+.buffed .stat-marker{color:#c7f4ae}
+.wounded .stat-marker{color:#ffb3a5}
+.pips{position:absolute;left:50%;top:85.8%;transform:translateX(-50%);display:flex;gap:max(2px,2cqw)}
 .pips i{display:block;width:max(5px,5.5cqw);aspect-ratio:1;border:1px solid #e0cfaa;box-shadow:0 0 0 1px #1a1413;background:#f1dfb6;border-radius:50%}
 .pips.supply i{border-radius:1px;background:#c4d5cb}
 .board-slot{position:relative;aspect-ratio:560/1000;isolation:isolate}
-.slot-surround{position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);pointer-events:none}
+.slot-trace{fill:none;stroke:#d1c59b;stroke-opacity:.63;stroke-width:9}
+.empty-slot::before{content:none}
+.empty-slot{filter:none}
 .renown{position:absolute;left:5px;top:17.7%;display:flex;align-items:center;gap:3px;padding:3px 5px;border-radius:3px;border:1px solid #8e7951;box-shadow:0 0 0 2px #121813;background:#263126;color:#f5e6ba;font:750 20px/1 var(--serif);pointer-events:none}
 .renown .glyph{width:15px;height:15px}
-.tutorial-target .slot-surround path{stroke:#bbdfc9;stroke-width:10px}
+.tutorial-target .slot-trace{stroke:#c0f2dc;stroke-opacity:1;stroke-width:13}
 .tutorial-target .empty-slot{filter:drop-shadow(0 0 7px #9bceb55c)}
-.fallen .empty-slot .slot-layer path:first-child{fill:#222321;stroke:#201615}
+.fallen .slot-trace{stroke:#c28a74}
 .fallen-mark{display:grid;place-items:center;position:absolute;top:39%;left:29%;width:42%;aspect-ratio:1;border:1px solid #8d6256;border-radius:50%;background:#302422;color:#edc0aa}
 .fallen-mark .glyph{width:25px;height:25px}
-.cue{top:469px;left:492px;width:165px;padding:10px 11px;border-radius:4px;text-align:left;color:#e8f6e4;background:#223932;border:1px solid #87ad99;box-shadow:0 0 0 3px #131b16;font:700 19px/1.12 var(--sans)}
+.cue{top:483px;left:492px;width:165px;padding:10px 11px;border-radius:4px;text-align:left;color:#e8f6e4;background:#223932;border:1px solid #87ad99;box-shadow:0 0 0 3px #131b16;font:700 19px/1.12 var(--sans)}
 .cue .glyph{position:absolute;width:29px;height:24px;right:-31px;top:calc(50% - 12px);color:#c9ead8;filter:drop-shadow(0 1px 1px #071814)}
 .roster{top:158px}
 .roster-list{margin:0;padding:0;list-style:none;display:grid;gap:6px}
@@ -178,18 +181,26 @@ h1,h2,h3,strong,b{font-weight:700}
 .demo-pointer{position:absolute;width:24px;height:32px;z-index:31;pointer-events:none;filter:drop-shadow(0 2px 2px #050705)}
 .study{background:radial-gradient(ellipse at 50% 51%,#445047 0%,#17241d 52%,#101613 81%),url("../../../../../assets/glass/ui/stone.jpg");background-blend-mode:multiply,normal}
 .study::after{content:"";position:absolute;inset:29px;border:1px solid #a28a61;box-shadow:0 0 0 5px #131812,0 0 0 6px #75624a,inset 0 0 0 5px #191d15;pointer-events:none}
-.study-header{position:absolute;top:66px;left:70px;right:70px;text-align:center}
-.study-header h2{font:740 52px/1 var(--serif);margin:0 0 17px;color:#f2deb4}
+.study-header{position:absolute;top:36px;left:90px;right:90px;display:flex;justify-content:space-between;align-items:center}
+.study-header h2{font:740 44px/1 var(--serif);color:#f2deb4}
 .study-nav{display:flex;justify-content:center;gap:10px}
 .study-nav .plate-button{font-size:20px;padding:0 16px}
 .study-nav [aria-current]{background:#533e2b;border-color:#c9a167}
-.study-strip{position:absolute;top:355px;left:48px;right:48px;display:flex;align-items:flex-start;justify-content:center;gap:22px}
-.study-large .study-strip{top:223px;gap:20px}
+.study-strip{display:flex;align-items:flex-start;justify-content:center;gap:26px}
+.study-band{position:absolute;left:70px;right:70px;top:120px}
+.study-band + .study-band{top:413px}
+.study-band h3,.gap-study h3{font:700 23px/1 var(--serif);text-align:center;margin:0 0 12px;color:#dfcda8}
+.study-large .study-strip{gap:24px}
+.study-large .study-band{top:114px}
+.study-large .study-band + .study-band{top:565px}
 .specimen{width:var(--study-width);flex:none;margin:0;text-align:center}
 .specimen-shape{aspect-ratio:560/1000;display:grid;place-items:center}
 .specimen .spell-card{width:var(--spell-study-scale)}
-.specimen figcaption{margin:14px 0 0;padding:8px 0;border-top:1px solid #90794e;background:#1b261f;font:740 22px/1 var(--serif);color:#f7e5c1}
-.study-large .specimen figcaption{font-size:24px}
+.specimen figcaption{margin:8px 0 0;padding:6px 0;border-top:1px solid #90794e;background:#1b261f;font:740 21px/1 var(--serif);color:#f7e5c1}
+.gap-study{position:absolute;top:725px;left:0;width:100%}
+.gap-swatch{position:relative;width:654px;height:241px;margin:auto;border:1px solid #a28a61;border-radius:4px;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:var(--card-gap);box-shadow:0 0 0 4px #111915}
+.gap-swatch .card-face{width:112px}
+.gap-swatch-ground{position:absolute;left:-633px;top:-620px;pointer-events:none}
 </style>
 </head>
 <body>
@@ -197,8 +208,10 @@ h1,h2,h3,strong,b{font-weight:700}
 <h1 class="sr-only">Bramble</h1>
 <div class="window" id="window-art" aria-hidden="true"></div>
 <svg width="0" height="0" class="placed" aria-hidden="true"><defs>
-  <clipPath id="spell-pane" clipPathUnits="objectBoundingBox">
-    <path d="M.066 .895 V.351 C.066 .201 .251 .09 .5 .043 C.749 .09 .934 .201 .934 .351 V.895 L.86 .949H.14Z"/>
+  <clipPath id="quarter-foot" clipPathUnits="objectBoundingBox">
+    <rect y=".75" width="1" height=".25"/>
+    <ellipse cx=".192" cy=".761" rx=".15" ry=".084"/>
+    <ellipse cx=".807" cy=".760" rx=".15" ry=".084"/>
   </clipPath>
 </defs></svg>
 <div id="screen"></div>
@@ -210,7 +223,7 @@ const stage = document.getElementById("stage");
 const screen = document.getElementById("screen");
 const requestedView = new URLSearchParams(location.search).get("view");
 const gameViews = ["mid","first","fight","after","hover-shop","hover-board","hover-spell","keywords-off"];
-const studyViews = ["cards","extra1","extra2"];
+const studyViews = ["cards","extra1"];
 const view = [...gameViews,...studyViews].includes(requestedView) ? requestedView : "mid";
 const first = view === "first";
 const study = studyViews.includes(view);
@@ -255,9 +268,9 @@ function icon(name) {
 }
 
 const timber = {
-  middle:"M425 1058V151C425 99 635 52 831 40Q914 35 960 18Q1006 35 1089 40C1285 52 1495 99 1495 151V1058Z",
-  left:"M27 1058V177Q27 110 218 52Q409 110 409 177V1058Z",
-  right:"M1511 1058V177Q1511 110 1702 52Q1893 110 1893 177V1058Z"
+  middle:"M353 1058V151C353 99 595 52 831 40Q914 35 960 18Q1006 35 1089 40C1325 52 1567 99 1567 151V1058Z",
+  left:"M27 1058V177Q27 106 182 52Q337 106 337 177V1058Z",
+  right:"M1583 1058V177Q1583 106 1738 52Q1893 106 1893 177V1058Z"
 };
 
 function tracery(cx, peak, edge, height) {
@@ -266,11 +279,10 @@ function tracery(cx, peak, edge, height) {
   <path d="M${cx} ${peak + 25}V${peak + 137} M${cx} ${peak + 82}l-30 -15m30 15 30 -15" stroke="#b29a65" stroke-opacity=".35" stroke-width="1.2" fill="none"/>`;
 }
 
-function rose(cx, cy, r, sun=false) {
-  const glass = sun ? ["#f8d484","#fdf0b7","#dd9e54","#fedf97"] : ["#8c6b46","#64684d","#397064","#8f5c45"];
-  const petals = Array.from({length:8}, (_,i) => `<path d="M0 0Q-${r*.37} -${r*.44} 0 -${r*.88}Q${r*.37} -${r*.44} 0 0Z" transform="rotate(${i*45})" fill="${glass[i%4]}"/>`).join("");
+function rose(cx, cy, r) {
+  const petals = Array.from({length:8}, (_,i) => `<path d="M0 0Q-${r*.37} -${r*.44} 0 -${r*.88}Q${r*.37} -${r*.44} 0 0Z" transform="rotate(${i*45})" fill="${["#8c6b46","#64684d","#397064","#8f5c45"][i%4]}"/>`).join("");
   return `<g transform="translate(${cx} ${cy})" stroke="#18201a" stroke-width="2.3">
-  <circle r="${r+4}" fill="#221e16" stroke="#9e856075" stroke-width="1.4"/><circle r="${r}" fill="${sun ? "#b37542" : "#454434"}"/>
+  <circle r="${r+4}" fill="#221e16" stroke="#9e856045" stroke-width="1.4"/><circle r="${r}" fill="url(#quarry)"/>
   ${petals}<circle r="${r*.15}" fill="#c2a268" stroke="#332820"/></g>`;
 }
 
@@ -298,72 +310,68 @@ function oakBadge(x,y,scale=1) {
   </g>`;
 }
 
-function woodlandEdge(x,direction) {
-  return `<g transform="translate(${x} 0) scale(${direction} 1)" stroke="#253c33" stroke-width="3" stroke-linejoin="round">
-    <path d="M0 396Q45 369 80 392Q117 380 145 414Q172 419 191 456Q160 480 130 469Q109 489 74 473Q44 502 0 475Z" fill="#799467"/>
-    <path d="M0 457Q32 441 58 457Q86 434 120 461Q150 453 163 482Q190 488 195 515Q170 548 134 535Q108 558 77 547Q42 578 0 550Z" fill="#4d796c"/>
-    <path d="M0 542Q30 519 58 536Q97 518 126 550Q150 545 154 569Q137 599 107 594Q84 615 62 601Q42 642 0 617Z" fill="#648158"/>
-    <path d="M0 416Q68 400 115 448T191 456M0 491Q52 475 104 506T195 515M0 577Q70 561 114 581" fill="none" stroke="#b6ad79" stroke-opacity=".66" stroke-width="1.6"/>
-    <path d="M0 1058V909Q43 892 62 830Q83 756 77 663L66 564 33 496 52 476 92 545 112 530 136 479 152 487 129 549 106 580Q132 738 103 871L133 969 112 1058Z" fill="#5d5140"/>
-    <path d="M62 830 103 871 133 969 112 1058H63L86 973 42 926ZM66 564 92 545 106 580 94 664 77 663Z" fill="#8b7250"/>
-    <path d="M0 952Q83 957 157 894L226 892 200 936 146 966 109 1017 207 1031 227 1058H0Z" fill="#526f55"/>
-    <path d="M0 1010 54 988 109 1017 207 1031 227 1058H0Z" fill="#48736d"/>
-    ${bough(105,735,1,.66)}${bough(25,983,1,.76)}
-  </g>`;
-}
-
 function windowArt() {
   const profiles = Object.entries(timber);
   const outlines = profiles.map(([,d])=>`<path d="${d}" fill="none" stroke="#080b09" stroke-width="25"/><path d="${d}" fill="none" stroke="url(#stone-mould)" stroke-width="19"/><path d="${d}" fill="none" stroke="#0b100d" stroke-width="12"/><path d="${d}" fill="none" stroke="#85704c" stroke-width="7"/><path d="${d}" fill="none" stroke="#4f4232" stroke-width="4.5" stroke-dasharray="13 2 9 2 20 2"/><path d="${d}" fill="none" stroke="#b69763" stroke-width="1.2"/>`).join("");
-  const rails = (recruit ? [[371,8],[614,2],[856,8]] : [[298,2],[540,8],[782,2]]).map(([y,w])=>
-    `<path d="M425 ${y}H1495" stroke="#1d2d24" stroke-width="${w+3}"/><path d="M425 ${y}H1495" stroke="url(#beam)" stroke-width="${w}"/>`).join("");
+  const rails = (recruit ? [381,851] : [540]).map(y=>
+    `<path d="M353 ${y}H1567" stroke="#10150f" stroke-width="13"/>
+    <path d="M353 ${y}H1567" stroke="url(#beam)" stroke-width="8"/>
+    <path d="M353 ${y-3}H1567" stroke="#ae9163" stroke-opacity=".55" stroke-width="1"/>`).join("");
   return `<svg viewBox="0 0 1920 1080" width="1920" height="1080" xmlns="http://www.w3.org/2000/svg">
   <defs>
     ${profiles.map(([name,d])=>`<clipPath id="clip-${name}"><path d="${d}"/></clipPath>`).join("")}
     <linearGradient id="stone-mould" x1="0" y1="0" x2=".18" y2="1"><stop stop-color="#75634d"/><stop offset=".44" stop-color="#3b392d"/><stop offset="1" stop-color="#585444"/></linearGradient>
-    <linearGradient id="field" x2=".11" y2="1"><stop stop-color="#8b603d"/><stop offset=".24" stop-color="#927850"/><stop offset=".45" stop-color="#62754f"/><stop offset=".75" stop-color="#3b665f"/><stop offset="1" stop-color="#355950"/></linearGradient>
-    <linearGradient id="side-field" x2=".25" y2="1"><stop stop-color="#7d6946"/><stop offset=".35" stop-color="#5c6548"/><stop offset=".64" stop-color="#405c50"/><stop offset="1" stop-color="#435f5d"/></linearGradient>
-    <radialGradient id="daylight" gradientUnits="userSpaceOnUse" cx="960" cy="55" r="620" gradientTransform="translate(0 -28) scale(1 1.52)"><stop stop-color="#ffe9ac"/><stop offset=".31" stop-color="#f2bd76" stop-opacity=".77"/><stop offset=".69" stop-color="#eac483" stop-opacity=".21"/><stop offset="1" stop-color="#d3c181" stop-opacity="0"/></radialGradient>
-    <linearGradient id="ray" gradientUnits="userSpaceOnUse" x2="0" y1="53" y2="780"><stop stop-color="#ffe3a1" stop-opacity=".65"/><stop offset=".52" stop-color="#f4d689" stop-opacity=".23"/><stop offset="1" stop-color="#eacc82" stop-opacity="0"/></linearGradient>
-    <radialGradient id="floorlight"><stop stop-color="#a5c48b" stop-opacity=".35"/><stop offset="1" stop-color="#95c4a6" stop-opacity="0"/></radialGradient>
+    <linearGradient id="field" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#866747"/><stop offset=".30" stop-color="#5a4c35"/><stop offset=".51" stop-color="#384f40"/><stop offset="1" stop-color="#253f3b"/></linearGradient>
+    <linearGradient id="side-field" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#716044"/><stop offset=".33" stop-color="#41473a"/><stop offset=".65" stop-color="#314a3e"/><stop offset="1" stop-color="#38463a"/></linearGradient>
+    <radialGradient id="backlight"><stop stop-color="#eec782" stop-opacity=".44"/><stop offset="1" stop-color="#bb9261" stop-opacity="0"/></radialGradient>
+    <radialGradient id="floorlight"><stop stop-color="#a2b78a" stop-opacity=".3"/><stop offset="1" stop-color="#95b2aa" stop-opacity="0"/></radialGradient>
     <radialGradient id="strike-light"><stop stop-color="#b1ebd0" stop-opacity=".43"/><stop offset="1" stop-color="#b1ebd0" stop-opacity="0"/></radialGradient>
     <linearGradient id="beam" x2="0" y2="1"><stop stop-color="#a39069"/><stop offset=".27" stop-color="#524531"/><stop offset=".5" stop-color="#2d2b21"/><stop offset=".83" stop-color="#555039"/><stop offset="1" stop-color="#181d16"/></linearGradient>
     <pattern id="glass-grain" width="512" height="512" patternUnits="userSpaceOnUse"><image href="${asset}glass/ui/pane.jpg" width="512" height="512"/></pattern>
+    <pattern id="quarry" width="148" height="190" patternUnits="userSpaceOnUse">
+       <path d="M0 0 74 95 148 0 74 -95Z" fill="#8b7951" opacity=".12"/>
+       <path d="M0 0 74 95 0 190 -74 95Z" fill="#657052" opacity=".15"/>
+       <path d="M74 95 148 190 222 95 148 0Z" fill="#497166" opacity=".14"/>
+       <path d="M0 0 148 190M148 0 0 190m0-190 74 95 74-95m-148 190 74-95 74 95" fill="none" stroke="#18211a" stroke-width="2.7"/>
+       <path d="M3 0 77 95 3 190M145 0 71 95 145 190" fill="none" stroke="#a89b6b" stroke-opacity=".22"/>
+    </pattern>
   </defs>
   <path d="M11 1065H1909M11 1080H1909" stroke="#070b08" stroke-width="10"/>
   <path d="M12 1066H1908" stroke="#6a5b43" stroke-opacity=".7" stroke-width="1.5"/>
   ${profiles.map(([name,d])=>`<path d="${d}" fill="#000" stroke="#080908" stroke-width="33" opacity=".6"/>`).join("")}
   <g clip-path="url(#clip-middle)">
-    <rect x="425" y="17" width="1070" height="1042" fill="url(#field)"/>
-    <rect x="425" y="17" width="1070" height="1042" fill="url(#daylight)"/>
-    <ellipse cx="948" cy="690" rx="540" ry="310" fill="url(#floorlight)"/>
-    <path d="M946 57 438 427 439 499ZM955 57 624 766 767 738ZM967 57 1077 733 1245 723ZM972 57 1495 430 1495 510Z" fill="url(#ray)"/>
-    <path d="M425 1033Q594 933 726 1058H425Zm1070 0q-169-100-301 25h301Z" fill="#6c8156" stroke="#314735" stroke-width="3"/>
-    ${woodlandEdge(422,1)}${woodlandEdge(1498,-1)}
-    ${bough(431,119,1,.94)}${bough(1489,119,-1,.94)}
-    <path d="M425 153Q575 86 714 95Q826 61 933 62M1495 153Q1345 86 1206 95Q1094 61 987 62" stroke="#574d35" stroke-width="4" fill="none"/>
-    <rect x="425" y="17" width="1070" height="1042" fill="url(#glass-grain)" opacity=".38" style="mix-blend-mode:overlay"/>
-    ${view === "fight" ? `<ellipse cx="${strikeCentre}" cy="540" rx="146" ry="261" fill="url(#strike-light)"/>` : ""}
+    <rect x="353" y="17" width="1214" height="1042" fill="url(#field)"/>
+    <rect x="353" y="17" width="1214" height="1042" fill="url(#glass-grain)" opacity=".37" style="mix-blend-mode:overlay"/>
+    <ellipse cx="980" cy="176" rx="618" ry="348" fill="url(#backlight)"/>
+    <ellipse cx="960" cy="746" rx="652" ry="363" fill="url(#floorlight)"/>
+    ${view === "fight" ? `<ellipse cx="${strikeCentre}" cy="539" rx="146" ry="261" fill="url(#strike-light)"/>` : ""}
+    <rect x="353" y="17" width="1214" height="1042" fill="url(#quarry)" opacity=".36"/>
     ${rails}
+    ${bough(371,105,1,.74)}${bough(1549,105,-1,.74)}
+    ${bough(372,903,1,.86)}${bough(1548,903,-1,.86)}
+    ${bough(407,588,1,.6)}${bough(1513,588,-1,.6)}
+    <g stroke="#151b16" stroke-width="8" fill="none"><path d="M353 151Q430 94 504 110Q615 55 751 68Q867 38 934 62M1567 151Q1490 94 1416 110Q1305 55 1169 68Q1053 38 986 62"/></g>
+    <g stroke="#998058" stroke-width="1.4" fill="none"><path d="M353 151Q430 94 504 110Q615 55 751 68Q867 38 934 62M1567 151Q1490 94 1416 110Q1305 55 1169 68Q1053 38 986 62"/></g>
   </g>
-  ${[["left",27,218,409],["right",1511,1702,1893]].map(([name,x,cx,edge])=>{
-    const seams = `M${x} 151Q${cx} 180 ${edge} 151M${x} 916Q${cx} 854 ${edge} 916M${x} 1016Q${cx} 970 ${edge} 1016`;
+  ${[["left",27,182,337],["right",1583,1738,1893]].map(([name,x,cx,edge])=>{
+    const sideRail = name === "left" ? 534 : 696;
+    const seams = `M${x} 144Q${cx} 160 ${edge} 144M${x} ${sideRail}H${edge}M${x} 849H${edge}M${x} 1019Q${cx} 955 ${edge} 1019`;
     return `<g clip-path="url(#clip-${name})">
-    <rect x="${x}" y="51" width="382" height="1008" fill="url(#side-field)"/>
-    <ellipse cx="${cx}" cy="740" rx="210" ry="410" fill="url(#floorlight)"/>
-    <path d="M${x} 579Q${cx-140} 670 ${cx-60} 705T${edge} 790V1058H${x}Z" fill="#456a5b" stroke="#344f40" stroke-width="3"/>
-    <path d="M${x} 681Q${cx-110} 737 ${cx-21} 749T${edge} 874V1058H${x}Z" fill="#4a6c65" stroke="#344f40" stroke-width="3"/>
-    <rect x="${x}" y="51" width="382" height="1008" fill="url(#glass-grain)" opacity=".43" style="mix-blend-mode:overlay"/>
+    <rect x="${x}" y="51" width="310" height="1008" fill="url(#side-field)"/>
+    <rect x="${x}" y="51" width="310" height="1008" fill="url(#glass-grain)" opacity=".44" style="mix-blend-mode:overlay"/>
+    <rect x="${x}" y="51" width="310" height="1008" fill="url(#quarry)" opacity=".53"/>
+    <ellipse cx="${cx}" cy="270" rx="220" ry="354" fill="url(#backlight)" opacity=".58"/>
+    <ellipse cx="${cx}" cy="867" rx="240" ry="340" fill="url(#floorlight)"/>
     <path d="${seams}" stroke="#101915" stroke-width="4" fill="none"/>
     <path d="${seams}" stroke="#a2885d" stroke-opacity=".51" stroke-width="1" fill="none"/>
     ${tracery(cx,55,edge,177)}
     ${rose(cx,96,25)}
-    ${name==="right" && view==="fight" ? oakBadge(cx,483,1) : ""}
-    ${bough(x+17,842,1,1.22)}${bough(edge-14,972,-1,1.25)}
+    ${name==="right" && view==="fight" ? oakBadge(cx,477,1) : ""}
+    ${bough(x+17,869,1,1.1)}${bough(edge-14,975,-1,1.06)}
     <path d="M${x+13} 178V1045H${edge-13}V178" fill="none" stroke="#96845c" stroke-opacity=".43" stroke-width="1"/>
   </g>`;}).join("")}
   ${outlines}
-  ${rose(960,45,18,true)}
+  ${rose(960,38,17)}
   </svg>`;
 }
 
@@ -431,54 +439,67 @@ function profile(player,hpValue,tag="") {
   return `<div class="player">${portrait(player[1])}<div><h2>${player[0]}</h2><div class="player-meta">${health(hpValue)} ${tag}</div></div></div>`;
 }
 function emptySlot(label, fallenId = null) {
-  const picture = `<svg class="slot-layer" viewBox="0 0 560 1000" aria-hidden="true">
-    <path d="M280 9 551 173V826L280 991 9 826V173Z" fill="#1d2a25" fill-opacity=".79" stroke="#0b1611" stroke-width="14"/>
-    <path d="M280 30 532 183V815L280 970 28 815V183Z" fill="none" stroke="#89754f" stroke-opacity=".79" stroke-width="4"/>
-    <path d="M280 47 515 191V807L280 953 45 807V191Z" fill="none" stroke="#53634d" stroke-width="3"/>
-    <path d="M280 422 324 500 280 578 236 500Z M280 447 305 500 280 553 255 500Z" fill="none" stroke="#7a825e" stroke-opacity=".66" stroke-width="5"/>
-  </svg>`;
+  const picture = `<svg class="slot-trace" viewBox="0 0 560 1000" aria-hidden="true"><path d="M280 10 552 175V825L280 990 8 825V175Z"/></svg>`;
   return fallenId
     ? `<button type="button" class="card-face empty-slot" data-card="${fallenId}" aria-label="${label}">${picture}<span class="fallen-mark">${icon("fallen")}</span></button>`
     : `<div class="card-face empty-slot" role="img" aria-label="${label}">${picture}</div>`;
 }
 const boardCardWidth = 112, unitGap = boardCardWidth / 4, unitPitch = boardCardWidth + unitGap;
-const shopSpellWidth = 96, spellGap = shopSpellWidth / 4;
+const boardCardHeight = boardCardWidth * 1000/560;
+const shopSpellWidth = 96;
 const boardCentre = 960;
-function cardBevel(spell,golden) {
-  if (spell) return `<svg class="card-frame" viewBox="0 0 560 760" aria-hidden="true">
-    <path d="M20 686V266C20 139 135 46 280 14C425 46 540 139 540 266V686L492 741H68Z M39 676V267C39 154 141 72 280 39C419 72 521 154 521 267V676L481 722H79Z" fill="#211d17" fill-rule="evenodd" stroke="#151714" stroke-width="11"/>
-    <path d="M20 686V266C20 139 135 46 280 14C425 46 540 139 540 266V686L492 741H68Z" fill="none" style="stroke:var(--rim)" stroke-width="7"/>
-    <path d="M40 675V267C40 154 142 72 280 40C418 72 520 154 520 267V675L481 720H79Z" fill="none" style="stroke:var(--edge)" stroke-width="10"/>
-    <path d="M68 740H492M126 717H434" fill="none" stroke="#9b7960" stroke-width="5"/>
+const roofSlope = boardCardHeight*.17/(boardCardWidth/2);
+// Convert square-to-edge spacing into a y offset after staggering half a slot.
+const nestedRowPitch = boardCardHeight - roofSlope*unitPitch/2 + unitGap*Math.hypot(1,roofSlope);
+stage.style.setProperty("--card-gap",`${unitGap}px`);
+
+// Disc centres in the 560 × 1000 source frames, from frame-lab/final/roundels.json.
+const statCentres = [
+  [[110.8,778.5],[448.8,778.5]], [[115.2,770],[445.2,770]],
+  [[111.2,758.5],[448,760.5]], [[107.5,760.8],[451.8,760.2]],
+  [[110.5,751],[448,750.2]], [[110,775.2],[446.8,775.2]]
+];
+const glassStart = {quarter:75,third:100*2/3,half:50};
+function cardBevel(spell,tier,golden,cut) {
+  if (spell) return `<svg class="card-frame" viewBox="0 0 560 560" aria-hidden="true">
+    <circle cx="280" cy="280" r="268" fill="none" stroke="#111712" stroke-width="22"/>
+    <circle cx="280" cy="280" r="265" fill="none" style="stroke:var(--rim)" stroke-width="7"/>
+    <circle cx="280" cy="280" r="251" fill="none" style="stroke:var(--edge)" stroke-width="14"/>
+    <path d="M92 104a258 258 0 0 1 253-74M468 456a258 258 0 0 1-253 74" fill="none" stroke="#b0a589" stroke-width="4"/>
   </svg>`;
+  const join = glassStart[cut]*10;
   return `<svg class="card-frame" viewBox="0 0 560 1000" aria-hidden="true">
-    <path d="M280 8 551 170V830L280 992 9 830V170Z M280 42 537 183V817L280 958 23 817V183Z" fill="#211f1a" fill-rule="evenodd" stroke="#111713" stroke-width="11"/>
-    <path d="M280 14 544 172V828L280 986 16 828V172Z" fill="none" style="stroke:var(--rim)" stroke-width="5.5"/>
-    <path d="M280 38 540 180V820L280 962 20 820V180Z" fill="none" style="stroke:var(--edge)" stroke-width="8"/>
-    <path d="M28 191V810M532 191V810M31 173 280 24 529 173" fill="none" stroke="#a89670" stroke-width="3" opacity=".52"/>
-    ${golden ? `<g class="golden-frame"><path d="M280 21 541 177V823L280 980 19 823V177Z" fill="none" stroke="#35271a" stroke-width="32"/>
-    <path d="M280 21 541 177V823L280 980 19 823V177Z" fill="none" stroke="#b78342" stroke-width="23"/>
-    <path d="M25 819V181L280 29 535 181V819M31 832 280 981 529 832" fill="none" stroke="#f1ca80" stroke-width="6"/>
-    <path d="M38 188V809L280 951 522 809V188M38 190 280 46 522 190" fill="none" stroke="#efd18a" stroke-width="4"/>
-    <path d="M246 947 280 926 314 947 280 970Z" fill="#f5d490" stroke="#49301b" stroke-width="7"/></g>` : ""}
+    <path d="M280 3 557 171V829L280 997 3 829V171Z M280 42 536 181V818L280 958 24 818V181Z" fill="#232721" fill-rule="evenodd"/>
+    <path d="M280 12 550 175V825L280 988 10 825V175Z" fill="none" style="stroke:var(--rim)" stroke-width="6"/>
+    <path d="M280 37 537 181V819L280 963 23 819V181Z" fill="none" style="stroke:var(--edge)" stroke-width="9"/>
+    ${golden ? `<g class="golden-frame" fill="none">
+      <path d="M18 ${join}V179L280 20 542 179V${join}" stroke="#b58346" stroke-width="24"/>
+      <path d="M13 ${join}V176L280 13 547 176V${join}M32 ${join}V186L280 44 528 186V${join}" stroke="#f0ce85" stroke-width="5"/>
+    </g>` : ""}
+  </svg>
+  <img class="frame-glass" src="${asset}glass/frames/tier${tier}.webp" alt="">
+  <svg class="card-frame" viewBox="0 0 560 1000" aria-hidden="true">
+    <path d="M5 ${join}h24m502 0h24" stroke="${golden ? "#e6b96a" : "#aaa082"}" stroke-width="8"/>
   </svg>`;
 }
-function cardFace(id,{zone,lit=false,...override}={}) {
+function cardFace(id,{zone,lit=false,showArt=false,cut="third",...override}={}) {
   const c = {...cards[id],...override};
   const spell = c.folder === "spell";
   const attackState = atta(c) > (c.baseAttack ?? c.attack) ? "buffed" : "";
   const healthState = c.wounded ? "wounded" : hp(c) > (c.baseHealth ?? c.health) ? "buffed" : "";
-  const stat = (value,x,cls,state) => {
+  const stat = (value,[x,y],cls,state) => {
     const arrow = state === "buffed" ? "2 7 6 3 10 7" : "2 4 6 8 10 4";
-    return `<span aria-hidden="true" class="unit-stat ${cls} ${state}" style="left:${x}%;top:77%">${value}${state ? `<svg class="stat-marker" viewBox="0 0 12 11"><polyline points="${arrow}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>` : ""}</span>`;
+    return `<span aria-hidden="true" class="unit-stat ${cls} ${state}" style="left:${x/560*100}%;top:${y/10}%">${value}${state ? `<svg class="stat-marker" viewBox="0 0 12 11"><polyline points="${arrow}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>` : ""}</span>`;
   };
   const statLabel = [`${atta(c)} Attack${attackState ? ", buffed" : ""}`,`${hp(c)} Health${healthState ? `, ${healthState}` : ""}`].join(", ");
   const label = [c.golden ? `Golden ${c.name}` : c.name,c.tribe,`Tier ${c.tier}`,spell ? "" : statLabel,c.status,c.renown && `Slot Renown ${c.renown}`].filter(Boolean).join(", ");
   const element = study ? "div" : "button";
   const role = study ? 'role="img"' : 'type="button"';
-  return `<${element} ${role} class="card-face ${spell ? "spell-card" : ""} ${lit ? "is-inspected" : ""}" data-card="${id}" data-zone="${zone ?? "study"}" aria-label="${label}">
-    <span class="card-pane" aria-hidden="true"></span>${cardBevel(spell,c.golden)}
-    ${spell ? "" : `<span class="tier-seal" aria-hidden="true">${c.tier}</span>` + stat(atta(c),20,"atk",attackState) + stat(hp(c),80,"hp",healthState)}
+  const image = spell ? "glass/art/spell-sharpen.jpg" : `units/${c.folder}/${id}.jpg`;
+  return `<${element} ${role} class="card-face cut-${cut} ${spell ? "spell-card" : ""} ${lit ? "is-inspected" : ""}" style="--glass-start:${glassStart[cut]}%" data-card="${id}" data-zone="${zone ?? "study"}" aria-label="${label}">
+    ${showArt ? `<img class="card-pane" src="${asset+image}" alt="">` : '<span class="card-pane" aria-hidden="true"></span>'}
+    ${cardBevel(spell,c.tier,c.golden,cut)}
+    ${spell ? "" : `<span class="tier-seal" aria-hidden="true">${c.tier}</span>` + stat(atta(c),statCentres[c.tier-1][0],"atk",attackState) + stat(hp(c),statCentres[c.tier-1][1],"hp",healthState)}
     ${c.pips ? `<span aria-hidden="true" class="pips ${c.supply?"supply":""}">${"<i></i>".repeat(c.pips)}</span>` : ""}
   </${element}>`;
 }
@@ -489,9 +510,9 @@ function shop() {
   const gold = first ? 5 : 20, tier = first ? 1 : 5, upgrade = first ? 8 : 23;
   const unitsWidth = (offers.length-1)*unitPitch + boardCardWidth;
   const groupGap = boardCardWidth / 2;
-  const left = boardCentre - (unitsWidth + groupGap + 2*shopSpellWidth + spellGap)/2;
+  const left = boardCentre - (unitsWidth + groupGap + 2*shopSpellWidth + unitGap)/2;
   const spellsStart = left + unitsWidth + groupGap + shopSpellWidth/2;
-  const offer = (id,x,width,spell=false) => `<div class="shop-offer" ${placement(x,302-width*(spell?760:1000)/560,width)}>${cardFace(id,{zone:"shop"})}${coin(cards[id].price)}</div>`;
+  const offer = (id,x,width,height) => `<div class="shop-offer" ${placement(x,302-height,width)}>${cardFace(id,{zone:"shop"})}${coin(cards[id].price)}</div>`;
   return `<section aria-label="Shop">
     <div class="side shop-controls">
       <div class="purse"><span class="coin">${icon("spark")}</span><strong>${gold}</strong><span class="gold-word">Gold</span></div>
@@ -502,9 +523,9 @@ function shop() {
       <button class="plate-button refresh-button" aria-label="Refresh for 1 gold, 10 at this price"><span class="refresh-title">${icon("refresh")} Refresh ${coin(1)}</span><span class="readout refresh-meta">10 at this price</span></button>
       <button class="plate-button" id="freeze" type="button" aria-pressed="false">${icon("freeze")} <span>Freeze</span></button>
     </div>
-    ${offers.map((id,i)=>offer(id,left+boardCardWidth/2+i*unitPitch,boardCardWidth)).join("")}
+    ${offers.map((id,i)=>offer(id,left+boardCardWidth/2+i*unitPitch,boardCardWidth,boardCardHeight)).join("")}
     <section aria-label="Shop spells">
-      ${[spellsStart,spellsStart+shopSpellWidth+spellGap].map(x=>offer("sharpen",x,shopSpellWidth,true)).join("")}
+      ${[spellsStart,spellsStart+shopSpellWidth+unitGap].map(x=>offer("sharpen",x,shopSpellWidth,shopSpellWidth)).join("")}
     </section>
   </section>`;
 }
@@ -532,9 +553,6 @@ function boardRow(ids, renown, y, kind, {variants={},outcome=false,tutorial=fals
       : emptySlot(state.fallen ? `${slotName}, ${cards[id].name} fell` : `${slotName}, empty`,state.fallen ? id : null);
     return `<div class="board-piece ${state.fallen ? "fallen" : ""} ${state.strike ?? ""}" ${placement(x,y,boardCardWidth)}>
       <div class="board-slot ${tutorial && i === 0 ? "tutorial-target" : ""}">
-        <svg class="slot-surround" viewBox="0 0 560 1000" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M280 9 552 174V826L280 991 8 826V174Z" fill="none" stroke="${value ? "#8c784e" : "#425448"}" stroke-width="8"/>
-        </svg>
         ${art}
         ${value ? `<span class="renown" aria-hidden="true">${icon("star")}${value}</span>` : ""}
       </div>
@@ -545,8 +563,8 @@ function recruitBoard() {
   const fronts = first ? Array(4).fill(null) : yourFront;
   const backs = first ? Array(3).fill(null) : yourBack;
   return `<section aria-label="Your board">
-    ${boardRow(fronts,first ? [] : yourFrontRenown,400,"Front",{tutorial:first})}
-    ${boardRow(backs,first ? [] : yourBackRenown,628,"Back")}
+    ${boardRow(fronts,first ? [] : yourFrontRenown,418,"Front",{tutorial:first})}
+    ${boardRow(backs,first ? [] : yourBackRenown,418+nestedRowPitch,"Back")}
     ${first ? `<p class="cue placed">Drag a unit here from the shop.${icon("arrow")}</p>` : ""}
   </section>`;
 }
@@ -555,13 +573,13 @@ function fightBoard() {
   const opponent = {variants:after ? fightEnd : {"holly-knight":{strike:"striking",status:"Attacking Bell-ringer"}},outcome:after};
   const ally = {variants:{"bell-ringer":{strike:"struck",status:"Defending against Holly Knight"}}};
   return `<section class="enemy-board" aria-label="March Hare’s board">
-    ${boardRow(enemyBack,enemyBackRenown,84,"Back",opponent)}
+    ${boardRow(enemyBack,enemyBackRenown,312-nestedRowPitch,"Back",opponent)}
     ${boardRow(enemyFront,enemyFrontRenown,312,"Front",opponent)}
   </section>
   ${after ? "" : `<section aria-label="Your board">
     <span class="strike-mark" style="--strike-x:${strikeCentre}px" aria-hidden="true">${icon("swords")}</span>
     ${boardRow(front,yourFrontRenown,568,"Front",ally)}
-    ${boardRow(yourBack,yourBackRenown,796,"Back",{variants:fightStart})}
+    ${boardRow(yourBack,yourBackRenown,568+nestedRowPitch,"Back",{variants:fightStart})}
   </section>`}`;
 }
 function hand() {
@@ -571,7 +589,7 @@ function hand() {
     <p class="hand-count" aria-hidden="true">${count}/7</p>
     <div class="hand-tray">${Array.from({length:7},(_,i)=>i < count
       ? `<div class="hand-slot has-spell">${cardFace(seek.id,{zone:"hand"})}${coin(seek.price)}</div>`
-      : `<div class="hand-slot"><svg class="slot-trace" viewBox="0 0 560 1000" role="img" aria-label="Empty hand slot"><path d="M280 17 544 177V823L280 983 16 823V177Z"/></svg></div>`).join("")}</div>
+      : `<div class="hand-slot">${emptySlot("Empty hand slot")}</div>`).join("")}</div>
   </section>`;
 }
 function menu() {
@@ -641,13 +659,28 @@ const specimenIds = [
   ["gorger","Golden"],["sharpen","Spell"],["home-guard","Hover"]
 ];
 function frameStudy() {
-  const specimens = view === "extra1" ? specimenIds.slice(0,5) : view === "extra2" ? specimenIds.slice(5) : specimenIds;
-  const links = [["cards","Board size"],["extra1","2× · Tiers 1–5"],["extra2","2× · Tier 6 and states"]];
+  const large = view === "extra1";
+  const links = [["cards","Board size"],["extra1","2× · Frame proportions"]];
+  const figure = ([id,label],options={}) => `<figure class="specimen">
+    <div class="specimen-shape">${cardFace(id,{lit:label==="Hover",...options})}</div>
+    <figcaption>${label}</figcaption>
+  </figure>`;
+  const strips = large
+    ? `<section class="study-band"><div class="study-strip">${specimenIds.slice(0,7).map(specimen=>figure(specimen)).join("")}</div></section>
+      <section class="study-band"><h3>Tier 4 glass coverage</h3><div class="study-strip">
+        ${[["quarter","¼"],["third","⅓"],["half","½"]].map(([cut,label])=>figure(["granary-glutton",label],{cut})).join("")}
+      </div></section>`
+    : `<section class="study-band"><h3>At board size</h3><div class="study-strip">${specimenIds.map(specimen=>figure(specimen)).join("")}</div></section>
+      <section class="study-band"><h3>With current card art</h3><div class="study-strip">${specimenIds.map(specimen=>figure(specimen,{showArt:true})).join("")}</div></section>
+      <section class="gap-study"><h3>${unitGap} px between neighbours</h3><div class="gap-swatch">
+        <div class="gap-swatch-ground" aria-hidden="true">${windowArt()}</div>
+        ${yourFront.map(id=>cardFace(id)).join("")}
+      </div></section>`;
   return `<header class="study-header">
     <h2>Leaded card frames</h2>
     <nav class="study-nav" aria-label="Frame studies">${links.map(([key,label])=>`<a class="plate-button" href="?view=${key}" ${key===view?'aria-current="page"':""}>${label}</a>`).join("")}</nav>
   </header>
-  <div class="study-strip" style="--study-width:${boardCardWidth*(view==="cards" ? 1 : 2)}px;--spell-study-scale:${shopSpellWidth/boardCardWidth*100}%">${specimens.map(([id,label])=>`<figure class="specimen"><div class="specimen-shape">${cardFace(id,{lit:label==="Hover"})}</div><figcaption>${label}</figcaption></figure>`).join("")}</div>`;
+  <div style="--study-width:${boardCardWidth*(large ? 2 : 1)}px;--spell-study-scale:${shopSpellWidth/boardCardWidth*100}%">${strips}</div>`;
 }
 const selfHealth = first ? 40 : after ? 0 : 11;
 const leftProfile = `<section class="side left-top" aria-label="Dame Farthing">
@@ -698,7 +731,7 @@ if (!study) {
     const zone = node.dataset.zone;
     const inWindow = ["shop","board","fight"].includes(zone);
     const bounds = inWindow
-      ? {left:443,right:1477,top:54,bottom:{shop:359,board:846,fight:1033}[zone]}
+      ? {left:370,right:1550,top:54,bottom:{shop:365,board:841,fight:1033}[zone]}
       : {left:20,right:scene.width-20,top:20,bottom:scene.height-20};
     const cardLeft = rect.left - scene.left;
     const cardRight = rect.right - scene.left;

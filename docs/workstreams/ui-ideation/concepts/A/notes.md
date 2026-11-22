@@ -130,3 +130,24 @@ Zone gaps 56px (½w), 57px (0.51w) after prices.
 6. Amber roundel lights the woodland panes.
 
 Nine renders checked. Minimum text contrast 6.66:1.
+
+## Pass 2, round 5
+
+| Zone | Size (px) | Across | Normal to slant |
+| --- | ---: | ---: | ---: |
+| Shop | 112×200 | 28 (¼w) | — |
+| Board | 112×200 | 28 (¼w) | 28 (¼w) |
+| Fight | 112×200 | 28 (¼w) | 28 (¼w) |
+| Hand | 84×150 | 28 (⅓w) | — |
+| Spells | 96×96 shop, 84×84 hand | 28 (0.29w shop, ⅓w hand) | — |
+
+1. Kept the great window.
+2. Restored round 3’s ground, vines and faint lead.
+3. Kept the shop controls, shared 140px pitch and single-row hand.
+4. Nested rows at 190.26px pitch. Combat could grow. Kept shared sizing and breathing room.
+5. Picked ⅓ for intact discs and footer. Tiers 1–6 run ivory, lime, cyan, violet, amber, ruby. Golden adds brass above.
+6. Shop and hand spells are round.
+7. Drew lead and rings in SVG and cropped existing frame art. Generated assets: none.
+8. Current card art appears in the study row.
+9. Kept hover details and optional fixed reminders.
+10. Narrowed lights to 310px. Lead bars separate zones. Empty slots use outlines.

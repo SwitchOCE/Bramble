@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Two-Part Frame</title>
+<style>
+@font-face{font-family:Alegreya;src:url(../../../../../assets/glass/fonts/Alegreya[wght].ttf);font-weight:400 900}
+@font-face{font-family:"Alegreya Sans";src:url(../../../../../assets/glass/fonts/AlegreyaSans-Regular.ttf);font-weight:400}
+:root{--lead:#0c0a08;--cream:#f6ead0;--dim:#9c9483}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#111513}
+body{font-family:"Alegreya Sans",sans-serif;color:var(--cream);
+  background:radial-gradient(ellipse at 50% 45%,#1a201d,#0e1110 75%)}
+#ui{position:relative;width:1920px;height:1080px}
+.cap{position:absolute;font-size:17px;color:var(--dim);letter-spacing:.02em;white-space:nowrap}
+.card{position:absolute;filter:drop-shadow(0 6px 8px rgba(0,0,0,.6))}
+.card.hover{filter:drop-shadow(0 0 3px #fff1c4) drop-shadow(0 0 14px rgba(255,226,160,.7)) drop-shadow(0 10px 12px rgba(0,0,0,.7));transform:translateY(-6px)}
+.card>*{position:absolute}
+.art{inset:0;background-size:cover;background-position:center 30%}
+.pane{background:url(../../../../../assets/glass/ui/pane.jpg) center/220px,linear-gradient(165deg,#8a9a93,#64746f 70%);background-blend-mode:multiply}
+.fr{inset:0;width:100%;height:100%;overflow:visible}
+.tier{display:grid;place-items:center;font-family:Alegreya,serif;font-weight:900;line-height:1;color:#efe2c2;padding-top:.06em}
+.golden .tier{color:#ffd65c}
+.st{display:grid;place-items:center;border-radius:50%;border:3px solid var(--lead);font-family:Alegreya,serif;font-weight:900;line-height:1;padding-top:.06em;
+  color:#fbf1da;box-shadow:0 0 0 1.5px rgba(255,236,200,.35),0 2px 4px rgba(0,0,0,.7);letter-spacing:-.03em}
+.st-a{background:radial-gradient(circle at 38% 32%,#8a6424,#4a3210 70%)}
+.st-h{background:radial-gradient(circle at 38% 32%,#86242c,#46101a 70%)}
+</style>
+</head>
+<body>
+<div id="ui"></div>
+<script>
+const A = "../../../../../assets/";
+const ui = document.getElementById("ui");
+const el = (tag, cls, css, html) => { const e=document.createElement(tag); if(cls) e.className=cls; if(css) e.style.cssText=css; if(html!=null) e.innerHTML=html; return e; };
+const add = e => (ui.append(e), e);
+const cap = (x,y,t,w) => add(el("div","cap",`left:${x}px;top:${y}px;${w?`width:${w}px;text-align:center`:""}`,t));
+
+// Tier glass, taken from the present frames (assets/glass/frames/tierN.webp): light, mid, dark, accent
+const TC = {
+  1:["#fff6e4","#e9d3ad","#b88a5c","#e9d3ad"],
+  2:["#e4ff7a","#93d21c","#3f7a10","#ffe066"],
+  3:["#a8e8ff","#2f8ff5","#1238b0","#c8b8ff"],
+  4:["#ffa8ff","#c43be6","#6a0aa8","#7ff0ff"],
+  5:["#fff09a","#f6c21a","#c07a0a","#ff8a1a"],
+  6:["#ffb26a","#e8401c","#9a1010","#ffd34a"],
+};
+const GOLD = ["#fff3b0","#f2c23a","#a8730e"];
+// the hexagon, drawn on a 112 x 200 grid whatever its on-screen size
+const VW = 112, VH = 200, SH = 34;
+const HEX = [[56,0],[112,SH],[112,VH-SH],[56,VH],[0,VH-SH],[0,SH]];
+function inset(d){ // the hexagon moved inward by d on every side
+  const n = HEX.length, lines = [];
+  for (let i=0;i<n;i++){ const [x1,y1]=HEX[i],[x2,y2]=HEX[(i+1)%n]; const dx=x2-x1, dy=y2-y1, L=Math.hypot(dx,dy);
+    const nx=-dy/L, ny=dx/L; lines.push([x1+nx*d,y1+ny*d,dx,dy]); }
+  return lines.map((l,i)=>{ const m=lines[(i+n-1)%n];
+    const den = m[2]*l[3]-m[3]*l[2], t = ((l[0]-m[0])*l[3]-(l[1]-m[1])*l[2])/den; return [m[0]+m[2]*t, m[1]+m[3]*t]; });
+}
+const pts = p => p.map(q=>q.map(v=>v.toFixed(2)).join(",")).join(" ");
+const pathOf = p => "M"+p.map(q=>q.map(v=>v.toFixed(2)).join(" ")).join("L")+"Z";
+let UID = 0;
+const B_OUT = 1.6, B_IN = 15;           // the glass band's outer and inner edge
+function petal(x,y,ang,L,w,fill,lw){
+  const a=ang*Math.PI/180, ux=Math.cos(a), uy=Math.sin(a), px=-uy, py=ux;
+  const tx=x+ux*L, ty=y+uy*L, mx=x+ux*L*.45, my=y+uy*L*.45;
+  return `<path d="M${x} ${y} Q${mx+px*w} ${my+py*w} ${tx} ${ty} Q${mx-px*w} ${my-py*w} ${x} ${y}Z" fill="${fill}" stroke="#0c0a08" stroke-width="${lw}" stroke-linejoin="round"/>`;
+}
+const gem = (x,y,r,fill) => `<path d="M${x} ${y-r}L${x+r*.8} ${y}L${x} ${y+r}L${x-r*.8} ${y}Z" fill="${fill}" stroke="#0c0a08" stroke-width="1.2"/>`;
+
+// The frame. f = how much of the card's height the coloured glass covers, from the bottom.
+function frameSVG(o, f){
+  const id = "c"+(UID++), t = o.tier, [li,mi,dk,ac] = TC[t], Yb = VH*(1-f);
+  const lead = o.golden ? "#4a3206" : "#0c0a08";
+  const outer = inset(B_OUT), inner = inset(B_IN);
+  const band = pathOf(outer)+pathOf(inner);
+  let s = `<svg class="fr" viewBox="0 0 ${VW} ${VH}" preserveAspectRatio="none"><defs>
+    <clipPath id="${id}b"><rect x="-5" y="${Yb}" width="${VW+10}" height="${VH}"/></clipPath>
+    <clipPath id="${id}t"><rect x="-5" y="-5" width="${VW+10}" height="${Yb+5}"/></clipPath>
+    <pattern id="${id}p" patternUnits="userSpaceOnUse" width="90" height="90"><image href="${A}glass/ui/pane.jpg" width="90" height="90" preserveAspectRatio="xMidYMid slice"/></pattern>
+    </defs>`;
+  const glass = (clip, l, m, d) => `<g clip-path="url(#${id}${clip})">
+      <path d="${band}" fill-rule="evenodd" fill="${m}"/>
+      <polygon points="${pts(inset(5.4))}" fill="none" stroke="${l}" stroke-width="3" opacity=".85"/>
+      <polygon points="${pts(inset(12.4))}" fill="none" stroke="${d}" stroke-width="3" opacity=".55"/>
+      <path d="${band}" fill-rule="evenodd" fill="url(#${id}p)" style="mix-blend-mode:multiply" opacity=".45"/>
+      <polygon points="${pts(inner)}" fill="none" stroke="${lead}" stroke-width="2.4" stroke-linejoin="round"/>
+    </g>`;
+  // top: quiet lead and a thin neutral came (pass 2), or gold glass when golden
+  if (o.golden) s += glass("t", ...GOLD);
+  else s += `<g clip-path="url(#${id}t)">
+      <polygon points="${pts(inset(4.2))}" fill="none" stroke="#b9a06a" stroke-width="1.7" opacity=".9"/>
+      <polygon points="${pts(inset(5.6))}" fill="none" stroke="#0c0a08" stroke-width="1.2" opacity=".8"/></g>`;
+  s += glass("b", li, mi, dk);
+  // lead bars across the band: where the glass starts, then one on each side and each slant
+  const bar = (x1,y1,x2,y2,w=2.2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${lead}" stroke-width="${w}"/>`;
+  s += bar(0,Yb,B_IN+1,Yb,2.8) + bar(VW-B_IN-1,Yb,VW,Yb,2.8);
+  const sideBar = (Yb + (VH-SH))/2;
+  if (VH-SH - Yb > 40) s += bar(0,sideBar,B_IN+1,sideBar) + bar(VW-B_IN-1,sideBar,VW,sideBar);
+  if (o.golden){ for (const y of [SH+ (Yb-SH)/2]) s += bar(0,y,B_IN+1,y) + bar(VW-B_IN-1,y,VW,y); }
+  // bars across each bottom slant, square to it
+  const sl = (x) => { const y = VH-SH + SH*(x/56), nx = SH/Math.hypot(56,SH), ny = -56/Math.hypot(56,SH); return [x,y,nx,ny]; };
+  for (const xs of t>=4 ? [24] : [30]){ const [x,y,nx,ny] = sl(xs);
+    s += bar(x-nx*.5, y-ny*.5, x+nx*(B_IN+1), y+ny*(B_IN+1)) + bar(VW-x+nx*.5, y-ny*.5, VW-x-nx*(B_IN+1), y+ny*(B_IN+1)); }
+  // ornament at the bottom point, growing with tier
+  const by = inner[3][1] + 3, lw = 1.3;
+  if (t>=5){ s += petal(56,by,-90-70,10,4.6,mi,lw) + petal(56,by,-90+70,10,4.6,mi,lw); }
+  if (t>=3){ s += petal(56,by,-90-38,12.5,5.4,li,lw) + petal(56,by,-90+38,12.5,5.4,li,lw); }
+  if (t>=2){ s += petal(56,by,-90,t>=3?18:14,6.2,t>=3?mi:li,lw); }
+  if (t>=6) s += `<circle cx="56" cy="${by}" r="3.4" fill="${ac}" stroke="#0c0a08" stroke-width="1.2"/>`;
+  if (t>=4){ const [x,y,nx,ny] = sl(38); s += gem(x+nx*8.3, y+ny*8.3, 4.6, ac) + gem(VW-x-nx*8.3, y+ny*8.3, 4.6, ac); }
+  // outer lead line, then the tier cap in the top point
+  s += `<polygon points="${pts(inset(.9))}" fill="none" stroke="${lead}" stroke-width="${o.golden?3.4:2.8}" stroke-linejoin="round"/>
+    <path d="M38 14L56 3L74 14L74 25.5L56 29L38 25.5Z" fill="${lead}"/>`;
+  return s + `</svg>`;
+}
+
+function card(o, x, y, W, opt={}){
+  const H = W/0.56, f = opt.f ?? 1/3;
+  const c = add(el("div","card"+(o.golden?" golden":"")+(opt.hover?" hover":""),`left:${x}px;top:${y}px;width:${W}px;height:${H}px`));
+  const clip = `clip-path:polygon(${inset(2.6).map(([a,b])=>`${(a/VW*100).toFixed(2)}% ${(b/VH*100).toFixed(2)}%`).join(",")})`;
+  c.append(el("div", o.art ? "art" : "art pane", clip + (o.art ? `;background-image:url(${A}units/${o.art}.jpg)` : "")));
+  c.insertAdjacentHTML("beforeend", frameSVG(o, f));
+  const k = W/VW;
+  c.append(el("span","tier",`left:${38*k}px;top:${4*k}px;width:${36*k}px;height:${24*k}px;font-size:${Math.max(18,W*.16).toFixed(1)}px`, o.tier));
+  const d = Math.max(34, W*.3);
+  for (const [cls,v,cx] of [["st-a",o.a,.16],["st-h",o.h,.84]]){
+    const fs = Math.max(18, d*(String(v).length>1?.5:.6));
+    c.append(el("span","st "+cls,`width:${d}px;height:${d}px;left:${cx*W-d/2}px;top:${.845*H-d/2}px;font-size:${fs.toFixed(1)}px`, v));
+  }
+  return c;
+}
+// a round spell: quiet lead ring, its lower third in the tier's glass
+function spell(o, x, y, D){
+  const id="s"+(UID++), [li,mi,dk] = TC[o.tier], Yb = 100*(2/3);
+  const c = add(el("div","card",`left:${x}px;top:${y}px;width:${D}px;height:${D}px`));
+  c.append(el("div","art pane","clip-path:circle(46%)"));
+  const ring = `M50 2.5a47.5 47.5 0 1 0 .01 0ZM50 9a41 41 0 1 1 -.01 0Z`;
+  c.insertAdjacentHTML("beforeend", `<svg class="fr" viewBox="0 0 100 100"><defs>
+    <clipPath id="${id}b"><rect x="0" y="${Yb}" width="100" height="40"/></clipPath><clipPath id="${id}t"><rect x="0" y="0" width="100" height="${Yb}"/></clipPath></defs>
+    <g clip-path="url(#${id}t)"><circle cx="50" cy="50" r="45" fill="none" stroke="#b9a06a" stroke-width="1.6" opacity=".9"/><circle cx="50" cy="50" r="43.6" fill="none" stroke="#0c0a08" stroke-width="1.1"/></g>
+    <g clip-path="url(#${id}b)"><path d="${ring}" fill-rule="evenodd" fill="${mi}"/>
+      <circle cx="50" cy="50" r="45" fill="none" stroke="${li}" stroke-width="2.2" opacity=".85"/>
+      <circle cx="50" cy="50" r="42.4" fill="none" stroke="${dk}" stroke-width="2" opacity=".5"/>
+      <circle cx="50" cy="50" r="41" fill="none" stroke="#0c0a08" stroke-width="2.2"/>
+      <line x1="${50-47.5*Math.sin(Math.acos(1/3*0+ (Yb-50)/47.5)) }" y1="${Yb}" x2="${50-41*Math.sin(Math.acos((Yb-50)/41))}" y2="${Yb}" stroke="#0c0a08" stroke-width="2.6"/>
+      <line x1="${50+47.5*Math.sin(Math.acos((Yb-50)/47.5))}" y1="${Yb}" x2="${50+41*Math.sin(Math.acos((Yb-50)/41))}" y2="${Yb}" stroke="#0c0a08" stroke-width="2.6"/></g>
+    ${o.tier>=2 ? petal(50,92.5,-90,12,5,li,1.2) : ""}
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#0c0a08" stroke-width="2.8"/></svg>`);
+  return c;
+}
+
+// ---------------------------------------------------------------- sheets
+const SET = [
+  {tier:1,a:2,h:3,art:"mouse/cousin"},
+  {tier:2,a:3,h:4,art:"badger/brock-cub"},
+  {tier:3,a:5,h:6,art:"pigeon/bugler"},
+  {tier:4,a:7,h:9,art:"thorn/blackberry-sprawl"},
+  {tier:5,a:11,h:12,art:"locust/brood-mother"},
+  {tier:6,a:16,h:18,art:"shared/hornet-queen"},
+];
+const blank = o => ({...o, art:null});
+const sheet = new URLSearchParams(location.search).get("sheet") || "real";
+const GAP = W => W/4;
+function row(list, x, y, W, opt){ list.forEach((o,i)=>card(o, x+i*(W+GAP(W)), y, W, opt)); }
+// nested rows: the vertical step that makes the gap between facing slants equal the gap between upright sides
+function nestStep(W){ const H=W/.56, s=H*.17, g=GAP(W), P=W+g, L=Math.hypot(W/2,s); return H - (s*P/2 - g*L)/(W/2); }
+
+if (sheet === "real"){
+  cap(60, 22, "Tiers 1–6 at 112 px wide (board size), blank panes");
+  row(SET.map(blank), 60, 54, 112);
+  cap(960, 22, "Tiers 1–6 at 128 px wide, blank panes");
+  row(SET.map(blank), 960, 54, 128);
+  cap(60, 322, "The same six holding the present card art, 112 px");
+  row(SET, 60, 354, 112);
+  cap(60, 600, "Golden (a tier 3)");
+  card({tier:3,a:10,h:12,golden:true}, 60, 632, 112);
+  cap(232, 600, "Golden with art");
+  card({tier:3,a:10,h:12,golden:true,art:"pigeon/bugler"}, 232, 632, 112);
+  cap(404, 600, "Hovered");
+  card({tier:4,a:7,h:9}, 404, 632, 112, {hover:true});
+  cap(576, 600, "Round spell, tiers 1, 2, 5");
+  spell({tier:1}, 576, 632, 112); spell({tier:2}, 716, 632, 112); spell({tier:5}, 576, 772, 112);
+  // a full board: four over three, nested, one gap everywhere
+  const W = 112, g = GAP(W), P = W+g, D = nestStep(W), bx = 1180, by = 380;
+  cap(bx, 340, `A full board: 112 px cards, one gap of ${g} px everywhere`);
+  const B = [SET[2],SET[0],SET[4],SET[1],SET[5],SET[3],{tier:2,a:4,h:4,art:"mouse/bell-ringer"}];
+  for (let i=0;i<4;i++) card(B[i], bx+i*P, by, W);
+  for (let i=0;i<3;i++) card(B[4+i], bx+P/2+i*P, by+D, W);
+  window.NEST = D;
+} else {
+  const W = 224, g = 30;
+  cap(60, 18, "Two times size: tiers 1–6 and golden (blank panes)");
+  [...SET.map(blank), {tier:3,a:10,h:12,golden:true}].forEach((o,i)=>card(o, 60+i*(W+g), 50, W));
+  const y2 = 520;
+  cap(60, y2-32, "One tier (4) with the coloured glass at a quarter, a third and a half of the height");
+  [[1/4,"a quarter"],[1/3,"a third (chosen)"],[1/2,"a half"]].forEach(([f,t],i)=>{ card({tier:4,a:7,h:9}, 60+i*(W+60), y2, W, {f}); cap(60+i*(W+60), y2+W/.56+10, t, W); });
+  cap(1000, y2-32, "The same three on tier 6, with art");
+  [1/4,1/3,1/2].forEach((f,i)=>card(SET[5], 1000+i*(W+60), y2, W, {f}));
+}
+</script>
+</body>
+</html>

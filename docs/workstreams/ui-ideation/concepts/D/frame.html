@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Glazier's Frame</title>
+<meta name="viewport" content="width=1920">
+<style>
+@font-face{font-family:Alegreya;src:url(../../../../../assets/glass/fonts/Alegreya[wght].ttf);font-weight:400 900}
+@font-face{font-family:"Alegreya Sans";src:url(../../../../../assets/glass/fonts/AlegreyaSans-Regular.ttf);font-weight:400}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#1d1a17}
+body{position:relative;font-family:"Alegreya Sans",sans-serif;color:#e6d9bc}
+.card{position:absolute;filter:drop-shadow(0 5px 7px rgba(0,0,0,.6))}
+.card>*{position:absolute;inset:0;width:100%;height:100%}
+.card .pane{background:linear-gradient(165deg,#a9ad98,#8d927e 55%,#7b806d)}
+.card .art{object-fit:fill}
+.card.hover{filter:drop-shadow(0 0 2px #ffb21f) drop-shadow(0 0 9px rgba(255,165,20,.95)) drop-shadow(0 0 22px rgba(255,150,0,.55)) drop-shadow(0 14px 14px rgba(0,0,0,.5));transform:scale(1.05);z-index:5}
+.stat{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center;width:auto;height:auto;inset:auto}
+.stat svg{position:absolute;inset:0;width:100%;height:100%}
+.stat b{position:relative;font-family:Alegreya,serif;font-weight:900;line-height:1;color:#150e08;padding-top:.08em;letter-spacing:-.03em}
+.cap{position:absolute;font-size:16px;line-height:19px;color:#cbbd9e;text-align:center;transform:translateX(-50%);white-space:nowrap}
+.hd{position:absolute;font-family:Alegreya,serif;font-weight:800;font-size:22px;color:#f3ead6}
+.sub{position:absolute;font-size:16px;color:#b9ab8c}
+.cursor{position:absolute;z-index:40;width:30px;height:40px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const A="../../../../../assets/";
+const root=document.getElementById("root");
+const view=(new URLSearchParams(location.search).get("view"))||"1x";
+function put(tag,cls,css,html){const e=document.createElement(tag);if(cls)e.className=cls;if(css)e.style.cssText=css;if(html!=null)e.innerHTML=html;root.append(e);return e}
+
+/* the present frame's geometry (assets/glass/frames, 560 x 1000): outer hexagon, a 36-unit band, stat wells at y 773 */
+const OUT=[[280,6],[554,172],[554,828],[280,994],[6,828],[6,172]];
+const INN=[[280,48],[518,192],[518,808],[280,952],[42,808],[42,192]];
+const pts=p=>p.map(q=>q.join(",")).join(" ");
+const P="M"+pts(OUT).replace(/ /g," L")+" Z M"+pts(INN).replace(/ /g," L")+" Z";
+const TIER={1:{g:"#efe2c6",t:"#2a1a05"},2:{g:"#86c93a",t:"#10200a"},3:{g:"#3a9ee6",t:"#fff"},4:{g:"#a84ddc",t:"#fff"},5:{g:"#f2b52a",t:"#2a1a05"},6:{g:"#e2382a",t:"#fff"}};
+let UID=0;
+/* a card: lead above, the tier's own stained glass in the bottom `glass` fraction */
+function card({tier,w,x,y,glass=1/3,art=null,golden=false,hover=false,atk,hp}){
+  const h=w/.56, id=++UID, cut=Math.round((1-glass)*1000);
+  const c=put("div","card"+(hover?" hover":""),`left:${x}px;top:${y}px;width:${w}px;height:${h}px`);
+  const clipInn=`polygon(${INN.map(([a,b])=>`${a/5.6}% ${b/10}%`).join(",")})`;
+  if(art){const i=document.createElement("img");i.className="art";i.src=`${A}units/${art}.jpg`;i.style.clipPath=clipInn;c.append(i);}
+  else{const p=document.createElement("div");p.className="pane";p.style.clipPath=clipInn;c.append(p);}
+  // 1) the tier's present frame, shown only below the cut
+  const f=document.createElement("img");f.src=`${A}glass/frames/tier${tier}.webp`;f.style.clipPath=`inset(${cut/10}% 0 0 0)`;c.append(f);
+  // 2) lead (or gilded lead) above the cut; a lead joint where lead meets glass; higher tiers carry a thread of their colour up the inner edge
+  const T=TIER[tier];
+  const metal=golden?`<linearGradient id="m${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0b0"/><stop offset=".45" stop-color="#f0bf45"/><stop offset="1" stop-color="#b8801a"/></linearGradient>`
+                    :`<linearGradient id="m${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#57514a"/><stop offset=".5" stop-color="#3a3530"/><stop offset="1" stop-color="#2a2622"/></linearGradient>`;
+  const thread=tier>=4&&!golden?`<polygon points="${pts(INN)}" fill="none" stroke="${T.g}" stroke-width="${tier>=6?14:10}" clip-path="url(#k${id})" opacity=".95"/>`:"";
+  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.setAttribute("viewBox","0 0 560 1000");svg.setAttribute("preserveAspectRatio","none");svg.style.overflow="visible";
+  svg.innerHTML=`<defs>${metal}<clipPath id="k${id}"><rect x="0" y="0" width="560" height="${cut}"/></clipPath></defs>
+    <g clip-path="url(#k${id})">
+      <path fill-rule="evenodd" d="${P}" fill="url(#m${id})"/>
+      <polygon points="${pts(OUT)}" fill="none" stroke="#15100b" stroke-width="12" stroke-linejoin="round"/>
+      <polygon points="${pts(INN)}" fill="none" stroke="#15100b" stroke-width="10" stroke-linejoin="round"/>
+      <polygon points="${pts(OUT)}" fill="none" stroke="${golden?"rgba(255,250,220,.7)":"rgba(255,240,210,.18)"}" stroke-width="3" transform="translate(0,6)" stroke-linejoin="round"/>
+    </g>${thread}
+    <path d="M0 ${cut} H46 M514 ${cut} H560" stroke="#15100b" stroke-width="16"/>
+    ${golden?`<polygon points="${pts(OUT)}" fill="none" stroke="#f6c94a" stroke-width="10" stroke-linejoin="round"/><polygon points="${pts(OUT)}" fill="none" stroke="#15100b" stroke-width="4" stroke-linejoin="round"/>`:""}
+    <circle cx="280" cy="128" r="64" fill="${golden?"#f6cf5a":T.g}" stroke="#15100b" stroke-width="12"/>
+    <text x="280" y="160" text-anchor="middle" font-family="Alegreya,serif" font-weight="900" font-size="92" fill="${golden?"#2a1a05":T.t}" ${T.t==="#fff"&&!golden?'stroke="#15100b" stroke-width="5" paint-order="stroke"':""}>${tier}</text>`;
+  c.append(svg);
+  // stats on the frame's own wells: six-sided Attack, round Health
+  const d=Math.max(28,Math.round(h*.125)), fs=Math.max(17,Math.round(d*.58));
+  [["a",atk,114],["h",hp,446]].forEach(([k,v,sx])=>{
+    const s=document.createElement("span");s.className="stat";s.style.cssText=`width:${d}px;height:${d}px;left:${sx/5.6}%;top:77.3%`;
+    s.innerHTML=(k==="a"?`<svg viewBox="0 0 100 100"><polygon points="27,4 73,4 98,50 73,96 27,96 2,50" fill="#e4e8ec" stroke="#15100b" stroke-width="8" stroke-linejoin="round"/></svg>`
+                       :`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#f2e6d6" stroke="#15100b" stroke-width="8"/></svg>`)+`<b style="font-size:${fs}px">${v}</b>`;
+    c.append(s);});
+  return {c,h};
+}
+/* a round spell: lead ring, its lower third in sea-green glass, like the cards */
+function spell(cx,cy,d,hover=false){
+  const c=put("div","card"+(hover?" hover":""),`left:${cx-d/2}px;top:${cy-d/2}px;width:${d}px;height:${d}px`);
+  const id=++UID;
+  let sp="";for(let i=0;i<16;i++){const t=i*Math.PI/8;sp+=`M${100+76*Math.cos(t)} ${100+76*Math.sin(t)} L${100+95*Math.cos(t)} ${100+95*Math.sin(t)} `}
+  c.innerHTML=`<div class="pane" style="left:12%;top:12%;width:76%;height:76%;border-radius:50%"></div><svg viewBox="0 0 200 200"><defs>
+    <linearGradient id="l${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#57514a"/><stop offset="1" stop-color="#2a2622"/></linearGradient>
+    <radialGradient id="g${id}"><stop offset=".75" stop-color="#4fb3a8"/><stop offset="1" stop-color="#1d5e66"/></radialGradient>
+    <clipPath id="c${id}"><rect x="0" y="133" width="200" height="67"/></clipPath></defs>
+    <path fill-rule="evenodd" d="M5 100 a95 95 0 1 0 190 0 a95 95 0 1 0 -190 0 Z M24 100 a76 76 0 1 0 152 0 a76 76 0 1 0 -152 0 Z" fill="url(#l${id})"/>
+    <path fill-rule="evenodd" d="M5 100 a95 95 0 1 0 190 0 a95 95 0 1 0 -190 0 Z M24 100 a76 76 0 1 0 152 0 a76 76 0 1 0 -152 0 Z" fill="url(#g${id})" clip-path="url(#c${id})"/>
+    <path d="${sp}" stroke="#15100b" stroke-width="3" clip-path="url(#c${id})"/>
+    <path d="M5 133 H26 M174 133 H195" stroke="#15100b" stroke-width="7"/>
+    <circle cx="100" cy="100" r="95" fill="none" stroke="#15100b" stroke-width="6"/><circle cx="100" cy="100" r="76" fill="none" stroke="#15100b" stroke-width="5"/></svg>`;
+}
+/* nested rows with one gap G: across between upright sides, and square to the facing slants */
+function nestStep(w,h,G){
+  const wv=w*548/560, pitch=wv+G, dx=274/560*w, dy=.166*h, len=Math.hypot(dx,dy);
+  return {pitch, step:.988*h+(G*len-dy*pitch/2)/dx};
+}
+const ART=[["thorn/bramble-runner",1,4,5],["mouse/hayloft-aunt",2,2,9],["pigeon/squadron-leader",3,4,9],["locust/granary-glutton",4,5,7],["pigeon/wing-commander",5,8,14],["thorn/briar-king",6,8,16]];
+function cap(x,y,t){put("div","cap",`left:${x}px;top:${y}px`,t)}
+function hd(x,y,t,s){put("div","hd",`left:${x}px;top:${y}px`,t);if(s)put("div","sub",`left:${x}px;top:${y+28}px`,s)}
+
+if(view==="1x"){
+  hd(60,16,"Lead above, the tier's glass below: the bottom third","Real size. Blank panes, then the present card art.");
+  const rowY=[80,330,600];
+  [112,128].forEach((w,r)=>{ART.forEach(([a,t,at,hp],i)=>{const x=60+i*156;card({tier:t,w,x,y:rowY[r],atk:at,hp});});cap(60+5*156+w+40,rowY[r]+80,`${w} px`);});
+  ART.forEach(([a,t,at,hp],i)=>{const x=60+i*156;const {h}=card({tier:t,w:128,x,y:rowY[2],art:a,atk:at,hp});cap(x+64,rowY[2]+h+10,`Tier ${t}`);});
+  cap(60+5*156+168,rowY[2]+80,"128 px, art");
+  // a full board: four over three, nested, one gap everywhere (G = a quarter of the card's width)
+  const w=112,h=w/.56,G=28,{pitch,step}=nestStep(w,h,G), bx=1500, by=80;
+  hd(1180,16,"A full board, 112 px, gap 28 everywhere","");
+  const BRD=[["locust/famine-caller",3,15,11],["pigeon/squadron-leader",3,4,9],["mouse/bell-ringer",3,5,7],["locust/granary-glutton",4,7,7],["pigeon/wing-commander",5,11,17],["locust/gorger",4,10,14,true],["thorn/briar-king",6,12,20]];
+  BRD.slice(0,4).forEach(([a,t,at,hp],i)=>card({tier:t,w,x:bx+(i-1.5)*pitch-w/2,y:by,art:a,atk:at,hp}));
+  BRD.slice(4).forEach(([a,t,at,hp,g],i)=>card({tier:t,w,x:bx+(i-1)*pitch-w/2,y:by+step,art:a,atk:at,hp,golden:!!g}));
+  // golden, hovered, spell
+  const y2=600;
+  card({tier:4,w:128,x:1150,y:y2,art:"locust/gorger",golden:true,atk:10,hp:14}); cap(1214,y2+239,"Golden: gilded lead");
+  card({tier:3,w:128,x:1340,y:y2,art:"pigeon/squadron-leader",hover:true,atk:4,hp:9}); cap(1404,y2+239,"Hovered: lit");
+  put("div","cursor",`left:1410px;top:${y2+100}px`,`<svg viewBox="0 0 30 40" width="30" height="40"><path d="M2 2 L2 32 L10 25 L15 37 L21 34 L16 23 L27 23 Z" fill="#fffaf0" stroke="#15100b" stroke-width="2.5" stroke-linejoin="round"/></svg>`);
+  spell(1640,y2+114,116); cap(1640,y2+239,"Spell");
+}
+if(view==="2x"){
+  hd(60,16,"Twice the size: tiers 1 to 6 and golden (224 px wide)","");
+  ART.forEach(([a,t,at,hp],i)=>{card({tier:t,w:224,x:60+i*256,y:64,atk:at,hp});cap(60+i*256+112,474,`Tier ${t}`);});
+  card({tier:4,w:224,x:60+6*256,y:64,golden:true,atk:10,hp:14});cap(60+6*256+112,474,"Golden");
+  hd(60,516,"Tier 5, the glass part at a quarter, a third and a half (256 px wide)","");
+  [[1/4,"A quarter"],[1/3,"A third (chosen)"],[1/2,"A half"]].forEach(([g,t],i)=>{card({tier:5,w:256,x:300+i*480,y:560,glass:g,atk:8,hp:14});cap(300+i*480+128,560+457+12,t);});
+}
+</script>
+</body>
+</html>

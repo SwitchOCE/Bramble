@@ -140,3 +140,11 @@ Spacing rule adopted.
 6. Fight cards 200; enemy rows clear.
 
 Optional: hand enlarged; Seek priced.
+
+## Pass 2, round 5 (frame)
+
+**Proportion: a third.** The cut sits just above the stat wells. A quarter slices the wells; a half brings back busy side vines.
+
+**Tiers:** the bottom third is the present frame's glass and ornament, unchanged. The tier numeral sits in a roundel of the tier's colour at the top. From tier 4, a thread of that colour runs up the inner edge of the lead, thicker at 6.
+
+**Kept:** colours, pattern, ornament, stat wells (`assets/glass/frames/`). **Redrawn:** the upper two-thirds as plain lead with a joint at the cut. Golden turns that lead gilt with a gold edge. The ornament still reads at 112 px, so it is not redrawn.

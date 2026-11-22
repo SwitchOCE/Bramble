@@ -132,3 +132,13 @@ Spacing rule applied; shop and board share a 140 px pitch.
 2. Done: Seek fills its slot; cost coin below.
 3. Done: fight centred, 84 px from the top.
 Optional, done: standings margin; plaque clear of the tally.
+
+## Pass 2, round 5 (frame)
+
+**Proportion: a third.** At a quarter the glass starts behind the stat discs and only the bottom point shows colour. At a half the colour climbs past the art's middle and gets busy. At a third, a short upright of colour shows above each stat.
+
+**Tiers:** the present frames' colours (cream, green, blue, purple, gold, red). The ornament at the bottom point grows: none, one petal, three, three with gems, five with gems, and five with a gem heart.
+
+**Kept:** the tier colours, the glass band, and the fleur and gem motifs. **Redrawn:** simple petals and gems at 112 px, with no leaf vines.
+
+**Golden:** gold glass climbs the whole top of the frame.
