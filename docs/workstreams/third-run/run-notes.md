@@ -109,3 +109,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
   - Tribe picks: Locust 69.4% (2.05), none 22.0% (2.91), Badger 6.8% (1.29), Briar 1.0%, Pigeon 0.8%; 2.3 in hand. Red now picks Badger by itself and places best on it, a second sign that Badger is strong. Interim report and method summary sent.
 - **Leads stalled, 08:38–10:40.** Both team threads stopped at about 08:38 and lost their background jobs, though blue's last trial finished at 08:39. No tags for two hours. Both were nudged at 10:40 to collect their results and carry on.
 - **Blue idle, 11:42–12:35.** Its scaling trial finished at 11:42, but the thread had stopped watching it after the earlier stall. Nudged.
+- **red-c11** (`ebe4c508`: main tribe fixed from round 1, as soon as one tribe leads) against red-c10: playing.
