@@ -93,3 +93,13 @@ Non-blocking light table: half done. It now glows from below, brightest at the c
 **Reversed:** 20 (tier beads on the face), 23, 36, 38, 40, 42, 43, 50, 55, 73, 74.
 
 **Suggestions:** withdrawn: clicking a player to see their last board. Not judged: hover timing and motion.
+
+## Pass 2, round 2
+
+1. Eye order: done. Dark window, table and fight field; shop units largest (290 px), full colour, lit warm from behind; board steps down; End turn quiet while gold is unspent.
+2. Tier: done. One numeral in a lead roundel at the bottom point; Charge pips moved under the top point.
+3. Labelled chrome: done. Name plate, hand count, "Turn 9 / Recruit" (now a bare 9), standings places, reserve and fight words removed; the opponent's row carries crossed swords.
+4. Renown: done. A smaller diamond on the card's own top point, clear of the screen edge and neighbours (pitch 210).
+5. Standings contrast: done by removing the labels.
+
+All three: changed stats tint the whole stone (green gained, red wounded), no marks; golden glows hard; fights light only the blow. Optional: quiet standings health, coins off the frame, muted shards.

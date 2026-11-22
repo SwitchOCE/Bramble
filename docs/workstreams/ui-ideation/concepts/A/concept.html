@@ -44,8 +44,7 @@ h1,h2,h3,strong,b{font-weight:700}
 .counter .glyph{width:17px;height:17px;color:#d3bd86}
 .counter b{font:800 22px/1 var(--serif)}
 .hand{top:679px}
-.light-heading{height:39px;display:flex;align-items:center;justify-content:space-between;padding:0 5px 10px;border-bottom:1px solid #9c875674}
-.light-heading strong{font:790 23px/1 var(--serif);color:#ecdbad}
+.hand-count{height:39px;padding:2px 6px 10px;border-bottom:1px solid #9c875674;font:790 23px/1 var(--serif);color:#ecdbad}
 .hand-tray{position:relative;height:241px;margin-top:13px}
 .hand-slot{position:absolute;width:56px;aspect-ratio:560/1000;display:grid;align-items:center}
 .hand-slot .card-face{align-self:center}
@@ -57,11 +56,7 @@ h1,h2,h3,strong,b{font-weight:700}
 .game-menu-content{position:absolute;bottom:56px;left:0;width:100%;padding:9px 13px;background:#182520;border:1px solid #a18959;z-index:10;border-radius:5px;box-shadow:0 8px 15px #090b09}
 .game-menu-content button{width:100%;min-height:46px;text-align:left;padding:0 8px;font-size:19px}
 .game-menu-content button+button{border-top:1px solid #71654b}
-.shop-label{top:68px;left:827px;width:266px;text-align:center}
-.shop-label .section-name{font-size:34px;text-shadow:0 2px 3px #0f110e}
-.shop-label::before,.shop-label::after{position:absolute;content:"";top:19px;width:81px;height:1px;background:linear-gradient(90deg,transparent,#927d55)}
-.shop-label::before{left:-51px}.shop-label::after{right:-51px;transform:scaleX(-1)}
-.shop-controls{top:145px;left:355px;width:132px}
+.shop-controls{top:132px;left:355px;width:132px}
 .purse{height:65px;display:flex;align-items:center;justify-content:center;gap:7px;border-radius:7px 7px 4px 4px;background:linear-gradient(145deg,#433626,#2b281d 70%);border:1px solid #92774c;box-shadow:0 0 0 3px #10130e,inset 0 1px #c6a16b7d}
 .purse strong{font:850 36px/1 var(--serif)}
 .purse .coin{width:26px;height:26px}
@@ -70,10 +65,8 @@ h1,h2,h3,strong,b{font-weight:700}
 .upgrade-group{margin-top:11px;padding-bottom:6px;border-bottom:1px solid #9d855962}
 .refresh-button{margin-top:9px;flex-direction:column;gap:3px;padding-block:5px!important}
 .refresh-title{display:flex;align-items:center;gap:5px}
-.readout{font-size:18px;line-height:1.1;color:#e3d3b2}
-.upgrade-meta{display:grid;gap:2px;margin:6px 1px 0}
-.upgrade-meta .glyph{width:15px;height:15px;color:#e6ce9a}
-.refresh-meta{font:400 18px/1.05 var(--sans)}
+.readout{font:700 19px/1.05 var(--sans);color:#fff0cb}
+.upgrade-meta{display:grid;gap:4px;margin:4px 0 0;padding:6px 2px;text-align:center;background:#25261d;border:1px solid #746344;border-radius:4px}
 #freeze{margin-top:10px}
 .plate-button{display:flex;align-items:center;justify-content:center;gap:6px;min-height:47px;padding:0 13px;border:1px solid #8e7853;border-radius:5px;background:linear-gradient(168deg,#394034,#222e28 47%,#18221f 49%,#222c24);box-shadow:0 0 0 2px #101410,inset 0 2px #bfa47432,inset 0 -2px #0b1510,0 4px 6px #0a0d0a9c;font:730 20px/1 var(--serif);text-align:center}
 .plate-button .glyph{color:#e4cb95}
@@ -82,35 +75,37 @@ h1,h2,h3,strong,b{font-weight:700}
 .plate-button[aria-disabled=true] .coin{color:#fff0d8;background:linear-gradient(135deg,#55383b,#39272b);border-color:#9b7365}
 .coin{display:inline-grid;place-items:center;min-width:25px;height:25px;padding:0 3px;flex:none;border-radius:50%;background:radial-gradient(ellipse at 31% 24%,#f5df99,#c39b55 64%,#a27842);border:1px solid #f7dca1;box-shadow:0 0 0 1px #211812,inset 0 0 0 2px #75532d55;color:#2b1d13;font:850 19px/1 var(--serif)}
 .coin .glyph{width:15px;height:15px;fill:currentColor;stroke:none}
-.spell-light{top:144px;left:1430px;width:136px}
-.spell-offer{height:156px;display:flex;align-items:center;justify-content:center;gap:7px}
-.spell-offer .spell-card{width:98px}
-.spell-offer .coin{align-self:flex-end;margin-bottom:18px}
 .shop-offer,.board-piece{position:absolute;width:var(--w);top:var(--y);left:calc(var(--x) - var(--w)/2)}
-.shop-offer > .coin{display:grid;width:29px;height:29px;margin:10px auto 0}
+.shop-offer > .coin{display:grid;width:31px;height:31px;margin:10px auto 0;font-size:22px}
 .card-face{position:relative;display:block;width:100%;aspect-ratio:560/1000;container-type:inline-size;isolation:isolate;filter:drop-shadow(0 6px 6px #07100dd6)}
 .card-art,.card-frame,.slot-layer{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .card-art{clip-path:var(--inner);object-fit:cover;filter:saturate(.72) brightness(.79)}
 .card-face::before{content:"";position:absolute;inset:1px;background:#111614;clip-path:var(--hex);z-index:-1}
 .card-frame{overflow:visible;--rim:#786b53;--edge:#312a21}
-.shop-offer .card-art{filter:saturate(.83) brightness(.91)}
-.board-piece .card-art{filter:saturate(.68) brightness(.75)}
-.fight .enemy-board .card-art{filter:saturate(.72) brightness(.82)}
-.after .board-piece .card-art{filter:saturate(.45) brightness(.64)}
+.shop-offer .card-art{filter:saturate(1) brightness(1.02)}
+.board-piece .card-art{filter:saturate(.54) brightness(.59)}
+.fight .board-piece .card-art{filter:saturate(.44) brightness(.53)}
+.after .board-piece .card-art{filter:saturate(.45) brightness(.63)}
+.fight .board-piece.striking .card-art{filter:saturate(.94) brightness(1.03)}
+.fight .board-piece.struck .card-art{filter:saturate(.81) brightness(.87)}
+.board-piece.striking .card-frame{--rim:#ffe4ac;--edge:#8e6944;filter:drop-shadow(0 0 8px #f5ac4d9a)}
+.board-piece.struck .card-frame{--rim:#dbb87f;--edge:#765d3f;filter:drop-shadow(0 0 5px #edaf5a63)}
 .spell-card{aspect-ratio:560/760}
 .spell-card .card-art,.spell-card::before{clip-path:url(#spell-art);object-position:50% 54%}
-.card-face.is-inspected .card-art{filter:saturate(.92) brightness(1.05)}
+.stage .card-face.is-inspected .card-art{filter:saturate(.92) brightness(1.05)}
 .inspecting .card-face:not(.is-inspected) .card-art{filter:saturate(.56) brightness(.64)}
 .card-face.is-inspected .card-frame{--rim:#eed098;--edge:#76634a;filter:drop-shadow(0 0 5px #e4b87585)}
 .card-face:focus-visible{outline:2px solid #fff1c3;outline-offset:4px}
-.tier-seal{position:absolute;left:50%;top:5.4%;transform:translateX(-50%);width:18%;aspect-ratio:1.22;display:grid;place-items:center;border-radius:3px;border:1px solid var(--tier-edge);background:var(--tier-glass);box-shadow:0 0 0 2px #181915,inset 0 1px #ead4a448;font:800 max(18px,11.5cqw)/1 var(--serif);color:#fff0cd}
+.tier-seal{position:absolute;left:50%;top:5.4%;transform:translateX(-50%);width:18%;aspect-ratio:1.22;display:grid;place-items:center;border-radius:3px;border:1px solid #ad9974;background:#282a24;box-shadow:0 0 0 2px #181915,inset 0 1px #ead4a448;font:800 max(18px,11.5cqw)/1 var(--serif);color:#fff0cd}
 .unit-stat{position:absolute;width:24%;aspect-ratio:1;transform:translate(-50%,-50%);display:grid;place-items:center;font:850 max(18px,14.2cqw)/1 var(--serif);color:#fff2d7;text-shadow:0 2px #11090d}
 .unit-stat::before,.unit-stat::after{content:"";position:absolute;inset:0;z-index:-2;clip-path:var(--stat-shape);background:#a58b5b}
 .unit-stat::after{inset:1.5px;z-index:-1;background:#292b23}
 .unit-stat.atk{--stat-shape:polygon(50% 0,86% 14%,100% 50%,86% 86%,50% 100%,14% 86%,0 50%,14% 14%)}
 .unit-stat.hp{--stat-shape:polygon(8% 7%,92% 7%,98% 52%,84% 81%,50% 100%,16% 81%,2% 52%)}
 .unit-stat.hp::before{background:#a57f70}.unit-stat.hp::after{background:#442b30}
-.unit-stat.wounded{color:#ffd5c4}
+.unit-stat.buffed{color:#c7f4ae}
+.unit-stat.wounded{color:#ffb3a5}
+.stat-marker{position:absolute;bottom:calc(100% - 3px);left:50%;transform:translateX(-50%);width:42%;height:12px;padding:0 2px;background:#20241e;border-radius:3px;color:inherit}
 .pips{position:absolute;left:50%;top:88%;transform:translateX(-50%);display:flex;gap:4px}
 .pips i{display:block;width:9px;height:9px;border:1px solid #e0cfaa;box-shadow:0 0 0 2px #1a1413;background:#f1dfb6;border-radius:50%}
 .pips.supply i{border-radius:1px;background:#c4d5cb}
@@ -126,8 +121,7 @@ h1,h2,h3,strong,b{font-weight:700}
 .cue{top:613px;left:366px;width:140px;padding:10px 11px;border-radius:4px;text-align:left;color:#e8f6e4;background:#223932;border:1px solid #87ad99;box-shadow:0 0 0 3px #131b16;font:700 19px/1.12 var(--sans)}
 .cue .glyph{position:absolute;width:29px;height:24px;right:-31px;top:calc(50% - 12px);color:#c9ead8;filter:drop-shadow(0 1px 1px #071814)}
 .roster{top:158px}
-.roster .light-heading{justify-content:center}
-.roster-list{margin:13px 0 0;padding:0;list-style:none;display:grid;gap:6px}
+.roster-list{margin:0;padding:0;list-style:none;display:grid;gap:6px}
 .roster-row{position:relative;display:grid;grid-template-columns:19px 41px minmax(0,1fr) 29px;gap:7px;align-items:center;min-height:59px;padding:5px 6px;background:#182521;border-top:1px solid #786a4d7f;border-bottom:1px solid #0b1711;box-shadow:0 1px #5047325e}
 .roster-row .portrait{width:39px;height:39px;border-width:2px}
 .roster-rank{color:#d1c39f;text-align:center;font:780 20px/1 var(--serif)}
@@ -138,9 +132,7 @@ h1,h2,h3,strong,b{font-weight:700}
 .roster-row.next{background:linear-gradient(105deg,#3c3527,#302e24);border:1px solid #a68957;box-shadow:0 0 0 2px #141912}
 .roster-row.you{border-inline-start:3px solid #a7aa89;padding-left:4px}
 .roster-row.eliminated .portrait{filter:saturate(.42) brightness(.82)}
-.turn-action{top:865px;text-align:center}
-.next-profile{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:13px;font:740 24px/1 var(--serif)}
-.next-profile .glyph{color:#e5d0a4}
+.turn-action{top:907px;text-align:center}
 .action-button{position:relative;width:100%;min-height:66px;display:flex;justify-content:center;align-items:center;gap:9px;border-radius:5px;border:2px solid #e1ae67;color:#fff0cf;background:linear-gradient(168deg,#754f2e 0%,#5e3a22 48%,#4c2c1b 49%,#683f22 100%);box-shadow:0 0 0 3px #20170e,0 0 0 4px #8c613c,inset 0 0 0 3px #b684554f,0 0 24px #d58b373e,0 5px 8px #0d130f;font:800 30px/1 var(--serif)}
 .action-button::before,.action-button::after{content:"";width:9px;height:9px;position:absolute;top:calc(50% - 5px);background:#dcb574;border:1px solid #473222;transform:rotate(45deg)}
 .action-button::before{left:10px}.action-button::after{right:10px}
@@ -148,18 +140,15 @@ h1,h2,h3,strong,b{font-weight:700}
 .income{font-size:19px;margin-top:13px;display:flex;align-items:center;justify-content:center;gap:7px;color:#f5ddaa}
 .income .glyph{color:#e5c280}
 .fight-profile{top:160px;text-align:center}
-.fight-profile > .cap{color:#fff1ce}
-.fight-profile .portrait{margin:16px auto 11px;width:120px;height:120px;border-width:4px}
+.fight-profile .portrait{margin:34px auto 11px;width:120px;height:120px;border-width:4px}
 .fight-profile .section-name{margin:8px 0 9px}
 .fight-skip{top:931px}
-.fight-centre{position:absolute;left:904px;top:520px;width:112px;text-align:center;z-index:2}
-.fight-centre .plate-button{min-height:38px;display:flex;background:linear-gradient(165deg,#36362a,#1d2722)}
-.fight-centre .glyph{width:25px;height:25px}
+.strike-mark{position:absolute;top:521px;left:1054px;width:36px;height:36px;display:grid;place-items:center;color:#ffe6b8;background:#49331d;border:1px solid #d4a76b;border-radius:50%;box-shadow:0 0 0 3px #231d14,0 0 24px #f9b25a91;z-index:2;pointer-events:none}
+.strike-mark .glyph{width:22px;height:22px}
 .after .roster{top:158px}
 .after-action{top:906px}
 .after-action .secondary-actions{margin-top:19px;display:flex;gap:9px}
 .secondary-actions .plate-button{flex:1;padding:0 8px;white-space:nowrap}
-.after .fight-centre{left:838px;top:551px;width:244px}
 .result{position:absolute;left:651px;top:610px;width:618px;min-height:390px;padding:23px 38px 30px;text-align:center;isolation:isolate;z-index:3;filter:drop-shadow(0 8px 19px #060807cb)}
 .result::before,.result::after{content:"";position:absolute;inset:0;z-index:-3;clip-path:polygon(5% 0,95% 0,100% 10%,100% 90%,95% 100%,5% 100%,0 90%,0 10%);background:linear-gradient(160deg,#b49360,#534131 20%,#8d714c 50%,#4f4030 72%,#b49360)}
 .result::after{inset:3px;z-index:-2;background:radial-gradient(ellipse at 50% 0,#5b3634,#322722 62%,#202521)}
@@ -205,7 +194,7 @@ h1,h2,h3,strong,b{font-weight:700}
 .study-large .specimen{width:348px}
 .specimen-shape{height:310.7px;display:grid;place-items:center}
 .study-large .specimen-shape{height:621.4px}
-.specimen .spell-card{width:56.32184%}
+.specimen .spell-card{width:var(--spell-study-scale)}
 .specimen figcaption{margin:14px 0 0;padding:8px 0;border-top:1px solid #90794e;background:#1b261f;font:740 22px/1 var(--serif);color:#f7e5c1}
 .study-large .specimen figcaption{font-size:24px}
 </style>
@@ -249,7 +238,6 @@ const symbols = {
   glass:'<path d="M12 2.5 19 7v10l-7 4.5L5 17V7Z M12 2.5v19M5 7l14 10M19 7 5 17"/>',
   swords:'<path d="M4 3l4 1 12 13-3 3L5 7zM20 3l-4 1L4 17l3 3L19 7zM15 20l5-5m-16 0 5 5"/>',
   menu:'<path d="M5 7h14M5 12h14M5 17h14"/>',
-  stall:'<path d="M4 9h16l-2-5H6zM5 9v11m14-11v11M4 15h16M9 15v5m6-5v5M3 20h18"/>',
   heap:'<path d="M2.5 19h19c-1-5-4-8-6-8-1 0-2 .7-2.5 1.5C12 10 10 8 8 8c-3 0-5 5.5-5.5 11z"/>',
   wave:'<path d="M3 10c3-3 6 3 9 0s6-3 9 0M3 16c3-3 6 3 9 0s6-3 9 0"/>',
   shield:'<path d="M12 3 19 6v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/>',
@@ -332,10 +320,12 @@ function windowArt() {
   <defs>
     ${profiles.map(([name,d])=>`<clipPath id="clip-${name}"><path d="${d}"/></clipPath>`).join("")}
     <linearGradient id="stone-mould" x1="0" y1="0" x2=".18" y2="1"><stop stop-color="#75634d"/><stop offset=".44" stop-color="#3b392d"/><stop offset="1" stop-color="#585444"/></linearGradient>
-    <linearGradient id="field" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#665235"/><stop offset=".39" stop-color="#342f25"/><stop offset=".53" stop-color="#29392e"/><stop offset=".87" stop-color="#23382e"/><stop offset="1" stop-color="#142a27"/></linearGradient>
+    <linearGradient id="field" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="${recruit ? "#725433" : "#453c2e"}"/><stop offset=".39" stop-color="${recruit ? "#342b20" : "#302d24"}"/><stop offset=".53" stop-color="#202b25"/><stop offset=".87" stop-color="#192a25"/><stop offset="1" stop-color="#10201e"/></linearGradient>
     <linearGradient id="side-field" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#63533a"/><stop offset=".23" stop-color="#32372c"/><stop offset=".49" stop-color="#23352e"/><stop offset=".82" stop-color="#1b332c"/><stop offset="1" stop-color="#313426"/></linearGradient>
-    <radialGradient id="backlight"><stop stop-color="#c5904e" stop-opacity=".34"/><stop offset="1" stop-color="#b69a64" stop-opacity="0"/></radialGradient>
-    <radialGradient id="floorlight"><stop stop-color="#78a682" stop-opacity=".19"/><stop offset="1" stop-color="#95b2aa" stop-opacity="0"/></radialGradient>
+    <radialGradient id="backlight"><stop stop-color="#d59b55" stop-opacity=".42"/><stop offset="1" stop-color="#b69a64" stop-opacity="0"/></radialGradient>
+    <radialGradient id="floorlight"><stop stop-color="#769f76" stop-opacity=".16"/><stop offset="1" stop-color="#95b2aa" stop-opacity="0"/></radialGradient>
+    <radialGradient id="glass-falloff"><stop offset=".5" stop-color="#0b100e" stop-opacity="0"/><stop offset="1" stop-color="#0b100e" stop-opacity=".63"/></radialGradient>
+    <radialGradient id="strike-light"><stop stop-color="#dfac5f" stop-opacity=".34"/><stop offset="1" stop-color="#dfac5f" stop-opacity="0"/></radialGradient>
     <linearGradient id="beam" x2="0" y2="1"><stop stop-color="#a39069"/><stop offset=".27" stop-color="#524531"/><stop offset=".5" stop-color="#2d2b21"/><stop offset=".83" stop-color="#555039"/><stop offset="1" stop-color="#181d16"/></linearGradient>
     <pattern id="glass-grain" width="512" height="512" patternUnits="userSpaceOnUse"><image href="${asset}glass/ui/pane.jpg" width="512" height="512"/></pattern>
     <pattern id="quarry" width="148" height="190" patternUnits="userSpaceOnUse">
@@ -352,8 +342,9 @@ function windowArt() {
   <g clip-path="url(#clip-middle)">
     <rect x="338" y="17" width="1244" height="1042" fill="url(#field)"/>
     <rect x="338" y="17" width="1244" height="1042" fill="url(#glass-grain)" opacity=".37" style="mix-blend-mode:overlay"/>
-    <ellipse cx="960" cy="260" rx="658" ry="381" fill="url(#backlight)"/>
-    <ellipse cx="960" cy="857" rx="648" ry="352" fill="url(#floorlight)"/>
+    ${recruit ? '<ellipse cx="1018" cy="226" rx="630" ry="350" fill="url(#backlight)"/>' : ""}
+    <ellipse cx="960" cy="793" rx="535" ry="308" fill="url(#floorlight)"/>
+    ${view === "fight" ? '<ellipse cx="1072" cy="537" rx="196" ry="332" fill="url(#strike-light)"/>' : ""}
     <rect x="338" y="17" width="1244" height="1042" fill="url(#quarry)" opacity=".43"/>
     ${rails}
     ${bough(356,100,1,.78)}${bough(1564,100,-1,.78)}
@@ -361,6 +352,7 @@ function windowArt() {
     ${bough(407,588,1,.6)}${bough(1513,588,-1,.6)}
     <g stroke="#151b16" stroke-width="8" fill="none"><path d="M340 151Q413 94 493 110Q615 55 751 68Q867 38 934 62M1580 151Q1507 94 1427 110Q1305 55 1169 68Q1053 38 986 62"/></g>
     <g stroke="#998058" stroke-width="1.4" fill="none"><path d="M340 151Q413 94 493 110Q615 55 751 68Q867 38 934 62M1580 151Q1507 94 1427 110Q1305 55 1169 68Q1053 38 986 62"/></g>
+    <rect x="338" y="17" width="1244" height="1042" fill="url(#glass-falloff)"/>
     <path d="M339 ${transom}H1581" stroke="#10150f" stroke-width="13"/>
     <path d="M339 ${transom}H1581" stroke="url(#beam)" stroke-width="8"/>
     <path d="M339 ${transom-3}H1581" stroke="#ae9163" stroke-opacity=".55" stroke-width="1"/>
@@ -369,7 +361,7 @@ function windowArt() {
     <rect x="${x}" y="51" width="298" height="1008" fill="url(#side-field)"/>
     <rect x="${x}" y="51" width="298" height="1008" fill="url(#glass-grain)" opacity=".44" style="mix-blend-mode:overlay"/>
     <rect x="${x}" y="51" width="298" height="1008" fill="url(#quarry)" opacity=".53"/>
-    <ellipse cx="${cx}" cy="270" rx="220" ry="354" fill="url(#backlight)"/>
+    <ellipse cx="${cx}" cy="270" rx="220" ry="354" fill="url(#backlight)" opacity=".58"/>
     <ellipse cx="${cx}" cy="867" rx="240" ry="340" fill="url(#floorlight)"/>
     <path d="M${x} 144Q${cx} 160 ${edge} 144M${x} 653H${edge}M${x} 849H${edge}M${x} 1019Q${cx} 955 ${edge} 1019" stroke="#101915" stroke-width="4" fill="none"/>
     <path d="M${x} 144Q${cx} 160 ${edge} 144M${x} 653H${edge}M${x} 849H${edge}M${x} 1019Q${cx} 955 ${edge} 1019" stroke="#a2885d" stroke-opacity=".51" stroke-width="1" fill="none"/>
@@ -378,6 +370,7 @@ function windowArt() {
     ${name==="left" ? oakBadge(175,358,.82) : view==="fight" ? oakBadge(1745,477,1) : ""}
     ${bough(x+17,869,1,1.1)}${bough(edge-14,975,-1,1.06)}
     <path d="M${x+13} 178V1045H${edge-13}V178" fill="none" stroke="#96845c" stroke-opacity=".43" stroke-width="1"/>
+    <rect x="${x}" y="51" width="298" height="1008" fill="url(#glass-falloff)" opacity=".53"/>
   </g>`).join("")}
   ${outlines}
   ${rose(960,38,17)}
@@ -395,11 +388,11 @@ add("home-guard","pigeon","Home Guard","Pigeon",3,3,11,"Guard. Reserve.",{price:
 add("hayloft-aunt","mouse","Hayloft Aunt","Mouse",2,2,9,"Hand-me-down. Recruit: Add a Cousin to your hand.",{price:3,helps:[["Hand-me-down","When this dies, the nearest friendly Mouse gains its Attack this fight."],["Cousin","A 2/2 Mouse with Hand-me-down."]]});
 add("sweetbriar","thorn","Sweetbriar","Briar",2,3,7,"Whenever a unit goes into your Compost, gain +1/+1 permanently.",{price:3});
 add("shrew-cutpurse","mouse","Shrew Cutpurse","Mouse",2,2,4,"Pile on 1. After this piles on, gain 2 gold.",{price:3,helps:[["Pile on","After another friendly Mouse attacks, Hit its target. Works once for Pile on 1."]]});
-add("famine-caller","locust","Famine-caller","Locust",3,15,11,"When this dies, Tide +2.",{renown:7,helps:[["Stats","6 Attack, 4 Health before Tide (+2 Attack) and slot Renown (+7/+7)."],["Tide","Your Locusts have this much extra Attack for the rest of the game."]]});
+add("famine-caller","locust","Famine-caller","Locust",3,15,11,"When this dies, Tide +2.",{renown:7,baseAttack:6,baseHealth:4,helps:[["Stats","6 Attack, 4 Health before Tide (+2 Attack) and slot Renown (+7/+7)."],["Tide","Your Locusts have this much extra Attack for the rest of the game."]]});
 add("squadron-leader","pigeon","Squadron Leader","Pigeon",3,4,9,"The units in front of this have Sortie and +3 Attack.",{helps:[["Sortie","Attacks the enemy back row while it has units."]]});
-add("bell-ringer","mouse","Bell-ringer","Mouse",3,5,7,"Hand-me-down. Your Hand-me-downs give +3 more Attack.",{renown:2,helps:[["Hand-me-down","When this dies, the nearest friendly Mouse gains its Attack this fight."],["Stats","3 Attack, 5 Health before slot Renown (+2/+2)."]]});
-add("granary-glutton","locust","Granary Glutton","Locust",4,7,7,"Whenever you sell a Locust, this eats it.",{helps:[["Stats","5 Attack, 7 Health before Tide (+2 Attack)."]]});
-add("wing-commander","pigeon","Wing Commander","Pigeon",5,11,17,"Sortie. Charge 4: After one of your Pigeons with Sortie kills, give its slot 3 Renown.",{renown:3,pips:4,helps:[["Sortie","Attacks the enemy back row while it has units."],["Charge","Works this many times, then stops. Refills each fight."],["Stats","8 Attack, 14 Health before slot Renown (+3/+3)."]]});
+add("bell-ringer","mouse","Bell-ringer","Mouse",3,5,7,"Hand-me-down. Your Hand-me-downs give +3 more Attack.",{renown:2,baseAttack:3,baseHealth:5,helps:[["Hand-me-down","When this dies, the nearest friendly Mouse gains its Attack this fight."],["Stats","3 Attack, 5 Health before slot Renown (+2/+2)."]]});
+add("granary-glutton","locust","Granary Glutton","Locust",4,7,7,"Whenever you sell a Locust, this eats it.",{baseAttack:5,helps:[["Stats","5 Attack, 7 Health before Tide (+2 Attack)."]]});
+add("wing-commander","pigeon","Wing Commander","Pigeon",5,11,17,"Sortie. Charge 4: After one of your Pigeons with Sortie kills, give its slot 3 Renown.",{renown:3,baseAttack:8,baseHealth:14,pips:4,helps:[["Sortie","Attacks the enemy back row while it has units."],["Charge","Works this many times, then stops. Refills each fight."],["Stats","8 Attack, 14 Health before slot Renown (+3/+3)."]]});
 add("blackberry-sprawl","thorn","Blackberry Sprawl","Briar",3,4,8,"Grow 2.",{helps:[["Grow 2","At the start of the fight, gain +2/+2 for every 2 units in your Compost."]]});
 add("hedge-lancer","badger","Hedge Lancer","Badger",3,6,12,"Fury 1. The first time this attacks each fight, it takes no damage.",{helps:[["Fury 1","Whenever this attacks or is attacked, gain +1 Attack, and +1 more for each unit you're outnumbered by."]]});
 add("sentry","pigeon","Sentry","Pigeon",1,2,5,"Supply 6: At the end of your turn, give this slot 1 Renown.",{price:2,pips:6,supply:true,helps:[["Supply","Works this many times in total."],["Renown","The unit here gets +1/+1 per Renown at fight start. Reservists get it too."]]});
@@ -441,7 +434,6 @@ const hp = c => c.fightHealth ?? c.health;
 const portrait = (key) => `<img class="portrait" src="${asset}glass/portraits/${key}.jpg" alt="">`;
 const health = (amount) => `<span class="health" aria-label="${amount} Health">${icon("heart")}${amount}</span>`;
 const coin = (amount) => `<span class="coin" aria-label="${amount} gold">${amount}</span>`;
-const bracket = (txt,classes="") => `<span class="plate-button ${classes}">${txt}</span>`;
 const playerCompost = first ? 0 : recruit ? 3 : 4;
 const playerTide = first ? 0 : after ? 4 : 2;
 function counters() {
@@ -461,8 +453,8 @@ function emptySlot(label, fallenId = null) {
     ? `<button type="button" class="card-face empty-slot" data-card="${fallenId}" aria-label="${label}">${picture}<span class="fallen-mark">${icon("fallen")}</span></button>`
     : `<div class="card-face empty-slot" role="img" aria-label="${label}">${picture}</div>`;
 }
-const tierTints = [null,["#343633","#a89f8c"],["#293c32","#82966e"],["#273840","#8398a4"],["#3b303b","#a08a9f"],["#453b27","#bb9e58"],["#442c2a","#b48174"]];
 const boardCardWidth = 174;
+const shopUnitWidth = 156, shopSpellWidth = 120;
 function cardBevel(spell,golden) {
   if (spell) return `<svg class="card-frame" viewBox="0 0 560 760" aria-hidden="true">
     <path d="M20 686V266C20 139 135 46 280 14C425 46 540 139 540 266V686L492 741H68Z M39 676V267C39 154 141 72 280 39C419 72 521 154 521 267V676L481 722H79Z" fill="#211d17" fill-rule="evenodd" stroke="#151714" stroke-width="11"/>
@@ -475,21 +467,30 @@ function cardBevel(spell,golden) {
     <path d="M280 14 544 172V828L280 986 16 828V172Z" fill="none" style="stroke:var(--rim)" stroke-width="5.5"/>
     <path d="M280 38 540 180V820L280 962 20 820V180Z" fill="none" style="stroke:var(--edge)" stroke-width="8"/>
     <path d="M28 191V810M532 191V810M31 173 280 24 529 173" fill="none" stroke="#a89670" stroke-width="3" opacity=".52"/>
-    ${golden ? '<path d="M280 23 539 178V822L280 977 21 822V178Z M280 28 530 178M280 28 30 178" fill="none" stroke="#d0aa66" stroke-width="5"/><path d="M264 938 280 926 296 938 280 950Z" fill="#d4ae6b" stroke="#352c1d" stroke-width="4"/>' : ""}
+    ${golden ? `<g class="golden-frame"><path d="M280 21 541 177V823L280 980 19 823V177Z" fill="none" stroke="#35271a" stroke-width="32"/>
+    <path d="M280 21 541 177V823L280 980 19 823V177Z" fill="none" stroke="#b78342" stroke-width="23"/>
+    <path d="M25 819V181L280 29 535 181V819M31 832 280 981 529 832" fill="none" stroke="#f1ca80" stroke-width="6"/>
+    <path d="M38 188V809L280 951 522 809V188M38 190 280 46 522 190" fill="none" stroke="#efd18a" stroke-width="4"/>
+    <path d="M246 947 280 926 314 947 280 970Z" fill="#f5d490" stroke="#49301b" stroke-width="7"/></g>` : ""}
   </svg>`;
 }
 function cardFace(id,{zone,lit=false,...override}={}) {
   const c = {...cards[id],...override};
   const spell = c.folder === "spell";
   const image = spell ? `glass/art/${c.image}.jpg` : `units/${c.folder}/${id}.jpg`;
-  const [tint,edge] = tierTints[c.tier];
-  const stat = (value,x,cls) => `<span aria-hidden="true" class="unit-stat ${cls}" style="left:${x}%;top:77%">${value}</span>`;
-  const label = [c.golden ? `Golden ${c.name}` : c.name,c.tribe,`Tier ${c.tier}`,spell ? "" : `${atta(c)} Attack, ${hp(c)} Health`,c.status,c.renown && `Slot Renown ${c.renown}`].filter(Boolean).join(", ");
+  const attackState = atta(c) > (c.baseAttack ?? c.attack) ? "buffed" : "";
+  const healthState = c.wounded ? "wounded" : hp(c) > (c.baseHealth ?? c.health) ? "buffed" : "";
+  const stat = (value,x,cls,state) => {
+    const arrow = state === "buffed" ? "2 7 6 3 10 7" : "2 4 6 8 10 4";
+    return `<span aria-hidden="true" class="unit-stat ${cls} ${state}" style="left:${x}%;top:77%">${value}${state ? `<svg class="stat-marker" viewBox="0 0 12 11"><polyline points="${arrow}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>` : ""}</span>`;
+  };
+  const statLabel = [`${atta(c)} Attack${attackState ? ", buffed" : ""}`,`${hp(c)} Health${healthState ? `, ${healthState}` : ""}`].join(", ");
+  const label = [c.golden ? `Golden ${c.name}` : c.name,c.tribe,`Tier ${c.tier}`,spell ? "" : statLabel,c.status,c.renown && `Slot Renown ${c.renown}`].filter(Boolean).join(", ");
   const element = study ? "div" : "button";
   const role = study ? 'role="img"' : 'type="button"';
   return `<${element} ${role} class="card-face ${spell ? "spell-card" : ""} ${lit ? "is-inspected" : ""}" data-card="${id}" data-zone="${zone ?? "study"}" aria-label="${label}">
     <img class="card-art" src="${asset + image}" alt="">${cardBevel(spell,c.golden)}
-    ${spell ? "" : `<span class="tier-seal" aria-hidden="true" style="--tier-glass:${tint};--tier-edge:${edge}">${c.tier}</span>` + stat(atta(c),20,"atk") + stat(hp(c),80,c.wounded ? "hp wounded" : "hp")}
+    ${spell ? "" : `<span class="tier-seal" aria-hidden="true">${c.tier}</span>` + stat(atta(c),20,"atk",attackState) + stat(hp(c),80,"hp",healthState)}
     ${c.pips ? `<span aria-hidden="true" class="pips ${c.supply?"supply":""}">${"<i></i>".repeat(c.pips)}</span>` : ""}
   </${element}>`;
 }
@@ -498,20 +499,20 @@ function placement(x,y,w) {
 }
 function shop() {
   const gold = first ? 5 : 20, tier = first ? 1 : 5, upgrade = first ? 8 : 23;
+  const offer = (id,x,width,spell=false) => `<div class="shop-offer" ${placement(x,406-width*(spell?760:1000)/560,width)}>${cardFace(id,{zone:"shop"})}${coin(cards[id].price)}</div>`;
   return `<section aria-label="Shop">
-    <div class="placed shop-label"><h2 class="section-name">Shop</h2></div>
     <div class="placed shop-controls">
       <div class="purse"><span class="coin">${icon("spark")}</span><strong>${gold}</strong><span class="gold-word">Gold</span></div>
       <div class="upgrade-group">
         <button class="plate-button upgrade" aria-disabled="true" aria-describedby="upgrade-meta" aria-label="Upgrade for ${upgrade} gold. Need ${upgrade-gold} more.">${icon("up")} Upgrade ${coin(upgrade)}</button>
-        <div class="readout upgrade-meta" id="upgrade-meta"><span>Tier ${tier} → ${tier+1}</span><span>${icon("stall")} −${first?1:3} next turn</span></div>
+        <div class="readout upgrade-meta" id="upgrade-meta"><span>Tier ${tier} → ${tier+1}</span><span>−${first?1:3} next turn</span></div>
       </div>
       <button class="plate-button refresh-button" aria-label="Refresh for 1 gold, 10 at this price"><span class="refresh-title">${icon("refresh")} Refresh ${coin(1)}</span><span class="readout refresh-meta">10 at this price</span></button>
       <button class="plate-button" id="freeze" type="button" aria-pressed="false">${icon("freeze")} <span>Freeze</span></button>
     </div>
-    ${offers.map((id,i)=>`<div class="shop-offer" ${placement(584+i*186,108,170)}>${cardFace(id,{zone:"shop"})}${coin(cards[id].price)}</div>`).join("")}
-    <section class="placed spell-light" aria-label="Shop spells">
-      ${[0,1].map(()=>`<div class="spell-offer">${cardFace("sharpen",{zone:"shop"})}${coin(1)}</div>`).join("")}
+    ${offers.map((id,i)=>offer(id,577+i*164,shopUnitWidth)).join("")}
+    <section aria-label="Shop spells">
+      ${[1380,1508].map(x=>offer("sharpen",x,shopSpellWidth,true)).join("")}
     </section>
   </section>`;
 }
@@ -531,13 +532,13 @@ function boardRow(ids, renown, y, width, kind, {variants={},outcome=false,tutori
   return ids.map((id,i)=>{
     const x = boardCentre + spacing * (i - (ids.length-1)/2);
     const state = variants[id] ?? {};
-    const status = outcome ? (state.fallen ? "Fell" : "Survived") : null;
+    const status = outcome ? (state.fallen ? "Fell" : "Survived") : state.status;
     const value = renown[i];
     const slotName = `${kind} row slot ${i+1}${value ? `, Renown ${value}` : ""}`;
     const art = id && !state.fallen
       ? cardFace(id,{...state,status,renown:value,zone})
       : emptySlot(state.fallen ? `${slotName}, ${cards[id].name} fell` : `${slotName}, empty`,state.fallen ? id : null);
-    return `<div class="board-piece ${state.fallen ? "fallen" : ""}" ${placement(x,y,width)}>
+    return `<div class="board-piece ${state.fallen ? "fallen" : ""} ${state.strike ?? ""}" ${placement(x,y,width)}>
       <div class="board-slot ${tutorial && i === 0 ? "tutorial-target" : ""}">
         <svg class="slot-surround" viewBox="0 0 560 1000" preserveAspectRatio="none" aria-hidden="true">
           <path d="M280 9 552 174V826L280 991 8 826V174Z" fill="none" stroke="${value ? "#8c784e" : "#425448"}" stroke-width="8"/>
@@ -559,14 +560,15 @@ function recruitBoard() {
 }
 function fightBoard() {
   const front = [...yourFront.slice(0,3),null];
-  const opponent = {variants:after ? fightEnd : {},outcome:after};
+  const opponent = {variants:after ? fightEnd : {"holly-knight":{strike:"striking",status:"Attacking Bell-ringer"}},outcome:after};
+  const ally = {variants:{"bell-ringer":{strike:"struck",status:"Defending against Holly Knight"}}};
   return `<section class="enemy-board" aria-label="March Hare’s board">
     ${boardRow(enemyBack,enemyBackRenown,66,145,"Back",opponent)}
     ${boardRow(enemyFront,enemyFrontRenown,274,145,"Front",opponent)}
   </section>
-  <div class="fight-centre">${bracket(`${icon("swords")} ${after ? "March Hare’s board" : "Fight"}`)}</div>
   ${after ? "" : `<section aria-label="Your board">
-    ${boardRow(front,yourFrontRenown,551,145,"Front")}
+    <span class="strike-mark" aria-hidden="true">${icon("swords")}</span>
+    ${boardRow(front,yourFrontRenown,551,145,"Front",ally)}
     ${boardRow(yourBack,yourBackRenown,783,145,"Back",{variants:fightStart})}
   </section>`}`;
 }
@@ -574,7 +576,7 @@ function hand() {
   const ids = first ? [] : ["seek"];
   const positions = [[6,0],[69,0],[132,0],[195,0],[37,118],[100,118],[163,118]];
   return `<section class="side hand" aria-label="Hand, ${ids.length} of 7">
-    <div class="light-heading"><h2 class="section-name">Hand</h2><strong>${ids.length}/7</strong></div>
+    <p class="hand-count" aria-hidden="true">${ids.length}/7</p>
     <div class="hand-tray">${positions.map(([x,y],i)=>`<div class="hand-slot" style="top:${y}px;left:${x}px">${ids[i] ? cardFace(ids[i],{zone:"hand"}) : emptySlot("Empty hand slot")}</div>`).join("")}</div>
   </section>`;
 }
@@ -587,7 +589,6 @@ function standings() {
   const endOfTurn = [[...roster[2]],["Pipkin","pipkin",21],roster[3],["Old Mother Mousewife","old_mother_mousewife",18],enemy,roster[5],["Dame Farthing","dame_farthing",0],roster[7]];
   const players = first ? [self,enemy,roster[0],roster[1],roster[2],roster[3],roster[5],roster[7]] : after ? endOfTurn : roster;
   return `<section class="side right roster" aria-label="${after ? "Turn 9 standings" : "Standings"}">
-    <div class="light-heading"><h2 class="section-name">${after ? "Turn 9 standings" : "Standings"}</h2></div>
     <ol class="roster-list">${players.map(([name,key,amount],i)=>{
       const isSelf = key === self[1], isNext = key === enemy[1] && !after;
       const hpValue = first ? 40 : amount;
@@ -604,7 +605,6 @@ function standings() {
 }
 function turnAction() {
   return `<section class="side right turn-action" aria-label="End turn">
-    <div class="next-profile">${icon("swords")} March Hare ${health(first?40:16)}</div>
     ${first ? '<button class="action-button" type="button">End turn</button>' : '<a class="action-button" href="?view=fight">End turn</a>'}
     <p class="income">${icon("spark")} +${first?7:19} gold next turn</p>
   </section>`;
@@ -631,7 +631,7 @@ function defeat() {
 }
 function fightOpponent() {
   return `<section class="side right fight-profile" aria-label="Opponent">
-    <h2 class="cap">Opponent</h2>${portrait(enemy[1])}
+    ${portrait(enemy[1])}
     <p class="section-name">March Hare</p>${health(16)}
   </section>`;
 }
@@ -652,7 +652,7 @@ function frameStudy() {
     <h2>Leaded card frames</h2>
     <nav class="study-nav" aria-label="Frame studies">${links.map(([key,label])=>`<a class="plate-button" href="?view=${key}" ${key===view?'aria-current="page"':""}>${label}</a>`).join("")}</nav>
   </header>
-  <div class="study-strip">${specimens.map(([id,label])=>`<figure class="specimen"><div class="specimen-shape">${cardFace(id,{lit:label==="Hover"})}</div><figcaption>${label}</figcaption></figure>`).join("")}</div>`;
+  <div class="study-strip" style="--spell-study-scale:${shopSpellWidth/boardCardWidth*100}%">${specimens.map(([id,label])=>`<figure class="specimen"><div class="specimen-shape">${cardFace(id,{lit:label==="Hover"})}</div><figcaption>${label}</figcaption></figure>`).join("")}</div>`;
 }
 const selfHealth = first ? 40 : after ? 0 : 11;
 const leftProfile = `<section class="side left-top" aria-label="Dame Farthing">

@@ -72,3 +72,15 @@ Each tier shares the same lead bevel. A muted tint backs the numeral, while gold
 **Owner rows reversed in this pass.** 8 (shared frame), 20 (tier seal), 22 and 23 (leave static keyword marks to inspection), 24 (type in the tooltip), 50 (arched spell tiles beside the shop), 68 (ordinary inspection opens separate, optional reminders). Earlier layout reversals still apply where used.
 
 **Suggestion for the owner.** Use the same localized lighting for the active attacker. Eleven views checked. Motion, timing, hover feel and sound are not judged.
+
+## Pass 2, round 2
+
+1. Removed visible zone titles and the duplicate March Hare plate. The standings row carries the next-fight marker.
+2. Kept the shop warm and at full colour. Desaturated and darkened the board and let the window edges fall into shadow.
+3. Gave Golden Gorger a broad gold bevel and a stamped diamond at the foot.
+4. Widened spell tiles from 98 to 120 px and aligned all seven prices. Shop price tokens use 22 px numerals.
+5. Set both shop readouts in bold 19 px on dark plates.
+
+One numeral and one plain frame serve all ordinary tiers. Green up marks and coral down marks distinguish buffs and wounds. In combat, Holly Knight and Bell-ringer get the light.
+
+Opened all eleven renders. Checked alignment, icons, type, contrast (5.78:1 minimum), clipping, spacing, emphasis and frame ratios.

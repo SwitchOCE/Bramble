@@ -86,8 +86,8 @@ body{font-family:"Alegreya Sans",sans-serif;color:var(--cream)}
 /* ---------- round 1: name plates, price tags, leaded spells, lights, plaques ---------- */
 .e-mark b{right:-10px;bottom:-9px;min-width:22px;height:22px;padding:0 4px;border-radius:11px;font:700 16px/18px "Alegreya Sans",sans-serif;border:2px solid #e3d5b2}
 .e-mark.e-has-n{margin-right:9px}
-.e-renown{padding:1px 5px 1px 3px;gap:1px;height:24px;font-size:17px}
-.e-renown svg{width:13px;height:13px}
+.e-renown{padding:1px 6px 1px 3px;gap:1px;height:27px;font-size:19px}
+.e-renown svg{width:14px;height:14px}
 .e-np{position:absolute;height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;white-space:nowrap;overflow:hidden;
   background:url(../../../../../assets/glass/ui/pane.jpg) center/220px,linear-gradient(175deg,#3a2c1f,#17110c 75%);background-blend-mode:multiply;
   border:3px solid var(--lead);border-radius:4px;box-shadow:0 0 0 1.5px #8d7247,inset 0 0 0 1px rgba(255,228,170,.16),0 3px 8px rgba(0,0,0,.65);z-index:2}
@@ -141,7 +141,8 @@ body{font-family:"Alegreya Sans",sans-serif;color:var(--cream)}
 .e-card .e-fr{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .e-card{filter:drop-shadow(0 8px 10px rgba(0,0,0,.6))}
 .e-lit .e-art{filter:none}
-.e-rest .e-art{filter:saturate(.68) brightness(.7)}
+.e-rest .e-art{filter:saturate(.6) brightness(.62)}
+.e-step .e-art{filter:saturate(.5) brightness(.5)}
 .e-quiet .e-art{filter:saturate(.5) brightness(.5)}
 .e-hover .e-art{filter:brightness(1.05)}
 .e-card.e-hover{filter:drop-shadow(0 0 3px #fff1c4) drop-shadow(0 0 14px rgba(255,226,160,.7)) drop-shadow(0 10px 12px rgba(0,0,0,.7));transform:translateY(-6px)}
@@ -150,7 +151,12 @@ body{font-family:"Alegreya Sans",sans-serif;color:var(--cream)}
 .e-st-a{background:radial-gradient(circle at 38% 32%,#8a6424,#4a3210 70%)}
 .e-st-h{background:radial-gradient(circle at 38% 32%,#86242c,#46101a 70%)}
 .e-st.e-hurt{color:#ffb3a6;box-shadow:0 0 0 2px #e0505c,0 2px 4px rgba(0,0,0,.7)}
-.e-st.e-buff{color:#b9f0a8}
+.e-st.e-buff{color:#c4f5a8;box-shadow:0 0 0 2px #5fbf5a,0 2px 4px rgba(0,0,0,.7)}
+.e-tier{position:absolute;display:grid;place-items:center;font-family:Alegreya,serif;font-weight:900;line-height:1;color:#f6ead0;padding-top:.08em;z-index:2;
+  background:radial-gradient(circle at 40% 30%,#3a3024,#15110c 75%);border:2.5px solid var(--lead);box-shadow:0 0 0 1.5px #b9a06a;clip-path:none;border-radius:46% 46% 50% 50%/40% 40% 60% 60%}
+.e-golden .e-tier{box-shadow:0 0 0 2px #ffd65c;color:#ffe9a8}
+.e-card.e-golden{filter:drop-shadow(0 0 6px rgba(255,214,92,.9)) drop-shadow(0 0 18px rgba(255,190,70,.55)) drop-shadow(0 8px 10px rgba(0,0,0,.6))}
+.e-golden .e-st{box-shadow:0 0 0 2.5px #ffd65c,0 2px 4px rgba(0,0,0,.7)}
 .e-mks{position:absolute;left:50%;transform:translate(-50%,-50%);display:flex;gap:3px;z-index:2}
 .e-mk{display:grid;place-items:center;border-radius:50%;background:#17120d;border:2px solid var(--lead)}
 .e-mk svg{width:62%;height:62%;fill:none;stroke:#efe3c6;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
@@ -307,28 +313,21 @@ function card(o, x, y, H, extra={}){
   const W = H*0.56, st = extra.state||"rest";
   const c = el("div","e-card e-"+st+(o.golden?" e-golden":""),`left:${x}px;top:${y}px;width:${W}px;height:${H}px;`);
   if (extra.filter) c.style.filter = extra.filter;
-  const lw = Math.max(4, W*.045), cw = Math.max(2, W*.02), col = o.golden ? "#f0c75a" : TIERC[o.tier];
+  const lw = Math.max(4, W*.045), cw = Math.max(2, W*.02), col = o.golden ? "#ffd65c" : "#b9a06a";
   c.append(el("div","e-art",`clip-path:polygon(${poly(inset(2.4))});background-image:url(${u(o.t,o.id)})`));
-  let beads = "";
-  const n=o.tier, bw = 5.2, gap=1.6, tot = n*bw+(n-1)*gap;
-  for (let i=0;i<n;i++){ const cx = 50 - tot/2 + bw/2 + i*(bw+gap);
-    beads += `<ellipse cx="${cx}" cy="6.6" rx="${bw/2}" ry="${bw/2*.56}" fill="${col}" stroke="#0c0a08" stroke-width="1.4" vector-effect="non-scaling-stroke"/>`; }
   c.insertAdjacentHTML("beforeend", `<svg class="e-fr" viewBox="0 0 100 100" preserveAspectRatio="none">
     <polygon points="${inset(1.2).map(p=>p.join(',')).join(' ')}" fill="none" stroke="#0c0a08" stroke-width="${lw}" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>
     <polygon points="${inset(2.6).map(p=>p.join(',')).join(' ')}" fill="none" stroke="${col}" stroke-width="${cw*(o.golden?1.8:1)}" vector-effect="non-scaling-stroke" stroke-linejoin="round" opacity=".92"/>
     <polygon points="${inset(3.6).map(p=>p.join(',')).join(' ')}" fill="none" stroke="#0c0a08" stroke-width="${Math.max(1.2,cw*.6)}" vector-effect="non-scaling-stroke" stroke-linejoin="round" opacity=".8"/>
-    <path d="M38 ${2.6} L50 1.2 L62 ${2.6} L62 9.5 L50 11.6 L38 9.5Z" fill="#14100c" stroke="#0c0a08" stroke-width="2" vector-effect="non-scaling-stroke" opacity=".85"/>
-    ${beads}</svg>`);
+    </svg>`);
+  const td = Math.max(28, W*.2);
+  c.append(el("span","e-tier",`width:${td}px;height:${td*1.12}px;left:${W/2-td/2}px;top:${H*.925-td*.56}px;font-size:${Math.max(18,td*.66).toFixed(1)}px`, o.tier));
   // Attack and Health: dark leaded glass discs on the lower shoulders
   const d = Math.max(34, W*.3);
   for (const [k,val,hurt,buff] of [["a",o.a,false,o.abuff],["h",o.hcur!=null?o.hcur:o.h,o.hcur!=null&&o.hcur<o.h,o.hbuff]]){
     const s = String(val), fs = Math.max(18, d*(s.length>1?.5:.6));
     c.append(el("span","e-st e-st-"+k+(hurt?" e-hurt":"")+(buff?" e-buff":""),
       `width:${d}px;height:${d}px;left:${(k==="a"?.14:.86)*W - d/2}px;top:${.845*H - d/2}px;font-size:${fs.toFixed(1)}px`, s));
-  }
-  if (o.kw && o.kw.length){
-    const ms = Math.max(18, Math.round(W*.13));
-    c.insertAdjacentHTML("beforeend", `<div class="e-mks" style="top:${.935*H}px">${o.kw.map(([k])=>mark(k,ms)).join("")}</div>`);
   }
   if (o.pips){ const p=el("div","e-pips",`top:${H*.70}px`); for(let i=0;i<o.pips;i++) p.append(el("i")); c.append(p); }
   return c;
@@ -566,7 +565,7 @@ const PNAME = {pipkin:"Pipkin", old_mother_mousewife:"Old Mother Mousewife", dam
   march_hare:"March Hare", hob_mumblecrust:"Hob Mumblecrust", dame_farthing:"Dame Farthing", brother_bracken:"Brother Bracken"};
 function treeLights(players, opts={}){
   players.forEach(([who,hp,st],i)=>{
-    const x=1862, y=136+i*74, d=60;
+    const x=1852, y=132+i*78, d=72;
     S(`<g opacity="${opts.dim?.6:1}"><path d="M1922 ${y-48} C 1900 ${y-48}, 1884 ${y-42}, ${x-6} ${y-42}" stroke="#0b0907" stroke-width="9" fill="none" stroke-linecap="round"/>
        <path d="M1922 ${y-48} C 1900 ${y-48}, 1884 ${y-42}, ${x-6} ${y-42}" stroke="#6f5239" stroke-width="4.5" fill="none" stroke-linecap="round"/>
        <line x1="${x}" y1="${y-42}" x2="${x}" y2="${y-d/2-2}" stroke="#0b0907" stroke-width="4"/><line x1="${x}" y1="${y-42}" x2="${x}" y2="${y-d/2-2}" stroke="#9a8a6a" stroke-width="1.6"/></g>`);
@@ -575,7 +574,7 @@ function treeLights(players, opts={}){
     if (st==="next") r.style.boxShadow="0 0 0 3px #ffd77a,0 0 14px 3px rgba(255,200,100,.5),0 4px 10px rgba(0,0,0,.7)";
     if (st==="you") r.style.boxShadow="0 0 0 3px #e9e2d0,0 4px 10px rgba(0,0,0,.7)";
     if (opts.dim && !st) r.style.filter="brightness(.6) saturate(.7)";
-    if (!out) gem(x-36, y+14, hp, 32);
+    if (!out) gem(x-60, y+6, hp, 32);
   });
 }
 function systemTags(turn){
@@ -600,6 +599,9 @@ function yourCorner(hp, counters, opts={}){
 // the hand rests on the fallen log; quiet until you reach for it
 function hand(cards, H=190, x0=226, st="quiet"){
   const W=H*.56, stride = W+10;
+  for (let i=0;i<7;i++){ const sx = 252+i*62, sy = 1030, on = i<cards.length;
+    S(`<polygon points="${sx},${sy-13} ${sx+11},${sy-6} ${sx+11},${sy+6} ${sx},${sy+13} ${sx-11},${sy+6} ${sx-11},${sy-6}" fill="${on?"#f2c45e":"#1a140e"}" stroke="#0b0907" stroke-width="3.5"
+       ${on?'style="filter:drop-shadow(0 0 5px rgba(255,200,90,.8))"':''}/>`); }
   cards.forEach((o,i)=>{
     const x = x0+i*stride;
     if (o.spell){ spellCard(o, x+W/2, 1004-H/2, W*1.1, st); priceTag(x+W/2, 1004-H/2-W*.55-30, o.cost, "e-tag-cream"); }
@@ -610,9 +612,9 @@ function hand(cards, H=190, x0=226, st="quiet"){
 // ======================================================================
 // Shop (recruit): everything hangs from the bough
 // ======================================================================
-const SHOP_TOP = 120, SHOP_H = 270, SHOP_PITCH = 182, SHOP_X0 = 590, SPELL_D = 132;
+const SHOP_TOP = 120, SHOP_H = 270, SHOP_PITCH = 178, SHOP_X0 = 590, SPELL_D = 132;
 const shopX = i => SHOP_X0 + i*SHOP_PITCH;
-const spellC = i => [SHOP_X0 + 4*SHOP_PITCH + SHOP_H*.56 + 40 + SPELL_D/2 + i*(SPELL_D+22), SHOP_TOP + SPELL_D/2 - 4];
+const spellC = i => [SHOP_X0 + 4*SHOP_PITCH + SHOP_H*.56 + 20 + SPELL_D/2 + i*(SPELL_D+14), SHOP_TOP + SPELL_D/2 - 4];
 function shopCluster(gold, tier, upCost, refresh, canUp){
   chain(445, 104);
   const sp = Array.from({length:10},(_,a)=>{ const t=a*.62832, c=Math.cos(t), s=Math.sin(t);
@@ -677,7 +679,7 @@ function board(units, opts={}){
 // End turn: the next opponent's lantern at the end of the path; the one brightest action
 function endTurn(who, name, hp, income, accent=true){
   const x=1772, y=944, d=160;
-  const r = roundel(x,y,d,who); if (accent) r.classList.add("e-accent");
+  const r = roundel(x,y,d,who); if (accent) r.classList.add("e-accent"); else r.style.filter="brightness(.7) saturate(.8)";
   gem(x+58, y+60, hp, 40);
   add(el("div","e-btn"+(accent?" e-go":""),`left:${x}px;top:${y-118}px`,`Fight ${name}`));
   add(el("div","e-plate",`left:${x-d/2-84}px;top:${y+22}px;height:40px;padding:0 10px;font-family:Alegreya;font-weight:900;font-size:20px`,`+${income} ${coin("",24)}`));
@@ -715,7 +717,7 @@ async function recruit9(o={}){
   treeLights(PLAYERS9);
   yourCorner(11, [[HEAP,"Compost",3,"#6a5a2c"],[WAVE,"Tide",2,"#245a70"]]);
   hand([{spell:true,art:"spell-seek",cost:3,t:"neutral"}]);
-  endTurn("march_hare","March Hare", 16, 19);
+  endTurn("march_hare","March Hare", 16, 19, false);
   return pos;
 }
 async function viewMid(){ await recruit9(); }
@@ -762,7 +764,8 @@ async function viewFirst(){
   const pos = board([null,null,null,null,null,null,null]);
   treeLights(PLAYERS1);
   yourCorner(40, []);
-  endTurn("march_hare","March Hare", 40, 7, true);
+  endTurn("march_hare","March Hare", 40, 7, false);
+  hand([]);
   // the one tutorial cue (first game only): an overlay, nothing moves when it goes
   const W=SHOP_H*.56, sx = shopX(1)+W/2, sy = SHOP_TOP+SHOP_H+20;
   const tx = pos[1][0]+BOARD_H*.28+20, ty = pos[1][1]+BOARD_H*.4;
@@ -770,7 +773,7 @@ async function viewFirst(){
   cue.innerHTML = `<svg viewBox="0 0 1920 1080" style="position:absolute;inset:0">
      <path d="M${sx} ${sy} C ${sx} ${sy+60}, ${tx+10} ${ty-90}, ${tx} ${ty}" stroke="#ffe29a" stroke-width="4" stroke-dasharray="2 12" stroke-linecap="round" fill="none"/>
      <path d="M${tx-12} ${ty-14} L${tx} ${ty} L${tx+14} ${ty-12}" stroke="#ffe29a" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-     <div class="e-plate" style="left:${tx+60}px;top:${ty-10}px;padding:14px 20px;font-size:22px;box-shadow:0 0 0 2px #c9a45a,0 4px 10px rgba(0,0,0,.6)">Drag a card into the clearing to buy it</div>`;
+     <div class="e-plate" style="left:1372px;top:${ty-10}px;padding:14px 20px;font-size:22px;box-shadow:0 0 0 2px #c9a45a,0 4px 10px rgba(0,0,0,.6)">Drag a card into the clearing to buy it</div>`;
   add(cue);
 }
 
@@ -800,11 +803,12 @@ async function viewFight(){
   const {W, oBack, oFront, mine:pos} = fightPos(), H=F_H;
   const foe = FOE.map(o=>({...o})); foe[1].hcur = 5;
   // eye order: the strike first, then both boards, then the tallies
-  [4,5,6].forEach((i,k)=>placeCard(foe[i], oBack[k][0], oBack[k][1], H, {state:"rest"}));
-  [0,1,2,3].forEach(i=>placeCard(foe[i], oFront[i][0], oFront[i][1], H, {state: i===1?"lit":"rest"}));
+  [4,5,6].forEach((i,k)=>placeCard(foe[i], oBack[k][0], oBack[k][1], H, {state:"step"}));
+  [0,1,2,3].forEach(i=>placeCard(foe[i], oFront[i][0], oFront[i][1], H, {state: i===1?"lit":"step"}));
   const mine = MINE_FIGHT.map(o=>o&&({...o})); mine[0].hcur = 7;
   slotStone(pos[3][0],pos[3][1],W,H);
-  [4,5,6,1,2].forEach(i=> placeCard(mine[i], pos[i][0], pos[i][1], H, {state:"rest"}));
+  mine[5].abuff = mine[5].hbuff = true;
+  [4,5,6,1,2].forEach(i=> placeCard(mine[i], pos[i][0], pos[i][1], H, {state:"step"}));
   const tx = oFront[1][0], ax = pos[0][0], ay = pos[0][1]-10, ty = oFront[1][1]+H;
   S(`<path d="M${ax+W*.6} ${ay+6} Q ${ax+W*.9} ${ay-30}, ${tx+W*.3} ${ty-8}" stroke="#ffe29a" stroke-width="12" stroke-linecap="round" fill="none" opacity=".35"/>
      <path d="M${ax+W*.6} ${ay+6} Q ${ax+W*.9} ${ay-30}, ${tx+W*.3} ${ty-8}" stroke="#fff3c4" stroke-width="3.5" stroke-dasharray="3 9" stroke-linecap="round" fill="none"/>`);
@@ -817,9 +821,6 @@ async function viewFight(){
   tallyAt(108, 296, 7, 0);
   yourCorner(11, [[HEAP,"Compost",4,"#6a5a2c"],[WAVE,"Tide",2,"#245a70"]]);
   tallyAt(108, 870, 6, 0);
-  const cards=[{id:"home-guard",t:"pigeon",tier:3,a:3,h:11,kw:[["guard"],["reserve"]]},{id:"hayloft-aunt",t:"mouse",tier:2,a:2,h:9,kw:[["hmd"]]},
-    {id:"cousin",t:"mouse",tier:1,a:2,h:2,kw:[["hmd"]]}];
-  hand(cards, 186, 226, "quiet");
   treeLights(PLAYERS9, {dim:true});
   add(el("div","e-btn",`left:1772px;top:944px`,`<span style="display:inline-flex;align-items:center;gap:10px"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:var(--cream)"><path d="M3 5l9 7-9 7zM12 5l9 7-9 7z"/></svg>Skip</span>`));
 }
@@ -858,13 +859,13 @@ async function viewAfter(){
     <div style="margin-top:16px;display:flex;align-items:center;gap:12px;font:700 20px/1.2 'Alegreya Sans'">You killed 1 of 7
       <span class="e-tally" style="position:static;transform:none"><i class="e-gone"></i><i></i><i></i><i></i><span class="e-bar"></span><i></i><i></i><i></i></span></div>
     <div style="margin-top:6px;font:400 19px/1.3 'Alegreya Sans';color:var(--cream-dim)">4 kills make a small loss: 10, not 13.</div>
-    <div style="margin-top:16px;padding-top:10px;border-top:2px solid #6b5436;font:700 17px/1 'Alegreya Sans';color:var(--cream-dim);letter-spacing:.06em">WHAT BEAT YOU</div>
+    <div style="margin-top:16px;border-top:2px solid #6b5436"></div>
     ${row(1,"gorger","Gorger","golden, 38 / 57 at the end: killed 3")}
     ${row(2,"weasel","Weasel","hit both reservists as they arrived")}
     ${row(3,"holly-knight","Holly Knight","gave its front Briars Thorns 4")}
     <div style="display:flex;gap:12px;margin-top:20px">
       <div class="e-btn" style="position:static;transform:none;flex:1;text-align:center;padding:12px 8px">Watch again</div>
-      <div class="e-btn e-go" style="position:static;transform:none;flex:1.3;text-align:center;padding:12px 8px">See the standings</div></div>`;
+      <div class="e-btn e-go" style="position:static;transform:none;flex:1.3;text-align:center;padding:12px 8px;font-size:22px">See standings</div></div>`;
   opponentCorner();
   tallyAt(108, 296, 7, 1);
   yourCorner(0, [[HEAP,"Compost",4,"#6a5a2c"],[WAVE,"Tide",4,"#245a70"]], {dim:true});

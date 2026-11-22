@@ -89,3 +89,15 @@ Optional, done: the result plaque is 22 px narrower, so it ends 8 px short of Gr
 **Reversed:** 24 (no type line at rest); 42 (price tags hang above the card on its chain).
 
 **Suggestions:** paint future card art with a calmer, darker edge zone so frames need less dimming.
+
+## Pass 2, round 2
+1. Done: tier is one numeral at the card's foot; one plain came for every tier.
+2. Done: keyword marks removed at rest; they live in the tooltip.
+3. Done: End turn and March Hare stay unlit while gold is unspent (`mid`, `first`).
+4. Done: seven sockets on the log, lit per card held.
+5. Done: lanterns 72 px; health sits beside, not on, the portrait.
+6. Done: "See standings" sits inside the frame.
+7. Done: Renown 19 px.
+8. Done: the recorded start has no hand, so `fight` shows none.
+
+For all three: board a step darker than the shop; in the fight only the blow is lit; changed stats get a green or red ring; Golden has a gold glow and rings; "What beat you" title cut. Optional, done: hint moved clear of the slots. Not done: tier-up discount (row 47) still reads "3 gold short".
