@@ -134,3 +134,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - Stopping test, red (red-c10): 11 of 37 matches done. One neighbour beats it: swap_margin −1 (−0.236 ± 0.099), replay queued. Three are worse, seven show no clear difference. Ends about 02:00 on 23 Nov.
 - Stopping test, blue (blue-c13): queued after red's, about 7 hours.
 - Incidents: both team leads stalled 08:38–10:40 (nudged). Approval watches were killed by name across sessions; the referee's now runs renamed.
+- **red-c14** (`c219a71d`: swap_margin −3 → 5, a shop unit must beat the worst board unit by 5 to replace it) against red-c10: playing, between stopping-test matches.
