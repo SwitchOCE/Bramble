@@ -1,0 +1,14 @@
+swap_margin+: games 2900, gap -0.236 ± 0.099 (neighbour minus test version), neighbour 3.826 test version 4.061: BEATS
+swap_margin-: games 2900, gap +0.228 ± 0.111 (neighbour minus test version), neighbour 4.269 test version 4.041: worse
+pair_bonus+: games 2900, gap +0.005 ± 0.105 (neighbour minus test version), neighbour 4.061 test version 4.057: no clear difference
+pair_bonus-: games 2900, gap -0.052 ± 0.102 (neighbour minus test version), neighbour 3.959 test version 4.010: no clear difference
+triple_bonus+: games 2900, gap +0.047 ± 0.092 (neighbour minus test version), neighbour 3.997 test version 3.950: no clear difference
+triple_bonus-: games 2900, gap +0.048 ± 0.092 (neighbour minus test version), neighbour 4.019 test version 3.970: no clear difference
+growth_turns+: games 2900, gap -0.045 ± 0.119 (neighbour minus test version), neighbour 3.904 test version 3.949: no clear difference
+growth_turns-: games 2900, gap +0.481 ± 0.127 (neighbour minus test version), neighbour 4.469 test version 3.988: worse
+max_refresh+: games 2900, gap +0.079 ± 0.093 (neighbour minus test version), neighbour 4.029 test version 3.950: no clear difference
+max_refresh-: games 2900, gap +0.161 ± 0.095 (neighbour minus test version), neighbour 4.101 test version 3.940: worse
+cheap_upgrade+: games 2900, gap +0.034 ± 0.099 (neighbour minus test version), neighbour 3.940 test version 3.906: no clear difference
+cheap_upgrade-: games 2900, gap +0.035 ± 0.109 (neighbour minus test version), neighbour 3.986 test version 3.951: no clear difference
+syn_per_unit+: games 2900, gap +0.175 ± 0.104 (neighbour minus test version), neighbour 4.141 test version 3.966: worse
+stopped 19:05: red-c14 kept, so red-c10 cannot pass; 14 of 37 matches done
