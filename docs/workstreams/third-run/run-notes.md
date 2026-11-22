@@ -125,3 +125,12 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - **Approval watch killed (13:13, 14:15, 14:24).** Three times the whole shell running the watch died with code 144, and at 14:24 every other session's watch died too: something on the machine kills processes matching `t3-approval-watch`. The referee now runs a renamed copy, which matches neither name.
 - **Reference field ready (15:12).** `/data/third-run/ref-1`: 12,000 runs from 1,500 live games of red-c10 against blue-c13 (labels `red`/`blue`, 6,000 each), verified. On it the test version places about 4.05, where red-c10 placed about 2.2 on the climbing field: half the reference field is blue-c13.
 - **Red test, first results.** `swap_margin+` (−3 → −1) **beats** the test version: −0.236 ± 0.099. Its replay on fresh seeds is queued at the end of the plan (`swap_margin+replay`). `swap_margin-` is worse (+0.228 ± 0.111). Both `pair_bonus` neighbours show no clear difference.
+
+## Daily report, 22 Nov (sent to the owner)
+
+- Kept since the last report: red-c3, red-c9 and red-c10 (3 of 11 hand-ins); blue-c7, blue-c8, blue-c9 and blue-c13 (4 of 10).
+- Gap: in the reference field's 1,500 live games of red-c10 against blue-c13 (4 seats each), red averages 4.25 and blue 4.75, but blue wins more often (16.6% of seats first, red 8.4%). Four live Badger players share one pool there, which ghost play never has.
+- Badger flag: blue-c13 plays Badger in every game and won 84% of its climbing-field runs. Red's card refits started picking Badger on their own (6.8% of runs, best mean place). Sent to Balance Orchestrator 2.
+- Stopping test, red (red-c10): 11 of 37 matches done. One neighbour beats it: swap_margin −1 (−0.236 ± 0.099), replay queued. Three are worse, seven show no clear difference. Ends about 03:00 on 23 Nov.
+- Stopping test, blue (blue-c13): queued after red's, about 7 hours.
+- Incidents: both team leads stalled 08:38–10:40 (nudged). Approval watches were killed by name across sessions; the referee's now runs renamed.
