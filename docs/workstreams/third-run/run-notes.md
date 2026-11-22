@@ -139,4 +139,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
   - red-c14's tribe picks: Locust 70.0% (1.99), none 22.6% (2.23), Badger 5.6% (1.75), Briar 1.4%, Pigeon 0.4%; 2.1 in hand. Field now 14,500. Interim report sent.
 - **Blue test, first 5 of 27 (20:34).** Worse: up2 3, up3 7, lift_w 125. No clear difference: up2 5, up3 9. None beats it. The test version places about 4.5 on the reference field. Sent to blue.
 - **Blue test, 11 of 27 (22:34).** `replace_margin+` (4 → 7) **beats** the test version: −0.123 ± 0.102. Its replay is queued at the end. Like red's swap_margin, it makes the bot less ready to replace a board unit. No clear difference: lift_w 75, replace_margin 1, free_hand_slots 2 and 0, idea-c3 (deploy_corporal).
-- **red-c15** (`aeb0b5ea`: red-c14 with sell_dead 1, selling never-played hand units when the board is full) against red-c14: playing, between stopping-test matches.
+- **red-c15** (`aeb0b5ea`: red-c14 with sell_dead 1, selling never-played hand units when the board is full) against red-c14: 1,000 games, gap −0.040 ± 0.130 (2.086 against 2.126). **Rejected**: not better. The match was clean.
