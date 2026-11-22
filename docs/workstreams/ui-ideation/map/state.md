@@ -110,7 +110,7 @@ Before ending the turn I did what a player might: bought Home Guard and Hayloft 
 | 5 (back) | Gorger | Locust | 4 | **golden** 38 / 68 | golden rim | The first time you sell a unit each turn, this eats it. |
 | 6 (back) | Dame Bodkin | Mouse | 5 | 6 / 9 | Pile on 2 mark | Pile on 2. Your Mice's pile-on hits deal double damage. |
 
-Outcome: you lose every unit; March Hare keeps all seven. You take 13 damage (11 → 0) and are out in 7th place. The result screen lists all eight with health. (On the fight screen the left light shows your plates and portrait, the right light March Hare's portrait, name and health; a Skip button bottom right; the leaderboard slides in on the right at the end.)
+Outcome: you lose every unit; March Hare loses Briar King and keeps the other six. You take 13 damage (11 → 0) and are out in 7th place. The result screen lists all eight with health. (On the fight screen the left light shows your plates and portrait, the right light March Hare's portrait, name and health; a Skip button bottom right; the leaderboard slides in on the right at the end.)
 
 A second, closer mid-game fight is also shot: turn 8 against Little King Wren (`fight-mid-start.png` … `fight-mid-result-defeat.png`, you lose 12).
 
