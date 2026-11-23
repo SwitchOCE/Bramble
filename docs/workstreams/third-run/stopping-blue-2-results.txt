@@ -1,0 +1,31 @@
+up2+: games 2900, gap +0.025 ± 0.094 (neighbour minus test version), neighbour 4.621 test version 4.596: no clear difference
+up2-: games 2900, gap +0.503 ± 0.144 (neighbour minus test version), neighbour 5.088 test version 4.585: worse
+up3+: games 2900, gap +0.006 ± 0.092 (neighbour minus test version), neighbour 4.680 test version 4.674: no clear difference
+up3-: games 2900, gap +0.117 ± 0.114 (neighbour minus test version), neighbour 4.748 test version 4.630: worse
+lift_w+: games 2900, gap +0.202 ± 0.107 (neighbour minus test version), neighbour 4.772 test version 4.570: worse
+lift_w-: games 2900, gap -0.216 ± 0.117 (neighbour minus test version), neighbour 4.369 test version 4.585: BEATS
+replace_margin+: games 2900, gap -0.016 ± 0.098 (neighbour minus test version), neighbour 4.501 test version 4.517: no clear difference
+replace_margin-: games 2900, gap +0.121 ± 0.105 (neighbour minus test version), neighbour 4.639 test version 4.518: worse
+free_hand_slots+: games 2900, gap -0.054 ± 0.098 (neighbour minus test version), neighbour 4.567 test version 4.621: no clear difference
+free_hand_slots-: games 2900, gap -0.006 ± 0.096 (neighbour minus test version), neighbour 4.667 test version 4.672: no clear difference
+idea-c3: games 2900, gap -0.060 ± 0.095 (neighbour minus test version), neighbour 4.459 test version 4.519: no clear difference
+idea-c5: games 2900, gap -0.104 ± 0.098 (neighbour minus test version), neighbour 4.633 test version 4.737: BEATS
+idea-c10: games 2900, gap +0.037 ± 0.094 (neighbour minus test version), neighbour 4.557 test version 4.519: no clear difference
+idea-c11: games 2900, gap -0.026 ± 0.113 (neighbour minus test version), neighbour 4.555 test version 4.581: no clear difference
+idea-c12: games 2900, gap -0.034 ± 0.096 (neighbour minus test version), neighbour 4.568 test version 4.602: no clear difference
+idea-c14: games 2900, gap +0.213 ± 0.123 (neighbour minus test version), neighbour 4.803 test version 4.590: worse
+idea-c15: games 2900, gap -0.113 ± 0.094 (neighbour minus test version), neighbour 4.510 test version 4.623: BEATS
+idea-c16: games 2900, gap -0.023 ± 0.095 (neighbour minus test version), neighbour 4.583 test version 4.606: no clear difference
+tribe-Badger: games 1000, gap -0.070 ± 0.176 (neighbour minus test version), neighbour 4.526 test version 4.596: no clear difference
+tribe-Mouse: games 1000, gap +2.466 ± 0.222 (neighbour minus test version), neighbour 7.098 test version 4.632: worse
+tribe-Pigeon: games 1000, gap +2.396 ± 0.250 (neighbour minus test version), neighbour 6.884 test version 4.488: worse
+tribe-Locust: games 1000, gap +1.232 ± 0.247 (neighbour minus test version), neighbour 5.810 test version 4.578: worse
+tribe-Briar: games 1000, gap +2.142 ± 0.234 (neighbour minus test version), neighbour 6.688 test version 4.546: worse
+off-reservists: games 1000, gap +0.704 ± 0.204 (neighbour minus test version), neighbour 5.378 test version 4.674: worse
+off-actives: games 1000, gap +0.092 ± 0.171 (neighbour minus test version), neighbour 4.856 test version 4.764: no clear difference
+off-pilers: games 1000, gap -0.072 ± 0.164 (neighbour minus test version), neighbour 4.594 test version 4.666: no clear difference
+off-hand_me_down: games 1000, gap -0.070 ± 0.154 (neighbour minus test version), neighbour 4.552 test version 4.622: no clear difference
+lift_w-replay: games 2900, gap -0.088 ± 0.119 (neighbour minus test version), neighbour 4.570 test version 4.659: no clear difference
+idea-c5-replay: games 2900, gap -0.143 ± 0.097 (neighbour minus test version), neighbour 4.543 test version 4.686: BEATS
+idea-c15-replay: games 2900, gap -0.008 ± 0.092 (neighbour minus test version), neighbour 4.547 test version 4.555: no clear difference
+stop_test: plan done
