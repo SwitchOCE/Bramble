@@ -162,6 +162,9 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - **Blue test 2 complete (17:16): not passed.** `idea-c5-replay` (free_hand_slots 3) beat blue-c17 again: −0.143 ± 0.097, after −0.104 ± 0.098. The other two first wins failed their replays: lift_w 75 (−0.088 ± 0.119) and route_inheritance (−0.008 ± 0.092). Off switches pilers and hand_me_down: no clear difference. Results in `stopping-blue-2-results.txt`; `ref-3` deleted. Sent to blue, which climbs on.
 - **Gap, from ref-3's live games** (1,500 games of red-c14 against blue-c17, 4 seats each, cut at 09:17): red 4.13 mean place, first 9.5%, top four 57.4%; blue 4.87, first 15.5%, top four 42.6%.
 
+- **Ruling (23 Nov, asked by blue): a kept idea leaves the 8; its reverse step is not an idea.** When a rejected idea is later kept, it drops out of the 8, and the reverse change does not replace it: that is the old setting, which just lost, so replaying it tests nothing the climb did not. The 8 must still cover each area (economy, tribe choice, board order, each reworked mechanic), so the team hands in another rejected climbing tag for the area that lost its idea. Sent to blue; methods summary to red.
+- **blue-c18** (`ca7869df`: free_hand_slots 1 → 3, the confirmed c5 replay) against blue-c17: playing (18:40).
+
 ## Daily report, 23 Nov (sent to the owner)
 
 - Kept since the last report: red-c14 (swap_margin 5) and blue-c17 (replace_margin 7). Both make the bot slower to swap a board unit for a shop unit. No tags handed in today: both teams held their bots still for the stopping tests.
