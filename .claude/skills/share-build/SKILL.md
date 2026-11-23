@@ -11,6 +11,10 @@ There is one link per system. It never changes. Each deploy replaces the build b
 
 - Windows: https://pub-7c7d20a539e24b1087bb867c332fd080.r2.dev/Bramble-windows.zip
 - Mac: https://pub-7c7d20a539e24b1087bb867c332fd080.r2.dev/Bramble-macos.zip
+- Linux: https://pub-7c7d20a539e24b1087bb867c332fd080.r2.dev/Bramble-linux.zip
+- Android: https://pub-7c7d20a539e24b1087bb867c332fd080.r2.dev/Bramble-android.apk
+
+The Linux and Android links are reserved for later (owner, 23 Nov: "when I will want them later on, may as well do them now"). Nothing has been built for them, so they answer "not found" until a first build is uploaded.
 
 The download arrives under the build's own name (`Bramble-windows-<commit>-<date>-<time>[-label].zip`), so anyone can tell which build they have. To see what a link holds now: `curl -sI <link>` and read `content-disposition`.
 
@@ -27,12 +31,16 @@ The download arrives under the build's own name (`Bramble-windows-<commit>-<date
 
 The first time a friend runs it, Windows shows a "Windows protected your PC" warning, because the game isn't signed: More info, then Run anyway. A Mac shows its own warning for the same reason; the README inside the Mac zip says how to open it.
 
-## Mac
+## Mac, Linux and Android
 
-Deploy the Mac build only when the owner asks for Mac. `scripts/build_macos.sh` makes it, and its own rule is the same: only when the owner asks. If the repo you are in has no such script, it hasn't been merged yet: tell the owner the Mac link can't be updated until it is, and leave the link alone.
+A deploy means Windows unless the owner names another system.
+
+**Linux and Android** have export presets (`export_presets.cfg`) and the export smoke test builds them as debug builds, but no script makes a build for a player yet. When the owner asks for one, that script comes first: say so, and don't upload a smoke-test build. Name its output `Bramble-linux-<commit>-<date>-<time>[-label].zip` or `Bramble-android-<commit>-<date>-<time>[-label].apk` and `scripts/share_build.sh` puts it at the right link.
+
+**Mac.** Deploy the Mac build only when the owner asks for Mac. `scripts/build_macos.sh` makes it, and its own rule is the same: only when the owner asks. If the repo you are in has no such script, it hasn't been merged yet: tell the owner the Mac link can't be updated until it is, and leave the link alone.
 
 The Mac link can hold an older build than the Windows link. When it does, say so with both dates.
 
 ## Where it lives
 
-The bucket is `bramble-builds` in the owner's Cloudflare account, apart from `bramble-assets` so that `tools/assets/assets.py prune` never touches it. It holds two files and no history: a deploy overwrites. Each is about 200 MB of the account's free 10 GB (`tools/assets/README.md` has the limits).
+The bucket is `bramble-builds` in the owner's Cloudflare account, apart from `bramble-assets` so that `tools/assets/assets.py prune` never touches it. It holds one file per system and no history: a deploy overwrites. Each is about 200 MB of the account's free 10 GB (`tools/assets/README.md` has the limits).
