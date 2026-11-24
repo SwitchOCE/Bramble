@@ -434,7 +434,7 @@ td.hl, th.hl{background:var(--accent-soft)}
   if(!CMP) return;
   var FPS = CMP.fps || 60;
   var B = CMP.branches;
-  B.whole = {title:'Whole fight: today against the proposal', frames:847, segments:[], options:[
+  B.whole = B.whole || CMP.whole || {title:'Whole fight: today against the proposal', frames:847, segments:[], options:[
     {option:'today', file:'whole/today.mp4', label:'Today, whole fight (817 frames)'},
     {option:'best', file:'whole/best.mp4', label:'Proposal, whole fight (847 frames)'}]};
   var $ = function(id){ return document.getElementById(id); };
