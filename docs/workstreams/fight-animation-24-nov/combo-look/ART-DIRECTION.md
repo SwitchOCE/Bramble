@@ -2,7 +2,82 @@
 
 The element: when one trigger hits the same card many times, show a count (×N), the running total, and a small hit splat on each stacked hit. The owner's words (24 Nov): "a ×11 if something triggers 11 times, and you can see the cumulative damage. But you also get this little hit splat whenever the speed-up triggers", and from 18 Nov: "Combo ×3, ×4 … rises up at increasing pace." He called these ideas to look into, not firm steering.
 
-Nothing here has been drawn yet. The image prompt is [`tools/art/prompts/combo-look.md`](../../../../tools/art/prompts/combo-look.md). The mock-ups' base frames are the real fight at 1920 × 1080: `/data/fight-anim-work/combo-look/base/` (CB7's best film, frames 237 and 244: the 8th hit, −40, and the 9th and 10th hits together, −50).
+The mock-ups' base frames are the real fight at 1920 × 1080: `/data/fight-anim-work/combo-look/base/` (CB7's best film, frames 237 and 244: the 8th hit, −40, and the 9th and 10th hits together, −50).
+
+- **Round 1** (sections 1–4 below): three directions drawn as Codex glass sprites from [`tools/art/prompts/combo-look.md`](../../../../tools/art/prompts/combo-look.md); pictures in `/data/bramble-art/combo-look-1/`. Its reference study still holds. Where round 2 differs from its craft answers, round 2 holds.
+- **Round 2** (section 0): four takes on direction A, drawn with Pillow in the game's own font, so they show exactly what the game would draw. Pictures and script in `/data/bramble-art/combo-look-2/`. The prompt for the one drawn piece it might need is [`tools/art/prompts/combo-look-2.md`](../../../../tools/art/prompts/combo-look-2.md).
+
+## 0. Round 2
+
+### The owner's reaction to round 1 (24 Nov, dictated, filler removed)
+
+> "I'm not sure that the colour needs to be like that. I said fighting games, but I didn't mean to take that much inspiration: the entire colour being divided into multiple different tiles and stuff. I think someone's gone way too heavy on the fighting games. I meant the concept, not necessarily the execution. It's hard for me to tell, but the banner I hate, I do know that. We need stuff that has good visual clarity. And I do think these things might need to pop better, and where they sit will matter. I don't think down off the card is good. I think I agree that A is the best, but it still doesn't necessarily read clearly."
+
+And later the same day:
+
+> "I think maybe you might need multiple hits to trigger a combo. I think a single hit probably shouldn't, but I'm not sure. I'll evaluate it when you show it to me."
+
+**What that means for round 2.**
+- Keep A's idea: the count beside the damage star, on the card being hit.
+- Drop B's banner and C's place off the card.
+- Glyphs split into many coloured panes are out. Clarity and pop come first; glass style is no reason to make a number harder to read.
+
+### Type
+
+- **Font: the game's own.** Alegreya at weight 900 with lining figures (`lnum`). It is the font of the damage star's number and of the Attack and Health numbers (`GlassPieces.display_font`; `card.num.weight` 900; `fight.css .hit b`: 900, 36 px, white, a 5 px #3a0806 stroke). The × is Alegreya's own multiplication sign (U+00D7), at 0.8 of the digit size, centred on the digits' middle.
+- **Solid fill, one colour.** No pane splits, no gradient.
+- **Lead is the outline, not the fill.** A 4 px #16120e stroke outside the glyph, plus a soft dark shadow 2 px down (70 %, 2.5 px blur), so the edge holds on pale glass as well as on the dark board.
+- **Size.** Digits at 36 px, the same size as the damage number (cap height 23 px). A2 tests 46 px. Below about 26 px digits won't read in 5-frame gaps (round 1).
+- **Colour.** White, like the damage number, so count and total read as one thing. A2 tests solid gold #ffcf40, which separates the count from the total and from the red star. The warm card art in the base frame is the hardest case for both; the lead outline is what carries them.
+
+### Placement (all on or touching the card)
+
+- **Beside the star** (A1, A2): left edge tucked onto the star's upper-right points. At two digits it pokes 15 px (A1) to 30 px (A2) past the card's right edge, into the 12 px gap and the neighbour.
+- **Above the star** (A3): centred on the star's top point, its bottom 5 px into the point. Count over total reads as one stack, "×10 / −50". It stays inside the card at two digits.
+- **Top corner of the card** (A4): on the frame's top-right shoulder, about 80 px from the star. Clear of the art, but a second place to look.
+- Every placement stays clear of the Attack and Health roundels.
+
+### Burst: simpler, never over the number
+
+- **Spark** (A1, A2): one four-ray glint, a single piece of warm white glass (#fff6dc) in a thin lead line, 42 px (58 px on the last hit). It sits on the star's upper-left rim, away from the number and the count, and moves round the rim from hit to hit. The mock-ups draw it as a plain polygon; the glass version is in the round-2 prompt.
+- **Rim flash** (A3): the damage star's own outline flares warm white, outside the star only. Nothing new is drawn on the art, and the engine can draw it from the star's polygon.
+- **None** (A4): the count's own pop is the hit.
+
+### The beat (60 fps, frames after each hit)
+
+- **The first hit is a plain hit:** the damage star as today, with no count and no burst. The count and the burst start from the second hit (the owner's note above; he will judge it when he sees it).
+- **Each later hit:**
+
+| Frame | 0 (impact) | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|---|---|---|
+| Count scale | 1.45 | 1.25 | 1.12 | 1.04 | 1.0 | 1.0 | 1.0 |
+| Count halo (warm white, outside the lead) | 100 % | 70 % | 35 % | 0 | | | |
+| Spark size / opacity | 0.7 / 100 % | 1.0 / 100 % | 1.0 | 1.0 | 0.9 / 75 % | 0.75 / 45 % | 0.6 / 20 % |
+| Rim flash | 100 % | 100 % | 80 % | 55 % | 30 % | 12 % | 0 |
+
+  The pop settles in 4 frames, so at the fastest 5-frame gaps each hit lands on a resting count.
+- **Last hit:** count scale 1.6, 1.35, 1.18, 1.06, then 1.0; the halo holds at full for 3 frames and fades over 2; the spark is the 58 px one and the rim flash 7 px wide. Then count and total hold together for 30 frames and fade together over 8, as in round 1.
+- Beat strips for every variant: `beat_<variant>_x8.png` and `beat_<variant>_x10.png`, frames 0–6 at 2×.
+
+### Variants
+
+| | Changes from A1 | 8th hit | End (×10) |
+|---|---|---|---|
+| **A1 Beside, white** | (baseline) count beside the star's upper right, white, 36 px, spark | `A1_x8.png` | `A1_x10.png` |
+| **A2 Beside, big gold** | solid gold; 46 px digits | `A2_x8.png` | `A2_x10.png` |
+| **A3 Above the star** | count above the star; rim flash instead of the spark | `A3_x8.png` | `A3_x10.png` |
+| **A4 Top corner** | count in the card's top-right corner; no burst | `A4_x8.png` | `A4_x10.png` |
+
+Each has a `_zoom` version (2×, x 700–1100, y 250–560). All side by side at real game size: `/data/bramble-art/combo-look-2/contact_sheet.png`.
+
+**Pick: A3.** Count over total is one stack in the one place the eye already is, it never leaves the card or touches a neighbour, and the rim flash adds nothing new on the art and never covers the number. A2 shows the count reads better at 46 px and in gold; if A3's white count feels too quiet next to the total in motion, A3 can take A2's size and colour.
+
+### Open for the owner
+
+- Which placement, and white or gold?
+- Should a single hit stay plain, with the count from the second hit? (Mock-ups and beat assume yes.)
+- Spark, rim flash or no burst?
+- Round 1's three questions in section 4 still stand.
 
 ## 1. Reference study
 
