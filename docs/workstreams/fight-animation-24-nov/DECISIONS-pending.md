@@ -14,3 +14,4 @@ The owner, 24 Nov: "I'd like to make all the decisions later if I can." This lis
 | 9 | May glass crack or break? | Yes (shatter deaths), or glass stays whole | Look at the shatter pictures first | `pilot/death.md` |
 | 10 | Does "only attacks travel" cover portraits? | Portraits may fly (as Battlegrounds), or only drawn pieces travel | Film B against C first | `pilot/player-damage.md` |
 | 8 | Guidelines and process | Drafts, experimental | Revise after the pilot | `practice/GUIDELINES.md`, `practice/PROCESS.md` |
+| 11 | Fight length and a speed toggle | The proposal cuts the median late fight from 30.7 s to 18.0 s. Reaching about 12 s needs the whole fight to speed up from about the 5th attack (as Battlegrounds does) and up to 3 different triggers at once | Film those speed-ups as options; decide on a toggle after watching them (Skip already exists) | `research/fight-length.md` (after merge) |
