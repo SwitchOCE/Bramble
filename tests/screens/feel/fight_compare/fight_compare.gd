@@ -92,8 +92,9 @@ const HERO_COLUMNS: String = (
 const MARKER_COLUMNS: String = "frame,t,step,marker,key,detail"
 
 var treatment_name: String = ""
-## Which fixed fight: "" (the comparison fight), "cb7", or a loss: "lose-small", "lose-big",
-## "lose-out".
+## Which fixed fight: "" (the comparison fight), "cb7", a loss: "lose-small", "lose-big",
+## "lose-out", or "spec:<path>" (a late fight saved by fight_length.gd; the report's you, them
+## and fight_seed are then the comparison fight's).
 var fight_name: String = ""
 ## What the loser takes, the core's for a loss fight (DAMAGE for the others), and whether it was
 ## a big loss.
@@ -199,6 +200,10 @@ static func fight_named(content: GameContent, which: String) -> Combat:
 		return CoreKit.fight(
 			session, CoreKit.board(session, LOSS_YOU), CoreKit.board(session, spec), LOSS_SEED
 		)
+	if which.begins_with("spec:"):
+		# a late fight from fight_length.gd (fights/<name>.json): two ghost runs' boards
+		var lengths: GDScript = load("res://tests/screens/feel/fight_compare/fight_length.gd")
+		return lengths.call("fight_from_file", content, which.trim_prefix("spec:"))
 	if which != "cb7":
 		return fight(content)
 	var game: GameSession = content.new_session(SESSION_SEED)
@@ -568,7 +573,7 @@ func feel_report() -> Dictionary:
 	var cb7: bool = fight_name == "cb7"
 	var loss: bool = LOSS_THEM.has(fight_name)
 	var listed: Array[Dictionary] = CB7_MOMENTS if cb7 else MOMENTS
-	if loss:
+	if loss or fight_name.begins_with("spec:"):
 		listed = []
 	for moment: Dictionary in listed:
 		var held: Dictionary = moment.duplicate()

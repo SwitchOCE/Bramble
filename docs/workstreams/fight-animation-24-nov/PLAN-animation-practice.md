@@ -60,3 +60,5 @@ So:
 - Clearer and faster pull against each other (a visible wind-up adds time). Each treatment and the recommended plan now report the whole length of typical late fights beside today's (`research/fight-length.md`).
 - The plan says plainly whether it removes the need for a speed toggle, with the numbers.
 - `practice/PROCESS.md` has a section for unit and tribe designers: the animation line every new mechanic states.
+
+Measured (`research/fight-length.md`, 400 late fights): the proposal cuts the median late fight from 30.7 s to 18.0 s to the result. That alone may still get a toggle request; a fight-wide speed-up from about the 5th attack plus up to three triggers at once would bring it near 12 s (a proposal, unwatched). Next: film those speed-ups as options; the toggle is decided after the owner watches them.

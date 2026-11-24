@@ -230,6 +230,18 @@ the striker stopping on the far side of the disc (E6). The spec's
 totals for a big loss (B R+79, C R+68) do not follow from its own beat tables (R+72, R+58); the
 tables are what is built.
 
+## Late fights and their length (`fight_length.gd`)
+
+`fight_length.tscn` makes late fights from the league bots' ghost runs (two runs' boards for the
+same round, rounds 8 to 12) and counts each one's frames to the result, headless: today (each
+`FightReplay` step held as `FightScreen` holds it) and `best` with each contested option and the
+what-ifs (`"R7"`, rule 7's numbers; `"GROUP"`, up to N single beats in a row starting together;
+both in `best_timeline.gd`, neither a contested branch). It also splits each fight's time by kind
+from `best_timeline.gd`'s `spans`. `fight_length.py` summarises it. A saved fight plays on the
+screen with `"fight": "spec:<path>"` in a scenario. `fights=compare` measures the comparison and
+CB7 fights, whose films match it to the frame. Findings and commands:
+`docs/workstreams/fight-animation-24-nov/research/fight-length.md`.
+
 ## What the logs can't show
 
 - The film is silent. Sound rows are the cues the sound player started, at the frame they
