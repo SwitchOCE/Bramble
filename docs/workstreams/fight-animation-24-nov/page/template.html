@@ -72,16 +72,16 @@ td.hl, th.hl{background:var(--accent-soft)}
     <button type="button" data-rate="0.25" aria-pressed="false">¼ speed</button>
   </div></div>
   <div class="wide clip"><video src="clips/today-vs-best.mp4" controls loop muted playsinline preload="metadata"></video></div>
-  <p class="small muted">The moments, in order: a plain attack straight across (0.8 s), one to the far corner (1.7 s), an attack into Thorns (2.8 s), a Thorns kill whose death summons a Hopper (5.0 s), and a death that damages all seven cards, after which Old Brock triggers six times (7.5–9.5 s). Today's Victory shows at 11.5 s, the proposal's at 10.6 s. No sound in any clip.</p>
+  <p class="small muted">The moments, in order (times as today plays them; the proposal reaches each a little later at first, then sooner): a plain attack straight across (0.8 s), one to the far corner (1.7 s), an attack into Thorns (2.8 s), a Thorns kill whose death summons a Hopper (5.0 s), and a death that damages all seven cards, after which Old Brock triggers six times (7.5–9.5 s). Today's Victory shows at 11.5 s, the proposal's at 10.6 s. No sound in any clip.</p>
 
   <div class="card">
     <h3 style="margin-top:0">The proposal in five lines</h3>
     <ol class="rules" style="margin-bottom:0">
       <li><b>A wind-up you can see.</b> The attacker lifts toward you (×1.14 over 10 frames, with today's small pull-back), then holds dead still for 16 frames. All waiting happens in that raised hold.</li>
       <li><b>One straight strike</b> at constant speed, 7–9 frames at any distance, so far attacks fly fast. It overlaps the target, pops ×1.24 on contact, stays 0 frames, and returns fast then slow.</li>
-      <li><b>A moving card never pauses.</b> What happens before the hit (Thorns, Fury, Rally, pile-ons) plays in the raised hold. The exchange lands at contact. Everything after waits until the attacker is home.</li>
+      <li><b>A moving card never pauses.</b> What happens before the hit (Thorns, Fury, Rally, pile-ons) plays in the raised hold; this is a guess, as no reference game showed an attacker's own trigger before its hit. The exchange lands at contact. Everything after waits until the attacker is home.</li>
       <li><b>After the hit, one beat at a time,</b> each overlapping the last one's tail. A dead card falls 30 frames after the hit, so its number reads first. The next attacker lifts under the aftermath.</li>
-      <li><b>Repeats become a combo that speeds up,</b> so any chain stays under about 1.6 s. A plain attack takes 61 frames, against today's 57.</li>
+      <li><b>Repeats become a combo that speeds up,</b> so one repeat group stays under about 1.6 s (a whole aftermath with several groups can run longer). A plain attack takes 61 frames, against today's 57.</li>
     </ol>
   </div>
 </section>
@@ -115,8 +115,9 @@ td.hl, th.hl{background:var(--accent-soft)}
       <div class="opt"><b>B · medium</b><span class="n">0.70 / 0.60</span></div>
       <div class="opt pick"><b>Proposal</b>Today's depth near, deeper far; back row 0.40. <span class="n">0.62 / 0.49</span></div>
       <div class="opt"><b>C · deep</b><span class="n">0.50 / 0.45</span></div>
+      <div class="opt"><b>Galaxy · past centre</b>Stops 0.3 card heights beyond the target's centre. <span class="n">−0.30 / −0.30</span></div>
     </div>
-    <p class="rec"><strong>Pick</strong>The proposal. Today's stop is already deeper than Battlegrounds' (their centres end 0.8–1.0 apart straight across), so the "doesn't go all the way" feeling more likely comes from the 4-frame wind-up and the speed-up into contact. C's deeper stop covers the target's Health just as it changes.</p>
+    <p class="rec"><strong>Pick</strong>The proposal. Today's stop is already deeper than Battlegrounds' (their centres end 0.8–1.0 apart straight across), so the "doesn't go all the way" feeling more likely comes from the 4-frame wind-up and the speed-up into contact. C's deeper stop covers the target's Health just as it changes, and Galaxy's past-centre stop hides the target entirely at the moment its number changes.</p>
   </div>
 
   <div class="decision">
@@ -137,11 +138,11 @@ td.hl, th.hl{background:var(--accent-soft)}
     <p class="q">An attack into Thorns: when does the Thorns damage show?</p>
     <div class="wide clip"><video src="clips/CB4.mp4" controls loop muted playsinline preload="metadata"></video></div>
     <div class="opts">
-      <div class="opt"><b>Freeze · today</b>The attacker reaches the target, stops, Thorns plays, then the hit. Home at C+32.</div>
-      <div class="opt pick"><b>In the hold</b>Thorns plays while the attacker is raised; the strike follows. Home at C+12.</div>
-      <div class="opt"><b>After</b>The strike plays first; Thorns shows once the attacker is home.</div>
+      <div class="opt"><b>Freeze · today's order</b>The attacker reaches the target and waits there 20 frames; Thorns and the hit show together at C+22, as the build does today. Home at C+31.</div>
+      <div class="opt pick"><b>In the hold</b>Thorns plays while the attacker is raised (Health 5 → 3); the strike follows (3 → 1). Home at C+11.</div>
+      <div class="opt"><b>After</b>The strike first (5 → 3 at C+2), Thorns once the attacker is home (3 → 1 at C+26). Can't be used when Thorns kills: that attacker never strikes.</div>
     </div>
-    <p class="rec"><strong>Pick</strong>In the hold. Nothing pauses mid-swing, and cause still comes before effect: when Thorns kills the attacker, it falls from its raised pose and never strikes, which is what the rules do.</p>
+    <p class="rec"><strong>Pick</strong>In the hold. Nothing pauses mid-swing, and cause still comes before effect: when Thorns kills the attacker, it falls from its raised pose and never strikes, which is what the rules do. <b>This pick is a guess.</b> Battlegrounds plays triggered animations after the attacker is home, and no reference clip shows an attacker's own trigger firing before its hit. Your words were "Then the other animation goes off"; if that means after the hit, the third option is the one that matches.</p>
   </div>
 
   <div class="decision">
@@ -162,7 +163,7 @@ td.hl, th.hl{background:var(--accent-soft)}
     <p class="q">During the previous attack's aftermath, or after it? Three moments: two plain attacks, a Thorns kill with a summon, and the long chain.</p>
     <div class="wide clip"><video src="clips/CB6.mp4" controls loop muted playsinline preload="metadata"></video></div>
     <div class="opts">
-      <div class="opt"><b>B · very early</b>C+12. Sits raised 154 frames through the chain.</div>
+      <div class="opt"><b>B · very early</b>C+8 to C+12. Sits raised 154 frames through the chain.</div>
       <div class="opt pick"><b>Proposal</b>C+28, or when 16 frames of the chain are left. Raised 26 frames after the chain.</div>
       <div class="opt"><b>A · early, capped</b>C+36. Raised 60 frames.</div>
       <div class="opt"><b>Battlegrounds</b>C+40, waits raised. 126 frames.</div>
@@ -172,16 +173,18 @@ td.hl, th.hl{background:var(--accent-soft)}
 
   <div class="decision">
     <h3>7 · One trigger many times</h3>
-    <p class="q">Old Brock triggers six times. Gaps between landings, in frames.</p>
+    <p class="q">Two Gleaners hit King Speck ten times in a row. How fast should the repeats run, and how are they counted? Gaps between hits, in frames.</p>
     <div class="wide clip"><video src="clips/CB7.mp4" controls loop muted playsinline preload="metadata"></video></div>
     <div class="opts">
-      <div class="opt"><b>Battlegrounds</b><span class="n">64 59 55 51 47</span>. Victory at 14.2 s.</div>
-      <div class="opt"><b>A · gentle</b><span class="n">18 18 13 8 8</span>. 11.0 s.</div>
-      <div class="opt"><b>C · tempo</b><span class="n">18 14 10 9 6</span>. 10.8 s.</div>
-      <div class="opt pick"><b>Proposal</b><span class="n">16 9 8 5 5</span>: each gap ×0.75 of the last, down to 5, plus the proposal's general speed-up for long aftermaths (rule 7, which only this pane has). From the 9th, the rest land together (not shown: this fight has six). 10.6 s.</div>
+      <div class="opt"><b>Battlegrounds</b>One at a time, slowly speeding up. <span class="n">64 59 55 51 47 44 40 37 35</span>. A new −5 each hit.</div>
+      <div class="opt"><b>A · gentle</b><span class="n">18 18 13 8 8 8 8 8 8</span>. A new −5 each hit.</div>
+      <div class="opt"><b>B · steep</b><span class="n">14 11 7 6 5 4 4 4</span>, then the last two together. One burst counting up.</div>
+      <div class="opt"><b>C · tempo</b><span class="n">18 14 10 9 6 5 5 5 6</span>. A new −5 each hit.</div>
+      <div class="opt pick"><b>Proposal</b><span class="n">18 14 10 7 6 5 5 5</span>, then the 9th and 10th together. One burst counting up: −5, −10 … −40, −50.</div>
       <div class="opt"><b>Proposal + ×N</b>Same, with a plain-text "×N" placeholder. <span class="tag art">×N needs art pass and your yes</span></div>
+      <div class="opt"><b>Proposal + speed-up</b>Adds rule 7, the general speed-up for long aftermaths: <span class="n">15 10 7 5 5 5 5 5</span>.</div>
     </div>
-    <p class="rec"><strong>Pick</strong>The proposal, as you asked on 18 Nov: repeats rise at increasing pace. Until a ×N counter has art, the burst re-pops with the running total.</p>
+    <p class="rec"><strong>Pick</strong>The proposal, as you asked on 18 Nov: repeats rise at increasing pace and are grouped into one counting burst. Rule 7 is off in every pane but the last, so the panes differ only in the repeat rule. This moment is its own short test fight; to get ten repeats, the test sets two cards' Health (Orchard Stripper 1, King Speck 60).</p>
   </div>
 </section>
 
@@ -208,7 +211,7 @@ td.hl, th.hl{background:var(--accent-soft)}
       <tr><td>Wind-up</td><td>lift 10, hold ~21</td><td>13–14, pull 0.6 h, ×1.4</td><td>barely visible</td><td>lift ~12 with glow</td><td>4, 12 px pull</td><td class="hl">lift 10, hold 16</td></tr>
       <tr><td>Strike</td><td>5–8, constant</td><td>16–17, speeding up</td><td>2–3</td><td>~6 slam</td><td>8, speeding up</td><td class="hl">7–9, constant</td></tr>
       <tr><td>Stop (centres apart, card heights)</td><td>0.8–1.0 straight, 0.4–0.65 far</td><td>past centre</td><td>meet in the middle</td><td>at the blocker</td><td>0.62 always</td><td class="hl">0.62 → 0.45; back row 0.40</td></tr>
-      <tr><td>Held at contact</td><td>0, ×1.26 pop</td><td>0</td><td>16–20 pressed</td><td>flash line</td><td>2 (Thorns ~22, Rally 41)</td><td class="hl">0, ×1.24 pop</td></tr>
+      <tr><td>Held at contact</td><td>0, ×1.26 pop</td><td>0</td><td>16–20 pressed</td><td>flash line</td><td>2, hit shows at C+3 (Thorns ~20, Rally 41)</td><td class="hl">0, ×1.24 pop</td></tr>
       <tr><td>Return</td><td>9–16, slowing</td><td>~15</td><td>snap back</td><td>—</td><td>11</td><td class="hl">12–16, slowing</td></tr>
       <tr><td>Triggers</td><td>after it's home; next attacker waits raised</td><td>after it's home, one by one</td><td>projectiles from cause to target</td><td>next waits for deaths</td><td>before the hit: waits at contact; after: when home</td><td class="hl">before: in the hold; after: from C+14</td></tr>
       <tr><td>Many of one trigger</td><td>one effect hits all at once; repeats ~2× faster over a chain; no counter</td><td>no clip found</td><td>no clip found</td><td>no clip found</td><td>one source: one step</td><td class="hl">combo, speeds up, ≤1.6 s</td></tr>
@@ -234,13 +237,13 @@ td.hl, th.hl{background:var(--accent-soft)}
   <h3>Ordering rules behind the tree</h3>
   <ol class="rules reading">
     <li><b>Nothing pauses once it moves.</b> A strike, return, fall or arrival always runs to its end.</li>
-    <li><b>Each attack splits into three windows.</b> Before the hit plays in the raised hold (the hold stretches to fit). At the hit: the exchange, strike back, Cleave, shield, Venomous, all at C+2; Overrun hops from C+8. After the hit starts at C+14.</li>
+    <li><b>Each attack splits into three windows,</b> keyed on the attack itself, not on its first damage. Before the hit plays in the raised hold, which stretches to fit any effect, arrival or nested attack (a guess; see decision 4). At the hit: the exchange, strike back, Cleave, shield, Venomous, all at C+2; Overrun hops from C+8. After the hit starts when the attacker is home (C+14 to C+17).</li>
     <li><b>A beat</b> is one trigger and its effect: the source pulses, jabs toward its target (standing in for a drawn link, which needs art), and the effect lands 12 frames in. The next beat starts 6 frames after. One source on many cards is one beat. Different mechanics play one at a time, in the rules' order.</li>
-    <li><b>Deaths</b> fall together: C+30 when killed in the exchange, 20 frames after the killing effect otherwise.</li>
+    <li><b>Deaths</b> fall together: C+30 when killed in the exchange, 20 frames after the killing effect otherwise. A lender's aura leaves at the killing hit, when the rules remove it.</li>
     <li><b>Combo:</b> 3 or more of the same mechanic back to back. Each gap is 0.75 of the last, down to 5 frames; from the 9th, the rest land together.</li>
     <li><b>The next attacker</b> lifts at C+28 or when 16 frames of the queue are left, whichever is later.</li>
     <li><b>Speed-up:</b> if one moment's aftermath would pass 2 s, beats after the first second play up to 1.5× faster. Strikes keep their frames. A guess, untested.</li>
-    <li><b>Extra attacks</b> (Windfury, Oakfeller, Tourney Champion) re-lift from mid-return; another unit out of turn gets a full lift once its cause lands.</li>
+    <li><b>Extra attacks</b> (Windfury, Oakfeller, Tourney Champion) wait for the death round before them: a short re-lift when 14 frames of that queue are left, the strike after it ends. Oakfeller always waits for its kill's fall. Another unit out of turn gets a full lift once its cause lands.</li>
   </ol>
 </section>
 
@@ -265,7 +268,32 @@ td.hl, th.hl{background:var(--accent-soft)}
 
 <section>
   <div class="sec-head"><span class="n">07</span><h2>Council review</h2></div>
-  <div class="reading" id="council"><p class="muted">One round, run after you have seen the clips, so it doesn't shape your first look. All three members (Opus, GPT Sol, Gemini Neon) passed a test of reading our clips frame by frame: both outside members found the start and contact frames of a plain attack to within three frames.</p></div>
+  <div class="reading" id="council">
+    <p>One round, as you asked: Claude Opus, GPT Sol and Gemini Neon each reviewed the tree, the proposal, the page and the clips on their own, reading the clips frame by frame against the logs. All three asked for changes. Their findings overlapped and none contradicted another, so every finding was fixed and nobody re-checked the fixes.</p>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Member</th><th>Verdict</th><th class="num">Score</th></tr></thead>
+    <tbody>
+      <tr><td>Claude Opus</td><td>changes needed</td><td class="num">7/10</td></tr>
+      <tr><td>GPT Sol</td><td>changes needed</td><td class="num">6/10</td></tr>
+      <tr><td>Gemini Neon</td><td>changes needed</td><td class="num">6/10</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>What they found</th><th>Raised by</th><th>Fixed how</th></tr></thead>
+    <tbody>
+      <tr><td>Extra attacks (Windfury, Oakfeller, Tourney Champion) started before the deaths that cause them</td><td>all three</td><td>They now wait for the death round (rule 8)</td></tr>
+      <tr><td>Clip 4: "today" pane split Thorns from the hit; "after" pane showed Health falling by the wrong amount</td><td>all three</td><td>Re-filmed to match the real build and keep every number true</td></tr>
+      <tr><td>Clip 7: only the proposal had the speed-up; six buffs couldn't show the 9th-hit merge or a counting burst; B was missing</td><td>all three</td><td>Its own ten-hit test fight, B added, speed-up in one labelled pane only</td></tr>
+      <tr><td>"Before the hit plays in the hold" is a guess the footage doesn't support</td><td>Opus</td><td>Marked as a guess in decision 4 and the rules</td></tr>
+      <tr><td>Some cases missing: a fully blocked exchange, War-drummer's death effects mid-attack, Captain's summon before the hit, a return to another slot</td><td>Sol, Neon</td><td>Tree keyed on the attack itself; the hold can hold any of these</td></tr>
+      <tr><td>Aftermath began before a far attacker was home; aura loss shown late</td><td>Sol</td><td>Aftermath waits for home; aura leaves at the killing hit</td></tr>
+      <tr><td>The proposal held 1 frame at contact, not 0</td><td>Neon</td><td>Fixed and every clip re-filmed</td></tr>
+      <tr><td>No past-centre option for "all the way"</td><td>Opus</td><td>Galaxy pane added to decision 2</td></tr>
+      <tr><td>Small label and number mismatches; strobe risk of the fast return</td><td>Opus, Neon</td><td>Corrected on this page</td></tr>
+    </tbody>
+    <caption>Full list with evidence: docs/workstreams/fight-animation-24-nov/council-review.md.</caption>
+  </table></div>
 </section>
 
 <section>
@@ -275,11 +303,11 @@ td.hl, th.hl{background:var(--accent-soft)}
     <tbody>
       <tr><td>Each option does what its label says</td><td>Per-frame position log of every card in every film, against each option's numbers: wind-ups, stop gaps (within 0.01 card heights), strike speeds, fall frames, lift frames, combo gaps (within 1 frame). One still per clip looked at.</td></tr>
       <tr><td>The proposal's fight ends the same as the rules</td><td>The end board on screen equals the rules core's result in every film.</td></tr>
-      <tr><td>Today's treatment is the real build</td><td>A test checks it uses the game's own motion and replay unchanged; the project's full check passed (1073 tests).</td></tr>
+      <tr><td>Today's treatment is the real build</td><td>A test checks it uses the game's own motion and replay unchanged; the project's full check passed (1075 tests).</td></tr>
       <tr><td>Scope</td><td>A reviewer that didn't write the work checked each build step against your words and the plan.</td></tr>
     </tbody>
   </table></div>
-  <div class="callout warn"><b>Not checked by anyone yet:</b> whether any of it feels right. The films are rendered in software, without sound, and no agent sees motion at speed. Also unseen: whether the longest strike (76 px a frame) strobes on a real screen, and how it plays with sound. A yes from you to a clip is provisional until you have felt it in a build.</div>
+  <div class="callout warn"><b>Not checked by anyone yet:</b> whether any of it feels right. The films are rendered in software, without sound, and no agent sees motion at speed. Also unseen: whether fast motion strobes on a real screen. The longest strike moves 77 px a frame (0.31 card heights; Battlegrounds' longest is about 0.6), and the first frame of a far return moves 108 px (158 in the Galaxy option). And how any of it plays with sound. A yes from you to a clip is provisional until you have felt it in a build.</div>
 
   <h3>Stand-ins in the clips</h3>
   <p class="reading">The cause-to-target line is today's small jab. The ×N counter is the burst re-popping (plus a plain-text placeholder in one pane). C's crack and shatter are today's fall; C's rim glow is today's lunge glow. Any new visual element waits for an art pass and your yes on a picture.</p>
