@@ -1,0 +1,1315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bramble — Buy Screen Counter Display (3 Designs at Real Size)</title>
+<meta name="viewport" content="width=1920">
+<style>
+@font-face {
+  font-family: "AlegreyaSans";
+  src: url("../../../../../../assets/glass/fonts/AlegreyaSans-Regular.ttf");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "AlegreyaSans";
+  src: url("../../../../../../assets/glass/fonts/AlegreyaSans-Bold.ttf");
+  font-weight: 700;
+}
+
+:root {
+  --bg: #0e1113;
+  --band-bg: #14181b;
+  --band-border: #272e33;
+  --ink: #efe6d0;
+  --ink-dim: #a9a292;
+  --gilt: #f1c86e;
+  --lead-hi: #596063;
+  --lead: #202527;
+  --lead-lo: #0d1011;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 1920px;
+  height: 1400px;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "AlegreyaSans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#sheet {
+  width: 1920px;
+  height: 1400px;
+  padding: 16px 40px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ---------- Top Header ---------- */
+.page-head {
+  height: 40px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid #252c31;
+  padding-bottom: 8px;
+}
+.page-head h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  color: #f6eedc;
+}
+.page-head .meta {
+  font-size: 14px;
+  color: var(--ink-dim);
+  display: flex;
+  gap: 20px;
+}
+.page-head .meta b { color: #e6dcc4; font-weight: 700; }
+
+/* ---------- Design Bands ---------- */
+.band {
+  height: 432px;
+  background: var(--band-bg);
+  border: 1px solid var(--band-border);
+  border-radius: 8px;
+  padding: 10px 16px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+.band.recommended {
+  border-color: #8b6d34;
+  box-shadow: inset 0 0 0 1px rgba(241, 200, 110, 0.22), 0 0 18px rgba(241, 200, 110, 0.06);
+}
+.band-head {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.band-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.band-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #f8f0df;
+}
+.rec-pill {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 2px 9px;
+  border-radius: 99px;
+  color: #2b1a04;
+  background: linear-gradient(180deg, #ffe6a1, #d89f3c);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+.band-desc {
+  font-size: 14px;
+  color: #c7bfb0;
+}
+.band-pieces {
+  font-size: 13px;
+  color: #939a9e;
+  white-space: nowrap;
+}
+.band-pieces span { color: #d4c9b2; }
+
+/* ---------- 7 Real-Size State Panels ---------- */
+.row {
+  display: grid;
+  grid-template-columns: repeat(7, 244px);
+  gap: 16px;
+  justify-content: space-between;
+}
+.state-col {
+  width: 244px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.caption {
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  font-size: 13.5px;
+  color: #c9c1b0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.caption b { color: #f3ead6; font-weight: 700; }
+
+/* Real-size right column slice (244 x 346 px on l1z-quarry-moss at half brightness) */
+.stage {
+  position: relative;
+  width: 244px;
+  height: 346px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #131914;
+  box-shadow: 0 0 0 1px #2b3236, inset 0 0 14px rgba(0, 0, 0, 0.55);
+}
+.stage-moss::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("file:///data/ui-ideation/looks/L1/pieces/l1z-quarry-moss.jpg");
+  background-size: 244px 366px;
+  background-position: 0 -20px;
+  filter: brightness(0.5) saturate(0.9);
+}
+/* Real 12px pier borders matching screen.html zones layout */
+.stage-moss .pier-l,
+.stage-moss .pier-r {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 12px;
+  background-image: url("file:///data/ui-ideation/looks/L1/pieces/l1p-pier.jpg");
+  background-size: 244px auto;
+  z-index: 2;
+  pointer-events: none;
+}
+.stage-moss .pier-l { left: 0; box-shadow: 2px 0 4px rgba(0,0,0,0.6); }
+.stage-moss .pier-r { right: 0; box-shadow: -2px 0 4px rgba(0,0,0,0.6); }
+.stage-moss .vignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.42), transparent 22%, transparent 86%, rgba(0,0,0,0.28));
+  z-index: 2;
+  pointer-events: none;
+}
+/* Subtle horizontal lead transom bar matching screen.html */
+.stage-moss .transom {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 234px;
+  height: 8px;
+  background: linear-gradient(#363d3f, #141819 60%, #0b0d0e);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.55);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.stage-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  padding: 16px 16px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Refresh panel stage: real shop right-wing stone wall + l1z-board.png slate tablet */
+.stage-refresh::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("file:///data/ui-ideation/looks/L1/pieces/l1r-wall.jpg");
+  background-size: 360px 360px;
+  filter: brightness(0.45);
+}
+.tablet-board {
+  position: relative;
+  z-index: 3;
+  width: 186px;
+  height: 326px;
+  margin: 10px auto 0;
+  background: url("file:///data/ui-ideation/looks/L1/pieces/l1z-board.png") center/100% 100% no-repeat;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.65));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 12px 0;
+}
+
+/* Shared real-size Refresh button (88px roundel + 46px lower-right gold coin) */
+.rf-wrap {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  transform: translateX(-5px);
+}
+.rf-wrap.arc-pad {
+  transform: translateX(-1px);
+}
+.rf-btn {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  background: url("file:///data/ui-ideation/looks/L1/pieces/l1p-roundel-slate.png") center/100% 100% no-repeat;
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 4px 5px rgba(0,0,0,0.65));
+}
+.rf-coin {
+  position: absolute;
+  /* lowerRight(0, 0, 88, 46): 44 + 31.15 - 23 = 52 */
+  left: 52px;
+  top: 52px;
+  width: 46px;
+  height: 46px;
+  background: url("file:///data/ui-ideation/looks/L1/pieces/l1p-coin.png") center/100% 100% no-repeat;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 25px;
+  color: #5a3606;
+  text-shadow: 0 1px 0 #ffe9a8;
+  filter: drop-shadow(0 3px 3px rgba(0,0,0,0.6));
+  z-index: 5;
+}
+.rf-coin span { position: relative; top: 1px; }
+
+/* =====================================================================
+   DESIGN A: STAINED-GLASS MEDALLIONS & AURA SEAL (RECOMMENDED)
+   ===================================================================== */
+.da-stage {
+  justify-content: space-between;
+  padding: 18px 16px 14px;
+}
+.da-cluster-wrap {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.da-grid {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+.da-grid.n1 { grid-template-columns: 1fr; }
+.da-grid.n2 { grid-template-columns: repeat(2, 88px); column-gap: 18px; }
+.da-grid.n4 { grid-template-columns: repeat(2, 86px); column-gap: 18px; row-gap: 24px; }
+
+.da-empty-hint {
+  width: 1px;
+  height: 1px;
+}
+
+.da-token {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+}
+.da-token.changed { z-index: 5; }
+.da-grid.n1 .da-token {
+  width: 86px;
+  height: 86px;
+}
+
+/* Level counter: leaded circular stained-glass medallion */
+.da-medallion {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 30%, var(--g-hi), var(--g-mid) 56%, var(--g-lo) 100%);
+  box-shadow:
+    inset 0 2px 4px rgba(255,255,255,0.28),
+    inset 0 -4px 8px rgba(0,0,0,0.55),
+    0 0 0 4px #161a1b,
+    0 0 0 6px #575e60,
+    0 5px 10px rgba(0,0,0,0.72);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+/* Subtle stained-glass lead veins behind icon */
+.da-medallion::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(35deg, transparent 48%, rgba(16,20,21,0.45) 49.5%, rgba(16,20,21,0.45) 51.5%, transparent 53%),
+    linear-gradient(125deg, transparent 48%, rgba(16,20,21,0.38) 49.5%, rgba(16,20,21,0.38) 51.5%, transparent 53%);
+  pointer-events: none;
+}
+.da-medallion svg {
+  position: relative;
+  z-index: 2;
+  transform: translate(-4px, -5px);
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.6));
+}
+
+/* Heap counter (Compost): stacked hexagonal card-pile silhouette */
+.da-token.heap {
+  width: 68px;
+  height: 78px;
+}
+.da-grid.n1 .da-token.heap {
+  width: 82px;
+  height: 94px;
+}
+.da-heap-back2,
+.da-heap-back1,
+.da-heap-front {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(50% 0%, 100% 20%, 100% 80%, 50% 100%, 0% 80%, 0% 20%);
+}
+.da-heap-back2 {
+  transform: translate(-8px, 5px) rotate(-6deg);
+  background: linear-gradient(160deg, #4b5250, #191e1d);
+  filter: drop-shadow(0 3px 4px rgba(0,0,0,0.65));
+}
+.da-heap-back1 {
+  transform: translate(-4px, 2px) rotate(-3deg);
+  background: linear-gradient(160deg, #626b67, #232a28);
+}
+.da-heap-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 5px 8px rgba(0,0,0,0.75));
+}
+.da-heap-front {
+  background: linear-gradient(155deg, #646c68 0%, #232928 45%, #111514 100%);
+  padding: 4px;
+}
+.da-heap-glass {
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(50% 0%, 100% 20%, 100% 80%, 50% 100%, 0% 80%, 0% 20%);
+  background: radial-gradient(circle at 42% 32%, var(--g-hi), var(--g-mid) 58%, var(--g-lo) 100%);
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+.da-heap-glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.22), transparent 22%, transparent 78%, rgba(0,0,0,0.35));
+}
+.da-heap-glass svg {
+  position: relative;
+  z-index: 2;
+  transform: translate(-2px, -3px);
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.55));
+}
+/* Small gilt clasp dot at upper-right shoulder of a clickable heap */
+.da-heap-clasp {
+  position: absolute;
+  right: -2px;
+  top: 11px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff0b8, #d99f3c 65%, #7c4e12);
+  box-shadow: 0 0 0 2px #161a1b, 0 1px 3px rgba(0,0,0,0.7);
+  z-index: 4;
+}
+
+/* Ivory stat-disc / auto-widening pill overlapping lower-right (matches card Attack/HP) */
+.da-num {
+  position: absolute;
+  right: -10px;
+  bottom: -6px;
+  min-width: 34px;
+  height: 30px;
+  padding: 0 7px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+  color: #261d14;
+  background: radial-gradient(circle at 38% 30%, #fdf5e3, #e5d4b0 64%, #c2ab82);
+  box-shadow: 0 0 0 3px #15191a, 0 0 0 4.5px #606769, 0 3px 5px rgba(0,0,0,0.75);
+  z-index: 6;
+}
+.da-num span { position: relative; top: 1px; }
+.da-grid.n1 .da-num {
+  min-width: 38px;
+  height: 34px;
+  font-size: 23px;
+  border-radius: 17px;
+}
+
+/* Just-changed state in Design A */
+.da-token.changed::before {
+  content: "";
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(130, 220, 255, 0.55) 0%, rgba(255, 214, 120, 0.35) 45%, transparent 72%);
+  filter: blur(5px);
+  z-index: 0;
+}
+.da-token.changed .da-medallion {
+  box-shadow:
+    inset 0 2px 6px rgba(255,255,255,0.45),
+    0 0 0 4px #c78b2a,
+    0 0 0 6px #fff0b8,
+    0 0 14px 2px rgba(255, 212, 122, 0.85),
+    0 5px 10px rgba(0,0,0,0.72);
+}
+.da-token.changed .da-num {
+  background: radial-gradient(circle at 38% 30%, #fffbe8, #ffe08e 65%, #d69d36);
+  box-shadow: 0 0 0 3px #8a5713, 0 0 0 4.5px #fff0b8, 0 0 8px rgba(255, 214, 120, 0.9);
+}
+.da-delta {
+  position: absolute;
+  left: -10px;
+  top: -10px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #ffe79e, #cf912a);
+  color: #2b1803;
+  font-weight: 700;
+  font-size: 16px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 2px #1a1207, 0 2px 5px rgba(0,0,0,0.75);
+  z-index: 7;
+}
+.da-delta span { position: relative; top: 0.5px; }
+
+/* Anchored All-Auras Seal (uses l1p-plate.png) */
+.da-aura-bar {
+  width: 162px;
+  height: 44px;
+  background: url("file:///data/ui-ideation/looks/L1/pieces/l1p-plate.png") center/100% 100% no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 14px;
+  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.68));
+  color: #f3ead6;
+  font-weight: 700;
+  font-size: 19px;
+}
+.da-aura-bar.wide {
+  width: 204px;
+  height: 44px;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+.da-aura-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.da-overflow-beads {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.da-bead {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #15191a, inset 0 1px 2px rgba(255,255,255,0.45);
+}
+.da-more {
+  font-size: 17px;
+  color: #f4d68c;
+  font-weight: 700;
+}
+.da-chev {
+  color: #b7b0a0;
+  font-size: 16px;
+  margin-left: 1px;
+}
+
+/* Refresh count in Design A: leaded slate diamond at upper-right */
+.rf-diamond {
+  position: absolute;
+  left: 55px;
+  top: -5px;
+  width: 38px;
+  height: 38px;
+  transform: rotate(45deg);
+  border-radius: 5px;
+  background: linear-gradient(135deg, #5d7382, #2b3842 60%, #192229);
+  box-shadow:
+    inset 0 1px 2px rgba(210, 238, 255, 0.35),
+    0 0 0 3px #15191a,
+    0 0 0 4.5px #76848c,
+    0 3px 5px rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
+}
+.rf-diamond span {
+  transform: rotate(-45deg);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+  color: #f4ecd9;
+  text-shadow: 0 1px 2px #000;
+}
+.rf-diamond.two-digit span { font-size: 18px; letter-spacing: -0.03em; }
+
+/* =====================================================================
+   DESIGN B: THE RIVETED SLATE TALLY (USES l1z-board.png via 9-slice)
+   ===================================================================== */
+.db-stage {
+  justify-content: center;
+  padding: 12px 14px;
+}
+.db-board {
+  width: 206px;
+  border: 15px solid transparent;
+  border-image-source: url("file:///data/ui-ideation/looks/L1/pieces/l1z-board.png");
+  border-image-slice: 48 fill;
+  border-image-repeat: stretch;
+  filter: drop-shadow(0 5px 7px rgba(0,0,0,0.72));
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.db-board.compact-6 {
+  border-width: 13px;
+  gap: 4px;
+}
+.db-row {
+  position: relative;
+  height: 42px;
+  border-radius: 6px;
+  padding: 0 8px 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(14,18,22,0.52), rgba(10,13,16,0.72));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -1px 0 rgba(0,0,0,0.5);
+}
+.db-board.compact-6 .db-row { height: 39px; }
+
+/* Heap row in Design B: raised clickable drawer feel */
+.db-row.heap {
+  background: linear-gradient(180deg, rgba(52,66,54,0.52), rgba(26,35,28,0.76));
+  box-shadow:
+    inset 0 1px 0 rgba(190, 232, 165, 0.22),
+    0 1px 3px rgba(0,0,0,0.55),
+    0 0 0 1px rgba(132, 168, 112, 0.35);
+}
+/* Just-changed row in Design B */
+.db-row.changed {
+  background: linear-gradient(90deg, rgba(90, 185, 230, 0.32), rgba(240, 194, 92, 0.22) 65%, rgba(26, 22, 14, 0.72));
+  box-shadow:
+    inset 3px 0 0 #f6cf74,
+    0 0 0 1px rgba(246, 207, 116, 0.7),
+    0 0 10px rgba(246, 207, 116, 0.28);
+}
+
+.db-gem {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 30%, var(--g-hi), var(--g-mid) 58%, var(--g-lo));
+  box-shadow: 0 0 0 2.5px #141819, 0 0 0 3.5px #535b5e, inset 0 1px 2px rgba(255,255,255,0.3);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.db-row.heap .db-gem {
+  border-radius: 0;
+  clip-path: polygon(50% 0%, 100% 22%, 100% 78%, 50% 100%, 0% 78%, 0% 22%);
+  box-shadow: none;
+  filter: drop-shadow(0 0 1px #141819);
+}
+.db-row.changed .db-gem {
+  box-shadow: 0 0 0 2.5px #c98f2c, 0 0 0 4px #fff0b8, 0 0 8px rgba(255, 214, 120, 0.8);
+}
+
+.db-mid {
+  flex: 1;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+}
+/* Level visual ticks (subtle leaded pips) */
+.db-ticks {
+  display: flex;
+  gap: 2.5px;
+  align-items: center;
+}
+.db-tick {
+  width: 7px;
+  height: 5px;
+  border-radius: 2px;
+  background: var(--tick-col);
+  box-shadow: 0 0 0 1px #121618;
+}
+.db-tick.off { background: rgba(255,255,255,0.1); }
+/* Heap visual mini card-stack silhouette */
+.db-stack-glyph {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.db-mini-hex {
+  width: 10px;
+  height: 15px;
+  clip-path: polygon(50% 0%, 100% 22%, 100% 78%, 50% 100%, 0% 78%, 0% 22%);
+  background: linear-gradient(180deg, #b5d994, #5e8c45);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+.db-mini-hex:nth-child(2) { margin-left: -5px; background: linear-gradient(180deg, #d0eaab, #71a651); }
+.db-mini-hex:nth-child(3) { margin-left: -5px; background: linear-gradient(180deg, #e5f5c6, #87be61); }
+
+.db-right {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.db-num {
+  min-width: 36px;
+  text-align: right;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1;
+  color: #f4ebd8;
+  text-shadow: 0 1px 2px #000;
+  font-variant-numeric: tabular-nums;
+}
+.db-board.compact-6 .db-num { font-size: 22px; }
+.db-row.changed .db-num { color: #ffe69d; }
+.db-delta {
+  font-size: 14px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ffe79e, #cf912a);
+  color: #291603;
+  box-shadow: 0 0 0 1.5px #181106;
+}
+.db-open-chev {
+  width: 10px;
+  text-align: center;
+  font-size: 17px;
+  color: #b7d79d;
+  font-weight: 700;
+}
+.db-chev-gap {
+  width: 10px;
+  display: inline-block;
+}
+
+.db-aura-foot {
+  margin-top: 3px;
+  height: 32px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 4px 6px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #dcd3be;
+  font-size: 17px;
+  font-weight: 700;
+}
+.db-aura-foot .left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.db-aura-solo {
+  width: 162px;
+  height: 44px;
+  background: url("file:///data/ui-ideation/looks/L1/pieces/l1p-plate.png") center/100% 100% no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 16px;
+  filter: drop-shadow(0 4px 5px rgba(0,0,0,0.68));
+  color: #f2e8d2;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+/* Refresh count in Design B: lit pip arc + upper-right slate clasp */
+.rf-arc-svg {
+  position: absolute;
+  left: -13px;
+  top: -13px;
+  width: 114px;
+  height: 114px;
+  z-index: 4;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.75));
+}
+.rf-clasp {
+  position: absolute;
+  left: 55px;
+  top: -2px;
+  min-width: 34px;
+  height: 30px;
+  padding: 0 7px;
+  border-radius: 15px;
+  background: linear-gradient(180deg, #526370, #232d35);
+  box-shadow: 0 0 0 3px #15191a, 0 0 0 4.5px #7c8991, 0 3px 4px rgba(0,0,0,0.7);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 20px;
+  color: #f6eedc;
+  text-shadow: 0 1px 2px #000;
+  z-index: 6;
+}
+.rf-clasp.low {
+  background: linear-gradient(180deg, #d9953e, #8f4c16);
+  box-shadow: 0 0 0 3px #1c1208, 0 0 0 4.5px #f7d288, 0 0 8px rgba(247, 200, 100, 0.55);
+  color: #fff8e6;
+}
+.rf-clasp span { position: relative; top: 1px; }
+
+/* =====================================================================
+   DESIGN C: MINI-LANCET GLASS TRAY (3-ACROSS ARCHED PANES)
+   ===================================================================== */
+.dc-stage {
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 14px;
+}
+.dc-tray {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.dc-grid {
+  display: grid;
+  justify-items: center;
+  align-items: end;
+  gap: 10px 7px;
+}
+.dc-grid.n1 { grid-template-columns: 74px; }
+.dc-grid.n2 { grid-template-columns: repeat(2, 74px); column-gap: 14px; }
+.dc-grid.n4 { grid-template-columns: repeat(2, 74px); column-gap: 14px; row-gap: 14px; }
+.dc-grid.n6 { grid-template-columns: repeat(3, 62px); column-gap: 7px; row-gap: 14px; }
+
+.dc-lancet {
+  position: relative;
+  width: 100%;
+  height: 82px;
+  filter: drop-shadow(0 4px 5px rgba(0,0,0,0.72));
+}
+.dc-grid.n6 .dc-lancet { height: 78px; }
+
+/* Stacked double-arch backing for Heap (Compost) */
+.dc-lancet.heap::before {
+  content: "";
+  position: absolute;
+  inset: -3px -5px 4px 5px;
+  border-radius: 50% 50% 5px 5px / 38% 38% 5px 5px;
+  background: linear-gradient(160deg, #68736c, #222925);
+  box-shadow: inset 0 0 0 2px #131715;
+  z-index: 0;
+}
+
+.dc-frame {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: 50% 50% 6px 6px / 36% 36% 6px 6px;
+  padding: 3.5px;
+  background: linear-gradient(155deg, #666e70 0%, #24292b 45%, #111415 100%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.dc-lancet.changed::after {
+  content: "";
+  position: absolute;
+  inset: -10px -8px -6px;
+  border-radius: 50% 50% 10px 10px / 38% 38% 10px 10px;
+  background: radial-gradient(circle at 50% 42%, rgba(130, 224, 255, 0.58), rgba(255, 214, 120, 0.35) 55%, transparent 78%);
+  filter: blur(5px);
+  z-index: 0;
+}
+.dc-lancet.changed .dc-frame {
+  background: linear-gradient(150deg, #fff1bd 0%, #d49736 40%, #8f5716 78%, #ffe599 100%);
+  box-shadow: 0 0 10px rgba(255, 214, 120, 0.7);
+}
+
+.dc-glass {
+  flex: 1;
+  border-radius: 50% 50% 0 0 / 56% 56% 0 0;
+  background: radial-gradient(circle at 50% 42%, var(--g-hi), var(--g-mid) 62%, var(--g-lo));
+  display: grid;
+  place-items: center;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.28);
+}
+.dc-glass svg {
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
+  position: relative;
+  top: 2px;
+}
+
+.dc-sill {
+  height: 27px;
+  background: linear-gradient(180deg, #252b2e, #15191b);
+  border-top: 2.5px solid #101314;
+  border-radius: 0 0 3px 3px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1;
+  color: #f4ebd8;
+  text-shadow: 0 1px 2px #000;
+}
+.dc-grid.n6 .dc-sill { font-size: 20px; height: 26px; }
+.dc-lancet.heap .dc-sill {
+  background: linear-gradient(180deg, #f3e6c8, #cbb58c);
+  color: #261d14;
+  text-shadow: none;
+}
+.dc-lancet.changed .dc-sill {
+  background: linear-gradient(180deg, #433214, #261b0a);
+  color: #ffe7a0;
+}
+
+/* Apex delta jewel for Design C */
+.dc-delta {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 21px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffe79e, #cf912a);
+  color: #281603;
+  font-weight: 700;
+  font-size: 14.5px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 2px #1a1207, 0 2px 4px rgba(0,0,0,0.75);
+  z-index: 6;
+}
+/* Heap tiny corner tab */
+.dc-heap-tab {
+  position: absolute;
+  right: 1px;
+  top: 7px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff0b8, #d99f3c 70%);
+  box-shadow: 0 0 0 2px #161a1b;
+  z-index: 4;
+}
+
+/* All Auras Sill Bar under the lancet tray */
+.dc-aura-sill {
+  width: 194px;
+  height: 32px;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #3c4449, #22272a 55%, #161a1c);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.16),
+    0 0 0 2.5px #131718,
+    0 4px 6px rgba(0,0,0,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  color: #eee4ce;
+  font-weight: 700;
+  font-size: 17px;
+}
+.dc-aura-sill.solo {
+  width: 136px;
+  height: 36px;
+  justify-content: center;
+  gap: 8px;
+}
+.dc-aura-sill .l { display: flex; align-items: center; gap: 6px; }
+
+/* Refresh count in Design C: leaded x7 bookmark tag at upper-right */
+.rf-tag {
+  position: absolute;
+  left: 50px;
+  top: -1px;
+  height: 30px;
+  padding: 0 9px 0 8px;
+  border-radius: 4px 12px 12px 4px;
+  background: linear-gradient(180deg, #4b5d69, #232d35 70%, #171e24);
+  box-shadow:
+    inset 0 1px 0 rgba(215, 238, 255, 0.3),
+    0 0 0 3px #15191a,
+    0 0 0 4.5px #76848c,
+    0 3px 5px rgba(0,0,0,0.72);
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  font-weight: 700;
+  font-size: 20px;
+  color: #f4ecd9;
+  text-shadow: 0 1px 2px #000;
+  z-index: 6;
+  white-space: nowrap;
+}
+.rf-tag .mul {
+  font-size: 16px;
+  color: #c6e2f2;
+  margin-right: 1px;
+}
+.rf-tag span { position: relative; top: 0.5px; }
+
+/* Utility glass hue themes */
+.h-compost { --g-hi: #a4df6c; --g-mid: #4e8c33; --g-lo: #1d3c14; --tick-col: #8ad058; }
+.h-tide    { --g-hi: #8ee0ff; --g-mid: #2f7fa8; --g-lo: #13344d; --tick-col: #6ecbf0; }
+.h-ember   { --g-hi: #ffc56b; --g-mid: #d45d1f; --g-lo: #5b1d09; --tick-col: #f49c42; }
+.h-time    { --g-hi: #dec2ff; --g-mid: #744bb5; --g-lo: #2e1b52; --tick-col: #bf9cf0; }
+.h-spore   { --g-hi: #a6f0a0; --g-mid: #2f8c6e; --g-lo: #123b2e; --tick-col: #76d49c; }
+.h-frost   { --g-hi: #d8f4ff; --g-mid: #4e8db8; --g-lo: #1a3752; --tick-col: #9ad4f5; }
+</style>
+</head>
+<body>
+<div id="sheet">
+  <header class="page-head">
+    <h1>Buy Screen Counter Display — Three Designs at Real Size (1920 × 1080 scale)</h1>
+    <div class="meta">
+      <span>Column ground: <b>l1z-quarry-moss.jpg</b> @ 50% brightness (244 px wide)</span>
+      <span>Refresh ground: <b>l1z-board.png</b> slate tablet</span>
+      <span>Icons: Compost (Heap), Tide (Level), Ember, Hourglass, Spores, Frost</span>
+    </div>
+  </header>
+
+  <section class="band recommended" id="band-a"></section>
+  <section class="band" id="band-b"></section>
+  <section class="band" id="band-c"></section>
+</div>
+
+<script>
+const ICONS = {
+  compost: (s = 32) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24">
+    <path d="M4.5 19.5c.5-8.5 5.5-13.5 15-14.5-1 9.5-6 14.5-15 14.5z" fill="#c7f28f" stroke="#182b0f" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M4.5 19.5L13.5 10.5M9.5 14.5l3.5.5M11.5 12.5l-.5-3.2" stroke="#182b0f" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>`,
+  tide: (s = 32) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24">
+    <path d="M2.5 9.5c2.4-2.8 4.8-2.8 6.8 0s4.4 2.8 6.8 0 3.5-2.2 5.4 0" stroke="#e4f8ff" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path d="M2.5 15.5c2.4-2.8 4.8-2.8 6.8 0s4.4 2.8 6.8 0 3.5-2.2 5.4 0" stroke="#bcebff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  ember: (s = 32) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24">
+    <path d="M12.2 2.5c1.6 4.2 6.3 6.2 6.3 11.2a6.5 6.5 0 0 1-13 0c0-2.6 1.2-4.6 2.8-6.2-.1 2.2 1 3.5 2.4 3.6-.3-3.4-.5-6 1.5-8.6z" fill="#ffe08e" stroke="#421606" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M12 11.5c1 2 2.5 3 2.5 4.8a2.5 2.5 0 0 1-5 0c0-1.6 1.2-2.8 2.5-4.8z" fill="#fff7d6"/>
+  </svg>`,
+  time: (s = 32) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24">
+    <path d="M6.5 3.5h11M6.5 20.5h11" stroke="#f5ecff" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M8 3.5c0 4.6 8 4.6 8 8.5s-8 3.9-8 8.5M16 3.5c0 4.6-8 4.6-8 8.5s8 3.9 8 8.5" stroke="#f2e6ff" stroke-width="2" fill="rgba(245,225,150,0.28)" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M9.5 19.5h5l-2.5-3.2z" fill="#f7da84"/>
+  </svg>`,
+  spore: (s = 30) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24">
+    <path d="M4 13.5C4 8 7.5 4.5 12 4.5s8 3.5 8 9z" fill="#d7f7b8" stroke="#163022" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M9.8 13.5v6h4.4v-6" fill="#eef4dc" stroke="#163022" stroke-width="1.5" stroke-linejoin="round"/>
+    <circle cx="9.2" cy="9.2" r="1.4" fill="#ffffff"/>
+    <circle cx="14.6" cy="8.6" r="1.2" fill="#ffffff"/>
+  </svg>`,
+  frost: (s = 30) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24">
+    <g stroke="#f0fbff" stroke-width="2.1" stroke-linecap="round" fill="none">
+      <path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"/>
+      <path d="M9.5 5l2.5 2.5L14.5 5M9.5 19l2.5-2.5L14.5 19"/>
+    </g>
+  </svg>`,
+  aura: (s = 20) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24">
+    <path d="M12 2.2l2.4 6.4L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z" fill="#f7dc8e" stroke="#2d1e07" stroke-width="1.4" stroke-linejoin="round"/>
+    <circle cx="12" cy="11" r="2.2" fill="#fff9e2"/>
+  </svg>`,
+  refresh: (s = 42) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24">
+    <path d="M19 8a7.5 7.5 0 1 0 .8 6.5" stroke="#fbf3dc" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path d="M20 3v5.5h-5.5" stroke="#fbf3dc" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`
+};
+
+const DATA = {
+  s0: [],
+  s1: [{ id: "compost", hue: "h-compost", val: 3, heap: true }],
+  s2: [
+    { id: "compost", hue: "h-compost", val: 3, heap: true },
+    { id: "tide", hue: "h-tide", val: 2, level: 2, max: 5 }
+  ],
+  s4: [
+    { id: "compost", hue: "h-compost", val: 3, heap: true },
+    { id: "tide", hue: "h-tide", val: 2, level: 2, max: 5 },
+    { id: "ember", hue: "h-ember", val: 148, level: 4, max: 5 },
+    { id: "time", hue: "h-time", val: 1, level: 1, max: 5 }
+  ],
+  sChg: [
+    { id: "compost", hue: "h-compost", val: 3, heap: true },
+    { id: "tide", hue: "h-tide", val: 3, level: 3, max: 5, changed: "+1" },
+    { id: "ember", hue: "h-ember", val: 148, level: 4, max: 5 },
+    { id: "time", hue: "h-time", val: 1, level: 1, max: 5 }
+  ],
+  s6: [
+    { id: "compost", hue: "h-compost", val: 12, heap: true },
+    { id: "tide", hue: "h-tide", val: 4, level: 4, max: 5 },
+    { id: "ember", hue: "h-ember", val: 148, level: 4, max: 5 },
+    { id: "time", hue: "h-time", val: 1, level: 1, max: 5 },
+    { id: "spore", hue: "h-spore", val: 6, level: 3, max: 5 },
+    { id: "frost", hue: "h-frost", val: 23, level: 2, max: 5 }
+  ]
+};
+
+function mossStage(innerHtml, extraCls = "") {
+  return `<div class="stage stage-moss">
+    <div class="pier-l"></div><div class="pier-r"></div><div class="vignette"></div><div class="transom"></div>
+    <div class="stage-content ${extraCls}">${innerHtml}</div>
+  </div>`;
+}
+
+function stateCol(stageHtml, captionHtml) {
+  return `<div class="state-col">${stageHtml}<div class="caption">${captionHtml}</div></div>`;
+}
+
+/* =====================================================================
+   RENDER DESIGN A: STAINED-GLASS MEDALLIONS & AURA SEAL
+   ===================================================================== */
+function daToken(c, big = false) {
+  const iconSz = big ? 38 : 32;
+  const delta = c.changed ? `<div class="da-delta"><span>${c.changed}</span></div>` : "";
+  const num = `<div class="da-num"><span>${c.val}</span></div>`;
+  if (c.heap) {
+    return `<div class="da-token heap ${c.hue} ${c.changed ? "changed" : ""}">
+      <div class="da-heap-back2"></div>
+      <div class="da-heap-back1"></div>
+      <div class="da-heap-wrap">
+        <div class="da-heap-front"><div class="da-heap-glass">${ICONS[c.id](iconSz)}</div></div>
+      </div>
+      <div class="da-heap-clasp"></div>
+      ${delta}${num}
+    </div>`;
+  }
+  return `<div class="da-token ${c.hue} ${c.changed ? "changed" : ""}">
+    <div class="da-medallion">${ICONS[c.id](iconSz)}</div>
+    ${delta}${num}
+  </div>`;
+}
+
+function daStage(items, auraCount, overflow = []) {
+  const shown = items.slice(0, 4);
+  let main = "";
+  if (shown.length === 0) {
+    main = `<div class="da-empty-hint"></div>`;
+  } else {
+    const cls = shown.length === 1 ? "n1" : shown.length === 2 ? "n2" : "n4";
+    main = `<div class="da-grid ${cls}">${shown.map(c => daToken(c, shown.length === 1)).join("")}</div>`;
+  }
+  const auraBar = overflow.length
+    ? `<div class="da-aura-bar wide">
+        <div class="da-aura-left">${ICONS.aura(20)}<span>${auraCount}</span></div>
+        <div class="da-overflow-beads">
+          ${overflow.map(col => `<span class="da-bead" style="background:${col}"></span>`).join("")}
+          <span class="da-more">+${overflow.length}</span>
+          <span class="da-chev">▸</span>
+        </div>
+      </div>`
+    : `<div class="da-aura-bar">${ICONS.aura(20)}<span>${auraCount}</span><span class="da-chev">▸</span></div>`;
+
+  return mossStage(`<div class="da-cluster-wrap">${main}</div>${auraBar}`, "da-stage");
+}
+
+function daRefresh() {
+  const btn = (count, twoDigit = false) => `<div class="rf-wrap">
+    <div class="rf-btn">${ICONS.refresh(42)}</div>
+    <div class="rf-coin"><span>1</span></div>
+    <div class="rf-diamond ${twoDigit ? "two-digit" : ""}"><span>${count}</span></div>
+  </div>`;
+  return `<div class="stage stage-refresh">
+    <div class="tablet-board">${btn(7, false)}${btn(12, true)}</div>
+  </div>`;
+}
+
+document.getElementById("band-a").innerHTML = `
+  <div class="band-head">
+    <div class="band-title-wrap">
+      <h2 class="band-title">A. Stained-Glass Medallions &amp; Aura Seal</h2>
+      <span class="rec-pill">★ Recommended</span>
+      <span class="band-desc">Lit medallions on dim moss glass; stacked hex = clickable heap, roundel = level; top 4 fixed + overflow beads on the Aura plate.</span>
+    </div>
+    <div class="band-pieces">To paint: <span>l1c-medallion-ring, l1c-heap-hex, l1c-diamond-badge</span></div>
+  </div>
+  <div class="row">
+    ${stateCol(daStage(DATA.s0, 2), "<b>0 counters</b> · calm glass, Auras reachable (2)")}
+    ${stateCol(daStage(DATA.s1, 3), "<b>1 counter</b> · Compost heap (stacked hex)")}
+    ${stateCol(daStage(DATA.s2, 4), "<b>2 counters</b> · Heap (hex) vs Level (round)")}
+    ${stateCol(daStage(DATA.s4, 6), "<b>4 counters</b> · 1-digit (1,2,3) &amp; 3-digit (148)")}
+    ${stateCol(daStage(DATA.sChg, 6), "<b>Just changed</b> · Tide gilt rim, glow &amp; +1")}
+    ${stateCol(daStage(DATA.s6, 8, ["#55b887", "#74b9e6"]), "<b>6 counters</b> · top 4 fixed, +2 beads on Auras")}
+    ${stateCol(daRefresh(), "<b>Refresh count</b> · slate diamond: 7 (top), 12")}
+  </div>
+`;
+
+/* =====================================================================
+   RENDER DESIGN B: THE RIVETED SLATE TALLY
+   ===================================================================== */
+function dbRow(c) {
+  const mid = c.heap
+    ? `<div class="db-stack-glyph"><span class="db-mini-hex"></span><span class="db-mini-hex"></span><span class="db-mini-hex"></span></div>`
+    : `<div class="db-ticks">${Array.from({ length: 5 }, (_, i) => `<span class="db-tick ${i < (c.level || 1) ? "" : "off"}"></span>`).join("")}</div>`;
+  return `<div class="db-row ${c.hue} ${c.heap ? "heap" : ""} ${c.changed ? "changed" : ""}">
+    <div class="db-gem">${ICONS[c.id](20)}</div>
+    <div class="db-mid">${mid}</div>
+    <div class="db-right">
+      ${c.changed ? `<span class="db-delta">${c.changed}</span>` : ""}
+      <span class="db-num">${c.val}</span>
+      ${c.heap ? `<span class="db-open-chev">›</span>` : `<span class="db-chev-gap"></span>`}
+    </div>
+  </div>`;
+}
+
+function dbStage(items, auraCount) {
+  if (items.length === 0) {
+    return mossStage(`<div class="db-aura-solo">
+      <div style="display:flex;align-items:center;gap:8px">${ICONS.aura(22)}<span>${auraCount}</span></div>
+      <span style="color:#b7b0a0;font-size:18px">▸</span>
+    </div>`, "db-stage");
+  }
+  const compact = items.length > 4 ? "compact-6" : "";
+  return mossStage(`<div class="db-board ${compact}">
+    ${items.map(dbRow).join("")}
+    <div class="db-aura-foot">
+      <div class="left">${ICONS.aura(18)}<span>${auraCount}</span></div>
+      <span style="color:#a7a090;font-size:15px">▸</span>
+    </div>
+  </div>`, "db-stage");
+}
+
+function dbPipArcSvg(filled, total = 8, low = false) {
+  // 8 pips hugging upper-left to top arc (angles 165 deg to 275 deg in screen coords)
+  const cx = 57, cy = 57, r = 50;
+  let pips = "";
+  for (let i = 0; i < total; i++) {
+    const deg = 166 + i * (114 / (total - 1));
+    const rad = deg * Math.PI / 180;
+    const x = cx + r * Math.cos(rad);
+    const y = cy + r * Math.sin(rad);
+    const on = i < filled;
+    const fill = on ? (low ? "#ffcf6e" : "#cdeeff") : "#232a30";
+    const stroke = on ? (low ? "#6b3808" : "#15232c") : "#0e1214";
+    pips += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${on ? 4.4 : 3.6}" fill="${fill}" stroke="${stroke}" stroke-width="1.6"/>`;
+  }
+  return `<svg class="rf-arc-svg" viewBox="0 0 114 114">${pips}</svg>`;
+}
+
+function dbRefresh() {
+  const btn = (count, low = false) => `<div class="rf-wrap arc-pad">
+    ${dbPipArcSvg(count, 8, low)}
+    <div class="rf-btn">${ICONS.refresh(42)}</div>
+    <div class="rf-coin"><span>1</span></div>
+    <div class="rf-clasp ${low ? "low" : ""}"><span>${count}</span></div>
+  </div>`;
+  return `<div class="stage stage-refresh">
+    <div class="tablet-board">${btn(7, false)}${btn(1, true)}</div>
+  </div>`;
+}
+
+document.getElementById("band-b").innerHTML = `
+  <div class="band-head">
+    <div class="band-title-wrap">
+      <h2 class="band-title">B. The Riveted Slate Tally</h2>
+      <span class="band-desc">Vertical ledger on l1z-board.png; shows all 6 counters live with right-aligned numerals; raised green row + chevron = heap, flush pips = level.</span>
+    </div>
+    <div class="band-pieces">To paint: <span>l1c-pip-arc</span> (reuses l1z-board.png, l1p-plate.png)</div>
+  </div>
+  <div class="row">
+    ${stateCol(dbStage(DATA.s0, 2), "<b>0 counters</b> · collapses to Aura plate (2)")}
+    ${stateCol(dbStage(DATA.s1, 3), "<b>1 counter</b> · Compost drawer row + chevron")}
+    ${stateCol(dbStage(DATA.s2, 4), "<b>2 counters</b> · Heap cards vs Level pip ticks")}
+    ${stateCol(dbStage(DATA.s4, 6), "<b>4 counters</b> · aligned 1-digit &amp; 3-digit (148)")}
+    ${stateCol(dbStage(DATA.sChg, 6), "<b>Just changed</b> · gilt edge bar, wash &amp; +1")}
+    ${stateCol(dbStage(DATA.s6, 8), "<b>6 counters</b> · all 6 visible, zero overflow")}
+    ${stateCol(dbRefresh(), "<b>Refresh count</b> · pip arc + clasp: 7 (top), 1")}
+  </div>
+`;
+
+/* =====================================================================
+   RENDER DESIGN C: MINI-LANCET GLASS TRAY (3-ACROSS ARCHED PANES)
+   ===================================================================== */
+function dcTile(c, compact = false) {
+  const iconSz = compact ? 27 : 31;
+  return `<div class="dc-lancet ${c.hue} ${c.heap ? "heap" : ""} ${c.changed ? "changed" : ""}">
+    ${c.changed ? `<div class="dc-delta">${c.changed}</div>` : ""}
+    ${c.heap ? `<div class="dc-heap-tab"></div>` : ""}
+    <div class="dc-frame">
+      <div class="dc-glass">${ICONS[c.id](iconSz)}</div>
+      <div class="dc-sill">${c.val}</div>
+    </div>
+  </div>`;
+}
+
+function dcStage(items, auraCount) {
+  if (items.length === 0) {
+    return mossStage(`<div class="dc-tray">
+      <div class="dc-aura-sill solo">${ICONS.aura(18)}<span>${auraCount}</span><span style="color:#a7a090;font-size:15px">▸</span></div>
+    </div>`, "dc-stage");
+  }
+  const cls = items.length === 1 ? "n1" : items.length === 2 ? "n2" : items.length <= 4 ? "n4" : "n6";
+  const compact = items.length > 4;
+  return mossStage(`<div class="dc-tray">
+    <div class="dc-grid ${cls}">${items.map(c => dcTile(c, compact)).join("")}</div>
+    <div class="dc-aura-sill">
+      <div class="l">${ICONS.aura(17)}<span>${auraCount}</span></div>
+      <span style="color:#b7b0a0;font-size:15px">▸</span>
+    </div>
+  </div>`, "dc-stage");
+}
+
+function dcRefresh() {
+  const btn = count => `<div class="rf-wrap">
+    <div class="rf-btn">${ICONS.refresh(42)}</div>
+    <div class="rf-coin"><span>1</span></div>
+    <div class="rf-tag"><span class="mul">×</span><span>${count}</span></div>
+  </div>`;
+  return `<div class="stage stage-refresh">
+    <div class="tablet-board">${btn(7)}${btn(12)}</div>
+  </div>`;
+}
+
+document.getElementById("band-c").innerHTML = `
+  <div class="band-head">
+    <div class="band-title-wrap">
+      <h2 class="band-title">C. Mini-Lancet Glass Tray (3-Across, Relocatable)</h2>
+      <span class="band-desc">Pointed leaded arches with full-width numeral sills; fits 6 live in 2 compact rows (162 px tall, can also dock on the oak table flank).</span>
+    </div>
+    <div class="band-pieces">To paint: <span>l1c-mini-lancet, l1c-mini-lancet-heap, l1c-count-tag</span></div>
+  </div>
+  <div class="row">
+    ${stateCol(dcStage(DATA.s0, 2), "<b>0 counters</b> · lone Aura sill bar (2)")}
+    ${stateCol(dcStage(DATA.s1, 3), "<b>1 counter</b> · Compost double-arch + cream sill")}
+    ${stateCol(dcStage(DATA.s2, 4), "<b>2 counters</b> · Stacked Heap vs dark-sill Level")}
+    ${stateCol(dcStage(DATA.s4, 6), "<b>4 counters</b> · 148 fits sill with zero overlap")}
+    ${stateCol(dcStage(DATA.sChg, 6), "<b>Just changed</b> · gilt arch, backlight &amp; apex +1")}
+    ${stateCol(dcStage(DATA.s6, 8), "<b>6 counters</b> · 3×2 grid, half the window free")}
+    ${stateCol(dcRefresh(), "<b>Refresh count</b> · leaded ×N tag: ×7 (top), ×12")}
+  </div>
+`;
+</script>
+</body>
+</html>

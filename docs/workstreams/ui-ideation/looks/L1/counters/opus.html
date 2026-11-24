@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Counters Opus</title>
+<meta name="viewport" content="width=1920">
+<!--
+  Brief 37: how the buy screen shows counters. Three designs at real size on the right column's own ground
+  (x 1676-1920, y 400-780 of the 1920x1080 screen; the lead bar across the window falls at y 610).
+  A Medallions, B Plaques (recommended), C Lead counter. Painted pieces from /data/ui-ideation/looks/L1/pieces/.
+-->
+<style>
+@font-face { font-family: "AlegreyaSans"; src: url("../../../../../../assets/glass/fonts/AlegreyaSans-Bold.ttf"); font-weight: 700; }
+html, body { margin: 0; padding: 0; background: #101213; }
+body { width: 1920px; font-family: "AlegreyaSans", sans-serif; font-weight: 700; color: #e9e0cb; }
+.abs { position: absolute; }
+.block { position: absolute; left: 0; width: 1920px; }
+.head { position: absolute; left: 28px; top: 0; font-size: 22px; color: #f3ead6; white-space: nowrap; }
+.head span { font-size: 17px; color: #b9ae96; margin-left: 14px; }
+.head .rec { display: inline-block; margin-left: 14px; padding: 1px 10px 2px; border-radius: 12px; background: #e8b84a; color: #3b2606; font-size: 16px; }
+.tile { position: absolute; overflow: hidden; background: #15181a; }
+.cap { position: absolute; font-size: 15px; line-height: 17px; color: #cfc5ae; }
+.top { position: absolute; font-size: 15px; color: #8f8775; }
+</style>
+</head>
+<body>
+<div id="page" style="position:relative;width:1920px;height:1400px"></div>
+<script>
+const P = "file:///data/ui-ideation/looks/L1/pieces/";
+const UNITS = "../../../../../../assets/units/";
+const page = document.getElementById("page");
+
+function el(parent, x, y, w, h, style = "", cls = "abs") {
+  const d = document.createElement("div");
+  d.className = cls;
+  d.style.cssText = `left:${x}px;top:${y}px;${w != null ? `width:${w}px;` : ""}${h != null ? `height:${h}px;` : ""}${style}`;
+  parent.appendChild(d);
+  return d;
+}
+
+// ---------- emblems (24-unit boxes; cream glass with a lead outline) ----------
+const K = "#17130e", CR = "#f6ecd2";
+const EMB = {
+  compost: `<path d="M2.5 20c1.2-4.6 5-7.4 9.5-7.4s8.3 2.8 9.5 7.4z" fill="${CR}" stroke="${K}" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M12.2 12.8c-1.3-4.3.8-8 5.6-9.3.6 4.6-1.4 8.1-5.6 9.3z" fill="#cfe3a2" stroke="${K}" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="8" cy="17" r="1.1" fill="${K}"/><circle cx="12.5" cy="16.2" r="1.1" fill="${K}"/><circle cx="16.5" cy="17.6" r="1.1" fill="${K}"/>`,
+  tide: `<g fill="none" stroke-linecap="round"><path d="M2.5 9.5c2.4-2.6 4.6-2.6 6.4 0s4.2 2.6 6.4 0 4.2-2.6 6.2 0M2.5 16c2.4-2.6 4.6-2.6 6.4 0s4.2 2.6 6.4 0 4.2-2.6 6.2 0" stroke="${K}" stroke-width="5"/>
+         <path d="M2.5 9.5c2.4-2.6 4.6-2.6 6.4 0s4.2 2.6 6.4 0 4.2-2.6 6.2 0M2.5 16c2.4-2.6 4.6-2.6 6.4 0s4.2 2.6 6.4 0 4.2-2.6 6.2 0" stroke="${CR}" stroke-width="2.6"/></g>`,
+  embers: `<path d="M12 2.5c1.2 4.4 6 6.6 6 11.3a6 6 0 0 1-12 0c0-2.6 1.3-3.9 2.5-5 0 2.3 1.1 3.5 2.4 3.5 0-3.4-1.4-6.4 1.1-9.8z" fill="${CR}" stroke="${K}" stroke-width="1.5" stroke-linejoin="round"/>
+           <path d="M12 21c-1.8 0-3-1.3-3-3 0-1.6 1.6-2.6 3-4.5 1.4 1.9 3 2.9 3 4.5 0 1.7-1.2 3-3 3z" fill="#ffcf7a" stroke="${K}" stroke-width="1.1"/>`,
+  dusk: `<path d="M6 2.5h12M6 21.5h12" stroke="${K}" stroke-width="4" stroke-linecap="round"/><path d="M6 2.5h12M6 21.5h12" stroke="${CR}" stroke-width="2" stroke-linecap="round"/>
+         <path d="M7.5 3.5c0 5.4 9 5.5 9 8.5s-9 3.1-9 8.5h9c0-5.4-9-5.5-9-8.5s9-3.1 9-8.5z" fill="${CR}" stroke="${K}" stroke-width="1.4" stroke-linejoin="round"/>
+         <path d="M9.5 19.6c.6-2.2 4.4-2.2 5 0z" fill="#d7b46a"/>`,
+  spores: `<path d="M3 12.5C3 7 7 3.5 12 3.5S21 7 21 12.5z" fill="${CR}" stroke="${K}" stroke-width="1.5" stroke-linejoin="round"/>
+           <path d="M9.6 12.5h4.8l.8 8.3H8.8z" fill="${CR}" stroke="${K}" stroke-width="1.5" stroke-linejoin="round"/>
+           <circle cx="8" cy="8.6" r="1.4" fill="#c8506e"/><circle cx="13.6" cy="6.6" r="1.2" fill="#c8506e"/><circle cx="16.4" cy="10" r="1.3" fill="#c8506e"/>`,
+  moon: `<path d="M15.5 3a9 9 0 1 0 5.6 14.6A7.4 7.4 0 0 1 15.5 3z" fill="${CR}" stroke="${K}" stroke-width="1.5" stroke-linejoin="round"/>`,
+  auras: `<g stroke="${K}" stroke-width="4.2" stroke-linecap="round"><path d="M12 1.8v3.4M12 18.8v3.4M1.8 12h3.4M18.8 12h3.4M4.8 4.8l2.4 2.4M16.8 16.8l2.4 2.4M4.8 19.2l2.4-2.4M16.8 7.2l2.4-2.4"/></g>
+          <g stroke="#ffe7a6" stroke-width="2.2" stroke-linecap="round"><path d="M12 1.8v3.4M12 18.8v3.4M1.8 12h3.4M18.8 12h3.4M4.8 4.8l2.4 2.4M16.8 16.8l2.4 2.4M4.8 19.2l2.4-2.4M16.8 7.2l2.4-2.4"/></g>
+          <circle cx="12" cy="12" r="4.6" fill="#ffe7a6" stroke="${K}" stroke-width="1.5"/>`,
+  refresh: `<path d="M19 8a7.5 7.5 0 1 0 .8 6.5" stroke="#fbf3dc" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M20 3v5.5h-5.5" stroke="#fbf3dc" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  up: `<path d="M5 14l7-7 7 7M5 19l7-7 7 7" stroke="#fbf3dc" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  freeze: `<g stroke="#f4fbff" stroke-width="2.2" stroke-linecap="round" fill="none"><path d="M12 2.5v19M3.8 7.25l16.4 9.5M3.8 16.75l16.4-9.5"/><path d="M9.3 4.3L12 7l2.7-2.7M9.3 19.7L12 17l2.7 2.7"/></g>`,
+};
+const svg = (k, s, extra = "") => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" style="display:block;${extra}">${EMB[k]}</svg>`;
+
+// ---------- counters (the markers are guesses: only Compost and Tide exist today) ----------
+// hue: where the slate glass piece (hue 201) is turned to; sat/bri tune it
+const CT = {
+  compost: { name: "Compost", hue: 78, sat: 1.25, bri: 0.62, col: "#8fae55", heap: ["thorn/bramble-runner", "thorn/crab-apple", "thorn/hawthorn-warden"] },
+  tide:    { name: "Tide", hue: 196, sat: 1.5, bri: 0.6, col: "#4fb1d6" },
+  embers:  { name: "Embers", hue: 22, sat: 1.7, bri: 0.62, col: "#e07a3a" },
+  dusk:    { name: "Dusk", hue: 268, sat: 1.35, bri: 0.6, col: "#9a7ad6" },
+  spores:  { name: "Spores", hue: 335, sat: 1.4, bri: 0.6, col: "#d0648a" },
+  moon:    { name: "Moonlight", hue: 225, sat: 0.35, bri: 0.72, col: "#b8c4dc" },
+  auras:   { name: "Auras", hue: 40, sat: 1.0, bri: 0.78, col: "#e8c66a" },
+};
+const c = (id, v, o = {}) => ({ id, v, ...o });
+const STATES = {
+  none: [],
+  one: [c("tide", 2)],
+  two: [c("compost", 12), c("tide", 2)],
+  four: [c("compost", 12), c("tide", 2), c("embers", 125), c("dusk", 1)],
+  six: [c("compost", 12), c("tide", 3, { delta: "+1" }), c("embers", 125), c("dusk", 1), c("spores", 6), c("moon", 40)],
+};
+const OTHER_AURAS = 3;   // auras with no counter of their own (a spell's lasting effect, the hero's, the lobby's)
+
+// ---------- pieces drawn in code over the painted ones ----------
+const glassFilter = t => `hue-rotate(${t.hue - 201}deg) saturate(${t.sat}) brightness(${t.bri})`;
+// a round glass medallion with its emblem; returns its box
+function medallion(parent, cx, cy, D, id, o = {}) {
+  const t = CT[id];
+  if (o.glow) {
+    el(parent, cx - D / 2 - 14, cy - D / 2 - 14, D + 28, D + 28, `border-radius:50%;background:radial-gradient(circle, ${t.col} 0 45%, transparent 70%);opacity:0.85;filter:blur(6px)`);
+  }
+  if (t.heap && o.faces !== false) {   // a heap: the last unit into it peeks out behind the upper left
+    const f = Math.round(D * 0.42);
+    const fx = cx - D / 2 - f * 0.18, fy = cy - D / 2 - f * 0.2;
+    const pk = el(parent, fx, fy, f, f, `border-radius:50%;overflow:hidden;box-shadow:0 0 0 3px #15191a, 0 0 0 4px #5a6062, 0 2px 4px #000a;`);
+    pk.innerHTML = `<img src="${UNITS + t.heap[0]}.jpg" style="width:100%;height:100%;object-fit:cover;object-position:50% 25%">`;
+  }
+  const g = el(parent, cx - D / 2, cy - D / 2, D, D, `background:url("${P}l1p-roundel-slate.png") center/100% 100% no-repeat;filter:${glassFilter(t)} drop-shadow(0 4px 4px rgba(0,0,0,0.6))`);
+  if (o.glow) g.style.filter = `hue-rotate(${t.hue - 201}deg) saturate(${t.sat}) brightness(${t.bri + 0.3}) drop-shadow(0 4px 4px rgba(0,0,0,0.6))`;
+  const sh = o.shift ? D * o.shift : 0;   // small medallions: the emblem moves up and left, clear of the badge
+  const e = el(parent, cx - D / 2 - sh, cy - D / 2 - sh, D, D, "display:grid;place-items:center;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.7))");
+  e.innerHTML = svg(id, Math.round(D * (o.emb || 0.56)));
+  return g;
+}
+// a cream count badge; three digits widen it to a pill of the same height
+function badge(parent, cx, cy, d, v, o = {}) {
+  const s = String(v), w = s.length >= 3 ? Math.round(d * 1.5) : s.length === 2 ? Math.round(d * 1.12) : d;
+  const fs = Math.round(d * (s.length >= 3 ? 0.58 : 0.64));
+  const rim = o.lit ? "0 0 0 3px #7a4f0e, 0 0 0 5px #ffd77a, 0 0 12px 3px #ffcf6a" : "0 0 0 3px #15191a, 0 0 0 4px #6a6f70, 0 2px 4px #000a";
+  const b = el(parent, cx - w / 2, cy - d / 2, w, d, `border-radius:${d / 2}px;display:grid;place-items:center;color:#2a2118;font-size:${fs}px;letter-spacing:-0.02em;
+    background:radial-gradient(circle at 40% 32%, #fffaf0, #eadbb8 60%, #c9b48d);box-shadow:${rim};z-index:2`);
+  b.innerHTML = `<span style="position:relative;top:0.04em">${s}</span>`;
+  return b;
+}
+// a just-changed number: the change floats beside it (gold, outlined)
+function delta(parent, x, y, txt, size = 26) {
+  const d = el(parent, x, y, null, null, `font-size:${size}px;color:#ffd77a;white-space:nowrap;z-index:3;
+    text-shadow:-2px 0 0 #2a1a05, 2px 0 0 #2a1a05, 0 -2px 0 #2a1a05, 0 2px 0 #2a1a05, 0 3px 6px #000`);
+  d.textContent = txt;
+}
+const lowerRight = (cx, cy, D) => [cx + D * 0.354, cy + D * 0.354];
+function coin(parent, cx, cy, d, n) {
+  const k = el(parent, cx - d / 2, cy - d / 2, d, d, `background:url("${P}l1p-coin.png") center/100% 100% no-repeat;display:grid;place-items:center;
+    font-size:${Math.round(d * 0.56)}px;color:#5a3606;text-shadow:0 1px 0 #ffe9a8;filter:drop-shadow(0 3px 3px rgba(0,0,0,0.6));z-index:2`);
+  k.innerHTML = `<span style="position:relative;top:0.03em">${n}</span>`;
+}
+function slateBtn(parent, cx, cy, D, icon, iconS, extra = "") {
+  const r = el(parent, cx - D / 2, cy - D / 2, D, D, `background:url("${P}l1p-roundel-slate.png") center/100% 100% no-repeat;display:grid;place-items:center;filter:drop-shadow(0 4px 5px rgba(0,0,0,0.65))`);
+  r.innerHTML = svg(icon, iconS, extra);
+  return r;
+}
+
+// ---------- grounds ----------
+// the right column at y 400-780: moss quarries at half brightness, the lead bar at y 610, the window's two stone mullions
+function colGround(parent, x, y, w = 244, h = 380, sx = 0) {
+  const t = el(parent, x, y, w, h, "", "tile");
+  el(t, sx, 0, 244, h, `background:url("${P}l1z-quarry-moss.jpg") 0 -156px/244px 366px repeat-y;filter:brightness(0.5) saturate(0.9)`);
+  el(t, sx, 205, 244, 10, "background:linear-gradient(#3a4043,#15191a 60%,#0c0e0f);box-shadow:0 2px 3px rgba(0,0,0,0.5)");
+  for (const fx of [sx, sx + 232]) el(t, fx, 0, 12, h, `background:url("${P}l1p-pier.jpg") 0 0/244px auto, #1d2023;box-shadow:${fx === sx ? "" : "-"}2px 0 4px rgba(0,0,0,0.6)`);
+  el(t, sx, 0, 244, h, "background:linear-gradient(90deg, rgba(0,0,0,0.45), transparent 22%);pointer-events:none");
+  const inner = el(t, sx, 0, 244, h, "");
+  return { t, inner };
+}
+function caption(x, y, w, txt) { el(page, x, y, w, null, "", "cap").textContent = txt; }
+
+// ---------- design A: medallions ----------
+// two to a row, 76 px glass medallions, the count on a cream badge at the lower right (as health and costs sit);
+// up to six; a seventh and on are only in the auras panel; the auras button keeps one fixed place at the foot
+function drawA(g, list, open) {
+  const D = 76, BD = 38, xs = [70, 172], ys = [48, 140, 268];
+  list.slice(0, 6).forEach((k, i) => {
+    const cx = xs[i % 2], cy = ys[Math.floor(i / 2)];
+    medallion(g, cx, cy, D, k.id, { glow: !!k.delta, emb: 0.52, shift: 0.08 });
+    badge(g, ...lowerRight(cx, cy, D), BD, k.v, { lit: !!k.delta });
+    if (k.delta) delta(g, cx + 22, cy - D / 2 - 14, k.delta);
+  });
+  aurasBtn(g, 122, 344, 54, list.length > 6 ? `+${list.length - 6 + OTHER_AURAS}` : OTHER_AURAS, open);
+}
+function aurasBtn(g, cx, cy, D, n, open) {
+  if (open) el(g, cx - D / 2 - 8, cy - D / 2 - 8, D + 16, D + 16, "border-radius:50%;background:radial-gradient(circle,#ffe08a 0 40%,transparent 70%);filter:blur(5px)");
+  medallion(g, cx, cy, D, "auras", { emb: 0.56, shift: 0.1 });
+  badge(g, ...lowerRight(cx, cy, D), 30, n);
+}
+
+// ---------- design B: plaques ----------
+// one strip of coloured glass per counter, full width: emblem at the left, a big numeral at the right;
+// a heap shows the faces of its last three units in the strip (it opens); the auras cap stays at the top
+function plaque(g, x, y, w, h, k) {
+  const t = CT[k.id];
+  if (k.delta) el(g, x - 8, y - 8, w + 16, h + 16, `border-radius:${h}px;background:${t.col};opacity:0.7;filter:blur(9px)`);
+  el(g, x, y, w, h, `background:url("${P}l1p-plate.png") center/100% 100% no-repeat;filter:${`hue-rotate(${t.hue - 210}deg) saturate(${t.sat * 1.6}) brightness(${k.delta ? 1.25 : 0.85})`} drop-shadow(0 3px 4px rgba(0,0,0,0.6))`);
+  el(g, x + 4, y + h / 2 - 19, 38, 38, "filter:drop-shadow(0 1px 2px rgba(0,0,0,0.8))").innerHTML = svg(k.id, 34);
+  if (t.heap) t.heap.forEach((u, j) => {
+    const f = 28, fx = x + 52 + j * 21, fy = y + h / 2 - f / 2;
+    const pk = el(g, fx, fy, f, f, `border-radius:50%;overflow:hidden;box-shadow:0 0 0 2px #15191a, 0 0 0 3px #6a6f70;z-index:${3 - j}`);
+    pk.innerHTML = `<img src="${UNITS + u}.jpg" style="width:100%;height:100%;object-fit:cover;object-position:50% 25%">`;
+  });
+  const n = el(g, x, y, w - 16, h, `display:flex;align-items:center;justify-content:flex-end;font-size:${String(k.v).length >= 3 ? 31 : 33}px;color:#fbf3dc;letter-spacing:-0.01em;
+    text-shadow:0 0 3px #000, 0 2px 3px #000`);
+  n.innerHTML = `<span style="position:relative;top:0.05em">${k.v}</span>`;
+  if (k.delta) delta(g, x + w - 82, y + h / 2 - 16, k.delta, 24);
+}
+function drawB(g, list, open) {
+  const ys = [54, 104, 154, 224, 274, 324], W = 208, H = 44;
+  // the auras cap: a short dark plate with the sun and how many auras are not on show
+  const cx = 122;
+  if (open) el(g, cx - 72, 0, 144, 50, "border-radius:24px;background:#ffe08a;opacity:0.55;filter:blur(8px)");
+  el(g, cx - 62, 6, 124, 38, `background:url("${P}l1p-plate.png") center/100% 100% no-repeat;filter:hue-rotate(-160deg) saturate(0.8) brightness(${open ? 1.1 : 0.7}) drop-shadow(0 3px 4px rgba(0,0,0,0.6))`);
+  const cap = el(g, cx - 62, 6, 124, 38, "display:flex;align-items:center;justify-content:center;gap:10px;font-size:26px;color:#fbf3dc;text-shadow:0 0 3px #000,0 2px 3px #000");
+  cap.innerHTML = svg("auras", 28) + `<span style="position:relative;top:0.05em">${list.length > 6 ? "+" + (list.length - 6 + OTHER_AURAS) : OTHER_AURAS}</span>`;
+  list.slice(0, 6).forEach((k, i) => plaque(g, 18, ys[i], W, H, k));
+}
+
+// ---------- design C: lead counter ----------
+// the counter that matters most to your board is big; up to three more sit small in a row under the lead bar;
+// the rest are in the auras panel, whose button shows how many are hidden
+function drawC(g, list, open) {
+  const order = [...list].sort((a, b) => (a.id === "tide" ? -1 : b.id === "tide" ? 1 : 0));   // the game picks the lead: here Tide
+  const [lead, ...rest] = order;
+  if (lead) {
+    medallion(g, 112, 100, 128, lead.id, { glow: !!lead.delta, emb: 0.54 });
+    badge(g, ...lowerRight(112, 100, 128), 56, lead.v, { lit: !!lead.delta });
+    if (lead.delta) delta(g, 150, 22, lead.delta, 30);
+  }
+  const small = rest.slice(0, 3), xsBy = { 1: [112], 2: [77, 147], 3: [42, 112, 182] };
+  small.forEach((k, i) => {
+    const cx = xsBy[small.length][i], cy = 262;
+    medallion(g, cx, cy, 52, k.id, { glow: !!k.delta, emb: 0.52, shift: 0.1 });
+    badge(g, ...lowerRight(cx, cy, 52), 30, k.v, { lit: !!k.delta });
+  });
+  const hidden = rest.length - small.length;
+  aurasBtn(g, 122, 346, 50, hidden > 0 ? `+${hidden + OTHER_AURAS}` : OTHER_AURAS, open);
+}
+
+// ---------- the auras panel (the same in all three; opened from each design's auras button) ----------
+function aurasPanel(G, x, y, list) {
+  const g = el(G, 0, 0, 0, 0, "z-index:10");
+  const w = 316, rows = [
+    ...list.map(k => ({ id: k.id, name: CT[k.id].name, v: k.v })),
+    { id: "auras", name: "Oak Blessing", sub: "this turn", v: "+1" },
+    { id: "auras", name: "Fairy Ring", sub: "2 turns", v: "+2" },
+    { id: "auras", name: "Harvest Fair", sub: "lobby", v: "−1" },
+  ];
+  const RH = 30, h = 42 + rows.length * RH + 8;
+  el(g, x, y, w, h, `background:url("${P}l1z-board.png") center/100% 100% no-repeat;filter:drop-shadow(0 6px 10px rgba(0,0,0,0.75))`);
+  const hd = el(g, x + 18, y + 10, w - 36, 28, "display:flex;align-items:center;gap:9px;font-size:21px;color:#f3e2b0");
+  hd.innerHTML = svg("auras", 24) + "Auras";
+  rows.forEach((r, i) => {
+    const ry = y + 42 + i * RH;
+    el(g, x + 16, ry - 2, w - 32, 1, "background:rgba(255,255,255,0.07)");
+    const row = el(g, x + 16, ry, w - 32, RH, "display:flex;align-items:center;gap:10px;font-size:18px;color:#efe6d0");
+    row.innerHTML = `<div style="width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;
+        background:url('${P}l1p-roundel-slate.png') center/100% 100%;filter:${glassFilter(CT[r.id])}"></div>
+      <span style="flex:1">${r.name}${r.sub ? ` <span style="color:#a99f8a;font-size:15px">· ${r.sub}</span>` : ""}</span>
+      <span style="font-size:22px;color:#fbf3dc">${r.v}</span>`;
+    // emblem drawn after the filtered disc, so it keeps its own colours
+    el(g, x + 16 + 3, ry + (RH - 22) / 2, 22, 22, "filter:drop-shadow(0 1px 1px #000)").innerHTML = svg(r.id, 22);
+  });
+}
+
+// ---------- the shop's right wing: where refresh's count goes ----------
+function wing(parent, x, y, variant) {
+  const t = el(parent, x, y, 180, 380, "", "tile");
+  el(t, 0, 0, 180, 380, `background:url("${P}l1r-wall.jpg") 0 0/360px 360px, #3d4246`);
+  el(t, 0, 0, 180, 380, "background:linear-gradient(rgba(10,13,18,0.55), rgba(10,13,18,0.38))");
+  el(t, 8, 6, 164, 368, `background:url("${P}l1z-board.png") center/100% 100% no-repeat;filter:drop-shadow(0 4px 5px rgba(0,0,0,0.6))`);
+  const BD = 88, CD = 46, cx = 82, cys = [66, 190, 314];
+  // tier up: arrow and the tier it goes to, cost 9
+  slateBtn(t, cx, cys[0], BD, "up", 40, "margin-top:-12px");
+  el(t, cx - 44, cys[0] + 6, 88, 26, "text-align:center;font-size:22px;color:#fbf3dc;text-shadow:0 1px 3px #0b1a2a").textContent = "5";
+  coin(t, ...lowerRight(cx, cys[0], BD), CD, 9);
+  // refresh: cost 1, seven left at this price
+  if (variant === "B") {
+    slateBtn(t, cx, cys[1], BD, "refresh", 38, "margin-top:-14px");
+    el(t, cx - 56, cys[1] + 4, 88, 30, "text-align:center;font-size:27px;color:#fbf3dc;text-shadow:-1.5px 0 0 #0b1a2a, 1.5px 0 0 #0b1a2a, 0 -1.5px 0 #0b1a2a, 0 1.5px 0 #0b1a2a, 0 2px 4px #000").textContent = "7";
+  } else slateBtn(t, cx, cys[1], BD, "refresh", 42);
+  coin(t, ...lowerRight(cx, cys[1], BD), CD, 1);
+  if (variant === "A") badge(t, cx + BD * 0.354, cys[1] - BD * 0.354, 36, 7);
+  if (variant === "C") {   // one glass bead per refresh left at this price, round the upper-left of the rim
+    for (let i = 0; i < 7; i++) {
+      const a = (200 + i * 19) * Math.PI / 180, r = BD / 2 + 9;
+      el(t, cx + r * Math.cos(a) - 7, cys[1] + r * Math.sin(a) - 7, 14, 14,
+        "border-radius:50%;background:radial-gradient(circle at 38% 32%, #fffaf0, #eadbb8 55%, #b89f72);box-shadow:0 0 0 2px #15191a, 0 1px 3px #000");
+    }
+  }
+  slateBtn(t, cx, cys[2], BD, "freeze", 42);
+  return t;
+}
+
+// ---------- the page ----------
+const DESIGNS = [
+  { k: "A", name: "Medallions", draw: drawA, line: "a round glass emblem per counter, its count on a cream badge at the lower right, two to a row", aurasY: 36 },
+  { k: "B", name: "Plaques", draw: drawB, rec: true, line: "one strip of coloured glass per counter: emblem left, a big numeral right; a heap shows its last units", aurasY: 0 },
+  { k: "C", name: "Lead counter", draw: drawC, line: "the counter that matters most is big; up to three more sit small; the rest wait in the auras panel", aurasY: 36 },
+];
+const CAPS = {
+  A: ["None: the auras button alone", "One: Tide 2", "Two: Compost (a heap) and Tide", "Four; 125 widens its badge", "Six; Tide just rose (+1)", "Auras open: every counter and aura, numbered", "7 left: a cream count badge"],
+  B: ["None: the auras cap alone", "One: Tide 2", "Two: a heap shows its last 3 units", "Four; every numeral 33 px", "Six, the most; Tide rose (+1)", "Auras open: it drops from the cap", "7 left: inside, as tier's 5"],
+  C: ["None: the auras button alone", "One: Tide big, on a 56 px badge", "Two: Tide leads, Compost small", "Four: one big, three small", "Six: two hidden (+5); Tide rose", "Auras open: the hidden two are here", "7 left: one bead each"],
+};
+
+el(page, 28, 8, null, null, "", "top").textContent =
+  "Counters on the buy screen · opus · real size: each tile is the right column at y 400–780 (lead bar at 610); the wide tile adds the table to its left; the narrow one is the shop's right wing. Motion and hover not judged.";
+const BLOCK_H = 452, TOP = 34, TY = 32, GAP = 14, X0 = 28;
+DESIGNS.forEach((d, bi) => {
+  const by = TOP + bi * BLOCK_H;
+  const hd = el(page, X0, by, null, null, "", "head");
+  hd.innerHTML = `${d.k} · ${d.name}<span>${d.line}</span>${d.rec ? `<span class="rec">Recommended</span>` : ""}`;
+  hd.style.left = X0 + "px";
+  let x = X0;
+  ["none", "one", "two", "four", "six"].forEach((s, i) => {
+    const { inner } = colGround(page, x, by + TY, 244, 380);
+    d.draw(inner, STATES[s], false);
+    caption(x + 2, by + TY + 386, 244, CAPS[d.k][i]);
+    x += 244 + GAP;
+  });
+  // auras open: the table to the column's left, the panel over both
+  const T = el(page, x, by + TY, 380, 380, "", "tile");
+  el(T, 0, 0, 136, 380, `background:url("${P}l1p-oak-top.jpg") 0 0/420px 420px, #2f1d14`);
+  el(T, 0, 0, 136, 380, "background:rgba(0,0,0,0.38)");
+  const { inner } = colGround(T, 136, 0, 244, 380);
+  d.draw(inner, STATES.six, true);
+  aurasPanel(T, 6, d.k === "B" ? 50 : 2, STATES.six);
+  caption(x + 2, by + TY + 386, 380, CAPS[d.k][5]);
+  x += 380 + GAP;
+  wing(page, x, by + TY, d.k);
+  caption(x + 2, by + TY + 386, 190, CAPS[d.k][6]);
+});
+</script>
+</body>
+</html>
