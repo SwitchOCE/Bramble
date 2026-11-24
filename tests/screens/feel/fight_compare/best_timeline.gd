@@ -271,6 +271,8 @@ const END_AFTER: int = 24
 const END_HOLD: int = 90
 ## Glows that last until the card leaves (an attacker killed before it strikes).
 const FOREVER: int = 1 << 20
+## The rotation switch (rotate.gd): with "ROTATE": "on", rotate.gd's set in place of CB9's option.
+const Rotate := preload("res://tests/screens/feel/fight_compare/rotate.gd")
 
 ## {CB1: "a", ...}: the options this film plays.
 var options: Dictionary = {}
@@ -496,7 +498,7 @@ func report() -> Dictionary:
 			"next_lift": LIFTS[pick("CB6")],
 			"combo": COMBOS[pick("CB7")],
 			"stagger": STAGGERS[pick("CB8")],
-			"rotation": ROTATIONS[pick("CB9")],
+			"rotation": _rotation(),
 		},
 	}
 
@@ -580,7 +582,7 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 	var gap: float = _stop_gap(d, _i(event["target_slot"]) >= 4)
 	var stop: Vector2 = line - way * gap * H
 	var pull: Vector2 = -way * _f(windup["pull"])
-	var rotation: Dictionary = ROTATIONS[pick("CB9")]
+	var rotation: Dictionary = _rotation()
 	var aim_share: float = _f(rotation["aim"])
 	# the point facing the target leads: the top edge when the target is above, else the bottom
 	var lead: float = -1.0 if way.y > 0.0 else 1.0
@@ -702,6 +704,13 @@ func _lift_at(last: Dictionary, key: String) -> int:
 	if lead >= 0:
 		at = maxi(at, _i(last["queue_end"]) - lead)
 	return at
+
+
+## CB9's numbers {aim, keystone, length}: the switch's set when it is on, else CB9's option.
+func _rotation() -> Dictionary:
+	if Rotate.on(options):
+		return Rotate.SET
+	return ROTATIONS[pick("CB9")]
 
 
 ## CB2: the gap between centres at the stop, in card heights.

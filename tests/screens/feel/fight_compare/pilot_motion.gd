@@ -1,4 +1,4 @@
-extends FightMotion
+extends "res://tests/screens/feel/fight_compare/rotate_motion.gd"
 ## CB13, how a single card dies: options B (tip and fall) and C (the light goes out) of
 ## docs/workstreams/fight-animation-24-nov/pilot/death.md, section 4, made from existing pieces
 ## only. A card that dies alone (pilot.gd's `solo`: the only unit leaving in its death step) plays
@@ -6,6 +6,7 @@ extends FightMotion
 ## drawn by frame after D (the death's first frame), from the clock pilot_screen.gd advances in
 ## game time, so it scales with fight speed. The death is not one of the keeper's tweens: the
 ## result's settle() lets it finish (death.md section 3).
+## It extends rotate_motion.gd, which is FightMotion itself unless the rotation switch is on.
 ## Exploratory (the fight animation pilot, 24 Nov): nothing here reaches the game.
 
 const Tokens := preload("res://tests/screens/feel/fight_compare/pilot_tokens.gd")

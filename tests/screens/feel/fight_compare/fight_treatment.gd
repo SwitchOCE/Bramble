@@ -6,11 +6,33 @@ extends RefCounted
 ## Nothing here is used by the game.
 
 const COMPARE_SCREEN: Script = preload("res://tests/screens/feel/fight_compare/compare_screen.gd")
+const Rotate := preload("res://tests/screens/feel/fight_compare/rotate.gd")
+const ROTATE_MOTION: GDScript = preload("res://tests/screens/feel/fight_compare/rotate_motion.gd")
+
+## The rotation switch (rotate.gd): "options": {"ROTATE": "on"} turns every attacker toward its
+## target, on top of this treatment's own motion.
+var rotate: bool = false
+
+
+## The scenario's options (fight_compare.gd calls this before make_replay). A treatment that
+## overrides it calls super, for the rotation switch.
+func configure(chosen: Dictionary) -> void:
+	rotate = Rotate.on(chosen)
 
 
 ## The card motion the screen uses: FightMotion or a subclass of it (attack, hit, death, burst).
+## With rotation on, today's motion with the turn added (rotate_motion.gd).
 func make_motion(cards: Control) -> FightMotion:
-	return FightMotion.new(cards)
+	if not rotate:
+		return FightMotion.new(cards)
+	var made: FightMotion = ROTATE_MOTION.new(cards)
+	return turned(made)
+
+
+## A rotate_motion.gd (or a subclass, pilot_motion.gd) with the switch set as this treatment's.
+func turned(motion: FightMotion) -> FightMotion:
+	motion.set("turn_on", rotate)
+	return motion
 
 
 ## The replay the screen plays: its steps, their order and holds. A treatment may return a
