@@ -84,6 +84,10 @@ const BG = Q.get("bg") || "oak";
 // hand: "peek" = full size, the foot of the card below the screen edge (owner, 24 Nov);
 // "half" = full size, half hidden; "small" = the earlier 0.62 scale hand
 const HAND = Q.get("hand") || "peek";
+// shop: "stack" = five units centred, two smaller spells stacked at the right, gold and the shop buttons at the left (owner, 24 Nov);
+// "row" = the earlier single row of five units and two spells, with the buttons in the left side window
+const SHOP = Q.get("shop") || "stack";
+const CTRL = 84, CTRL_GAP = 12, CTRL_W = 2 * CTRL + CTRL_GAP;   // the block of gold and three buttons
 const HOVER = Q.has("hover") ? +Q.get("hover") : -1;   // a hand card raised by the pointer
 const PIECES = "file:///data/ui-ideation/looks/L1/pieces/";
 const UNITS = "../../../../../assets/units/";
@@ -133,7 +137,8 @@ function fitHeight(shapeKey) {
     const nicheTop = NICHE / Math.cos(g.th);
     const buyH = G + nicheTop + h + NICHE + SILL + G + TABLE_PAD + g.boardH + TABLE_PAD + ledgeH(h);
     const fightH = 2 * G + 2 * g.boardH + ARMY_GAP + 2 * G;
-    const shopW = 5 * (g.w + 2 * NICHE) + 2 * (SPELL_K * g.w + 2 * NICHE) + 6 * G;
+    const shopW = SHOP === "stack" ? 5 * (g.w + 2 * NICHE) + 4 * G + 2 * (G + CTRL_W)
+      : 5 * (g.w + 2 * NICHE) + 2 * (SPELL_K * g.w + 2 * NICHE) + 6 * G;
     const handW = 7 * HAND_K * g.w + 6 * G;
     const boardW = 4 * g.w + 3 * G;
     if (buyH <= H && fightH <= H && shopW <= C && handW <= C && boardW <= C) best = h;
@@ -321,15 +326,17 @@ function sidePanels(fight) {
     // left: hero, gold, upgrade, refresh, freeze, cog
     const hr = el("roundel", cx - 64, 56, 128, 128); hr.innerHTML = `<img src="${GLASS}portraits/dame_farthing.jpg">`;
     const hb = el("badge", cx + 30, 146, 42, 42, scr, "font-size:22px;background:radial-gradient(circle at 40% 35%,#f4a39a,#c0473a 65%,#8e2a22);color:#fff3e8"); hb.textContent = 11;
+    if (SHOP !== "stack") {
     const gc = el("coin", cx - 44, 236, 88, 88, scr, "font-size:40px"); gc.textContent = 10;
-    const up = el("btn", cx - 46, 372, 92, 92);
-    up.innerHTML = `<svg viewBox="0 0 24 24"><path d="M5 15l7-7 7 7M5 20l7-7 7 7" stroke="#f1e6c8" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    const uc = el("coin", cx + 26, 420, 40, 40, scr, "font-size:20px"); uc.textContent = 8;
-    const rf = el("btn", cx - 46, 500, 92, 92);
-    rf.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 8a7.5 7.5 0 1 0 .8 6.5" stroke="#f1e6c8" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M20 3v5.5h-5.5" stroke="#f1e6c8" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    const rc = el("coin", cx + 26, 548, 40, 40, scr, "font-size:20px"); rc.textContent = 1;
-    const fz = el("btn", cx - 46, 628, 92, 92);
-    fz.innerHTML = `<svg viewBox="0 0 24 24"><g stroke="#cfe6f5" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"/><path d="M9.5 4.5L12 7l2.5-2.5M9.5 19.5L12 17l2.5 2.5" fill="none"/></g></svg>`;
+      const up = el("btn", cx - 46, 372, 92, 92);
+      up.innerHTML = `<svg viewBox="0 0 24 24"><path d="M5 15l7-7 7 7M5 20l7-7 7 7" stroke="#f1e6c8" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      const uc = el("coin", cx + 26, 420, 40, 40, scr, "font-size:20px"); uc.textContent = 8;
+      const rf = el("btn", cx - 46, 500, 92, 92);
+      rf.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 8a7.5 7.5 0 1 0 .8 6.5" stroke="#f1e6c8" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M20 3v5.5h-5.5" stroke="#f1e6c8" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      const rc = el("coin", cx + 26, 548, 40, 40, scr, "font-size:20px"); rc.textContent = 1;
+      const fz = el("btn", cx - 46, 628, 92, 92);
+      fz.innerHTML = `<svg viewBox="0 0 24 24"><g stroke="#cfe6f5" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"/><path d="M9.5 4.5L12 7l2.5-2.5M9.5 19.5L12 17l2.5 2.5" fill="none"/></g></svg>`;
+    }
     const cg = el("btn", cx - 30, H - 104, 60, 60);
     cg.innerHTML = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" stroke="#d9cfb8" stroke-width="2" fill="none"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" stroke="#d9cfb8" stroke-width="2" stroke-linecap="round"/></svg>`;
   } else {
@@ -368,9 +375,10 @@ function buy() {
 
   // shop: 5 units then 2 spells, centred
   const ds = SPELL_K * w;
-  const items = [...shopUnits.map(u => ({ ...u, kind: "unit", iw: w })), ...shopSpells.map(s => ({ ...s, kind: "spell", iw: ds }))];
+  const items = [...shopUnits.map(u => ({ ...u, kind: "unit", iw: w })), ...(SHOP === "stack" ? [] : shopSpells.map(s => ({ ...s, kind: "spell", iw: ds })))];
   const rowW = items.reduce((s, it) => s + it.iw + 2 * NICHE, 0) + (items.length - 1) * G;
   let x = W / 2 - rowW / 2;
+  const rowLeft = x, rowRight = x + rowW;
   for (const it of items) {
     const nx = x, nw = it.iw + 2 * NICHE;
     const T = TIER[it.tier];
@@ -415,6 +423,45 @@ function buy() {
       el("coin", nx + nw / 2 - cd / 2, ny + nh + SILL / 2 - cd / 2, cd, cd, scr, `font-size:${Math.round(cd * 0.58)}px;z-index:3`).textContent = it.cost;
     }
     x += nw + G;
+  }
+  if (SHOP === "stack") {
+    // two smaller spells, one over the other, at the right-hand end of the row
+    const bandTop = G, bandBottom = yCard + h + NICHE + SILL;
+    const SS = 14, NS = 9;                                   // spell sill, spell niche rim
+    const cell = (bandBottom - bandTop - G) / 2;
+    const d = Math.floor(cell - SS - 2 * NS), nw = d + 2 * NS, nh = d + 2 * NS;
+    const nx = rowRight + G;
+    shopSpells.forEach((sp, j) => {
+      const T = TIER[sp.tier];
+      const ny = bandTop + j * (cell + G), cx = nx + NS, cy = ny + NS;
+      const clip = `path("M0 ${nh} L0 ${nw / 2} A ${nw / 2} ${nw / 2} 0 0 1 ${nw} ${nw / 2} L${nw} ${nh} Z")`;
+      blurShape(nx, ny, nw, nh, clip, rgba(T.c, T.a * 0.35), 12);
+      const n = el("niche", nx, ny, nw, nh, scr, `clip-path:${clip};background:
+        radial-gradient(ellipse 70% 62% at 50% 48%, ${rgba(T.c, T.a * 0.9)} 0%, ${rgba(T.c, T.a * 0.45)} 70%, ${rgba(T.c, T.a * 0.2)} 100%), #0f1213;`);
+      const o = NS * 0.55;
+      blurShape(cx - o, cy - o, d + 2 * o, d + 2 * o, "circle(50%)", rgba(T.c, Math.min(1, T.a * 2)), 5);
+      if (DEPTH) n.innerHTML = `<div class="abs" style="inset:0;box-shadow:inset 6px 8px 9px rgba(0,0,0,0.6)"></div>`;
+      el("sill", nx - 6, ny + nh, nw + 12, SS, scr, DEPTH
+        ? "background:linear-gradient(#6b7176,#41464a 55%,#2b2f32);box-shadow:0 5px 7px rgba(0,0,0,0.45)" : "background:#555b60");
+      el("glow", nx, ny + nh - 5, nw, SS + 6, scr, `background:radial-gradient(ellipse at 50% 20%, ${rgba(T.c, T.a * 1.3)}, transparent 70%);filter:blur(3px)`);
+      spellDisc(cx, cy, d, sp);
+      const cd = 36;
+      el("coin", nx + nw / 2 - cd / 2, ny + nh + SS / 2 - cd / 2, cd, cd, scr, `font-size:21px;z-index:3`).textContent = sp.cost;
+    });
+    // gold and the shop's three buttons, a block of four at the left-hand end
+    const bx0 = rowLeft - G - CTRL_W, by0 = (bandTop + bandBottom) / 2 - CTRL_W / 2;
+    const at = (c, r) => [bx0 + c * (CTRL + CTRL_GAP), by0 + r * (CTRL + CTRL_GAP)];
+    const cost = (c, r, v) => { const [x, y] = at(c, r); el("coin", x + CTRL - 30, y + CTRL - 30, 38, 38, scr, "font-size:20px;z-index:3").textContent = v; };
+    let [gx, gy] = at(0, 0);
+    el("coin", gx, gy, CTRL, CTRL, scr, "font-size:38px").textContent = 10;
+    [gx, gy] = at(1, 0);
+    el("btn", gx, gy, CTRL, CTRL).innerHTML = `<svg viewBox="0 0 24 24"><path d="M5 15l7-7 7 7M5 20l7-7 7 7" stroke="#f1e6c8" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    cost(1, 0, 8);
+    [gx, gy] = at(0, 1);
+    el("btn", gx, gy, CTRL, CTRL).innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 8a7.5 7.5 0 1 0 .8 6.5" stroke="#f1e6c8" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M20 3v5.5h-5.5" stroke="#f1e6c8" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    cost(0, 1, 1);
+    [gx, gy] = at(1, 1);
+    el("btn", gx, gy, CTRL, CTRL).innerHTML = `<svg viewBox="0 0 24 24"><g stroke="#cfe6f5" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"/><path d="M9.5 4.5L12 7l2.5-2.5M9.5 19.5L12 17l2.5 2.5" fill="none"/></g></svg>`;
   }
 
   // board: 4 over 3, nested

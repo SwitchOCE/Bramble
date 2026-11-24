@@ -46,11 +46,13 @@ From stills these are guesses. Shop arches breathe slowly, tier 6 strongest. A g
 
 ## At real size
 
-Built in [screen.html](screen.html) (`?view=buy|fight|shapes&shape=a–e&depth=1|0&bg=oak|bluebell&hand=peek|half|small&hover=0–5`). Renders: `/data/ui-ideation/looks/L1/real/`. See first: `buy-c.png`, `fight-c.png`, `shapes.png`, `depth-off-c.png` beside `depth-on-c.png`.
+Built in [screen.html](screen.html) (`?view=buy|fight|shapes&shape=a–e&depth=1|0&bg=oak|bluebell&hand=peek|half|small&hover=0–5&shop=stack|row`). Renders: `/data/ui-ideation/looks/L1/real/`. See first: `buy-c.png`, `fight-c.png`, `shapes.png`, `depth-off-c.png` beside `depth-on-c.png`.
 
 **Recommended: shape C, 0.69 wide to 1 tall with regular-hexagon points, 173 × 250 px.** Each shape is the largest that fits both screens with one 20 px gap everywhere. The fight's four rows set the height, so all the regular shapes end up about 245–250 px tall, and a wider card is free picture: C has about 1.8 times the picture area of today's 112 × 200 and about a quarter more than A (0.56, 137 × 245). D (0.80, 180 × 225) is held back by the shop row's width and crops heads. The flatter points (E, 166 × 240) gain nothing over C.
 
 **What the shorter card costs.** Today's art is painted for 0.56, so at 0.69 heads and feet come close to the edge (the guardsman's hat is clipped). It needs repainting to the new window with the calmer backgrounds. The first renders drew the hand at 0.62 scale to fit; the owner rejected that (decision L10). The page now draws hand cards at full size, cut off by the bottom of the screen (`hand=half`: half hidden; `hand=peek`, the default: only the foot hidden, Attack and Health in view; `hover=2` raises a card; `hand=small` is the earlier hand). Renders: `hand-half-c.png`, `hand-half-hover-c.png`, `hand-peek-c.png`, `hand-hover-c.png`. The `buy-*` and `depth-*` renders still show the earlier small hand.
+
+**The shop, balanced (owner's idea, 24 Nov).** `shop=stack`, now the default: the five units centred over the board, the two spells smaller (106 px) and one over the other at the right-hand end, gold and the three shop buttons as a block of four at the left-hand end. Render: `shop-stack-c.png`. `shop=row` is the earlier single row with the buttons in the left side window. Not yet decided by the owner.
 
 **The shop light.** Calm: a soft halo hugging each card and a little light on its sill, rising gently from tier 1. Tier 6 sits between 4 and 5, as asked. Tier 1's grey is close to an empty niche.
 
