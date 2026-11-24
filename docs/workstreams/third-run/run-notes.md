@@ -174,3 +174,10 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - Incident: the machine restarted overnight; both tests resumed at 08:36 with no results lost.
 - **blue-c18** (`ca7869df`: free_hand_slots 1 → 3) against blue-c17: 1,000 games, gap +0.072 ± 0.134 (2.076 against 2.004). **Not better**; the match was clean. **Parked for the owner, not rejected:** the same change beat blue-c17 twice on the reference field (strong: red-c14 and blue-c17 runs only), but not on the climbing field, which is 8,000 m2 runs plus 500 per kept version, where kept bots place about 2.0. A Fable advisor recommends, for the owner: a stopping-test neighbour that counted (won twice) is kept when tagged as that exact change, unless its climbing match shows it significantly worse; ageing the m2 runs out is the longer-term fix, for a next run. Blue climbs on meanwhile.
 - **blue-c19** (`1d6e7f9e`: clear_excess_reserves 1, may sell a weak held reservist when holdings exceed the Reserve limit) against blue-c17: 1,000 games, gap +0.024 ± 0.122 (1.964 against 1.940). **Rejected**: not better. The match was clean. It is blue's reservist idea for the 8.
+
+## Daily report, 24 Nov (sent to the owner)
+
+- Kept: no change. red-c14 and blue-c17 are the kept versions. Handed in since the last report: blue-c18 (parked for the owner) and blue-c19 (rejected).
+- Gap: no new live games; the last measure stands (red 4.13, blue 4.87; blue first more often, 15.5% against 9.5%).
+- Stopping test: red-c14 passed. blue-c17 did not pass, and its next test waits on the owner's ruling about blue-c18.
+- The run has been idle since 19:10 on 23 Nov, waiting on the owner's three decisions: red's restarts, handing red-c14 to balance, and whether a change that won twice in the stopping test can be kept without winning its climbing match. The session restarted on 24 Nov; the approval watch was started again at 18:35.
