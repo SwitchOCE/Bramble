@@ -133,6 +133,68 @@ dead source has no pulse but still lands 12 f after it starts; rule 7's speed-up
 60 f of queue to x1.5 at 120 f; an attacker killed by Thorns stays raised until it falls (no
 strike).
 
+## `pilot`: the animation pilot's cheap options (CB12, CB13)
+
+`pilot.gd` plays the pilot's options made from existing pieces only
+(`docs/workstreams/fight-animation-24-nov/pilot/player-damage.md` and `death.md`, section 4), on
+top of `today`, not `best`: `"treatment": "pilot", "options": {"CB12": "b"}`. A decision not named
+plays today's.
+
+- **CB12, damage to the player:** `b` the winner's portrait strikes; `c` in place, no travel.
+  Both show the old Health on the result and land the loss later (the pilot's ordering change).
+  Every number is in `pilot_hero_damage.gd`, by frame after R; `pilot_screen.gd` draws it from
+  its own game-time clock and plays the stand-in `fight.hit.heavy` at each contact.
+- **CB13, a single death:** `b` tip and fall; `c` the light goes out (`pilot_motion.gd`). Only a
+  unit that dies alone plays it (`pilot.gd` `solo`); the six at once in moment (e) keep today's
+  fall (CB8 owns them). The killing number stays on through the death, and the result's
+  `settle()` lets the last death finish.
+- **New tokens** (`pilot_tokens.gd`): `stop.hit`, `shake.dir`, `count.roll`, `fall.gravity`,
+  beside the guidelines' easing curves.
+
+CB12 needs fights that end in a loss. `"fight"` in a scenario: `lose-small` (their Hopper and your
+Private kill each other: round + 1), `lose-big` (their Sentry kills your Private: round + 1 + 3),
+`lose-out` (as small, your Health 5: it reaches 0). The loss is the core's `Rules.loss_damage` for
+the round on the screen (turn 7: 8, or 11). The comparison fight is the win (the fixture's 7).
+`"speed": 2` plays the fight screen at twice the speed.
+
+The log adds `<stem>.heroes.csv` (both portraits per frame: centre, scale, turn, light, the Health
+drawn, the badge's scale, the stage's offset, the "-N" on that portrait), a `light` column in
+`cards.csv` (modulate's red channel), and markers `result_shown`, `hero_windup`, `hero_launch`,
+`hero_contact`, `hero_burst`, `health_count_start`, `hero_contact_2`, `health_count_end`,
+`hero_home`, `death_tip`, `death_dark`, `death_gone`.
+
+```bash
+python3 tests/screens/feel/fight_compare/pilot_clips.py scenarios /data/fight-anim-work/treatments/scenarios/pilot
+tools/feel/film /data/fight-anim-work/treatments/scenarios/pilot/cb12-b-lose-big.json /data/fight-anim-work/treatments/films/pilot/cb12-b-lose-big.mp4
+python3 tests/screens/feel/fight_compare/pilot_clips.py measure /data/fight-anim-work/treatments/films/pilot/cb12-b-lose-big
+python3 tests/screens/feel/fight_compare/pilot_clips.py compare /data/fight-anim-work/treatments/films/pilot /data/fight-anim-work/treatments/compare 0.38
+python3 tests/screens/feel/fight_compare/pilot_clips.py cut /data/fight-anim-work/treatments/films/pilot /data/fight-anim-work/treatments/clips
+```
+
+`measure` writes `<stem>.pilot.json`: the beats read off the log, and each check (the filming
+plans' checks, and the beat spec's frames within 1 f) as pass or fail. `compare` writes
+`compare/CB12/<option>.mp4`, `compare/CB13/<option>.mp4` and `compare/CB12.json`, `CB13.json` (a
+manifest branch each; it leaves `manifest.json` alone). The killing number is also checked from
+pixels: how red a 40 px box round it is (mean of r minus the larger of g and b), held over half its
+level to the spec's last full frame and over a tenth to the card's last. A warm card under it adds
+red, so today's reads early. The D1 trace check is listed as n/a: B and C have no trace.
+
+CB12's clips are the whole screen (its `crop`), one segment per fight, lined up on the result (R,
+as the spec says), so B's travel shows as how much later its hit lands than C's. CB13's are the usual board crop, one segment per death, lined up on the killing hit (H;
+the death starts at H+34 in every option): Prophet of the Dust killed attacking (moment b, the
+death the pilot names) and the last kill, into the result.
+
+Readings of the pilot's specs that they do not spell out: a strike's frames are its in-between
+frames and contact is the frame after (B's C = R+47); on a big loss the first landing shakes 12 px
+and counts the base, the second 18 px and the last 3; the first count is squeezed to end before
+the second contact when that comes first (B: C+15, C: C+16, against the spec's C+20); C's knock
+"into the loser's window" is down for yours and up for theirs; the landing's light returns to 1.0;
+B's tip turns round the bottom corner on the side its death direction points to; B's striker
+flies onto the loser's portrait, and the Health badge and the "−N" are drawn above it, instead of
+the striker stopping on the far side of the disc (E6). The spec's
+totals for a big loss (B R+79, C R+68) do not follow from its own beat tables (R+72, R+58); the
+tables are what is built.
+
 ## What the logs can't show
 
 - The film is silent. Sound rows are the cues the sound player started, at the frame they

@@ -1,6 +1,6 @@
 # Pilot notes: the practice under test (24 Nov 2026)
 
-What the draft [GUIDELINES.md](GUIDELINES.md) and [PROCESS.md](PROCESS.md) did on their first real run: two subjects, [damage to the player](../pilot/player-damage.md) and [a single death](../pilot/death.md), taken from the brief to just before filming (steps 1–4, plus a filming plan). One agent ran both. Nothing was built or filmed, so steps 5–10 are untested.
+What the draft [GUIDELINES.md](GUIDELINES.md) and [PROCESS.md](PROCESS.md) did on their first real run: two subjects, [damage to the player](../pilot/player-damage.md) and [a single death](../pilot/death.md), taken from the brief to just before filming (steps 1–4, plus a filming plan). One agent ran both. A later run built, filmed, checked and cut compare clips for the cheap options (steps 5–8, notes below); nobody has watched them yet, and steps 9–10 (the Windows build, the owner's verdict) are untested.
 
 The owner, 24 Nov: "we're trying to measure how to improve them. We're also not trying to lock it in as final yet. We're just trying to experiment on it."
 
@@ -70,9 +70,13 @@ The owner, 24 Nov: "we're trying to measure how to improve them. We're also not 
 
 - **Helped:** listing every cue against a moved beat found two gaps: there is no damage-to-the-player cue at all, and cues can't follow a marker inside a step. Both went into the filming plan.
 
+### Step 5: building the cheap options (CB12, CB13 B and C)
+
+- **Helped:** beat tables anchored to named markers turned straight into per-frame log checks, so every beat was measured, not judged. **Got in the way:** the CB12 spec's big-loss totals (B R+79, C R+68) don't follow from its own tables (R+72, R+58); the brief and the pilot named different death moments; sound can't follow a marker inside a step; and filming ran at about 2.4 frames a second, so each change cost a 15-minute film.
+
 ## What I could not test
 
-Steps 5–10: building, filming, the compare viewer, the Windows build and the owner's verdict. The claim rules ("never claim it feels better") didn't come up, since nothing moved. Whether the options above are any good is the owner's call on film; this run only shows that the process produced a spec and a plan.
+Steps 5–8 (building, filming, checking, compare clips) were done by an agent; steps 9–10 (the Windows build, the owner's verdict) are untested. The claim rules ("never claim it feels better") didn't come up, since no one has watched anything move. Whether the options above are any good is the owner's call on film; this run only shows that the process produced a spec and a plan.
 
 ## Proposed edits, in one list
 
