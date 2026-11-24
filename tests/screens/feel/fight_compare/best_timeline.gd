@@ -55,13 +55,58 @@ const LIFTS: Dictionary = {
 ## CB7, one trigger many times: the first gap, how each gap shrinks, its floor, whether from the
 ## 9th the rest land together, how long the count holds at the end. "best_xn" is best with a
 ## plain-text xN placeholder over the source (labels).
+## "speedup": rule 7 (best's own) applies; the other options run their repeat rule only.
 const COMBOS: Dictionary = {
-	"bg": {"first": 64.0, "full": 1, "shrink": 0.926, "floor": 0.0, "together": false, "end": 0},
-	"a": {"first": 18.0, "full": 2, "shrink": 0.7, "floor": 8.0, "together": false, "end": 16},
-	"c": {"first": 18.0, "full": 1, "shrink": -1.3, "floor": 0.0, "together": false, "end": 16},
-	"best": {"first": 18.0, "full": 1, "shrink": 0.75, "floor": 5.0, "together": true, "end": 16},
+	"bg":
+	{
+		"first": 64.0,
+		"full": 1,
+		"shrink": 0.926,
+		"floor": 0.0,
+		"together": false,
+		"end": 0,
+		"speedup": false,
+	},
+	"a":
+	{
+		"first": 18.0,
+		"full": 2,
+		"shrink": 0.7,
+		"floor": 8.0,
+		"together": false,
+		"end": 16,
+		"speedup": false,
+	},
+	"c":
+	{
+		"first": 18.0,
+		"full": 1,
+		"shrink": -1.3,
+		"floor": 0.0,
+		"together": false,
+		"end": 16,
+		"speedup": false,
+	},
+	"best":
+	{
+		"first": 18.0,
+		"full": 1,
+		"shrink": 0.75,
+		"floor": 5.0,
+		"together": true,
+		"end": 16,
+		"speedup": true,
+	},
 	"best_xn":
-	{"first": 18.0, "full": 1, "shrink": 0.75, "floor": 5.0, "together": true, "end": 16},
+	{
+		"first": 18.0,
+		"full": 1,
+		"shrink": 0.75,
+		"floor": 5.0,
+		"together": true,
+		"end": 16,
+		"speedup": true,
+	},
 }
 ## C's tempo cap (x1.3 a repeat, up to x3.5).
 const TEMPO_CAP: float = 3.5
@@ -372,7 +417,8 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 	_commit = false
 	_tempo_on = false
 	var first_pass: int = _run_queue(queue, queue_from, release, kill_land)
-	_tempo_on = first_pass - queue_from > SPEEDUP_OVER
+	var combo_rule: Dictionary = COMBOS[pick("CB7")]
+	_tempo_on = combo_rule.get("speedup", false) == true and first_pass - queue_from > SPEEDUP_OVER
 	_commit = true
 	var falls_before: int = _falls.size()
 	var queue_end: int = maxi(

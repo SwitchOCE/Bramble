@@ -138,7 +138,9 @@ def rest(cards: dict, key: str) -> tuple | None:
 
 
 def bursts_between(markers: list, first: int, last: int) -> list:
-    return [(int(m["frame"]), m["detail"]) for m in markers if m["marker"] == "burst" and first <= int(m["frame"]) <= last]
+    return [
+        (int(m["frame"]), m["detail"]) for m in markers if m["marker"] == "burst" and first <= int(m["frame"]) <= last
+    ]
 
 
 def measure_attack(attack: dict, nxt: dict | None, cards: dict, markers: list) -> dict:
@@ -243,12 +245,21 @@ def brock_combo(cards: dict, markers: list, report: dict) -> dict:
     attacks = report["attacks"]
     first, last = attacks[5]["contact_frame"], attacks[6]["contact_frame"]
     # after the six deaths: Old Brock's numbers, up to its own attack's first burst (Thorns)
-    thorns = min((int(m["frame"]) for m in markers if m["marker"] == "burst" and int(m["frame"]) > max(attacks[6]["start_frame"], first + 60)),
-                 default=last)
+    thorns = min(
+        (
+            int(m["frame"])
+            for m in markers
+            if m["marker"] == "burst" and int(m["frame"]) > max(attacks[6]["start_frame"], first + 60)
+        ),
+        default=last,
+    )
     pops = [int(m["frame"]) for m in markers if m["marker"] == "numbers" and m["key"] == "u4"]
     pops = [f for f in pops if first + 60 < f < thorns]
-    return {"landings": pops, "gaps": [b - a for a, b in zip(pops, pops[1:], strict=False)],
-            "last_to_next_contact": last - pops[-1] if pops else None}
+    return {
+        "landings": pops,
+        "gaps": [b - a for a, b in zip(pops, pops[1:], strict=False)],
+        "last_to_next_contact": last - pops[-1] if pops else None,
+    }
 
 
 def claims_for(plan: dict) -> dict:
@@ -398,7 +409,22 @@ def run(args: list) -> None:
     subprocess.run(["ffmpeg", "-loglevel", "error", "-y", *args], check=True)
 
 
-def pane_filter(i: int, first: int, last: int, width: int, label_file: Path, trail: list | None = None) -> str:
+def counter(ref: str, off: int) -> str:
+    """drawtext filters for a pane's own counter: frames from its reference, e.g. C-5, C+0, C+12.
+    off is the pane's first frame minus its reference frame."""
+    common = f"fontfile={FONT_BOLD}:fontcolor=0xb02020"
+    plus = f"n+{off}" if off >= 0 else f"n-{-off}"
+    if off >= 0:
+        return f"drawtext={common}:text='{ref}+%{{eif\\:{plus}\\:d}}':{{pos}}"
+    return (
+        f"drawtext={common}:text='{ref}+%{{eif\\:{plus}\\:d}}':enable='gte(n\\,{-off})':{{pos}},"
+        f"drawtext={common}:text='{ref}-%{{eif\\:{-off}-n\\:d}}':enable='lt(n\\,{-off})':{{pos}}"
+    )
+
+
+def pane_filter(
+    i: int, first: int, last: int, width: int, label_file: Path, ref: str, off: int, trail: list | None = None
+) -> str:
     x, y, w, h = CROP
     scale = width / w
     chain = (
@@ -410,15 +436,30 @@ def pane_filter(i: int, first: int, last: int, width: int, label_file: Path, tra
             px, py = (tx - x) * scale - 3, (ty - y) * scale - 3
             chain += f",drawbox=x={px:.0f}:y={py:.0f}:w=7:h=7:color=yellow@1:t=fill:enable='gte(n\\,{k})'"
     size = max(14, round(width / 22))
+    pos = f"fontsize={size}:x=8:y={size + 12}"
     chain += (
-        f",pad=iw:ih+{size * 2 + 8}:0:{size * 2 + 8}:color=white,"
-        f"drawtext=fontfile={FONT_BOLD}:textfile={label_file}:fontsize={size}:fontcolor=black:x=8:y=6"
-        f"[p{i}]"
+        f",pad=iw:ih+{size * 2 + 16}:0:{size * 2 + 16}:color=white,"
+        f"drawtext=fontfile={FONT_BOLD}:textfile={label_file}:fontsize={size}:fontcolor=black:x=8:y=6,"
+        + counter(ref, off).replace("{pos}", pos)
+        + f"[p{i}]"
     )
     return chain
 
 
-def stack(inputs: list, first: int, last: int, labels: list, title: str, out: Path, trails=None, slow=1) -> None:
+def stack(
+    inputs: list,
+    firsts: list,
+    length: int,
+    refs: list,
+    ref: str,
+    labels: list,
+    title: str,
+    out: Path,
+    trails=None,
+    slow=1,
+) -> None:
+    """One pane per input, each from its own first frame for length frames; refs[i] is that pane's
+    reference frame (its counter reads ref+0 there)."""
     n = len(inputs)
     width = min(640, (1920 // n) // 2 * 2)
     with tempfile.TemporaryDirectory() as tmp:
@@ -426,16 +467,19 @@ def stack(inputs: list, first: int, last: int, labels: list, title: str, out: Pa
         for i, label in enumerate(labels):
             lf = Path(tmp) / f"label{i}.txt"
             lf.write_text(label)
-            parts.append(pane_filter(i, first, last, width, lf, trails[i] if trails else None))
+            first = firsts[i]
+            parts.append(
+                pane_filter(
+                    i, first, first + length - 1, width, lf, ref, first - refs[i], trails[i] if trails else None
+                )
+            )
         tf = Path(tmp) / "title.txt"
         tf.write_text(title)
         joined = "".join(f"[p{i}]" for i in range(n))
         tail = f"{joined}hstack=inputs={n}" if n > 1 else f"{joined}null"
         tail += (
             f",pad=iw:ih+40:0:40:color=0x222222,"
-            f"drawtext=fontfile={FONT}:textfile={tf}:fontsize=22:fontcolor=white:x=10:y=9,"
-            f"drawtext=fontfile={FONT}:text='film frame %{{frame_num}}':start_number={first}:"
-            f"fontsize=22:fontcolor=white:x=w-tw-10:y=9"
+            f"drawtext=fontfile={FONT}:textfile={tf}:fontsize=22:fontcolor=white:x=10:y=9"
         )
         if slow > 1:
             tail += f",setpts={slow}*PTS,fps=60"
@@ -444,8 +488,26 @@ def stack(inputs: list, first: int, last: int, labels: list, title: str, out: Pa
         for path in inputs:
             args += ["-i", str(path)]
         graph = ";".join([*parts, tail])
-        run([*args, "-filter_complex", graph, "-map", "[v]", "-c:v", "libx264", "-preset", "medium",
-             "-crf", "28", "-pix_fmt", "yuv420p", "-r", "60", str(out)])
+        run(
+            [
+                *args,
+                "-filter_complex",
+                graph,
+                "-map",
+                "[v]",
+                "-c:v",
+                "libx264",
+                "-preset",
+                "medium",
+                "-crf",
+                "28",
+                "-pix_fmt",
+                "yuv420p",
+                "-r",
+                "60",
+                str(out),
+            ]
+        )
 
 
 MAX_BYTES = 3_000_000
@@ -480,6 +542,59 @@ def centres(film_dir: Path, film: str, key: str, first: int, last: int) -> list:
     return [(x, y) for _, x, y in out]
 
 
+# what each pane's counter counts from: S the attack's first motion, C contact, P the first combo pulse
+REF_NAME = {"CB1": "S", "CB7": "P"}
+# per branch, per segment: the attack whose contact is the reference (CB1: its first motion)
+REF_ATTACK = {"CB1": [0], "CB2": [0, 1], "CB3": [1], "CB4": [2], "CB5": [5], "CB6": [0, 4, 5]}
+
+
+def first_pulse(film_dir: Path, film: str, timing: dict) -> int:
+    """Old Brock's first combo pulse: its first move in the 20 frames before its first combo landing."""
+    landing = timing["brock_combo"]["landings"][0]
+    rows = {}
+    with (film_dir / f"{film}.cards.csv").open() as f:
+        for row in csv.DictReader(f):
+            frame = int(row["frame"])
+            if row["key"] == "u4" and landing - 21 <= frame <= landing:
+                rows[frame] = (float(row["x"]), float(row["y"]), float(row["scale"]))
+    for frame in range(landing - 20, landing + 1):
+        a, b = rows.get(frame - 1), rows.get(frame)
+        if a and b and (math.dist(a[:2], b[:2]) > 0.3 or abs(a[2] - b[2]) > 0.002):
+            return frame - 1
+    return landing - 12
+
+
+def references(film_dir: Path, film: str, branch: str) -> list:
+    timing = json.loads((film_dir / f"{film}.timing.json").read_text())
+    measured = timing["measured"]
+    if branch == "CB7":
+        return [first_pulse(film_dir, film, timing)]
+    if branch == "CB1":
+        return [measured[0]["lift_start"]]
+    out = []
+    for k in REF_ATTACK[branch]:
+        m = measured[k]
+        # killed before it strikes (attack 4, Thorns): the Thorns burst stands in for contact
+        out.append(m["contact"] if "contact" in m else m["lift_start"] + m["bursts_in_hold"][0])
+    return out
+
+
+def ref_names(branch: str, count: int) -> list:
+    """The counter's letter per segment: S first motion, C contact, T Thorns lands (no strike), P pulse."""
+    if branch == "CB6":
+        return ["C", "T", "C"]
+    return [REF_NAME.get(branch, "C")] * count
+
+
+def aligned(windows: list) -> tuple:
+    """windows: [(ref, lo, hi)] per option. Returns (firsts, length): every pane gets the same frames
+    before and after its own reference, enough to hold every option's window."""
+    before = max(ref - lo for ref, lo, _ in windows)
+    before = min(before, min(ref for ref, _, _ in windows))
+    after = max(hi - ref for ref, _, hi in windows)
+    return [ref - before for ref, _, _ in windows], before + after + 1
+
+
 def cmd_cut(film_dir: Path, clip_dir: Path, only: list) -> None:
     clip_dir.mkdir(parents=True, exist_ok=True)
     listing = clip_dir / "clips.json"
@@ -487,20 +602,44 @@ def cmd_cut(film_dir: Path, clip_dir: Path, only: list) -> None:
     for branch, options in BRANCHES.items():
         if only and branch not in only:
             continue
-        plans = {film: plan_frames(film_dir, film) for _, film, _ in options}
-        names = [name for name, _, _ in segments(branch, plans[options[0][1]])]
-        ranges = []
-        for k in range(len(names)):
-            lo = min(segments(branch, plans[film])[k][1] for _, film, _ in options)
-            hi = max(segments(branch, plans[film])[k][2] for _, film, _ in options)
-            ranges.append((names[k], max(0, lo), hi))
-        inputs = [film_dir / f"{film}.mp4" for _, film, _ in options]
+        films_ = [film for _, film, _ in options]
+        plans = {film: plan_frames(film_dir, film) for film in films_}
+        refs = {film: references(film_dir, film, branch) for film in films_}
+        names = [name for name, _, _ in segments(branch, plans[films_[0]])]
+        letters = ref_names(branch, len(names))
+        inputs = [film_dir / f"{film}.mp4" for film in films_]
         labels = [label for _, _, label in options]
         parts = []
-        for k, (name, lo, hi) in enumerate(ranges):
+        ranges = []
+        for k, name in enumerate(names):
+            ref = letters[k]
+            windows = [(refs[film][k], *segments(branch, plans[film])[k][1:]) for film in films_]
+            firsts, length = aligned(windows)
+            before = refs[films_[0]][k] - firsts[0]
             part = clip_dir / f".{branch}-{k}.mp4"
-            stack(inputs, lo, hi, labels, f"{TITLES[branch]}  ·  {name}", part)
+            stack(
+                inputs,
+                firsts,
+                length,
+                [refs[film][k] for film in films_],
+                ref,
+                labels,
+                f"{TITLES[branch]}  ·  {name}  ·  panes lined up at {ref}",
+                part,
+            )
             parts.append(part)
+            ranges.append(
+                {
+                    "segment": name,
+                    "reference": ref,
+                    "before": before,
+                    "after": length - before - 1,
+                    "film_frames": {
+                        film: [first, first + length - 1, refs[film][k]]
+                        for film, first in zip(films_, firsts, strict=True)
+                    },
+                }
+            )
         out = clip_dir / f"{branch}.mp4"
         if len(parts) == 1:
             parts[0].rename(out)
@@ -515,21 +654,47 @@ def cmd_cut(film_dir: Path, clip_dir: Path, only: list) -> None:
             "options": [f"{option} ({film})" for option, film, _ in options],
             "ranges": ranges,
         }
-        print(out, ranges)
+        print(out, [(r["segment"], r["reference"], -r["before"], r["after"]) for r in ranges])
         if branch == "CB3":
-            name, lo, hi = ranges[0]
-            plan = plans["best"][1]
-            lo, hi = plan["launch"] - 2, plan["contact"] + 3
-            los = [plans[film][1]["launch"] - 2 for _, film, _ in options]
-            his = [plans[film][1]["contact"] + 3 for _, film, _ in options]
-            lo, hi = min(los), max(his)
-            trails = [centres(film_dir, film, "u8", lo, hi) for _, film, _ in options]
+            windows = [(refs[film][0], plans[film][1]["launch"] - 2, plans[film][1]["contact"] + 3) for film in films_]
+            firsts, length = aligned(windows)
+            trails = [
+                centres(film_dir, film, "u8", first, first + length - 1)
+                for film, first in zip(films_, firsts, strict=True)
+            ]
             slow = clip_dir / "CB3-slow.mp4"
-            stack(inputs, lo, hi, labels, "CB3 strike curve  ·  (b) at 0.25x, the attacker's centre each frame",
-                  slow, trails=trails, slow=4)
+            stack(
+                inputs,
+                firsts,
+                length,
+                [refs[film][0] for film in films_],
+                "C",
+                labels,
+                "CB3 strike curve  ·  (b) at 0.25x, the attacker's centre each frame  ·  lined up at C",
+                slow,
+                trails=trails,
+                slow=4,
+            )
             plays = loop3(slow)
-            index["CB3-slow"] = {"file": slow.name, "plays": plays, "options": index[branch]["options"], "ranges": [(name, lo, hi)]}
-            print(slow, lo, hi)
+            before = refs[films_[0]][0] - firsts[0]
+            index["CB3-slow"] = {
+                "file": slow.name,
+                "plays": plays,
+                "options": index[branch]["options"],
+                "ranges": [
+                    {
+                        "segment": names[0],
+                        "reference": "C",
+                        "before": before,
+                        "after": length - before - 1,
+                        "film_frames": {
+                            film: [first, first + length - 1, refs[film][0]]
+                            for film, first in zip(films_, firsts, strict=True)
+                        },
+                    }
+                ],
+            }
+            print(slow, -before, length - before - 1)
     if only and "whole" not in only:
         listing.write_text(json.dumps(index, indent=1) + "\n")
         return
@@ -549,19 +714,58 @@ def cmd_cut(film_dir: Path, clip_dir: Path, only: list) -> None:
             f"fontsize=20:fontcolor=black:x=w-tw-10:y=8[v]"
         )
         frames = max(count_frames(film_dir / "today.mp4"), count_frames(film_dir / "best.mp4"))
-        run(["-i", str(film_dir / "today.mp4"), "-i", str(film_dir / "best.mp4"), "-filter_complex", graph,
-             "-map", "[v]", "-frames:v", str(frames), "-c:v", "libx264", "-preset", "medium", "-crf", "28",
-             "-pix_fmt", "yuv420p", "-r", "60", str(whole)])
-    index["today-vs-best"] = {"file": whole.name, "options": ["today", "best"], "ranges": [("whole fight", 0, frames - 1)]}
+        run(
+            [
+                "-i",
+                str(film_dir / "today.mp4"),
+                "-i",
+                str(film_dir / "best.mp4"),
+                "-filter_complex",
+                graph,
+                "-map",
+                "[v]",
+                "-frames:v",
+                str(frames),
+                "-c:v",
+                "libx264",
+                "-preset",
+                "medium",
+                "-crf",
+                "28",
+                "-pix_fmt",
+                "yuv420p",
+                "-r",
+                "60",
+                str(whole),
+            ]
+        )
+    index["today-vs-best"] = {
+        "file": whole.name,
+        "options": ["today", "best"],
+        "ranges": [("whole fight", 0, frames - 1)],
+    }
     (clip_dir / "clips.json").write_text(json.dumps(index, indent=1) + "\n")
     print(whole)
 
 
 def count_frames(path: Path) -> int:
     got = subprocess.run(
-        ["ffprobe", "-v", "error", "-count_frames", "-select_streams", "v:0", "-show_entries",
-         "stream=nb_read_frames", "-of", "csv=p=0", str(path)],
-        check=True, capture_output=True, text=True,
+        [
+            "ffprobe",
+            "-v",
+            "error",
+            "-count_frames",
+            "-select_streams",
+            "v:0",
+            "-show_entries",
+            "stream=nb_read_frames",
+            "-of",
+            "csv=p=0",
+            str(path),
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
     )
     return int(got.stdout.strip())
 
@@ -569,14 +773,23 @@ def count_frames(path: Path) -> int:
 def cmd_frames(clip_dir: Path) -> None:
     out = clip_dir / "frames"
     out.mkdir(exist_ok=True)
+    index = json.loads((clip_dir / "clips.json").read_text())
     for clip in sorted(clip_dir.glob("*.mp4")):
         n = count_frames(clip)
-        if clip.stem != "today-vs-best":
-            n //= 3  # the first of the three loops
+        n //= index.get(clip.stem, {}).get("plays", 1)  # the first play only
         for k in range(5):
             frame = round((n - 1) * (k + 0.5) / 5)
-            run(["-i", str(clip), "-vf", f"select='eq(n\\,{frame})'", "-frames:v", "1",
-                 str(out / f"{clip.stem}-{k}-f{frame}.png")])
+            run(
+                [
+                    "-i",
+                    str(clip),
+                    "-vf",
+                    f"select='eq(n\\,{frame})'",
+                    "-frames:v",
+                    "1",
+                    str(out / f"{clip.stem}-{k}-f{frame}.png"),
+                ]
+            )
         print(clip.name, n, "frames")
 
 

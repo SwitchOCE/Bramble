@@ -82,6 +82,11 @@ python3 tests/screens/feel/fight_compare/clips.py measure /data/fight-anim-work/
 python3 tests/screens/feel/fight_compare/clips.py cut /data/fight-anim-work/treatments/films /data/fight-anim-work/treatments/clips
 ```
 
+`cut` lines every pane up at the branch's moment, each from its own film: the attack's first
+motion (CB1, counter `S`), contact (CB2–CB6, `C`; `T`, Thorns landing, for CB6's attacker killed
+before it strikes), or the first combo pulse (CB7, `P`). Each pane counts frames from there.
+`speed_chart.py STEM --ymax 7000` draws every film's chart on one y axis.
+
 `measure` writes `<stem>.timing.json`: each attack's claimed, planned and measured numbers (lift,
 hold, strike, stop gap, contact pop, return, numbers, falls, next lift) and the mismatches. The
 report's `plan` holds the schedule (`frame_offset` turns its frames into film frames).
@@ -92,7 +97,7 @@ today's jab; the xN counter is the numbers re-popping (option `CB7: best_xn` add
 lunge glow. `best` plays no sound cues. Readings of best.md that it does not spell out: what plays
 before the hit waits for the previous queue's end; a beat from a dead source has no pulse but
 still lands 12 f after it starts; rule 7's speed-up rises from x1 at 60 f of queue to x1.5 at
-120 f; an attacker killed by Thorns stays raised until it falls (no strike).
+120 f, and only CB7's best options use it (the other CB7 options run their own repeat rule only); an attacker killed by Thorns stays raised until it falls (no strike).
 
 ## What the logs can't show
 

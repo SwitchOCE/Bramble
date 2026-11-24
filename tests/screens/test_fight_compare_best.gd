@@ -49,6 +49,16 @@ func test_every_option_plays_the_whole_fight() -> void:
 		assert_eq(notes, [], "%s: every change shows in the log's order" % str(chosen))
 
 
+func test_only_best_combos_speed_up() -> void:
+	var sped: Array[bool] = []
+	for option: String in ["best", "bg"]:
+		var attacks: Array = _plan({"CB7": option})["attacks"]
+		var chain: Dictionary = attacks[5]
+		var on: bool = chain["speedup"]
+		sped.append(on)
+	assert_eq(sped, [true, false], "rule 7 speeds up (e)'s chain for best only")
+
+
 func test_best_plays_on_the_fight_screen() -> void:
 	var scene: Control = SCENE.instantiate()
 	add_child_autofree(scene)

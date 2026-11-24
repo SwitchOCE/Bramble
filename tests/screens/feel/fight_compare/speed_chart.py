@@ -8,6 +8,7 @@ second, frame by frame from 2 frames before the attack starts to 1 s after, with
 (red) and first burst (orange) marked and step changes as grey ticks. Pillow only.
 """
 
+import argparse
 import csv
 import json
 import math
@@ -95,21 +96,22 @@ def panel(draw: ImageDraw.ImageDraw, ox: int, oy: int, attack: dict, log: dict, 
 
 
 def main() -> int:
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    if not args:
-        print(__doc__)
-        return 2
-    stem = Path(args[0])
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("stem", help="the film's stem (or its .mp4)")
+    parser.add_argument("out", nargs="?", help="the chart (default: <stem>.speed.png)")
+    parser.add_argument("--ymax", type=float, help="the y axis top in px/s (default: the top speed, rounded up)")
+    opts = parser.parse_args()
+    stem = Path(opts.stem)
     if stem.suffix == ".mp4":
         stem = stem.with_suffix("")
-    out = Path(args[1]) if len(args) > 1 else stem.parent / (stem.name + ".speed.png")
+    out = Path(opts.out) if opts.out else stem.parent / (stem.name + ".speed.png")
     report, log = load(stem)
     attacks = report["attacks"]
     top = 0.0
     for a in attacks:
         for _, v in speeds(log, a["attacker"], a["start_frame"] - BEFORE, a["end_frame"]):
             top = max(top, v)
-    ymax = float(sys.argv[sys.argv.index("--ymax") + 1]) if "--ymax" in sys.argv else math.ceil(top / 1000) * 1000
+    ymax = opts.ymax if opts.ymax else math.ceil(top / 1000) * 1000
     cols = 2
     rows = math.ceil(len(attacks) / cols)
     head = 50
@@ -119,8 +121,8 @@ def main() -> int:
     small = ImageFont.load_default(size=12)
     draw.text(
         (12, 12),
-        "Attacker speed, film px/s (treatment: %s); y axis 0-%d; one dot per film frame (60 fps)"
-        % (report.get("treatment", "?"), ymax),
+        "Attacker speed, film px/s (%s, treatment: %s); y axis 0-%d; one dot per film frame (60 fps)"
+        % (stem.name, report.get("treatment", "?"), ymax),
         fill=INK,
         font=ImageFont.load_default(size=20),
     )
