@@ -167,6 +167,9 @@ func _spawn_bursts() -> void:
 		var down: float = GlassPieces.number("stage.fight.hit." + down_key)
 		var r: float = GlassPieces.number("stage.fight.hit." + ("taken_r" if taken else "dealt_r"))
 		var blocked: bool = burst["blocked"]
+		var merge: bool = burst.get("merge", false)
+		if merge:
+			_drop_merged(key)
 		var hit: Control = hit_splash(_i(burst["amount"]), r, blocked)
 		hit.name = "Hit_%d" % _burst_next
 		hit.pivot_offset = hit.size / 2.0
@@ -175,8 +178,18 @@ func _spawn_bursts() -> void:
 		var at: Vector2 = recipient.position if recipient != null else Vector2.ZERO
 		hit.position = at + offset
 		_front.add_child(hit)
-		_live.append(
-			{"node": hit, "key": key, "recipient": recipient, "offset": offset, "from": _n}
+		(
+			_live
+			. append(
+				{
+					"node": hit,
+					"key": key,
+					"recipient": recipient,
+					"offset": offset,
+					"from": _n,
+					"merge": merge,
+				}
+			)
 		)
 		(
 			spawned
@@ -191,6 +204,20 @@ func _spawn_bursts() -> void:
 		)
 	# the fixture logs a burst when this list changes to a new, non-empty one
 	_shown_splashes = spawned
+
+
+## Rule 5: a card hit again in a combo keeps one burst; the old one goes as the new one pops with
+## the running total.
+func _drop_merged(key: String) -> void:
+	var still: Array[Dictionary] = []
+	for live: Dictionary in _live:
+		if str(live["key"]) == key and live.get("merge", false):
+			var node: Control = live["node"]
+			if is_instance_valid(node):
+				node.queue_free()
+			continue
+		still.append(live)
+	_live = still
 
 
 func _draw_bursts() -> void:

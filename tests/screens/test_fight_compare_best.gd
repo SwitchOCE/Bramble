@@ -26,6 +26,10 @@ func test_a_plain_attack_keeps_the_proposals_numbers() -> void:
 	assert_eq(_i(first["contact"]), Timeline.REST + 33, "contact 33 f after the lift starts")
 	assert_almost_eq(_f(first["stop_gap_h"]), 0.62, 0.001, "today's near stop")
 	assert_eq(_i(first["next_lift"]), _i(first["contact"]) + 28, "next lifts at C+28")
+	assert_eq(_i(first["home"]), _i(first["contact"]) + 12, "returns from C+1, home at C+12")
+	assert_eq(_i(first["queue_from"]), _i(first["contact"]) + 14, "after the hit from C+14")
+	var far: Dictionary = attacks[1]
+	assert_eq(_i(far["queue_from"]), _i(far["home"]), "a far return: after the hit once it is home")
 	var thorns_kill: Dictionary = attacks[4]
 	var no_strike: bool = thorns_kill["no_strike"]
 	assert_true(no_strike, "(d) Thorns kills the attacker: no strike")
@@ -59,6 +63,32 @@ func test_only_best_combos_speed_up() -> void:
 	assert_eq(sped, [true, false], "rule 7 speeds up (e)'s chain for best only")
 
 
+func test_after_keeps_the_numbers_true() -> void:
+	var combat: Combat = Compare.fight(_content)
+	var played: Array = Timeline.reorder(combat.events, {"CB4": "after"})
+	var healths: Array[int] = []
+	var attacks: int = 0
+	for value: Variant in played:
+		var event: Dictionary = value
+		if str(event.get("type", "")) == "attack":
+			attacks += 1
+		if attacks == 3 and str(event.get("type", "")) == "damage" and _i(event["uid"]) == 2:
+			healths.append(_i(event["health"]))
+	assert_eq(healths, [3, 1], "(c): the exchange takes Health 5 to 3, then Thorns 3 to 1")
+
+
+func test_cb7_fight_lands_ten_hits_as_a_combo() -> void:
+	var plan: Dictionary = _plan({"CB7": "best_no7"}, "cb7")
+	var combos: Array = plan["combos"]
+	assert_eq(combos.size(), 1, "one combo")
+	var combo: Dictionary = combos[0]
+	var lands: Array = combo["lands"]
+	assert_eq(lands.size(), 10, "ten Gleaner hits")
+	var ninth: int = _i(lands[8])
+	var tenth: int = _i(lands[9])
+	assert_eq(ninth, tenth, "from the 9th, the rest land together")
+
+
 func test_best_plays_on_the_fight_screen() -> void:
 	var scene: Control = SCENE.instantiate()
 	add_child_autofree(scene)
@@ -70,8 +100,8 @@ func test_best_plays_on_the_fight_screen() -> void:
 	assert_true(screen.is_playing(), "still playing")
 
 
-func _plan(chosen: Dictionary) -> Dictionary:
-	var combat: Combat = Compare.fight(_content)
+func _plan(chosen: Dictionary, which: String = "") -> Dictionary:
+	var combat: Combat = Compare.fight_named(_content, which)
 	var base: Dictionary = GlassScreen.load_state(Compare.BASE_PATH)
 	var best: RefCounted = Treatments.make("best")
 	best.call("configure", chosen)

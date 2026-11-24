@@ -88,21 +88,40 @@ before it strikes), or the first combo pulse (CB7, `P`). Each pane counts frames
 `speed_chart.py STEM --ymax 7000` draws every film's chart on one y axis.
 
 `measure` writes `<stem>.timing.json`: each attack's claimed, planned and measured numbers (lift,
-hold, strike, stop gap, contact pop, return, numbers, falls, next lift) and the mismatches. The
-report's `plan` holds the schedule (`frame_offset` turns its frames into film frames).
+hold, strike, stop gap, contact pop, frames held at contact, the first return frame's px, return,
+numbers, falls, next lift) and the mismatches. C is the plan's contact (the geometric contact,
+kept beside it, is not C when the attacker stops past the centre). The report's `plan` holds the
+schedule (`frame_offset` turns its frames into film frames).
+
+CB7 plays its own short fixed fight (`"fight": "cb7"` in the scenario; `fight_compare.gd`
+`CB7_YOU`, `CB7_THEM`): your first Gleaner kills the Orchard Stripper, five of yours die to its
+damage, and the two Gleaners left hit King Speck ten times, so the combo's 9th and 10th land
+together and the burst re-pops with the running total. Two Health values are set for the fixture
+(the Stripper 1, King Speck 60). Every CB7 pane runs without rule 7's speed-up except the last,
+"best" (the proposal with rule 7); `best_no7` is the proposal without it. The comparison fight
+and its test are unchanged.
+
+Rules this treatment follows: the return moves from C+1 (no frame held at contact) and is home at
+C+12/14/16; what plays after the hit starts at max(C+14, home). CB4 "freeze" is today's order:
+Thorns flares while the attacker waits at contact, and its change shows with the exchange's at
+C+22. CB4 "after" plays a reordered log (`best_timeline.gd` `reorder()`), so the exchange's
+numbers show first (Health 5 to 3) and Thorns' at its landing (3 to 1); lethal Thorns can't play
+"after" (the attacker never strikes). CB2 "galaxy" stops 0.3 h past the target's centre.
 
 Stand-ins (each new look needs an art pass and the owner's yes): the cause-to-target line is
-today's jab; the xN counter is the numbers re-popping (option `CB7: best_xn` adds a plain-text
-"xN" marked as a placeholder); C's crack and shatter are today's fall; C's rim glow is today's
-lunge glow. `best` plays no sound cues. Readings of best.md that it does not spell out: what plays
-before the hit waits for the previous queue's end; a beat from a dead source has no pulse but
-still lands 12 f after it starts; rule 7's speed-up rises from x1 at 60 f of queue to x1.5 at
-120 f, and only CB7's best options use it (the other CB7 options run their own repeat rule only); an attacker killed by Thorns stays raised until it falls (no strike).
+today's jab; the xN counter is the burst re-popping with the running total (option
+`CB7: best_xn` adds a plain-text "xN" marked as a placeholder); C's crack and shatter are today's
+fall; C's rim glow is today's lunge glow. `best` plays no sound cues. Readings of best.md that it
+does not spell out: what plays before the hit waits for the previous queue's end; a beat from a
+dead source has no pulse but still lands 12 f after it starts; rule 7's speed-up rises from x1 at
+60 f of queue to x1.5 at 120 f; an attacker killed by Thorns stays raised until it falls (no
+strike).
 
 ## What the logs can't show
 
 - The film is silent. Sound rows are the cues the sound player started, at the frame they
   started; a cue with a delay is timed by the wall clock, so its frame in a slow film is early.
-- Contact is geometric (the attacker's nearest point to where its target stood), not a rule: a
-  treatment whose attacker passes through or overshoots its target needs its own definition.
+- The report's contact is geometric (the attacker's nearest point to where its target stood),
+  not a rule; `clips.py measure` uses the `best` plan's contact instead, since an attacker that
+  stops past the centre (CB2 "galaxy") is nearest the centre before it stops.
 - Everything else in `tools/feel/README.md` ("What it cannot do"): software rendering, one size.

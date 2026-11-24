@@ -36,11 +36,16 @@ const STOPS: Dictionary = {
 	"b": {"near": 0.70, "near_d": 1.18, "far": 0.50, "far_d": 3.18, "back": -1.0},
 	"best": {"near": 0.62, "near_d": 1.4, "far": 0.45, "far_d": 2.4, "back": 0.40},
 	"c": {"near": 0.50, "near_d": 1.3, "far": 0.42, "far_d": 2.6, "back": -1.0},
+	# Galaxy (R2): stops 0.2-0.57 h past the target's centre; the centre gap is negative
+	"galaxy": {"near": -0.3, "near_d": 1.4, "far": -0.3, "far_d": 2.4, "back": -1.0},
 }
 ## CB3, the strike's curve: the power of its ease-in (1: constant speed).
 const CURVES: Dictionary = {"linear": 1.0, "mild": 1.6, "quad": 2.0}
-## CB4, a trigger before the hit: "hold" (in the raised hold), "freeze" (the attacker waits at
-## contact, today's order), "after" (after the return, its change already in the hit's numbers).
+## CB4, a trigger before the hit: "hold" (in the raised hold), "freeze" (today's order: the
+## trigger flares while the attacker waits at contact, and its change shows with the exchange's at
+## C+22), "after" (after the return: the log is reordered by reorder(), so the exchange's numbers
+## show first and the trigger's own at its landing). Lethal Thorns can't play "after": the
+## attacker never strikes, so it plays "hold".
 const BEFORE_MODES: Array[String] = ["hold", "freeze", "after"]
 ## CB5, when a card killed in the exchange falls: frames after contact.
 const FALLS: Dictionary = {"b": 14, "c": 24, "best": 30, "bg": 60}
@@ -53,9 +58,11 @@ const LIFTS: Dictionary = {
 	"bg": {"after": 40, "knocked": 40, "lead": -1},
 }
 ## CB7, one trigger many times: the first gap, how each gap shrinks, its floor, whether from the
-## 9th the rest land together, how long the count holds at the end. "best_xn" is best with a
-## plain-text xN placeholder over the source (labels).
-## "speedup": rule 7 (best's own) applies; the other options run their repeat rule only.
+## 9th the rest land together, how long the count holds at the end, whether a card hit again and
+## again keeps one burst that re-pops with the running total ("total"), and whether rule 7's
+## speed-up applies ("speedup"). "best" is the proposal (rule 7 on); for the CB7 comparison every
+## other option runs with rule 7 off, "best_no7" being the proposal without it. "best_xn" adds a
+## plain-text xN placeholder over the source (labels). "b" is plan B's: max(4, 14 x 0.75^(k-1)).
 const COMBOS: Dictionary = {
 	"bg":
 	{
@@ -65,6 +72,7 @@ const COMBOS: Dictionary = {
 		"floor": 0.0,
 		"together": false,
 		"end": 0,
+		"total": false,
 		"speedup": false,
 	},
 	"a":
@@ -75,6 +83,18 @@ const COMBOS: Dictionary = {
 		"floor": 8.0,
 		"together": false,
 		"end": 16,
+		"total": false,
+		"speedup": false,
+	},
+	"b":
+	{
+		"first": 14.0,
+		"full": 1,
+		"shrink": 0.75,
+		"floor": 4.0,
+		"together": true,
+		"end": 16,
+		"total": true,
 		"speedup": false,
 	},
 	"c":
@@ -85,6 +105,7 @@ const COMBOS: Dictionary = {
 		"floor": 0.0,
 		"together": false,
 		"end": 16,
+		"total": false,
 		"speedup": false,
 	},
 	"best":
@@ -95,7 +116,19 @@ const COMBOS: Dictionary = {
 		"floor": 5.0,
 		"together": true,
 		"end": 16,
+		"total": true,
 		"speedup": true,
+	},
+	"best_no7":
+	{
+		"first": 18.0,
+		"full": 1,
+		"shrink": 0.75,
+		"floor": 5.0,
+		"together": true,
+		"end": 16,
+		"total": true,
+		"speedup": false,
 	},
 	"best_xn":
 	{
@@ -105,7 +138,8 @@ const COMBOS: Dictionary = {
 		"floor": 5.0,
 		"together": true,
 		"end": 16,
-		"speedup": true,
+		"total": true,
+		"speedup": false,
 	},
 }
 ## C's tempo cap (x1.3 a repeat, up to x3.5).
@@ -124,7 +158,7 @@ const HIT_LIGHT: Color = Color(1.6, 1.25, 1.1)
 const BLOCK_LIGHT: Color = Color(1.1, 1.35, 1.6)
 const NUMBERS_AT: int = 2
 const AFTER_AT: int = 14
-const SCALE_HOME: int = 5
+const SCALE_HOME: int = 6
 const BEAT_LAND: int = 12
 const SELF_LAND: int = 6
 const BEAT_GAP: int = 6
@@ -185,6 +219,11 @@ var _attacker: String = ""
 var _commit: bool = true
 var _tempo_on: bool = false
 var _falls: Array[Dictionary] = []
+## key -> the running total a combo's re-popping burst shows (rule 5), while a combo plays.
+var _totals: Dictionary = {}
+var _total_on: bool = false
+## [{attack, start, lands}]: every combo, by frame.
+var _combos: Array[Dictionary] = []
 
 
 func _init(chosen: Dictionary = {}) -> void:
@@ -290,6 +329,7 @@ func report() -> Dictionary:
 		"end_frame": end_frame,
 		"attacks": attacks,
 		"falls": _falls,
+		"combos": _combos,
 		"bursts": bursts.size(),
 		"notes": notes,
 		"claims":
@@ -348,6 +388,8 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 		before.assign(items.slice(0, cut))
 		after.assign(items.slice(cut))
 	var mode: String = pick("CB4") if hit >= 0 and not before.is_empty() else "hold"
+	if hit >= 0 and not after.is_empty() and after[0].get("after_hit", false):
+		mode = "after"
 	var t: int = maxi(hold0, queue_was)
 	var last_land: int = -1
 	if mode == "hold":
@@ -366,9 +408,14 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 		contact = launch + strike
 		release = contact
 		if mode == "freeze":
+			# today's order: the trigger flares while the attacker waits at contact; what it
+			# changes shows only with the exchange's numbers
 			t = contact
 			for item: Dictionary in before:
-				var done: Dictionary = _item(item, t, 1.0)
+				var flare: Dictionary = item.duplicate()
+				flare["quiet"] = true
+				flare["silent"] = true
+				var done: Dictionary = _item(flare, t, 1.0)
 				t = _i(done["next"])
 				last_land = maxi(last_land, _i(done["land"]))
 			release = last_land + HOLD_PAST
@@ -395,23 +442,27 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 			"back": back,
 		}
 	)
-	var home_at: int = release + 1 + back if hit >= 0 else FOREVER
+	# the return moves from C+1 (no frame held at contact) and is home at C + back
+	var home_at: int = release + back if hit >= 0 else FOREVER
 	glows.append({"key": _attacker, "from": lift, "to": home_at})
 	var knocked: Array[String] = []
 	if hit >= 0:
 		knocked = _exchange(items[hit], release, way)
-		if mode == "after":
+		if mode == "freeze":
 			for item: Dictionary in before:
-				_reveal_all(item, release + NUMBERS_AT)
+				_land_now(item, release + NUMBERS_AT)
+	# after the hit: from C+14, and no earlier than the attacker is home (a far return ends later)
 	var queue_from: int = release + AFTER_AT
+	if hit >= 0:
+		queue_from = maxi(queue_from, home_at)
 	var queue: Array[Dictionary] = []
-	if mode == "after":
-		for item: Dictionary in before:
-			var quiet: Dictionary = item.duplicate()
-			quiet["quiet"] = true
-			queue.append(quiet)
-	if hit >= 0 and not after.is_empty() and str(after[0]["kind"]) == "death":
-		after[0]["exchange_kill"] = true
+	if hit >= 0:
+		for item: Dictionary in after:
+			if str(item["kind"]) == "death":
+				item["exchange_kill"] = true
+				break
+			if not item.get("after_hit", false):
+				break
 	queue.append_array(after)
 	var kill_land: int = release if hit < 0 else release + NUMBERS_AT
 	_commit = false
@@ -594,6 +645,8 @@ func _combo(run: Array[Dictionary], start: int, from: int) -> Dictionary:
 	var lands: Array[int] = []
 	var together_at: int = -1
 	var damage: bool = false
+	_totals = {}
+	_total_on = combo.get("total", false) == true
 	for k: int in run.size():
 		var at: int = roundi(t)
 		if together and k >= COMBO_TOGETHER_FROM:
@@ -605,8 +658,11 @@ func _combo(run: Array[Dictionary], start: int, from: int) -> Dictionary:
 		lands.append(_i(done["land"]))
 		damage = damage or done.get("damage", false)
 		t += maxf(_f(combo["floor"]), _combo_gap(combo, k) / tempo)
+	_total_on = false
 	var last: int = lands.max()
 	var end: int = last + _i(combo["end"])
+	if _commit:
+		_combos.append({"attack": attacks.size(), "start": start, "lands": lands.duplicate()})
 	if _commit and pick("CB7") == "best_xn":
 		var key: String = _key(_i(run[0]["source"]))
 		for k: int in lands.size():
@@ -660,7 +716,8 @@ func _item(item: Dictionary, start: int, tempo: float) -> Dictionary:
 			var i: int = _i(value)
 			if _kind(i) in ["damage", "destroy", "prevented"]:
 				var hurt: Dictionary = _events[i]
-				_burst(hurt, land, _kind(i) == "prevented")
+				if not item.get("silent", false):
+					_burst(hurt, land, _kind(i) == "prevented")
 				damage = true
 	return {"land": land, "next": land + roundi(BEAT_GAP / tempo), "end": land, "damage": damage}
 
@@ -713,6 +770,90 @@ func _pulse(item: Dictionary, start: int, land: int) -> void:
 		}
 	)
 	glows.append({"key": key, "from": start, "to": land + BEAT_GAP})
+
+
+## An item's changes and bursts, all at `at` (CB4 "freeze": with the exchange's).
+func _land_now(item: Dictionary, at: int) -> void:
+	_reveal_all(item, at)
+	for value: Variant in item["events"]:
+		var i: int = _i(value)
+		if _kind(i) in ["damage", "destroy", "prevented"]:
+			var hurt: Dictionary = _events[i]
+			_burst(hurt, at, _kind(i) == "prevented")
+
+
+## CB4 "after": the log with what each attacker's own triggers did before its exchange moved to
+## just after the exchange, so the exchange's numbers show first and stay true (a damage event's
+## health is the Health left after it: the exchange's damage on the same card gets the moved
+## damage back, and the moved damage loses the exchange's). An attack with no exchange (lethal
+## Thorns) or a death before its exchange is left as it is. The first moved event is marked
+## after_hit. Any other option: the log unchanged.
+static func reorder(events: Array, chosen: Dictionary) -> Array:
+	if str(chosen.get("CB4", PICKS["CB4"])) != "after":
+		return events
+	var out: Array = []
+	var i: int = 0
+	while i < events.size():
+		var event: Dictionary = events[i]
+		out.append(event)
+		i += 1
+		if _kind_of(event) != "attack":
+			continue
+		var stop: int = i
+		while stop < events.size() and not _kind_at(events, stop) in ["attack", "combat_end"]:
+			stop += 1
+		var hit: int = -1
+		var plain: bool = true
+		for j: int in range(i, stop):
+			var each: Dictionary = events[j]
+			if _kind_of(each) == "damage" and each.get("from_attack", false):
+				hit = j
+				break
+			if _kind_of(each) == "death":
+				plain = false
+		if hit <= i or not plain:
+			continue
+		var ends: int = hit
+		while ends < stop and _hit_part(_at(events, ends)):
+			ends += 1
+		var moved: Array = []
+		for j: int in range(i, hit):
+			var source: Dictionary = events[j]
+			var copy: Dictionary = source.duplicate()
+			if moved.is_empty():
+				copy["after_hit"] = true
+			moved.append(copy)
+		for j: int in range(hit, ends):
+			var original: Dictionary = events[j]
+			var part: Dictionary = original.duplicate()
+			for value: Variant in moved:
+				var was: Dictionary = value
+				if (
+					_kind_of(was) == "damage"
+					and _kind_of(part) == "damage"
+					and _i(was.get("uid", -1)) == _i(part.get("uid", -2))
+				):
+					part["health"] = _i(part["health"]) + _i(was.get("amount", 0))
+					was["health"] = _i(was["health"]) - _i(part.get("amount", 0))
+			out.append(part)
+		out.append_array(moved)
+		i = ends
+	return out
+
+
+static func _at(events: Array, k: int) -> Dictionary:
+	var event: Dictionary = events[k]
+	return event
+
+
+static func _kind_at(events: Array, k: int) -> String:
+	return _kind_of(_at(events, k))
+
+
+static func _hit_part(event: Dictionary) -> bool:
+	if _kind_of(event) == "prevented":
+		return true
+	return _kind_of(event) == "damage" and event.get("from_attack", false)
 
 
 # ---- grouping the log ----
@@ -782,6 +923,7 @@ func _beat(at: int, to: int) -> Dictionary:
 		j += 1
 	return {
 		"kind": "beat",
+		"after_hit": trigger.get("after_hit", false),
 		"events": events,
 		"source": source,
 		"mechanic": str(trigger.get("mechanic", "")),
@@ -883,13 +1025,13 @@ func _return_pose(seg: Dictionary, n: int) -> Dictionary:
 	var release: int = seg["release"]
 	var stop: Vector2 = seg["stop"]
 	var lifted: float = seg["scale"]
-	if n <= release + 1:
+	if n <= release:
 		return {"offset": stop, "scale": lifted}
-	var v: float = float(n - release - 1) / _i(seg["back"])
+	var v: float = float(n - release) / _i(seg["back"])
 	if v >= 1.0:
 		return {}
 	var e: float = 1.0 - pow(1.0 - v, 4.0)
-	var shrink: float = clampf(float(n - release - 1) / SCALE_HOME, 0.0, 1.0)
+	var shrink: float = clampf(float(n - release) / SCALE_HOME, 0.0, 1.0)
 	return {"offset": stop.lerp(Vector2.ZERO, e), "scale": lerpf(lifted, 1.0, shrink)}
 
 
@@ -971,6 +1113,12 @@ func _burst(event: Dictionary, at: int, blocked: bool) -> void:
 	if not _commit:
 		return
 	var key: String = _key(_i(event["uid"]))
+	var amount: int = _i(event.get("amount", 0)) if _kind_of(event) == "damage" else 0
+	# rule 5: a card hit again and again in a combo keeps one burst, re-popping with the total
+	var merge: bool = _total_on and not blocked
+	if merge:
+		amount += _i(_totals.get(key, 0))
+		_totals[key] = amount
 	(
 		bursts
 		. append(
@@ -979,9 +1127,10 @@ func _burst(event: Dictionary, at: int, blocked: bool) -> void:
 				"key": key,
 				"side": _i(event["side"]),
 				"slot": _i(event["slot"]),
-				"amount": _i(event.get("amount", 0)) if _kind_of(event) == "damage" else 0,
+				"amount": amount,
 				"blocked": blocked,
 				"taken": key == _attacker,
+				"merge": merge,
 			}
 		)
 	)

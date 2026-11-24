@@ -6,9 +6,10 @@ extends "res://tests/screens/feel/fight_compare/fight_treatment.gd"
 ## lists them); a branch not named plays the proposal's pick.
 ##
 ## STAND-INS for the new visual elements best.md asks for (each would need an art pass and the
-## owner's yes): the cause-to-target line is today's jab; the xN counter is the numbers re-popping
-## (CB7 "best_xn" adds a plain-text "xN" marked as a placeholder); C's glass crack and shatter are
-## today's fall; C's amber rim glow is today's lunge glow. No sound cues are played.
+## owner's yes): the cause-to-target line is today's jab; the xN counter is the burst re-popping
+## with the running total (CB7 "best_xn" adds a plain-text "xN" marked as a placeholder); C's
+## glass crack and shatter are today's fall; C's amber rim glow is today's lunge glow. No sound
+## cues are played.
 ## Exploratory (ideation/fight-animation): nothing here reaches the game.
 
 const BEST_REPLAY: GDScript = preload("res://tests/screens/feel/fight_compare/best_replay.gd")
@@ -26,13 +27,15 @@ func configure(chosen: Dictionary) -> void:
 
 
 func make_replay(base: Dictionary, events: Array, catalog: Dictionary, damage: int) -> FightReplay:
-	var made: FightReplay = replay_with(BEST_REPLAY, base, events, catalog, damage)
+	# CB4 "after" plays a reordered log (best_timeline.gd reorder()); any other option, the log
+	var played: Array = TIMELINE.call("reorder", events, options)
+	var made: FightReplay = replay_with(BEST_REPLAY, base, played, catalog, damage)
 	timeline = TIMELINE.new(options)
 	# where each unit stands: the fight screen's own layout, from a screen never shown
 	var probe: FightScreen = FightScreen.new()
 	probe.state = {"you_side": GlassPieces.as_int(base.get("you_side", 0))}
 	probe._g = GlassPieces.fight_geom()
-	timeline.call("build", events, made.get("snaps"), probe.unit_xy)
+	timeline.call("build", played, made.get("snaps"), probe.unit_xy)
 	probe.free()
 	made.set("timeline", timeline)
 	var planned: Array = timeline.get("steps")

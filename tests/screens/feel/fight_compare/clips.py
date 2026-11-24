@@ -24,7 +24,7 @@ H = 250.0
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 # the battlefield in film pixels (both boards, the attack paths and the placeholder count)
-CROP = (590, 250, 950, 800)
+CROP = (590, 180, 950, 870)
 SCENE = "res://tests/screens/feel/fight_compare/fight_compare.tscn"
 
 # branch -> [(option, film, label)], left to right as best.md section 6 lists them
@@ -41,6 +41,7 @@ BRANCHES = {
         ("b", "cb2-b", "B medium: 0.70h near, 0.50 far"),
         ("best", "best", "Best: 0.62h near, 0.45 far"),
         ("c", "cb2-c", "C deep: 0.50h near, 0.42 far"),
+        ("galaxy", "cb2-galaxy", "Galaxy: past centre (-0.3h)"),
     ],
     "CB3": [
         ("linear", "best", "Linear (A, B, best)"),
@@ -48,7 +49,7 @@ BRANCHES = {
         ("quad", "cb3-quad", "Today: quad ease-in"),
     ],
     "CB4": [
-        ("freeze", "cb4-freeze", "Today: freeze at contact"),
+        ("freeze", "cb4-freeze", "Today's order: Thorns shows at C+22"),
         ("hold", "best", "Best: in the raised hold"),
         ("after", "cb4-after", "After the return"),
     ],
@@ -67,9 +68,11 @@ BRANCHES = {
     "CB7": [
         ("bg", "cb7-bg", "Battlegrounds: one at a time"),
         ("a", "cb7-a", "A gentle: x0.7, floor 8"),
+        ("b", "cb7-b", "B: 14f x0.75, floor 4, total"),
         ("c", "cb7-c", "C tempo: x1.3 to x3.5"),
-        ("best", "best", "Best: x0.75, floor 5"),
+        ("best_no7", "cb7-best_no7", "Best: x0.75, floor 5, total"),
         ("best_xn", "cb7-best_xn", "Best + plain-text xN PLACEHOLDER"),
+        ("best", "cb7-best", "Proposal WITH rule 7 (speed-up)"),
     ],
 }
 TITLES = {
@@ -79,11 +82,14 @@ TITLES = {
     "CB4": "CB4 a trigger before the hit",
     "CB5": "CB5 when a card killed in the exchange falls",
     "CB6": "CB6 when the next attacker lifts",
-    "CB7": "CB7 one trigger many times",
+    "CB7": "CB7 one trigger many times (CB7's own fight; rule 7 off but in the last pane)",
 }
+# films on CB7's own fixed fight (fight_compare.gd "fight": "cb7")
+FIGHT = {"cb7": "cb7"}
 PICKS = {"CB1": "best", "CB2": "best", "CB3": "linear", "CB4": "hold", "CB5": "best", "CB6": "best", "CB7": "best"}
 # film seconds of `wait` in each scenario (the film ends 0.5 s after it)
 WAIT = {"cb7-bg": 17.5, "cb5-bg": 14.5, "cb6-bg": 14.0}
+WAIT_CB7 = 12.0
 
 
 def films() -> dict:
@@ -95,15 +101,23 @@ def films() -> dict:
     return out
 
 
+def fight_of(film: str) -> str:
+    """The fixed fight a film plays: CB7's films their own, the rest the comparison fight."""
+    return "cb7" if film.startswith("cb7-") else ""
+
+
 def cmd_scenarios(out_dir: Path) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     for name, options in films().items():
+        wait = WAIT.get(name, WAIT_CB7 if fight_of(name) else 13.5)
         scenario = {
             "scene": SCENE,
             "treatment": "best",
             "options": options,
-            "steps": [{"move": "1900,1000", "time": 0.0}, {"wait": WAIT.get(name, 13.5)}],
+            "steps": [{"move": "1900,1000", "time": 0.0}, {"wait": wait}],
         }
+        if fight_of(name):
+            scenario["fight"] = fight_of(name)
         (out_dir / f"{name}.json").write_text(json.dumps(scenario, indent=2) + "\n")
         print(name, json.dumps(options))
 
@@ -204,7 +218,19 @@ def measure_attack(attack: dict, nxt: dict | None, cards: dict, markers: list) -
     out["launch"] = launch
     out["contact"] = contact
     out["strike_frames"] = contact - launch
-    out["stop_gap_h"] = round(math.dist(hit[:2], aim[:2]) / H, 3)
+    # signed: negative when it stops past the target's centre (Galaxy)
+    past = (hit[0] - aim[0]) * (aim[0] - home[0]) + (hit[1] - aim[1]) * (aim[1] - home[1]) > 0
+    out["stop_gap_h"] = round(math.dist(hit[:2], aim[:2]) / H * (-1 if past else 1), 3)
+    # frames it stays where it struck after contact (0: the return moves from C+1)
+    held = 0
+    while True:
+        p = at(cards, contact + held + 1, key)
+        if p is None or math.dist(p[:2], hit[:2]) > 0.3:
+            break
+        held += 1
+    out["held_at_contact"] = held
+    first_back = at(cards, contact + held + 1, key)
+    out["return_first_px"] = round(math.dist(first_back[:2], hit[:2]), 1) if first_back else None
     out["distance_h"] = round(math.dist(home[:2], aim[:2]) / H, 3)
     out["pop_scale"] = round(hit[2], 3)
     steps = []
@@ -262,6 +288,64 @@ def brock_combo(cards: dict, markers: list, report: dict) -> dict:
     }
 
 
+def combo_gaps(claim: dict, count: int) -> list:
+    """The option's own gaps between landings (no speed-up), before rounding to frames."""
+    gaps = []
+    for k in range(count - 1):
+        first, shrink, full = claim["first"], claim["shrink"], claim["full"]
+        if k < full:
+            gap = first
+        elif shrink < 0:
+            gap = first / min((-shrink) ** k, 3.5)
+        else:
+            gap = first * shrink ** (k - full + 1)
+        gaps.append(round(max(claim["floor"], gap), 1))
+    if claim.get("together"):
+        # from the 9th, the rest land with the 9th
+        gaps = [*gaps[:8], *[0.0] * (len(gaps) - 8)]
+    return gaps
+
+
+def combo_measure(markers: list, report: dict, plan: dict) -> dict:
+    """CB7's fight: King Speck's Health changing and its bursts while the Gleaners trigger ten times."""
+    attacks = report["attacks"]
+    # up to the next contact: the next attacker lifts while the combo's last landings play
+    first, last = attacks[0]["contact_frame"], attacks[1]["contact_frame"]
+    pops = [
+        int(m["frame"])
+        for m in markers
+        if m["marker"] == "numbers" and m["key"] == "u9" and first + 3 < int(m["frame"]) < last
+    ]
+    bursts = []
+    for m in markers:
+        if m["marker"] == "burst" and first + 3 < int(m["frame"]) < last:
+            amounts = [int(d.split(":")[2]) for d in m["detail"].split() if d.startswith("1:1:")]
+            if amounts:
+                bursts.append([int(m["frame"]), amounts])
+    claim = plan.get("claims", {}).get("combo", {})
+    combos = plan.get("combos", [])
+    lands = [x + plan.get("frame_offset", 0) for x in combos[0]["lands"]] if combos else []
+    out = {
+        "landings": pops,
+        "gaps": [b - a for a, b in zip(pops, pops[1:], strict=False)],
+        "planned_landings": lands,
+        "claimed_gaps": combo_gaps(claim, 10) if claim else [],
+        "bursts_on_target": bursts,
+        "speedup": [a.get("speedup") for a in plan.get("attacks", [])],
+        "mismatches": [],
+    }
+    distinct = sorted(set(lands))
+    if pops != distinct:
+        out["mismatches"].append(f"combo: Health changes at {pops}, planned {distinct}")
+    if claim and not any(out["speedup"]):
+        want = [g for g in out["claimed_gaps"] if g > 0]
+        got = out["gaps"]
+        for k, (g, w) in enumerate(zip(got, want, strict=False)):
+            if abs(g - w) > 1.0:
+                out["mismatches"].append(f"combo: gap {k + 1} measured {g}, claimed {w}")
+    return out
+
+
 def claims_for(plan: dict) -> dict:
     return plan.get("claims", {})
 
@@ -301,6 +385,13 @@ def mismatches(measured: list, plan: dict) -> list:
         check("stop gap h", m["stop_gap_h"], p["stop_gap_h"], 0.01)
         check("contact pop", m["pop_scale"], 1.24, 0.002)
         check("home after contact", m["home_after_contact"], p["home"] - p["contact"], 1)
+        if p.get("before_mode") != "freeze":
+            check("frames held at contact", m.get("held_at_contact"), 0)
+        if m.get("home_after_contact") is not None:
+            # item 2: what plays after the hit starts once the attacker is home
+            starts = p["queue_from"] - p["contact"]
+            if starts < m["home_after_contact"] - 1:
+                out.append(f"attack {n}: after the hit starts at C+{starts}, before it is home")
         check("numbers after contact", m["numbers_after_contact"], p["numbers"] - p["contact"])
         if m.get("next_lift_after_contact") is not None and p.get("next_lift", -1) >= 0:
             check("next lift after contact", m["next_lift_after_contact"], p["next_lift"] - p["contact"])
@@ -317,11 +408,17 @@ def cmd_measure(stems: list[Path]) -> None:
             stem = stem.with_suffix("")
         report, cards, markers = load(stem)
         attacks = report["attacks"]
+        plan = report.get("plan") or {}
+        # C is the plan's contact (the frame it strikes): geometric contact (nearest the target's
+        # centre) is not it when the attacker stops past the centre
+        for attack, p in zip(attacks, plan.get("attacks", []), strict=False):
+            attack["geometric_contact"] = attack["contact_frame"]
+            if p.get("contact", -1) >= 0:
+                attack["contact_frame"] = p["contact"] + plan.get("frame_offset", 0)
         measured = []
         for i, attack in enumerate(attacks):
             nxt = attacks[i + 1] if i + 1 < len(attacks) else None
             measured.append(measure_attack(attack, nxt, cards, markers))
-        plan = report.get("plan") or {}
         offset = plan.get("frame_offset", 0)
         planned = []
         for p in plan.get("attacks", []):
@@ -342,8 +439,11 @@ def cmd_measure(stems: list[Path]) -> None:
             "attack_starts": [a["start_frame"] for a in attacks],
             "measured": measured,
             "planned_film_frames": planned,
+            "geometric_contacts": [a.get("geometric_contact") for a in attacks],
             "brock_combo": brock_combo(cards, markers, report) if len(attacks) >= 7 else {},
-            "mismatches": mismatches(measured, plan) if plan else [],
+            "combo": combo_measure(markers, report, plan) if report.get("fight") == "cb7" else {},
+            "mismatches": (mismatches(measured, plan) if plan else [])
+            + (combo_measure(markers, report, plan)["mismatches"] if report.get("fight") == "cb7" else []),
             "notes": plan.get("notes", []),
             "result_at_s": report.get("result_at"),
             "core_matches": report.get("core_matches"),
@@ -372,6 +472,12 @@ def plan_frames(film_dir: Path, film: str) -> list:
                 q[k] += offset
         q["falls"] = [dict(f, frame=f["frame"] + offset) for f in p["falls"]]
         out.append(q)
+    for combo in plan.get("combos", []):
+        if combo["attack"] < len(out):
+            q = out[combo["attack"]]
+            if "combo_start" not in q:
+                q["combo_start"] = combo["start"] + offset
+                q["combo_end"] = max(combo["lands"]) + offset
     return out
 
 
@@ -399,9 +505,8 @@ def segments(branch: str, a: list) -> list:
             ("(e) to Old Brock's attack: a long chain", a[5]["contact"] + 40, a[6]["contact"] + 8),
         ]
     if branch == "CB7":
-        six = [f for f in a[5]["falls"] if f["key"] != "u10"]
-        start = min(f["frame"] for f in six) + 10
-        return [("(e) Old Brock triggers 6 times", start, a[6]["lift"] + 20)]
+        # CB7's own fight: the Gleaners' ten hits on King Speck, after attack 0
+        return [("(f) two Gleaners trigger ten times on King Speck", a[0]["combo_start"] - 20, a[0]["combo_end"] + 40)]
     raise ValueError(branch)
 
 
@@ -461,7 +566,9 @@ def stack(
     """One pane per input, each from its own first frame for length frames; refs[i] is that pane's
     reference frame (its counter reads ref+0 there)."""
     n = len(inputs)
-    width = min(640, (1920 // n) // 2 * 2)
+    # up to 5 panes in a row; more in two rows
+    cols = n if n <= 5 else math.ceil(n / 2)
+    width = min(640, (1920 // cols) // 2 * 2)
     with tempfile.TemporaryDirectory() as tmp:
         parts = []
         for i, label in enumerate(labels):
@@ -476,7 +583,15 @@ def stack(
         tf = Path(tmp) / "title.txt"
         tf.write_text(title)
         joined = "".join(f"[p{i}]" for i in range(n))
-        tail = f"{joined}hstack=inputs={n}" if n > 1 else f"{joined}null"
+        if n <= 5:
+            tail = f"{joined}hstack=inputs={n}" if n > 1 else f"{joined}null"
+        else:
+            spots = []
+            for i in range(n):
+                col, row = i % cols, i // cols
+                x = "+".join(f"w{k}" for k in range(col)) or "0"
+                spots.append(f"{x}_{'h0' if row else '0'}")
+            tail = f"{joined}xstack=inputs={n}:layout={'|'.join(spots)}:fill=0x222222"
         tail += (
             f",pad=iw:ih+40:0:40:color=0x222222,"
             f"drawtext=fontfile={FONT}:textfile={tf}:fontsize=22:fontcolor=white:x=10:y=9"
@@ -548,27 +663,11 @@ REF_NAME = {"CB1": "S", "CB7": "P"}
 REF_ATTACK = {"CB1": [0], "CB2": [0, 1], "CB3": [1], "CB4": [2], "CB5": [5], "CB6": [0, 4, 5]}
 
 
-def first_pulse(film_dir: Path, film: str, timing: dict) -> int:
-    """Old Brock's first combo pulse: its first move in the 20 frames before its first combo landing."""
-    landing = timing["brock_combo"]["landings"][0]
-    rows = {}
-    with (film_dir / f"{film}.cards.csv").open() as f:
-        for row in csv.DictReader(f):
-            frame = int(row["frame"])
-            if row["key"] == "u4" and landing - 21 <= frame <= landing:
-                rows[frame] = (float(row["x"]), float(row["y"]), float(row["scale"]))
-    for frame in range(landing - 20, landing + 1):
-        a, b = rows.get(frame - 1), rows.get(frame)
-        if a and b and (math.dist(a[:2], b[:2]) > 0.3 or abs(a[2] - b[2]) > 0.002):
-            return frame - 1
-    return landing - 12
-
-
 def references(film_dir: Path, film: str, branch: str) -> list:
     timing = json.loads((film_dir / f"{film}.timing.json").read_text())
     measured = timing["measured"]
     if branch == "CB7":
-        return [first_pulse(film_dir, film, timing)]
+        return [plan_frames(film_dir, film)[0]["combo_start"]]
     if branch == "CB1":
         return [measured[0]["lift_start"]]
     out = []

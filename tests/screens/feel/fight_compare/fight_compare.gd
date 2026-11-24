@@ -38,6 +38,25 @@ const MOMENTS: Array[Dictionary] = [
 		"what": "a kill whose death hits all; Old Brock triggers six times"
 	},
 ]
+## A second, short fixed fight, for CB7 only ("fight": "cb7" in a scenario): your first Gleaner
+## kills the Orchard Stripper, whose death deals 5 to all of yours; five die together and the two
+## Gleaners left trigger ten times, all on King Speck. Two Health values are set for the fixture
+## (CB7_HEALTH): the Stripper dies to the first hit, and King Speck takes all ten hits.
+const CB7_YOU: Dictionary = {
+	0: "gleaner",
+	1: "gleaner",
+	2: "gleaner",
+	3: "hopper",
+	4: "hopper",
+	5: "hopper",
+	6: "hopper",
+}
+const CB7_THEM: Dictionary = {0: "orchard-stripper", 1: "king-speck"}
+const CB7_HEALTH: Dictionary = {0: 1, 1: 60}
+const CB7_SEED: int = 2
+const CB7_MOMENTS: Array[Dictionary] = [
+	{"moment": "f", "attack": 0, "what": "two Gleaners trigger ten times on King Speck"},
+]
 ## How close (px) to its nearest point an attacker counts as in contact.
 const CONTACT_SLACK: float = 0.5
 ## x, y: the card's centre in film pixels; rotation in degrees; attack, health: the numbers shown.
@@ -47,6 +66,8 @@ const CARD_COLUMNS: String = (
 const MARKER_COLUMNS: String = "frame,t,step,marker,key,detail"
 
 var treatment_name: String = ""
+## Which fixed fight: "" (the comparison fight) or "cb7".
+var fight_name: String = ""
 var screen: FightScreen
 var combat: Combat
 var replay: FightReplay
@@ -80,13 +101,14 @@ func _ready() -> void:
 
 func feel_setup(scenario: Dictionary) -> void:
 	var options: Dictionary = scenario.get("options", {})
-	start(str(scenario.get("treatment", "today")), options)
+	start(str(scenario.get("treatment", "today")), options, str(scenario.get("fight", "")))
 
 
 ## Builds the fight, the treatment's replay and screen, and starts playing. options: the
 ## scenario's "options", for a treatment with configure(options) (best.gd's contested branches).
-func start(chosen: String, options: Dictionary = {}) -> void:
+func start(chosen: String, options: Dictionary = {}, which: String = "") -> void:
 	treatment_name = chosen
+	fight_name = which
 	treatment = Treatments.make(chosen)
 	if treatment == null:
 		push_error("fight_compare: no treatment '%s' in treatments.gd" % chosen)
@@ -94,7 +116,7 @@ func start(chosen: String, options: Dictionary = {}) -> void:
 	if treatment.has_method("configure"):
 		treatment.call("configure", options)
 	var content: GameContent = GameContent.load_default()
-	combat = fight(content)
+	combat = fight_named(content, which)
 	var base: Dictionary = GlassScreen.load_state(BASE_PATH)
 	base.erase("boards")
 	base["slots"] = [[], []]
@@ -116,6 +138,17 @@ func start(chosen: String, options: Dictionary = {}) -> void:
 	if not RenderingServer.frame_pre_draw.is_connected(_log_frame):
 		RenderingServer.frame_pre_draw.connect(_log_frame)
 	screen.play(replay)
+
+
+## The fixed fight a scenario names: "cb7" is CB7's second fight; else the comparison fight.
+static func fight_named(content: GameContent, which: String) -> Combat:
+	if which != "cb7":
+		return fight(content)
+	var game: GameSession = content.new_session(SESSION_SEED)
+	var them: Array[Unit] = CoreKit.board(game, CB7_THEM)
+	for slot: Variant in CB7_HEALTH:
+		them[_i(slot)].stats.set_health = _i(CB7_HEALTH[slot])
+	return CoreKit.fight(game, CoreKit.board(game, CB7_YOU), them, CB7_SEED)
 
 
 ## The comparison fight from the rules core: the same log every run.
@@ -381,7 +414,8 @@ func _contact(attacker: String, target: String, first: int, last: int) -> int:
 func feel_report() -> Dictionary:
 	var attacks: Array[Dictionary] = attack_frames()
 	var moments: Array[Dictionary] = []
-	for moment: Dictionary in MOMENTS:
+	var cb7: bool = fight_name == "cb7"
+	for moment: Dictionary in CB7_MOMENTS if cb7 else MOMENTS:
 		var held: Dictionary = moment.duplicate()
 		var n: int = _i(moment["attack"])
 		if n < attacks.size():
@@ -400,9 +434,10 @@ func feel_report() -> Dictionary:
 	return {
 		"treatment": treatment_name,
 		"plan": plan,
-		"you": YOU,
-		"them": THEM,
-		"fight_seed": FIGHT_SEED,
+		"fight": fight_name if cb7 else "comparison",
+		"you": CB7_YOU if cb7 else YOU,
+		"them": CB7_THEM if cb7 else THEM,
+		"fight_seed": CB7_SEED if cb7 else FIGHT_SEED,
 		"events": combat.events.size(),
 		"steps": replay.steps.size(),
 		"planned_seconds": planned,
