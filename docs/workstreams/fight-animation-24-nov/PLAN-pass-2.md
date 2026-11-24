@@ -1,0 +1,34 @@
+# Fight animation, pass 2: plan (24 Nov 2026)
+
+Follows `PLAN.md`. Same branch, same limits: nothing reaches `dev` or `main`; what is built into the game is the owner's call.
+
+## The owner's words (24 Nov, after watching the page; dictated, filler removed)
+
+> "I think I like this honestly. It's very hard for me to tell, like I notice small differences, right? And the quad ease-in of the speed along the strike, I noticed a difference. I noticed a difference in terms of where stuff stops. I think I prefer shallower, right, it's like less into the card, in terms of decision two: the shallow stuff or the medium stuff, maybe C *[probably "B", the medium option]* is good. I'm not sure, it's tough. Galaxy's past-centre thing is too much for me. I think I like your proposals."
+
+> "One thing that I would definitely like to see is the card to rotate more. I feel like the card should tilt or rotate to point at what it's hitting, right? At least on the flat axis. I think in Battlegrounds maybe they even do some z-axis stuff rather than just x-y, or maybe it's y-axis rather than x-z, I can't remember what the term is in 3D. But the point is that it gives a more 3D feel because the thing actually rotates a bit. I think we need to introduce some form of rotation at least. The sharp point of the bottom of the hex should probably rotate towards the thing it's hitting. That should probably happen maybe during the wind-up and the speed-up phase. I'm not sure exactly when; you should investigate that and come up with proposals to try to improve it."
+
+> "In terms of how to communicate one trigger many times, I do like the proposal a lot. I think we should probably borrow from fighting games in terms of the combo. I like the cumulative damage. Maybe we could have like a ×11 if something triggers 11 times, and you can see the cumulative damage. But you also get this little hit splat whenever the speed-up triggers and you're getting multiple instances of something stacking: a little fighting-game-esque hit splat coming up."
+
+> "Take those into consideration as ideas. These aren't a firm steering. I don't know what's right. I'm just trying to give you my guesses as to what's wrong, because it doesn't feel right yet. My answers are not necessarily the right way, but they are something you should look into."
+
+So: ideas to investigate, not specs. The test is whether the fight feels right, not whether these exact suggestions are built.
+
+## Three threads
+
+1. **Rotation (the main one).** The card turns to aim at its target. Questions to answer with evidence: does Battlegrounds rotate in plane, tilt in 3D, or both, and when (lift, hold, strike, return)? How far? Which point of our hexagon leads? Our cards face up whichever side they're on, so for an attack upward the leading point is the top one; *[the owner said "the bottom of the hex"; to check with the owner which point he means, shown on a picture]*. Can Godot 2D fake a 3D tilt on our glass card (a perspective shader, a squash)?
+2. **Stop depth.** The owner leans shallower (A or B). Rotation changes how depth reads (a tilted tip reaches further), so stop depth gets re-filmed with rotation on, not decided alone.
+3. **Combo look.** A fighting-game combo: a "×N" count with cumulative damage, plus a small hit splat per stacked hit. These are new visual elements, so they get a proper visual pass (owner rule, 22 Nov): a reference study (fighting games and others), an art director in lead and stained glass, generated art, review, then pictures to the owner for a yes before anything is filmed with them.
+
+## Steps
+
+1. **Measure rotation** (one agent): Battlegrounds and Galaxy footage still on disk (`/data/fight-anim-ref/`): in-plane angle and any 3D tilt per frame through lift, hold, strike, contact, return, for near and far targets. Plus Godot feasibility of a fake 3D tilt on our card shader.
+2. **Rotation and depth treatments** (one builder, on the clip branch): two or three rotation options (e.g. in-plane aim only; in-plane plus a fake 3D tilt; aim timing during lift vs during strike), each filmed with stop depth A and B. Side-by-side clips, aligned, measured against claims, as before. A picture first showing which hexagon point leads, to confirm with the owner.
+3. **Combo visual pass** (in parallel): reference study and art direction, then generated pictures of a ×N counter with cumulative damage and a hit splat in the glass style. Pictures to the owner. Only after a yes: filmed on CB7's ten-hit fight.
+4. **Page update** with the new clips and pictures; report.
+
+No council in this pass (the owner asked for one, and it ran). Each code step still gets its checks and a scope review.
+
+## What no agent can check
+
+Whether rotation makes it feel more 3D, or whether a combo counter feels good. Pictures and films are checks of what is drawn; feel is the owner's.
