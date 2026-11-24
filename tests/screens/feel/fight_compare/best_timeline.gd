@@ -198,6 +198,15 @@ const SPEEDUP_OVER: int = 120
 const SPEEDUP_FROM: int = 60
 const SPEEDUP_RAMP: int = 60
 const SPEEDUP_TOP: float = 1.5
+## Rule 7's numbers ("R7" in the options; fight_length.gd's what-ifs, not contested branches):
+## the queue length that turns it on, where in the queue it starts, the ramp, the top speed.
+## "best" is the proposal's (the constants above).
+const SPEEDUPS: Dictionary = {
+	"best": {"over": SPEEDUP_OVER, "from": SPEEDUP_FROM, "ramp": SPEEDUP_RAMP, "top": SPEEDUP_TOP},
+	"x2": {"over": SPEEDUP_OVER, "from": SPEEDUP_FROM, "ramp": SPEEDUP_RAMP, "top": 2.0},
+	"early": {"over": 60, "from": 30, "ramp": 30, "top": 1.5},
+	"early_x2": {"over": 60, "from": 30, "ramp": 30, "top": 2.0},
+}
 const END_AFTER: int = 24
 const END_HOLD: int = 90
 ## Glows that last until the card leaves (an attacker killed before it strikes).
@@ -222,6 +231,9 @@ var frame_offset: int = -1
 var end_frame: int = 0
 ## Where the schedule had to bend a rule of the proposal.
 var notes: PackedStringArray = []
+## [{kind, from, to}]: each beat (trigger, to its next), arrival (summon), fall (death) and a
+## combo's closing count (trigger), by frame; fight_length.gd's breakdown of a fight's time.
+var spans: Array[Dictionary] = []
 
 var _events: Array = []
 var _snaps: Array = []
@@ -489,7 +501,10 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 	_tempo_on = false
 	var first_pass: int = _run_queue(queue, queue_from, release, kill_land)
 	var combo_rule: Dictionary = COMBOS[pick("CB7")]
-	_tempo_on = combo_rule.get("speedup", false) == true and first_pass - queue_from > SPEEDUP_OVER
+	_tempo_on = (
+		combo_rule.get("speedup", false) == true
+		and first_pass - queue_from > _i(_speedup()["over"])
+	)
 	_commit = true
 	var falls_before: int = _falls.size()
 	var queue_end: int = maxi(
@@ -588,10 +603,17 @@ func _run_queue(queue: Array[Dictionary], from: int, at: int, kill_land: int) ->
 	var queue_end: int = at + NUMBERS_AT
 	var killed: int = kill_land
 	var j: int = 0
+	# "GROUP" (a what-if for fight_length.gd, plan B's "up to 3 different triggers at once"): up
+	# to GROUP single beats in a row start together, at the first one's start
+	var group_limit: int = _i(options.get("GROUP", 1))
+	var group_at: int = -1
+	var grouped: int = 0
 	while j < queue.size():
 		var item: Dictionary = queue[j]
 		var tempo: float = _tempo(t - from)
 		var kind: String = item["kind"]
+		if kind != "beat":
+			group_at = -1
 		if kind == "stagger":
 			var spread: Dictionary = _stagger(item, killed + roundi(EFFECT_KILL / tempo))
 			t = maxi(t, _i(spread["next"]))
@@ -614,14 +636,22 @@ func _run_queue(queue: Array[Dictionary], from: int, at: int, kill_land: int) ->
 			var repeats: Array[Dictionary] = []
 			repeats.assign(queue.slice(j, j + run))
 			done = _combo(repeats, t, from)
+			group_at = -1
 			j += run
 		else:
-			done = _item(item, t, tempo)
+			var begin: int = t
+			if group_limit > 1 and kind == "beat" and group_at >= 0 and grouped < group_limit:
+				begin = group_at
+				grouped += 1
+			elif kind == "beat":
+				group_at = t
+				grouped = 1
+			done = _item(item, begin, tempo)
 			j += 1
-		t = _i(done["next"])
+		t = maxi(t, _i(done["next"])) if group_limit > 1 else _i(done["next"])
 		queue_end = maxi(queue_end, _i(done["end"]))
 		if done.get("damage", false):
-			killed = _i(done["land"])
+			killed = maxi(killed, _i(done["land"])) if group_limit > 1 else _i(done["land"])
 	return queue_end
 
 
@@ -629,8 +659,14 @@ func _run_queue(queue: Array[Dictionary], from: int, at: int, kill_land: int) ->
 func _tempo(into: int) -> float:
 	if not _tempo_on:
 		return 1.0
-	var share: float = clampf(float(into - SPEEDUP_FROM) / SPEEDUP_RAMP, 0.0, 1.0)
-	return 1.0 + (SPEEDUP_TOP - 1.0) * share
+	var rule: Dictionary = _speedup()
+	var share: float = clampf(float(into - _i(rule["from"])) / _f(rule["ramp"]), 0.0, 1.0)
+	return 1.0 + (_f(rule["top"]) - 1.0) * share
+
+
+## Rule 7's numbers: the options' "R7", else the proposal's.
+func _speedup() -> Dictionary:
+	return SPEEDUPS[str(options.get("R7", "best"))]
 
 
 func _fall(item: Dictionary, at: int, length: int) -> void:
@@ -638,6 +674,7 @@ func _fall(item: Dictionary, at: int, length: int) -> void:
 		return
 	_reveal_all(item, at)
 	_speeds[at] = float(FALL) / length
+	spans.append({"kind": "death", "from": at, "to": at + length})
 	for value: Variant in item["events"]:
 		var event: Dictionary = _events[_i(value)]
 		var uid: int = _i(event["uid"])
@@ -734,6 +771,7 @@ func _combo(run: Array[Dictionary], start: int, from: int) -> Dictionary:
 	var last: int = lands.max()
 	var end: int = last + _i(combo["end"])
 	if _commit:
+		spans.append({"kind": "trigger", "from": last, "to": end})
 		_combos.append({"attack": attacks.size(), "start": start, "lands": lands.duplicate()})
 	if _commit and pick("CB7") == "best_xn":
 		var key: String = _key(_i(run[0]["source"]))
@@ -774,6 +812,8 @@ func _item(item: Dictionary, start: int, tempo: float) -> Dictionary:
 		if alive:
 			_pulse(item, start, start + roundi(BEAT_LAND / tempo))
 			at = start + roundi(BEAT_LAND / tempo)
+			if _commit:
+				spans.append({"kind": "trigger", "from": start, "to": at})
 		return _arrive(item, at, tempo)
 	var targets: Array = item["targets"]
 	var to_self: bool = targets.is_empty() or (targets.size() == 1 and _i(targets[0]) == source)
@@ -782,6 +822,7 @@ func _item(item: Dictionary, start: int, tempo: float) -> Dictionary:
 		_pulse(item, start, land)
 	var damage: bool = false
 	if _commit:
+		spans.append({"kind": "trigger", "from": start, "to": land + roundi(BEAT_GAP / tempo)})
 		if not item.get("quiet", false):
 			_reveal_all(item, land)
 		for value: Variant in item["events"]:
@@ -798,6 +839,7 @@ func _item(item: Dictionary, start: int, tempo: float) -> Dictionary:
 func _arrive(item: Dictionary, at: int, tempo: float) -> Dictionary:
 	var land: int = at + roundi(DROP_LAND / tempo)
 	if _commit:
+		spans.append({"kind": "summon", "from": at, "to": at + roundi(DROP / tempo)})
 		_reveal_all(item, at)
 		for value: Variant in item["events"]:
 			var i: int = _i(value)

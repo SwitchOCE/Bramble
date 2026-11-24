@@ -66,7 +66,8 @@ const CARD_COLUMNS: String = (
 const MARKER_COLUMNS: String = "frame,t,step,marker,key,detail"
 
 var treatment_name: String = ""
-## Which fixed fight: "" (the comparison fight) or "cb7".
+## Which fixed fight: "" (the comparison fight), "cb7", or "spec:<path>" (a late fight saved by
+## fight_length.gd; the report's you, them and fight_seed are then the comparison fight's).
 var fight_name: String = ""
 var screen: FightScreen
 var combat: Combat
@@ -142,6 +143,10 @@ func start(chosen: String, options: Dictionary = {}, which: String = "") -> void
 
 ## The fixed fight a scenario names: "cb7" is CB7's second fight; else the comparison fight.
 static func fight_named(content: GameContent, which: String) -> Combat:
+	if which.begins_with("spec:"):
+		# a late fight from fight_length.gd (fights/<name>.json): two ghost runs' boards
+		var lengths: GDScript = load("res://tests/screens/feel/fight_compare/fight_length.gd")
+		return lengths.call("fight_from_file", content, which.trim_prefix("spec:"))
 	if which != "cb7":
 		return fight(content)
 	var game: GameSession = content.new_session(SESSION_SEED)
@@ -415,7 +420,10 @@ func feel_report() -> Dictionary:
 	var attacks: Array[Dictionary] = attack_frames()
 	var moments: Array[Dictionary] = []
 	var cb7: bool = fight_name == "cb7"
-	for moment: Dictionary in CB7_MOMENTS if cb7 else MOMENTS:
+	var listed: Array[Dictionary] = CB7_MOMENTS if cb7 else MOMENTS
+	if fight_name.begins_with("spec:"):
+		listed = []
+	for moment: Dictionary in listed:
 		var held: Dictionary = moment.duplicate()
 		var n: int = _i(moment["attack"])
 		if n < attacks.size():
@@ -434,7 +442,7 @@ func feel_report() -> Dictionary:
 	return {
 		"treatment": treatment_name,
 		"plan": plan,
-		"fight": fight_name if cb7 else "comparison",
+		"fight": fight_name if fight_name != "" else "comparison",
 		"you": CB7_YOU if cb7 else YOU,
 		"them": CB7_THEM if cb7 else THEM,
 		"fight_seed": CB7_SEED if cb7 else FIGHT_SEED,
