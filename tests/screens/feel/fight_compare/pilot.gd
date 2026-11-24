@@ -22,6 +22,7 @@ var solo: Dictionary = {}
 
 
 func configure(chosen: Dictionary) -> void:
+	super(chosen)
 	options = chosen.duplicate()
 
 
@@ -33,8 +34,9 @@ func option(decision: String) -> String:
 
 func make_motion(cards: Control) -> FightMotion:
 	if option("CB13") == "today":
-		return FightMotion.new(cards)
-	var motion: FightMotion = PILOT_MOTION.new(cards)
+		return super(cards)
+	var made: FightMotion = PILOT_MOTION.new(cards)
+	var motion: FightMotion = turned(made)
 	motion.set("option", option("CB13"))
 	motion.set("solo", solo)
 	return motion

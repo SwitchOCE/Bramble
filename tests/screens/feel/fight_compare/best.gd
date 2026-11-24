@@ -23,6 +23,7 @@ var timeline: RefCounted
 
 ## The scenario's options (fight_compare.gd calls this before make_replay).
 func configure(chosen: Dictionary) -> void:
+	super(chosen)
 	options = chosen.duplicate()
 
 

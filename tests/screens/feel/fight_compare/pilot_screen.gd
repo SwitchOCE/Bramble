@@ -11,6 +11,7 @@ extends "res://tests/screens/feel/fight_compare/compare_screen.gd"
 
 const HeroDamage := preload("res://tests/screens/feel/fight_compare/pilot_hero_damage.gd")
 const PilotMotion := preload("res://tests/screens/feel/fight_compare/pilot_motion.gd")
+const Rotate := preload("res://tests/screens/feel/fight_compare/rotate.gd")
 ## Drawn above the board and the banner while a portrait strikes; the Health and the "-N" above
 ## the striker, so it never hides them (E6).
 const STRIKER_Z: int = 20
@@ -95,6 +96,8 @@ func _build_result() -> void:
 	damage.set("base", _i(pilot["base"]))
 	damage.set("total", _i(pilot["total"]))
 	damage.set("loser_is_you", loser_is_you)
+	if treatment != null and treatment.get("rotate") == true:
+		damage.set("rotation_set", Rotate.SET)
 	damage.set("winner_at", _striker.position + _striker.size / 2.0)
 	damage.set("loser_at", _loser.position + _loser.size / 2.0)
 	damage.set("winner_r", _striker.size.x / 2.0)
@@ -132,7 +135,10 @@ func _draw_damage() -> void:
 	_striker.pivot_offset = _striker.size / 2.0
 	var moved: Vector2 = striker["offset"]
 	_striker.position = _striker_home + moved
-	_striker.scale = Vector2.ONE * _f(striker["scale"])
+	var grown: float = _f(striker["scale"])
+	# the rotation switch: shorter along its own length (rotate.gd). No keystone: the portrait is
+	# a GlassBox drawn by its own shader material, which tip.gdshader would replace.
+	_striker.scale = Vector2(grown, grown * _f(striker.get("length", 1.0)))
 	_striker.rotation_degrees = _f(striker["turn"])
 	_striker.modulate = Color(light, light, light)
 	_striker.z_index = STRIKER_Z if _option("CB12") == "b" else 0

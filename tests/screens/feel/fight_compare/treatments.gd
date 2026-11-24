@@ -7,6 +7,7 @@ const ALL: Dictionary = {
 	"best": preload("res://tests/screens/feel/fight_compare/best.gd"),
 	"pilot": preload("res://tests/screens/feel/fight_compare/pilot.gd"),
 	"buffs": preload("res://tests/screens/feel/fight_compare/buffs.gd"),
+	"recommended": preload("res://tests/screens/feel/fight_compare/recommended.gd"),
 }
 
 
