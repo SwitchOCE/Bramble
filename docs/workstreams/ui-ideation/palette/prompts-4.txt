@@ -1,0 +1,22 @@
+You are making card art for a woodland auto-battler game. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No logos, watermarks, titles or captions. Every design is original: do not depict or closely imitate any existing game's cards. Reply with just the saved filenames.
+
+Each item repaints a fighter from an existing card picture. The item names that picture's file, a path relative to the repository root (in this checkout: /home/alex/.t3/worktrees/Bramble/ideation-ui-ux-dce1598bde386004/). Open it as an image and pass it to the image tool as a reference, for that item only, FOR THE FIGURE ONLY: take the fighter's species, build, face, costume, weapon and pose from it, so it is plainly the same character. Take NOTHING else from it: not its background, not the layout of its scene, not its sky, sun, colours or light. Paint the place new, from the item's words. The old picture is a cut-out hexagon; the new one is a full rectangle.
+
+Every item: tall 2:3 portrait image, filled edge to edge by the picture. No frame, no border, no outer lead line, no black margin: the game cuts the picture to shape and draws its own border.
+
+Composition, the same for every item: the fighter stands in the middle, whole from head to foot, with clear room above the head and below the feet. Keep the four corners free of anything that matters: they will be cut off. Keep the bottom fifth of the picture at the far left and far right free of anything that matters: round number discs will sit there. A fighter's feet and weapon stay inside the middle of the picture.
+
+The picture is: the subject named in the item, drawn in flat hard-edged shapes in full, rich colour, against the place named in the item, lit as LIGHT below says.
+
+LIGHT: The subject stands in clear light and is the brightest, most colourful thing in the picture. The place behind it lies in soft shade, as in the hour before evening, so its glass glows deeper and quieter than the subject's, mostly in the place colours the item names, in a few large panes. No sun rays or sunbursts.
+
+No numerals, text or lettering anywhere.
+
+Look: stylised, with big simple shapes and a hand-made feel. Sculpted, but not photoreal and not fussy: little fine detail. It should look like something a small art team could produce a hundred of. The fighters are warriors, shown full body: not cute, not zoomed in.
+
+The design, the same for every item: a stained-glass window: dark lead lines, chunky coloured glass panes that glow as if lit from behind, the subject itself built from glass pieces. The picture runs right to the edges of the image.
+
+Items:
+1. neutral-weasel.png -- Reference: assets/units/shared/weasel.jpg (figure only). A weasel skirmisher in a green hooded cape, full body, leaping forward with a short curved knife held up near its chest, so the knife stays well inside the middle of the picture, over dry tussocks on an open stony hillside on a grey afternoon, a weathered standing stone patched with ochre and rust lichen behind it and a dry-stone wall and a far ridge beyond. Place colours: warm stone grey and pale oatmeal, dry grass, small patches of ochre and rust lichen. No green woods, no sun.
+2. locust-gleaner.png -- Reference: assets/units/locust/gleaner.jpg (figure only). A gaunt locust gleaner in dark bronze-brown and amber plates, exactly the colours of the reference figure, full body, swinging a long scythe, in a burnt, stripped field under a smoky sky with a far-off swarm; the haze is paler just behind the figure, so its dark outline reads clearly against it. Place colours: dusty rust and burnt umber ground, smoky plum sky turning pale dusty rose behind the figure. No orange fire, no gold sky, no purple.
+3. badger-greatsword-bearer.png -- Reference: assets/units/badger/greatsword-bearer.jpg (figure only). A burly badger in a brown leather jerkin with buckles and a belt pouch, full body, standing square with a huge greatsword resting across his shoulders, in a clearing between old oaks on a damp afternoon, soft grey-green mist in the clearing behind him so his outline reads clearly. The place is built from a few large panes, not many small leaves. Place colours: deep moss green and bark brown, pale rain grey in the mist. No yellow light, no sun.

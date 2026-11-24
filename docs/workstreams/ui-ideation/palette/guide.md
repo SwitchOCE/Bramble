@@ -46,10 +46,18 @@ Card backgrounds leave these alone in large areas, so that tier light and gold s
 
 The test shows the gain: today's gold barn mouse merges with its gilt border, and the nightfall mouse doesn't.
 
+## The larger test: eighteen cards on the wider card
+
+The eighteen cards on the buy screen were painted full-bleed for the 0.69 card (sheet: `/data/ui-ideation/palette/c69-sheet.png`). The old picture was attached for the figure only, and the place was written out in full. 15 of 18 came out right.
+
+- **The wider window works.** Every figure is whole from head to foot. Nothing that matters sits in the cut corners or under the discs, except one knife tip.
+- **Mouse** works on all four cards. No old colours were copied.
+- **Pigeon, thorn and neutral** are now told apart at 173 px: thorn by its grey-teal mist, pigeon by cool grey and sage, neutral by warm oatmeal.
+- **Still open:** neutral is the plainest tribe. Badger cards whose place is built from many small leaf panes let the fighter lead less. Asking for a pale figure on the locust gleaner changed its colours. All three are being painted again.
+
 ## Not settled
 
-- **Mouse** works when the place is written out, and fails when an old picture is attached (bell-ringer).
-- **The three light tribes** (pigeon, thorn, neutral) are told apart at 130 px by warmth alone: cool grey-blue, grey-green, warm grey. It works on the test board, but it is the weakest part of telling tribes apart at a glance.
-- **Neutral** may read a little plain (the weasel), against "maybe not too plain".
+- **An old picture attached** must be marked "figure only", with the place written out in full. Otherwise it brings its old colours back (the bell-ringer).
+- **Neutral** may read a little plain, against "maybe not too plain".
 - **Pale pigeon cards under the off-white tier 1 light** have the least contrast of any pairing.
-- **Untested on the new, wider window** (about 0.69 to 1), and on more than two or three cards per tribe.
+- **Mouse and badger are the two dark tribes.** Mouse is a little heavy at nightfall; a brighter lamp-lit spot is worth trying if the owner finds it gloomy.

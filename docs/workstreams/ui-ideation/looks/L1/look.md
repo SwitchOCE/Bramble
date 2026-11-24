@@ -59,3 +59,14 @@ Built in [screen.html](screen.html) (`?view=buy|fight|shapes&shape=a–e&depth=1
 **What depth adds.** The table recedes, the wall meets it in shadow, each card casts a shadow and throws its own colours forward onto the wood, and a lifted card's shadow moves away. Cards stay flat. It is quiet: clear side by side, easy to miss alone.
 
 **What falls short.** The fight leaves wide empty sides because height binds. The shop and hand art is still today's bright art. Motion and glow timing are not judged.
+
+## Polished
+
+`screen.html?view=polish` (`art=guide|today`, `hover=N`), built to [polish.md](polish.md). Renders: `/data/ui-ideation/looks/L1/polish/`: `buy-guide.png`, `buy-guide-hover.png`, `buy-today.png`, `buy-today-hover.png`.
+
+- **Layout.** Five shop units centred, one spell at each end. On the left pier, what you watch: the turn, the scoreboard, your hero, Compost and Tide, the library and the cog. On the right pier, what you act on: tier up, refresh and freeze level with the shop, then gold (the biggest thing there) and End turn. The board sits exactly on its slots, and the hand is full size and half hidden.
+- **Depth.** Each card is a slab: a few pixels of lead edge under it and a tight soft shadow, larger when raised. The niches are recessed with a stone reveal. The table has a front edge. Nothing is drawn on the table.
+- **Materials.** Painted glass roundels for buttons, gilt coins, lead plates and a stone pier, all in the cards' materials. A price you can't afford is a pewter coin.
+- **The repainted art** (all 18 arrived) sits calmer behind the lead than today's. The frames, the shop light and golden all read better with it. Every picture fits the window, with heads and feet clear of the discs.
+- **Not done.** A scoreboard-on-the-right version: the owner moved the shop's buttons to the right, and both cannot share that pier. The thickness is subtle at full view.
+- **Not judged:** hover feel, raise motion and glow timing.
