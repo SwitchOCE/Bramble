@@ -46,6 +46,22 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .treebar{display:flex;gap:8px;margin:8px 0 14px}
 ol.rules{padding-left:22px} ol.rules li{margin-bottom:8px}
 td.hl, th.hl{background:var(--accent-soft)}
+.cmp{padding:16px}
+.cmp:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cmp-pick{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:12px}
+.cmp-pick label{display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft)}
+.cmp-pick select{font-family:var(--sans);font-size:15px;text-transform:none;letter-spacing:0;padding:6px 8px;border-radius:6px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);min-width:0}
+.cmp-panes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cmp-panes figure{margin:0;min-width:0}
+.cmp-panes video{display:block;width:100%;height:auto;background:#111;border-radius:6px;border:1px solid var(--rule)}
+.cmp-panes figcaption{font-size:14px;margin-top:4px;min-width:0}
+.cmp-ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.cmp-ctl input[type=range]{flex:1 1 220px;min-width:0;accent-color:var(--accent)}
+.cmp-frame{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:14px;min-width:15ch}
+.cmp-frame b{color:var(--neg);font-weight:600}
+.cmp-seg{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.cmp-meas{margin-top:12px}
+.cmp-meas table{font-size:13.5px}
 @media (max-width:560px){.tree .meta{grid-template-columns:1fr}.wide{width:calc(100vw - 32px)}}
 </style>
 
@@ -87,7 +103,41 @@ td.hl, th.hl{background:var(--accent-soft)}
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">02</span><h2>Seven decisions</h2></div>
+  <div class="sec-head"><span class="n">02</span><h2>Compare any two</h2></div>
+  <div class="reading">
+    <p>Pick a decision and two of its options. Both play in step, lined up on the moment that matters; the red counter is frames from it (S start, C contact, T Thorns, P first pulse). As in the next section, every choice not being compared is held at the proposal's pick. With the viewer selected, the arrow keys step one frame and the space bar plays or pauses.</p>
+  </div>
+  <div class="wide"><div class="card cmp" id="cmp" tabindex="0" aria-label="Side-by-side clip comparison">
+    <div class="cmp-pick">
+      <label>Decision<select id="cmp-branch"></select></label>
+      <label>Left<select id="cmp-a"></select></label>
+      <label>Right<select id="cmp-b"></select></label>
+    </div>
+    <div class="cmp-panes">
+      <figure><video class="cmp-v" id="cmp-va" muted playsinline preload="auto"></video><figcaption id="cmp-la"></figcaption></figure>
+      <figure><video class="cmp-v" id="cmp-vb" muted playsinline preload="auto"></video><figcaption id="cmp-lb"></figcaption></figure>
+    </div>
+    <div class="cmp-ctl speedbar" style="margin-top:12px">
+      <button type="button" id="cmp-play">Play</button>
+      <button type="button" id="cmp-prev" aria-label="Back one frame">&#9664; 1 frame</button>
+      <button type="button" id="cmp-next" aria-label="Forward one frame">1 frame &#9654;</button>
+      <span class="cmp-rates" role="group" aria-label="Comparison speed" style="display:contents">
+        <button type="button" data-crate="1" aria-pressed="false">1&times;</button>
+        <button type="button" data-crate="0.5" aria-pressed="true">&frac12;</button>
+        <button type="button" data-crate="0.25" aria-pressed="false">&frac14;</button>
+        <button type="button" data-crate="0.1" aria-pressed="false">1/10</button>
+      </span>
+      <input type="range" id="cmp-scrub" min="0" max="1" value="0" step="1" aria-label="Frame">
+      <span class="cmp-frame" id="cmp-frame"></span>
+    </div>
+    <div class="cmp-seg speedbar" id="cmp-seg"></div>
+    <div class="cmp-meas" id="cmp-meas"></div>
+  </div></div>
+  <p class="small muted">The clips are small (360 pixels wide) to keep the page light, so the numbers on the cards are hard to read; larger versions can be cut if you want them. The whole-fight pair isn't lined up on any moment: the two fights differ in length (today 817 frames, the proposal 847).</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">03</span><h2>Seven decisions</h2></div>
   <div class="reading">
     <p>The places where the three plans really disagree. Each clip shows the options side by side, left to right as listed, lined up on the moment that matters; the red counter under each label counts frames from it (S start, C contact, T Thorns, P first pulse). Every other choice is held at the proposal's pick, so a pane labelled "Today" shows today's value for that one choice on top of the proposal, not today's build. The highlighted option is the recommendation.</p>
   </div>
@@ -189,7 +239,7 @@ td.hl, th.hl{background:var(--accent-soft)}
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">03</span><h2>Your claims against the footage</h2></div>
+  <div class="sec-head"><span class="n">04</span><h2>Your claims against the footage</h2></div>
   <div class="reading"><p>Measured frame by frame from public videos (Battlegrounds 2020–2026, six videos; Once Upon a Galaxy, two). Footage stayed in scratch space and is not shown here; each row in the research cites its link and timestamp.</p></div>
   <div class="tbl-wrap"><table>
     <thead><tr><th>Your claim</th><th>Battlegrounds</th><th>Galaxy</th><th>What the footage shows</th></tr></thead>
@@ -204,7 +254,7 @@ td.hl, th.hl{background:var(--accent-soft)}
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">04</span><h2>Measured, side by side</h2></div>
+  <div class="sec-head"><span class="n">05</span><h2>Measured, side by side</h2></div>
   <div class="tbl-wrap"><table>
     <thead><tr><th>Frames at 60 fps</th><th>Battlegrounds</th><th>Galaxy</th><th>Super Auto Pets (Fast)</th><th>Runeterra</th><th>Ours today</th><th class="hl">Proposal</th></tr></thead>
     <tbody>
@@ -229,7 +279,7 @@ td.hl, th.hl{background:var(--accent-soft)}
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">05</span><h2>The decision tree</h2></div>
+  <div class="sec-head"><span class="n">06</span><h2>The decision tree</h2></div>
   <div class="reading"><p>Every kind of event our fights produce (29 types), what is shown, when it starts, what waits for it, how repeats group, and its cost in frames. Events our game can't produce today (<code>instead_of_attack</code>, an in-fight <code>counter</code>) are left out. <span class="tag cb">CB</span> marks a branch decided above.</p></div>
   <div class="treebar"><button type="button" class="speedbar-btn" id="tree-open">Open all</button><button type="button" class="speedbar-btn" id="tree-close">Close all</button></div>
   <div class="tree card" id="tree"></div>
@@ -248,7 +298,7 @@ td.hl, th.hl{background:var(--accent-soft)}
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">06</span><h2>The three plans, and the time they cost</h2></div>
+  <div class="sec-head"><span class="n">07</span><h2>The three plans, and the time they cost</h2></div>
   <div class="reading"><p>Three agents planned independently, each from a stance; a fourth read all three and the research and wrote the proposal.</p></div>
   <div class="tbl-wrap"><table>
     <thead><tr><th></th><th>Today</th><th>A · Battlegrounds</th><th>B · fastest that reads</th><th>C · weight for glass</th><th class="hl">Proposal</th></tr></thead>
@@ -267,7 +317,7 @@ td.hl, th.hl{background:var(--accent-soft)}
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">07</span><h2>Council review</h2></div>
+  <div class="sec-head"><span class="n">08</span><h2>Council review</h2></div>
   <div class="reading" id="council">
     <p>One round, as you asked: Claude Opus, GPT Sol and Gemini Neon each reviewed the tree, the proposal, the page and the clips on their own, reading the clips frame by frame against the logs. All three asked for changes. Their findings overlapped and none contradicted another, so every finding was fixed and nobody re-checked the fixes.</p>
   </div>
@@ -297,7 +347,7 @@ td.hl, th.hl{background:var(--accent-soft)}
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">08</span><h2>What was checked, and what wasn't</h2></div>
+  <div class="sec-head"><span class="n">09</span><h2>What was checked, and what wasn't</h2></div>
   <div class="tbl-wrap"><table>
     <thead><tr><th>Checked</th><th>How</th></tr></thead>
     <tbody>
@@ -346,8 +396,8 @@ td.hl, th.hl{background:var(--accent-soft)}
 <script>
 (function(){
   var TREE = /*TREE*/null;
-  var vids = function(){ return Array.prototype.slice.call(document.querySelectorAll('video')); };
-  var btns = Array.prototype.slice.call(document.querySelectorAll('.speedbar button'));
+  var vids = function(){ return Array.prototype.slice.call(document.querySelectorAll('video:not(.cmp-v)')); };
+  var btns = Array.prototype.slice.call(document.querySelectorAll('.sticky-speed .speedbar button'));
   function setRate(r){
     vids().forEach(function(v){ v.playbackRate = r; v.defaultPlaybackRate = r; });
     btns.forEach(function(b){ b.setAttribute('aria-pressed', String(Number(b.dataset.rate) === r)); });
@@ -376,5 +426,104 @@ td.hl, th.hl{background:var(--accent-soft)}
   el.innerHTML = (kids._root || []).map(function(n){ return render(n, 0); }).join('');
   document.getElementById('tree-open').addEventListener('click', function(){ el.querySelectorAll('details').forEach(function(d){ d.open = true; }); });
   document.getElementById('tree-close').addEventListener('click', function(){ el.querySelectorAll('details').forEach(function(d, i){ d.open = false; }); });
+})();
+</script>
+<script>
+(function(){
+  var CMP = /*COMPARE*/null;
+  if(!CMP) return;
+  var FPS = CMP.fps || 60;
+  var B = CMP.branches;
+  B.whole = {title:'Whole fight: today against the proposal', frames:847, segments:[], options:[
+    {option:'today', file:'whole/today.mp4', label:'Today, whole fight (817 frames)'},
+    {option:'best', file:'whole/best.mp4', label:'Proposal, whole fight (847 frames)'}]};
+  var $ = function(id){ return document.getElementById(id); };
+  var selB = $('cmp-branch'), selA = $('cmp-a'), selR = $('cmp-b');
+  var va = $('cmp-va'), vb = $('cmp-vb'), scrub = $('cmp-scrub'), out = $('cmp-frame');
+  var playBtn = $('cmp-play'), rate = 0.5, playing = false, br = null;
+  function esc(x){ return String(x == null ? '' : x).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  Object.keys(B).forEach(function(k){ var o = document.createElement('option'); o.value = k; o.textContent = B[k].title; selB.appendChild(o); });
+  function opt(k){ return br.options.filter(function(o){ return o.option === k; })[0]; }
+  function fill(sel, def){ sel.innerHTML = ''; br.options.forEach(function(o){ var e = document.createElement('option'); e.value = o.option; e.textContent = o.label; sel.appendChild(e); }); sel.value = def; }
+  function frames(){ return br.frames; }
+  function frameOf(){ return Math.min(frames() - 1, Math.max(0, Math.floor(va.currentTime * FPS + 1e-3))); }
+  function seek(f){ f = Math.max(0, Math.min(frames() - 1, f)); var t = (f + 0.5) / FPS; va.currentTime = Math.min(t, (va.duration || t) - 0.25 / FPS); vb.currentTime = Math.min(t, (vb.duration || t) - 0.25 / FPS); show(f); }
+  function seg(f){ var s = null; (br.segments || []).forEach(function(x){ if(f >= x.start) s = x; }); return s; }
+  function show(f){
+    if(f == null) f = frameOf();
+    scrub.value = f;
+    var s = seg(f), rel = '';
+    if(s && s.reference_index != null){ var d = f - s.reference_index; rel = ' <b>' + esc(s.reference) + (d >= 0 ? '+' : '−') + Math.abs(d) + '</b>'; }
+    out.innerHTML = 'frame ' + f + ' / ' + (frames() - 1) + rel;
+  }
+  function meas(){
+    var a = opt(selA.value), b = opt(selR.value), ma = (a && a.measured) || {}, mb = (b && b.measured) || {};
+    var keys = Object.keys(ma).concat(Object.keys(mb).filter(function(k){ return !(k in ma); }));
+    if(!keys.length){ $('cmp-meas').innerHTML = ''; return; }
+    $('cmp-meas').innerHTML = '<div class="tbl-wrap"><table><thead><tr><th>Measured on the film</th><th class="num">Left</th><th class="num">Right</th></tr></thead><tbody>' +
+      keys.map(function(k){ return '<tr><td>' + esc(k.replace(/_/g, ' ')) + '</td><td class="num">' + esc(ma[k]) + '</td><td class="num">' + esc(mb[k]) + '</td></tr>'; }).join('') + '</tbody></table></div>';
+  }
+  function load(){
+    var f = frameOf();
+    pause();
+    var a = opt(selA.value), b = opt(selR.value);
+    va.src = 'compare/' + a.file; vb.src = 'compare/' + b.file;
+    $('cmp-la').textContent = a.label; $('cmp-lb').textContent = b.label;
+    va.playbackRate = vb.playbackRate = rate;
+    var go = function(){ seek(Math.min(f, frames() - 1)); };
+    va.addEventListener('loadedmetadata', go, {once:true});
+    meas();
+  }
+  function setBranch(k){
+    br = B[k];
+    var ks = br.options.map(function(o){ return o.option; });
+    var left = ks.indexOf('today') >= 0 ? 'today' : ks[0];
+    var right = ks.indexOf('best') >= 0 && left !== 'best' ? 'best' : ks.filter(function(x){ return x !== left; })[0];
+    fill(selA, left); fill(selR, right);
+    scrub.max = br.frames - 1;
+    var sg = $('cmp-seg'); sg.innerHTML = '';
+    (br.segments || []).forEach(function(s){
+      if((br.segments || []).length < 2 && s.reference_index == null) return;
+      var e = document.createElement('button'); e.type = 'button';
+      e.textContent = s.what + (s.reference_index == null ? '' : ' · ' + s.reference);
+      e.addEventListener('click', function(){ pause(); seek(s.reference_index != null ? s.reference_index : s.start); });
+      sg.appendChild(e);
+    });
+    va.removeAttribute('src'); va.currentTime = 0;
+    load();
+    seek(0);
+  }
+  function pause(){ playing = false; va.pause(); vb.pause(); playBtn.textContent = 'Play'; }
+  function play(){
+    if(frameOf() >= frames() - 2) seek(0);
+    playing = true; va.playbackRate = vb.playbackRate = rate;
+    va.play(); if(vb.currentTime < (vb.duration || 1e9) - 1 / FPS) vb.play();
+    playBtn.textContent = 'Pause'; tick();
+  }
+  function tick(){
+    if(!playing) return;
+    var f = frameOf();
+    var tb = Math.min(va.currentTime, (vb.duration || 1e9) - 0.25 / FPS);
+    if(Math.abs(vb.currentTime - tb) > 2 / FPS) vb.currentTime = tb;
+    if(va.ended || f >= frames() - 1){ seek(0); va.play(); vb.play(); }
+    show(f);
+    requestAnimationFrame(tick);
+  }
+  playBtn.addEventListener('click', function(){ playing ? pause() : play(); });
+  $('cmp-prev').addEventListener('click', function(){ pause(); seek(frameOf() - 1); });
+  $('cmp-next').addEventListener('click', function(){ pause(); seek(frameOf() + 1); });
+  scrub.addEventListener('input', function(){ pause(); seek(Number(scrub.value)); });
+  Array.prototype.slice.call(document.querySelectorAll('[data-crate]')).forEach(function(b, i, all){
+    b.addEventListener('click', function(){ rate = Number(b.dataset.crate); va.playbackRate = vb.playbackRate = rate; all.forEach(function(x){ x.setAttribute('aria-pressed', String(x === b)); }); });
+  });
+  selB.addEventListener('change', function(){ setBranch(selB.value); });
+  selA.addEventListener('change', load); selR.addEventListener('change', load);
+  $('cmp').addEventListener('keydown', function(e){
+    if(e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT') return;
+    if(e.key === 'ArrowLeft'){ e.preventDefault(); pause(); seek(frameOf() - 1); }
+    else if(e.key === 'ArrowRight'){ e.preventDefault(); pause(); seek(frameOf() + 1); }
+    else if(e.key === ' '){ e.preventDefault(); playing ? pause() : play(); }
+  });
+  setBranch(Object.keys(B)[0]);
 })();
 </script>
