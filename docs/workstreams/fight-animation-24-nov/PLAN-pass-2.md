@@ -42,3 +42,19 @@ A fresh agent questioned this plan. Taken:
 - The hexagon-point question goes to the owner now, with a picture, before anything is built.
 - Rotation clips go to the owner as soon as they exist, not with the combo pictures.
 - Open for the owner: which hexagon point leads; whether the hit splat shows on every repeated hit or only once the combo speeds up; whether the strike curve stays constant.
+
+## The owner's second reply (24 Nov, dictated, filler removed)
+
+> "Additional feedback as well is that I don't see all the animations. When you give a video clip of seven things side by side, it's very hard for me to pinpoint. Maybe build some sort of tool that lets me pick just two animations to compare, and I can slow or speed them up in the video viewer. I'm not sure if that's possible. Investigate and get back to me, or have a sub-agent investigate."
+> "The videos are not aligned well in the artifact page. They go off to the side."
+> "I think our animations for non-hits are potentially pretty poor. When Brock gets stats it's very hard to tell what happened. I should at least get something numerical to communicate that. I should be focused on the part of the card that's changed. How many stats did Brock gain from the card dying? … When we look at the two Gleaners triggering next to one another, they start off slower, then speed up more as the sequence continues. But I don't get that same feeling in number six, where a bunch of units die: all six cards play their dying animations at once, which is fine I guess, but if we had some way of staggering them a little bit, even though game-wise they died simultaneously, it would feel more realistic if they dropped off one at a time, and more impactful. How does Battlegrounds handle multiple units dying at the same time? … That's another thing I'd like to investigate."
+> "I do think that we need to do buff animations way better. When something gets additional stats, we need animations for that, and they need to feel clear and interesting. We shouldn't just draw from Battlegrounds in this regard, because I don't think it does it particularly well."
+> "In terms of the question, I agree: it changes for your board and their board. The bottom of their card attacks yours, and the top of yours attacks theirs. The hit splat stuff, I'm not sure of the answers. The strike speed that speeds up, yeah, I did like that. I didn't realise we're already doing it; maybe even a slower speed-up would be better, I'm not sure, it's hard to tell until I see it. … The constant, linear stuff, I noticed that was very bad. I didn't like that."
+
+## Threads added
+
+4. **A comparison viewer on the page:** pick a decision, pick any two options, play them side by side in sync, slow or speed them, step frame by frame. Needs one clip per option (builder). Page layout bug fixed (a margin rule cancelled the centring of wide clips).
+5. **Strike speed:** the owner liked the speed-up into contact and disliked constant speed. Constant is dropped; options become today's strong speed-up, the mild one, and a gentler one, filmed with rotation.
+6. **Several deaths at once (R5):** measure how Battlegrounds and others show a board of deaths; options for staggering falls (order, gaps, accelerating like the combo); film on the fixture's six-death moment.
+7. **Buff animations (design job):** reference study beyond Battlegrounds; three treatments that draw the eye to the changed stat and show the amount; parts using existing pieces are filmed, new pieces (a floating +N, a disc flare) go to the owner as pictures first.
+8. **Leading point: settled.** The point facing the target leads: the top of your cards, the bottom of theirs.
