@@ -32,3 +32,13 @@ No council in this pass (the owner asked for one, and it ran). Each code step st
 ## What no agent can check
 
 Whether rotation makes it feel more 3D, or whether a combo counter feels good. Pictures and films are checks of what is drawn; feel is the owner's.
+
+## Changed after the plan review (24 Nov)
+
+A fresh agent questioned this plan. Taken:
+- Rotation measuring shrinks to what is missing: Galaxy's wind-up tilt is already measured (24–40° on diagonals); Battlegrounds' angle was searched but never saved, so the tracker is re-run with it saved, and 3D tilt is read from stills.
+- No shader study up front: `src/screens/card_carry.gd` already leans the card and narrows it to fake a turn (tuned by the owner, 17 Nov). Rotation options start from that; a perspective shader only if that proves too flat.
+- Stop depth: film rotation at B (medium), with A (shallow) the only alternative; today's 0.62 and Galaxy's past-centre stop are dropped.
+- The hexagon-point question goes to the owner now, with a picture, before anything is built.
+- Rotation clips go to the owner as soon as they exist, not with the combo pictures.
+- Open for the owner: which hexagon point leads; whether the hit splat shows on every repeated hit or only once the combo speeds up; whether the strike curve stays constant.
