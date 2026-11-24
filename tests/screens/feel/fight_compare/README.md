@@ -80,7 +80,12 @@ python3 tests/screens/feel/fight_compare/clips.py scenarios /data/fight-anim-wor
 tools/feel/film /data/fight-anim-work/treatments/scenarios/cb2-c.json /data/fight-anim-work/treatments/films/cb2-c.mp4
 python3 tests/screens/feel/fight_compare/clips.py measure /data/fight-anim-work/treatments/films/cb2-c
 python3 tests/screens/feel/fight_compare/clips.py cut /data/fight-anim-work/treatments/films /data/fight-anim-work/treatments/clips
+python3 tests/screens/feel/fight_compare/clips.py compare /data/fight-anim-work/treatments/films /data/fight-anim-work/treatments/compare 0.38
 ```
+
+`compare` writes one unlabelled clip per option (`compare/<branch>/<option>.mp4`, the panes' frames
+and crop at 0.38 scale) and `compare/manifest.json`: per branch (and `whole`, the two whole fights)
+its title, frame count, segments, and each option's label, film frames and measured numbers.
 
 `cut` lines every pane up at the branch's moment, each from its own film: the attack's first
 motion (CB1, counter `S`), contact (CB2–CB6, `C`; `T`, Thorns landing, for CB6's attacker killed

@@ -86,9 +86,6 @@ TITLES = {
     "CB6": "CB6 when the next attacker lifts",
     "CB7": "CB7 one trigger many times (CB7's own fight; rule 7 off but in the last pane)",
 }
-# films on CB7's own fixed fight (fight_compare.gd "fight": "cb7")
-FIGHT = {"cb7": "cb7"}
-PICKS = {"CB1": "best", "CB2": "best", "CB3": "linear", "CB4": "hold", "CB5": "best", "CB6": "best", "CB7": "best"}
 # film seconds of `wait` in each scenario (the film ends 0.5 s after it)
 WAIT = {"cb7-bg": 17.5, "cb5-bg": 14.5, "cb6-bg": 14.0}
 WAIT_CB7 = 12.0
@@ -935,7 +932,7 @@ def cut_plain(film: Path, parts: list, out: Path, scale: float) -> None:
 
 
 def measured_for(branch: str, film_dir: Path, film: str) -> dict:
-    """The numbers CLIPS.md lists for this option, from its timing.json."""
+    """The numbers the fixture's README.md names for this option, from its timing.json."""
     t = json.loads((film_dir / f"{film}.timing.json").read_text())
     m = t["measured"]
     if branch == "CB1":
@@ -1047,6 +1044,7 @@ def cmd_compare(film_dir: Path, out_dir: Path, scale: float) -> None:
         "reference": "",
         "before": 0,
         "fps": 60,
+        "segments": [],
         "options": [],
     }
     frames = max(count_frames(film_dir / "today.mp4"), count_frames(film_dir / "best.mp4"))
