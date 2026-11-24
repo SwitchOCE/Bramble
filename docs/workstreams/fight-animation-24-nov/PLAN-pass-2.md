@@ -71,4 +71,8 @@ A fresh agent questioned this plan. Taken:
 
 > "I think all three of the other options are way better than the 4-degree *[heard as "4%"]* thing. That is the only one that's terrible. All three of the others are good compared."
 
-So rotation is in: aim, aim with shortening, or aim with the 3D tip. The plain lean is out. Next: the amount of turn as its own decision (half, three-quarters, 95% of the path, 95% capped at 30°), filmed with the tip.
+Then, correcting how that was read (24 Nov, dictated):
+
+> "Was the lean what you mean for the rotation against the plane of the card's viewing? No, the lean might be good, actually. Maybe a small lean is actually nice. I don't hate that at all. Leading probably actually is quite good. A small lean, like four degrees, might be excellent. I just meant the turning is absolutely required, and I wasn't seeing any turning. Leaning with turning in the same direction as the turn makes a lot of sense to me."
+
+So: turning toward the target is required; the "none" option failed because it barely turns (its 4° is an in-plane tilt, not a turn). A small lean in the same direction as the turn is welcome. In our terms the 3D lean is the "tip" (the leading end dipping away from the viewer). Next: the amount of turn (CB15), and how strong the tip is, from none through a small one to today's (CB17).
