@@ -66,3 +66,9 @@ A fresh agent questioned this plan. Taken:
 ## Thread added
 
 9. **Effects get their own language (design job).** A card's own movement means an attack; damage that isn't an attack (Thorns first, then death damage and trigger damage) gets its own look, with drawn pieces as well as motion. Thorns first: a reference study, options (a vine that whips out and strikes; the attacker flinching on the hit-back; others the designer finds), an art direction in lead and stained glass, generated pictures, review, and pictures to the owner before anything is built. Then a short map of which other effects need their own language, to keep buffs, combos and Thorns one family.
+
+## The owner on rotation (24 Nov, after watching CB9; dictated)
+
+> "I think all three of the other options are way better than the 4-degree *[heard as "4%"]* thing. That is the only one that's terrible. All three of the others are good compared."
+
+So rotation is in: aim, aim with shortening, or aim with the 3D tip. The plain lean is out. Next: the amount of turn as its own decision (half, three-quarters, 95% of the path, 95% capped at 30°), filmed with the tip.
