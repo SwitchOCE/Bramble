@@ -6,6 +6,8 @@ Usage:
   clips.py measure STEM [STEM...]      STEM.timing.json: claimed, planned and measured numbers
   clips.py cut FILM_DIR CLIP_DIR [CB1 .. whole]  one side-by-side clip per branch, and today vs best
   clips.py frames CLIP_DIR             5 frames of each clip into CLIP_DIR/frames, for checking
+  clips.py compare FILM_DIR OUT_DIR [SCALE]  one clip per option (OUT_DIR/<branch>/<option>.mp4), no
+                                       labels, aligned like the panes, and OUT_DIR/manifest.json
 
 Films are made with tools/feel/film from the scenarios; FILM_DIR holds <name>.mp4 with their
 .report.json, .cards.csv and .markers.csv (fight_compare.gd). `today` is read from FILM_DIR/today.*
@@ -892,6 +894,183 @@ def cmd_frames(clip_dir: Path) -> None:
         print(clip.name, n, "frames")
 
 
+# ---- one clip per option, for a viewer that plays any two side by side ----
+
+COMPARE_ENCODE = [
+    "-c:v",
+    "libx264",
+    "-preset",
+    "medium",
+    "-crf",
+    "26",
+    "-g",
+    "6",
+    "-keyint_min",
+    "6",
+    "-sc_threshold",
+    "0",
+    "-pix_fmt",
+    "yuv420p",
+    "-r",
+    "60",
+    "-movflags",
+    "+faststart",
+]
+
+
+def cut_plain(film: Path, parts: list, out: Path, scale: float) -> None:
+    """The crop of each (first, length) part of a film, joined, at the film's own pixels x scale."""
+    x, y, w, h = CROP
+    width = round(w * scale / 2) * 2
+    chains = []
+    for i, (first, length) in enumerate(parts):
+        chains.append(
+            f"[0:v]trim=start_frame={first}:end_frame={first + length},setpts=PTS-STARTPTS,"
+            f"crop={w}:{h}:{x}:{y},scale={width}:-2[s{i}]"
+        )
+    joined = "".join(f"[s{i}]" for i in range(len(parts)))
+    tail = f"{joined}concat=n={len(parts)}:v=1:a=0[v]" if len(parts) > 1 else f"{joined}null[v]"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    run(["-i", str(film), "-filter_complex", ";".join([*chains, tail]), "-map", "[v]", *COMPARE_ENCODE, str(out)])
+
+
+def measured_for(branch: str, film_dir: Path, film: str) -> dict:
+    """The numbers CLIPS.md lists for this option, from its timing.json."""
+    t = json.loads((film_dir / f"{film}.timing.json").read_text())
+    m = t["measured"]
+    if branch == "CB1":
+        a = m[0]
+        return {
+            "lift_frames": a["lift_frames"],
+            "lift_scale": a["lift_scale"],
+            "pull_px": a["pull_px"],
+            "hold_frames": a["hold_frames"],
+            "first_motion_to_contact": a["contact"] - a["lift_start"] + 1,
+        }
+    if branch == "CB2":
+        return {
+            "stop_gap_h_straight": m[0]["stop_gap_h"],
+            "stop_gap_h_far": m[1]["stop_gap_h"],
+            "return_first_px_far": m[1]["return_first_px"],
+        }
+    if branch == "CB3":
+        return {"strike_px_per_frame_far": m[1]["strike_px_per_frame"]}
+    if branch == "CB4":
+        a = m[2]
+        return {
+            "bursts_before_contact": a["bursts_before_contact"],
+            "bursts_after_contact": a["bursts_after_contact"][:2],
+            "hold_frames": a["hold_frames"],
+            "held_at_contact": a["held_at_contact"],
+            "home_after_contact": a["home_after_contact"],
+        }
+    if branch == "CB5":
+        a = m[5]
+        return {
+            "stripper_falls_after_contact": a["falls_after_contact"].get("u10"),
+            "next_lift_after_contact": a.get("next_lift_after_contact"),
+        }
+    if branch == "CB6":
+        p = t["planned_film_frames"]
+        return {
+            "next_lift_after_attacks_0_4_5": [p[k + 1]["lift"] - p[k]["release"] for k in (0, 4, 5)],
+            "raised_before_launch_after_chain": p[6]["launch"] - p[6]["lift"] - p[5]["lift_frames"],
+        }
+    if branch == "CB7":
+        c = t["combo"]
+        return {
+            "gaps": c["gaps"],
+            "claimed_gaps": c["claimed_gaps"],
+            "burst_totals": [b[1][-1] for b in c["bursts_on_target"]],
+            "rule7": any(c["speedup"]),
+        }
+    return {}
+
+
+def cmd_compare(film_dir: Path, out_dir: Path, scale: float) -> None:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    manifest = {"fps": 60, "crop": list(CROP), "scale": scale, "branches": {}}
+    for branch, options in BRANCHES.items():
+        films_ = [film for _, film, _ in options]
+        plans = {film: plan_frames(film_dir, film) for film in films_}
+        refs = {film: references(film_dir, film, branch) for film in films_}
+        names = [name for name, _, _ in segments(branch, plans[films_[0]])]
+        letters = ref_names(branch, len(names))
+        parts = {film: [] for film in films_}
+        segs = []
+        start = 0
+        for k, name in enumerate(names):
+            windows = [(refs[film][k], *segments(branch, plans[film])[k][1:]) for film in films_]
+            firsts, length = aligned(windows)
+            before = refs[films_[0]][k] - firsts[0]
+            for film, first in zip(films_, firsts, strict=True):
+                parts[film].append((first, length))
+            segs.append(
+                {
+                    "what": name,
+                    "reference": letters[k],
+                    "start": start,
+                    "frames": length,
+                    # negative: the window starts after the reference (CB6's chain, from C+40)
+                    "before": before,
+                    "reference_index": start + before if before >= 0 else None,
+                    "counter_at_start": -before,
+                }
+            )
+            start += length
+        entry = {
+            "title": TITLES[branch],
+            "reference": letters[0],
+            "before": segs[0]["before"],
+            "frames": start,
+            "fps": 60,
+            "segments": segs,
+            "options": [],
+        }
+        for option, film, label in options:
+            out = out_dir / branch / f"{option}.mp4"
+            cut_plain(film_dir / f"{film}.mp4", parts[film], out, scale)
+            entry["options"].append(
+                {
+                    "option": option,
+                    "file": f"{branch}/{option}.mp4",
+                    "label": label,
+                    "film": film,
+                    "film_frames": [[first, first + length - 1] for first, length in parts[film]],
+                    "measured": measured_for(branch, film_dir, film),
+                }
+            )
+            print(out)
+        manifest["branches"][branch] = entry
+    whole = {
+        "title": "Whole fight: today and the best proposal",
+        "reference": "",
+        "before": 0,
+        "fps": 60,
+        "options": [],
+    }
+    frames = max(count_frames(film_dir / "today.mp4"), count_frames(film_dir / "best.mp4"))
+    for option, label in (("today", "Today (the game now)"), ("best", "Best proposal (every branch at its pick)")):
+        film = film_dir / f"{option}.mp4"
+        own = count_frames(film)
+        out = out_dir / "whole" / f"{option}.mp4"
+        cut_plain(film, [(0, own)], out, scale)
+        report = json.loads((film_dir / f"{option}.report.json").read_text())
+        whole["options"].append(
+            {
+                "option": option,
+                "file": f"whole/{option}.mp4",
+                "label": label,
+                "frames": own,
+                "measured": {"victory_s": round(report["result_at"], 2), "core_matches": report.get("core_matches")},
+            }
+        )
+    whole["frames"] = frames
+    manifest["branches"]["whole"] = whole
+    (out_dir / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")
+    print(out_dir / "manifest.json")
+
+
 def main() -> int:
     if len(sys.argv) < 3:
         print(__doc__)
@@ -905,6 +1084,8 @@ def main() -> int:
         cmd_cut(Path(sys.argv[2]), Path(sys.argv[3]), sys.argv[4:])
     elif what == "frames":
         cmd_frames(Path(sys.argv[2]))
+    elif what == "compare":
+        cmd_compare(Path(sys.argv[2]), Path(sys.argv[3]), float(sys.argv[4]) if len(sys.argv) > 4 else 1.0)
     else:
         print(__doc__)
         return 2
