@@ -26,3 +26,18 @@ Two outcomes: the game's animations feel good, and agents have a process that re
 ## Checkpoints
 
 After step 1: the inventory and the research summary to the owner. After step 2: the guidelines and process, before any skill is installed or any rule binds agents.
+
+## Changed after the plan review (24 Nov)
+
+A fresh agent questioned this plan. Its main point: as written, no step makes an animation better; it ends in documents and a list. Taken:
+- **Inventory builds on what exists:** `research/our-events.md` and the 20 Nov fix round's `anim-recruit` and `anim-fight` notes, checked against today's code, with the gaps marked.
+- **A look back, added:** how the triple (loved) was made, compared with fight hits and the 20 Nov death call (not liked). The lessons feed the process.
+- **The research is capped** at what becomes a checkable rule.
+- **Guidelines extend what exists** (the Motion sections in `design-handoff` and `design-system`, and the brief template) before any new skill is proposed. The owner decides.
+- **Numbers are starting points.** The owner's 18 Nov rule puts feel ahead of any specific timing.
+- **A pilot, added:** run the drafted process on the two problems the owner named, damage to the player after the fight and the look of a single death. Film the options; show any new visual element as a picture first; the owner judges. Staggered deaths stay in pass 2.
+- **Revise after the pilot,** then the ranked list and the owner's decision on rules or a skill.
+- **The process covers:** animations for a single card or keyword, sound cues that move with a timing, a Windows build as the last check, and where the quality bar hooks in (brief, handoff, a film-and-compare gate before a motion change merges).
+- **Pass 2's results** feed in as evidence once they land; no scope is added to running workers.
+
+Open for the owner: the pilot now or later; whether card- and keyword-specific animations are in scope now; whether the practice extends the existing skills or becomes its own.
