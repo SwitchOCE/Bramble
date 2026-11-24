@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Golden light</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --paper: #f4e9d2;
+    --muted: #b8c3b6;
+    --page: #101c1d;
+    --line: #344947;
+    --hex: polygon(50% 0%, 100% 17%, 100% 83%, 50% 100%, 0% 83%, 0% 17%);
+    --window: polygon(50% 2.93%, 95.54% 18.41%, 95.54% 81.59%,
+                      50% 97.07%, 4.46% 81.59%, 4.46% 18.41%);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--paper);
+    font-family: system-ui, sans-serif;
+  }
+
+  main {
+    width: min(100% - 64px, 1456px);
+    margin-inline: auto;
+    padding: 36px 0 76px;
+  }
+
+  h1, h2, p { margin: 0; }
+
+  h1, h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 400;
+  }
+
+  h1 {
+    padding-bottom: 21px;
+    border-bottom: 1px solid var(--line);
+    font-size: clamp(2.5rem, 4vw, 3.75rem);
+    line-height: 1.04;
+  }
+
+  .study { margin-top: 34px; }
+  .study + .study { margin-top: 50px; }
+
+  .study-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 0 0 16px;
+  }
+
+  h2 {
+    font-size: clamp(1.6rem, 2.4vw, 2.15rem);
+    line-height: 1.12;
+  }
+
+  .study-header p {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.45;
+  }
+
+  .motion {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 44px;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.84rem;
+  }
+
+  .motion:has(:disabled) {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  .motion input {
+    appearance: none;
+    display: grid;
+    align-items: center;
+    width: 38px;
+    height: 22px;
+    margin: 0;
+    padding: 3px;
+    border: 1px solid #6f8175;
+    border-radius: 20px;
+    background: #172726;
+    color: #9ba99e;
+    cursor: inherit;
+  }
+
+  .motion input::before {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .motion input:checked {
+    justify-items: end;
+    border-color: #b89451;
+    background: #514528;
+    color: #f1d294;
+  }
+
+  .motion input:focus-visible, .board-scroll:focus-visible {
+    outline: 2px solid #f1d294;
+    outline-offset: 4px;
+  }
+
+  .ground {
+    display: grid;
+    grid-template-columns: minmax(530px, 1fr) minmax(0, 1.14fr);
+    align-items: stretch;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    background: radial-gradient(ellipse at 25% 46%, #203838, #172b2d 77%);
+  }
+
+  .board-scroll {
+    display: grid;
+    align-items: center;
+    overflow-x: auto;
+    padding: 17px 19px;
+  }
+
+  .lanes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 490px;
+    height: 370px;
+  }
+
+  .lineup { display: flex; gap: 14px; }
+  .lineup + .lineup { margin-top: -30px; }
+
+  .pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 300px));
+    justify-content: center;
+    align-content: center;
+    gap: clamp(16px, 2.2vw, 38px);
+    padding: 20px clamp(14px, 2vw, 32px);
+    border-left: 1px solid #314644;
+  }
+
+  .card {
+    position: relative;
+    width: 112px;
+    flex: none;
+    aspect-ratio: 14 / 25;
+    container-type: inline-size;
+    isolation: isolate;
+  }
+
+  .pair .card { width: 100%; }
+
+  .frame, .glass, .halo, .mote-field { position: absolute; inset: 0; }
+  .frame, .glass { overflow: clip; }
+
+  .frame {
+    clip-path: var(--hex);
+    background: linear-gradient(145deg, #1e2422 0%, #101715 52%, #111918 100%);
+  }
+
+  .glass {
+    clip-path: var(--window);
+    background: #101715;
+  }
+
+  .art, .gold-lines {
+    position: absolute;
+    inset: -3% auto auto -3%;
+    width: 106%;
+    height: 106%;
+  }
+
+  .stat {
+    position: absolute;
+    top: 75%;
+    display: grid;
+    place-items: center;
+    width: 26cqw;
+    height: 27cqw;
+    background: #141918;
+    clip-path: var(--setting);
+    color: #fff3dc;
+    font: 600 14cqw / 1 Georgia, "Times New Roman", serif;
+    font-variant-numeric: lining-nums tabular-nums;
+    text-shadow: 0 0.08em #171714;
+  }
+
+  .stat::before, .stat::after {
+    content: "";
+    position: absolute;
+    clip-path: var(--setting);
+  }
+
+  .stat::before { inset: 1.7cqw; background: #b8a78a; }
+  .stat::after { inset: 2.55cqw; background: var(--stat-glass); }
+  .stat span { z-index: 1; }
+
+  .attack {
+    left: 1.5%;
+    --setting: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    --stat-glass: linear-gradient(145deg, #755831, #3e2b1b);
+  }
+
+  .health {
+    right: 1.5%;
+    --setting: polygon(0% 10%, 100% 10%, 100% 62%, 50% 100%, 0% 62%);
+    --stat-glass: linear-gradient(145deg, #77464d, #402428);
+  }
+
+  .gilded .golden .frame {
+    background: linear-gradient(143deg, #ae6b2b 0%, #ffdc86 18%, #ba7d35 34%,
+                               #e9b457 59%, #8d521f 79%, #f9d580 100%);
+  }
+
+  .sheen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 215%;
+    aspect-ratio: 1;
+    background: conic-gradient(transparent 18%, #fff6c539 22%, #fffad9db 25%,
+                               #fff6c58c 27%, transparent 33% 100%);
+    translate: -50% -50%;
+    animation: round-the-lead 8s linear -1.5s infinite;
+  }
+
+  @keyframes round-the-lead { to { transform: rotate(360deg); } }
+
+  .gold-lines {
+    animation: shimmer 4.6s ease-in-out -1.1s infinite alternate;
+  }
+
+  @keyframes shimmer { from { opacity: 0.74; } to { opacity: 1; } }
+
+  .halo {
+    animation: backlight 4.8s ease-in-out -1.65s infinite alternate;
+  }
+
+  .halo-light, .halo-light::before { position: absolute; inset: 0; }
+  .halo-light { filter: blur(6.1cqw) drop-shadow(0 0 6cqw #d79a48b3); }
+
+  .halo-light::before {
+    content: "";
+    background: #f5b657;
+    clip-path: var(--hex);
+  }
+
+  .backlight .golden .art { filter: brightness(1.09) saturate(1.035); }
+
+  .backlight .golden .glass::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: linear-gradient(155deg, #ffdf8525, transparent 64%);
+    mix-blend-mode: screen;
+  }
+
+  @keyframes backlight { from { opacity: 0.59; } to { opacity: 0.88; } }
+
+  .beam-sweep {
+    position: absolute;
+    inset: 0 -45%;
+    background: linear-gradient(112deg,
+      transparent 33%, #ffce650b 39%, #ffde8d2c 45%, #fff0ac68 49%,
+      #fff5c14c 52%, #ffda7a1d 56%, transparent 65%);
+    animation: pass-the-glass 6.4s cubic-bezier(0.34, 0.18, 0.63, 0.86) -2.45s infinite;
+  }
+
+  .beam .golden:nth-child(4) .beam-sweep { animation-delay: -2.24s; }
+
+  @keyframes pass-the-glass {
+    0%, 12% { transform: translateX(-80%); }
+    62%, 100% { transform: translateX(80%); }
+  }
+
+  .mote {
+    position: absolute;
+    top: var(--y);
+    left: var(--x);
+    width: var(--size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #fff2bd;
+    box-shadow: 0 0 2cqw 0.6cqw #ffc76ac9;
+    animation: float-up var(--duration) linear var(--delay) infinite;
+  }
+
+  @keyframes float-up {
+    0% { opacity: 0; transform: translate(0, 9cqw); }
+    21%, 63% { opacity: var(--light); }
+    100% { opacity: 0; transform: translate(var(--drift), -14cqw); }
+  }
+
+  .triplet {
+    position: absolute;
+    top: 3.7%;
+    left: 34%;
+    width: 32%;
+    height: 17%;
+  }
+
+  .pane {
+    position: absolute;
+    inset: 0;
+    background: #161b18;
+    clip-path: var(--pane);
+  }
+
+  .pane::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--facet);
+    clip-path: var(--inset-pane);
+  }
+
+  .pane-top {
+    --pane: polygon(50% 0, 70% 33%, 50% 64%, 30% 33%);
+    --inset-pane: polygon(50% 11%, 64% 33%, 50% 54%, 36% 33%);
+    --facet: conic-gradient(at 50% 29%, #fff1a8 0 24%, #efae42 24% 52%,
+                           #ffc855 52% 79%, #ffde75 79% 100%);
+  }
+
+  .pane-left {
+    --pane: polygon(23% 42%, 48% 66%, 36% 98%, 2% 85%, 0 65%);
+    --inset-pane: polygon(23% 51%, 40% 68%, 33% 88%, 9% 79%, 8% 67%);
+    --facet: linear-gradient(145deg, #fff2af 34%, #dda03e 59%, #a96027 75%);
+  }
+
+  .pane-right {
+    --pane: polygon(77% 42%, 100% 65%, 98% 85%, 64% 98%, 52% 66%);
+    --inset-pane: polygon(77% 51%, 92% 67%, 91% 79%, 67% 88%, 60% 68%);
+    --facet: linear-gradient(215deg, #ffeaae 34%, #eda740 59%, #b46e28 75%);
+  }
+
+  .animated { animation-play-state: paused; }
+  .is-playing .animated { animation-play-state: running; }
+  .is-playing .halo { will-change: opacity; }
+
+  @media (max-width: 940px) {
+    main { width: calc(100% - 36px); }
+    .ground { grid-template-columns: minmax(0, 1fr); }
+    .board-scroll { padding-block: 22px; }
+    .pair { border-left: 0; border-top: 1px solid #314644; }
+  }
+
+  @media (max-width: 520px) {
+    main { width: calc(100% - 24px); padding-top: 26px; }
+    .study-header { align-items: start; }
+    .study-header p { font-size: 0.86rem; }
+    .board-scroll { padding-inline: 12px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Golden light</h1>
+</main>
+<script>
+  const units = {
+    dame:    {name: "Dame of the Old Sett", art: "dame-of-the-old-sett", attack: 8, health: 9},
+    dirge:   {name: "Dirge Singer", art: "dirge-singer", attack: 3, health: 4},
+    page:    {name: "Needle Page", art: "needle-page", attack: 2, health: 3},
+    sister:  {name: "Needle Sister", art: "needle-sister", attack: 4, health: 5},
+    shrew:   {name: "Shrew Cutpurse", art: "shrew-cutpurse", attack: 6, health: 4},
+    knight:  {name: "Holly Knight", art: "holly-knight", attack: 5, health: 7},
+    nettle:  {name: "Nettle Sprout", art: "nettle-sprout", attack: 1, health: 3},
+  };
+
+  const board = [
+    ["dirge", "page", "sister"],
+    ["dame", "nettle", "knight", "shrew"],
+  ];
+  const goldenUnits = new Set(["page", "shrew"]);
+
+  const treatments = [
+    {id: "gilded", name: "Gilded lead", description: "A slow sheen travels around the gold frame."},
+    {id: "lines", name: "Gold lines in the glass", description: "The lead seams inside the picture shimmer in gold."},
+    {id: "backlight", name: "Light from behind", description: "Warm light shows through the glass and spills around the frame."},
+    {id: "beam", name: "A passing beam", description: "A band of sunlight crosses the glass every few seconds."},
+    {id: "motes", name: "Motes", description: "A few specks of gold light drift up around the card."},
+    {id: "still", name: "Still only", description: "Three amber panes mark the top point of the card.", still: true},
+  ];
+
+  const sparkPositions = [
+    {x: 19, y: 21, size: 2.5, duration: 4.4, delay: -1.5, drift: -4, light: 0.95},
+    {x: 68, y: 7,  size: 2.0, duration: 5.4, delay: -2.1, drift:  5, light: 0.88},
+    {x: 91, y: 24, size: 1.6, duration: 4.8, delay: -2.6, drift:  5, light: 0.82},
+    {x:  1, y: 46, size: 2.3, duration: 4.9, delay: -2.5, drift: -6, light: 0.92},
+    {x: 99, y: 60, size: 2.5, duration: 5.2, delay: -2.9, drift:  4, light: 0.92},
+    {x: 14, y: 70, size: 1.35, duration: 5.6, delay: -1.7, drift: -3, light: 0.72},
+  ];
+
+  function makeCard(unit, golden, treatment) {
+    const card = document.createElement("div");
+    card.className = golden ? "card golden" : "card";
+    const status = golden ? ", golden" : "";
+    card.setAttribute("role", "img");
+    card.setAttribute("aria-label", `${unit.name}${status}, ${unit.attack} Attack, ${unit.health} Health`);
+
+    const frame = golden && treatment === "gilded" ? '<div class="sheen animated"></div>' : "";
+    const halo = golden && treatment === "backlight"
+      ? '<div class="halo animated"><div class="halo-light"></div></div>' : "";
+    const lines = golden && treatment === "lines"
+      ? `<img class="gold-lines animated" src="img/${unit.art}-lead.webp" alt="" draggable="false">` : "";
+    const beam = golden && treatment === "beam" ? '<div class="beam-sweep animated"></div>' : "";
+    const motes = golden && treatment === "motes" ? makeMotes() : "";
+    const triplet = golden && treatment === "still" ? `
+      <div class="triplet">
+        <div class="pane pane-top"></div>
+        <div class="pane pane-left"></div>
+        <div class="pane pane-right"></div>
+      </div>` : "";
+
+    card.innerHTML = `
+      ${halo}
+      <div class="frame">${frame}</div>
+      <div class="glass">
+        <img class="art" src="img/${unit.art}.jpg" alt="" draggable="false">
+        ${lines}${beam}
+      </div>
+      ${triplet}
+      <div class="stat attack"><span>${unit.attack}</span></div>
+      <div class="stat health"><span>${unit.health}</span></div>
+      ${motes}
+    `;
+    return card;
+  }
+
+  function makeMotes() {
+    const sparks = sparkPositions.map(({x, y, size, duration, delay, drift, light}) =>
+      `<span class="mote animated" style="--x:${x}%;--y:${y}%;--size:${size}cqw;
+        --duration:${duration}s;--delay:${delay}s;--drift:${drift}cqw;--light:${light}"></span>`
+    );
+    return `<div class="mote-field">${sparks.join("")}</div>`;
+  }
+
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+  const setPlaying = (section) => {
+    const motion = section.querySelector("input");
+    section.classList.toggle("is-playing", section.classList.contains("in-view")
+      && motion.checked && !document.hidden);
+  };
+
+  const visibleTreatments = new IntersectionObserver((entries) => {
+    for (const {target, isIntersecting} of entries) {
+      target.classList.toggle("in-view", isIntersecting);
+      setPlaying(target);
+    }
+  });
+
+  const main = document.querySelector("main");
+  for (const treatment of treatments) {
+    const {id, name, description, still} = treatment;
+    const section = document.createElement("section");
+    section.id = id;
+    section.className = `study ${id}`;
+    section.setAttribute("aria-labelledby", `${id}-name`);
+    section.innerHTML = `
+      <header class="study-header">
+        <div>
+          <h2 id="${id}-name">${name}</h2>
+          <p>${description}</p>
+        </div>
+        <label class="motion"><span>Motion</span>
+          <input type="checkbox" role="switch" aria-label="Motion for ${name}">
+        </label>
+      </header>
+      <div class="ground">
+        <div class="board-scroll" role="group" aria-label="Board">
+          <div class="lanes"></div>
+        </div>
+        <div class="pair" role="group" aria-label="Normal and golden close-up"></div>
+      </div>
+    `;
+
+    const lanes = section.querySelector(".lanes");
+    for (const row of board) {
+      const lineup = document.createElement("div");
+      lineup.className = "lineup";
+      for (const key of row) lineup.append(makeCard(units[key], goldenUnits.has(key), id));
+      lanes.append(lineup);
+    }
+
+    section.querySelector(".pair").append(
+      makeCard(units.page, false, id),
+      makeCard(units.page, true, id),
+    );
+
+    const motion = section.querySelector("input");
+    motion.disabled = Boolean(still);
+    motion.checked = !still && !reducedMotion.matches;
+    motion.addEventListener("change", () => setPlaying(section));
+    main.append(section);
+
+    if (!still) visibleTreatments.observe(section);
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    document.querySelectorAll(".study.in-view").forEach(setPlaying);
+  });
+
+  reducedMotion.addEventListener("change", ({matches}) => {
+    for (const section of document.querySelectorAll(".study:not(.still)")) {
+      section.querySelector("input").checked = !matches;
+      setPlaying(section);
+    }
+  });
+</script>
+</body>
+</html>
