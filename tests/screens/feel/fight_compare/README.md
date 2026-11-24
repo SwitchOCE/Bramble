@@ -89,7 +89,7 @@ its title, frame count, segments, and each option's label, film frames and measu
 
 `cut` lines every pane up at the branch's moment, each from its own film: the attack's first
 motion (CB1, counter `S`), contact (CB2–CB6, `C`; `T`, Thorns landing, for CB6's attacker killed
-before it strikes), or the first combo pulse (CB7, `P`). Each pane counts frames from there.
+before it strikes), the first combo pulse (CB7, `P`), or the first of several falls (CB8, `F`). Each pane counts frames from there.
 `speed_chart.py STEM --ymax 7000` draws every film's chart on one y axis.
 
 `measure` writes `<stem>.timing.json`: each attack's claimed, planned and measured numbers (lift,
@@ -105,6 +105,17 @@ together and the burst re-pops with the running total. Two Health values are set
 (the Stripper 1, King Speck 60). Every CB7 pane runs without rule 7's speed-up except the last,
 "best" (the proposal with rule 7); `best_no7` is the proposal without it. The comparison fight
 and its test are unchanged.
+
+CB8, several deaths at once (`docs/workstreams/fight-animation-24-nov/research/mass-deaths.md`),
+staggers moment (e)'s six falls, display order only: `a` all at once (the proposal), `b` 4 f apart
+within 24 f, `c` 10, 7, 5, 4, 4 within 30 f, `d` 12 f apart, no cap (Galaxy's pace). The order is
+rulebook 9.7.3 (the active side's dying units, then the other side's, each in reading order).
+In b to d each of Old Brock's gains lands as its own death's fall ends (15 f after it starts), not
+after the group: `best_timeline.gd` `reorder()` moves the log's gains beside their deaths (the k-th
+gain is that side's k-th death in the log) and recounts the numbers if their order changes; the
+board at the end is the core's. A group whose following beats are not one per friendly death (a
+death effect among them) staggers its falls and plays what follows after the last. Staggered
+falls run 15 f, without rule 7's speed-up.
 
 Rules this treatment follows: the return moves from C+1 (no frame held at contact) and is home at
 C+12/14/16; what plays after the hit starts at max(C+14, home). CB4 "freeze" is today's order:

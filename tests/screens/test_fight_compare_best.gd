@@ -37,7 +37,7 @@ func test_a_plain_attack_keeps_the_proposals_numbers() -> void:
 
 func test_every_option_plays_the_whole_fight() -> void:
 	var sets: Array[Dictionary] = [{}]
-	for branch: String in ["CB1", "CB2", "CB5", "CB6", "CB7"]:
+	for branch: String in ["CB1", "CB2", "CB5", "CB6", "CB7", "CB8"]:
 		var table: Dictionary = _table(branch)
 		for option: String in table:
 			sets.append({branch: option})
@@ -89,6 +89,85 @@ func test_cb7_fight_lands_ten_hits_as_a_combo() -> void:
 	assert_eq(ninth, tenth, "from the 9th, the rest land together")
 
 
+func test_cb8_staggers_the_six_deaths_in_order_with_their_gaps() -> void:
+	var together: Array = _plan({})["attacks"][5]["falls"]
+	var first: int = _i(together[1]["frame"])
+	var want: Dictionary = {
+		"b": [0, 4, 8, 12, 16, 20],
+		"c": [0, 10, 17, 22, 26, 30],
+		"d": [0, 12, 24, 36, 48, 60],
+	}
+	for option: String in want:
+		var plan: Dictionary = _plan({"CB8": option})
+		var staggers: Array = plan["staggers"]
+		assert_eq(staggers.size(), 1, "%s: one group of deaths at once" % option)
+		var group: Dictionary = staggers[0]
+		var keys: Array = []
+		var starts: Array = []
+		for value: Variant in group["falls"]:
+			var fall: Dictionary = value
+			keys.append(fall["key"])
+			starts.append(_i(fall["frame"]) - first)
+		# rulebook 9.7.3: the attacker's side has no deaths here; yours in reading order F1-F3, B1-B3
+		assert_eq(keys, ["u1", "u2", "u11", "u5", "u6", "u7"], "%s: reading order" % option)
+		var wanted: Array = want[option]
+		assert_eq(starts, wanted, "%s: fall starts after the first" % option)
+		var lands: Array = []
+		for value: Variant in group["lands"]:
+			lands.append(_i(value) - first)
+		var after: Array = []
+		for start: Variant in want[option]:
+			after.append(_i(start) + Timeline.STAGGER_LAND)
+		assert_eq(lands, after, "%s: each gain as its own fall ends" % option)
+	for value: Variant in together.slice(1):
+		var fall: Dictionary = value
+		assert_eq(_i(fall["frame"]), first, "a: all six fall together")
+
+
+func test_cb8_caps_the_spread_whatever_the_count() -> void:
+	var b: Array[int] = Timeline.stagger_starts(10, Timeline.STAGGERS["b"])
+	var c: Array[int] = Timeline.stagger_starts(10, Timeline.STAGGERS["c"])
+	var d: Array[int] = Timeline.stagger_starts(10, Timeline.STAGGERS["d"])
+	assert_eq(_i(b.back()), 24, "b: 10 deaths within 24 f")
+	assert_eq(_i(c.back()), 30, "c: 10 deaths within 30 f")
+	assert_eq(_i(d.back()), 108, "d: no cap")
+	assert_eq(Timeline.stagger_starts(2, Timeline.STAGGERS["c"]), [0, 10], "c: two deaths 10 apart")
+
+
+func test_cb8_changes_only_the_order_shown() -> void:
+	var events: Array = Compare.fight(_content).events
+	var played: Array = Timeline.reorder(events, {"CB8": "c"})
+	assert_eq(played.size(), events.size(), "the same events")
+	assert_eq(_last_buff(played, 4), _last_buff(events, 4), "Old Brock ends as the log says")
+	# a log with u2 dying before u1: shown in reading order, each gain staying with its own death
+	var swapped: Array = events.duplicate()
+	var at: int = -1
+	for i: int in swapped.size():
+		if str(swapped[i]["type"]) == "death" and _i(swapped[i]["uid"]) == 1:
+			at = i
+	var one: Dictionary = swapped[at]
+	swapped[at] = swapped[at + 1]
+	swapped[at + 1] = one
+	var shown: Array = Timeline.reorder(swapped, {"CB8": "c"})
+	var order: Array = []
+	var gains: Array = []
+	for value: Variant in shown:
+		var event: Dictionary = value
+		if event.has("stagger_at") and str(event["type"]) == "death":
+			order.append(_i(event["uid"]))
+		if event.has("stagger_at") and str(event["type"]) == "buff":
+			gains.append([_i(event["attack"]), _i(event["health"])])
+	assert_eq(order, [1, 2, 11, 5, 6, 7], "reading order, whatever the log's")
+	# Old Brock is 10/9 before the gains. The swapped log's first gain (+2/+5) is u2's, its second
+	# (+3/+5) u1's: u1's shows first, then u2's, recounted
+	var first_gain: Array = gains[0]
+	var second_gain: Array = gains[1]
+	var last_gain: Array = gains.back()
+	assert_eq(first_gain, [13, 14], "u1's gain first: 10/9 + 3/5")
+	assert_eq(second_gain, [15, 19], "then u2's: + 2/5")
+	assert_eq(last_gain, _last_buff(events, 4), "the last as the log's")
+
+
 func test_best_plays_on_the_fight_screen() -> void:
 	var scene: Control = SCENE.instantiate()
 	add_child_autofree(scene)
@@ -111,6 +190,15 @@ func _plan(chosen: Dictionary, which: String = "") -> Dictionary:
 	return plan
 
 
+static func _last_buff(events: Array, uid: int) -> Array:
+	var out: Array = []
+	for value: Variant in events:
+		var event: Dictionary = value
+		if str(event.get("type", "")) == "buff" and _i(event["uid"]) == uid:
+			out = [_i(event["attack"]), _i(event["health"])]
+	return out
+
+
 static func _table(branch: String) -> Dictionary:
 	var tables: Dictionary = {
 		"CB1": Timeline.WINDUPS,
@@ -118,6 +206,7 @@ static func _table(branch: String) -> Dictionary:
 		"CB5": Timeline.FALLS,
 		"CB6": Timeline.LIFTS,
 		"CB7": Timeline.COMBOS,
+		"CB8": Timeline.STAGGERS,
 	}
 	var table: Dictionary = tables[branch]
 	return table

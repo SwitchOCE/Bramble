@@ -76,6 +76,12 @@ BRANCHES = {
         ("best_xn", "cb7-best_xn", "Best + plain-text xN PLACEHOLDER"),
         ("best", "cb7-best", "Proposal WITH rule 7 (speed-up)"),
     ],
+    "CB8": [
+        ("a", "best", "A: all at once (the proposal)"),
+        ("b", "cb8-b", "B: 4f wave, cap 24"),
+        ("c", "cb8-c", "C: 10, 7, 5, 4, 4, cap 30"),
+        ("d", "cb8-d", "D: Galaxy pace, 12f apart"),
+    ],
 }
 TITLES = {
     "CB1": "CB1 wind-up",
@@ -85,7 +91,10 @@ TITLES = {
     "CB5": "CB5 when a card killed in the exchange falls",
     "CB6": "CB6 when the next attacker lifts",
     "CB7": "CB7 one trigger many times (CB7's own fight; rule 7 off but in the last pane)",
+    "CB8": "CB8 several deaths at once",
 }
+# CB8: the falls' frames after the first that each option claims (best_timeline.gd STAGGERS)
+STAGGER_CLAIMS = {"a": [0] * 6, "b": [0, 4, 8, 12, 16, 20], "c": [0, 10, 17, 22, 26, 30], "d": [0, 12, 24, 36, 48, 60]}
 # film seconds of `wait` in each scenario (the film ends 0.5 s after it)
 WAIT = {"cb7-bg": 17.5, "cb5-bg": 14.5, "cb6-bg": 14.0}
 WAIT_CB7 = 12.0
@@ -103,6 +112,14 @@ def films() -> dict:
 def fight_of(film: str) -> str:
     """The fixed fight a film plays: CB7's films their own, the rest the comparison fight."""
     return "cb7" if film.startswith("cb7-") else ""
+
+
+def stagger_mismatches(timing: dict) -> list:
+    """CB8: each of moment (e)'s six falls starts where the option says, after the first."""
+    claimed = STAGGER_CLAIMS[timing["options"].get("CB8", "a")]
+    falls = six_falls(timing)
+    got = [f - falls[0][1] for _, f in falls]
+    return [] if got == claimed else [f"CB8: falls start {got} after the first, claimed {claimed}"]
 
 
 def cmd_scenarios(out_dir: Path) -> None:
@@ -448,6 +465,8 @@ def cmd_measure(stems: list[Path]) -> None:
             "core_matches": report.get("core_matches"),
             "steps": steps,
         }
+        if len(attacks) >= 7 and report.get("fight") != "cb7":
+            timing["mismatches"] += stagger_mismatches(timing)
         out = stem.parent / (stem.name + ".timing.json")
         out.write_text(json.dumps(timing, indent=1) + "\n")
         print(out, "mismatches:", len(timing["mismatches"]))
@@ -506,6 +525,10 @@ def segments(branch: str, a: list) -> list:
     if branch == "CB7":
         # CB7's own fight: the Gleaners' ten hits on King Speck, after attack 0
         return [("(f) two Gleaners trigger ten times on King Speck", a[0]["combo_start"] - 20, a[0]["combo_end"] + 40)]
+    if branch == "CB8":
+        # from before the Stripper's 5s land on all seven, through the six falls and Old Brock's gains
+        six = [f["frame"] for f in a[5]["falls"] if f["key"] != "u10"]
+        return [("(e) six of yours die at once (Old Brock gains)", min(six) - 40, a[5]["queue_end"] + 12)]
     raise ValueError(branch)
 
 
@@ -656,8 +679,19 @@ def centres(film_dir: Path, film: str, key: str, first: int, last: int) -> list:
     return [(x, y) for _, x, y in out]
 
 
-# what each pane's counter counts from: S the attack's first motion, C contact, P the first combo pulse
-REF_NAME = {"CB1": "S", "CB7": "P"}
+# what each pane's counter counts from: S the attack's first motion, C contact, P the first combo pulse,
+# F the first of several falls at once
+REF_NAME = {"CB1": "S", "CB7": "P", "CB8": "F"}
+
+
+def six_falls(timing: dict) -> list:
+    """Moment (e)'s six falls from the per-frame log: [(key, film frame)] in the order they start
+    (ties in the log's drawing order; the Orchard Stripper, u10, killed in the exchange, left out)."""
+    contact = timing["contacts"][5]
+    falls = timing["measured"][5]["falls_after_contact"]
+    return sorted(((k, contact + v) for k, v in falls.items() if k != "u10"), key=lambda kv: kv[1])
+
+
 # per branch, per segment: the attack whose contact is the reference (CB1: its first motion)
 REF_ATTACK = {"CB1": [0], "CB2": [0, 1], "CB3": [1], "CB4": [2], "CB5": [5], "CB6": [0, 4, 5]}
 
@@ -667,6 +701,8 @@ def references(film_dir: Path, film: str, branch: str) -> list:
     measured = timing["measured"]
     if branch == "CB7":
         return [plan_frames(film_dir, film)[0]["combo_start"]]
+    if branch == "CB8":
+        return [six_falls(timing)[0][1]]
     if branch == "CB1":
         return [measured[0]["lift_start"]]
     out = []
@@ -980,6 +1016,18 @@ def measured_for(branch: str, film_dir: Path, film: str) -> dict:
             "claimed_gaps": c["claimed_gaps"],
             "burst_totals": [b[1][-1] for b in c["bursts_on_target"]],
             "rule7": any(c["speedup"]),
+        }
+    if branch == "CB8":
+        falls = six_falls(t)
+        first = falls[0][1]
+        gains = t["brock_combo"]["landings"]
+        return {
+            "fall_order": [k for k, _ in falls],
+            "fall_start_frames": [f for _, f in falls],
+            "fall_starts_after_first": [f - first for _, f in falls],
+            "claimed_starts_after_first": STAGGER_CLAIMS[t["options"].get("CB8", "a")],
+            "brock_gains_after_first_fall": [g - first for g in gains],
+            "next_contact_after_first_fall": t["contacts"][6] - first,
         }
     return {}
 

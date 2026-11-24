@@ -2,12 +2,12 @@ extends RefCounted
 ## The best proposal's schedule for the comparison fight (best.md beside this folder's plans:
 ## docs/workstreams/fight-animation-24-nov/plans/best.md, sections 2 and 3): from the rules core's
 ## log and the board after each event, the frame each change shows, every card's motion, every
-## burst and glow. best_screen.gd plays it. Each contested branch (best.md section 6, CB1-CB7) is a
-## parameter, so an option is a parameter set ({"CB2": "c"}), not its own code path; a branch not
-## named plays the proposal's pick. Frames at 60 fps; frame 0 is the boards at rest. Every motion
-## is evaluated per frame from these numbers (pose), so a card node the keeper rebuilds (its
-## numbers changed) keeps its motion. Exploratory (ideation/fight-animation): nothing here reaches
-## the game, and no one has watched it move.
+## burst and glow. best_screen.gd plays it. Each contested branch (best.md section 6, CB1-CB7;
+## CB8 from research/mass-deaths.md) is a parameter, so an option is a parameter set
+## ({"CB2": "c"}), not its own code path; a branch not named plays the proposal's pick. Frames at
+## 60 fps; frame 0 is the boards at rest. Every motion is evaluated per frame from these numbers
+## (pose), so a card node the keeper rebuilds (its numbers changed) keeps its motion. Exploratory
+## (ideation/fight-animation): nothing here reaches the game, and no one has watched it move.
 
 ## One card height on the 1920 x 1080 stage.
 const H: float = 250.0
@@ -20,6 +20,7 @@ const PICKS: Dictionary = {
 	"CB5": "best",
 	"CB6": "best",
 	"CB7": "best",
+	"CB8": "a",
 }
 ## CB1, the wind-up: lift frames, the scale it lifts to, pull-back px, the least hold.
 const WINDUPS: Dictionary = {
@@ -142,6 +143,21 @@ const COMBOS: Dictionary = {
 		"speedup": false,
 	},
 }
+## CB8, several deaths at once (research/mass-deaths.md): the gaps between fall starts, in frames
+## (the k-th gap is gaps[k], the floor past the list), and the cap on the whole spread (-1: none);
+## a spread past the cap shrinks every gap by the same factor. "a" is all at once, the proposal as
+## it is. Display order only: the deaths still resolve at one moment. Order (rulebook 9.7.3): the
+## active side's dying units first, then the other side's, each in reading order. In b, c and d,
+## each death's own "after a friendly unit dies" gain (Old Brock) lands STAGGER_LAND after that
+## fall starts, not after the group; reorder() moves those events beside their death.
+const STAGGERS: Dictionary = {
+	"a": {"gaps": [], "floor": 0, "cap": 0},
+	"b": {"gaps": [4], "floor": 4, "cap": 24},
+	"c": {"gaps": [10, 7, 5, 4, 4], "floor": 4, "cap": 30},
+	"d": {"gaps": [12], "floor": 12, "cap": -1},
+}
+## A staggered death's gain lands as its fall ends (the slot empty).
+const STAGGER_LAND: int = 15
 ## C's tempo cap (x1.3 a repeat, up to x3.5).
 const TEMPO_CAP: float = 3.5
 
@@ -224,6 +240,8 @@ var _totals: Dictionary = {}
 var _total_on: bool = false
 ## [{attack, start, lands}]: every combo, by frame.
 var _combos: Array[Dictionary] = []
+## [{attack, base, falls: [{key, frame}], lands}]: every staggered group of deaths (CB8), by frame.
+var _staggers: Array[Dictionary] = []
 
 
 func _init(chosen: Dictionary = {}) -> void:
@@ -330,6 +348,7 @@ func report() -> Dictionary:
 		"attacks": attacks,
 		"falls": _falls,
 		"combos": _combos,
+		"staggers": _staggers,
 		"bursts": bursts.size(),
 		"notes": notes,
 		"claims":
@@ -341,6 +360,7 @@ func report() -> Dictionary:
 			"exchange_fall": FALLS[pick("CB5")],
 			"next_lift": LIFTS[pick("CB6")],
 			"combo": COMBOS[pick("CB7")],
+			"stagger": STAGGERS[pick("CB8")],
 		},
 	}
 
@@ -572,6 +592,12 @@ func _run_queue(queue: Array[Dictionary], from: int, at: int, kill_land: int) ->
 		var item: Dictionary = queue[j]
 		var tempo: float = _tempo(t - from)
 		var kind: String = item["kind"]
+		if kind == "stagger":
+			var spread: Dictionary = _stagger(item, killed + roundi(EFFECT_KILL / tempo))
+			t = maxi(t, _i(spread["next"]))
+			queue_end = maxi(queue_end, _i(spread["end"]))
+			j += 1
+			continue
 		if kind == "death":
 			var fall: int = killed + roundi(EFFECT_KILL / tempo)
 			if item.get("exchange_kill", false):
@@ -617,6 +643,52 @@ func _fall(item: Dictionary, at: int, length: int) -> void:
 		var uid: int = _i(event["uid"])
 		_dead[uid] = true
 		_falls.append({"key": _key(uid), "frame": at, "frames": length})
+
+
+## CB8: a group of deaths at once, each falling at base + its stagger_at (reorder() set it), each
+## for FALL frames (no speed-up, so every option's falls match); each death's own gain lands at
+## its stagger_at, the source pulsing before it. Returns {next, end}.
+func _stagger(item: Dictionary, base: int) -> Dictionary:
+	var listed: Array = item["events"]
+	var last: int = _i(listed.back()) + 1
+	var fall_end: int = base
+	var lands: Array[int] = []
+	var falls: Array[Dictionary] = []
+	var k: int = 0
+	while k < listed.size():
+		var i: int = _i(listed[k])
+		var event: Dictionary = _events[i]
+		var at: int = base + _i(event["stagger_at"])
+		if _kind(i) == "trigger":
+			var beat: Dictionary = _beat(i, last)
+			var targets: Array = beat["targets"]
+			var source: int = _i(beat["source"])
+			var to_self: bool = (
+				targets.is_empty() or (targets.size() == 1 and _i(targets[0]) == source)
+			)
+			var done: Dictionary = _item(beat, at - (SELF_LAND if to_self else BEAT_LAND), 1.0)
+			lands.append(_i(done["land"]))
+			var caused: Array = beat["events"]
+			k += caused.size()
+			continue
+		if _kind(i) == "death":
+			_fall({"events": [i]}, at, FALL)
+			fall_end = maxi(fall_end, at + FALL)
+			falls.append({"key": _key(_i(event["uid"])), "frame": at})
+		elif _commit:
+			_reveal[i] = at
+		k += 1
+	if _commit:
+		_staggers.append(
+			{"attack": attacks.size(), "base": base, "falls": falls, "lands": lands.duplicate()}
+		)
+	if lands.is_empty():
+		return {"next": fall_end, "end": fall_end}
+	var hold: int = _i(COMBOS[pick("CB7")]["end"])
+	return {
+		"next": maxi(fall_end, _i(lands.max()) + BEAT_GAP),
+		"end": maxi(fall_end, _i(lands.max()) + hold),
+	}
 
 
 ## How many beats from j on are the same mechanic with the same effect, back to back.
@@ -788,9 +860,217 @@ func _land_now(item: Dictionary, at: int) -> void:
 ## damage back, and the moved damage loses the exchange's). An attack with no exchange (lethal
 ## Thorns) or a death before its exchange is left as it is. The first moved event is marked
 ## after_hit. Any other option: the log unchanged.
+## CB8 b, c, d: also each group of deaths at once in display order (_staggered()).
 static func reorder(events: Array, chosen: Dictionary) -> Array:
-	if str(chosen.get("CB4", PICKS["CB4"])) != "after":
-		return events
+	var played: Array = events
+	if str(chosen.get("CB4", PICKS["CB4"])) == "after":
+		played = _after_hit(played)
+	var rule: Dictionary = STAGGERS[str(chosen.get("CB8", PICKS["CB8"]))]
+	var gaps: Array = rule["gaps"]
+	if not gaps.is_empty():
+		played = _staggered(played, rule)
+	return played
+
+
+## CB8: when each of n deaths at once starts its fall, in frames after the first.
+static func stagger_starts(n: int, rule: Dictionary) -> Array[int]:
+	var gaps: Array = rule["gaps"]
+	var widths: Array[float] = []
+	var total: float = 0.0
+	for k: int in maxi(n - 1, 0):
+		var gap: float = _f(gaps[k]) if k < gaps.size() else _f(rule["floor"])
+		widths.append(gap)
+		total += gap
+	var cap: float = _f(rule["cap"])
+	var shrink: float = 1.0
+	if cap >= 0.0 and total > cap:
+		shrink = cap / total
+	var out: Array[int] = [0]
+	var sum: float = 0.0
+	for gap: float in widths:
+		sum += gap * shrink
+		out.append(roundi(sum))
+	return out
+
+
+## CB8: every run of two or more deaths at once, each death tagged with its fall's frame after the
+## first (stagger_starts, in the rulebook 9.7.3 order: the active side's first, then the other
+## side's, each in reading order). When the run is followed by one "after a friendly unit dies"
+## beat per friendly death, of one mechanic, from a living source (Old Brock), the k-th beat is
+## that side's k-th death in the log and lands STAGGER_LAND after that death's fall starts. The
+## group is sorted by those frames; when that changes the order of the beats, their buffs' Attack
+## and Health are recounted so each stays true and the last equals the log's. Otherwise (a death
+## effect among them, say) what follows waits for the last fall.
+static func _staggered(events: Array, rule: Dictionary) -> Array:
+	var out: Array = []
+	var active: int = -1
+	var i: int = 0
+	while i < events.size():
+		var event: Dictionary = events[i]
+		if _kind_of(event) == "attack":
+			active = _i(event["side"])
+		var run: int = i
+		while run < events.size() and _kind_at(events, run) == "death":
+			run += 1
+		if run - i < 2:
+			out.append(event)
+			i += 1
+			continue
+		var deaths: Array[Dictionary] = []
+		for k: int in range(i, run):
+			deaths.append(_at(events, k))
+		var beats: Array[Array] = _friendly_beats(events, run, deaths)
+		var shown: Array[Dictionary] = deaths.duplicate()
+		shown.sort_custom(
+			func(x: Dictionary, y: Dictionary) -> bool:
+				return _reading(x, active) < _reading(y, active)
+		)
+		var starts: Array[int] = stagger_starts(shown.size(), rule)
+		var start_of: Dictionary = {}
+		# [frame after the first fall, 0 death / 1 beat, index, events]
+		var rows: Array[Array] = []
+		for k: int in shown.size():
+			var death: Dictionary = shown[k].duplicate()
+			death["stagger_at"] = starts[k]
+			start_of[_i(death["uid"])] = starts[k]
+			rows.append([starts[k], 0, k, [death]])
+		var friendly: Array[int] = []
+		if not beats.is_empty():
+			var trigger: Dictionary = beats[0][0]
+			for death: Dictionary in deaths:
+				if _i(death["side"]) == _i(trigger["side"]):
+					friendly.append(_i(death["uid"]))
+		for k: int in beats.size():
+			var at: int = _i(start_of[friendly[k]]) + STAGGER_LAND
+			var tagged: Array[Dictionary] = []
+			for value: Variant in beats[k]:
+				var part: Dictionary = value
+				var copy: Dictionary = part.duplicate()
+				copy["stagger_at"] = at
+				tagged.append(copy)
+			rows.append([at, 1, k, tagged])
+		rows.sort_custom(_row_before)
+		var moved: bool = false
+		var next_beat: int = 0
+		for row: Array in rows:
+			if _i(row[1]) == 1:
+				moved = moved or _i(row[2]) != next_beat
+				next_beat += 1
+		if moved:
+			_recount(rows, beats, events, i)
+		for row: Array in rows:
+			var part: Array = row[3]
+			out.append_array(part)
+		i = run
+		for beat: Array in beats:
+			i += beat.size()
+	return out
+
+
+## Where a dying unit stands in rulebook 9.7.3's order: the active side first, then reading order.
+static func _reading(death: Dictionary, active: int) -> int:
+	var other: int = 0 if _i(death["side"]) == active else 1
+	return other * 100 + _i(death["slot"])
+
+
+static func _row_before(x: Array, y: Array) -> bool:
+	for c: int in 3:
+		if _i(x[c]) != _i(y[c]):
+			return _i(x[c]) < _i(y[c])
+	return false
+
+
+## The beats right after a run of deaths that are one per friendly death (see _staggered), each
+## [trigger, what it does...], or [] when they are not.
+static func _friendly_beats(events: Array, from: int, deaths: Array[Dictionary]) -> Array[Array]:
+	var none: Array[Array] = []
+	if from >= events.size() or _kind_at(events, from) != "trigger":
+		return none
+	var first: Dictionary = events[from]
+	var source: int = _i(first.get("uid", -1))
+	var side: int = _i(first.get("side", -1))
+	for death: Dictionary in deaths:
+		if _i(death["uid"]) == source:
+			return none
+	var beats: Array[Array] = []
+	var j: int = from
+	while j < events.size():
+		var trigger: Dictionary = events[j]
+		if (
+			_kind_of(trigger) != "trigger"
+			or _i(trigger.get("uid", -1)) != source
+			or str(trigger.get("mechanic", "")) != str(first.get("mechanic", ""))
+		):
+			break
+		var beat: Array = [trigger]
+		j += 1
+		while (
+			j < events.size()
+			and not _kind_at(events, j) in ["trigger", "death", "attack", "combat_end"]
+		):
+			beat.append(events[j])
+			j += 1
+		beats.append(beat)
+	var friendly: int = 0
+	for death: Dictionary in deaths:
+		if _i(death["side"]) == side:
+			friendly += 1
+	return beats if beats.size() == friendly else none
+
+
+## The buffs of a group in its new order (rows, sorted), recounted: each is its unit's Attack and
+## Health before the group plus every gain on that unit shown so far, so the numbers stay true and
+## the last equals the log's. A gain is what its buff added in the log's own order (beats).
+static func _recount(rows: Array[Array], beats: Array[Array], events: Array, upto: int) -> void:
+	var stats: Dictionary = {}
+	var start: Dictionary = events[0]
+	var boards: Array = start.get("boards", [])
+	for row: Variant in boards:
+		var units: Array = row
+		for value: Variant in units:
+			if value is Dictionary:
+				var unit: Dictionary = value
+				stats[_i(unit["uid"])] = Vector2i(
+					_i(unit.get("attack", 0)), _i(unit.get("health", 0))
+				)
+	for k: int in upto:
+		var event: Dictionary = events[k]
+		var uid: int = _i(event.get("uid", -1))
+		if _kind_of(event) == "buff":
+			stats[uid] = Vector2i(_i(event["attack"]), _i(event["health"]))
+		elif _kind_of(event) == "damage" and stats.has(uid):
+			var had: Vector2i = stats[uid]
+			stats[uid] = Vector2i(had.x, _i(event["health"]))
+	var was: Dictionary = stats.duplicate()
+	var gains: Array[Vector2i] = []
+	for beat: Array in beats:
+		var gain: Vector2i = Vector2i.ZERO
+		for value: Variant in beat:
+			var event: Dictionary = value
+			if _kind_of(event) == "buff":
+				var uid: int = _i(event["uid"])
+				var now: Vector2i = Vector2i(_i(event["attack"]), _i(event["health"]))
+				var before: Vector2i = was.get(uid, Vector2i.ZERO)
+				gain += now - before
+				was[uid] = now
+		gains.append(gain)
+	for row: Array in rows:
+		if _i(row[1]) != 1:
+			continue
+		var part: Array = row[3]
+		for value: Variant in part:
+			var event: Dictionary = value
+			if _kind_of(event) != "buff":
+				continue
+			var uid: int = _i(event["uid"])
+			var had: Vector2i = stats.get(uid, Vector2i.ZERO)
+			var now: Vector2i = had + gains[_i(row[2])]
+			stats[uid] = now
+			event["attack"] = now.x
+			event["health"] = now.y
+
+
+static func _after_hit(events: Array) -> Array:
 	var out: Array = []
 	var i: int = 0
 	while i < events.size():
@@ -870,7 +1150,13 @@ func _items(from: int, to: int) -> Array[Dictionary]:
 		var listed: Array = [i]
 		var item: Dictionary = {"kind": "rider", "events": listed}
 		var j: int = i + 1
-		if kind == "damage" and event.get("from_attack", false):
+		if event.has("stagger_at"):
+			# CB8: a group of deaths with their own gains, played by _stagger()
+			item["kind"] = "stagger"
+			while j < to and _at(_events, j).has("stagger_at"):
+				listed.append(j)
+				j += 1
+		elif kind == "damage" and event.get("from_attack", false):
 			item["kind"] = "exchange"
 			while j < to and _exchange_part(j):
 				listed.append(j)
