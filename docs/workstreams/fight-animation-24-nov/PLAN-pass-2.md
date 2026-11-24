@@ -58,3 +58,11 @@ A fresh agent questioned this plan. Taken:
 6. **Several deaths at once (R5):** measure how Battlegrounds and others show a board of deaths; options for staggering falls (order, gaps, accelerating like the combo); film on the fixture's six-death moment.
 7. **Buff animations (design job):** reference study beyond Battlegrounds; three treatments that draw the eye to the changed stat and show the amount; parts using existing pieces are filmed, new pieces (a floating +N, a disc flare) go to the owner as pictures first.
 8. **Leading point: settled.** The point facing the target leads: the top of your cards, the bottom of theirs.
+
+## The owner's third reply (24 Nov, dictated, filler removed)
+
+> "I think what this has shown is that things like Thorns need their own specific animation. The card hitting feels wrong. It needs to be some sort of thorn effect that just hits them, and looks like a thorny vine whipping out and striking them. Or the unit hitting and then flinching, having a different animation when it takes damage from Thorns, to show that it takes damage back. Thorns doesn't feel understandable right now. I think it's because we're trying to communicate it using the same language as an attack, when it's not an attack; it's something else. Same with the hits. We need alternate animations for other effects that don't just use movement, but also use additional assets, I think."
+
+## Thread added
+
+9. **Effects get their own language (design job).** A card's own movement means an attack; damage that isn't an attack (Thorns first, then death damage and trigger damage) gets its own look, with drawn pieces as well as motion. Thorns first: a reference study, options (a vine that whips out and strikes; the attacker flinching on the hit-back; others the designer finds), an art direction in lead and stained glass, generated pictures, review, and pictures to the owner before anything is built. Then a short map of which other effects need their own language, to keep buffs, combos and Thorns one family.
