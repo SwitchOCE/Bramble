@@ -59,9 +59,13 @@ const CB7_MOMENTS: Array[Dictionary] = [
 ]
 ## How close (px) to its nearest point an attacker counts as in contact.
 const CONTACT_SLACK: float = 0.5
-## x, y: the card's centre in film pixels; rotation in degrees; attack, health: the numbers shown.
+## x, y: the card's centre in film pixels; rotation in degrees; attack, health: the numbers shown;
+## scale_y: the scale along the card's own length (scale is across it); keystone: its leading
+## edge's width over its trailing edge's (tip.gdshader, 1 when flat) and lead, which edge leads
+## (1 top, -1 bottom).
 const CARD_COLUMNS: String = (
-	"frame,t,step,key,card_id,side,slot,x,y," + "scale,rotation,alpha,attack,health,state"
+	"frame,t,step,key,card_id,side,slot,x,y,"
+	+ "scale,rotation,alpha,attack,health,state,scale_y,keystone,lead"
 )
 const MARKER_COLUMNS: String = "frame,t,step,marker,key,detail"
 
@@ -272,11 +276,12 @@ func _log_cards(frame: int, step: int) -> void:
 			)
 		_numbers[key] = numbers
 		var leaving: bool = screen._keeper._fading.has(card)
+		var tip: Vector2 = _tip_of(card)
 		(
 			_card_rows
 			. append(
 				(
-					"%d,%.4f,%d,%s,%s,%d,%d,%.2f,%.2f,%.4f,%.2f,%.3f,%d,%d,%s"
+					"%d,%.4f,%d,%s,%s,%d,%d,%.2f,%.2f,%.4f,%.2f,%.3f,%d,%d,%s,%.4f,%.4f,%d"
 					% [
 						frame,
 						frame / 60.0,
@@ -293,6 +298,9 @@ func _log_cards(frame: int, step: int) -> void:
 						numbers.x,
 						numbers.y,
 						"leaving" if leaving else "kept",
+						card.scale.y,
+						tip.x,
+						roundi(tip.y),
 					]
 				)
 			)
@@ -302,6 +310,17 @@ func _log_cards(frame: int, step: int) -> void:
 			_present.erase(key)
 			_mark(frame, step, "card_out", str(key), "")
 	_centres[frame] = centres
+
+
+## (keystone, lead) of a card drawn tipped by tip.gdshader (best_screen.gd), else (1, 0).
+static func _tip_of(card: Control) -> Vector2:
+	var mat: ShaderMaterial = card.material as ShaderMaterial
+	if mat == null or mat.get_shader_parameter("keystone") == null:
+		return Vector2(1.0, 0.0)
+	return Vector2(
+		GlassPieces.as_float(mat.get_shader_parameter("keystone")),
+		GlassPieces.as_float(mat.get_shader_parameter("lead"))
+	)
 
 
 ## Which card each key is and where it stands, from the step's state.
@@ -335,7 +354,7 @@ func _log_bursts(frame: int, step: int) -> void:
 				_card_rows
 				. append(
 					(
-						"%d,%.4f,%d,%s,burst,-1,-1,%.2f,%.2f,%.4f,%.2f,%.3f,-1,-1,burst"
+						"%d,%.4f,%d,%s,burst,-1,-1,%.2f,%.2f,%.4f,%.2f,%.3f,-1,-1,burst,%.4f,1.0000,0"
 						% [
 							frame,
 							frame / 60.0,
@@ -346,6 +365,7 @@ func _log_bursts(frame: int, step: int) -> void:
 							hit.scale.x,
 							hit.rotation_degrees,
 							hit.modulate.a,
+							hit.scale.y,
 						]
 					)
 				)

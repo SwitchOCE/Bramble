@@ -2,12 +2,16 @@
 """Films, measures and cuts the `best` treatment's contested-branch clips (best.md section 6).
 
 Usage:
-  clips.py scenarios OUT_DIR           one scenario JSON per film (best, then each option)
+  clips.py scenarios OUT_DIR [CB9 ..]  one scenario JSON per film (best, then each option); only the
+                                       named branches' films when named
   clips.py measure STEM [STEM...]      STEM.timing.json: claimed, planned and measured numbers
   clips.py cut FILM_DIR CLIP_DIR [CB1 .. whole]  one side-by-side clip per branch, and today vs best
   clips.py frames CLIP_DIR             5 frames of each clip into CLIP_DIR/frames, for checking
-  clips.py compare FILM_DIR OUT_DIR [SCALE]  one clip per option (OUT_DIR/<branch>/<option>.mp4), no
-                                       labels, aligned like the panes, and OUT_DIR/manifest.json
+  clips.py compare FILM_DIR OUT_DIR [SCALE] [--only CB9 ..]  one clip per option
+                                       (OUT_DIR/<branch>/<option>.mp4), no labels, aligned like the
+                                       panes, and OUT_DIR/manifest.json; with --only, just the named
+                                       branches, each entry in its own OUT_DIR/<branch>.json (the
+                                       manifest is left as it is)
 
 Films are made with tools/feel/film from the scenarios; FILM_DIR holds <name>.mp4 with their
 .report.json, .cards.csv and .markers.csv (fight_compare.gd). `today` is read from FILM_DIR/today.*
@@ -15,6 +19,7 @@ Films are made with tools/feel/film from the scenarios; FILM_DIR holds <name>.mp
 """
 
 import csv
+import itertools
 import json
 import math
 import subprocess
@@ -82,6 +87,31 @@ BRANCHES = {
         ("c", "cb8-c", "C: 10, 7, 5, 4, 4, cap 30"),
         ("d", "cb8-d", "D: Galaxy pace, 12f apart"),
     ],
+    # rotation (research/rotation.md): every pane at stop B and today's quad ease-in, the owner
+    # having ruled out constant speed (24 Nov); FILM_OPTIONS gives each film's whole option set
+    "CB9": [
+        ("none", "cb9-none", "None: the 4-degree lean"),
+        ("aim", "cb9-aim", "Aim: 95 percent of the path"),
+        ("tip", "cb9-tip", "Aim + tip: edge 0.9, length 0.75"),
+    ],
+    "CB10": [
+        ("a", "cb10-a", "A shallow: 0.78h near, 0.45 far"),
+        ("b", "cb9-tip", "B medium: 0.70h near, 0.50 far"),
+    ],
+    "CB11": [
+        ("quad", "cb9-tip", "Today's quad ease-in"),
+        ("mild", "cb11-mild", "Mild ease-in, power 1.6"),
+        ("gentle", "cb11-gentle", "Gentler ease-in, power 1.3"),
+    ],
+}
+# films whose options are more than {branch: option}: CB9-CB11 set the stop, the curve and the rotation
+FILM_OPTIONS = {
+    "cb9-none": {"CB2": "b", "CB3": "quad", "CB9": "none"},
+    "cb9-aim": {"CB2": "b", "CB3": "quad", "CB9": "aim"},
+    "cb9-tip": {"CB2": "b", "CB3": "quad", "CB9": "tip"},
+    "cb10-a": {"CB2": "a", "CB3": "quad", "CB9": "tip"},
+    "cb11-mild": {"CB2": "b", "CB3": "mild", "CB9": "tip"},
+    "cb11-gentle": {"CB2": "b", "CB3": "gentle", "CB9": "tip"},
 }
 TITLES = {
     "CB1": "CB1 wind-up",
@@ -92,7 +122,19 @@ TITLES = {
     "CB6": "CB6 when the next attacker lifts",
     "CB7": "CB7 one trigger many times (CB7's own fight; rule 7 off but in the last pane)",
     "CB8": "CB8 several deaths at once",
+    "CB9": "CB9 rotation (stop B, quad ease-in)",
+    "CB10": "CB10 stop depth with aim + tip (quad ease-in)",
+    "CB11": "CB11 strike speed with aim + tip (stop B)",
 }
+# the attacks CB9-CB11 show: (a) yours straight up, (b) theirs to the far corner, theirs down onto
+# Sentry, and Old Brock (yours) up-left, so both leading points show on a diagonal
+ROTATION_ATTACKS = [
+    (0, "(a) yours, straight across"),
+    (1, "(b) theirs, far corner, bottom point leads"),
+    (3, "theirs, diagonal down onto Sentry"),
+    (6, "yours, Old Brock diagonal up-left"),
+]
+ROTATION_BRANCHES = ("CB9", "CB10", "CB11")
 # CB8: the falls' frames after the first that each option claims (best_timeline.gd STAGGERS)
 STAGGER_CLAIMS = {"a": [0] * 6, "b": [0, 4, 8, 12, 16, 20], "c": [0, 10, 17, 22, 26, 30], "d": [0, 12, 24, 36, 48, 60]}
 # film seconds of `wait` in each scenario (the film ends 0.5 s after it)
@@ -100,12 +142,14 @@ WAIT = {"cb7-bg": 17.5, "cb5-bg": 14.5, "cb6-bg": 14.0}
 WAIT_CB7 = 12.0
 
 
-def films() -> dict:
-    out = {"best": {}}
+def films(only: list | None = None) -> dict:
+    out = {} if only else {"best": {}}
     for branch, options in BRANCHES.items():
+        if only and branch not in only:
+            continue
         for option, film, _ in options:
             if film != "best":
-                out[film] = {branch: option}
+                out[film] = FILM_OPTIONS.get(film, {branch: option})
     return out
 
 
@@ -122,9 +166,9 @@ def stagger_mismatches(timing: dict) -> list:
     return [] if got == claimed else [f"CB8: falls start {got} after the first, claimed {claimed}"]
 
 
-def cmd_scenarios(out_dir: Path) -> None:
+def cmd_scenarios(out_dir: Path, only: list | None = None) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
-    for name, options in films().items():
+    for name, options in films(only).items():
         wait = WAIT.get(name, WAIT_CB7 if fight_of(name) else 13.5)
         scenario = {
             "scene": SCENE,
@@ -171,6 +215,33 @@ def bursts_between(markers: list, first: int, last: int) -> list:
     return [
         (int(m["frame"]), m["detail"]) for m in markers if m["marker"] == "burst" and first <= int(m["frame"]) <= last
     ]
+
+
+def measure_turn(cards: dict, key: str, home: tuple, aim: tuple, contact: int) -> dict:
+    """CB9 from the per-frame log: the turn (degrees, clockwise +) at C-12, C, C+10 and C+25; the
+    path's angle from the leading point (the top when the target is above, else the bottom); and
+    the length (scale_y over scale) and keystone (leading edge over trailing) at C and C+8."""
+    dx, dy = aim[0] - home[0], aim[1] - home[1]
+    lead = -1 if dy > 0 else 1
+    lx, ly = 0.0, float(-lead)
+    path = math.degrees(math.atan2(lx * dy - ly * dx, lx * dx + ly * dy))
+    out: dict = {"lead": "top" if lead > 0 else "bottom", "path_angle_deg": round(path, 2)}
+    for name, frame in (
+        ("turn_c_minus_12", contact - 12),
+        ("turn_c", contact),
+        ("turn_c_plus_10", contact + 10),
+        ("turn_c_plus_25", contact + 25),
+    ):
+        row = cards.get((frame, key))
+        out[name] = round(float(row["rotation"]), 2) if row else None
+    full = out["turn_c_minus_12"]
+    out["turn_share_of_path_at_c_minus_12"] = round(full / path, 3) if full is not None and abs(path) > 1 else None
+    for name, frame in (("at_c", contact), ("at_c_plus_8", contact + 8)):
+        row = cards.get((frame, key))
+        if row and row.get("scale_y"):
+            out[f"length_{name}"] = round(float(row["scale_y"]) / float(row["scale"]), 3)
+            out[f"keystone_{name}"] = round(float(row["keystone"]), 3)
+    return out
 
 
 def measure_attack(attack: dict, nxt: dict | None, cards: dict, markers: list) -> dict:
@@ -249,6 +320,7 @@ def measure_attack(attack: dict, nxt: dict | None, cards: dict, markers: list) -
     out["return_first_px"] = round(math.dist(first_back[:2], hit[:2]), 1) if first_back else None
     out["distance_h"] = round(math.dist(home[:2], aim[:2]) / H, 3)
     out["pop_scale"] = round(hit[2], 3)
+    out["rotation"] = measure_turn(cards, key, home, aim, contact)
     steps = []
     for f in range(launch + 1, contact + 1):
         a, b = at(cards, f - 1, key), at(cards, f, key)
@@ -415,6 +487,20 @@ def mismatches(measured: list, plan: dict) -> list:
         curve = claims.get("curve", 1.0)
         if curve == 1.0 and steps and max(steps) - min(steps) > 1.5:
             out.append(f"attack {n}: strike not constant speed: {steps}")
+        if curve > 1.0 and any(b <= a for a, b in itertools.pairwise(steps)):
+            out.append(f"attack {n}: strike does not speed up every frame: {steps}")
+        rotation = claims.get("rotation", {})
+        turn = m.get("rotation", {})
+        if rotation.get("aim", 0.0) > 0.0 and turn:
+            full = p["aim_deg"]
+            check("turn at C-12", turn["turn_c_minus_12"], full, 0.05)
+            check("turn at C", turn["turn_c"], round(full * 0.9, 2), 0.05)
+            check("turn at C+25", turn["turn_c_plus_25"], 0.0, 0.05)
+            check("turn's share of the path at C-12", turn["turn_share_of_path_at_c_minus_12"], rotation["aim"], 0.01)
+        if rotation and turn.get("length_at_c") is not None:
+            check("length at C", turn["length_at_c"], rotation["length"], 0.002)
+            check("keystone at C", turn["keystone_at_c"], rotation["keystone"], 0.002)
+            check("length at C+8", turn["length_at_c_plus_8"], 1.0, 0.002)
     return out
 
 
@@ -472,7 +558,18 @@ def cmd_measure(stems: list[Path]) -> None:
         print(out, "mismatches:", len(timing["mismatches"]))
 
 
-FRAME_KEYS = {"lift", "launch", "contact", "release", "home", "numbers", "queue_from", "queue_end", "next_lift"}
+FRAME_KEYS = {
+    "lift",
+    "launch",
+    "contact",
+    "release",
+    "home",
+    "numbers",
+    "queue_from",
+    "queue_end",
+    "next_lift",
+    "aim_full",
+}
 
 
 # ---- cutting ----
@@ -529,6 +626,9 @@ def segments(branch: str, a: list) -> list:
         # from before the Stripper's 5s land on all seven, through the six falls and Old Brock's gains
         six = [f["frame"] for f in a[5]["falls"] if f["key"] != "u10"]
         return [("(e) six of yours die at once (Old Brock gains)", min(six) - 40, a[5]["queue_end"] + 12)]
+    if branch in ROTATION_BRANCHES:
+        # from just before the lift (the turn starts there) to C+30 (straight again by C+25)
+        return [(name, a[k]["lift"] - 6, a[k]["contact"] + 30) for k, name in ROTATION_ATTACKS]
     raise ValueError(branch)
 
 
@@ -693,7 +793,15 @@ def six_falls(timing: dict) -> list:
 
 
 # per branch, per segment: the attack whose contact is the reference (CB1: its first motion)
-REF_ATTACK = {"CB1": [0], "CB2": [0, 1], "CB3": [1], "CB4": [2], "CB5": [5], "CB6": [0, 4, 5]}
+REF_ATTACK = {
+    "CB1": [0],
+    "CB2": [0, 1],
+    "CB3": [1],
+    "CB4": [2],
+    "CB5": [5],
+    "CB6": [0, 4, 5],
+    **{branch: [k for k, _ in ROTATION_ATTACKS] for branch in ROTATION_BRANCHES},
+}
 
 
 def references(film_dir: Path, film: str, branch: str) -> list:
@@ -1017,6 +1125,16 @@ def measured_for(branch: str, film_dir: Path, film: str) -> dict:
             "burst_totals": [b[1][-1] for b in c["bursts_on_target"]],
             "rule7": any(c["speedup"]),
         }
+    if branch in ROTATION_BRANCHES:
+        out = {}
+        for k, name in ROTATION_ATTACKS:
+            a = m[k]
+            out[name] = {
+                **a.get("rotation", {}),
+                "stop_gap_h": a.get("stop_gap_h"),
+                "strike_px_per_frame": a.get("strike_px_per_frame"),
+            }
+        return out
     if branch == "CB8":
         falls = six_falls(t)
         first = falls[0][1]
@@ -1032,10 +1150,15 @@ def measured_for(branch: str, film_dir: Path, film: str) -> dict:
     return {}
 
 
-def cmd_compare(film_dir: Path, out_dir: Path, scale: float) -> None:
+def cmd_compare(film_dir: Path, out_dir: Path, scale: float, only: list | None = None) -> None:
+    """With only: just those branches, each entry written to OUT_DIR/<branch>.json in the shape of a
+    manifest branch; manifest.json and the whole fights are left as they are (another builder may
+    be writing them)."""
     out_dir.mkdir(parents=True, exist_ok=True)
     manifest = {"fps": 60, "crop": list(CROP), "scale": scale, "branches": {}}
     for branch, options in BRANCHES.items():
+        if only and branch not in only:
+            continue
         films_ = [film for _, film, _ in options]
         plans = {film: plan_frames(film_dir, film) for film in films_}
         refs = {film: references(film_dir, film, branch) for film in films_}
@@ -1087,6 +1210,11 @@ def cmd_compare(film_dir: Path, out_dir: Path, scale: float) -> None:
             )
             print(out)
         manifest["branches"][branch] = entry
+        if only:
+            (out_dir / f"{branch}.json").write_text(json.dumps(entry, indent=1) + "\n")
+            print(out_dir / f"{branch}.json")
+    if only:
+        return
     whole = {
         "title": "Whole fight: today and the best proposal",
         "reference": "",
@@ -1123,7 +1251,7 @@ def main() -> int:
         return 2
     what = sys.argv[1]
     if what == "scenarios":
-        cmd_scenarios(Path(sys.argv[2]))
+        cmd_scenarios(Path(sys.argv[2]), sys.argv[3:])
     elif what == "measure":
         cmd_measure([Path(a) for a in sys.argv[2:]])
     elif what == "cut":
@@ -1131,7 +1259,19 @@ def main() -> int:
     elif what == "frames":
         cmd_frames(Path(sys.argv[2]))
     elif what == "compare":
-        cmd_compare(Path(sys.argv[2]), Path(sys.argv[3]), float(sys.argv[4]) if len(sys.argv) > 4 else 1.0)
+        args = sys.argv[2:]
+        only = []
+        if "--only" in args:
+            at = args.index("--only")
+            only, args = args[at + 1 :], args[:at]
+            if not only:
+                print("--only names at least one branch")
+                return 2
+            unknown = [b for b in only if b not in BRANCHES]
+            if unknown:
+                print("no such branch:", " ".join(unknown))
+                return 2
+        cmd_compare(Path(args[0]), Path(args[1]), float(args[2]) if len(args) > 2 else 1.0, only)
     else:
         print(__doc__)
         return 2

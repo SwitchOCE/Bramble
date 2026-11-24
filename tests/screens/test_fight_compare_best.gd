@@ -37,7 +37,7 @@ func test_a_plain_attack_keeps_the_proposals_numbers() -> void:
 
 func test_every_option_plays_the_whole_fight() -> void:
 	var sets: Array[Dictionary] = [{}]
-	for branch: String in ["CB1", "CB2", "CB5", "CB6", "CB7", "CB8"]:
+	for branch: String in ["CB1", "CB2", "CB5", "CB6", "CB7", "CB8", "CB9"]:
 		var table: Dictionary = _table(branch)
 		for option: String in table:
 			sets.append({branch: option})
@@ -168,6 +168,82 @@ func test_cb8_changes_only_the_order_shown() -> void:
 	assert_eq(last_gain, _last_buff(events, 4), "the last as the log's")
 
 
+func test_cb9_aim_turns_the_leading_point_to_the_target_on_galaxys_timing() -> void:
+	var timeline: RefCounted = _timeline({"CB9": "aim"})
+	var attacks: Array = timeline.get("attacks")
+	# (b): Prophet of the Dust, theirs, down-right onto Old Brock: its bottom point leads
+	var far: Dictionary = attacks[1]
+	var key: String = far["attacker"]
+	var c: int = far["contact"]
+	var aim: float = far["aim_deg"]
+	assert_eq(str(far["lead"]), "bottom", "theirs: the bottom point leads")
+	assert_lt(aim, -20.0, "down-right turns the bottom point right (anticlockwise)")
+	assert_eq(_i(far["aim_full"]), c - Timeline.AIM_FULL_BEFORE, "full at C-12 (least hold)")
+	assert_almost_eq(_turn(timeline, key, c - 12), aim, 0.01, "full at C-12")
+	assert_almost_eq(_turn(timeline, key, c), aim * Timeline.AIM_AT_CONTACT, 0.01, "90% at C")
+	assert_almost_eq(_turn(timeline, key, c + 25), 0.0, 0.01, "straight by C+25")
+	var at_ten: float = _turn(timeline, key, c + 10) / (aim * Timeline.AIM_AT_CONTACT)
+	assert_between(at_ten, 0.65, 1.0, "65-100% still turned at C+10 (Galaxy)")
+	assert_almost_eq(_turn(timeline, key, _i(far["lift"])), 0.0, 0.01, "straight before the lift")
+	var first: float = _turn(timeline, key, _i(far["lift"]) + 1)
+	assert_true(absf(first) > 0.5, "turns from the lift's first frame")
+	# angle: 95% of the path's
+	var path: Vector2 = _path(timeline, far)
+	var want: float = 0.95 * rad_to_deg(Vector2(0.0, 1.0).angle_to(path))
+	assert_almost_eq(aim, want, 0.05, "95% of the path's angle")
+	# (a) straight across, yours: the top leads and it does not turn; no lean either
+	var straight: Dictionary = attacks[0]
+	assert_eq(str(straight["lead"]), "top", "yours: the top point leads")
+	assert_almost_eq(
+		_turn(timeline, str(straight["attacker"]), _i(straight["contact"])), 0.0, 0.5, "(a)"
+	)
+	# Old Brock, yours, up-left: the top point turns left (anticlockwise)
+	assert_lt(_f(attacks[6]["aim_deg"]), -10.0, "up-left turns the top point left")
+
+
+func test_cb9_tip_keystones_and_shortens_and_none_keeps_the_proposal() -> void:
+	var timeline: RefCounted = _timeline({"CB9": "tip"})
+	var all: Array = timeline.get("attacks")
+	var far: Dictionary = all[1]
+	var key: String = far["attacker"]
+	var c: int = far["contact"]
+	var at_c: Dictionary = timeline.call("pose", key, c)
+	assert_almost_eq(_f(at_c["length"]), 0.75, 0.001, "0.75 of its length at contact")
+	assert_almost_eq(_f(at_c["keystone"]), 0.9, 0.001, "leading edge 10% shorter at contact")
+	assert_almost_eq(_f(at_c["lead"]), -1.0, 0.001, "the bottom edge leads")
+	var held: Dictionary = timeline.call("pose", key, c - 12)
+	assert_almost_eq(_f(held["length"]), 1.0, 0.001, "full length in the hold")
+	assert_almost_eq(_f(held["keystone"]), 0.9, 0.001, "keystone full in the hold")
+	var back: Dictionary = timeline.call("pose", key, c + Timeline.LENGTH_BACK)
+	assert_almost_eq(_f(back["length"]), 1.0, 0.001, "length back by C+8")
+	var flat: Dictionary = timeline.call("pose", key, c + Timeline.TIP_FADE)
+	assert_almost_eq(_f(flat["keystone"]), 1.0, 0.001, "flat by C+10")
+	var plain: RefCounted = _timeline({})
+	var none: RefCounted = _timeline({"CB9": "none"})
+	for n: int in range(_i(far["lift"]), c + 30):
+		var a: Dictionary = plain.call("pose", key, n)
+		var b: Dictionary = none.call("pose", key, n)
+		assert_almost_eq(_f(a["turn"]), _f(b["turn"]), 0.0001, "none is the proposal's lean")
+		assert_almost_eq(_f(b["length"]), 1.0, 0.0001, "none: full length")
+		assert_almost_eq(_f(b["keystone"]), 1.0, 0.0001, "none: flat")
+
+
+func test_cb11_strike_curves_speed_up_into_contact() -> void:
+	for option: String in ["quad", "mild", "gentle"]:
+		var timeline: RefCounted = _timeline({"CB9": "tip", "CB2": "b", "CB3": option})
+		var all: Array = timeline.get("attacks")
+		var far: Dictionary = all[1]
+		var key: String = far["attacker"]
+		var steps: Array[float] = []
+		var last: Vector2 = _offset(timeline, key, _i(far["launch"]))
+		for n: int in range(_i(far["launch"]) + 1, _i(far["contact"])):
+			var at: Vector2 = _offset(timeline, key, n)
+			steps.append(at.distance_to(last))
+			last = at
+		for k: int in range(1, steps.size()):
+			assert_gt(steps[k], steps[k - 1], "%s: faster every frame into contact" % option)
+
+
 func test_best_plays_on_the_fight_screen() -> void:
 	var scene: Control = SCENE.instantiate()
 	add_child_autofree(scene)
@@ -190,6 +266,38 @@ func _plan(chosen: Dictionary, which: String = "") -> Dictionary:
 	return plan
 
 
+func _timeline(chosen: Dictionary) -> RefCounted:
+	var combat: Combat = Compare.fight_named(_content, "")
+	var base: Dictionary = GlassScreen.load_state(Compare.BASE_PATH)
+	var best: RefCounted = Treatments.make("best")
+	best.call("configure", chosen)
+	best.call("make_replay", base, combat.events, {}, Compare.DAMAGE)
+	var timeline: RefCounted = best.get("timeline")
+	return timeline
+
+
+static func _offset(timeline: RefCounted, key: String, n: int) -> Vector2:
+	var pose: Dictionary = timeline.call("pose", key, n)
+	var offset: Vector2 = pose["offset"]
+	return offset
+
+
+static func _turn(timeline: RefCounted, key: String, n: int) -> float:
+	var pose: Dictionary = timeline.call("pose", key, n)
+	return _f(pose["turn"])
+
+
+## The attack's line: where the attacker stops, from where it stands (along the line to its
+## target).
+static func _path(timeline: RefCounted, attack: Dictionary) -> Vector2:
+	var segments: Dictionary = timeline.get("segments")
+	for value: Variant in segments.get(str(attack["attacker"]), []):
+		var seg: Dictionary = value
+		if str(seg["kind"]) == "attack" and _i(seg["from"]) == _i(attack["lift"]):
+			return seg["stop"]
+	return Vector2.ZERO
+
+
 static func _last_buff(events: Array, uid: int) -> Array:
 	var out: Array = []
 	for value: Variant in events:
@@ -207,6 +315,7 @@ static func _table(branch: String) -> Dictionary:
 		"CB6": Timeline.LIFTS,
 		"CB7": Timeline.COMBOS,
 		"CB8": Timeline.STAGGERS,
+		"CB9": Timeline.ROTATIONS,
 	}
 	var table: Dictionary = tables[branch]
 	return table

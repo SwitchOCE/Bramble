@@ -14,9 +14,12 @@ The film takes about 3 minutes here (817 frames). Beside `today.mp4` it writes:
   `burst_frame`, `end_frame`), the five moments below with their frames and seconds, the planned
   seconds, and `core_matches` (the board on screen at the end equals the rules core's).
 - `today.cards.csv`: every drawn frame, every card: `frame, t, step, key, card_id, side, slot,
-  x, y, scale, rotation, alpha, attack, health, state`. `x, y` is the card's centre in film pixels;
-  `attack, health` are the numbers drawn on it; `state` is `kept` or `leaving` (dying). Bursts
-  (the damage stars) are rows with `card_id` `burst`.
+  x, y, scale, rotation, alpha, attack, health, state, scale_y, keystone, lead`. `x, y` is the
+  card's centre in film pixels; `attack, health` are the numbers drawn on it; `state` is `kept`
+  or `leaving` (dying); `scale_y` is the scale along the card's own length (`scale` is across
+  it); `keystone` is its leading edge's width over its trailing edge's (1 when flat) and `lead`
+  the edge that leads (1 top, -1 bottom, 0 flat), both from `tip.gdshader` (CB9). Bursts (the
+  damage stars) are rows with `card_id` `burst`.
 - `today.markers.csv`: `frame, t, step, marker, key, detail`, one row per `step` (kind and hold),
   `attack_start`, `contact` (the attacker nearest where its target stood), `burst` (new damage
   stars, `side:slot:amount`), `numbers` (a card's drawn Attack/Health changing), `card_in`,
@@ -116,6 +119,29 @@ gain is that side's k-th death in the log) and recounts the numbers if their ord
 board at the end is the core's. A group whose following beats are not one per friendly death (a
 death effect among them) staggers its falls and plays what follows after the last. Staggered
 falls run 15 f, without rule 7's speed-up.
+
+CB9, rotation (`docs/workstreams/fight-animation-24-nov/research/rotation.md`): `none` is the
+proposal's 4-degree lean; `aim` turns the card in its own plane so the point facing the target
+leads (the top of yours, the bottom of theirs), to 95 % of the path's angle, on Galaxy's timing:
+from the lift's first frame (sine out), full at C-12 when the hold is its least (it holds
+through a longer one), 90 % at C, unwound from the return's start over 25 f (smootherstep), so the
+card lands home still turned and straightens there. `tip` adds the leading end tipping away from
+the viewer: `tip.gdshader` draws a true perspective keystone (leading edge 0.9 of the trailing
+edge's width, texture sampled perspective-correct so the lead lines stay straight), ramped and
+held with the turn and gone 10 f after the return starts; and the card shortens along its own
+length to 0.75 at C (its `scale.y`, as `src/screens/card_carry.gd` pitches a carried card; scale
+applies before the turn, so it never shears), shortening with the strike's travel and back to
+full by C+8. 0.75 reads as a tip of about 41 degrees. The aim replaces the lean. The shadows
+(the card's child nodes) stay flat; the keystone moves the drawn card's middle a few px toward
+its trailing end, which the log (the node's centre) doesn't see. `CB3: gentle` is an ease-in of
+power 1.3. CB10 (stop A or B) and CB11 (quad, mild, gentle) are clip groups, not parameters: each
+option is a set of CB2, CB3 and CB9 (`clips.py` `FILM_OPTIONS`); every CB9-CB11 film runs at stop
+B and the quad ease-in except the one thing its group varies, since the owner ruled out constant
+speed. They show attacks 0 (yours, straight), 1 (theirs, far corner), 3 (theirs, diagonal down)
+and 6 (Old Brock, yours, diagonal up), lined up at C. `clips.py measure` adds each attack's
+`rotation` (turn at C-12, C, C+10, C+25; path angle; length and keystone at C and C+8), and
+`clips.py compare ... --only CB9 CB10 CB11` writes just those branches, each entry in its own
+`compare/<branch>.json`, leaving `manifest.json` alone.
 
 Rules this treatment follows: the return moves from C+1 (no frame held at contact) and is home at
 C+12/14/16; what plays after the hit starts at max(C+14, home). CB4 "freeze" is today's order:
