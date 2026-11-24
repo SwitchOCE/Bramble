@@ -119,10 +119,27 @@ Each fight cue is asked for at a step (`tests/sound/test_sound.gd` checks which)
 
 ## A card or keyword gets its own animation
 
-- **When:** an effect that isn't an attack (Thorns, effect damage, death damage), a keyword whose meaning motion can carry, or a rare signature card (tier 3). Whether card- and keyword-specific animations are in scope now is open for the owner.
+- **When:** an effect that isn't an attack (Thorns, effect damage, death damage), a keyword whose meaning motion can carry, or a rare signature card (tier 3). In scope now (owner, 24 Nov: "animations for single cards and keywords are absolutely in scope").
 - **How:** it belongs to a family in the vocabulary (GUIDELINES §1), uses the shared tokens and has its own tuning file. It goes through all ten steps. Its new pieces go to step 4.
 - **Hook** (proposal): the card's data names an animation; with none, the family's default plays. Content stays data (`src/content`).
 - **Map first:** before the second keyword animation, write the short map of which effects need their own language (pass 2, thread 9), so buffs, combos and Thorns stay one family.
+
+## For people designing units and tribes
+
+The owner, 24 Nov: "I've uncovered that units and mechanics may need custom animations. That's something that needs to be thought about in tribe design… That's not something we had in our tribe design process." Thorns showed why: it was shown with an attack's motion and players couldn't read it.
+
+Every new unit, keyword or mechanic states an **animation line** in its design, before it is costed or built. Six answers, one line each:
+
+| Question | Example (Thorns) |
+|---|---|
+| **What the player must see:** cause, target, amount, result, in one sentence | "The plant hurt the attacker for 2 because it was hit." |
+| **Family:** attack, effect damage, gain or loss, prevention, summon, death, state change, economy; or "new" | Effect damage (not an attack) |
+| **When it plays:** its slot in the fight's order (start of fight, before the hit, at the hit, after the hit, on death, end of fight) or the shop's | Before the hit, in the attacker's raised hold |
+| **How often:** once, per attack, chainable; how many targets at once | Once per attack on it; one target |
+| **How common:** which tier, how many copies in a typical late board (sets how short and how loud it may be) | Tier 1–2, a Guard: seen often, so short |
+| **New drawn piece?** Yes or no; if yes it goes to the art pass with a picture first | Yes: the bramble lash |
+
+If the family exists, the family's default animation plays and nothing more is needed. "New" or a new drawn piece sends it to this process (step 1) before the unit ships. A unit whose line can't be answered isn't ready to build.
 
 ## Where the quality bar hooks in
 

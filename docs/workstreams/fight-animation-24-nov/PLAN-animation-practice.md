@@ -51,3 +51,12 @@ So:
 - A `bramble-motion` skill exists on this branch, marked experimental, pointing to the drafts.
 - Card- and keyword-specific animations are in scope (Thorns first).
 - Combo: the count and burst start only from the second hit; a single hit stays a plain hit.
+
+## Fight length and a speed toggle (24 Nov)
+
+A playtester the owner trusts (a top Battlegrounds player), after playing the build: "fast mode, the fights are pretty slow so a button to toggle it to be really fast could be cool." The owner: "a speed toggle would be good for fights, but hopefully, animations fixes that, right? The idea is that we don't need a speed toggle because animations will be in a better spot." And: "units and mechanics may need custom animations. That's something that needs to be thought about in tribe design."
+
+So:
+- Clearer and faster pull against each other (a visible wind-up adds time). Each treatment and the recommended plan now report the whole length of typical late fights beside today's (`research/fight-length.md`).
+- The plan says plainly whether it removes the need for a speed toggle, with the numbers.
+- `practice/PROCESS.md` has a section for unit and tribe designers: the animation line every new mechanic states.
