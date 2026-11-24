@@ -7,6 +7,9 @@ extends Node
 ##   godot --headless res://tests/screens/feel/fight_compare/fight_length.tscn -- \
 ##     field=/data/third-run/field-fa1d51ec out=/data/fight-anim-work/fight-length [pairs=80]
 ##     [seed=2411] [rounds=8,9,10,11,12] [labels=red,blue] [variants=all|best]
+##   ... fight_length.tscn -- fights=spec:<fights/<name>.json> sets='[{"CB9": "tip_medium"}, ...]'
+##     one saved fight under each option set: the schedule's frame of the result and the drawn
+##     frames to it (FAST's clock), printed, to check a film's length against
 ##
 ## It writes <out>/fights/<name>.json (the spec, enough to fight it again: run IDs, round, fight
 ## seed; plus the log) for every fight with seven units a side, and <out>/lengths.json: per fight,
@@ -71,6 +74,7 @@ func _ready() -> void:
 		"labels": "red,blue",
 		"variants": "all",
 		"fights": "field",
+		"sets": "[{}]",
 	}
 	for arg: String in OS.get_cmdline_user_args():
 		var key: String = arg.get_slice("=", 0)
@@ -87,6 +91,11 @@ func _ready() -> void:
 	print("fight_length: rules %s" % str(RecordBuild.identity()["rules_hash"]).left(8))
 	if str(options["fights"]) == "compare":
 		_measure_fixtures()
+		_probe.free()
+		get_tree().quit(0)
+		return
+	if str(options["fights"]).begins_with("spec:"):
+		_measure_sets(str(options["fights"]).trim_prefix("spec:"), str(options["sets"]))
 		_probe.free()
 		get_tree().quit(0)
 		return
@@ -133,6 +142,24 @@ func _measure_fixtures() -> void:
 			var got: Dictionary = variants[variant]
 			line.append("%s %d/%d" % [variant, got["result"], got["total"]])
 		print("fight_length: " + ", ".join(line))
+
+
+## fights=spec:<path>: one saved fight under each option set in `sets` (a JSON array).
+func _measure_sets(path: String, sets: String) -> void:
+	var events: Array = fight_from_file(_content, path).events
+	var parsed: Variant = JSON.parse_string(sets)
+	var listed: Array = parsed if parsed is Array else []
+	for value: Variant in listed:
+		var chosen: Dictionary = CoreUtil.to_dict(value)
+		var played: Array = TIMELINE.call("reorder", events, chosen)
+		var replay: FightReplay = TREATMENT.call(
+			"replay_with", BEST_REPLAY, _base, played, {}, DAMAGE
+		)
+		var timeline: RefCounted = TIMELINE.new(chosen)
+		timeline.call("build", played, replay.get("snaps"), _place)
+		var result: int = CoreUtil.to_int(timeline.get("end_frame")) - TIMELINE.END_HOLD
+		var drawn: int = timeline.call("drawn_frames_to", result)
+		print("fight_length: %s result %d drawn %d" % [JSON.stringify(chosen), result, drawn])
 
 
 ## The fights to measure: for each round, `pairs` random pairs of runs that were still playing

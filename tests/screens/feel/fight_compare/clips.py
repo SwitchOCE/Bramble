@@ -114,6 +114,7 @@ BRANCHES = {
     # the tip's strength, each with the aim at 95 percent (stop B, quad)
     "CB17": [
         ("none", "cb9-aim", "No tip: aim only"),
+        ("lean", "cb17-lean", "Aim + 4 deg in-plane lean, no tip"),
         ("small", "cb17-small", "Small: about 15 deg, length 0.965"),
         ("medium", "cb17-medium", "Medium: about 32 deg, length 0.85"),
         ("strong", "cb9-tip", "Strong (CB9 tip): length 0.75"),
@@ -133,6 +134,7 @@ FILM_OPTIONS = {
     "cb15-cap30": {"CB2": "b", "CB3": "quad", "CB9": "tip_cap30"},
     "cb17-small": {"CB2": "b", "CB3": "quad", "CB9": "tip_small"},
     "cb17-medium": {"CB2": "b", "CB3": "quad", "CB9": "tip_medium"},
+    "cb17-lean": {"CB2": "b", "CB3": "quad", "CB9": "aim_lean"},
 }
 TITLES = {
     "CB1": "CB1 wind-up",
@@ -516,7 +518,9 @@ def mismatches(measured: list, plan: dict) -> list:
         turn = m.get("rotation", {})
         if rotation.get("aim", 0.0) > 0.0 and turn:
             full = p["aim_deg"]
-            check("turn at C-12", turn["turn_c_minus_12"], full, 0.05)
+            # CB17 "aim_lean": the lean adds to the turn through the hold and is gone by contact
+            lean = p.get("lean_deg", 0.0) if "lean" in rotation else 0.0
+            check("turn at C-12", turn["turn_c_minus_12"], round(full + lean, 2), 0.05)
             check("turn at C", turn["turn_c"], round(full * 0.9, 2), 0.05)
             check("turn at C+25", turn["turn_c_plus_25"], 0.0, 0.05)
             share = rotation["aim"]
@@ -525,6 +529,8 @@ def mismatches(measured: list, plan: dict) -> list:
             # CB15 "tip_cap30": the full turn no more than the cap
             if cap >= 0.0 and abs(share * path) > cap and abs(path) > 1:
                 share = round(cap / abs(path), 3)
+            if lean and abs(path) > 1:
+                share = round(share + lean / path, 3)
             check("turn's share of the path at C-12", turn["turn_share_of_path_at_c_minus_12"], share, 0.01)
         if rotation and turn.get("length_at_c") is not None:
             check("length at C", turn["length_at_c"], rotation["length"], 0.002)

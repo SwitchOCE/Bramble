@@ -324,6 +324,30 @@ func test_cb17_tips_by_its_strength_and_none_only_turns() -> void:
 		assert_almost_eq(_f(far["aim_deg"]), -54.33, 0.05, "%s: the same 95 %% turn" % option)
 
 
+func test_cb17_aim_lean_leans_4_degrees_the_way_it_turns_and_is_gone_by_contact() -> void:
+	var lean: RefCounted = _timeline({"CB9": "aim_lean", "CB2": "b", "CB3": "quad"})
+	var plain: RefCounted = _timeline({"CB9": "aim", "CB2": "b", "CB3": "quad"})
+	var attacks: Array = lean.get("attacks")
+	for k: int in [1, 3, 6]:
+		var attack: Dictionary = attacks[k]
+		var key: String = attack["attacker"]
+		var c: int = attack["contact"]
+		var aim: float = attack["aim_deg"]
+		var extra: float = attack["lean_deg"]
+		assert_eq(signf(extra), signf(aim), "attack %d: leans the way it turns" % k)
+		assert_between(absf(extra), 1.0, 4.0, "attack %d: up to 4 degrees" % k)
+		var held: float = _turn(lean, key, c - 12) - _turn(plain, key, c - 12)
+		assert_almost_eq(held, extra, 0.01, "attack %d: the lean on top of the turn" % k)
+		assert_almost_eq(
+			_turn(lean, key, c), _turn(plain, key, c), 0.01, "attack %d: gone at C" % k
+		)
+		var at_c: Dictionary = lean.call("pose", key, c)
+		assert_almost_eq(_f(at_c["keystone"]), 1.0, 0.001, "no tip")
+		assert_almost_eq(_f(at_c["length"]), 1.0, 0.001, "no shortening")
+	var straight: Dictionary = attacks[0]
+	assert_almost_eq(_f(straight["lean_deg"]), 0.0, 0.01, "straight across: no lean")
+
+
 func test_fast_plays_the_same_schedule_faster_from_the_fifth_attack() -> void:
 	var plain: RefCounted = _timeline({})
 	var fast: RefCounted = _timeline({"FAST": "a5"})

@@ -251,7 +251,9 @@ out ("Where's the rotate amount?"), and a small lean in the turn's direction may
 - **CB15, the amount of turn**, each with the medium tip: `tip_half` (half the path's angle),
   `tip_3q` (three-quarters), `tip_medium` (95 %, CB9's amount) and `tip_cap30` (95 %, the full
   turn no more than 30 degrees; 90 % of it is left at contact, as for every option).
-- **CB17, the tip's strength**, each with the aim at 95 %: `aim` (no tip), `tip_small` (length
+- **CB17, the tip's strength**, each with the aim at 95 %: `aim` (no tip), `aim_lean` (no tip,
+  plus the proposal's 4-degree in-plane lean, the same way as the turn: full through the hold,
+  gone by contact; the owner: "A small lean, like four degrees, might be excellent"), `tip_small` (length
   0.965, keystone 0.97: about 15 degrees, since the length is the dip's cosine), `tip_medium`
   (0.85 and 0.94: about 32) and `tip` (0.75 and 0.9: about 41, CB9's).
 
@@ -264,7 +266,9 @@ python3 tests/screens/feel/fight_compare/clips.py cut /data/fight-anim-work/trea
 ## Late-fight speed-ups (CB16, `speed_clips.py`)
 
 One real late fight filmed whole: `r10-074`, the median late fight in `research/fight-length.md`
-(11 attacks, 25 triggers), today, `best`, and `best` with the length what-ifs stacked one by one:
+(11 attacks, 25 triggers), today, `best`, and `best` with the length what-ifs stacked one by one.
+Every `best` pane turns (`speed_clips.py` `ROTATE`: `tip_medium`, CB9's timing, and CB11's mild
+strike), which moves no frame; `today` is the game's own motion. The what-ifs:
 `"FAST": "a5"` (a fight-wide speed-up, x1.5 from the 5th attack's lift to the result, as
 Battlegrounds 31.6 does), then `"GROUP": 3` (up to 3 different triggers at once), then
 `"R7": "early_x2"` (rule 7 over 60 f of queue, from its 30th frame, to x2): the page's best
@@ -278,15 +282,16 @@ plays no sound cues, so FAST has none to speed up.
 
 ```bash
 python3 tests/screens/feel/fight_compare/speed_clips.py scenarios /data/fight-anim-work/treatments/scenarios/speed
-tools/feel/film /data/fight-anim-work/treatments/scenarios/speed/cb16-fast.json /data/fight-anim-work/treatments/films/speed/cb16-fast.mp4
+tools/feel/film /data/fight-anim-work/treatments/scenarios/speed/cb16r-fast.json /data/fight-anim-work/treatments/films/speed/cb16r-fast.mp4
 python3 tests/screens/feel/fight_compare/speed_clips.py measure /data/fight-anim-work/treatments/films/speed
 python3 tests/screens/feel/fight_compare/speed_clips.py compare /data/fight-anim-work/treatments/films/speed /data/fight-anim-work/treatments/compare
 python3 tests/screens/feel/fight_compare/speed_clips.py cut /data/fight-anim-work/treatments/films/speed /data/fight-anim-work/treatments/clips
 ```
 
-`measure` writes `cb16.json` beside the films: each film's length to the result (the report's
-`result_at`, the figure `fight-length.md` uses), the headless count it should match
-(`lengths.json`, with FAST as the clock plays it), the core check and the sound cues started.
+`measure` prints each film's length to the result (the report's `result_at`, the figure
+`fight-length.md` uses) beside the headless count it should match (`lengths.json`, with FAST as
+the clock plays it) and the core check; `compare` keeps the same numbers, and the sound cues
+started, in `CB16.json`.
 The clips are the whole fight from its first step (F+0) at the usual 0.38, in a taller crop
 (`speed_clips.py` `CROP`), since a late fight's back rows fall outside the comparison fight's; a
 shorter pane holds its last frame.

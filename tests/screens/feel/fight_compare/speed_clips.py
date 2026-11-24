@@ -5,7 +5,8 @@ the speed-up what-ifs of research/fight-length.md, played on the fight screen.
 Usage:
   speed_clips.py scenarios OUT_DIR [FIGHT]   one scenario per option (FIGHT: a fights/<name>.json
                                              saved by fight_length.gd; default the median, r10-074)
-  speed_clips.py measure FILM_DIR            FILM_DIR/cb16.json: each film's length to the result
+  speed_clips.py measure FILM_DIR            prints each film's length to the result beside the
+                                             headless count (CB16.json keeps the same numbers)
   speed_clips.py compare FILM_DIR OUT_DIR [SCALE]  OUT_DIR/CB16/<option>.mp4 (no labels, the
                                              battlefield crop at SCALE, default 0.38) and
                                              OUT_DIR/CB16.json; manifest.json is left alone
@@ -34,22 +35,28 @@ FPS = 60
 # comparison fight's CROP cuts it off); the compare format's 0.38 scale is kept
 CROP = (485, 40, 950, 1030)
 TITLE = "CB16 late-fight speed-ups (fight r10-074, the median late fight)"
-# option, film, label, treatment, options (best_timeline.gd: FAST, GROUP, R7), film seconds of wait
+# every `best` pane turns to its target (the owner, 24 Nov: rotation in every animation; the
+# plain 4 degree lean "the only one that's terrible"): the aim at 95 % with the medium tip, CB9's
+# timing, and CB11's mild strike. Neither changes when anything happens, only how it moves.
+ROTATE = {"CB9": "tip_medium", "CB3": "mild"}
+# option, film, label, treatment, options (best_timeline.gd: FAST, GROUP, R7), film seconds of wait.
+# `today` is the game's own motion, with no rotation.
 OPTIONS = [
     ("today", "cb16-today", "Today (the game now)", "today", {}, 32.5),
-    ("best", "cb16-best", "Best (the proposal)", "best", {}, 19.5),
-    ("fast", "cb16-fast", "Best, x1.5 from attack 5", "best", {"FAST": "a5"}, 16.5),
-    ("group", "cb16-group", "+ up to 3 triggers at once", "best", {"FAST": "a5", "GROUP": 3}, 16.0),
+    ("best", "cb16r-best", "Best, turning (the proposal)", "best", ROTATE, 19.5),
+    ("fast", "cb16r-fast", "Best, x1.5 from attack 5", "best", {**ROTATE, "FAST": "a5"}, 16.5),
+    ("group", "cb16r-group", "+ up to 3 triggers at once", "best", {**ROTATE, "FAST": "a5", "GROUP": 3}, 16.0),
     (
         "rule7",
-        "cb16-rule7",
+        "cb16r-rule7",
         "+ rule 7 early x2 (best mix)",
         "best",
-        {"FAST": "a5", "GROUP": 3, "R7": "early_x2"},
+        {**ROTATE, "FAST": "a5", "GROUP": 3, "R7": "early_x2"},
         16.0,
     ),
 ]
-# lengths.json's variant per option, and whether FAST plays on top (fight_length.py's x1.5 from attack 5)
+# lengths.json's variant per option (counted without ROTATE, which moves no frame), and whether
+# FAST plays on top (fight_length.py's x1.5 from attack 5)
 PREDICT = {"today": ("today", False), "best": ("best", False), "fast": ("best", True), "group": ("G3", True)}
 PREDICT["rule7"] = ("G3-R7-early_x2", True)
 
@@ -131,7 +138,6 @@ def measured(film_dir: Path, fight: str) -> dict:
 
 def cmd_measure(film_dir: Path, fight: str) -> None:
     got = measured(film_dir, fight)
-    (film_dir / "cb16.json").write_text(json.dumps(got, indent=1) + "\n")
     for option, m in got.items():
         print(
             option,

@@ -182,6 +182,10 @@ const ROTATIONS: Dictionary = {
 	# about 15 degrees (cos 15 = 0.966); medium: about 32 (cos 32 = 0.85).
 	"tip_small": {"aim": 0.95, "keystone": 0.97, "length": 0.965},
 	"tip_medium": {"aim": 0.95, "keystone": 0.94, "length": 0.85},
+	# the turn plus the proposal's 4 degree in-plane lean, no tip (the owner, 24 Nov: "A small lean,
+	# like four degrees, might be excellent"): the lean tips the leading point toward the target,
+	# the same way as the turn, through the wind-up, and is gone by contact
+	"aim_lean": {"aim": 0.95, "keystone": 1.0, "length": 1.0, "lean": 4.0},
 	# CB15, the amount of turn, each with the medium tip (the owner, 24 Nov: "Where's the rotate
 	# amount?"): half, three-quarters, 95 % (tip_medium), and 95 % with the full turn capped at 30
 	# degrees ("cap", degrees)
@@ -480,13 +484,7 @@ func report() -> Dictionary:
 		"staggers": _staggers,
 		"bursts": bursts.size(),
 		"notes": notes,
-		# the what-ifs (not contested branches) and FAST's frames in this schedule
-		"what_ifs":
-		{
-			"R7": str(options.get("R7", "best")),
-			"GROUP": _i(options.get("GROUP", 1)),
-			"FAST": str(options.get("FAST", "none")),
-		},
+		# FAST's frames in this schedule
 		"fast": {"from": fast_from, "to": fast_to, "speed": _f(_fast()["speed"])},
 		"claims":
 		{
@@ -593,6 +591,9 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 		aim = clampf(aim, -cap, cap)
 	# full at C-12 when the hold is its least; it holds through a longer one
 	var aim_ramp: int = maxi(1, lift_f + _i(windup["hold"]) + strike - AIM_FULL_BEFORE)
+	# the lean tips the leading point toward the target; the aim takes its place, unless the
+	# option keeps a lean beside it (CB17 "aim_lean": the same way as the turn)
+	var lean: float = _f(rotation.get("lean", LEAN if aim_share <= 0.0 else 0.0)) * way.x * lead
 	_add(
 		_attacker,
 		{
@@ -601,8 +602,7 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 			"lift": lift_f,
 			"scale": _f(windup["scale"]),
 			"pull": pull,
-			# the lean tips the leading point toward the target; the aim takes its place
-			"lean": LEAN * way.x * lead if aim_share <= 0.0 else 0.0,
+			"lean": lean,
 			"launch": launch,
 			"strike": strike,
 			"curve": _f(CURVES[pick("CB3")]),
@@ -683,6 +683,7 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 				"no_strike": hit < 0,
 				"next_lift": -1,
 				"aim_deg": snappedf(aim, 0.01),
+				"lean_deg": snappedf(lean, 0.01),
 				"aim_full": lift + aim_ramp,
 				"lead": "top" if lead > 0.0 else "bottom",
 			}
