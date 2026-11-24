@@ -6,7 +6,7 @@
 /* Page additions: wide clip figures break out of the 900px column so five panes stay legible. */
 body{padding-left:max(0px,env(safe-area-inset-left,0px));padding-right:max(0px,env(safe-area-inset-right,0px))}
 .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.wide{width:min(1400px,calc(100vw - 32px));margin-left:50%;transform:translateX(-50%);}
+.wide{width:min(1400px,calc(100vw - 48px));position:relative;left:50%;transform:translateX(-50%);}
 .clip{margin:14px 0 8px;background:#111;border-radius:8px;overflow:hidden;border:1px solid var(--rule)}
 .clip video{display:block;width:100%;height:auto;max-width:100%}
 .speedbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 0}
