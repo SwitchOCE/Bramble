@@ -1,6 +1,6 @@
 # Pilot notes: the practice under test (24 Nov 2026)
 
-What the draft [GUIDELINES.md](GUIDELINES.md) and [PROCESS.md](PROCESS.md) did on their first real run: two subjects, [damage to the player](../pilot/player-damage.md) and [a single death](../pilot/death.md), taken from the brief to just before filming (steps 1–4, plus a filming plan). One agent ran both. Nothing was built or filmed, so steps 5–10 are untested.
+What the draft [GUIDELINES.md](GUIDELINES.md) and [PROCESS.md](PROCESS.md) did on their first real run: two subjects, [damage to the player](../pilot/player-damage.md) and [a single death](../pilot/death.md), taken from the brief to just before filming (steps 1–4, plus a filming plan). One agent ran both. A later run built the cheap options (step 5, notes below); steps 6–10 are untested.
 
 The owner, 24 Nov: "we're trying to measure how to improve them. We're also not trying to lock it in as final yet. We're just trying to experiment on it."
 
@@ -76,7 +76,7 @@ The owner, 24 Nov: "we're trying to measure how to improve them. We're also not 
 
 ## What I could not test
 
-Steps 5–10: building, filming, the compare viewer, the Windows build and the owner's verdict. The claim rules ("never claim it feels better") didn't come up, since nothing moved. Whether the options above are any good is the owner's call on film; this run only shows that the process produced a spec and a plan.
+Steps 6–10: filming, checking, the compare viewer, the Windows build and the owner's verdict. Step 5, building, is done (notes above). The claim rules ("never claim it feels better") didn't come up, since no one has watched anything move. Whether the options above are any good is the owner's call on film; this run only shows that the process produced a spec and a plan.
 
 ## Proposed edits, in one list
 

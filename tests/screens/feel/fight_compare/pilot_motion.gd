@@ -44,15 +44,11 @@ var on_marker: Callable = Callable()
 var _dying: Dictionary = {}
 
 
-## The last frame a death of this option draws (D + n), and the last frame of its number.
+## The last frame a death of this option draws (D + n).
 static func gone_frame(chosen: String) -> int:
 	if chosen == "b":
 		return B_TIP_FRAMES + B_DROP_FRAMES - 1
 	return C_DARK_FRAMES + C_HOLD_FRAMES + C_SINK_FRAMES - 1
-
-
-static func number_end(chosen: String) -> int:
-	return (B_NUMBER_TO if chosen == "b" else C_NUMBER_TO) + NUMBER_FADE
 
 
 ## The killing number's alpha `age` frames after D.
@@ -100,13 +96,6 @@ func advance() -> void:
 		var held: Dictionary = _dying[key]
 		var age: int = roundi((clock - GlassPieces.as_float(held["start"])) * 60.0)
 		_draw_death(str(key), age)
-
-
-## Frames since D of a death still drawn, or -1.
-func death_age(key: String) -> int:
-	if not _dying.has(key):
-		return -1
-	return roundi((clock - GlassPieces.as_float(_dying[key]["start"])) * 60.0)
 
 
 func _draw_death(key: String, age: int) -> void:

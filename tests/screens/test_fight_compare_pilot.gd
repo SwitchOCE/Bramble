@@ -129,6 +129,19 @@ func test_cb13_options_keep_their_beat_spec() -> void:
 	assert_eq(PilotMotion.number_alpha("c", 26), 0.0, "C: gone at D+26")
 
 
+func test_easing_tokens_keep_their_values() -> void:
+	# cubic-bezier(0, 0, 0.2, 1) and (0.4, 0, 1, 1), read off by bisection before the tokens used
+	# GlassMotion.bezier
+	var at: Array[float] = [0.1, 0.25, 0.5, 0.75, 0.9]
+	var enter: Array[float] = [0.30385, 0.57757, 0.83925, 0.96422, 0.9946]
+	var leave: Array[float] = [0.01837, 0.09863, 0.32481, 0.63009, 0.84375]
+	for i: int in at.size():
+		assert_almost_eq(Tokens.enter(at[i]), enter[i], 0.0001, "ease.enter at %s" % at[i])
+		assert_almost_eq(Tokens.exit(at[i]), leave[i], 0.0001, "ease.exit at %s" % at[i])
+	assert_eq(Tokens.enter(0.0), 0.0)
+	assert_eq(Tokens.exit(1.0), 1.0)
+
+
 func test_count_roll_steps_one_at_a_time() -> void:
 	var shown: Array[int] = []
 	for age: int in 19:

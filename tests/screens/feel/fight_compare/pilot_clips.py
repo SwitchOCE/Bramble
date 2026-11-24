@@ -688,11 +688,12 @@ def windows(decision: str, film_dir: Path) -> tuple:
                 film = film_name("CB12", option, fight)
                 m = json.loads((film_dir / f"{film}.pilot.json").read_text())
                 m = m.get("CB12", m)
+                # lined up on the result (R), as the spec says: whether B's travel is worth its
+                # time shows as how much later its hit lands than C's
                 r = m["R"]
-                ref = r + (m["contact"] if m["contact"] is not None else 0)
-                row.append((option, film, ref, r - 12, r + 140))
+                row.append((option, film, r, r - 12, r + 140))
             segs.append((FIGHT_WHAT[fight], row))
-        return segs, "C"
+        return segs, "R"
     for k, (key, what) in enumerate(DEATHS):
         row = []
         for option, _ in OPTIONS["CB13"]:

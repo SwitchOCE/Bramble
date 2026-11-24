@@ -1,7 +1,7 @@
 extends RefCounted
 ## The motion tokens the pilot's options use (GUIDELINES.md §2, rule S1), in one place, as plain
-## curves of progress p in [0, 1]. The first seven are the guidelines' tokens; the last four are
-## new tokens the pilot asked for (pilot/player-damage.md, pilot/death.md): stop.hit, shake.dir,
+## curves of progress p in [0, 1]. The easing curves are the guidelines' tokens; four are new
+## tokens the pilot asked for (pilot/player-damage.md, pilot/death.md): stop.hit, shake.dir,
 ## count.roll and fall.gravity. Numbers are the pilot's starting points, not decisions.
 ## Exploratory (the fight animation pilot, 24 Nov): nothing here reaches the game.
 
@@ -13,17 +13,12 @@ const SHAKE_PERIOD: float = 6.0
 
 ## ease.enter: decelerate, cubic-bezier(0, 0, 0.2, 1).
 static func enter(p: float) -> float:
-	return bezier(0.0, 0.0, 0.2, 1.0, p)
+	return GlassMotion.bezier(Vector4(0.0, 0.0, 0.2, 1.0), p)
 
 
 ## ease.exit: accelerate, cubic-bezier(0.4, 0, 1, 1).
 static func exit(p: float) -> float:
-	return bezier(0.4, 0.0, 1.0, 1.0, p)
-
-
-## ease.move: rest to rest, cubic-bezier(0.4, 0, 0.2, 1).
-static func move(p: float) -> float:
-	return bezier(0.4, 0.0, 0.2, 1.0, p)
+	return GlassMotion.bezier(Vector4(0.4, 0.0, 1.0, 1.0), p)
 
 
 ## ease.strike: speeds up into contact; today's quad-in.
@@ -73,26 +68,3 @@ static func roll(from: int, to: int, age: int, frames: int) -> int:
 		if age >= roundi(float(i) * frames / steps):
 			done = i
 	return from + done * signi(to - from)
-
-
-## A CSS cubic-bezier(x1, y1, x2, y2) at progress p.
-static func bezier(x1: float, y1: float, x2: float, y2: float, p: float) -> float:
-	var x: float = clampf(p, 0.0, 1.0)
-	if x <= 0.0 or x >= 1.0:
-		return x
-	# solve bx(t) = x by bisection, then return by(t)
-	var lo: float = 0.0
-	var hi: float = 1.0
-	var t: float = x
-	for _i: int in 40:
-		t = (lo + hi) / 2.0
-		if _cubic(x1, x2, t) < x:
-			lo = t
-		else:
-			hi = t
-	return _cubic(y1, y2, t)
-
-
-static func _cubic(a: float, b: float, t: float) -> float:
-	var u: float = 1.0 - t
-	return 3.0 * u * u * t * a + 3.0 * u * t * t * b + t * t * t

@@ -177,9 +177,10 @@ plans' checks, and the beat spec's frames within 1 f) as pass or fail. `compare`
 manifest branch each; it leaves `manifest.json` alone). The killing number is also checked from
 pixels: how red a 40 px box round it is (mean of r minus the larger of g and b), held over half its
 level to the spec's last full frame and over a tenth to the card's last. A warm card under it adds
-red, so today's reads early. The D1 trace check is listed as n/a: B and C have no trace. CB12's clips are the whole screen (its
-`crop`), one segment per fight, lined up on the hit (C; today's hit is R, where its Health
-changes). CB13's are the usual board crop, one segment per death, lined up on the killing hit (H;
+red, so today's reads early. The D1 trace check is listed as n/a: B and C have no trace.
+
+CB12's clips are the whole screen (its `crop`), one segment per fight, lined up on the result (R,
+as the spec says), so B's travel shows as how much later its hit lands than C's. CB13's are the usual board crop, one segment per death, lined up on the killing hit (H;
 the death starts at H+34 in every option): Prophet of the Dust killed attacking (moment b, the
 death the pilot names) and the last kill, into the result.
 
@@ -188,7 +189,9 @@ frames and contact is the frame after (B's C = R+47); on a big loss the first la
 and counts the base, the second 18 px and the last 3; the first count is squeezed to end before
 the second contact when that comes first (B: C+15, C: C+16, against the spec's C+20); C's knock
 "into the loser's window" is down for yours and up for theirs; the landing's light returns to 1.0;
-B's tip turns round the bottom corner on the side its death direction points to. The spec's
+B's tip turns round the bottom corner on the side its death direction points to; B's striker
+flies onto the loser's portrait, and the Health badge and the "−N" are drawn above it, instead of
+the striker stopping on the far side of the disc (E6). The spec's
 totals for a big loss (B R+79, C R+68) do not follow from its own beat tables (R+72, R+58); the
 tables are what is built.
 
