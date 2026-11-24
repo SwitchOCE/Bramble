@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>L1 Real Size</title>
+<meta name="viewport" content="width=1920">
+<!--
+  L1 "the card is a window" at 1920x1080, built from layers.
+  Switches in the address:
+    view=buy|fight|shapes   shape=a|b|c|d|e   depth=1|0   bg=oak|bluebell (fight)
+  Shapes (all with regular-hexagon points except e):
+    a 0.56 (today's ratio)  b 0.62  c 0.69  d 0.80  e 0.69 with a flatter point
+  Painted pieces are read from /data/ui-ideation/looks/L1/pieces/ (file://); each has a plain fallback.
+-->
+<style>
+@font-face { font-family: "AlegreyaSans"; src: url("../../../../../assets/glass/fonts/AlegreyaSans-Bold.ttf"); font-weight: 700; }
+:root {
+  --pieces: "file:///data/ui-ideation/looks/L1/pieces/";
+  --lead-hi: #4a4f4c; --lead: #232726; --lead-lo: #0e1110;
+}
+html, body { margin: 0; padding: 0; background: #0d0f0f; }
+#screen { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #15181a; font-family: "AlegreyaSans", sans-serif; }
+.abs { position: absolute; }
+
+/* ---------- room ---------- */
+.wall { background-color: #3d4246; background-size: 360px 360px; }
+.table { background-color: #3b2419; overflow: hidden; }
+.table .plane { position: absolute; inset: -12% -8% -4% -8%; background-color: #3b2419; background-size: 420px 420px; }
+.depth .table .plane { transform-origin: 50% 100%; transform: perspective(900px) rotateX(34deg); }
+.table-edge { background: linear-gradient(#2a170f, #170c08); }
+.ledge { background-color: #2b1a12; background-size: 100% 100%; }
+.lancet { background-color: #22303a; background-size: 100% 100%; }
+
+/* ---------- light ---------- */
+.glow { pointer-events: none; mix-blend-mode: screen; }
+.shadow { pointer-events: none; }
+
+/* ---------- cards ---------- */
+.card { position: absolute; }
+.card .frame, .card .win, .card .hi { position: absolute; inset: 0; }
+.card .frame { background: linear-gradient(150deg, var(--lead-hi) 0%, var(--lead) 30%, var(--lead-lo) 70%, #262a29 100%); }
+.card.golden .frame { background: linear-gradient(143deg, #9a5e25 0%, #ffe39a 16%, #c08636 33%, #f2c467 55%, #8d521f 78%, #ffdf8f 100%); }
+.card .win { overflow: hidden; background: #0e1211; }
+.card .win img { position: absolute; display: block; }
+.stat { position: absolute; border-radius: 50%; display: grid; place-items: center; color: #2a2118; font-weight: 700; letter-spacing: -0.02em;
+  background: radial-gradient(circle at 40% 35%, #fbf3df, #e6d6b4 60%, #c9b48d); }
+.stat { box-shadow: 0 0 0 var(--rim) #1c201f, 0 0 0 calc(var(--rim) + 1px) #555b58; }
+.golden .stat { box-shadow: 0 0 0 var(--rim) #d9a24a, 0 0 0 calc(var(--rim) + 1px) #fff0b8, 0 0 6px 1px #ffd27a; }
+.stat span { position: relative; top: 0.04em; }
+.coin { position: absolute; border-radius: 50%; display: grid; place-items: center; color: #4a2c06; font-weight: 700;
+  background: radial-gradient(circle at 38% 32%, #fff2b0, #f0c24e 45%, #b9801f 80%, #8a5a12);
+  box-shadow: 0 0 0 2px #5b3a0c, 0 2px 4px #0008; }
+.spell { position: absolute; border-radius: 50%; overflow: hidden; }
+.sparkle { position: absolute; width: 16px; height: 16px; pointer-events: none;
+  background: radial-gradient(circle, #fffbe8 0 12%, transparent 13%),
+              linear-gradient(90deg, transparent 46%, #fff8d8 50%, transparent 54%),
+              linear-gradient(0deg, transparent 46%, #fff8d8 50%, transparent 54%);
+  filter: drop-shadow(0 0 3px #ffe08a); }
+
+/* ---------- side panels ---------- */
+.roundel { position: absolute; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 4px #1c2022, 0 0 0 6px #4d5356, 0 3px 8px #000a; }
+.roundel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.badge { position: absolute; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #2a2118;
+  background: radial-gradient(circle at 40% 35%, #fbf3df, #e2d0ab 65%, #c3ad84); box-shadow: 0 0 0 3px #1c2022, 0 0 0 4px #5a6062; }
+.btn { position: absolute; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 42% 36%, #4f6a73, #27363d 62%, #182227);
+  box-shadow: 0 0 0 4px #1c2022, 0 0 0 6px #5a6062, 0 4px 10px #000b; }
+.btn svg { width: 56%; height: 56%; }
+.num { color: #f3ead6; font-weight: 700; text-shadow: 0 2px 3px #000; position: absolute; }
+
+/* ---------- shapes sheet ---------- */
+.label { position: absolute; color: #e6dcc6; font-size: 22px; line-height: 1.25; }
+.label b { color: #fff; font-size: 26px; }
+</style>
+</head>
+<body>
+<div id="screen"></div>
+<script>
+const Q = new URLSearchParams(location.search);
+const VIEW = Q.get("view") || "buy";
+const SHAPE = Q.get("shape") || "c";
+const DEPTH = Q.get("depth") !== "0";
+const BG = Q.get("bg") || "oak";
+const PIECES = "file:///data/ui-ideation/looks/L1/pieces/";
+const UNITS = "../../../../../assets/units/";
+const GLASS = "../../../../../assets/glass/";
+
+// ---------------- shapes ----------------
+// a: aspect w/h; r: point rise as a fraction of width (regular hexagon: 0.2887)
+const REG = Math.tan(Math.PI / 6) / 2;
+const SHAPES = {
+  a: { a: 0.56, r: REG, name: "0.56, regular points (today's ratio)" },
+  b: { a: 0.62, r: REG, name: "0.62, regular points" },
+  c: { a: 0.69, r: REG, name: "0.69, regular points" },
+  d: { a: 0.80, r: REG, name: "0.80, regular points" },
+  e: { a: 0.69, r: 0.18, name: "0.69, flatter points" },
+};
+
+// ---------------- the screen's fixed numbers ----------------
+const W = 1920, H = 1080;
+const G = 20;            // the one gap, everywhere
+const SIDE = 200;        // each side lancet column
+const NICHE = 12;        // light rim between card and niche
+const SILL = 20;
+const HAND_K = 0.62;     // hand cards' scale
+const LEDGE_PAD = 16;
+const TABLE_PAD = 30;
+const ARMY_GAP = 64;     // between the two armies in a fight
+const SPELL_K = 0.8;     // spell disc diameter / unit width
+
+function geom(shapeKey, h) {
+  const s = SHAPES[shapeKey];
+  const w = s.a * h, p = s.r * w;
+  const th = Math.atan(p / (w / 2));
+  const c = (1 - Math.sin(th) / 2) / Math.cos(th);   // nested row: extra drop per unit gap
+  const rowStep = h - p + c * G;                     // top of row 1 -> top of nested row 2
+  const boardH = rowStep + h;
+  return { w, h, p, th, c, rowStep, boardH };
+}
+
+function fitHeight(shapeKey) {
+  const C = W - 2 * SIDE - 2 * G;
+  let best = 0;
+  for (let h = 120; h <= 400; h += 0.5) {
+    const g = geom(shapeKey, h);
+    const nicheTop = NICHE / Math.cos(g.th);
+    const buyH = G + nicheTop + h + NICHE + SILL + G + TABLE_PAD + g.boardH + TABLE_PAD + LEDGE_PAD + HAND_K * h + LEDGE_PAD;
+    const fightH = 2 * G + 2 * g.boardH + ARMY_GAP + 2 * G;
+    const shopW = 5 * (g.w + 2 * NICHE) + 2 * (SPELL_K * g.w + 2 * NICHE) + 6 * G;
+    const handW = 7 * HAND_K * g.w + 6 * G;
+    const boardW = 4 * g.w + 3 * G;
+    if (buyH <= H && fightH <= H && shopW <= C && handW <= C && boardW <= C) best = h;
+  }
+  return Math.floor(best);
+}
+
+// hexagon points for a card of w x h with point rise p, inset by d (negative = outset)
+function hexPts(w, h, p, d = 0) {
+  const th = Math.atan(p / (w / 2));
+  const dy = d / Math.cos(th);
+  const m = Math.tan(th);
+  const yShoulder = m * (w / 2 - d) + dy;       // y of the upper shoulders after inset
+  return [
+    [w / 2, dy], [w - d, yShoulder], [w - d, h - yShoulder], [w / 2, h - dy], [d, h - yShoulder], [d, yShoulder],
+  ];
+}
+const poly = pts => `polygon(${pts.map(([x, y]) => `${x.toFixed(2)}px ${y.toFixed(2)}px`).join(",")})`;
+
+// ---------------- content ----------------
+const shopUnits = [
+  { art: "mouse/needle-page", tier: 1, a: 2, hp: 1 },
+  { art: "pigeon/bugler", tier: 3, a: 4, hp: 5 },
+  { art: "thorn/holly-knight", tier: 4, a: 5, hp: 7 },
+  { art: "badger/marshal-of-the-red-mist", tier: 5, a: 9, hp: 9 },
+  { art: "locust/brood-mother", tier: 6, a: 8, hp: 14 },
+];
+const shopSpells = [
+  { art: "spell-forage", tier: 2, cost: 1 },
+  { art: "spell-sharpen", tier: 4, cost: 3 },
+];
+const board = [
+  { art: "badger/hedge-knight", a: 12, hp: 15 },
+  { art: "mouse/fencing-master", a: 18, hp: 11, golden: true },
+  { art: "pigeon/grenadier-guard", a: 9, hp: 22 },
+  { art: "thorn/hawthorn-warden", a: 7, hp: 26 },
+  { art: "shared/stag-beetle", a: 14, hp: 12 },
+  { art: "mouse/thimble-captain", a: 10, hp: 10 },
+  { art: "badger/greatsword-bearer", a: 24, hp: 19, golden: true },
+];
+const hand = [
+  { art: "pigeon/private", a: 2, hp: 3 }, { art: "thorn/nettle-sprout", a: 1, hp: 4 },
+  { art: "mouse/cousin", a: 3, hp: 2 }, { art: "shared/weasel", a: 4, hp: 3 },
+  { art: "badger/brock-cub", a: 3, hp: 4 }, { art: "locust/gleaner", a: 2, hp: 2 },
+];
+const enemy = [
+  { art: "locust/swarm-lord", a: 16, hp: 20 }, { art: "locust/sky-darkener", a: 11, hp: 17, golden: true },
+  { art: "locust/war-drummer", a: 6, hp: 18 }, { art: "locust/husk-sentry", a: 5, hp: 30 },
+  { art: "locust/prophet-of-the-dust", a: 13, hp: 13 }, { art: "locust/gorger", a: 19, hp: 9 },
+  { art: "locust/twice-shed-veteran", a: 12, hp: 16 },
+];
+const portraits = ["pipkin", "old_mother_mousewife", "dame_hoolet", "little_king_wren", "march_hare", "hob_mumblecrust", "dame_farthing", "brother_bracken"];
+const hp8 = [31, 28, 23, 18, 16, 16, 11, 0];
+
+// tier light: owner, 24 Nov: calm, gentle rise from tier 1, tier 6 between tier 4 and 5
+const TIER = {
+  1: { c: [214, 222, 232], a: 0.30 },
+  2: { c: [104, 205, 112], a: 0.34 },
+  3: { c: [84, 150, 240], a: 0.38 },
+  4: { c: [168, 112, 240], a: 0.42 },
+  5: { c: [255, 140, 44], a: 0.52 },
+  6: { c: [236, 70, 52], a: 0.47 },
+};
+const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+
+// ---------------- drawing ----------------
+const scr = document.getElementById("screen");
+if (DEPTH) scr.classList.add("depth");
+function el(cls, x, y, w, h, parent = scr, style = "") {
+  const d = document.createElement("div");
+  d.className = "abs " + cls;
+  d.style.cssText = `left:${x}px;top:${y}px;width:${w}px;height:${h}px;${style}`;
+  parent.appendChild(d);
+  return d;
+}
+function blurShape(x, y, w, h, clip, bg, blur, parent = scr, extra = "") {
+  const o = el("glow", x - blur * 2, y - blur * 2, w + blur * 4, h + blur * 4, parent, `filter:blur(${blur}px);${extra}`);
+  el("", blur * 2, blur * 2, w, h, o, `clip-path:${clip};background:${bg};`);
+  return o;
+}
+function bgImg(name, fallback) { return `background-image:url("${PIECES}${name}")${fallback ? "," + fallback : ""};`; }
+
+// art crop: source art is 560x1000 with the picture in x 24..536, y 46..954
+function placeArt(img, wi, hi, focusY = 500) {
+  const srcW = 504, srcH = srcW * hi / wi;
+  const sc = wi / srcW;
+  let top = focusY - srcH / 2;
+  top = Math.max(48, Math.min(952 - srcH, top));
+  img.style.width = (560 * sc) + "px";
+  img.style.height = (1000 * sc) + "px";
+  img.style.left = (-28 * sc) + "px";
+  img.style.top = (-top * sc) + "px";
+}
+
+function card(x, y, g, u, opts = {}) {
+  const { w, h, p } = g;
+  const lead = Math.max(3, Math.round(w * 0.034));
+  const c = document.createElement("div");
+  c.className = "card" + (u.golden ? " golden" : "");
+  c.style.cssText = `left:${x}px;top:${y}px;width:${w}px;height:${h}px;`;
+  const fr = document.createElement("div"); fr.className = "frame"; fr.style.clipPath = poly(hexPts(w, h, p));
+  const wn = document.createElement("div"); wn.className = "win"; wn.style.clipPath = poly(hexPts(w, h, p, lead));
+  const img = document.createElement("img"); img.src = UNITS + u.art + ".jpg"; placeArt(img, w, h, 520);
+  wn.appendChild(img);
+  c.append(fr, wn);
+  // Attack and Health
+  const d = Math.round(w * 0.25), rim = Math.max(2, Math.round(w * 0.022));
+  const sy = h - p - d * 0.62;
+  for (const [i, v] of [[0, u.a], [1, u.hp]]) {
+    const s = document.createElement("div"); s.className = "stat";
+    const sx = i === 0 ? w * 0.06 : w * 0.94 - d;
+    s.style.cssText = `left:${sx}px;top:${sy}px;width:${d}px;height:${d}px;--rim:${rim}px;font-size:${Math.round(d * 0.6)}px;z-index:1`;
+    s.innerHTML = `<span>${v}</span>`;
+    c.appendChild(s);
+  }
+  if (u.golden) {
+    const sp = document.createElement("div"); sp.className = "sparkle";
+    const r = hexPts(w, h, p)[1];
+    sp.style.cssText = `left:${r[0] - 10}px;top:${r[1] - 10}px;width:${Math.round(w * 0.14)}px;height:${Math.round(w * 0.14)}px;`;
+    c.appendChild(sp);
+  }
+  if (opts.lift) { c.style.transform = `translateY(${-Math.round(h * 0.05)}px) scale(1.04)`; c.style.zIndex = 5; }
+  return c;
+}
+
+// light and shadow under a standing card (the 2.5D layer)
+function cardGround(x, y, g, u, parent, opts = {}) {
+  if (!DEPTH) return;
+  const { w, h, p } = g;
+  const up = opts.lift ? h * 0.05 : 0;          // a lifted card's shadow falls further away
+  const hex = poly(hexPts(w, h, p));
+  // cast shadow: the card's own outline laid down on the surface in front of it
+  const sh = el("shadow", x, y + h - p * 0.6 + up * 0.6, w, h, parent,
+    `transform-origin:50% 0;transform:scaleY(${opts.lift ? 0.36 : 0.26}) skewX(-8deg);filter:blur(${opts.lift ? 9 : 5}px);opacity:${opts.lift ? 0.5 : 0.62};`);
+  el("", 0, 0, w, h, sh, `clip-path:${hex};background:#000;`);
+  // light through the glass: its own colours thrown forward onto the wood
+  const pool = el("glow", x, y + h - p * 0.35, w, h, parent,
+    `transform-origin:50% 0;transform:scaleY(${opts.lift ? 0.4 : 0.3}) skewX(-8deg);filter:blur(${opts.lift ? 18 : 14}px);opacity:${u.golden ? 0.6 : (opts.lift ? 0.45 : 0.32)};`);
+  const inner = el("", 0, 0, w, h, pool, `clip-path:${hex};overflow:hidden;` + (u.golden ? "background:radial-gradient(ellipse at 50% 20%, #ffd27a, rgba(233,160,60,0.6) 55%, transparent 80%);" : ""));
+  if (!u.golden) {
+    const im = document.createElement("img"); im.src = UNITS + u.art + ".jpg";
+    placeArt(im, w, h, 520); im.style.position = "absolute"; im.style.transform = "scaleY(-1)"; im.style.transformOrigin = `50% ${h / 2}px`;
+    inner.appendChild(im);
+  }
+}
+
+function goldenHalo(x, y, g, parent) {
+  const { w, h, p } = g;
+  // light from behind: a warm halo just outside the gilt lead
+  const o = w * 0.05;
+  blurShape(x - o, y - o, w + 2 * o, h + 2 * o, poly(hexPts(w + 2 * o, h + 2 * o, p + o * Math.tan(g.th))), "rgba(255,196,96,0.8)", Math.round(w * 0.06), parent);
+}
+
+function spellDisc(x, y, d, s) {
+  const lead = Math.max(3, Math.round(d * 0.04));
+  const o = el("spell", x, y, d, d, scr, `background:linear-gradient(150deg,var(--lead-hi),var(--lead) 35%,var(--lead-lo));`);
+  const inner = el("spell", lead, lead, d - 2 * lead, d - 2 * lead, o, "");
+  const img = document.createElement("img"); img.src = GLASS + "art/" + s.art + ".jpg";
+  const sc = (d - 2 * lead) / 380;
+  img.style.cssText = `position:absolute;width:${560 * sc}px;height:${1000 * sc}px;left:${-90 * sc}px;top:${-320 * sc}px;`;
+  inner.appendChild(img);
+  return o;
+}
+
+// ---------------- the room ----------------
+function sidePanels(fight) {
+  const lancet = bgImg("l1r-lancet.jpg", "linear-gradient(#26343d,#1a242b)");
+  el("lancet", 0, 0, SIDE, H, scr, lancet);
+  el("lancet", W - SIDE, 0, SIDE, H, scr, lancet);
+  const cx = SIDE / 2;
+  // portraits on the right: the leaderboard
+  const rd = 74, top = 110, step = 96;
+  portraits.forEach((n, i) => {
+    const r = el("roundel", W - SIDE / 2 - rd / 2 - 10, top + i * step, rd, rd);
+    if (i === 6) r.style.boxShadow = "0 0 0 4px #1c2022, 0 0 0 7px #e9d9a8, 0 3px 8px #000a";
+    if (i === 4) r.style.boxShadow = "0 0 0 4px #1c2022, 0 0 0 7px #c0583e, 0 3px 8px #000a";
+    if (i === 7) r.style.filter = "grayscale(1) brightness(0.55)";
+    r.innerHTML = `<img src="${GLASS}portraits/${n}.jpg">`;
+    if (i < 7) { const b = el("badge", W - SIDE / 2 + rd / 2 - 8, top + i * step + rd - 30, 34, 34, scr, "font-size:19px"); b.textContent = hp8[i]; }
+  });
+  if (!fight) {
+    // End turn
+    const b = el("btn", W - SIDE / 2 - 56, H - 150, 112, 112);
+    b.innerHTML = `<svg viewBox="0 0 24 24"><path d="M4 12h13M12 6l6 6-6 6" stroke="#f1e6c8" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    // left: hero, gold, upgrade, refresh, freeze, cog
+    const hr = el("roundel", cx - 64, 56, 128, 128); hr.innerHTML = `<img src="${GLASS}portraits/dame_farthing.jpg">`;
+    const hb = el("badge", cx + 30, 146, 42, 42, scr, "font-size:22px;background:radial-gradient(circle at 40% 35%,#f4a39a,#c0473a 65%,#8e2a22);color:#fff3e8"); hb.textContent = 11;
+    const gc = el("coin", cx - 44, 236, 88, 88, scr, "font-size:40px"); gc.textContent = 10;
+    const up = el("btn", cx - 46, 372, 92, 92);
+    up.innerHTML = `<svg viewBox="0 0 24 24"><path d="M5 15l7-7 7 7M5 20l7-7 7 7" stroke="#f1e6c8" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const uc = el("coin", cx + 26, 420, 40, 40, scr, "font-size:20px"); uc.textContent = 8;
+    const rf = el("btn", cx - 46, 500, 92, 92);
+    rf.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 8a7.5 7.5 0 1 0 .8 6.5" stroke="#f1e6c8" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M20 3v5.5h-5.5" stroke="#f1e6c8" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const rc = el("coin", cx + 26, 548, 40, 40, scr, "font-size:20px"); rc.textContent = 1;
+    const fz = el("btn", cx - 46, 628, 92, 92);
+    fz.innerHTML = `<svg viewBox="0 0 24 24"><g stroke="#cfe6f5" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"/><path d="M9.5 4.5L12 7l2.5-2.5M9.5 19.5L12 17l2.5 2.5" fill="none"/></g></svg>`;
+    const cg = el("btn", cx - 30, H - 104, 60, 60);
+    cg.innerHTML = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" stroke="#d9cfb8" stroke-width="2" fill="none"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" stroke="#d9cfb8" stroke-width="2" stroke-linecap="round"/></svg>`;
+  } else {
+    const a = el("roundel", cx - 64, 70, 128, 128); a.innerHTML = `<img src="${GLASS}portraits/march_hare.jpg">`;
+    const ab = el("badge", cx + 30, 160, 42, 42, scr, "font-size:22px;background:radial-gradient(circle at 40% 35%,#f4a39a,#c0473a 65%,#8e2a22);color:#fff3e8"); ab.textContent = 16;
+    const b = el("roundel", cx - 64, H - 200, 128, 128); b.innerHTML = `<img src="${GLASS}portraits/dame_farthing.jpg">`;
+    const bb = el("badge", cx + 30, H - 110, 42, 42, scr, "font-size:22px;background:radial-gradient(circle at 40% 35%,#f4a39a,#c0473a 65%,#8e2a22);color:#fff3e8"); bb.textContent = 11;
+  }
+}
+
+function buy() {
+  const h = fitHeight(SHAPE), g = geom(SHAPE, h);
+  const { w, p, th } = g;
+  const x0 = SIDE, cw = W - 2 * SIDE;
+  const nicheTop = NICHE / Math.cos(th);
+  const yCard = G + nicheTop;
+  const wallBottom = yCard + h + NICHE + SILL + G;
+  const boardTop = wallBottom + TABLE_PAD;
+  const tableBottom = boardTop + g.boardH + TABLE_PAD;
+  const ledgeTop = H - (LEDGE_PAD * 2 + HAND_K * h);
+
+  // wall
+  el("wall", x0, 0, cw, wallBottom, scr, bgImg("l1r-wall.jpg", "linear-gradient(#454a4f,#34393d)"));
+  el("shade", x0, 0, cw, wallBottom, scr, "background:rgba(14,18,24,0.42)");
+  // table
+  const t = el("table", x0, wallBottom, cw, ledgeTop - wallBottom);
+  el("plane", 0, 0, 0, 0, t, bgImg("l1r-oak.jpg", "linear-gradient(#45291c,#2f1c13)")).style.cssText += "inset:-90% -60% -2% -60%;width:auto;height:auto;";
+  el("shade", x0, wallBottom, cw, ledgeTop - wallBottom, scr, "background:rgba(12,6,4,0.45)");
+  if (DEPTH) {
+    // where wall meets table: a soft contact shadow, and the table darkens towards the viewer a little
+    el("shadow", x0, wallBottom, cw, 46, scr, "background:linear-gradient(rgba(0,0,0,0.55),transparent)");
+    el("shadow", x0, wallBottom, cw, ledgeTop - wallBottom, scr, "background:linear-gradient(transparent 55%, rgba(0,0,0,0.28))");
+  }
+  // ledge (hand)
+  el("table-edge", x0, ledgeTop - 10, cw, 10);
+  el("ledge", x0, ledgeTop, cw, H - ledgeTop, scr, bgImg("l1r-leather.jpg", "linear-gradient(#352116,#22140d)"));
+
+  // shop: 5 units then 2 spells, centred
+  const ds = SPELL_K * w;
+  const items = [...shopUnits.map(u => ({ ...u, kind: "unit", iw: w })), ...shopSpells.map(s => ({ ...s, kind: "spell", iw: ds }))];
+  const rowW = items.reduce((s, it) => s + it.iw + 2 * NICHE, 0) + (items.length - 1) * G;
+  let x = W / 2 - rowW / 2;
+  for (const it of items) {
+    const nx = x, nw = it.iw + 2 * NICHE;
+    const T = TIER[it.tier];
+    const cx = nx + NICHE, cy = it.kind === "unit" ? yCard : yCard + h - ds;
+    // niche shape: lancet that follows the card's top, flat foot
+    const nh = (it.kind === "unit" ? h : ds) + NICHE + nicheTop;
+    const ny = cy - nicheTop;
+    let clip;
+    if (it.kind === "unit") {
+      const pts = hexPts(nw, h + 2 * nicheTop, p + nicheTop * Math.tan(th) * 0 + NICHE * Math.tan(th), 0);
+      // build: top point, shoulders, then straight down to a flat foot
+      const sh = (p + NICHE * Math.tan(th)) ;
+      clip = poly([[nw / 2, 0], [nw, sh], [nw, nh], [0, nh], [0, sh]]);
+    } else {
+      clip = `path("M0 ${nh} L0 ${nw / 2} A ${nw / 2} ${nw / 2} 0 0 1 ${nw} ${nw / 2} L${nw} ${nh} Z")`;
+    }
+    // light spilling onto the wall around the niche (faint)
+    blurShape(nx, ny, nw, nh, clip, rgba(T.c, T.a * 0.35), 14);
+    // the niche: a dark recess lit from behind in the tier colour
+    const n = el("niche", nx, ny, nw, nh, scr, `clip-path:${clip};background:
+      radial-gradient(ellipse 70% 62% at 50% 48%, ${rgba(T.c, T.a * 0.9)} 0%, ${rgba(T.c, T.a * 0.45)} 70%, ${rgba(T.c, T.a * 0.2)} 100%), #0f1213;`);
+    // the light itself, right behind the glass: a halo hugging the card
+    const o = NICHE * 0.55;
+    if (it.kind === "unit") blurShape(cx - o, cy - o, w + 2 * o, h + 2 * o, poly(hexPts(w + 2 * o, h + 2 * o, p + o * Math.tan(th))), rgba(T.c, Math.min(1, T.a * 2)), 5);
+    else blurShape(cx - o, cy - o, ds + 2 * o, ds + 2 * o, "circle(50%)", rgba(T.c, Math.min(1, T.a * 2)), 5);
+    if (DEPTH) n.innerHTML = `<div class="abs" style="inset:0;box-shadow:inset 7px 9px 10px rgba(0,0,0,0.6)"></div>`;
+    // sill
+    const sill = el("sill", nx - 8, ny + nh, nw + 16, SILL, scr, DEPTH
+      ? "background:linear-gradient(#6b7176,#41464a 55%,#2b2f32);box-shadow:0 6px 8px rgba(0,0,0,0.45)"
+      : "background:#555b60");
+    // light pooling on the sill
+    el("glow", nx, ny + nh - 6, nw, SILL + 8, scr, `background:radial-gradient(ellipse at 50% 20%, ${rgba(T.c, T.a * 1.3)}, transparent 70%);filter:blur(3px)`);
+    if (DEPTH) el("glow", nx - nw * 0.2, wallBottom - 4, nw * 1.4, 70, scr,
+      `background:radial-gradient(ellipse 50% 60% at 50% 0%, ${rgba(T.c, T.a * 0.55)}, transparent 75%);filter:blur(6px)`);
+    if (it.kind === "unit") {
+      scr.appendChild(card(cx, cy, g, { art: it.art, a: it.a, hp: it.hp }));
+      const cd = Math.round(w * 0.24);
+      el("coin", nx + nw / 2 - cd / 2, ny + nh + SILL / 2 - cd / 2, cd, cd, scr, `font-size:${Math.round(cd * 0.58)}px;z-index:3`).textContent = 3;
+    } else {
+      spellDisc(cx, cy, ds, it);
+      const cd = Math.round(w * 0.24);
+      el("coin", nx + nw / 2 - cd / 2, ny + nh + SILL / 2 - cd / 2, cd, cd, scr, `font-size:${Math.round(cd * 0.58)}px;z-index:3`).textContent = it.cost;
+    }
+    x += nw + G;
+  }
+
+  // board: 4 over 3, nested
+  const bx = W / 2 - (4 * w + 3 * G) / 2;
+  const slots = [];
+  for (let i = 0; i < 4; i++) slots.push([bx + i * (w + G), boardTop]);
+  for (let i = 0; i < 3; i++) slots.push([bx + (w + G) / 2 + i * (w + G), boardTop + g.rowStep]);
+  const LIFT = DEPTH ? 3 : -1;
+  board.forEach((u, i) => cardGround(slots[i][0], slots[i][1], g, u, scr, { lift: i === LIFT }));
+  board.forEach((u, i) => { if (u.golden) goldenHalo(slots[i][0], slots[i][1], g, scr); });
+  board.forEach((u, i) => scr.appendChild(card(slots[i][0], slots[i][1], g, u, { lift: i === LIFT })));
+
+  // hand
+  const hg = geom(SHAPE, h * HAND_K);
+  const hx = W / 2 - (hand.length * hg.w + (hand.length - 1) * G) / 2;
+  hand.forEach((u, i) => {
+    const xx = hx + i * (hg.w + G), yy = ledgeTop + LEDGE_PAD;
+    if (DEPTH) el("shadow", xx + 4, yy + 6, hg.w, hg.h, scr, `background:rgba(0,0,0,0.45);clip-path:${poly(hexPts(hg.w, hg.h, hg.p))};filter:blur(5px)`);
+    scr.appendChild(card(xx, yy, hg, u));
+  });
+  sidePanels(false);
+  return { h, w, g };
+}
+
+function fight() {
+  const h = fitHeight(SHAPE), g = geom(SHAPE, h);
+  const { w } = g;
+  el("backdrop", 0, 0, W, H, scr, bgImg(BG === "bluebell" ? "l1r-fight-bluebell.jpg" : "l1r-fight-oak.jpg",
+    "linear-gradient(#273041 0%,#1b2029 50%,#16181b 51%,#0f1112)") + "background-size:cover;background-position:center;");
+  el("shade", 0, 0, W, H, scr, "background:linear-gradient(rgba(8,10,16,0.38), rgba(8,10,16,0.18) 55%, rgba(0,0,0,0.25))");
+  // the armies stand in the middle; the backdrop stays dim behind them
+  el("shadow", SIDE, 0, W - 2 * SIDE, H, scr, "background:radial-gradient(ellipse 60% 60% at 50% 55%, rgba(0,0,0,0.0), rgba(0,0,0,0.35))");
+  const total = 2 * g.boardH + ARMY_GAP;
+  const y0 = (H - total) / 2;
+  const bx = W / 2 - (4 * w + 3 * G) / 2;
+  const slots = [];
+  // enemy: back row (3) on top, front row (4) below
+  for (let i = 0; i < 3; i++) slots.push([bx + (w + G) / 2 + i * (w + G), y0, enemy[4 + i]]);
+  for (let i = 0; i < 4; i++) slots.push([bx + i * (w + G), y0 + g.rowStep, enemy[i]]);
+  // player: front row (4), back row (3) below
+  const py = y0 + g.boardH + ARMY_GAP;
+  for (let i = 0; i < 4; i++) slots.push([bx + i * (w + G), py, board[i]]);
+  for (let i = 0; i < 3; i++) slots.push([bx + (w + G) / 2 + i * (w + G), py + g.rowStep, board[4 + i]]);
+  slots.forEach(([x, y, u]) => cardGround(x, y, g, u, scr));
+  slots.forEach(([x, y, u]) => { if (u.golden) goldenHalo(x, y, g, scr); });
+  // one player unit lunging at an enemy
+  slots.forEach(([x, y, u], i) => {
+    const c = card(x, y, g, u);
+    if (i === 9) { c.style.transform = `translate(0px, ${-(ARMY_GAP + h * 0.12)}px) rotate(-3deg)`; c.style.zIndex = 6; }
+    scr.appendChild(c);
+  });
+  sidePanels(true);
+  return { h, w, g };
+}
+
+function shapesSheet() {
+  scr.style.background = "#1b1d1f";
+  const order = ["today", "a", "b", "c", "d", "e"];
+  let x = 70;
+  const base = 640;
+  order.forEach(k => {
+    const h = k === "today" ? 200 : fitHeight(k), g = geom(k === "today" ? "a" : k, h);
+    const u = { art: "badger/hedge-knight", a: 4, hp: 6 };
+    const y = base - h;
+    scr.appendChild(card(x, y, g, u));
+    const gu = { ...u, golden: true };
+    const lab = el("label", x - 10, base + 24, g.w + 140, 160);
+    lab.innerHTML = k === "today" ? `<b>Today</b><br>112 × 200 px<br>the build's card, for scale`
+      : `<b>${k.toUpperCase()}</b><br>${Math.round(g.w)} × ${h} px<br>${SHAPES[k].name}`;
+    x += g.w + 120;
+  });
+  const t = el("label", 70, 60, 1700, 120);
+  t.innerHTML = `<b>Card shapes at their real size on a 1920 × 1080 screen</b><br>Each is the largest that fits both the buy screen (shop, board 4 over 3, hand) and the fight (four rows) with one 20 px gap everywhere.`;
+}
+
+const out = VIEW === "fight" ? fight() : VIEW === "shapes" ? shapesSheet() : buy();
+window.__L1 = out;
+</script>
+</body>
+</html>

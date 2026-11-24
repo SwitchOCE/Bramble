@@ -43,3 +43,17 @@ Pictures: `/data/bramble-art/uiid-looks/L1/`. Sheet: `/data/ui-ideation/looks/L1
 ## Motion and light (not judged)
 
 From stills these are guesses. Shop arches breathe slowly, tier 6 strongest. A glint runs along a golden card's gilt every few seconds, and its pool of light flickers a little. When a unit becomes golden, the lead lights up from the bottom point to the top. In a fight, a hit flashes the struck card's glass from behind.
+
+## At real size
+
+Built in [screen.html](screen.html) (`?view=buy|fight|shapes&shape=a–e&depth=1|0&bg=oak|bluebell`). Renders: `/data/ui-ideation/looks/L1/real/`. See first: `buy-c.png`, `fight-c.png`, `shapes.png`, `depth-off-c.png` beside `depth-on-c.png`.
+
+**Recommended: shape C, 0.69 wide to 1 tall with regular-hexagon points, 173 × 250 px.** Each shape is the largest that fits both screens with one 20 px gap everywhere. The fight's four rows set the height, so all the regular shapes end up about 245–250 px tall, and a wider card is free picture: C has about 1.8 times the picture area of today's 112 × 200 and about a quarter more than A (0.56, 137 × 245). D (0.80, 180 × 225) is held back by the shop row's width and crops heads. The flatter points (E, 166 × 240) gain nothing over C.
+
+**What the shorter card costs.** Today's art is painted for 0.56, so at 0.69 heads and feet come close to the edge (the guardsman's hat is clipped). It needs repainting to the new window with the calmer backgrounds. The hand is drawn at 0.62 scale to fit, which breaks "the same size everywhere" (open, row 36).
+
+**The shop light.** Calm: a soft halo hugging each card and a little light on its sill, rising gently from tier 1. Tier 6 sits between 4 and 5, as asked. Tier 1's grey is close to an empty niche.
+
+**What depth adds.** The table recedes, the wall meets it in shadow, each card casts a shadow and throws its own colours forward onto the wood, and a lifted card's shadow moves away. Cards stay flat. It is quiet: clear side by side, easy to miss alone.
+
+**What falls short.** The fight leaves wide empty sides because height binds. The shop and hand art is still today's bright art. Motion and glow timing are not judged.

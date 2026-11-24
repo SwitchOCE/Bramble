@@ -1,0 +1,37 @@
+You are making card art for a woodland auto-battler game. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No logos, watermarks, titles or captions. Every design is original: do not depict or closely imitate any existing game's cards. Reply with just the saved filenames.
+
+The attached image is a shape guide, not a style guide. It shows the exact outline of the panel and exactly where it sits in the image. Pass it to the image tool as a reference for every item. It is empty and grey only because it is a guide: take the outline, size and position from it and nothing else.
+
+Some items are a REPAINT of an existing card picture. Such an item names that picture's file, a path relative to the repository root (in this checkout: /home/alex/.t3/worktrees/Bramble/ideation-ui-ux-dce1598bde386004/). Open it as an image and pass it to the image tool as a second reference, for that item only. From it take only the subject, its pose, costume, weapon and the layout of the scene. Do NOT take its colours, its sky, its sun or its light: those come from the item's LIGHT and place colours below. The shape and position of the panel still come from the shape guide, not from the old picture. Items marked "New" have no second reference.
+
+Every item: tall 2:3 portrait image on a plain near-black background. It shows ONE stained-glass panel in exactly the outline of the guide: the same tall six-sided shape, the same size, in the same place.
+
+The picture is: the subject named in the item, drawn in flat hard-edged shapes in full, rich colour, against the place named in the item, lit as the item's LIGHT says. A fighter is shown full body. The whole subject, and anything that matters in the scene such as a moon or a lantern, sits inside the panel.
+
+No numerals, text or lettering anywhere.
+
+Look: stylised, with big simple shapes and a hand-made feel. Sculpted, but not photoreal and not fussy: little fine detail. It should look like something a small art team could produce a hundred of.
+
+The design, the same for every item: A stained-glass window panel: dark lead lines, chunky coloured glass panes that glow as if lit from behind, the subject itself built from glass pieces. There is no border of panes: the picture runs right to the edge of the panel, with only one dark lead line round the outside.
+
+There are three LIGHTS. Each item names one; follow its sentence.
+
+LIGHT 1 (softened): The place is calm and simple, built from fewer and larger panes than the subject, its glass one step softer and deeper than the subject's, mostly in the place colours the item names. No sun rays or sunbursts.
+
+LIGHT 2 (in shade): The subject stands in clear light and is the brightest, most colourful thing in the panel. The place behind it lies in soft shade, as in the hour before evening, so its glass glows deeper and quieter than the subject's, mostly in the place colours the item names, in a few large panes. No sun rays or sunbursts.
+
+LIGHT 3 (hushed): The subject stands in clear light. The place behind it is hushed, like glass seen at dusk: deep, greyed tones of the place colours the item names, in a few large calm panes. No sun rays or sunbursts.
+
+Items:
+1. mouse-fencing-master-L1.png -- LIGHT 1. Reference: assets/units/mouse/fencing-master.jpg. A mouse fencing master in a thimble helmet, a red cape and a blue tunic, full body, lunging with a needle rapier, inside a timber barn by a hay pile and a barrel, on a summer evening. Place colours: dusk blue and dark timber brown, a little warm straw.
+2. mouse-fencing-master-L2.png -- LIGHT 2. Reference: assets/units/mouse/fencing-master.jpg. A mouse fencing master in a thimble helmet, a red cape and a blue tunic, full body, lunging with a needle rapier, inside a timber barn by a hay pile and a barrel, on a summer evening. Place colours: dusk blue and dark timber brown, a little warm straw.
+3. mouse-fencing-master-L3.png -- LIGHT 3. Reference: assets/units/mouse/fencing-master.jpg. A mouse fencing master in a thimble helmet, a red cape and a blue tunic, full body, lunging with a needle rapier, inside a timber barn by a hay pile and a barrel, on a summer evening. Place colours: dusk blue and dark timber brown, a little warm straw.
+4. thorn-sweetbriar-L1.png -- LIGHT 1. Reference: assets/units/thorn/sweetbriar.jpg. A living briar-rose warrior built of thorny green stems and pink dog-roses, full body, striding with a thorned blade held out, on a lane between hedgerows on a misty morning. Place colours: heather lilac and misty grey-blue.
+5. thorn-sweetbriar-L2.png -- LIGHT 2. Reference: assets/units/thorn/sweetbriar.jpg. A living briar-rose warrior built of thorny green stems and pink dog-roses, full body, striding with a thorned blade held out, on a lane between hedgerows on a misty morning. Place colours: heather lilac and misty grey-blue.
+6. thorn-sweetbriar-L3.png -- LIGHT 3. Reference: assets/units/thorn/sweetbriar.jpg. A living briar-rose warrior built of thorny green stems and pink dog-roses, full body, striding with a thorned blade held out, on a lane between hedgerows on a misty morning. Place colours: heather lilac and misty grey-blue.
+7. badger-hedge-knight-L2.png -- LIGHT 2. Reference: assets/units/badger/hedge-knight.jpg. A badger knight in steel plate with a long red cape, full body, standing with both paws on the hilt of a sword point-down, among old oaks in autumn rain beside a puddle. Place colours: deep moss green and bark brown, with grey rain.
+8. locust-hopper-L2.png -- LIGHT 2. Reference: assets/units/locust/hopper.jpg. A bright green locust skirmisher with big round eyes, full body, leaping with a short spear, over a stubble field after harvest, late afternoon. Place colours: dusty rust and smoky plum.
+9. pigeon-bugler-L2.png -- LIGHT 2. Reference: assets/units/pigeon/bugler.jpg. A pigeon bugler in a red tunic and red cap with a satchel, full body, blowing a brass bugle, on rolling fields above an army camp of tents, on an overcast morning. Place colours: pale dove-grey and faded sage green.
+10. neutral-stag-beetle-L2.png -- LIGHT 2. Reference: assets/units/shared/stag-beetle.jpg. A stag beetle knight with great antler jaws, a red cape, a sword and an oak-leaf shield, full body, standing on a fallen log with bracket fungi, in an old wood on a grey afternoon. Place colours: warm stone grey and soft taupe.
+11. pigeon-new-sapper-L2.png -- LIGHT 2. New. A wood pigeon sapper in a khaki greatcoat and tin helmet, full body, carrying a spade and a coil of rope, crossing a duckboard path by a village pond, on a damp overcast morning. Place colours: pale dove-grey and faded sage green.
+12. locust-new-reaper-L2.png -- LIGHT 2. New. A tall locust reaper in a ragged red sash, full body, swinging a long scythe, in a stripped wheat field at the end of a hazy day. Place colours: dusty rust and smoky plum.
