@@ -120,8 +120,17 @@ board at the end is the core's. A group whose following beats are not one per fr
 death effect among them) staggers its falls and plays what follows after the last. Staggered
 falls run 15 f, without rule 7's speed-up.
 
+**The lean's sign (fixed 24 Nov).** The proposal's 4-degree lean now tips the leading point
+toward the target on both sides; before, it turned clockwise for any target to the right, so
+their cards tipped their bottom point away. Clips filmed before the fix still carry the old lean:
+CB1 and CB3 to CB8, `best` and today-vs-best. CB2 was refilmed whole (its `best` pane is the film
+`cb2-best`, so every pane has the new lean), and so were CB9 `none` and CB10 `a`. CB2's `a`
+(shallow) now stops 0.70 h far with no back-row rule (plan A's 0.45 far and 0.35 back row stopped
+deeper than `b`), so it is shallower than `b` at every distance; CB10's `a` uses it too.
+
 CB9, rotation (`docs/workstreams/fight-animation-24-nov/research/rotation.md`): `none` is the
-proposal's 4-degree lean; `aim` turns the card in its own plane so the point facing the target
+proposal's 4-degree lean; `length` is the aim and the shortening below without the keystone, to
+show whether the shader adds anything; `aim` turns the card in its own plane so the point facing the target
 leads (the top of yours, the bottom of theirs), to 95 % of the path's angle, on Galaxy's timing:
 from the lift's first frame (sine out), full at C-12 when the hold is its least (it holds
 through a longer one), 90 % at C, unwound from the return's start over 25 f (smootherstep), so the

@@ -44,9 +44,9 @@ BRANCHES = {
         ("best", "best", "Best: 10f x1.14, pull 12, hold 16"),
     ],
     "CB2": [
-        ("a", "cb2-a", "A shallow: 0.78h near, 0.45 far"),
+        ("a", "cb2-a", "A shallow: 0.78h near, 0.70 far"),
         ("b", "cb2-b", "B medium: 0.70h near, 0.50 far"),
-        ("best", "best", "Best: 0.62h near, 0.45 far"),
+        ("best", "cb2-best", "Best: 0.62h near, 0.45 far"),
         ("c", "cb2-c", "C deep: 0.50h near, 0.42 far"),
         ("galaxy", "cb2-galaxy", "Galaxy: past centre (-0.3h)"),
     ],
@@ -92,10 +92,11 @@ BRANCHES = {
     "CB9": [
         ("none", "cb9-none", "None: the 4-degree lean"),
         ("aim", "cb9-aim", "Aim: 95 percent of the path"),
+        ("length", "cb9-length", "Aim + length 0.75, no tip"),
         ("tip", "cb9-tip", "Aim + tip: edge 0.9, length 0.75"),
     ],
     "CB10": [
-        ("a", "cb10-a", "A shallow: 0.78h near, 0.45 far"),
+        ("a", "cb10-a", "A shallow: 0.78h near, 0.70 far"),
         ("b", "cb9-tip", "B medium: 0.70h near, 0.50 far"),
     ],
     "CB11": [
@@ -109,6 +110,7 @@ FILM_OPTIONS = {
     "cb9-none": {"CB2": "b", "CB3": "quad", "CB9": "none"},
     "cb9-aim": {"CB2": "b", "CB3": "quad", "CB9": "aim"},
     "cb9-tip": {"CB2": "b", "CB3": "quad", "CB9": "tip"},
+    "cb9-length": {"CB2": "b", "CB3": "quad", "CB9": "length"},
     "cb10-a": {"CB2": "a", "CB3": "quad", "CB9": "tip"},
     "cb11-mild": {"CB2": "b", "CB3": "mild", "CB9": "tip"},
     "cb11-gentle": {"CB2": "b", "CB3": "gentle", "CB9": "tip"},

@@ -34,8 +34,10 @@ const WINDUPS: Dictionary = {
 }
 ## CB2, where it stops: the gap between centres in card heights, `near` up to `near_d` card heights
 ## away, `far` from `far_d`, straight between; `back` for any back-row target (-1: no rule).
+## "a" (shallow) stops 0.70 far, with no back-row rule, so it is shallower than "b" at every
+## distance (plan A's 0.45 far and 0.35 back row went deeper than B's; scope review, 24 Nov).
 const STOPS: Dictionary = {
-	"a": {"near": 0.78, "near_d": 1.4, "far": 0.45, "far_d": 2.2, "back": 0.35},
+	"a": {"near": 0.78, "near_d": 1.4, "far": 0.70, "far_d": 2.2, "back": -1.0},
 	"b": {"near": 0.70, "near_d": 1.18, "far": 0.50, "far_d": 3.18, "back": -1.0},
 	"best": {"near": 0.62, "near_d": 1.4, "far": 0.45, "far_d": 2.4, "back": 0.40},
 	"c": {"near": 0.50, "near_d": 1.3, "far": 0.42, "far_d": 2.6, "back": -1.0},
@@ -172,6 +174,8 @@ const ROTATIONS: Dictionary = {
 	"none": {"aim": 0.0, "keystone": 1.0, "length": 1.0},
 	"aim": {"aim": 0.95, "keystone": 1.0, "length": 1.0},
 	"tip": {"aim": 0.95, "keystone": 0.9, "length": 0.75},
+	# the aim and the shortening without the shader's keystone: does the shader add anything?
+	"length": {"aim": 0.95, "keystone": 1.0, "length": 0.75},
 }
 ## The turn is full this many frames before contact (Galaxy: -13 to -12); it ramps from the
 ## lift's first frame, so it is full at C-12 when the hold is its least.
@@ -190,6 +194,9 @@ const TEMPO_CAP: float = 3.5
 
 const REST: int = 30
 const POP: float = 1.24
+## The proposal's lean toward the target (degrees, times the path's sideways share), tipping the
+## leading point (the top of yours, the bottom of theirs) toward it. Before the fix of 24 Nov it
+## turned clockwise for a target to the right on both sides, tipping their bottom point away.
 const LEAN: float = 4.0
 const KNOCK_PX: float = 20.0
 const KNOCK_IN: int = 3
@@ -505,8 +512,8 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 			"lift": lift_f,
 			"scale": _f(windup["scale"]),
 			"pull": pull,
-			# the aim takes the lean's place
-			"lean": LEAN * way.x if aim_share <= 0.0 else 0.0,
+			# the lean tips the leading point toward the target; the aim takes its place
+			"lean": LEAN * way.x * lead if aim_share <= 0.0 else 0.0,
 			"launch": launch,
 			"strike": strike,
 			"curve": _f(CURVES[pick("CB3")]),

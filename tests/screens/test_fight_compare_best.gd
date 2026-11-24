@@ -228,6 +228,43 @@ func test_cb9_tip_keystones_and_shortens_and_none_keeps_the_proposal() -> void:
 		assert_almost_eq(_f(b["keystone"]), 1.0, 0.0001, "none: flat")
 
 
+func test_the_lean_tips_the_leading_point_toward_the_target() -> void:
+	var timeline: RefCounted = _timeline({})
+	var attacks: Array = timeline.get("attacks")
+	# 1: theirs down-right (bottom leads: anticlockwise); 3: theirs down-left (clockwise);
+	# 6: yours up-left (top leads: anticlockwise)
+	var signs: Array[float] = []
+	for k: int in [1, 3, 6]:
+		var attack: Dictionary = attacks[k]
+		var turn: float = _turn(timeline, str(attack["attacker"]), _i(attack["contact"]) - 12)
+		signs.append(signf(turn))
+	assert_eq(signs, [-1.0, 1.0, -1.0], "each lean turns the leading point toward the target")
+
+
+func test_cb2_a_is_shallower_than_b_on_every_attack() -> void:
+	var a: Array = _plan({"CB2": "a"})["attacks"]
+	var b: Array = _plan({"CB2": "b"})["attacks"]
+	for k: int in a.size():
+		var shallow: Dictionary = a[k]
+		var medium: Dictionary = b[k]
+		if _f(shallow["stop_gap_h"]) < 0.0:
+			continue
+		assert_gt(
+			_f(shallow["stop_gap_h"]), _f(medium["stop_gap_h"]), "attack %d: A stops short of B" % k
+		)
+	for d: float in [1.0, 1.4, 1.8, 2.2, 2.6, 3.2]:
+		var gap_a: float = _gap(Timeline.STOPS["a"], d)
+		var gap_b: float = _gap(Timeline.STOPS["b"], d)
+		assert_gt(gap_a, gap_b, "%.1f h: A stops short of B" % d)
+
+
+static func _gap(stop: Dictionary, d: float) -> float:
+	var share: float = clampf(
+		(d - _f(stop["near_d"])) / (_f(stop["far_d"]) - _f(stop["near_d"])), 0.0, 1.0
+	)
+	return lerpf(_f(stop["near"]), _f(stop["far"]), share)
+
+
 func test_cb11_strike_curves_speed_up_into_contact() -> void:
 	for option: String in ["quad", "mild", "gentle"]:
 		var timeline: RefCounted = _timeline({"CB9": "tip", "CB2": "b", "CB3": option})
