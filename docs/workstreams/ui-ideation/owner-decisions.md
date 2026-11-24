@@ -203,3 +203,21 @@ From `docs/design/rulebook.md` (v0.10). These are rules of the game, not screen 
 | R18 | Front row attacks first, left to right, then the back row; the back row can't be attacked while a front unit lives. | 9.4.2, 9.5.1 | |
 | R19 | The fight runs with no player decisions. | 9.1.3 | |
 | R20 | Hero powers: the rulebook keeps Battlegrounds' (2.2.7), but the build has none. | 2.2.7 | The owner, 16 Nov, for the build: "I think no hero powers." (`docs/workstreams/ideation-track-2.md`) |
+
+## 24 Nov 2026: the look
+
+The owner rejected every card frame from the frame pass ("All of these frames feel bad") and asked for whole looks to react to (`briefs/30-look-pass.md` holds the words). After seeing three (`looks/`), the owner chose L1, "the card is a window" (`looks/L1/look.md`):
+
+| # | Decision | The owner's words |
+|---|---|---|
+| L1 | L1 is the base look. | "I agree with you that L1 is the best." |
+| L2 | Cards, not figures, on the board. | "Cards are staying on the board." |
+| L3 | No tier mark on a board card; tier shows on hover. | "Tier on the board on hover only, agreed." |
+| L4 | Tier 5 is orange, not yellow. | "The tier 5 orange, agreed." |
+| L5 | The shop's tier light is calmer than in the paintings. | "It can be pretty subtle ... maybe even the red should be a little bit less: a bit more than what our tier four is, and a bit less than what our tier five is, in terms of lighting strength. And the scale should start at the same point from tier one." |
+| L6 | Card art gets calmer backgrounds, with a colour guide per tribe. | "We need less bright backgrounds. Maybe not as washed out as this, but definitely we need to set guidelines for background colours that are allowed per tribe, and I'd like a full colour palette guideline thing made up ... Maybe not too plain." |
+| L7 | The board stays two rows, four over three. | "I still think that the board having the 4-3, the two rows, is important to me." |
+| L8 | The card's points take a regular hexagon's angles; its height and ratio are open. | "I'm willing to sacrifice card height, and I would like to keep the card's angles at exactly the shape of a regular hexagon for the top part ... We could even actually go to less than a regular hexagon, I suppose." |
+| L9 | A little depth is wanted; how is open. | "Giving a bit more of a 3D feel ... almost like two-and-a-half-D ... Surprise me, I guess." |
+
+These are choices among mock-ups on `ideation/ui-ux`. Nothing here is in the game, and the earlier frame recipe (mostly lead, glass in the lower third) is dropped.
