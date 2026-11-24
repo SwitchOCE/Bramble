@@ -16,6 +16,7 @@ extends RefCounted
 ## Exploratory (the fight animation pilot, 24 Nov): nothing here reaches the game.
 
 const Tokens := preload("res://tests/screens/feel/fight_compare/pilot_tokens.gd")
+const Rotate := preload("res://tests/screens/feel/fight_compare/rotate.gd")
 
 ## The result banner reads alone this long before anything moves.
 const BANNER_READ: int = 12
@@ -84,6 +85,11 @@ var loser_r: float = 64.0
 var board_at: Vector2 = Vector2(960.0, 540.0)
 ## Whether the loser is you (the lower left portrait).
 var loser_is_you: bool = true
+## The rotation switch's set (rotate.gd SET), or {} when it is off. On, B's striker also turns so
+## the point of its disc facing the loser leads, and shortens along that line (pilot_screen.gd draws
+## no keystone: the portrait has its own shader), on CB9's timing (_aim): its
+## lift is the lift, its strike the strike, the return the return; held between two strikes.
+var rotation_set: Dictionary = {}
 
 
 func _init(chosen: String = "b") -> void:
@@ -243,12 +249,41 @@ func _striker_b(f: int) -> Dictionary:
 			var r: float = Tokens.back(float(after - Tokens.STOP_HIT_FRAMES + 1) / B_RETURN_FRAMES)
 			offset = at_contact.lerp(Vector2.ZERO, r)
 			look = 1.0 - r
-	return {
+	var out: Dictionary = {
 		"offset": offset,
 		"scale": lerpf(1.0, B_LIFT_SCALE, look),
 		"turn": lean * look,
 		"light": lerpf(1.0, B_LIFT_LIGHT, look),
 	}
+	if not rotation_set.is_empty():
+		var aim: Dictionary = Rotate.aim_of(incoming(), rotation_set)
+		var aimed: Dictionary = _aim(f)
+		var turn: float = out["turn"]
+		out["turn"] = (
+			turn + GlassPieces.as_float(aim["turn"]) * GlassPieces.as_float(aimed["share"])
+		)
+		out["length"] = aimed["length"]
+		out["keystone"] = aimed["keystone"]
+		out["lead"] = aim["lead"]
+	return out
+
+
+## B's turn and lean at frame f after R (rotate.gd, on CB9's timing): from the lift's first frame,
+## full at C-12, 90 % at contact, held through a big loss's second strike, unwound over 25 frames
+## from the return's first moving frame.
+func _aim(f: int) -> Dictionary:
+	var n: float = f - B_LIFT_START + 1
+	# the strike's in-between frames run from B_STRIKE_START; contact is the frame after them
+	var launch: float = B_STRIKE_START - B_LIFT_START
+	var strike: float = B_STRIKE_FRAMES + 1
+	var c: Array[int] = contacts()
+	var last: int = c.back()
+	if f < c[0]:
+		var ramp: float = Rotate.ramp_frames(B_LIFT_FRAMES, launch - B_LIFT_FRAMES, strike)
+		return Rotate.approach(n, ramp, launch, strike, 2.0, rotation_set)
+	if f < last + Tokens.STOP_HIT_FRAMES:
+		return Rotate.contact_pose(rotation_set)
+	return Rotate.leaving(f - last - Tokens.STOP_HIT_FRAMES + 1, rotation_set)
 
 
 ## B's big loss between its two contacts, `age` frames after the first: held, pulled back 60 px,

@@ -297,6 +297,50 @@ becomes the tally; C's tally sinks at the last L+30 like B's (DESIGN.md's Brock 
 L+24, against its own "sinks at L+30"); the flare runs with the swell from L; a dead unit's slot
 uses Old Brock's disc places.
 
+## Rotation everywhere (`rotate.gd`) and `recommended`
+
+The owner, 24 Nov: "Every animation, I want to have the rotation included ... Even today can be
+modified as if it had rotation." `"options": {"ROTATE": "on"}` turns it on in any treatment:
+
+- `rotate.gd` `SET` holds the numbers every film uses until the owner picks CB15 and CB17: aim at
+  95 % of the path, a medium lean (keystone 0.94, length 0.85). Change them there.
+- `best`, `buffs`: `best_timeline.gd` `_rotation()` plays `SET` in place of CB9's option (CB9's
+  timing, as before).
+- `today`, `pilot`: `rotate_motion.gd`, today's motion exactly (its 6-degree cock, 12-frame
+  attack, 2 frames at contact, 11-frame return, straightening while it waits at contact) with the
+  turn and lean added on top, on CB9's timing as far as today's attack allows: the turn ramps from
+  the lift's first frame and is full as the 4-frame lift ends (today has no hold, so it can't be full
+  at C-12), 90 % at contact, held through a wait at contact, unwound over 25 frames from the
+  return's start. `pilot_motion.gd` extends it, so CB13's options turn too.
+- CB12 B's striking portrait turns toward the loser on the same timing (`pilot_hero_damage.gd`
+  `_aim`: full at C-12, held between a big loss's two strikes) and shortens along that line. It
+  has no keystone: the portrait is a `GlassBox`, drawn by its own shader material, which
+  `tip.gdshader` would replace (filmed, it drew a white square). B's own 8-degree lift lean stays.
+- Off, every treatment is as it was (the tests check `today` is still `FightMotion`).
+
+`recommended.gd` plays every pick on the picks page in one fight: `buffs` with `ROTATE` on, CB11
+"mild" (CB2 "b", CB3 "mild"), CB8 "c", CB14 "c", and CB13 "c"'s death (the light goes out and it
+sinks: `pilot_motion.gd`, drawn from `recommended_screen.gd`'s game clock) for a unit the schedule
+drops alone (not one of CB8's staggered six). The pilot's other half of CB13, the killing number
+held on through the death, is today's step screen's (`pilot_screen.gd`); here the number is the
+best proposal's burst. A scenario's own options win over the picks.
+
+`picks_rot.py` films and cuts the picks page's pairs with rotation on in both panes, and the whole
+fight (today with rotation against `recommended`, both filmed with the same wait so the panes have
+the same frames):
+
+```bash
+python3 tests/screens/feel/fight_compare/picks_rot.py scenarios /data/fight-anim-work/picks-rot/scenarios
+tools/feel/film /data/fight-anim-work/picks-rot/scenarios/best.json /data/fight-anim-work/picks-rot/films/best.mp4
+python3 tests/screens/feel/fight_compare/picks_rot.py measure /data/fight-anim-work/picks-rot/films
+python3 tests/screens/feel/fight_compare/picks_rot.py cut /data/fight-anim-work/picks-rot/films /data/fight-anim-work/picks-rot/v
+```
+
+`cut` writes `v/<branch>-<option>.mp4` (`whole-today.mp4`, `whole-best.mp4` for the whole fight),
+each pair lined up and cut as `clips.py compare` and its siblings do, at their compare scale, and
+`v/pairs.json`: each pair's two files, labels, frames and film frames, and the whole fight's
+victory times.
+
 ## What the logs can't show
 
 - The film is silent. Sound rows are the cues the sound player started, at the frame they
