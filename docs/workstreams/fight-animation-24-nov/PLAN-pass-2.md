@@ -76,3 +76,9 @@ Then, correcting how that was read (24 Nov, dictated):
 > "Was the lean what you mean for the rotation against the plane of the card's viewing? No, the lean might be good, actually. Maybe a small lean is actually nice. I don't hate that at all. Leading probably actually is quite good. A small lean, like four degrees, might be excellent. I just meant the turning is absolutely required, and I wasn't seeing any turning. Leaning with turning in the same direction as the turn makes a lot of sense to me."
 
 So: turning toward the target is required; the "none" option failed because it barely turns (its 4° is an in-plane tilt, not a turn). A small lean in the same direction as the turn is welcome. In our terms the 3D lean is the "tip" (the leading end dipping away from the viewer). Next: the amount of turn (CB15), and how strong the tip is, from none through a small one to today's (CB17).
+
+## Rotation everywhere (owner, 24 Nov, dictated)
+
+> "The proposal *[heard as "Opposit"]* needs to have the rotation. The rotation is really important. Every animation, I want to have the rotation included, because that's an absolute mandatory one for me. Can we redo the entire artifact with rotation? Even today can be modified as if it had rotation, because rotation is such a core part of it and it changes so much how the animation works that I need to see it."
+
+So rotation (the turn toward the target, with a lean in the same direction) is on in every film from now on, including the "today" panes. Until the amount and lean are picked (CB15, CB17), films use aim at 95% of the path with a medium lean.
