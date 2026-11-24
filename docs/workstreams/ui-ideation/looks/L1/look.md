@@ -70,3 +70,7 @@ Built in [screen.html](screen.html) (`?view=buy|fight|shapes&shape=a–e&depth=1
 - **The repainted art** (all 18 arrived) sits calmer behind the lead than today's. The frames, the shop light and golden all read better with it. Every picture fits the window, with heads and feet clear of the discs.
 - **Not done.** A scoreboard-on-the-right version: the owner moved the shop's buttons to the right, and both cannot share that pier. The thickness is subtle at full view.
 - **Not judged:** hover feel, raise motion and glow timing.
+
+## Pieces for the layout board
+
+`screen.html?view=polish&only=<part>` draws one part alone on a clear ground (parts are named in `polish()`: `bg-wall`, `shop-0` to `shop-6`, `board-0` to `board-6`, `hand-0` to `hand-5`, `scoreboard`, `tierup`, `gold` and so on). The forty cut pieces and their screen positions are in `/data/ui-ideation/looks/L1/parts/` (`parts.json`). They are laid out on a whiteboard the owner can rearrange: https://claude.ai/artifact/VB3h4u57FV7gocf4wWoBY7. `board-map.json` says which board element is which piece.

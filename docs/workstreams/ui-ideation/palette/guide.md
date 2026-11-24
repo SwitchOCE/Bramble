@@ -48,16 +48,16 @@ The test shows the gain: today's gold barn mouse merges with its gilt border, an
 
 ## The larger test: eighteen cards on the wider card
 
-The eighteen cards on the buy screen were painted full-bleed for the 0.69 card (sheet: `/data/ui-ideation/palette/c69-sheet.png`). The old picture was attached for the figure only, and the place was written out in full. 15 of 18 came out right.
+The buy screen's eighteen cards, painted full-bleed for the 0.69 card (`/data/ui-ideation/palette/c69-sheet.png`). Each had the old picture attached for the figure only, with the place written in full. 15 came right first time, the other three on a second try.
 
-- **The wider window works.** Every figure is whole from head to foot. Nothing that matters sits in the cut corners or under the discs, except one knife tip.
-- **Mouse** works on all four cards. No old colours were copied.
-- **Pigeon, thorn and neutral** are now told apart at 173 px: thorn by its grey-teal mist, pigeon by cool grey and sage, neutral by warm oatmeal.
-- **Still open:** neutral is the plainest tribe. Badger cards whose place is built from many small leaf panes let the fighter lead less. Asking for a pale figure on the locust gleaner changed its colours. All three are being painted again.
+- **The wider window works.** Every figure is whole. Nothing that matters sits in the cut corners or under the discs; only the gleaner's toe touches one.
+- **Mouse** works on all four cards.
+- **Pigeon, thorn and neutral** are told apart at 173 px: grey-teal mist, cool grey with sage, warm oatmeal.
+- **Learned on the retries:** when the fighter's colours are close to the place's, ask for a few large panes and a paler patch behind it, such as mist or haze. Keep the accepted figure's own colours. Give neutral one quiet accent, such as lichen on a stone, so it isn't plain.
 
 ## Not settled
 
 - **An old picture attached** must be marked "figure only", with the place written out in full. Otherwise it brings its old colours back (the bell-ringer).
-- **Neutral** may read a little plain, against "maybe not too plain".
+- **Neutral** may still read plain; the lichen accent helps, but the owner should judge.
 - **Pale pigeon cards under the off-white tier 1 light** have the least contrast of any pairing.
 - **Mouse and badger are the two dark tribes.** Mouse is a little heavy at nightfall; a brighter lamp-lit spot is worth trying if the owner finds it gloomy.

@@ -205,12 +205,16 @@ const TIER = {
 const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
 
 // ---------------- drawing ----------------
+// only=<part>: draw one named part of view=polish alone on a clear ground, for cutting the screen into movable pieces
+const ONLY = Q.get("only");
+let PART = "";
 const scr = document.getElementById("screen");
 if (DEPTH) scr.classList.add("depth");
 function el(cls, x, y, w, h, parent = scr, style = "") {
   const d = document.createElement("div");
   d.className = "abs " + cls;
   d.style.cssText = `left:${x}px;top:${y}px;width:${w}px;height:${h}px;${style}`;
+  if (parent === scr) d.dataset.part = PART;
   parent.appendChild(d);
   return d;
 }
@@ -647,18 +651,24 @@ function polish() {
   const boardTop = Math.round(wallBottom + (EDGE_Y - wallBottom - g.boardH) / 2);
 
   // ---- room ----
+  PART = "bg-wall";
   el("", x0, 0, cw, wallBottom, scr, bgImg("l1r-wall.jpg", "linear-gradient(#3d4246,#3d4246)") + "background-size:360px 360px");
   el("", x0, 0, cw, wallBottom, scr, "background:linear-gradient(rgba(10,13,18,0.55), rgba(10,13,18,0.38))");
+  PART = "bg-table";
   el("", x0, wallBottom, cw, EDGE_Y - wallBottom, scr, bgImg("l1p-oak-top.jpg", "linear-gradient(#2f1d14,#2f1d14)") + "background-size:420px 420px");
   el("", x0, wallBottom, cw, EDGE_Y - wallBottom, scr, "background:radial-gradient(ellipse 70% 80% at 50% 45%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.38))");
   // the wall casts a soft shadow on the table's far edge; the wall's foot is a stone course
   el("", x0, wallBottom, cw, 40, scr, "background:linear-gradient(rgba(0,0,0,0.6), transparent)");
+  PART = "bg-wall";
   el("", x0, wallBottom - 10, cw, 10, scr, "background:linear-gradient(#5a5f63,#33373a)");
+  PART = "bg-ledge";
   // table front edge and the dark ledge where the hand is held
   el("", x0, EDGE_Y + EDGE_H, cw, H - EDGE_Y - EDGE_H, scr, bgImg("l1r-leather.jpg", "linear-gradient(#24160f,#24160f)") + "background-size:100% 100%;filter:brightness(0.55)");
+  PART = "bg-edge";
   el("", x0, EDGE_Y, cw, EDGE_H, scr, bgImg("l1p-table-edge.jpg", "linear-gradient(#3a2418,#3a2418)") + "background-size:auto 100%;box-shadow:0 8px 12px rgba(0,0,0,0.6)");
   // piers
   for (const px of [0, W - PIER]) {
+    PART = px ? "bg-pier-r" : "bg-pier-l";
     el("", px, 0, PIER, H, scr, bgImg("l1p-pier.jpg", "linear-gradient(#1d2023,#1d2023)") + "background-size:100% auto;background-repeat:repeat-y");
     el("", px, 0, PIER, H, scr, `background:linear-gradient(${px ? 90 : 270}deg, rgba(0,0,0,0.45), transparent 22%)`);
   }
@@ -675,6 +685,7 @@ function polish() {
     { kind: "spell", s: spells[1], nx: ux0 + unitRow + G },
   ];
   for (const it of items) {
+    PART = "shop-" + items.indexOf(it);
     const isU = it.kind === "unit";
     const iw = isU ? w : ds, nw = iw + 2 * NICHE;
     const T = TIER[isU ? it.u.tier : it.s.tier];
@@ -712,13 +723,14 @@ function polish() {
   const slots = [];
   for (let i = 0; i < 4; i++) slots.push([bx + i * (w + G), boardTop]);
   for (let i = 0; i < 3; i++) slots.push([bx + (w + G) / 2 + i * (w + G), boardTop + g.rowStep]);
-  board.forEach((u, i) => slab(slots[i][0], slots[i][1], g, u));
-  board.forEach((u, i) => { if (u.golden) goldenHalo(slots[i][0], slots[i][1], g, scr); });
-  board.forEach((u, i) => scr.appendChild(pCard(slots[i][0], slots[i][1], g, u)));
+  board.forEach((u, i) => { PART = "board-" + i; slab(slots[i][0], slots[i][1], g, u); });
+  board.forEach((u, i) => { PART = "board-" + i; if (u.golden) goldenHalo(slots[i][0], slots[i][1], g, scr); });
+  board.forEach((u, i) => { PART = "board-" + i; scr.appendChild(pCard(slots[i][0], slots[i][1], g, u)); });
 
   // ---- hand: full size, half below the edge; one may be pointed at ----
   const hx = W / 2 - (hand.length * w + (hand.length - 1) * G) / 2;
   hand.forEach((u, i) => {
+    PART = "hand-" + i;
     const xx = hx + i * (w + G);
     const raised = i === HOVER;
     const yy = raised ? H - h + 24 : handTop;
@@ -731,7 +743,9 @@ function polish() {
 
   // ---- left pier: what you watch ----
   const LC = PIER / 2;
+  PART = "turn";
   plate(LC - 92, 18, 184, 52, `<span style="font-size:24px;letter-spacing:0.02em">Turn 9</span>`);
+  PART = "scoreboard";
   const rowY = 94, rowH = 78, pd = 62;
   portraits.forEach((nme, i) => {
     const y = rowY + i * rowH;
@@ -746,15 +760,27 @@ function polish() {
   });
   // your hero
   const heroY = 722;
+  PART = "hero";
   portrait(LC - 62, heroY, 124, "dame_farthing", "#e8d49a");
   healthGem(LC + 26, heroY + 84, 48, 11);
   // tribe counters: icon and numeral, with the word under (Compost alone would be a puzzle)
+  PART = "counter-0";
   plate(16, heroY + 150, 100, 46, `${ICON.leaf.replace("<svg", "<svg width='24' height='24'")}<span style="font-size:24px">3</span>`);
+  PART = "counter-1";
   plate(128, heroY + 150, 100, 46, `${ICON.tide.replace("<svg", "<svg width='24' height='24'")}<span style="font-size:24px">2</span>`);
+  if (ONLY) {   // two more counters, to show the slots are general: any tribe's counter can sit in one
+    PART = "counter-2";
+    plate(16, 300, 100, 46, `<svg width='24' height='24' viewBox="0 0 24 24"><path d="M12 3c1 4 5 6 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z" fill="#e8a25a" stroke="#4a2408" stroke-width="1.4" stroke-linejoin="round"/></svg><span style="font-size:24px">7</span>`);
+    PART = "counter-3";
+    plate(128, 300, 100, 46, `<svg width='24' height='24' viewBox="0 0 24 24"><path d="M7 3h10M7 21h10M8 3c0 5 8 5 8 9s-8 4-8 9M16 3c0 5-8 5-8 9s8 4 8 9" stroke="#d9c9f0" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-size:24px">1</span>`);
+  }
+  PART = "label";
   const lab = (x, y, t) => { const l = el("", x, y, 100, 18, scr, "text-align:center;font-size:15px;color:#b9b2a2;font-weight:700;letter-spacing:0.04em;text-shadow:0 1px 2px #000"); l.textContent = t; };
   lab(16, heroY + 198, "Compost"); lab(128, heroY + 198, "Tide");
   // library and settings
+  PART = "library";
   const lib = roundel(LC - 84, 984, 72); lib.innerHTML = ICON.book.replace("<svg", "<svg width='40' height='40'");
+  PART = "cog";
   const cog = roundel(LC + 20, 988, 64); cog.innerHTML = ICON.cog.replace("<svg", "<svg width='32' height='32'");
 
   // ---- right pier: what you act on ----
@@ -762,27 +788,37 @@ function polish() {
   const bx0 = RX + PIER / 2 - (BD + 8 + 50) / 2;
   const btnY = [yCard - 4, yCard - 4 + BD + 22, yCard - 4 + 2 * (BD + 22)];
   // tier up: the shop's tier on the button, its cost (discounted) on a coin
+  PART = "tierup";
   const tu = roundel(bx0, btnY[0], BD); tu.innerHTML = ICON.up.replace("<svg", "<svg width='40' height='40' style='margin-top:-10px'");
   el("", bx0, btnY[0] + 50, BD, 26, scr, "text-align:center;font-weight:700;font-size:22px;color:#fbf3dc;text-shadow:0 1px 3px #0b1a2a").textContent = "5";
   coin(bx0 + BD + 8, btnY[0] + 34, 50, 9);
   el("", bx0 + BD + 8, btnY[0] + 2, 50, 28, scr, "text-align:center;font-weight:700;font-size:20px;color:#b8ad96;text-decoration:line-through;text-decoration-thickness:2px;text-shadow:0 1px 2px #000").textContent = "10";
   // refresh: cost, and refreshes left at this price
+  PART = "refresh";
   const rf = roundel(bx0, btnY[1], BD); rf.innerHTML = ICON.refresh.replace("<svg", "<svg width='42' height='42'");
   coin(bx0 + BD + 8, btnY[1] + 34, 50, 1);
   el("", bx0 + BD - 4, btnY[1] + 6, 74, 24, scr, "text-align:center;font-weight:700;font-size:16px;color:#b8ad96;text-shadow:0 1px 2px #000").textContent = "7 left";
   // freeze
+  PART = "freeze";
   const fz = roundel(bx0, btnY[2], BD); fz.innerHTML = ICON.freeze.replace("<svg", "<svg width='42' height='42'");
   // gold: the biggest thing on this side, with next turn's income
+  PART = "gold";
   const gy = wallBottom + 70;
   coin(RX + PIER / 2 - 66, gy, 132, GOLD).style.fontSize = "64px";
   el("", RX + PIER / 2 - 60, gy + 140, 120, 34, scr, "text-align:center;font-weight:700;font-size:26px;color:#f0d68a;text-shadow:0 2px 3px #000").textContent = "+12";
   // end turn
+  PART = "endturn";
   const et = roundel(RX + PIER / 2 - 72, H - 186, 144, "amber"); et.innerHTML = ICON.arrow.replace("<svg", "<svg width='66' height='66'");
   return { h, w };
 }
 
 const out = VIEW === "polish" ? polish() : VIEW === "fight" ? fight() : VIEW === "shapes" ? shapesSheet() : buy();
 window.__L1 = out;
+if (ONLY) {
+  [...scr.children].forEach(c => { if (c.dataset.part !== ONLY) c.remove(); });
+  scr.style.background = "transparent"; scr.style.overflow = "visible"; scr.style.height = "1400px";
+  document.documentElement.style.background = "transparent"; document.body.style.background = "transparent";
+}
 </script>
 </body>
 </html>
