@@ -57,17 +57,46 @@ const CB7_SEED: int = 2
 const CB7_MOMENTS: Array[Dictionary] = [
 	{"moment": "f", "attack": 0, "what": "two Gleaners trigger ten times on King Speck"},
 ]
+## Short fights for CB12, damage to the player (pilot/player-damage.md, filming plan): you lose
+## in one attack. "lose-small": their Hopper and your Private kill each other; you killed half of
+## their starting units, so the loss is round + 1. "lose-big": their Sentry kills your Private;
+## you killed none, so the loss is round + 1 + 3 (rulebook 10.1.1-10.1.3). "lose-out": as
+## lose-small, with your Health below the loss (LOSS_OUT_HEALTH): it reaches 0. The loss is the
+## rules core's (Rules.loss_damage), for the round on the fixture's screen (its turn).
+const LOSS_YOU: Dictionary = {0: "private"}
+const LOSS_THEM: Dictionary = {
+	"lose-small": {0: "hopper", 1: "sentry"},
+	"lose-big": {0: "sentry", 1: "sentry"},
+	"lose-out": {0: "hopper", 1: "sentry"},
+}
+const LOSS_SEED: int = 1
+const LOSS_OUT_HEALTH: int = 5
 ## How close (px) to its nearest point an attacker counts as in contact.
 const CONTACT_SLACK: float = 0.5
-## x, y: the card's centre in film pixels; rotation in degrees; attack, health: the numbers shown.
+## x, y: the card's centre in film pixels; rotation in degrees; attack, health: the numbers shown;
+## light: the card's modulate (its red channel; 1 is unlit, a death that darkens goes below).
 const CARD_COLUMNS: String = (
-	"frame,t,step,key,card_id,side,slot,x,y," + "scale,rotation,alpha,attack,health,state"
+	"frame,t,step,key,card_id,side,slot,x,y," + "scale,rotation,alpha,attack,health,state,light"
+)
+## <out>.heroes.csv, every drawn frame, both portraits: centre, scale, turn, light (modulate's
+## red channel), the Health drawn on its badge and the badge's scale, the stage's offset, and the
+## "-N" on that portrait (alpha, scale, its number; -1 when none).
+const HERO_COLUMNS: String = (
+	"frame,t,step,key,x,y,scale,rotation,light,health,badge_scale,stage_x,stage_y,"
+	+ "burst_alpha,burst_scale,burst_amount"
 )
 const MARKER_COLUMNS: String = "frame,t,step,marker,key,detail"
 
 var treatment_name: String = ""
-## Which fixed fight: "" (the comparison fight) or "cb7".
+## Which fixed fight: "" (the comparison fight), "cb7", or a loss: "lose-small", "lose-big",
+## "lose-out".
 var fight_name: String = ""
+## What the loser takes, the core's for a loss fight (DAMAGE for the others), and whether it was
+## a big loss.
+var damage: int = DAMAGE
+var big_loss: bool = false
+## The scenario's options (a treatment's contested branches or decisions).
+var chosen_options: Dictionary = {}
 var screen: FightScreen
 var combat: Combat
 var replay: FightReplay
@@ -77,6 +106,8 @@ var result_at: float = -1.0
 var finished_at: float = -1.0
 
 var _card_rows: PackedStringArray = []
+var _hero_rows: PackedStringArray = []
+var _result_logged: bool = false
 var _marker_rows: PackedStringArray = []
 ## frame -> {key: centre in film pixels}
 var _centres: Dictionary = {}
@@ -101,14 +132,18 @@ func _ready() -> void:
 
 func feel_setup(scenario: Dictionary) -> void:
 	var options: Dictionary = scenario.get("options", {})
-	start(str(scenario.get("treatment", "today")), options, str(scenario.get("fight", "")))
+	var speed: float = GlassPieces.as_float(scenario.get("speed", 1.0))
+	start(str(scenario.get("treatment", "today")), options, str(scenario.get("fight", "")), speed)
 
 
 ## Builds the fight, the treatment's replay and screen, and starts playing. options: the
 ## scenario's "options", for a treatment with configure(options) (best.gd's contested branches).
-func start(chosen: String, options: Dictionary = {}, which: String = "") -> void:
+func start(
+	chosen: String, options: Dictionary = {}, which: String = "", speed: float = 1.0
+) -> void:
 	treatment_name = chosen
 	fight_name = which
+	chosen_options = options.duplicate()
 	treatment = Treatments.make(chosen)
 	if treatment == null:
 		push_error("fight_compare: no treatment '%s' in treatments.gd" % chosen)
@@ -120,13 +155,24 @@ func start(chosen: String, options: Dictionary = {}, which: String = "") -> void
 	var base: Dictionary = GlassScreen.load_state(BASE_PATH)
 	base.erase("boards")
 	base["slots"] = [[], []]
+	if LOSS_THEM.has(which):
+		var loss: Array = loss_of(content, combat, _i(base.get("turn", 1)))
+		damage = _i(loss[0])
+		big_loss = loss[1]
+		if which == "lose-out":
+			base["health"] = LOSS_OUT_HEALTH
+			for value: Variant in base.get("players", []):
+				var player: Dictionary = value
+				if player.get("you", false):
+					player["health"] = LOSS_OUT_HEALTH
 	var catalog: Dictionary = {}
 	ViewAdapter.add_fight_cards(content, combat.events, catalog)
-	replay = treatment.call("make_replay", base, combat.events, catalog, DAMAGE)
+	replay = treatment.call("make_replay", base, combat.events, catalog, damage)
 	_find_attacks()
 	screen = SCREEN.instantiate()
 	screen.set_script(treatment.call("screen_script"))
 	screen.set("treatment", treatment)
+	screen.speed = speed
 	screen.state = (replay.steps[0] as Dictionary)["state"]
 	add_child(screen)
 	screen.result_shown.connect(func() -> void: result_at = elapsed)
@@ -140,8 +186,15 @@ func start(chosen: String, options: Dictionary = {}, which: String = "") -> void
 	screen.play(replay)
 
 
-## The fixed fight a scenario names: "cb7" is CB7's second fight; else the comparison fight.
+## The fixed fight a scenario names: "cb7" is CB7's second fight, a LOSS_THEM name one of CB12's
+## short losses; else the comparison fight.
 static func fight_named(content: GameContent, which: String) -> Combat:
+	if LOSS_THEM.has(which):
+		var session: GameSession = content.new_session(SESSION_SEED)
+		var spec: Dictionary = LOSS_THEM[which]
+		return CoreKit.fight(
+			session, CoreKit.board(session, LOSS_YOU), CoreKit.board(session, spec), LOSS_SEED
+		)
 	if which != "cb7":
 		return fight(content)
 	var game: GameSession = content.new_session(SESSION_SEED)
@@ -149,6 +202,19 @@ static func fight_named(content: GameContent, which: String) -> Combat:
 	for slot: Variant in CB7_HEALTH:
 		them[_i(slot)].stats.set_health = _i(CB7_HEALTH[slot])
 	return CoreKit.fight(game, CoreKit.board(game, CB7_YOU), them, CB7_SEED)
+
+
+## [the loss, whether it was big] for the loser of a fight, by the rules core (Rules.loss_damage,
+## rulebook 10.1.1-10.1.3) in round `round_number`; [0, false] for a draw.
+static func loss_of(content: GameContent, fought: Combat, round_number: int) -> Array:
+	var winner: int = _i(fought.result.get("winner", -1))
+	if winner < 0:
+		return [0, false]
+	var starting: Array = fought.result["starting"]
+	var killed: Array = fought.result["killed"]
+	var big: bool = _i(killed[winner]) * 2 < _i(starting[winner])
+	var session: GameSession = content.new_session(SESSION_SEED)
+	return [session.rules.loss_damage(session.player(0), round_number, big), big]
 
 
 ## The comparison fight from the rules core: the same log every run.
@@ -231,8 +297,16 @@ func _log_frame() -> void:
 					str(attack["attacker"]),
 					"attack %d" % attack["attack"]
 				)
+	if result_at >= 0.0 and not _result_logged:
+		_result_logged = true
+		_mark(frame, step, "result_shown", "", "")
+	if screen.has_method("take_markers"):
+		for value: Variant in screen.call("take_markers"):
+			var marked: Array = value
+			_mark(frame, step, str(marked[1]), str(marked[0]), str(marked[2]))
 	_log_cards(frame, step)
 	_log_bursts(frame, step)
+	_log_heroes(frame, step)
 	while _heard < Sound.heard.size():
 		var cue: Dictionary = Sound.heard[_heard]
 		_heard += 1
@@ -276,7 +350,7 @@ func _log_cards(frame: int, step: int) -> void:
 			_card_rows
 			. append(
 				(
-					"%d,%.4f,%d,%s,%s,%d,%d,%.2f,%.2f,%.4f,%.2f,%.3f,%d,%d,%s"
+					"%d,%.4f,%d,%s,%s,%d,%d,%.2f,%.2f,%.4f,%.2f,%.3f,%d,%d,%s,%.3f"
 					% [
 						frame,
 						frame / 60.0,
@@ -293,6 +367,7 @@ func _log_cards(frame: int, step: int) -> void:
 						numbers.x,
 						numbers.y,
 						"leaving" if leaving else "kept",
+						card.modulate.r,
 					]
 				)
 			)
@@ -335,7 +410,7 @@ func _log_bursts(frame: int, step: int) -> void:
 				_card_rows
 				. append(
 					(
-						"%d,%.4f,%d,%s,burst,-1,-1,%.2f,%.2f,%.4f,%.2f,%.3f,-1,-1,burst"
+						"%d,%.4f,%d,%s,burst,-1,-1,%.2f,%.2f,%.4f,%.2f,%.3f,-1,-1,burst,%.3f"
 						% [
 							frame,
 							frame / 60.0,
@@ -346,10 +421,66 @@ func _log_bursts(frame: int, step: int) -> void:
 							hit.scale.x,
 							hit.rotation_degrees,
 							hit.modulate.a,
+							hit.modulate.r,
 						]
 					)
 				)
 			)
+
+
+## Both portraits, their Health badges, the stage's offset and the result's "-N" (ResultHit, on
+## the loser's portrait) as drawn this frame.
+func _log_heroes(frame: int, step: int) -> void:
+	var stage: Vector2 = screen._stage.position
+	var shown: Control = screen._front.get_node_or_null("ResultHit")
+	for pair: Array in [["hero", "Hero", "HeroHealth"], ["opponent", "Opponent", "OpponentHealth"]]:
+		var port: Control = screen._front.get_node_or_null(str(pair[1]))
+		if port == null:
+			continue
+		var badge: Control = screen._front.get_node_or_null(str(pair[2]))
+		var centre: Vector2 = port.get_global_transform_with_canvas() * (port.size / 2.0)
+		var health: int = -1
+		var badge_scale: float = -1.0
+		if badge != null:
+			badge_scale = badge.scale.x
+			for child: Node in badge.get_children():
+				if child is GlassText:
+					health = (child as GlassText).words.to_int()
+		var burst: Array = [-1.0, -1.0, -1]
+		if shown != null:
+			var at: Vector2 = shown.get_global_transform_with_canvas() * (shown.size / 2.0)
+			if at.distance_to(centre) < port.size.x:
+				var amount: int = 0
+				for child: Node in shown.get_children():
+					if child is GlassText:
+						amount = absi((child as GlassText).words.to_int())
+				burst = [shown.modulate.a, shown.scale.x, amount]
+		(
+			_hero_rows
+			. append(
+				(
+					"%d,%.4f,%d,%s,%.2f,%.2f,%.4f,%.2f,%.3f,%d,%.4f,%.2f,%.2f,%.3f,%.4f,%d"
+					% [
+						frame,
+						frame / 60.0,
+						step,
+						str(pair[0]),
+						centre.x,
+						centre.y,
+						port.scale.x,
+						port.rotation_degrees,
+						port.modulate.r,
+						health,
+						badge_scale,
+						stage.x,
+						stage.y,
+						burst[0],
+						burst[1],
+						burst[2],
+					]
+				)
+			)
+		)
 
 
 func _mark(frame: int, step: int, marker: String, key: String, detail: String) -> void:
@@ -415,7 +546,11 @@ func feel_report() -> Dictionary:
 	var attacks: Array[Dictionary] = attack_frames()
 	var moments: Array[Dictionary] = []
 	var cb7: bool = fight_name == "cb7"
-	for moment: Dictionary in CB7_MOMENTS if cb7 else MOMENTS:
+	var loss: bool = LOSS_THEM.has(fight_name)
+	var listed: Array[Dictionary] = CB7_MOMENTS if cb7 else MOMENTS
+	if loss:
+		listed = []
+	for moment: Dictionary in listed:
 		var held: Dictionary = moment.duplicate()
 		var n: int = _i(moment["attack"])
 		if n < attacks.size():
@@ -433,11 +568,15 @@ func feel_report() -> Dictionary:
 	var plan: Variant = treatment.call("plan") if treatment.has_method("plan") else {}
 	return {
 		"treatment": treatment_name,
+		"options": chosen_options,
 		"plan": plan,
-		"fight": fight_name if cb7 else "comparison",
-		"you": CB7_YOU if cb7 else YOU,
-		"them": CB7_THEM if cb7 else THEM,
-		"fight_seed": CB7_SEED if cb7 else FIGHT_SEED,
+		"fight": fight_name if fight_name != "" else "comparison",
+		"damage": damage,
+		"big_loss": big_loss,
+		"speed": screen.speed,
+		"you": LOSS_YOU if loss else (CB7_YOU if cb7 else YOU),
+		"them": LOSS_THEM[fight_name] if loss else (CB7_THEM if cb7 else THEM),
+		"fight_seed": LOSS_SEED if loss else (CB7_SEED if cb7 else FIGHT_SEED),
 		"events": combat.events.size(),
 		"steps": replay.steps.size(),
 		"planned_seconds": planned,
@@ -476,7 +615,11 @@ func _write_logs() -> Dictionary:
 	if args.size() != 3 or not args[2].ends_with(".report.json"):
 		return {}
 	var stem: String = args[2].trim_suffix(".report.json")
-	var out: Dictionary = {"cards": stem + ".cards.csv", "markers": stem + ".markers.csv"}
+	var out: Dictionary = {
+		"cards": stem + ".cards.csv",
+		"markers": stem + ".markers.csv",
+		"heroes": stem + ".heroes.csv",
+	}
 	for contact: Dictionary in attack_frames():
 		if _i(contact["contact_frame"]) >= 0:
 			_mark(
@@ -487,6 +630,7 @@ func _write_logs() -> Dictionary:
 				"attack %d" % contact["attack"]
 			)
 	_save(str(out["cards"]), CARD_COLUMNS, _card_rows)
+	_save(str(out["heroes"]), HERO_COLUMNS, _hero_rows)
 	var markers: Array = Array(_marker_rows)
 	# by frame, keeping the order they were marked in within a frame
 	var order: Dictionary = {}
