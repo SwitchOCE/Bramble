@@ -66,6 +66,34 @@ not. Thorns' damage to the attacker lands in the same burst step as the exchange
 `today` is `fight_treatment.gd` itself: `FightMotion` and `FightReplay.build`, exactly as the
 game plays them (the test checks both).
 
+## `best`: the best proposal, and its contested branches
+
+`best.gd` plays the best proposal's attack and ordering
+(`docs/workstreams/fight-animation-24-nov/plans/best.md`, sections 2 and 3). `best_timeline.gd`
+schedules every change, motion, burst and glow by frame from the log; `best_screen.gd` plays that
+frame by frame instead of FightScreen's steps (no change in `src/`). Each contested branch
+(best.md section 6) is a parameter: `"options": {"CB2": "c"}` in the scenario; `best_timeline.gd`
+lists every option's numbers. A branch not named plays the proposal's pick.
+
+```bash
+python3 tests/screens/feel/fight_compare/clips.py scenarios /data/fight-anim-work/treatments/scenarios
+tools/feel/film /data/fight-anim-work/treatments/scenarios/cb2-c.json /data/fight-anim-work/treatments/films/cb2-c.mp4
+python3 tests/screens/feel/fight_compare/clips.py measure /data/fight-anim-work/treatments/films/cb2-c
+python3 tests/screens/feel/fight_compare/clips.py cut /data/fight-anim-work/treatments/films /data/fight-anim-work/treatments/clips
+```
+
+`measure` writes `<stem>.timing.json`: each attack's claimed, planned and measured numbers (lift,
+hold, strike, stop gap, contact pop, return, numbers, falls, next lift) and the mismatches. The
+report's `plan` holds the schedule (`frame_offset` turns its frames into film frames).
+
+Stand-ins (each new look needs an art pass and the owner's yes): the cause-to-target line is
+today's jab; the xN counter is the numbers re-popping (option `CB7: best_xn` adds a plain-text
+"xN" marked as a placeholder); C's crack and shatter are today's fall; C's rim glow is today's
+lunge glow. `best` plays no sound cues. Readings of best.md that it does not spell out: what plays
+before the hit waits for the previous queue's end; a beat from a dead source has no pulse but
+still lands 12 f after it starts; rule 7's speed-up rises from x1 at 60 f of queue to x1.5 at
+120 f; an attacker killed by Thorns stays raised until it falls (no strike).
+
 ## What the logs can't show
 
 - The film is silent. Sound rows are the cues the sound player started, at the frame they

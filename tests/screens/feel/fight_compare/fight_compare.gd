@@ -79,16 +79,20 @@ func _ready() -> void:
 
 
 func feel_setup(scenario: Dictionary) -> void:
-	start(str(scenario.get("treatment", "today")))
+	var options: Dictionary = scenario.get("options", {})
+	start(str(scenario.get("treatment", "today")), options)
 
 
-## Builds the fight, the treatment's replay and screen, and starts playing.
-func start(chosen: String) -> void:
+## Builds the fight, the treatment's replay and screen, and starts playing. options: the
+## scenario's "options", for a treatment with configure(options) (best.gd's contested branches).
+func start(chosen: String, options: Dictionary = {}) -> void:
 	treatment_name = chosen
 	treatment = Treatments.make(chosen)
 	if treatment == null:
 		push_error("fight_compare: no treatment '%s' in treatments.gd" % chosen)
 		return
+	if treatment.has_method("configure"):
+		treatment.call("configure", options)
 	var content: GameContent = GameContent.load_default()
 	combat = fight(content)
 	var base: Dictionary = GlassScreen.load_state(BASE_PATH)
@@ -392,8 +396,10 @@ func feel_report() -> Dictionary:
 	for step: Dictionary in replay.steps:
 		planned += GlassPieces.as_float(step["hold"])
 	var files: Dictionary = _write_logs()
+	var plan: Variant = treatment.call("plan") if treatment.has_method("plan") else {}
 	return {
 		"treatment": treatment_name,
+		"plan": plan,
 		"you": YOU,
 		"them": THEM,
 		"fight_seed": FIGHT_SEED,
