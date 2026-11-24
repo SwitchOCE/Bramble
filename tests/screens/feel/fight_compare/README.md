@@ -268,7 +268,7 @@ python3 tests/screens/feel/fight_compare/clips.py cut /data/fight-anim-work/trea
 One real late fight filmed whole: `r10-074`, the median late fight in `research/fight-length.md`
 (11 attacks, 25 triggers), today, `best`, and `best` with the length what-ifs stacked one by one.
 Every `best` pane turns (`speed_clips.py` `ROTATE`: `tip_medium`, CB9's timing, and CB11's mild
-strike), which moves no frame; `today` is the game's own motion. The what-ifs:
+strike), which moves no frame; `today` is the game's own motion with `"ROTATE": "on"`. The what-ifs:
 `"FAST": "a5"` (a fight-wide speed-up, x1.5 from the 5th attack's lift to the result, as
 Battlegrounds 31.6 does), then `"GROUP": 3` (up to 3 different triggers at once), then
 `"R7": "early_x2"` (rule 7 over 60 f of queue, from its 30th frame, to x2): the page's best

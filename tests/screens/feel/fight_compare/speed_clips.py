@@ -40,9 +40,9 @@ TITLE = "CB16 late-fight speed-ups (fight r10-074, the median late fight)"
 # timing, and CB11's mild strike. Neither changes when anything happens, only how it moves.
 ROTATE = {"CB9": "tip_medium", "CB3": "mild"}
 # option, film, label, treatment, options (best_timeline.gd: FAST, GROUP, R7), film seconds of wait.
-# `today` is the game's own motion, with no rotation.
+# `today` is the game's own motion with the rotation switch on (rotate.gd), which moves no frame.
 OPTIONS = [
-    ("today", "cb16-today", "Today (the game now)", "today", {}, 32.5),
+    ("today", "cb16r-today", "Today, turning (the game now)", "today", {"ROTATE": "on"}, 32.5),
     ("best", "cb16r-best", "Best, turning (the proposal)", "best", ROTATE, 19.5),
     ("fast", "cb16r-fast", "Best, x1.5 from attack 5", "best", {**ROTATE, "FAST": "a5"}, 16.5),
     ("group", "cb16r-group", "+ up to 3 triggers at once", "best", {**ROTATE, "FAST": "a5", "GROUP": 3}, 16.0),

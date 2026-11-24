@@ -706,8 +706,11 @@ func _lift_at(last: Dictionary, key: String) -> int:
 	return at
 
 
-## CB9's numbers {aim, keystone, length}: the switch's set when it is on, else CB9's option.
+## CB9's numbers {aim, keystone, length}: a CB9 option named in the options (CB15, CB17), else
+## the switch's set when it is on, else CB9's pick.
 func _rotation() -> Dictionary:
+	if options.has("CB9"):
+		return ROTATIONS[pick("CB9")]
 	if Rotate.on(options):
 		return Rotate.SET
 	return ROTATIONS[pick("CB9")]

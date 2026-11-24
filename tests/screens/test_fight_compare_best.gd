@@ -324,6 +324,21 @@ func test_cb17_tips_by_its_strength_and_none_only_turns() -> void:
 		assert_almost_eq(_f(far["aim_deg"]), -54.33, 0.05, "%s: the same 95 %% turn" % option)
 
 
+func test_a_named_cb9_option_wins_over_the_rotation_switch() -> void:
+	for option: String in ["tip_half", "tip_cap30", "aim_lean", "tip_small"]:
+		var named: Dictionary = {"CB9": option, "CB2": "b", "CB3": "quad"}
+		var both: Dictionary = named.merged({"ROTATE": "on"})
+		var alone: Array = _timeline(named).get("attacks")
+		var switched: Array = _timeline(both).get("attacks")
+		for k: int in alone.size():
+			assert_almost_eq(
+				_f(switched[k]["aim_deg"]), _f(alone[k]["aim_deg"]), 0.001, "%s %d" % [option, k]
+			)
+			assert_almost_eq(
+				_f(switched[k]["lean_deg"]), _f(alone[k]["lean_deg"]), 0.001, "%s %d" % [option, k]
+			)
+
+
 func test_cb17_aim_lean_leans_4_degrees_the_way_it_turns_and_is_gone_by_contact() -> void:
 	var lean: RefCounted = _timeline({"CB9": "aim_lean", "CB2": "b", "CB3": "quad"})
 	var plain: RefCounted = _timeline({"CB9": "aim", "CB2": "b", "CB3": "quad"})
