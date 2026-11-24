@@ -5,7 +5,53 @@ The element: when one trigger hits the same card many times, show a count (×N),
 The mock-ups' base frames are the real fight at 1920 × 1080: `/data/fight-anim-work/combo-look/base/` (CB7's best film, frames 237 and 244: the 8th hit, −40, and the 9th and 10th hits together, −50).
 
 - **Round 1** (sections 1–4 below): three directions drawn as Codex glass sprites from [`tools/art/prompts/combo-look.md`](../../../../tools/art/prompts/combo-look.md); pictures in `/data/bramble-art/combo-look-1/`. Its reference study still holds. Where round 2 differs from its craft answers, round 2 holds.
-- **Round 2** (section 0): four takes on direction A, drawn with Pillow in the game's own font, so they show exactly what the game would draw. Pictures and script in `/data/bramble-art/combo-look-2/`. The prompt for the one drawn piece it might need is [`tools/art/prompts/combo-look-2.md`](../../../../tools/art/prompts/combo-look-2.md).
+- **Round 2** (section 0): four takes on direction A, drawn with Pillow in the game's own font, so they show exactly what the game would draw. Pictures and script in `/data/bramble-art/combo-look-2/`. The prompt for the one drawn piece it might need is [`tools/art/prompts/combo-look-2.md`](../../../../tools/art/prompts/combo-look-2.md). Its type, beat and first-hit rule still hold.
+- **Round 3** (section 00): the owner chose A1. Four one-change variants of A1 (slant, tilt, a backing splat, slant plus backing), each on the red card and on a blue one. Pictures and script in `/data/bramble-art/combo-look-3/`.
+
+## 00. Round 3
+
+### The owner's reaction to round 2 (24 Nov, dictated, filler removed)
+
+> "I think I actually prefer A1. A1 is probably my favourite. On King Speck, the colour looks… maybe it needs a backing hit splat of its own. For some reason I feel like in fighting games these things are rotated a bit, the text on a slant, to make it clear that it's not the same [as the other numbers]. Am I imagining that? I'm not sure. It looks wrong to me, but I can't quite pin down why. I don't have all the answers on this; I'm trying to figure out what I like myself."
+
+So A1 is the base: a white count beside the star's upper right, 36 px, 4 px lead outline, the small spark on the rim. Round 2's pick of A3 no longer holds.
+
+### Is he imagining the slant?
+
+Mostly not. A quick check, not measured from footage:
+- A font study of the fighting-game look says its in-game text "leans toward bold, often italicized or condensed sans styling" ([Made Good Designs on Marvel vs. Capcom's type](https://madegooddesigns.com/?p=11462)). The same page says Capcom has never published its UI fonts, so this is a description, not a spec.
+- From memory, not re-checked: Marvel vs. Capcom 2 and The King of Fighters show "N HITS" in heavy, slanted figures; Guilty Gear Strive's counter and its "COUNTER" call-outs are slanted and skewed. Street Fighter's counters have mostly been upright.
+- Backing shapes, also from memory, are rarer on the count itself and show up on notices: Street Fighter 6's "Punish Counter" and Strive's "COUNTER" sit on a coloured slab. The HUD pages that would settle it ([Dustloop, Strive HUD](https://www.dustloop.com/w/GGST/HUD), [SuperCombo, SF6 HUD](https://srk.shib.live/w/Street_Fighter_6/HUD)) blocked our fetches.
+
+**Why slant works:** every other number on the board is upright Alegreya (the damage star, Attack, Health). A slant marks the count as a different kind of number without a new font or colour. That is likely what "it's not the same" means.
+
+### Variants (each changes one thing from A1)
+
+| | Change | Detail |
+|---|---|---|
+| **A1** | (control) | as round 2 |
+| **Slanted type** | italic slant | the glyphs sheared 12°, the top leaning right. Godot can do this with `FontVariation.variation_transform`; no new font file. |
+| **Tilted count** | whole count rotated | 7° anticlockwise, so it rises to the right. |
+| **Backing splat** | a splat of its own behind the count | a blunt 12-point burst, wider than tall, 3 px lead edge, gold glass (#ffde78 centre to #e8961e edge, the round-1 hit glass), never the damage star's red. 17 px past the text each side. |
+| **Slant + backing** | both | |
+
+Each is shown on King Speck (the red card, as filmed) and on the left blue attacker. For the blue card, the game's own damage star is cut pixel for pixel from the film and placed on its art at the same spot. Every mock-up shows the 8th hit (×8, −40) and the last hit (×10, −50). Files: `R0`–`R4` `_red_x8`, `_red_x10` (full board) and `_red_*_zoom`, `_blue_*_zoom` (2×). Contact sheet at real game size: `/data/bramble-art/combo-look-3/contact_sheet.png`.
+
+### What the pictures show
+
+- **The colour complaint is the red card.** On the blue card's dark purple art, plain white A1 already reads. On King Speck's orange and gold art, the white sits on light glass and only the lead outline holds it.
+- **Slant alone** separates the count from the damage number, but it doesn't help the contrast on red.
+- **Tilt** reads as a placement accident more than a style at this size; the slant does the same job better.
+- **Backing** fixes contrast on every card, because the count always sits on its own glass. The risk: two jagged shapes side by side can read as two damage stars. The gold and the blunter points keep them apart at game size, but only just.
+- At ×10 the backing reaches 15–25 px past the card's edge, into the gap and onto the neighbour's frame.
+
+**Pick: slant + backing.** It reads the same on every card, and the slant plus the gold make it clearly not a second damage number. If the backing feels like too much in motion, slant alone is the next best.
+
+### Open for the owner
+
+- Slant, backing, both, or neither?
+- If the backing stays: is a jagged splat right, or should it be a simpler shape (a lozenge or a roundel) so it can't be taken for a second damage star?
+- Is reaching past the card's edge at ×10 acceptable, or should the count move inward and overlap the star more?
 
 ## 0. Round 2
 
