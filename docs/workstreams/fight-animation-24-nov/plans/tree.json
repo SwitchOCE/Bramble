@@ -269,7 +269,7 @@
    "parent": "attack",
    "condition": "after_attack, deaths and everything they cause",
    "shows": "beats in log order; each starts at the previous landing + 6",
-   "starts": "max(C+14, attacker home): C+14 near, C+15 or C+17 for far returns",
+   "starts": "max(C+14, attacker home): C+14 near and for 14 f returns, C+16 for 16 f returns",
    "waits_for": "the next launch",
    "repeats": "—",
    "cost_frames": 0,
