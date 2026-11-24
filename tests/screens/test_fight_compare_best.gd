@@ -281,6 +281,138 @@ func test_cb11_strike_curves_speed_up_into_contact() -> void:
 			assert_gt(steps[k], steps[k - 1], "%s: faster every frame into contact" % option)
 
 
+func test_cb15_turns_its_share_of_the_path_and_the_cap_holds_30_degrees() -> void:
+	var shares: Dictionary = {"tip_half": 0.5, "tip_3q": 0.75, "tip_medium": 0.95}
+	for option: String in shares:
+		var timeline: RefCounted = _timeline({"CB9": option, "CB2": "b", "CB3": "quad"})
+		var attacks: Array = timeline.get("attacks")
+		for k: int in [1, 3, 6]:
+			var attack: Dictionary = attacks[k]
+			var path: Vector2 = _path(timeline, attack)
+			var lead: float = 1.0 if str(attack["lead"]) == "top" else -1.0
+			var want: float = _f(shares[option]) * rad_to_deg(Vector2(0.0, -lead).angle_to(path))
+			assert_almost_eq(_f(attack["aim_deg"]), want, 0.05, "%s attack %d" % [option, k])
+			var c: int = attack["contact"]
+			var at_c: float = _turn(timeline, str(attack["attacker"]), c)
+			assert_almost_eq(at_c, want * Timeline.AIM_AT_CONTACT, 0.05, "%s: 90%% at C" % option)
+	var capped: Array = _timeline({"CB9": "tip_cap30", "CB2": "b", "CB3": "quad"}).get("attacks")
+	var full: Array = _timeline({"CB9": "tip_medium", "CB2": "b", "CB3": "quad"}).get("attacks")
+	for k: int in capped.size():
+		var got: float = _f(capped[k]["aim_deg"])
+		var uncapped: float = _f(full[k]["aim_deg"])
+		assert_almost_eq(got, clampf(uncapped, -30.0, 30.0), 0.001, "attack %d: capped at 30" % k)
+	# the far corner (-54 at 95 %) and Old Brock (-44) are capped; Sentry's diagonal (26) is not
+	assert_almost_eq(_f(capped[1]["aim_deg"]), -30.0, 0.001, "far corner capped")
+	assert_almost_eq(_f(capped[6]["aim_deg"]), -30.0, 0.001, "Old Brock capped")
+	assert_almost_eq(_f(capped[3]["aim_deg"]), _f(full[3]["aim_deg"]), 0.001, "26 degrees kept")
+
+
+func test_cb17_tips_by_its_strength_and_none_only_turns() -> void:
+	var wants: Dictionary = {
+		"aim": [1.0, 1.0],
+		"tip_small": [0.965, 0.97],
+		"tip_medium": [0.85, 0.94],
+		"tip": [0.75, 0.9]
+	}
+	for option: String in wants:
+		var timeline: RefCounted = _timeline({"CB9": option, "CB2": "b", "CB3": "quad"})
+		var far: Dictionary = timeline.get("attacks")[1]
+		var at_c: Dictionary = timeline.call("pose", str(far["attacker"]), _i(far["contact"]))
+		var want: Array = wants[option]
+		assert_almost_eq(_f(at_c["length"]), _f(want[0]), 0.001, "%s: length at C" % option)
+		assert_almost_eq(_f(at_c["keystone"]), _f(want[1]), 0.001, "%s: keystone at C" % option)
+		assert_almost_eq(_f(far["aim_deg"]), -54.33, 0.05, "%s: the same 95 %% turn" % option)
+
+
+func test_a_named_cb9_option_wins_over_the_rotation_switch() -> void:
+	for option: String in ["tip_half", "tip_cap30", "aim_lean", "tip_small"]:
+		var named: Dictionary = {"CB9": option, "CB2": "b", "CB3": "quad"}
+		var both: Dictionary = named.merged({"ROTATE": "on"})
+		var alone: Array = _timeline(named).get("attacks")
+		var switched: Array = _timeline(both).get("attacks")
+		for k: int in alone.size():
+			assert_almost_eq(
+				_f(switched[k]["aim_deg"]), _f(alone[k]["aim_deg"]), 0.001, "%s %d" % [option, k]
+			)
+			assert_almost_eq(
+				_f(switched[k]["lean_deg"]), _f(alone[k]["lean_deg"]), 0.001, "%s %d" % [option, k]
+			)
+
+
+func test_cb17_aim_lean_leans_4_degrees_the_way_it_turns_and_is_gone_by_contact() -> void:
+	var lean: RefCounted = _timeline({"CB9": "aim_lean", "CB2": "b", "CB3": "quad"})
+	var plain: RefCounted = _timeline({"CB9": "aim", "CB2": "b", "CB3": "quad"})
+	var attacks: Array = lean.get("attacks")
+	for k: int in [1, 3, 6]:
+		var attack: Dictionary = attacks[k]
+		var key: String = attack["attacker"]
+		var c: int = attack["contact"]
+		var aim: float = attack["aim_deg"]
+		var extra: float = attack["lean_deg"]
+		assert_eq(signf(extra), signf(aim), "attack %d: leans the way it turns" % k)
+		assert_between(absf(extra), 1.0, 4.0, "attack %d: up to 4 degrees" % k)
+		var held: float = _turn(lean, key, c - 12) - _turn(plain, key, c - 12)
+		assert_almost_eq(held, extra, 0.01, "attack %d: the lean on top of the turn" % k)
+		assert_almost_eq(
+			_turn(lean, key, c), _turn(plain, key, c), 0.01, "attack %d: gone at C" % k
+		)
+		var at_c: Dictionary = lean.call("pose", key, c)
+		assert_almost_eq(_f(at_c["keystone"]), 1.0, 0.001, "no tip")
+		assert_almost_eq(_f(at_c["length"]), 1.0, 0.001, "no shortening")
+	var straight: Dictionary = attacks[0]
+	assert_almost_eq(_f(straight["lean_deg"]), 0.0, 0.01, "straight across: no lean")
+
+
+func test_fast_plays_the_same_schedule_faster_from_the_fifth_attack() -> void:
+	var plain: RefCounted = _timeline({})
+	var fast: RefCounted = _timeline({"FAST": "a5"})
+	var attacks: Array = fast.get("attacks")
+	var from: int = fast.get("fast_from")
+	var to: int = fast.get("fast_to")
+	var result: int = _i(fast.get("end_frame")) - Timeline.END_HOLD
+	assert_eq(from, _i(attacks[4]["lift"]), "from the 5th attack's lift")
+	assert_eq(to, result, "to the result")
+	var same: Array = plain.get("attacks")
+	assert_eq(attacks, same, "the same schedule: only the clock changes")
+	assert_eq(_i(plain.get("fast_from")), -1, "no FAST: never faster")
+	assert_almost_eq(_f(fast.call("speed_at", from - 1.0)), 1.0, 0.0001, "x1 before")
+	assert_almost_eq(_f(fast.call("speed_at", from + 0.5)), 1.5, 0.0001, "x1.5 after")
+	assert_almost_eq(_f(fast.call("speed_at", float(result))), 1.0, 0.0001, "the result at x1")
+	# the clock lands on the result's frame, after from + (result - from) / 1.5 drawn frames
+	var drawn: int = fast.call("drawn_frames_to", result)
+	assert_eq(drawn, from + ceili((result - from) / 1.5), "drawn frames to the result")
+	assert_eq(_i(plain.call("drawn_frames_to", result)), result, "no FAST: one frame each")
+	var t: float = 0.0
+	while t < result:
+		t = _f(fast.call("advance", t))
+	assert_almost_eq(t, float(result), 0.0001, "lands on the result")
+	# the card keeper's own tweens (falls) speed up with it
+	for value: Variant in fast.get("steps"):
+		var step: Dictionary = value
+		var frame: int = step["frame"]
+		if frame >= from and frame < to:
+			assert_gte(_f(step["speed"]), 1.5, "step at %d plays x1.5 or more" % frame)
+	# the contact pop holds one drawn frame at the clock's step
+	var late: Dictionary = attacks[5]
+	var key: String = late["attacker"]
+	fast.set("clock_step", 1.5)
+	var c: float = _f(late["contact"])
+	assert_almost_eq(_f(fast.call("pose", key, c + 1.2)["scale"]), Timeline.POP, 0.001, "pop")
+	assert_almost_eq(_f(fast.call("pose", key, c + 1.0)["scale"]), Timeline.POP, 0.001, "pop")
+	fast.set("clock_step", 1.0)
+	assert_lt(_f(fast.call("pose", key, c + 1.2)["scale"]), Timeline.POP, "x1: one frame")
+
+
+func test_fast_plays_on_the_fight_screen() -> void:
+	var scene: Control = SCENE.instantiate()
+	add_child_autofree(scene)
+	scene.call("start", "best", {"FAST": "a5", "GROUP": 3, "R7": "early_x2"})
+	var screen: FightScreen = scene.get("screen")
+	for i: int in 3:
+		await get_tree().process_frame
+	assert_true(screen.is_playing(), "still playing")
+
+
 func test_best_plays_on_the_fight_screen() -> void:
 	var scene: Control = SCENE.instantiate()
 	add_child_autofree(scene)

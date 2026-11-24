@@ -18,7 +18,10 @@ const TIP_SHADER: Shader = preload("res://tests/screens/feel/fight_compare/tip.g
 
 var _timeline: RefCounted
 var _plan: Array[Dictionary] = []
+## Drawn frames since play(); buffs.gd's screen reads it as the schedule's frame (no FAST there).
 var _n: int = 0
+## The schedule's frame: _n, except under FAST, where it moves faster (best_timeline.gd advance()).
+var _t: float = 0.0
 var _next: int = 0
 var _playing: bool = false
 var _finished: bool = false
@@ -41,6 +44,7 @@ func play(replay: FightReplay) -> void:
 	_shown_splashes = []
 	_step = -1
 	_n = 0
+	_t = 0.0
 	_next = 0
 	_burst_next = 0
 	_playing = true
@@ -89,6 +93,8 @@ func _process(delta: float) -> void:
 	if not _playing:
 		return
 	_n += 1
+	_t = _f(_timeline.call("advance", _t))
+	_timeline.set("clock_step", _f(_timeline.call("speed_at", _t)))
 	if _i(_timeline.get("frame_offset")) < 0:
 		_timeline.set("frame_offset", Engine.get_frames_drawn() - _n)
 	_apply_due()
@@ -100,7 +106,7 @@ func _process(delta: float) -> void:
 
 
 func _apply_due() -> void:
-	while _next < _plan.size() and _i(_plan[_next]["frame"]) <= _n:
+	while _next < _plan.size() and _i(_plan[_next]["frame"]) <= _t:
 		var step: Dictionary = _plan[_next]
 		_step = _next
 		_next += 1
@@ -112,7 +118,7 @@ func _apply_due() -> void:
 		if _next == _plan.size():
 			settle()
 			result_shown.emit()
-	if not _finished and _next >= _plan.size() and _n >= _i(_timeline.get("end_frame")):
+	if not _finished and _next >= _plan.size() and _t >= _i(_timeline.get("end_frame")):
 		_finished = true
 		_playing = false
 		playback_finished.emit()
@@ -143,7 +149,7 @@ func _pose_cards() -> void:
 			continue
 		var entry: Dictionary = _keeper._kept[key]
 		var node: Control = entry["node"]
-		var pose: Dictionary = _timeline.call("pose", name_of, _n)
+		var pose: Dictionary = _timeline.call("pose", name_of, _t)
 		var home: Vector2 = _homes[name_of]
 		var offset: Vector2 = pose["offset"]
 		node.pivot_offset = node.size / 2.0
@@ -179,7 +185,7 @@ func _spawn_bursts() -> void:
 	var all: Array = _timeline.get("bursts")
 	while _burst_next < all.size():
 		var burst: Dictionary = all[_burst_next]
-		if _i(burst["frame"]) > _n:
+		if _i(burst["frame"]) > _t:
 			break
 		_burst_next += 1
 		var key: String = burst["key"]
@@ -207,7 +213,7 @@ func _spawn_bursts() -> void:
 					"key": key,
 					"recipient": recipient,
 					"offset": offset,
-					"from": _n,
+					"from": _t,
 					"merge": merge,
 				}
 			)
@@ -246,7 +252,7 @@ func _draw_bursts() -> void:
 	var life: int = BURST_IN + BURST_SETTLE + BURST_READ + BURST_FADE
 	for live: Dictionary in _live:
 		var hit: Control = live["node"]
-		var age: int = _n - _i(live["from"])
+		var age: float = _t - _f(live["from"])
 		if age >= life or not is_instance_valid(hit):
 			if is_instance_valid(hit):
 				hit.queue_free()
@@ -286,7 +292,7 @@ func _node_of(key: String) -> Control:
 func _apply_glow() -> void:
 	if _timeline == null:
 		return
-	var glowing: Dictionary = _timeline.call("glowing", maxi(_n, 0))
+	var glowing: Dictionary = _timeline.call("glowing", maxf(_t, 0.0))
 	var z: int = _i(GlassPieces.rule("fight", ".card.lunge", "z-index"))
 	for target: Dictionary in _targets:
 		var node: Variant = target.get("node")
@@ -309,7 +315,7 @@ func _apply_glow() -> void:
 
 ## CB7 "best_xn": a plain-text xN over the source, marked as a placeholder (not the art).
 func _draw_label() -> void:
-	var label: Dictionary = _timeline.call("label_at", _n)
+	var label: Dictionary = _timeline.call("label_at", _t)
 	if label.is_empty():
 		if _label != null:
 			_label.visible = false

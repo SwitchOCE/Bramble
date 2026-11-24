@@ -104,6 +104,21 @@ BRANCHES = {
         ("mild", "cb11-mild", "Mild ease-in, power 1.6"),
         ("gentle", "cb11-gentle", "Gentler ease-in, power 1.3"),
     ],
+    # the amount of turn, each with the medium tip (stop B, quad)
+    "CB15": [
+        ("half", "cb15-half", "Half the path's angle"),
+        ("three_quarter", "cb15-3q", "Three-quarters"),
+        ("p95", "cb17-medium", "95 percent (CB9's amount)"),
+        ("cap30", "cb15-cap30", "95 percent, capped at 30 degrees"),
+    ],
+    # the tip's strength, each with the aim at 95 percent (stop B, quad)
+    "CB17": [
+        ("none", "cb9-aim", "No tip: aim only"),
+        ("lean", "cb17-lean", "Aim + 4 deg in-plane lean, no tip"),
+        ("small", "cb17-small", "Small: about 15 deg, length 0.965"),
+        ("medium", "cb17-medium", "Medium: about 32 deg, length 0.85"),
+        ("strong", "cb9-tip", "Strong (CB9 tip): length 0.75"),
+    ],
 }
 # films whose options are more than {branch: option}: CB9-CB11 set the stop, the curve and the rotation
 FILM_OPTIONS = {
@@ -114,6 +129,12 @@ FILM_OPTIONS = {
     "cb10-a": {"CB2": "a", "CB3": "quad", "CB9": "tip"},
     "cb11-mild": {"CB2": "b", "CB3": "mild", "CB9": "tip"},
     "cb11-gentle": {"CB2": "b", "CB3": "gentle", "CB9": "tip"},
+    "cb15-half": {"CB2": "b", "CB3": "quad", "CB9": "tip_half"},
+    "cb15-3q": {"CB2": "b", "CB3": "quad", "CB9": "tip_3q"},
+    "cb15-cap30": {"CB2": "b", "CB3": "quad", "CB9": "tip_cap30"},
+    "cb17-small": {"CB2": "b", "CB3": "quad", "CB9": "tip_small"},
+    "cb17-medium": {"CB2": "b", "CB3": "quad", "CB9": "tip_medium"},
+    "cb17-lean": {"CB2": "b", "CB3": "quad", "CB9": "aim_lean"},
 }
 TITLES = {
     "CB1": "CB1 wind-up",
@@ -127,6 +148,8 @@ TITLES = {
     "CB9": "CB9 rotation (stop B, quad ease-in)",
     "CB10": "CB10 stop depth with aim + tip (quad ease-in)",
     "CB11": "CB11 strike speed with aim + tip (stop B)",
+    "CB15": "CB15 amount of turn, with the medium tip (stop B, quad ease-in)",
+    "CB17": "CB17 the tip's strength, aim at 95 percent (stop B, quad ease-in)",
 }
 # the attacks CB9-CB11 show: (a) yours straight up, (b) theirs to the far corner, theirs down onto
 # Sentry, and Old Brock (yours) up-left, so both leading points show on a diagonal
@@ -136,7 +159,7 @@ ROTATION_ATTACKS = [
     (3, "theirs, diagonal down onto Sentry"),
     (6, "yours, Old Brock diagonal up-left"),
 ]
-ROTATION_BRANCHES = ("CB9", "CB10", "CB11")
+ROTATION_BRANCHES = ("CB9", "CB10", "CB11", "CB15", "CB17")
 # CB8: the falls' frames after the first that each option claims (best_timeline.gd STAGGERS)
 STAGGER_CLAIMS = {"a": [0] * 6, "b": [0, 4, 8, 12, 16, 20], "c": [0, 10, 17, 22, 26, 30], "d": [0, 12, 24, 36, 48, 60]}
 # film seconds of `wait` in each scenario (the film ends 0.5 s after it)
@@ -495,10 +518,20 @@ def mismatches(measured: list, plan: dict) -> list:
         turn = m.get("rotation", {})
         if rotation.get("aim", 0.0) > 0.0 and turn:
             full = p["aim_deg"]
-            check("turn at C-12", turn["turn_c_minus_12"], full, 0.05)
+            # CB17 "aim_lean": the lean adds to the turn through the hold and is gone by contact
+            lean = p.get("lean_deg", 0.0) if "lean" in rotation else 0.0
+            check("turn at C-12", turn["turn_c_minus_12"], round(full + lean, 2), 0.05)
             check("turn at C", turn["turn_c"], round(full * 0.9, 2), 0.05)
             check("turn at C+25", turn["turn_c_plus_25"], 0.0, 0.05)
-            check("turn's share of the path at C-12", turn["turn_share_of_path_at_c_minus_12"], rotation["aim"], 0.01)
+            share = rotation["aim"]
+            path = turn["path_angle_deg"]
+            cap = rotation.get("cap", -1.0)
+            # CB15 "tip_cap30": the full turn no more than the cap
+            if cap >= 0.0 and abs(share * path) > cap and abs(path) > 1:
+                share = round(cap / abs(path), 3)
+            if lean and abs(path) > 1:
+                share = round(share + lean / path, 3)
+            check("turn's share of the path at C-12", turn["turn_share_of_path_at_c_minus_12"], share, 0.01)
         if rotation and turn.get("length_at_c") is not None:
             check("length at C", turn["length_at_c"], rotation["length"], 0.002)
             check("keystone at C", turn["keystone_at_c"], rotation["keystone"], 0.002)
