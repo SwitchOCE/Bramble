@@ -1,0 +1,744 @@
+{
+ "nodes": [
+  {
+   "id": "fight",
+   "parent": null,
+   "condition": "the next event in the fight log",
+   "shows": "nothing by itself; routes each event to a branch",
+   "starts": "—",
+   "waits_for": "—",
+   "repeats": "—",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "start",
+   "parent": "fight",
+   "condition": "combat_start",
+   "shows": "boards as today (fix-round entry is separate work)",
+   "starts": "fight start",
+   "waits_for": "Start of Combat beats, then the first lift",
+   "repeats": "once",
+   "cost_frames": 30,
+   "contested_branch_id": null
+  },
+  {
+   "id": "soc",
+   "parent": "start",
+   "condition": "Start of Combat effects (Ballista, Lieutenant, Grow, Standard-bearer, Colour Ensign, Sky-darkener, Skin-shedder, Elder Mother, Tourney Champion)",
+   "shows": "beats in the rules' order; same-mechanic units as one beat or a combo; Lieutenant's row 5 f apart; Tourney Champion re-strikes",
+   "starts": "after the 30 f rest",
+   "waits_for": "the first lift",
+   "repeats": "per beat; combo rule for runs",
+   "cost_frames": 18,
+   "contested_branch_id": null
+  },
+  {
+   "id": "pass",
+   "parent": "fight",
+   "condition": "pass (a side can't attack)",
+   "shows": "nothing",
+   "starts": "—",
+   "waits_for": "—",
+   "repeats": "—",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "end",
+   "parent": "fight",
+   "condition": "combat_end",
+   "shows": "result as today",
+   "starts": "queue end + 24 f",
+   "waits_for": "—",
+   "repeats": "once",
+   "cost_frames": 90,
+   "contested_branch_id": null
+  },
+  {
+   "id": "attack",
+   "parent": "fight",
+   "condition": "attack, in turn",
+   "shows": "lift 10 f (×1.14, 12 px pull-back, today's lunge glow), hold ≥16 f, linear strike 7/8/9 f, ×1.24 pop on contact, 0 f held, quart-out return 12/14/16 f",
+   "starts": "next-attacker rule: max(C+28, queue end − 16)",
+   "waits_for": "its three windows",
+   "repeats": "—",
+   "cost_frames": 61,
+   "contested_branch_id": "CB6"
+  },
+  {
+   "id": "attack.windup",
+   "parent": "attack",
+   "condition": "always",
+   "shows": "lift and dead-still raised hold; the hold absorbs anything before the hit",
+   "starts": "lift start",
+   "waits_for": "the strike",
+   "repeats": "—",
+   "cost_frames": 26,
+   "contested_branch_id": "CB1"
+  },
+  {
+   "id": "attack.strike",
+   "parent": "attack",
+   "condition": "always",
+   "shows": "straight line, constant speed; stop with centres 0.62 h apart up to 1.4 h, to 0.45 h at 2.4 h+, 0.40 h for back-row targets",
+   "starts": "end of hold",
+   "waits_for": "contact",
+   "repeats": "—",
+   "cost_frames": 7,
+   "contested_branch_id": "CB2"
+  },
+  {
+   "id": "attack.curve",
+   "parent": "attack.strike",
+   "condition": "always",
+   "shows": "linear speed inside the strike",
+   "starts": "end of hold",
+   "waits_for": "contact",
+   "repeats": "—",
+   "cost_frames": 0,
+   "contested_branch_id": "CB3"
+  },
+  {
+   "id": "attack.lancer",
+   "parent": "attack",
+   "condition": "trigger logged before attack (Hedge Lancer)",
+   "shows": "its pulse merges into the lift; takes_no_damage shows today's '0' burst on the attacker at C+2",
+   "starts": "with the lift",
+   "waits_for": "—",
+   "repeats": "—",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "attack.again",
+   "parent": "fight",
+   "condition": "the same unit attacks again (Windfury, Oakfeller after a kill, Tourney Champion's next target)",
+   "shows": "re-lift from mid-return in 6 f, hold 8 f, strike",
+   "starts": "C+8 of its previous attack",
+   "waits_for": "—",
+   "repeats": "Tourney: hold −2 f per repeat, never under 4",
+   "cost_frames": 41,
+   "contested_branch_id": null
+  },
+  {
+   "id": "attack.oot",
+   "parent": "fight",
+   "condition": "another unit attacks out of turn (Air Marshal's reservist, Needle Sister, Hand-me-down → Sister)",
+   "shows": "full lift, hold 8 f base, then a normal attack",
+   "starts": "its cause's landing",
+   "waits_for": "the rest of the chain",
+   "repeats": "nested in log order; each finishes its aftermath first",
+   "cost_frames": 32,
+   "contested_branch_id": null
+  },
+  {
+   "id": "pre",
+   "parent": "attack",
+   "condition": "logged between attack and the exchange's first damage",
+   "shows": "played in the raised hold; hold = max(16, last landing + 8)",
+   "starts": "hold f0",
+   "waits_for": "the strike",
+   "repeats": "in log order",
+   "cost_frames": 0,
+   "contested_branch_id": "CB4"
+  },
+  {
+   "id": "pre.buff",
+   "parent": "pre",
+   "condition": "trigger → buff / effect / keyword (Fury, Gate Warden, Rally, Drum)",
+   "shows": "source pulse 6 f, numbers or pill pop at landing",
+   "starts": "hold f0",
+   "waits_for": "the strike",
+   "repeats": "each a beat",
+   "cost_frames": 4,
+   "contested_branch_id": "CB4"
+  },
+  {
+   "id": "pre.thorns",
+   "parent": "pre",
+   "condition": "Thorns damage, not lethal",
+   "shows": "defender pulses; burst on the raised attacker",
+   "starts": "hold f0",
+   "waits_for": "the strike",
+   "repeats": "—",
+   "cost_frames": 4,
+   "contested_branch_id": "CB4"
+  },
+  {
+   "id": "pre.thorns_lethal",
+   "parent": "pre",
+   "condition": "Thorns kills the attacker",
+   "shows": "burst, then it falls from its raised pose; no strike (the rules end the attack)",
+   "starts": "hold f0",
+   "waits_for": "its death effects",
+   "repeats": "—",
+   "cost_frames": 35,
+   "contested_branch_id": null
+  },
+  {
+   "id": "pre.pileon",
+   "parent": "pre",
+   "condition": "hit (pile-on) with its uses and trigger",
+   "shows": "pilers jab in reading order 5 f apart (today's jab); the target's burst re-pops with the total",
+   "starts": "hold f0",
+   "waits_for": "the strike",
+   "repeats": "up to 4",
+   "cost_frames": 11,
+   "contested_branch_id": null
+  },
+  {
+   "id": "pre.pileon_kill",
+   "parent": "pre.pileon",
+   "condition": "pilers kill the target",
+   "shows": "attacker settles back unstruck over 8 f; after_attack still plays",
+   "starts": "last jab + 20",
+   "waits_for": "—",
+   "repeats": "—",
+   "cost_frames": 8,
+   "contested_branch_id": null
+  },
+  {
+   "id": "pre.shield",
+   "parent": "pre",
+   "condition": "status (shield) logged before its prevented",
+   "shows": "moved to contact",
+   "starts": "C",
+   "waits_for": "—",
+   "repeats": "—",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "hit",
+   "parent": "attack",
+   "condition": "the exchange: damage to target, strike back, Cleave",
+   "shows": "bursts and Health digits on all damaged cards in one frame; target knocked 20 px",
+   "starts": "C+2",
+   "waits_for": "death check",
+   "repeats": "all at once",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "hit.prevented",
+   "parent": "hit",
+   "condition": "prevented (shield absorbed, takes_no_damage, Stag Beetle against effect damage)",
+   "shows": "today's '0' burst, blocked knock-back 30 %; shield pill drops (status rider)",
+   "starts": "C+2, or where the effect lands",
+   "waits_for": "—",
+   "repeats": "with the hit",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "hit.venomous",
+   "parent": "hit",
+   "condition": "Venomous: trigger → destroy → status",
+   "shows": "today's numberless burst; Venomous pill dims",
+   "starts": "C+2",
+   "waits_for": "death at C+30",
+   "repeats": "rare",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "hit.overrun",
+   "parent": "hit",
+   "condition": "Overrun: trigger → damage to the next enemy",
+   "shows": "burst on the next enemy (no line: a drawn link needs art)",
+   "starts": "C+8, then +6 f per hop",
+   "waits_for": "death check",
+   "repeats": "per hop",
+   "cost_frames": 6,
+   "contested_branch_id": null
+  },
+  {
+   "id": "after",
+   "parent": "attack",
+   "condition": "after_attack, deaths and everything they cause",
+   "shows": "beats in log order; each starts at the previous landing + 6",
+   "starts": "C+14 (attacker home)",
+   "waits_for": "the next launch",
+   "repeats": "—",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "death",
+   "parent": "after",
+   "condition": "death, killed in the exchange",
+   "shows": "today's fall, 15 f; one pass falls together",
+   "starts": "C+30",
+   "waits_for": "its death effects; the next launch",
+   "repeats": "one pass = one fall",
+   "cost_frames": 0,
+   "contested_branch_id": "CB5"
+  },
+  {
+   "id": "death.chain",
+   "parent": "after",
+   "condition": "death, killed by an effect",
+   "shows": "today's fall",
+   "starts": "killer's landing + 20",
+   "waits_for": "its death effects",
+   "repeats": "per pass; passes may loop",
+   "cost_frames": 35,
+   "contested_branch_id": null
+  },
+  {
+   "id": "beat",
+   "parent": "after",
+   "condition": "trigger, source on the board",
+   "shows": "source pulse 6 f (today's trigger lift and glow), jab 0.08 h toward its target f6–f10, effect lands f12",
+   "starts": "previous landing + 6",
+   "waits_for": "its effect",
+   "repeats": "combo rule for runs",
+   "cost_frames": 18,
+   "contested_branch_id": null
+  },
+  {
+   "id": "beat.standing",
+   "parent": "beat",
+   "condition": "trigger from a standing rule (uid −1) or a dead source",
+   "shows": "no pulse; the effect starts from the slot or the plate",
+   "starts": "previous landing + 6, or the fall end",
+   "waits_for": "—",
+   "repeats": "—",
+   "cost_frames": 12,
+   "contested_branch_id": null
+  },
+  {
+   "id": "beat.damage",
+   "parent": "beat",
+   "condition": "damage or destroy from an effect (Glean, Plague, Lieutenant, Orchard Stripper, Bumblebee, Wheat Raider, death damage, Bitter Toad)",
+   "shows": "beat, then burst (numberless for destroy)",
+   "starts": "beat",
+   "waits_for": "the next beat; its death",
+   "repeats": "combo if 3+",
+   "cost_frames": 18,
+   "contested_branch_id": "CB7"
+  },
+  {
+   "id": "beat.hit",
+   "parent": "beat",
+   "condition": "hit outside an attack (Ballista, Weasel on an arriving enemy)",
+   "shows": "beat; the jab toward the target is the hit",
+   "starts": "beat; Weasel after the arrival lands",
+   "waits_for": "the next beat",
+   "repeats": "Ballista's times: combo",
+   "cost_frames": 18,
+   "contested_branch_id": null
+  },
+  {
+   "id": "beat.buff_other",
+   "parent": "beat",
+   "condition": "buff / effect / keyword to other units (Old Brock, Sword-heir, Standard-bearer, Avenge, Sexton, Skin-shedder, Hand-me-down)",
+   "shows": "beat; numbers or pills pop on all targets together",
+   "starts": "beat",
+   "waits_for": "—",
+   "repeats": "combo if 3+",
+   "cost_frames": 18,
+   "contested_branch_id": null
+  },
+  {
+   "id": "beat.buff_self",
+   "parent": "beat",
+   "condition": "buff to itself (Grow, Molt gain, Veteran, Coppicer)",
+   "shows": "pulse; numbers pop at f6",
+   "starts": "beat",
+   "waits_for": "—",
+   "repeats": "combo if 3+",
+   "cost_frames": 12,
+   "contested_branch_id": null
+  },
+  {
+   "id": "beat.independent",
+   "parent": "beat",
+   "condition": "two different mechanics at the same moment",
+   "shows": "one at a time, the second at the first's landing + 6",
+   "starts": "—",
+   "waits_for": "—",
+   "repeats": "—",
+   "cost_frames": 18,
+   "contested_branch_id": null
+  },
+  {
+   "id": "beat.combo",
+   "parent": "beat",
+   "condition": "the same mechanic and effect 3+ times back to back, from one source or several",
+   "shows": "first full (18 f), each later gap ×0.75, floor 5 f; from the 9th the rest land together; one re-popping running-total burst per card; count held 16 f (a ×N counter needs art)",
+   "starts": "beat",
+   "waits_for": "the next beat",
+   "repeats": "bounded: ~98 f for any N ≥ 9",
+   "cost_frames": 98,
+   "contested_branch_id": "CB7"
+  },
+  {
+   "id": "beat.speedup",
+   "parent": "after",
+   "condition": "a moment's after-hit queue would pass 120 f",
+   "shows": "beats after the first 60 f play faster, rising to 1.5×; strikes unchanged, falls ≥10 f",
+   "starts": "from the 60th queued frame",
+   "waits_for": "—",
+   "repeats": "—",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "next",
+   "parent": "after",
+   "condition": "the next attacker",
+   "shows": "lifts in place under the aftermath; its hold absorbs the queue's tail",
+   "starts": "max(C+28, queue end − 16)",
+   "waits_for": "launch at max(lift + 26, queue end + 4)",
+   "repeats": "—",
+   "cost_frames": 0,
+   "contested_branch_id": "CB6"
+  },
+  {
+   "id": "arrive.summon",
+   "parent": "after",
+   "condition": "summon (death effects, Hoppers, Cousin, King Speck, Elder Mother, Old Stump)",
+   "shows": "drops in from 0.15 h above with today's fade, 12 f, landing f9",
+   "starts": "when the fall in its slot ends, or its beat's landing",
+   "waits_for": "its on_fight_enter",
+   "repeats": "one source: a wave 4 f apart",
+   "cost_frames": 12,
+   "contested_branch_id": null
+  },
+  {
+   "id": "arrive.reserve",
+   "parent": "after",
+   "condition": "reserve (Reserve unit, Privates)",
+   "shows": "rises from below its slot, 14 f, with the slot's Renown",
+   "starts": "the fall end",
+   "waits_for": "on_fight_enter (Weasel, Air Marshal)",
+   "repeats": "up to 2 a fight, plus Privates",
+   "cost_frames": 14,
+   "contested_branch_id": null
+  },
+  {
+   "id": "arrive.return",
+   "parent": "after",
+   "condition": "return (Molt, Root)",
+   "shows": "today's fade-in in its own slot (stand-in for the accepted husk and roots looks)",
+   "starts": "the fall end",
+   "waits_for": "after_friendly_return",
+   "repeats": "one per dying unit",
+   "cost_frames": 12,
+   "contested_branch_id": null
+  },
+  {
+   "id": "arrive.answered",
+   "parent": "arrive.summon",
+   "condition": "an arrival answered (Weasel hits it; Air Marshal makes it attack)",
+   "shows": "Weasel: beat.hit; Air Marshal: attack.oot",
+   "starts": "after the arrival lands",
+   "waits_for": "the chain",
+   "repeats": "—",
+   "cost_frames": 18,
+   "contested_branch_id": null
+  },
+  {
+   "id": "arrive.heap_use",
+   "parent": "arrive.summon",
+   "condition": "heap_use (Old Stump, Elder Mother)",
+   "shows": "your Compost plate pops",
+   "starts": "with its summon",
+   "waits_for": "the summon",
+   "repeats": "—",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "arrive.failed",
+   "parent": "after",
+   "condition": "summon_failed (no room)",
+   "shows": "nothing; a lost Hopper's +1 Tide rides on player_counter",
+   "starts": "—",
+   "waits_for": "—",
+   "repeats": "—",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "rider",
+   "parent": "fight",
+   "condition": "bookkeeping that changes a number, pip, pill or plate",
+   "shows": "shown on the frame its cause lands; never a step of its own",
+   "starts": "its cause's landing",
+   "waits_for": "—",
+   "repeats": "all at once",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "rider.stats",
+   "parent": "rider",
+   "condition": "stats (auras, Lends, the Swarm, Renown)",
+   "shows": "numbers tick with a soft pop; a lender's aura ends at its fall",
+   "starts": "cause's landing",
+   "waits_for": "—",
+   "repeats": "whole side at once",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "rider.status",
+   "parent": "rider",
+   "condition": "status (not a shield)",
+   "shows": "Venomous spent at contact; Stealth ends at the lift; Molt or Root used at the return",
+   "starts": "cause",
+   "waits_for": "—",
+   "repeats": "—",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "rider.uses",
+   "parent": "rider",
+   "condition": "uses",
+   "shows": "the pip dims during its trigger's pulse",
+   "starts": "trigger pulse",
+   "waits_for": "—",
+   "repeats": "—",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "rider.plates",
+   "parent": "rider",
+   "condition": "player_counter, heap_add, heap_remove (your side only)",
+   "shows": "your Tide or Compost plate counts; opponent's: nothing",
+   "starts": "cause's landing or the fall",
+   "waits_for": "Sweetbriar's answer to a Seed",
+   "repeats": "each death",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "rider.slot",
+   "parent": "rider",
+   "condition": "slot (Colour Ensign)",
+   "shows": "the slots' Renown change in its Start of Combat beat",
+   "starts": "its beat's landing",
+   "waits_for": "aura stats",
+   "repeats": "all slots together",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  },
+  {
+   "id": "rider.none",
+   "parent": "rider",
+   "condition": "renown, gold",
+   "shows": "nothing (they count next fight, as today)",
+   "starts": "—",
+   "waits_for": "—",
+   "repeats": "—",
+   "cost_frames": 0,
+   "contested_branch_id": null
+  }
+ ],
+ "contested": [
+  {
+   "id": "CB1",
+   "title": "Wind-up shape",
+   "options": [
+    {
+     "label": "Today",
+     "from_plan": "today",
+     "summary": "4 f, 12 px pull-back, ×1.04"
+    },
+    {
+     "label": "Lift and long hold",
+     "from_plan": "A",
+     "summary": "10 f lift to ×1.15, no pull-back, 18 f hold"
+    },
+    {
+     "label": "Short lift with pull",
+     "from_plan": "B",
+     "summary": "8 f lift to ×1.14, 15 px pull-back, 14 f hold"
+    },
+    {
+     "label": "Big lift with rim glow",
+     "from_plan": "C",
+     "summary": "10 f lift to ×1.18, 20 px pull-back, 14 f hold, amber rim glow (needs art pass and owner's yes; stand-in: today's lunge glow)"
+    },
+    {
+     "label": "Best",
+     "from_plan": "best",
+     "summary": "10 f lift to ×1.14, 12 px pull-back, 16 f hold"
+    }
+   ],
+   "pick": "Best"
+  },
+  {
+   "id": "CB2",
+   "title": "Stop point",
+   "options": [
+    {
+     "label": "Shallow",
+     "from_plan": "A",
+     "summary": "centres 0.78 h apart near, 0.45 far, 0.35 back row"
+    },
+    {
+     "label": "Medium",
+     "from_plan": "B",
+     "summary": "0.70 h near, 0.50 far"
+    },
+    {
+     "label": "Today's near, deeper far",
+     "from_plan": "best",
+     "summary": "0.62 h near (today) to 0.45 h far, 0.40 back row"
+    },
+    {
+     "label": "Deep",
+     "from_plan": "C",
+     "summary": "0.50 h near, 0.42 far"
+    }
+   ],
+   "pick": "Today's near, deeper far"
+  },
+  {
+   "id": "CB3",
+   "title": "Strike speed curve",
+   "options": [
+    {
+     "label": "Linear",
+     "from_plan": "A, B, best",
+     "summary": "constant speed, as measured on Battlegrounds"
+    },
+    {
+     "label": "Mild ease-in",
+     "from_plan": "C",
+     "summary": "power 1.6 ease-in"
+    },
+    {
+     "label": "Quad ease-in",
+     "from_plan": "today",
+     "summary": "fastest on the last frame, 24 % of the path in it"
+    }
+   ],
+   "pick": "Linear"
+  },
+  {
+   "id": "CB4",
+   "title": "A trigger before the hit",
+   "options": [
+    {
+     "label": "Freeze at contact",
+     "from_plan": "today",
+     "summary": "attacker waits at contact for each step (41 f for Rally)"
+    },
+    {
+     "label": "In the raised hold",
+     "from_plan": "A, B, C, best",
+     "summary": "played before the strike launches; the hold stretches"
+    },
+    {
+     "label": "After the return",
+     "from_plan": "listed by A and C, not picked",
+     "summary": "attack plays unbroken, trigger shown after with its gain already in the hit's numbers"
+    }
+   ],
+   "pick": "In the raised hold"
+  },
+  {
+   "id": "CB5",
+   "title": "When a dead card falls",
+   "options": [
+    {
+     "label": "Early",
+     "from_plan": "B",
+     "summary": "fall at C+14"
+    },
+    {
+     "label": "Glass shatter",
+     "from_plan": "C",
+     "summary": "crack C+18, shatter C+24 (needs art pass and owner's yes; stand-in: today's fall at C+24)"
+    },
+    {
+     "label": "After the number reads",
+     "from_plan": "best (A: C+33)",
+     "summary": "fall at C+30"
+    },
+    {
+     "label": "Battlegrounds 2020–25",
+     "from_plan": "research R1",
+     "summary": "fall at C+60"
+    }
+   ],
+   "pick": "After the number reads"
+  },
+  {
+   "id": "CB6",
+   "title": "When the next attacker lifts",
+   "options": [
+    {
+     "label": "Very early",
+     "from_plan": "B",
+     "summary": "lift at C+8"
+    },
+    {
+     "label": "Gated by the queue",
+     "from_plan": "best, C",
+     "summary": "C+28; during a chain only when ≤16 f of queue are left"
+    },
+    {
+     "label": "Early, capped hold",
+     "from_plan": "A",
+     "summary": "C+36, then holds raised up to ~48 f"
+    },
+    {
+     "label": "Battlegrounds",
+     "from_plan": "research R1",
+     "summary": "lifts early, holds as long as needed (220 f seen)"
+    }
+   ],
+   "pick": "Gated by the queue"
+  },
+  {
+   "id": "CB7",
+   "title": "One trigger repeated many times",
+   "options": [
+    {
+     "label": "Battlegrounds",
+     "from_plan": "research R1",
+     "summary": "one at a time, ~2× faster by the end, no count (~470–500 f for 10)"
+    },
+    {
+     "label": "Gentle",
+     "from_plan": "A",
+     "summary": "2 full, then ×0.7, floor 8 f, ×N (~128 f for 10)"
+    },
+    {
+     "label": "Steep",
+     "from_plan": "B",
+     "summary": "×0.75 from the 2nd, floor 4 f, running-total burst, rest together after the 8th, ×N (~75 f)"
+    },
+    {
+     "label": "Tempo",
+     "from_plan": "C",
+     "summary": "×1.3 tempo per repeat to ×3.5, ×N lozenge (~137 f)"
+    },
+    {
+     "label": "Best",
+     "from_plan": "best",
+     "summary": "B's shape with a 5 f floor (~98 f for any N ≥ 9); ×N needs art pass and owner's yes, stand-in: running-total burst"
+    }
+   ],
+   "pick": "Best"
+  }
+ ],
+ "excluded": [
+  {
+   "event": "instead_of_attack",
+   "why": "no card produces it"
+  },
+  {
+   "event": "counter (in a fight)",
+   "why": "no fight hook calls it"
+  }
+ ]
+}
