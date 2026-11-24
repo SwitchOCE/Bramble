@@ -90,6 +90,10 @@ const HERO_COLUMNS: String = (
 	+ "burst_alpha,burst_scale,burst_amount"
 )
 const MARKER_COLUMNS: String = "frame,t,step,marker,key,detail"
+## <out>.buffs.csv (the `buffs` treatment, CB14): every gain piece drawn each frame, its centre
+## in film pixels: a swollen disc (scale, the number drawn), a tally tag or a flying tag (scale,
+## alpha, its words) or a disc's flare (the ring's scale and alpha).
+const BUFF_COLUMNS: String = "frame,t,step,key,what,stat,x,y,scale,alpha,value,text"
 
 var treatment_name: String = ""
 ## Which fixed fight: "" (the comparison fight), "cb7", or a loss: "lose-small", "lose-big",
@@ -111,6 +115,7 @@ var finished_at: float = -1.0
 
 var _card_rows: PackedStringArray = []
 var _hero_rows: PackedStringArray = []
+var _buff_rows: PackedStringArray = []
 var _result_logged: bool = false
 var _marker_rows: PackedStringArray = []
 ## frame -> {key: centre in film pixels}
@@ -308,6 +313,9 @@ func _log_frame() -> void:
 		for value: Variant in screen.call("take_markers"):
 			var marked: Array = value
 			_mark(frame, step, str(marked[1]), str(marked[0]), str(marked[2]))
+	if screen.has_method("buff_rows"):
+		for value: Variant in screen.call("buff_rows"):
+			_buff_rows.append("%d,%.4f,%d,%s" % [frame, frame / 60.0, step, str(value)])
 	_log_cards(frame, step)
 	_log_bursts(frame, step)
 	_log_heroes(frame, step)
@@ -651,6 +659,9 @@ func _write_logs() -> Dictionary:
 			)
 	_save(str(out["cards"]), CARD_COLUMNS, _card_rows)
 	_save(str(out["heroes"]), HERO_COLUMNS, _hero_rows)
+	if not _buff_rows.is_empty():
+		out["buffs"] = stem + ".buffs.csv"
+		_save(str(out["buffs"]), BUFF_COLUMNS, _buff_rows)
 	var markers: Array = Array(_marker_rows)
 	# by frame, keeping the order they were marked in within a frame
 	var order: Dictionary = {}

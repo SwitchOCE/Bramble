@@ -230,6 +230,61 @@ the striker stopping on the far side of the disc (E6). The spec's
 totals for a big loss (B R+79, C R+68) do not follow from its own beat tables (R+72, R+58); the
 tables are what is built.
 
+## `buffs`: how a stat gain shows (CB14)
+
+`buffs.gd` plays CB14 (`docs/workstreams/fight-animation-24-nov/buff-look/DESIGN.md`, section 2)
+on top of `best` (every other branch at its pick, CB8 at "a"): `"treatment": "buffs", "options":
+{"CB14": "a"}`. Every gain beat (a trigger whose effect is a buff) is scheduled by DESIGN.md's
+beats in `buff_timeline.gd`; `buff_screen.gd` draws it. `"none"` is `best` unchanged (the test
+checks it).
+
+- **A, swell and count:** only the changed disc swells, x2.0 at L, held to L+2, back by L+14; its
+  digits count from old to new over 8 f in the green "up" colour (`buff_disc.gd` draws the card's
+  own setting and number scaled, over the card; the card itself never scales). L is 6 f into a
+  gain to itself, 12 f into a gain to another card (after today's jab).
+- **B, running total:** A plus a "+N" tag over each changed disc, its centre 38 px above the
+  disc's top: in at L-2 at x0.5, x1.25 at L+2, x1.0 by L+6; each later gain re-pops it from x1.35
+  with the running total; it sinks from the last L+30 (25 px down, to x0.4, fading) and is gone at
+  L+36. The queue goes on once the discs settle (the last L+14): the tag's tail runs under what plays
+  next, as DESIGN.md's one-gain case says.
+- **C, carried total:** B, with each gain's tags born at their cause and flying 10 f on a low arc
+  (at most 0.15 h) into the tally, which pins at the first landing (no L-2 entry); the disc flares
+  for 8 f at each landing. A death's gain is born at the dead unit's empty slot, at the disc's
+  place, as its fall ends; a giver's at f4 of its beat (a gain to itself rises 8 f).
+- **Old Brock x6 (moment e):** beats at F+0, 18, 32, 42, 50, 56 (F: the six falls' end; gaps 18
+  x 0.75^k, each rounded, floor 5; no rule 7 speed-up), landing 6 f in (A, B) or 10 f in (C). The
+  k-th gain's cause is that side's k-th death in the log. Brock lights at F and stays lit (A to
+  L+14 after the last; B and C to 2 f after the tally is gone).
+- **Stand-ins** (the owner approved filming B and C with them, 24 Nov; no new art): the tag is the
+  recruit screen's green gain pill (`RecruitTurnStart._gain_tag`), the flight its arc and arrive
+  curve (`_arc_point`, `_arrive`), the flare its amber ring (`_ring`), stepped so it lasts 8 f in
+  place of its own 0.38 s. They come from a `RecruitTurnStart` made with no recruit screen.
+
+The log adds `<stem>.buffs.csv` (every piece drawn per frame: `key, what, stat, x, y, scale,
+alpha, value, text`; `what` is `disc`, `tag`, `flight` or `flare`) and markers `gain_land`,
+`tag_born`, `disc_rest`, `tally_appear`, `tally_sink`, `tally_gone`. Brock's card counts with
+its disc, so `numbers` markers show every step of the count.
+
+```bash
+python3 tests/screens/feel/fight_compare/buff_clips.py scenarios /data/fight-anim-work/treatments/scenarios/buffs
+tools/feel/film /data/fight-anim-work/treatments/scenarios/buffs/cb14-c.json /data/fight-anim-work/treatments/films/buffs/cb14-c.mp4
+python3 tests/screens/feel/fight_compare/buff_clips.py measure /data/fight-anim-work/treatments/films/buffs/cb14-c
+python3 tests/screens/feel/fight_compare/buff_clips.py compare /data/fight-anim-work/treatments/films/buffs /data/fight-anim-work/treatments/compare
+python3 tests/screens/feel/fight_compare/buff_clips.py cut /data/fight-anim-work/treatments/films/buffs /data/fight-anim-work/treatments/clips
+```
+
+`measure` writes `<stem>.buffs.json`: G (the first frame Brock's drawn numbers rise in moment
+e), F, the landings, the discs' scales and counts, the tags, the flights, and each check against
+DESIGN.md's beats, pass or fail. On `today` and `best` the CB14 checks fail (no landings), which
+shows they bite. `compare` writes `compare/CB14/<option>.mp4` (today, best, a, b, c) and
+`compare/CB14.json`, lined up on G, cropped to your board (`CROP`, x0.6, so the digits show).
+
+Readings of DESIGN.md it does not spell out: "38 px above the disc" is the tag's centre above the
+disc's top at rest; C's tags fly to the tally's place, not the disc's centre, so the first pair
+becomes the tally; C's tally sinks at the last L+30 like B's (DESIGN.md's Brock line says F+88,
+L+24, against its own "sinks at L+30"); the flare runs with the swell from L; a dead unit's slot
+uses Old Brock's disc places.
+
 ## What the logs can't show
 
 - The film is silent. Sound rows are the cues the sound player started, at the frame they

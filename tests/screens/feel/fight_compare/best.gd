@@ -28,9 +28,9 @@ func configure(chosen: Dictionary) -> void:
 
 func make_replay(base: Dictionary, events: Array, catalog: Dictionary, damage: int) -> FightReplay:
 	# CB4 "after" plays a reordered log (best_timeline.gd reorder()); any other option, the log
-	var played: Array = TIMELINE.call("reorder", events, options)
+	var played: Array = timeline_script().call("reorder", events, options)
 	var made: FightReplay = replay_with(BEST_REPLAY, base, played, catalog, damage)
-	timeline = TIMELINE.new(options)
+	timeline = timeline_script().new(options)
 	# where each unit stands: the fight screen's own layout, from a screen never shown
 	var probe: FightScreen = FightScreen.new()
 	probe.state = {"you_side": GlassPieces.as_int(base.get("you_side", 0))}
@@ -45,6 +45,11 @@ func make_replay(base: Dictionary, events: Array, catalog: Dictionary, damage: i
 
 func screen_script() -> Script:
 	return BEST_SCREEN
+
+
+## The schedule's script: best_timeline.gd, or a subclass of it (buffs.gd).
+func timeline_script() -> GDScript:
+	return TIMELINE
 
 
 ## The plan the report keeps (fight_compare.gd).
