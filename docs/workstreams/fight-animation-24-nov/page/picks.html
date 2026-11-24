@@ -1,0 +1,234 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fight Motion Picks</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* House style base. Fonts: <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"> */
+:root{
+  --bg:#efe7d2; --paper:#f6f0e0; --rule:#d9ceb0; --rule-soft:#e4dbc2;
+  --ink:#26221a; --ink-soft:#5f584a; --ink-faint:#8a8069;
+  --accent:#2f6d8e; --accent-soft:#e0ebef;
+  --pos:#3e7a4e; --neg:#b23a2e; --pos-soft:#e2ecdf; --neg-soft:#f1ddd6;
+  --shadow:rgba(60,48,20,.16);
+  --display:"Zilla Slab",Georgia,serif;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --code:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#181510; --paper:#211d16; --rule:#352f22; --rule-soft:#2a2519;
+  --ink:#ece3cd; --ink-soft:#b3a988; --ink-faint:#847a5f;
+  --accent:#6fb6d2; --accent-soft:#1e3038;
+  --pos:#83bd90; --neg:#e0857a; --pos-soft:#1f2c22; --neg-soft:#31221e; --shadow:rgba(0,0,0,.4);
+}}
+:root[data-theme="dark"]{
+  --bg:#181510; --paper:#211d16; --rule:#352f22; --rule-soft:#2a2519;
+  --ink:#ece3cd; --ink-soft:#b3a988; --ink-faint:#847a5f;
+  --accent:#6fb6d2; --accent-soft:#1e3038;
+  --pos:#83bd90; --neg:#e0857a; --pos-soft:#1f2c22; --neg-soft:#31221e; --shadow:rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:900px;margin:0 auto;padding-inline:20px}
+.reading{max-width:680px}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.12;text-wrap:balance}
+p{margin:0 0 1em}
+a{color:var(--accent);text-underline-offset:2px}
+code,.mono{font-family:var(--mono)}
+.muted{color:var(--ink-soft)} .faint{color:var(--ink-faint)} .small{font-size:14px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:500}
+
+header{border-bottom:2px solid var(--ink);margin-bottom:44px}
+header .wrap{padding-block:56px 30px}
+h1{font-size:clamp(38px,7vw,62px);font-weight:700;letter-spacing:-.01em;margin:.28em 0 .3em}
+.lede{font-size:20px;color:var(--ink-soft);max-width:36ch}
+.byline{margin-top:26px;font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);display:flex;flex-wrap:wrap;gap:6px 18px}
+
+section{margin-block:64px}
+.sec-head{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:24px}
+.sec-head .n{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:600;flex:none}
+h2{font-size:clamp(25px,4.4vw,33px);margin:0}
+h3{font-size:19px;margin:36px 0 10px;font-family:var(--sans);font-weight:600}
+
+.formula{margin:30px 0 8px;padding:24px 22px;background:var(--paper);border:1px solid var(--rule);border-radius:10px}
+.formula .eq{font-family:var(--display);font-weight:600;font-size:clamp(20px,4.2vw,29px);display:flex;flex-wrap:wrap;align-items:baseline;gap:.34em;line-height:1.3}
+.formula .op{color:var(--ink-faint);font-weight:500}
+.t-pos{color:var(--pos)} .t-neg{color:var(--neg)} .t-acc{color:var(--accent)}
+.formula .legend{margin-top:16px;padding-top:14px;border-top:1px dashed var(--rule);display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.formula .legend div{font-size:13.5px;line-height:1.45}
+.formula .legend b{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;display:block;margin-bottom:2px}
+
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:18px 0;font-size:14.5px}
+.callout.warn{border-left-color:var(--neg);background:var(--neg-soft)}
+
+.tbl-wrap{overflow-x:auto;margin:16px 0}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule-soft)}
+thead th{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);border-bottom:1px solid var(--rule);font-weight:600}
+tbody tr:last-child td{border-bottom:1px solid var(--rule)}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+td.pos{color:var(--pos)} td.neg{color:var(--neg)}
+caption{caption-side:bottom;text-align:left;font-size:12.5px;color:var(--ink-faint);padding-top:8px;font-style:italic}
+
+/* diverging bar chart: bar width = |value| / max * 50% */
+.divchart{margin:10px 0 6px;display:flex;flex-direction:column;gap:5px}
+.dc-row{display:grid;grid-template-columns:56px 1fr 66px;align-items:center;gap:12px}
+.dc-lab{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap}
+.dc-track{position:relative;height:22px;background:linear-gradient(90deg,var(--neg-soft),transparent 49.5%,transparent 50.5%,var(--pos-soft));border-radius:3px}
+.dc-track::before{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--rule)}
+.dc-bar{position:absolute;top:3px;height:16px;border-radius:2px}
+.dc-bar.pos{left:50%;background:var(--pos)} .dc-bar.neg{right:50%;background:var(--neg)}
+.dc-val{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;text-align:right}
+.dc-val.pos{color:var(--pos)} .dc-val.neg{color:var(--neg)}
+
+.card{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:18px;margin:22px 0}
+.stat{display:inline-flex;flex-direction:column;gap:2px;margin-right:28px}
+.stat-v{font-family:var(--display);font-weight:700;font-size:34px;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat-l{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft)}
+
+.codepair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.codebox{background:var(--paper);border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.codebox .h{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);padding:8px 12px;border-bottom:1px solid var(--rule);background:var(--rule-soft)}
+.codebox pre{margin:0;padding:12px;overflow-x:auto;font-family:var(--code);font-size:11.5px;line-height:1.55}
+.codebox pre .cm{color:var(--ink-faint)} .codebox pre .kw{color:var(--accent)}
+
+.chip{display:inline-flex;align-items:baseline;gap:4px;background:var(--bg);border:1px solid var(--rule-soft);border-radius:4px;padding:2px 6px;font-size:10.5px;line-height:1.5}
+.chip-k{font-family:var(--code);font-weight:600} .chip-v{font-family:var(--code);font-variant-numeric:tabular-nums}
+.chip-v.pos{color:var(--pos)} .chip-v.neg{color:var(--neg)}
+
+footer{border-top:2px solid var(--ink);margin-top:70px;padding-block:28px 60px;font-size:13px;color:var(--ink-soft)}
+footer .files{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);margin-top:10px;line-height:1.9}
+
+@media (max-width:720px){.codepair{grid-template-columns:1fr}}
+@media (max-width:560px){body{font-size:16px}.formula .legend{grid-template-columns:1fr}.dc-row{grid-template-columns:40px 1fr 58px;gap:8px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.wide{width:min(1300px,calc(100vw - 32px));position:relative;left:50%;transform:translateX(-50%);}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.duo figure{margin:0;min-width:0}
+.duo video{display:block;width:100%;height:auto;background:#111;border-radius:6px;border:1px solid var(--rule)}
+.duo figcaption{font-size:14.5px;margin-top:6px;line-height:1.4}
+.tag{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;padding:1px 6px;border-radius:4px;border:1px solid var(--rule);color:var(--ink-soft);margin-right:6px}
+.tag.rec{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.ctl,.speedbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.ctl button,.speedbar button{font-family:var(--mono);font-size:12px;padding:6px 12px;border-radius:6px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer}
+.speedbar button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.ctl button:focus-visible,.speedbar button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sticky{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--rule);padding:8px 0}
+.pair{margin-top:48px}
+</style></head><body>
+<header><div class="wrap">
+  <div class="eyebrow">Bramble · fight animation · 24 Nov 2026</div>
+  <h1>Today against the picks</h1>
+  <p class="lede">For each thing we looked at: today's build on the left, the recommended option on the right.</p>
+  <div class="byline"><span>Branch ideation/fight-animation</span><span>Nothing here changes the game you play</span><span>Nobody but you has watched these move</span></div>
+</div></header>
+<main class="wrap">
+  <div class="sticky"><div class="speedbar" role="group" aria-label="Playback speed">
+    <span class="eyebrow" style="font-size:11px">Speed</span>
+    <button type="button" data-rate="1" aria-pressed="true">Normal</button>
+    <button type="button" data-rate="0.5" aria-pressed="false">½</button>
+    <button type="button" data-rate="0.25" aria-pressed="false">¼</button>
+  </div></div>
+  <div class="reading"><p class="small muted">Each pair plays in step from the same moment. Except for the whole fight, a pair changes one thing and holds everything else at the proposal, so "Today" means today's version of that one thing. The full comparison tool, with every option, is still on the Fight Motion page.</p></div>
+  <div class="wide">
+<section class="pair" data-i="1">
+  <div class="sec-head"><span class="n">01</span><h2>The whole fight</h2></div>
+  <div class="duo">
+    <figure><video src="v/whole-today.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag">Today</span>Today's build</figcaption></figure>
+    <figure><video src="v/whole-best.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag rec">Recommended</span>The proposal</figcaption></figure>
+  </div>
+  <div class="ctl"><button type="button" class="play">Play both</button><button type="button" class="restart">From the start</button></div>
+  <p class="small muted">The same fixed fight end to end. The proposal here is the attack and ordering plan only: it doesn't yet include the turning, staggered deaths, buffs or the new death and player-damage options below.</p>
+</section>
+<section class="pair" data-i="2">
+  <div class="sec-head"><span class="n">02</span><h2>The wind-up</h2></div>
+  <div class="duo">
+    <figure><video src="v/CB1-today.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag">Today</span>Today: a 4-frame lift, no hold</figcaption></figure>
+    <figure><video src="v/CB1-best.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag rec">Recommended</span>Lift, then a clear still hold before the strike</figcaption></figure>
+  </div>
+  <div class="ctl"><button type="button" class="play">Play both</button><button type="button" class="restart">From the start</button></div>
+  
+</section>
+<section class="pair" data-i="3">
+  <div class="sec-head"><span class="n">03</span><h2>Turning toward the target</h2></div>
+  <div class="duo">
+    <figure><video src="v/CB9-none.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag">Today</span>No turn (only a 4° tilt)</figcaption></figure>
+    <figure><video src="v/CB9-tip.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag rec">Recommended</span>Turns to aim, leading end dipping away in 3D</figcaption></figure>
+  </div>
+  <div class="ctl"><button type="button" class="play">Play both</button><button type="button" class="restart">From the start</button></div>
+  <p class="small muted">Today's build doesn't turn either. The lean strength and how far it turns are still being filmed.</p>
+</section>
+<section class="pair" data-i="4">
+  <div class="sec-head"><span class="n">04</span><h2>Strike speed</h2></div>
+  <div class="duo">
+    <figure><video src="v/CB11-quad.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag">Today</span>Today's strong speed-up</figcaption></figure>
+    <figure><video src="v/CB11-mild.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag rec">Recommended</span>A milder speed-up into contact</figcaption></figure>
+  </div>
+  <div class="ctl"><button type="button" class="play">Play both</button><button type="button" class="restart">From the start</button></div>
+  <p class="small muted">Both turn and lean, so only the speed curve differs.</p>
+</section>
+<section class="pair" data-i="5">
+  <div class="sec-head"><span class="n">05</span><h2>Thorns, before the hit</h2></div>
+  <div class="duo">
+    <figure><video src="v/CB4-freeze.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag">Today</span>Today: the attacker freezes mid-strike</figcaption></figure>
+    <figure><video src="v/CB4-hold.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag rec">Recommended</span>Thorns plays while the attacker is still raised; the strike runs unbroken</figcaption></figure>
+  </div>
+  <div class="ctl"><button type="button" class="play">Play both</button><button type="button" class="restart">From the start</button></div>
+  <p class="small muted">Still the attack's own look; the Thorns vine is pictures only so far.</p>
+</section>
+<section class="pair" data-i="6">
+  <div class="sec-head"><span class="n">06</span><h2>Several deaths at once</h2></div>
+  <div class="duo">
+    <figure><video src="v/CB8-a.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag">Today</span>All six fall together</figcaption></figure>
+    <figure><video src="v/CB8-c.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag rec">Recommended</span>They fall one after another, speeding up; each gain follows its death</figcaption></figure>
+  </div>
+  <div class="ctl"><button type="button" class="play">Play both</button><button type="button" class="restart">From the start</button></div>
+  
+</section>
+<section class="pair" data-i="7">
+  <div class="sec-head"><span class="n">07</span><h2>A single death</h2></div>
+  <div class="duo">
+    <figure><video src="v/CB13-today.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag">Today</span>Today: the number is gone before the card falls</figcaption></figure>
+    <figure><video src="v/CB13-c.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag rec">Recommended</span>The number stays; the card's light goes out and it sinks</figcaption></figure>
+  </div>
+  <div class="ctl"><button type="button" class="play">Play both</button><button type="button" class="restart">From the start</button></div>
+  <p class="small muted">The recommended shatter isn't filmed yet (it needs the new art); this is the best option made from existing pieces.</p>
+</section>
+<section class="pair" data-i="8">
+  <div class="sec-head"><span class="n">08</span><h2>A stat gain (Old Brock)</h2></div>
+  <div class="duo">
+    <figure><video src="v/CB14-today.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag">Today</span>Today: 10/9 to 24/33 in one frame</figcaption></figure>
+    <figure><video src="v/CB14-c.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag rec">Recommended</span>Each +N flies from the dead card into the stat and adds up</figcaption></figure>
+  </div>
+  <div class="ctl"><button type="button" class="play">Play both</button><button type="button" class="restart">From the start</button></div>
+  <p class="small muted">The green marker is a stand-in, larger than the planned design.</p>
+</section>
+<section class="pair" data-i="9">
+  <div class="sec-head"><span class="n">09</span><h2>Damage to the player</h2></div>
+  <div class="duo">
+    <figure><video src="v/CB12-today.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag">Today</span>Today: the new Health shows before anything hits</figcaption></figure>
+    <figure><video src="v/CB12-b.mp4" muted playsinline preload="metadata"></video><figcaption><span class="tag rec">Recommended</span>The winner's portrait strikes, then Health counts down</figcaption></figure>
+  </div>
+  <div class="ctl"><button type="button" class="play">Play both</button><button type="button" class="restart">From the start</button></div>
+  <p class="small muted">The recommended glass bolt isn't filmed yet; the portrait strike is the closest made from existing pieces.</p>
+</section>
+  </div>
+</main>
+<footer><div class="wrap"><p class="small muted">Filmed in the game at 60 frames a second with tools/feel, fight seed 22 (seed 1 for the loss fights). Silent. The combo count and the Thorns vine are still pictures, not films.</p></div></footer>
+<script>
+(function(){
+  var rate=1;
+  var all=function(){return Array.prototype.slice.call(document.querySelectorAll('video'));};
+  var sb=Array.prototype.slice.call(document.querySelectorAll('.speedbar button'));
+  sb.forEach(function(b){b.addEventListener('click',function(){rate=Number(b.dataset.rate);all().forEach(function(v){v.playbackRate=rate;});sb.forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});});});
+  Array.prototype.slice.call(document.querySelectorAll('.pair')).forEach(function(p){
+    var v=Array.prototype.slice.call(p.querySelectorAll('video'));var btn=p.querySelector('.play');var playing=false;
+    function stop(){playing=false;v.forEach(function(x){x.pause();});btn.textContent='Play both';}
+    function go(){playing=true;v.forEach(function(x){x.playbackRate=rate;if(x.ended)x.currentTime=0;x.play();});btn.textContent='Pause';tick();}
+    function tick(){if(!playing)return;var a=v[0],b=v[1];var t=Math.min(a.currentTime,(b.duration||1e9)-0.01);if(!a.ended&&!b.ended&&Math.abs(b.currentTime-t)>2/60)b.currentTime=t;if(a.ended&&b.ended){stop();return;}requestAnimationFrame(tick);}
+    btn.addEventListener('click',function(){playing?stop():go();});
+    p.querySelector('.restart').addEventListener('click',function(){v.forEach(function(x){x.currentTime=0;});go();});
+  });
+})();
+</script>
+</body></html>
