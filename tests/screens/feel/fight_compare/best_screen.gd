@@ -14,6 +14,7 @@ const BURST_START: float = 0.55
 const BURST_SCALE: float = 1.18
 const BURST_RISE: float = 16.0
 const LABEL_SIZE: int = 40
+const TIP_SHADER: Shader = preload("res://tests/screens/feel/fight_compare/tip.gdshader")
 
 var _timeline: RefCounted
 var _plan: Array[Dictionary] = []
@@ -147,10 +148,30 @@ func _pose_cards() -> void:
 		var offset: Vector2 = pose["offset"]
 		node.pivot_offset = node.size / 2.0
 		node.position = home + offset
-		node.scale = Vector2.ONE * _f(pose["scale"])
+		var grown: float = _f(pose["scale"])
+		# CB9 "tip": shorter along its own length (scale applies before the turn, so it never shears)
+		node.scale = Vector2(grown, grown * _f(pose.get("length", 1.0)))
 		node.rotation_degrees = _f(pose["turn"])
 		var light: Color = pose["light"]
 		node.modulate = light
+		_tip(node, _f(pose.get("keystone", 1.0)), _f(pose.get("lead", 1.0)))
+
+
+## CB9 "tip": the leading end tipped away (tip.gdshader) while keystone < 1; otherwise the card
+## drawn as the game draws it (no material, so it batches as before).
+func _tip(node: Control, keystone: float, lead: float) -> void:
+	var mat: ShaderMaterial = node.material as ShaderMaterial
+	if keystone >= 1.0:
+		if mat != null and mat.shader == TIP_SHADER:
+			node.material = null
+		return
+	if mat == null or mat.shader != TIP_SHADER:
+		mat = ShaderMaterial.new()
+		mat.shader = TIP_SHADER
+		node.material = mat
+	mat.set_shader_parameter("card_size", node.size)
+	mat.set_shader_parameter("keystone", keystone)
+	mat.set_shader_parameter("lead", lead)
 
 
 func _spawn_bursts() -> void:

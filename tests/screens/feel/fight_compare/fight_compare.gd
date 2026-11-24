@@ -75,8 +75,12 @@ const LOSS_OUT_HEALTH: int = 5
 const CONTACT_SLACK: float = 0.5
 ## x, y: the card's centre in film pixels; rotation in degrees; attack, health: the numbers shown;
 ## light: the card's modulate (its red channel; 1 is unlit, a death that darkens goes below).
+## scale_y: the scale along the card's own length (scale is across it); keystone: its leading
+## edge's width over its trailing edge's (tip.gdshader, 1 when flat) and lead, which edge leads
+## (1 top, -1 bottom).
 const CARD_COLUMNS: String = (
-	"frame,t,step,key,card_id,side,slot,x,y," + "scale,rotation,alpha,attack,health,state,light"
+	"frame,t,step,key,card_id,side,slot,x,y,"
+	+ "scale,rotation,alpha,attack,health,state,light,scale_y,keystone,lead"
 )
 ## <out>.heroes.csv, every drawn frame, both portraits: centre, scale, turn, light (modulate's
 ## red channel), the Health drawn on its badge and the badge's scale, the stage's offset, and the
@@ -346,11 +350,12 @@ func _log_cards(frame: int, step: int) -> void:
 			)
 		_numbers[key] = numbers
 		var leaving: bool = screen._keeper._fading.has(card)
+		var tip: Vector2 = _tip_of(card)
 		(
 			_card_rows
 			. append(
 				(
-					"%d,%.4f,%d,%s,%s,%d,%d,%.2f,%.2f,%.4f,%.2f,%.3f,%d,%d,%s,%.3f"
+					"%d,%.4f,%d,%s,%s,%d,%d,%.2f,%.2f,%.4f,%.2f,%.3f,%d,%d,%s,%.3f,%.4f,%.4f,%d"
 					% [
 						frame,
 						frame / 60.0,
@@ -368,6 +373,9 @@ func _log_cards(frame: int, step: int) -> void:
 						numbers.y,
 						"leaving" if leaving else "kept",
 						card.modulate.r,
+						card.scale.y,
+						tip.x,
+						roundi(tip.y),
 					]
 				)
 			)
@@ -377,6 +385,17 @@ func _log_cards(frame: int, step: int) -> void:
 			_present.erase(key)
 			_mark(frame, step, "card_out", str(key), "")
 	_centres[frame] = centres
+
+
+## (keystone, lead) of a card drawn tipped by tip.gdshader (best_screen.gd), else (1, 0).
+static func _tip_of(card: Control) -> Vector2:
+	var mat: ShaderMaterial = card.material as ShaderMaterial
+	if mat == null or mat.get_shader_parameter("keystone") == null:
+		return Vector2(1.0, 0.0)
+	return Vector2(
+		GlassPieces.as_float(mat.get_shader_parameter("keystone")),
+		GlassPieces.as_float(mat.get_shader_parameter("lead"))
+	)
 
 
 ## Which card each key is and where it stands, from the step's state.
@@ -410,7 +429,7 @@ func _log_bursts(frame: int, step: int) -> void:
 				_card_rows
 				. append(
 					(
-						"%d,%.4f,%d,%s,burst,-1,-1,%.2f,%.2f,%.4f,%.2f,%.3f,-1,-1,burst,%.3f"
+						"%d,%.4f,%d,%s,burst,-1,-1,%.2f,%.2f,%.4f,%.2f,%.3f,-1,-1,burst,%.3f,%.4f,1.0000,0"
 						% [
 							frame,
 							frame / 60.0,
@@ -422,6 +441,7 @@ func _log_bursts(frame: int, step: int) -> void:
 							hit.rotation_degrees,
 							hit.modulate.a,
 							hit.modulate.r,
+							hit.scale.y,
 						]
 					)
 				)

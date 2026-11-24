@@ -3,11 +3,12 @@ extends RefCounted
 ## docs/workstreams/fight-animation-24-nov/plans/best.md, sections 2 and 3): from the rules core's
 ## log and the board after each event, the frame each change shows, every card's motion, every
 ## burst and glow. best_screen.gd plays it. Each contested branch (best.md section 6, CB1-CB7;
-## CB8 from research/mass-deaths.md) is a parameter, so an option is a parameter set
-## ({"CB2": "c"}), not its own code path; a branch not named plays the proposal's pick. Frames at
-## 60 fps; frame 0 is the boards at rest. Every motion is evaluated per frame from these numbers
-## (pose), so a card node the keeper rebuilds (its numbers changed) keeps its motion. Exploratory
-## (ideation/fight-animation): nothing here reaches the game, and no one has watched it move.
+## CB8 from research/mass-deaths.md, CB9 from research/rotation.md) is a parameter, so an option
+## is a parameter set ({"CB2": "c"}), not its own code path; a branch not named plays the
+## proposal's pick. Frames at 60 fps; frame 0 is the boards at rest. Every motion is evaluated per
+## frame from these numbers (pose), so a card node the keeper rebuilds (its numbers changed) keeps
+## its motion. Exploratory (ideation/fight-animation): nothing here reaches the game, and no one
+## has watched it move.
 
 ## One card height on the 1920 x 1080 stage.
 const H: float = 250.0
@@ -21,6 +22,7 @@ const PICKS: Dictionary = {
 	"CB6": "best",
 	"CB7": "best",
 	"CB8": "a",
+	"CB9": "none",
 }
 ## CB1, the wind-up: lift frames, the scale it lifts to, pull-back px, the least hold.
 const WINDUPS: Dictionary = {
@@ -32,16 +34,19 @@ const WINDUPS: Dictionary = {
 }
 ## CB2, where it stops: the gap between centres in card heights, `near` up to `near_d` card heights
 ## away, `far` from `far_d`, straight between; `back` for any back-row target (-1: no rule).
+## "a" (shallow) stops 0.70 far, with no back-row rule, so it is shallower than "b" at every
+## distance (plan A's 0.45 far and 0.35 back row went deeper than B's; scope review, 24 Nov).
 const STOPS: Dictionary = {
-	"a": {"near": 0.78, "near_d": 1.4, "far": 0.45, "far_d": 2.2, "back": 0.35},
+	"a": {"near": 0.78, "near_d": 1.4, "far": 0.70, "far_d": 2.2, "back": -1.0},
 	"b": {"near": 0.70, "near_d": 1.18, "far": 0.50, "far_d": 3.18, "back": -1.0},
 	"best": {"near": 0.62, "near_d": 1.4, "far": 0.45, "far_d": 2.4, "back": 0.40},
 	"c": {"near": 0.50, "near_d": 1.3, "far": 0.42, "far_d": 2.6, "back": -1.0},
 	# Galaxy (R2): stops 0.2-0.57 h past the target's centre; the centre gap is negative
 	"galaxy": {"near": -0.3, "near_d": 1.4, "far": -0.3, "far_d": 2.4, "back": -1.0},
 }
-## CB3, the strike's curve: the power of its ease-in (1: constant speed).
-const CURVES: Dictionary = {"linear": 1.0, "mild": 1.6, "quad": 2.0}
+## CB3, the strike's curve: the power of its ease-in (1: constant speed). "gentle" is CB11's
+## gentler speed-up (the owner, 24 Nov: "maybe even a slower speed-up would be better").
+const CURVES: Dictionary = {"linear": 1.0, "gentle": 1.3, "mild": 1.6, "quad": 2.0}
 ## CB4, a trigger before the hit: "hold" (in the raised hold), "freeze" (today's order: the
 ## trigger flares while the attacker waits at contact, and its change shows with the exchange's at
 ## C+22), "after" (after the return: the log is reordered by reorder(), so the exchange's numbers
@@ -158,11 +163,40 @@ const STAGGERS: Dictionary = {
 }
 ## A staggered death's gain lands as its fall ends (the slot empty).
 const STAGGER_LAND: int = 15
+## CB9, rotation (research/rotation.md, Galaxy measured; the owner, 24 Nov: "the card should tilt
+## or rotate to point at what it's hitting"). The point facing the target leads: the top of your
+## cards, the bottom of theirs. "aim" is the share of the path's angle the card turns to, in its
+## own plane (0: the proposal's 4 degree lean instead). "keystone" is the leading edge's width over
+## the trailing edge's at full tip (tip.gdshader, true perspective). "length" is the card's length
+## at contact (its scale along its own length, as card_carry.gd's pitch; 0.75 reads as a tip of
+## about 41 degrees). Galaxy: aim 89-104 %, leading edge 8-12 % shorter, length 0.67-0.78.
+const ROTATIONS: Dictionary = {
+	"none": {"aim": 0.0, "keystone": 1.0, "length": 1.0},
+	"aim": {"aim": 0.95, "keystone": 1.0, "length": 1.0},
+	"tip": {"aim": 0.95, "keystone": 0.9, "length": 0.75},
+	# the aim and the shortening without the shader's keystone: does the shader add anything?
+	"length": {"aim": 0.95, "keystone": 1.0, "length": 0.75},
+}
+## The turn is full this many frames before contact (Galaxy: -13 to -12); it ramps from the
+## lift's first frame, so it is full at C-12 when the hold is its least.
+const AIM_FULL_BEFORE: int = 12
+## Share of the full turn left at contact (Galaxy 89-95 %), eased back over the strike.
+const AIM_AT_CONTACT: float = 0.9
+## Straight again this many frames after the return starts (Galaxy about +25: slower than the card
+## moves home, so it lands turned and straightens in its slot; 65-100 % still there at +10).
+const AIM_STRAIGHT: int = 25
+## The keystone fades over this many frames after the return starts (Galaxy about 10).
+const TIP_FADE: int = 10
+## The length is back to 1 this many frames after the return starts (Galaxy 0.95 by +5 to +8).
+const LENGTH_BACK: int = 8
 ## C's tempo cap (x1.3 a repeat, up to x3.5).
 const TEMPO_CAP: float = 3.5
 
 const REST: int = 30
 const POP: float = 1.24
+## The proposal's lean toward the target (degrees, times the path's sideways share), tipping the
+## leading point (the top of yours, the bottom of theirs) toward it. Before the fix of 24 Nov it
+## turned clockwise for a target to the right on both sides, tipping their bottom point away.
 const LEAN: float = 4.0
 const KNOCK_PX: float = 20.0
 const KNOCK_IN: int = 3
@@ -280,11 +314,17 @@ func build(events: Array, snaps: Array, place: Callable) -> void:
 	_make_steps(result)
 
 
-## Each card's pose at a frame, as offsets from where it stands: {offset, scale, turn, light}.
+## Each card's pose at a frame, as offsets from where it stands: {offset, scale, turn, light,
+## length, keystone, lead}. length: its scale along its own length on top of scale (CB9 "tip");
+## keystone: its leading edge's width over its trailing edge's (1: flat); lead: 1 when its top edge
+## leads, -1 its bottom.
 func pose(key: String, n: int) -> Dictionary:
 	var offset: Vector2 = Vector2.ZERO
 	var size: float = 1.0
 	var turn: float = 0.0
+	var length: float = 1.0
+	var keystone: float = 1.0
+	var lead: float = 1.0
 	var light: Color = Color.WHITE
 	var lifted: float = 0.0
 	var lift_way: Vector2 = Vector2.ZERO
@@ -313,10 +353,22 @@ func pose(key: String, n: int) -> Dictionary:
 		offset += moved
 		size *= _f(part.get("scale", 1.0))
 		turn += _f(part.get("turn", 0.0))
+		length *= _f(part.get("length", 1.0))
+		if part.has("keystone") and _f(part["keystone"]) < keystone:
+			keystone = _f(part["keystone"])
+			lead = _f(part["lead"])
 		if part.has("alpha"):
 			light.a *= _f(part["alpha"])
 	offset += lift_way * lifted
-	return {"offset": offset, "scale": size, "turn": turn, "light": light}
+	return {
+		"offset": offset,
+		"scale": size,
+		"turn": turn,
+		"light": light,
+		"length": length,
+		"keystone": keystone,
+		"lead": lead,
+	}
 
 
 ## The keys glowing at a frame.
@@ -361,6 +413,7 @@ func report() -> Dictionary:
 			"next_lift": LIFTS[pick("CB6")],
 			"combo": COMBOS[pick("CB7")],
 			"stagger": STAGGERS[pick("CB8")],
+			"rotation": ROTATIONS[pick("CB9")],
 		},
 	}
 
@@ -444,6 +497,13 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 	var gap: float = _stop_gap(d, _i(event["target_slot"]) >= 4)
 	var stop: Vector2 = line - way * gap * H
 	var pull: Vector2 = -way * _f(windup["pull"])
+	var rotation: Dictionary = ROTATIONS[pick("CB9")]
+	var aim_share: float = _f(rotation["aim"])
+	# the point facing the target leads: the top edge when the target is above, else the bottom
+	var lead: float = -1.0 if way.y > 0.0 else 1.0
+	var aim: float = aim_share * rad_to_deg(Vector2(0.0, -lead).angle_to(way))
+	# full at C-12 when the hold is its least; it holds through a longer one
+	var aim_ramp: int = maxi(1, lift_f + _i(windup["hold"]) + strike - AIM_FULL_BEFORE)
 	_add(
 		_attacker,
 		{
@@ -452,7 +512,8 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 			"lift": lift_f,
 			"scale": _f(windup["scale"]),
 			"pull": pull,
-			"lean": LEAN * way.x,
+			# the lean tips the leading point toward the target; the aim takes its place
+			"lean": LEAN * way.x * lead if aim_share <= 0.0 else 0.0,
 			"launch": launch,
 			"strike": strike,
 			"curve": _f(CURVES[pick("CB3")]),
@@ -460,6 +521,11 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 			"stop": stop,
 			"release": release,
 			"back": back,
+			"aim": aim,
+			"aim_ramp": aim_ramp,
+			"keystone": _f(rotation["keystone"]),
+			"length": _f(rotation["length"]),
+			"lead": lead,
 		}
 	)
 	# the return moves from C+1 (no frame held at contact) and is home at C + back
@@ -524,6 +590,9 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 				"speedup": _tempo_on,
 				"no_strike": hit < 0,
 				"next_lift": -1,
+				"aim_deg": snappedf(aim, 0.01),
+				"aim_full": lift + aim_ramp,
+				"lead": "top" if lead > 0.0 else "bottom",
 			}
 		)
 	)
@@ -1274,7 +1343,65 @@ func _make_steps(result: int) -> void:
 # ---- poses ----
 
 
+## The attacker's motion, plus CB9's turn, keystone and length (_aim_pose), which outlast it: the
+## card lands home still turned and straightens there.
 func _attack_pose(seg: Dictionary, n: int) -> Dictionary:
+	var part: Dictionary = _move_pose(seg, n)
+	var aim: Dictionary = _aim_pose(seg, n)
+	if aim.is_empty():
+		return part
+	var out: Dictionary = part.duplicate()
+	out["turn"] = _f(part.get("turn", 0.0)) + _f(aim["turn"])
+	out["length"] = aim["length"]
+	if _f(aim["keystone"]) < 1.0:
+		out["keystone"] = aim["keystone"]
+		out["lead"] = seg["lead"]
+	return out
+
+
+## CB9: {turn, keystone, length} at frame n, or {} when flat and straight. The turn ramps from the
+## lift's first frame (sine out: it starts at once and eases in), full at aim_ramp, eases back to
+## AIM_AT_CONTACT over the strike, and unwinds from the return's start over AIM_STRAIGHT frames
+## (smootherstep). The keystone ramps and fades with it (fading over TIP_FADE). The length
+## shortens over the strike with the travel (the strike's own curve), and is back by LENGTH_BACK.
+func _aim_pose(seg: Dictionary, n: int) -> Dictionary:
+	var aim: float = _f(seg.get("aim", 0.0))
+	var keystone: float = _f(seg.get("keystone", 1.0))
+	var short: float = 1.0 - _f(seg.get("length", 1.0))
+	var start: int = seg["from"]
+	if n <= start or (is_zero_approx(aim) and keystone >= 1.0 and short <= 0.0):
+		return {}
+	var ramp: float = sin(PI / 2.0 * minf(1.0, float(n - start) / _i(seg["aim_ramp"])))
+	var share: float = ramp
+	var tip: float = ramp
+	var length: float = 1.0
+	var launch: int = seg["launch"]
+	var contact: int = seg["contact"]
+	var release: int = seg["release"]
+	if launch >= 0 and n > launch:
+		if n < contact:
+			var u: float = float(n - launch) / _i(seg["strike"])
+			share = ramp * lerpf(1.0, AIM_AT_CONTACT, u)
+			length = 1.0 - short * pow(u, _f(seg["curve"]))
+		elif n <= release:
+			share = AIM_AT_CONTACT
+			tip = 1.0
+			length = 1.0 - short
+		else:
+			var j: int = n - release
+			if j >= AIM_STRAIGHT and j >= TIP_FADE and j >= LENGTH_BACK:
+				return {}
+			share = AIM_AT_CONTACT * (1.0 - _smoother(minf(1.0, float(j) / AIM_STRAIGHT)))
+			tip = 1.0 - _smooth(minf(1.0, float(j) / TIP_FADE))
+			length = 1.0 - short * (1.0 - _quad_out(minf(1.0, float(j) / LENGTH_BACK)))
+	return {
+		"turn": aim * share,
+		"keystone": 1.0 - (1.0 - keystone) * tip,
+		"length": length,
+	}
+
+
+func _move_pose(seg: Dictionary, n: int) -> Dictionary:
 	var start: int = seg["from"]
 	if n <= start:
 		return {}
@@ -1474,6 +1601,14 @@ static func _quad_out(u: float) -> float:
 
 static func _cubic_out(u: float) -> float:
 	return 1.0 - pow(1.0 - u, 3.0)
+
+
+static func _smooth(u: float) -> float:
+	return u * u * (3.0 - 2.0 * u)
+
+
+static func _smoother(u: float) -> float:
+	return u * u * u * (u * (u * 6.0 - 15.0) + 10.0)
 
 
 static func _i(v: Variant) -> int:
