@@ -69,6 +69,26 @@ def on_black(name, width, thresh=28, extra=(), top_only=False):
     save(im, name, width)
 
 
+def frame(name, width):
+    """A frame on black with a black opening: cut both away, and print where the opening sits."""
+    im = Image.open(SRC + name)
+    im = key_out(im, corners(im), 22)
+    im, _ = trim(im)
+    w, h = im.size
+    before = im.getchannel("A")
+    im = key_out(im, [(w // 2, h // 2)], 22)
+    after = im.getchannel("A")
+    hole = Image.new("L", im.size, 0)
+    bp, ap, hp = before.load(), after.load(), hole.load()
+    for y in range(0, h, 2):
+        for x in range(0, w, 2):
+            if bp[x, y] and not ap[x, y]:
+                hp[x, y] = 255
+    l, t, r, b = hole.getbbox()
+    print("%s opening = { l: %.3f, t: %.3f, w: %.3f, h: %.3f }  (piece %dx%d)" % (name, l / w, t / h, (r - l) / w, (b - t) / h, w, h))
+    save(im, name, width)
+
+
 def tile(name):
     im = Image.open(SRC + name).convert("RGB")
     im = im.resize((488, 732), Image.LANCZOS)
@@ -85,7 +105,13 @@ if __name__ == "__main__":
                   ("l1z-head-moss.png", lambda: on_black("l1z-head-moss.png", 488, thresh=36, top_only=True)),
                   ("l1z-hanger.png", lambda: on_black("l1z-hanger.png", 400, thresh=14)),
                   ("l1z-board.png", lambda: on_black("l1z-board.png", 420)),
-                  ("l1z-health.png", lambda: on_black("l1z-health.png", 460))]:
+                  ("l1z-health.png", lambda: on_black("l1z-health.png", 460)),
+                  ("l1h-heart.png", lambda: on_black("l1h-heart.png", 320)),
+                  ("l1h-hero-frame.png", lambda: frame("l1h-hero-frame.png", 520)),
+                  ("l1h-end-swords.png", lambda: on_black("l1h-end-swords.png", 340)),
+                  ("l1h-end-ring.png", lambda: frame("l1h-end-ring.png", 340)),
+                  ("l1h-end-shield.png", lambda: on_black("l1h-end-shield.png", 340)),
+                  ("l1h-end-bell.png", lambda: on_black("l1h-end-bell.png", 340, thresh=16))]:
         if os.path.exists(SRC + f):
             fn()
         else:

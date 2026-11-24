@@ -29,3 +29,15 @@ The screen is a church interior: a stone shop wall framed by two windows. Each z
 - **Player health:** a red glass panel `l1z-health`, 212 × 110.
 
 Free textures from the internet (stone, oak) would be photographic and clash with the painted pieces; I'd only use them as reference.
+
+## Heart, hero and End turn
+
+**Pieces.** Health: `l1h-heart` at about 130 × 130 under the gold coin, number in code. Hero: `l1h-hero-frame` at 212 × 144, at the foot of the left column, its top level with the hand ledge. A raised lead-and-gilt tile; pressed, it drops 2 px.
+
+**End turn options** (each 144 px):
+- **A. Red roundel, crossed swords** (`l1h-end-swords`). Gold left: steady. Nothing left to do: a slow glow. Fight starting: the swords flash.
+- **B. Your next opponent in a red ring** (`l1h-end-ring`, portrait in code, line-drawn swords over it). Gold left: the portrait sits quiet. Done: the ring glows. Fight starting: the swords cross over the face.
+- **C. Red glass shield, crossed swords** (`l1h-end-shield`). States as A. The shape sets it apart from every round button.
+- **D. A bronze bell** (`l1h-end-bell`) that you ring for the fight. Gold left: still. Done: it glints. Fight: it swings. Part of the room, but less obvious as a button.
+
+**Pick: A**, with B's swords-over-face as its fight-starting moment. Clear at a glance, red for fight, and it matches the other glass buttons. The scoreboard already marks the opponent, so B repeats that.

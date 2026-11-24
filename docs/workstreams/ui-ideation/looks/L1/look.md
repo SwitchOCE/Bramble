@@ -87,3 +87,11 @@ Built in [screen.html](screen.html) (`?view=buy|fight|shapes&shape=a–e&depth=1
 - `room=` chooses the art: `painted` (the earlier pieces, arches drawn in code), `zones` (one painted piece per zone: `prompts-5.txt`, cut out by `zone-pieces.py`; the side columns are dim lancet windows, slate-blue left and moss right; the shop's buttons sit on a slate tablet), `free` (CC0 photo textures from Poly Haven, kept in `/data/ui-ideation/looks/L1/free/`: medieval_blocks_03, old_wood_floor, brown_leather, dark_wood, dark_paneled_wood). `glass=0.5` sets how dim the window glass is.
 - Pictures: `/data/ui-ideation/looks/L1/c/` (`c-zones.png`, `c-zones-hover.png`, `c-free.png`, `c-painted.png`).
 - Not judged from stills: motion, hover feel, glow timing, sound.
+
+### Later on 25 Nov (decisions L30 to L34)
+
+- Health is a painted heart with the number, in the right column under the gold; the hero is a rectangle in a painted frame at the foot of the left column, its top level with the hand ledge (`prompts-6.txt`, brief `briefs/36-l1-heart-hero-end-turn.md`).
+- `end=a|b|c|d|arrow` chooses the End turn button: a red roundel with crossed swords (default), the next opponent in a red ring with swords over the face, a red shield, a bronze bell, or the earlier amber arrow. The art director's notes on each and its states are in `polish.md`. Strip of the four: `/data/ui-ideation/looks/L1/c/c3-end-options.png`.
+- A spell in the hand is a disc as wide as a card, its top level with the cards' tops.
+- Refreshes left at this price is a small slate disc at the refresh button's upper right, a stand-in until the counter designs (brief `briefs/37-counter-display.md`, `looks/L1/counters/`) are judged.
+- The free-texture room stays in the page as `room=free` but is not being taken further.
