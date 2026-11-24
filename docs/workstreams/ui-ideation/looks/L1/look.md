@@ -74,3 +74,16 @@ Built in [screen.html](screen.html) (`?view=buy|fight|shapes&shape=a–e&depth=1
 ## Pieces for the layout board
 
 `screen.html?view=polish&only=<part>` draws one part alone on a clear ground (parts are named in `polish()`: `bg-wall`, `shop-0` to `shop-6`, `board-0` to `board-6`, `hand-0` to `hand-5`, `scoreboard`, `tierup`, `gold` and so on). The forty cut pieces and their screen positions are in `/data/ui-ideation/looks/L1/parts/` (`parts.json`). They are laid out on a whiteboard the owner can rearrange: https://claude.ai/artifact/VB3h4u57FV7gocf4wWoBY7. `board-map.json` says which board element is which piece.
+
+## Layout c (25 Nov): the game's own card ratio, a piece of art for each zone
+
+`screen.html?view=polish` now opens on `layout=c` (owner's decisions L24 to L29; brief `briefs/35-l1-zone-art.md`; the art director's notes are the "Zones" section of `polish.md`).
+
+- Cards are 140 x 250 (ratio 0.56), drawn with the game's own art.
+- Each shop card stands in an arch clearly bigger than the card (opening 188 x 294), so the tier's light has room; neighbouring arches share a colonnette.
+- Spells have no arch or shelf: two discs in the shop's left wing with their tier's light behind them. In the painted room they hang from an iron bracket and chain.
+- A cost is a coin overlapping the lower right of its round button or spell; health on the scoreboard is a red circle overlapping the lower right of each portrait.
+- The player's own health is a rectangle at the foot of the left column. The portrait in the right column carries no health; it is pressed for the hero power.
+- `room=` chooses the art: `painted` (the earlier pieces, arches drawn in code), `zones` (one painted piece per zone: `prompts-5.txt`, cut out by `zone-pieces.py`; the side columns are dim lancet windows, slate-blue left and moss right; the shop's buttons sit on a slate tablet), `free` (CC0 photo textures from Poly Haven, kept in `/data/ui-ideation/looks/L1/free/`: medieval_blocks_03, old_wood_floor, brown_leather, dark_wood, dark_paneled_wood). `glass=0.5` sets how dim the window glass is.
+- Pictures: `/data/ui-ideation/looks/L1/c/` (`c-zones.png`, `c-zones-hover.png`, `c-free.png`, `c-painted.png`).
+- Not judged from stills: motion, hover feel, glow timing, sound.

@@ -15,3 +15,17 @@ Each card is a slab of leaded glass: its lower edge shows a few pixels of lit gl
 ## Materials and order
 
 Everything uses the cards' materials: lead, glass, stone and gilt. Eight painted pieces are ordered in prompts-4.txt: the pier, two blank roundels, the coin, a plate, the table's edge, the sill and a calmer oak. Icons and light are code.
+
+## Zones
+
+The screen is a church interior: a stone shop wall framed by two windows. Each zone has its own material.
+
+- **Left and right columns: tall lancet windows** of dim diamond quarries (from the earlier build), slate-blue on the left (watch) and moss green on the right (act). A pointed head `l1z-head-*` (244 × 244) sits on a stacked quarry tile `l1z-quarry-*` (244 wide, about 366 tall each), with a lead transom in code over each join.
+- **Shop: stone wall** (`l1r-wall`, reused) with five pointed arches `l1z-arch` (each about 228 × 342 round a 188 × 300 opening). The recess is black; code lights it in the tier colour.
+- **Left wing:** the spells hang like suncatchers on `l1z-hanger` (about 150 × 225): iron, not stone.
+- **Right wing:** the three buttons sit on a slate tablet `l1z-board` (the wing's size).
+- **Board and table sides:** one oak top (`l1p-oak-top`, reused).
+- **Hand:** the table edge and leather ledge (`l1p-table-edge`, `l1r-leather`, reused).
+- **Player health:** a red glass panel `l1z-health`, 212 × 110.
+
+Free textures from the internet (stone, oak) would be photographic and clash with the painted pieces; I'd only use them as reference.
