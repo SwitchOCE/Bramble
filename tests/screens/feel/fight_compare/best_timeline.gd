@@ -176,6 +176,18 @@ const ROTATIONS: Dictionary = {
 	"tip": {"aim": 0.95, "keystone": 0.9, "length": 0.75},
 	# the aim and the shortening without the shader's keystone: does the shader add anything?
 	"length": {"aim": 0.95, "keystone": 1.0, "length": 0.75},
+	# CB17, the tip's strength (the owner, 24 Nov: "Maybe a small lean is actually nice ... Leaning
+	# with turning in the same direction as the turn makes a lot of sense to me"): the length is
+	# the cosine of the dip, as 0.75 reads as about 41 degrees; "tip" is the strong one. Small:
+	# about 15 degrees (cos 15 = 0.966); medium: about 32 (cos 32 = 0.85).
+	"tip_small": {"aim": 0.95, "keystone": 0.97, "length": 0.965},
+	"tip_medium": {"aim": 0.95, "keystone": 0.94, "length": 0.85},
+	# CB15, the amount of turn, each with the medium tip (the owner, 24 Nov: "Where's the rotate
+	# amount?"): half, three-quarters, 95 % (tip_medium), and 95 % with the full turn capped at 30
+	# degrees ("cap", degrees)
+	"tip_half": {"aim": 0.5, "keystone": 0.94, "length": 0.85},
+	"tip_3q": {"aim": 0.75, "keystone": 0.94, "length": 0.85},
+	"tip_cap30": {"aim": 0.95, "keystone": 0.94, "length": 0.85, "cap": 30.0},
 }
 ## The turn is full this many frames before contact (Galaxy: -13 to -12); it ramps from the
 ## lift's first frame, so it is full at C-12 when the hold is its least.
@@ -241,6 +253,16 @@ const SPEEDUPS: Dictionary = {
 	"early": {"over": 60, "from": 30, "ramp": 30, "top": 1.5},
 	"early_x2": {"over": 60, "from": 30, "ramp": 30, "top": 2.0},
 }
+## A fight-wide speed-up ("FAST" in the options; a what-if from research/fight-length.md, not a
+## contested branch): Battlegrounds 31.6, "combat animations will now accelerate as the battle
+## rages on". From the lift of attack number `attack` (1: the first) to the result, everything
+## this schedule holds plays `speed` times faster: best_screen.gd runs it on a clock that moves
+## speed_at() frames of the schedule each drawn frame (advance()). The result's hold plays at x1.
+## A fight with fewer attacks plays at x1 throughout.
+const FASTS: Dictionary = {
+	"none": {"attack": 0, "speed": 1.0},
+	"a5": {"attack": 5, "speed": 1.5},
+}
 const END_AFTER: int = 24
 const END_HOLD: int = 90
 ## Glows that last until the card leaves (an attacker killed before it strikes).
@@ -268,6 +290,12 @@ var notes: PackedStringArray = []
 ## [{kind, from, to}]: each beat (trigger, to its next), arrival (summon), fall (death) and a
 ## combo's closing count (trigger), by frame; fight_length.gd's breakdown of a fight's time.
 var spans: Array[Dictionary] = []
+## "FAST": the schedule's frames from which, and up to which, it plays faster (-1: never).
+var fast_from: int = -1
+var fast_to: int = -1
+## The schedule frames the clock moves this drawn frame (best_screen.gd sets it): the contact
+## pop shows for this long, so a sped-up clock still draws it once.
+var clock_step: float = 1.0
 
 var _events: Array = []
 var _snaps: Array = []
@@ -323,14 +351,51 @@ func build(events: Array, snaps: Array, place: Callable) -> void:
 		last = _attack(attack_at[k], to, last)
 	var result: int = _i(last.get("queue_end", REST)) + END_AFTER
 	_reveal[end_at] = result
+	var fast: Dictionary = _fast()
+	var nth: int = _i(fast["attack"])
+	if nth >= 1 and attacks.size() >= nth and _f(fast["speed"]) > 1.0:
+		var from: Dictionary = attacks[nth - 1]
+		fast_from = _i(from["lift"])
+		fast_to = result
 	_make_steps(result)
+
+
+## "FAST": the options', else none.
+func _fast() -> Dictionary:
+	return FASTS[str(options.get("FAST", "none"))]
+
+
+## How many schedule frames one drawn frame moves at schedule frame t (1, or FAST's speed).
+func speed_at(t: float) -> float:
+	if fast_from >= 0 and t >= fast_from and t < fast_to:
+		return _f(_fast()["speed"])
+	return 1.0
+
+
+## The clock after one more drawn frame from t. It lands on the result's frame itself, which then
+## plays at x1 (before the speed-up the clock is on whole frames, so it lands on its start too).
+func advance(t: float) -> float:
+	var next: float = t + speed_at(t)
+	if fast_from >= 0 and t < fast_to and next > fast_to:
+		next = float(fast_to)
+	return next
+
+
+## Drawn frames from schedule frame 0 until the clock reaches frame m (the film's count).
+func drawn_frames_to(m: int) -> int:
+	var t: float = 0.0
+	var n: int = 0
+	while t < m:
+		t = advance(t)
+		n += 1
+	return n
 
 
 ## Each card's pose at a frame, as offsets from where it stands: {offset, scale, turn, light,
 ## length, keystone, lead}. length: its scale along its own length on top of scale (CB9 "tip");
 ## keystone: its leading edge's width over its trailing edge's (1: flat); lead: 1 when its top edge
 ## leads, -1 its bottom.
-func pose(key: String, n: int) -> Dictionary:
+func pose(key: String, n: float) -> Dictionary:
 	var offset: Vector2 = Vector2.ZERO
 	var size: float = 1.0
 	var turn: float = 0.0
@@ -384,7 +449,7 @@ func pose(key: String, n: int) -> Dictionary:
 
 
 ## The keys glowing at a frame.
-func glowing(n: int) -> Dictionary:
+func glowing(n: float) -> Dictionary:
 	var out: Dictionary = {}
 	for glow: Dictionary in glows:
 		if n >= _i(glow["from"]) and n < _i(glow["to"]):
@@ -393,7 +458,7 @@ func glowing(n: int) -> Dictionary:
 
 
 ## The xN placeholder showing at a frame, or {}.
-func label_at(n: int) -> Dictionary:
+func label_at(n: float) -> Dictionary:
 	for label: Dictionary in labels:
 		if n >= _i(label["from"]) and n < _i(label["to"]):
 			return label
@@ -415,6 +480,14 @@ func report() -> Dictionary:
 		"staggers": _staggers,
 		"bursts": bursts.size(),
 		"notes": notes,
+		# the what-ifs (not contested branches) and FAST's frames in this schedule
+		"what_ifs":
+		{
+			"R7": str(options.get("R7", "best")),
+			"GROUP": _i(options.get("GROUP", 1)),
+			"FAST": str(options.get("FAST", "none")),
+		},
+		"fast": {"from": fast_from, "to": fast_to, "speed": _f(_fast()["speed"])},
 		"claims":
 		{
 			"windup": WINDUPS[pick("CB1")],
@@ -514,6 +587,10 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 	# the point facing the target leads: the top edge when the target is above, else the bottom
 	var lead: float = -1.0 if way.y > 0.0 else 1.0
 	var aim: float = aim_share * rad_to_deg(Vector2(0.0, -lead).angle_to(way))
+	# CB15 "tip_cap30": the full turn no more than the cap (90 % of it is left at contact)
+	var cap: float = _f(rotation.get("cap", -1.0))
+	if cap >= 0.0:
+		aim = clampf(aim, -cap, cap)
 	# full at C-12 when the hold is its least; it holds through a longer one
 	var aim_ramp: int = maxi(1, lift_f + _i(windup["hold"]) + strike - AIM_FULL_BEFORE)
 	_add(
@@ -1373,7 +1450,8 @@ func _make_steps(result: int) -> void:
 		if not lunge.is_empty():
 			moment["lunge"] = lunge.duplicate()
 		view["moment"] = moment
-		var speed: float = _f(_speeds.get(frame, 1.0))
+		# the card keeper's own tweens (a death's fall, numbers rolling) follow FAST too
+		var speed: float = _f(_speeds.get(frame, 1.0)) * speed_at(frame)
 		steps.append({"state": view, "hold": 0.0, "kind": kind, "frame": frame, "speed": speed})
 	for k: int in steps.size():
 		var step: Dictionary = steps[k]
@@ -1387,7 +1465,7 @@ func _make_steps(result: int) -> void:
 
 ## The attacker's motion, plus CB9's turn, keystone and length (_aim_pose), which outlast it: the
 ## card lands home still turned and straightens there.
-func _attack_pose(seg: Dictionary, n: int) -> Dictionary:
+func _attack_pose(seg: Dictionary, n: float) -> Dictionary:
 	var part: Dictionary = _move_pose(seg, n)
 	var aim: Dictionary = _aim_pose(seg, n)
 	if aim.is_empty():
@@ -1406,7 +1484,7 @@ func _attack_pose(seg: Dictionary, n: int) -> Dictionary:
 ## AIM_AT_CONTACT over the strike, and unwinds from the return's start over AIM_STRAIGHT frames
 ## (smootherstep). The keystone ramps and fades with it (fading over TIP_FADE). The length
 ## shortens over the strike with the travel (the strike's own curve), and is back by LENGTH_BACK.
-func _aim_pose(seg: Dictionary, n: int) -> Dictionary:
+func _aim_pose(seg: Dictionary, n: float) -> Dictionary:
 	var aim: float = _f(seg.get("aim", 0.0))
 	var keystone: float = _f(seg.get("keystone", 1.0))
 	var short: float = 1.0 - _f(seg.get("length", 1.0))
@@ -1430,7 +1508,7 @@ func _aim_pose(seg: Dictionary, n: int) -> Dictionary:
 			tip = 1.0
 			length = 1.0 - short
 		else:
-			var j: int = n - release
+			var j: float = n - release
 			if j >= AIM_STRAIGHT and j >= TIP_FADE and j >= LENGTH_BACK:
 				return {}
 			share = AIM_AT_CONTACT * (1.0 - _smoother(minf(1.0, float(j) / AIM_STRAIGHT)))
@@ -1443,7 +1521,7 @@ func _aim_pose(seg: Dictionary, n: int) -> Dictionary:
 	}
 
 
-func _move_pose(seg: Dictionary, n: int) -> Dictionary:
+func _move_pose(seg: Dictionary, n: float) -> Dictionary:
 	var start: int = seg["from"]
 	if n <= start:
 		return {}
@@ -1460,12 +1538,13 @@ func _move_pose(seg: Dictionary, n: int) -> Dictionary:
 		return {
 			"offset": pull.lerp(stop, along), "scale": lifted, "turn": _f(seg["lean"]) * (1 - u)
 		}
-	if n == contact:
+	# the pop holds one drawn frame: one schedule frame, or the clock's step under FAST
+	if n < contact + clock_step:
 		return {"offset": stop, "scale": POP}
 	return _return_pose(seg, n)
 
 
-func _windup_pose(seg: Dictionary, k: int) -> Dictionary:
+func _windup_pose(seg: Dictionary, k: float) -> Dictionary:
 	var lift: int = seg["lift"]
 	var e: float = 1.0 if lift <= 0 else _quad_out(minf(1.0, float(k) / lift))
 	var pull: Vector2 = seg["pull"]
@@ -1476,7 +1555,7 @@ func _windup_pose(seg: Dictionary, k: int) -> Dictionary:
 	}
 
 
-func _return_pose(seg: Dictionary, n: int) -> Dictionary:
+func _return_pose(seg: Dictionary, n: float) -> Dictionary:
 	var release: int = seg["release"]
 	var stop: Vector2 = seg["stop"]
 	var lifted: float = seg["scale"]
@@ -1490,8 +1569,8 @@ func _return_pose(seg: Dictionary, n: int) -> Dictionary:
 	return {"offset": stop.lerp(Vector2.ZERO, e), "scale": lerpf(lifted, 1.0, shrink)}
 
 
-func _knock_pose(seg: Dictionary, n: int) -> Dictionary:
-	var k: int = n - _i(seg["from"])
+func _knock_pose(seg: Dictionary, n: float) -> Dictionary:
+	var k: float = n - _i(seg["from"])
 	if k <= 0 or k >= KNOCK_IN + KNOCK_SETTLE:
 		return {}
 	var a: float = float(k) / KNOCK_IN
@@ -1501,7 +1580,7 @@ func _knock_pose(seg: Dictionary, n: int) -> Dictionary:
 	return {"offset": way * a, "turn": _f(seg["turn"]) * a}
 
 
-func _summon_pose(seg: Dictionary, n: int) -> Dictionary:
+func _summon_pose(seg: Dictionary, n: float) -> Dictionary:
 	var tempo: float = seg["tempo"]
 	var k: float = (n - _i(seg["from"])) * tempo
 	if k >= DROP:
@@ -1513,7 +1592,7 @@ func _summon_pose(seg: Dictionary, n: int) -> Dictionary:
 	}
 
 
-func _pulse_lift(seg: Dictionary, n: int) -> float:
+func _pulse_lift(seg: Dictionary, n: float) -> float:
 	var start: int = seg["from"]
 	var land: int = seg["land"]
 	if n <= start:
@@ -1523,9 +1602,9 @@ func _pulse_lift(seg: Dictionary, n: int) -> float:
 	return 1.0 - _cubic_out(minf(1.0, float(n - land) / PULSE_SETTLE))
 
 
-func _jab_offset(seg: Dictionary, n: int) -> Vector2:
+func _jab_offset(seg: Dictionary, n: float) -> Vector2:
 	var jab: Vector2 = seg["jab"]
-	var k: int = n - _i(seg["from"])
+	var k: float = n - _i(seg["from"])
 	var land: int = seg["land"]
 	if jab == Vector2.ZERO or k <= JAB_FROM:
 		return Vector2.ZERO
@@ -1534,8 +1613,8 @@ func _jab_offset(seg: Dictionary, n: int) -> Vector2:
 	return jab * (1.0 - _cubic_out(minf(1.0, float(n - land) / JAB_SETTLE)))
 
 
-func _light(seg: Dictionary, n: int) -> Color:
-	var k: int = n - _i(seg["from"])
+func _light(seg: Dictionary, n: float) -> Color:
+	var k: float = n - _i(seg["from"])
 	if k < 0 or k >= LIGHT_TIME:
 		return Color.WHITE
 	var tint: Color = seg["colour"]
