@@ -81,6 +81,10 @@ const VIEW = Q.get("view") || "buy";
 const SHAPE = Q.get("shape") || "c";
 const DEPTH = Q.get("depth") !== "0";
 const BG = Q.get("bg") || "oak";
+// hand: "peek" = full size, the foot of the card below the screen edge (owner, 24 Nov);
+// "half" = full size, half hidden; "small" = the earlier 0.62 scale hand
+const HAND = Q.get("hand") || "peek";
+const HOVER = Q.has("hover") ? +Q.get("hover") : -1;   // a hand card raised by the pointer
 const PIECES = "file:///data/ui-ideation/looks/L1/pieces/";
 const UNITS = "../../../../../assets/units/";
 const GLASS = "../../../../../assets/glass/";
@@ -102,11 +106,14 @@ const G = 20;            // the one gap, everywhere
 const SIDE = 200;        // each side lancet column
 const NICHE = 12;        // light rim between card and niche
 const SILL = 20;
-const HAND_K = 0.62;     // hand cards' scale
+const HAND_K = HAND === "small" ? 0.62 : 1;   // hand cards' scale
+const HAND_SHOW = HAND === "half" ? 0.5 : 0.88;  // share of a hand card above the screen edge (0.88 keeps Attack and Health whole)
 const LEDGE_PAD = 16;
-const TABLE_PAD = 30;
+const TABLE_PAD = HAND === "peek" ? 20 : 30;
 const ARMY_GAP = 64;     // between the two armies in a fight
 const SPELL_K = 0.8;     // spell disc diameter / unit width
+
+const ledgeH = h => HAND === "small" ? LEDGE_PAD * 2 + HAND_K * h : LEDGE_PAD + HAND_SHOW * h;
 
 function geom(shapeKey, h) {
   const s = SHAPES[shapeKey];
@@ -124,7 +131,7 @@ function fitHeight(shapeKey) {
   for (let h = 120; h <= 400; h += 0.5) {
     const g = geom(shapeKey, h);
     const nicheTop = NICHE / Math.cos(g.th);
-    const buyH = G + nicheTop + h + NICHE + SILL + G + TABLE_PAD + g.boardH + TABLE_PAD + LEDGE_PAD + HAND_K * h + LEDGE_PAD;
+    const buyH = G + nicheTop + h + NICHE + SILL + G + TABLE_PAD + g.boardH + TABLE_PAD + ledgeH(h);
     const fightH = 2 * G + 2 * g.boardH + ARMY_GAP + 2 * G;
     const shopW = 5 * (g.w + 2 * NICHE) + 2 * (SPELL_K * g.w + 2 * NICHE) + 6 * G;
     const handW = 7 * HAND_K * g.w + 6 * G;
@@ -340,9 +347,8 @@ function buy() {
   const nicheTop = NICHE / Math.cos(th);
   const yCard = G + nicheTop;
   const wallBottom = yCard + h + NICHE + SILL + G;
-  const boardTop = wallBottom + TABLE_PAD;
-  const tableBottom = boardTop + g.boardH + TABLE_PAD;
-  const ledgeTop = H - (LEDGE_PAD * 2 + HAND_K * h);
+  const ledgeTop = H - ledgeH(h);
+  const boardTop = HAND === "small" ? wallBottom + TABLE_PAD : wallBottom + (ledgeTop - wallBottom - g.boardH) / 2;
 
   // wall
   el("wall", x0, 0, cw, wallBottom, scr, bgImg("l1r-wall.jpg", "linear-gradient(#454a4f,#34393d)"));
@@ -425,9 +431,12 @@ function buy() {
   const hg = geom(SHAPE, h * HAND_K);
   const hx = W / 2 - (hand.length * hg.w + (hand.length - 1) * G) / 2;
   hand.forEach((u, i) => {
-    const xx = hx + i * (hg.w + G), yy = ledgeTop + LEDGE_PAD;
-    if (DEPTH) el("shadow", xx + 4, yy + 6, hg.w, hg.h, scr, `background:rgba(0,0,0,0.45);clip-path:${poly(hexPts(hg.w, hg.h, hg.p))};filter:blur(5px)`);
-    scr.appendChild(card(xx, yy, hg, u));
+    const up = i === HOVER;                      // raised: the whole card comes up over the edge, same size
+    const xx = hx + i * (hg.w + G), yy = up ? H - hg.h - 12 : ledgeTop + LEDGE_PAD;
+    if (DEPTH) el("shadow", xx + (up ? 10 : 4), yy + (up ? 16 : 6), hg.w, hg.h, scr, `background:rgba(0,0,0,${up ? 0.55 : 0.45});clip-path:${poly(hexPts(hg.w, hg.h, hg.p))};filter:blur(${up ? 10 : 5}px);z-index:${up ? 6 : 0}`);
+    const c = card(xx, yy, hg, u);
+    if (up) c.style.zIndex = 7;
+    scr.appendChild(c);
   });
   sidePanels(false);
   return { h, w, g };

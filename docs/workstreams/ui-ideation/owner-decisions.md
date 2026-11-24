@@ -219,5 +219,7 @@ The owner rejected every card frame from the frame pass ("All of these frames fe
 | L7 | The board stays two rows, four over three. | "I still think that the board having the 4-3, the two rows, is important to me." |
 | L8 | The card's points take a regular hexagon's angles; its height and ratio are open. | "I'm willing to sacrifice card height, and I would like to keep the card's angles at exactly the shape of a regular hexagon for the top part ... We could even actually go to less than a regular hexagon, I suppose." |
 | L9 | A little depth is wanted; how is open. | "Giving a bit more of a 3D feel ... almost like two-and-a-half-D ... Surprise me, I guess." |
+| L10 | Cards in the hand are the same size as on the board. The hand may be cut off by the bottom of the screen, and a card rises when pointed at. Restates row 36. | "For me it's a non-negotiable that the cards are the same size in the hand, because you need to be able to drag them around ... I'd rather have the hand trim off the bottom of the screen and the bottom half of the card not be visible. And hovering over the card pops it out vertically." (later the same day; the owner added "maybe it's not a non-negotiable" and "I'm very torn") |
+| L11 | The card's ratio may change from 0.56. | "I don't mind the aspect ratio change." |
 
 These are choices among mock-ups on `ideation/ui-ux`. Nothing here is in the game, and the earlier frame recipe (mostly lead, glass in the lower third) is dropped.
