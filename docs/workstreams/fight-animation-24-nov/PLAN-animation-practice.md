@@ -41,3 +41,13 @@ A fresh agent questioned this plan. Its main point: as written, no step makes an
 - **Pass 2's results** feed in as evidence once they land; no scope is added to running workers.
 
 Open for the owner: the pilot now or later; whether card- and keyword-specific animations are in scope now; whether the practice extends the existing skills or becomes its own.
+
+## The owner's decisions (24 Nov, dictated, filler removed)
+
+> "I follow your recommendation on one [the pilot now], as long as you understand the guidelines aren't necessarily finalized and we're trying to measure how to improve them. We're also not trying to lock it in as final yet. We're just trying to experiment on it. In terms of them, there'll be an animation skill, I agree. I agree absolutely: animations for single cards and keywords are absolutely in scope. I don't know about the combo hit burst *[heard as "compa hit first"]*. I think maybe you might need multiple hits to trigger a combo. I think a single hit probably shouldn't, but I'm not sure. I'll evaluate it when you show it to me. … I don't think I have enough information to disagree with your calls because I'm not into the details. So I think your calls are good."
+
+So:
+- The pilot runs now, as an experiment that also measures the practice: where the process helped, where it got in the way, and what to change.
+- A `bramble-motion` skill exists on this branch, marked experimental, pointing to the drafts.
+- Card- and keyword-specific animations are in scope (Thorns first).
+- Combo: the count and burst start only from the second hit; a single hit stays a plain hit.
