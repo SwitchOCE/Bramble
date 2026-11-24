@@ -8,9 +8,9 @@ Written after reading R1–R3 and plans A, B and C, and checking their claims ag
 
 1. **A wind-up you can see:** the attacker lifts toward the camera (×1.14 over 10 f, with today's small 12 px pull-back), then holds dead still for 16 f. All waiting happens in that raised hold.
 2. **One straight strike:** constant speed, 7–9 f at any distance, so far attacks fly fast. It stops overlapping the target (today's 0.62 h near, deeper far), pops ×1.24 on contact, holds 0 f, and returns fast then slow.
-3. **A moving card never pauses.** What the rules resolve before the hit plays in the hold. The exchange (both hits, Cleave, shield, Venomous) lands at contact. Everything after waits until the attacker is home.
+3. **A moving card never pauses.** What the rules resolve before the hit plays in the hold (a guess: Battlegrounds footage has no case of this). The exchange (both hits, Cleave, shield, Venomous) lands at contact. Everything after waits until the attacker is home.
 4. **After the hit, one beat at a time, tails overlapping.** A death falls 30 f after the hit, so its number reads first. The next attacker lifts in place at C+28, under the aftermath.
-5. **Repeats become a combo that speeds up** (gaps shrink ×0.75 down to 5 f, and everything after the 8th lands in one beat), so any chain is capped at about 1.6 s. A plain attack stays near today's length: 61 f against 57.
+5. **Repeats become a combo that speeds up** (gaps shrink ×0.75 down to 5 f, and everything after the 8th lands in one beat), so one repeat group is capped at about 1.6 s. A moment's whole aftermath can run longer: the comparison fight's longest runs 156 f (2.6 s). A plain attack stays near today's length: 61 f against 57.
 
 **Why this beats each plan:**
 - **A** copies Battlegrounds: every plain attack gets 25 % longer (71 f), and Battlegrounds' long chains are what the owner complained about on 18 Nov.
@@ -42,28 +42,30 @@ Written after reading R1–R3 and plans A, B and C, and checking their claims ag
 
 | Case (our board) | Distance | Travel | Strike | Speed | Return | Lift to contact |
 |---|---|---|---|---|---|---|
-| Straight across | 1.18 h | 0.56 h (140 px) | 7 f | 20 px/f | 12 | 33 f |
-| Diagonal neighbour | 1.32 h | 0.70 h | 7 f | 25 px/f | 12 | 33 f |
-| Two slots over | 1.69 h | 1.12 h | 8 f | 35 px/f | 14 | 34 f |
-| Far corner, front row | 2.17 h | 1.68 h | 8 f | 53 px/f | 14 | 34 f |
-| Front row to back row | 2.06 h | 1.66 h | 8 f | 52 px/f | 14 | 34 f |
-| Back row to far back row | 3.14 h | 2.74 h | 9 f | 76 px/f | 16 | 35 f |
+| Straight across | 1.18 h | 0.56 h (140 px) | 7 f | 22 px/f | 12 | 33 f |
+| Diagonal neighbour | 1.32 h | 0.70 h | 7 f | 27 px/f | 12 | 33 f |
+| Two slots over | 1.69 h | 1.12 h | 8 f | 37 px/f | 14 | 34 f |
+| Far corner, front row | 2.17 h | 1.68 h | 8 f | 54 px/f | 14 | 34 f |
+| Front row to back row | 2.06 h | 1.66 h | 8 f | 53 px/f | 14 | 34 f |
+| Back row to far back row | 3.14 h | 2.74 h | 9 f | 77 px/f | 16 | 35 f |
 
-For comparison: Battlegrounds strikes at 5 px/f near and 68 px/f across its board, Galaxy takes 30 f from lift to contact, and today takes 12 f.
+Travel is home to the stop; speed also covers the 12 px pull-back (the film measured 21.6 px/f straight across). For comparison: Battlegrounds strikes at 5 px/f near and 68 px/f across its board, Galaxy takes 30 f from lift to contact, and today takes 12 f.
 
 ## 3. Ordering rules
 
 1. **Nothing pauses once it moves.** A strike, return, fall or arrival always runs to its end.
 2. **Each attack's log splits into three windows.** The screen reorders only inside a window, and only where every number shown stays true.
-   - **Before the hit** (from `attack` to the exchange's first `damage`): plays **in the hold**. The hold becomes max(16, the last item's landing + 8).
+   - **Keyed on the combat action, not on the first `damage`.** A fully prevented exchange logs no `damage` (`combat.gd` 626–655), and War-drummer's death effects can log damage, destroy, summon or start an attack inside `on_attack` (`drum.gd` 21–27). The cleanest key is a display-only marker logged by `_attack_steps` where the exchange starts, or a note that it was skipped. Without one: the exchange starts at the first `damage` or `prevented` from the attacker to the defender with `from_attack` true (for `prevented`, reason `absorbed` or `takes_no_damage`), and there was none if a death pass or the attacker's after_attack comes first. To check when built.
+   - **Before the hit** (from `attack` to the exchange, or to where it is skipped): plays **in the hold**. Anything may play there: beats, arrivals (Captain's Cousin, `captain.gd` 21–22; Drum's summons) and whole nested attacks, while the attacker stays raised. The hold becomes max(16, the last item's end + 8). **G:** no Battlegrounds footage (R1) shows an attacker's own trigger before its hit.
+   - **A kill before the hit.** The attacker dies: it falls from its raised pose and never strikes. The defender dies: the exchange is skipped (`combat.gd` 429) and the attacker settles back unstruck. If the kill came from `on_attacked` (Thorns), the attack ends there with no after_attack (`combat.gd` 419–422). If it came later (`on_attack`, Drum, pile-ons, a nested attack), after_attack still plays (432–435).
    - **At the hit:** the exchange, Cleave, strike back, the shield's `status` and `prevented`, and Venomous. All land at C+2. Overrun hops start at C+8, 6 f each.
-   - **After the hit** (after_attack, deaths and everything they cause): starts at C+14. Near, the attacker is home at C+13.
+   - **After the hit** (after_attack, deaths and everything they cause): starts at max(C+14, attacker home): C+14 near, C+15 for 14 f returns, C+17 for 16 f returns.
 3. **A beat** (one trigger and its effect): the source pulses (today's trigger lift and glow, 6 f), jabs 0.08 h toward its target from f6 to f10 (today's jab motion, standing in for a drawn link, which needs art), and the effect lands at f12 (f6 on itself). The next beat starts at that landing + 6. One source on many cards is one beat, landing on all at once (M: Battlegrounds T3). Different mechanics play one at a time, in log order.
-4. **Deaths.** A pass falls together: at C+30 when killed in the exchange, 20 f after the killing landing otherwise. A dead unit's effects start from its empty slot when the fall ends.
+4. **Deaths.** A pass falls together: at C+30 when killed in the exchange, 20 f after the killing landing otherwise. A dead unit's effects start from its empty slot when the fall ends. Arrivals go to the slot their event names: a Molt or Root return comes back to its own slot, else the nearest empty one (`fight_deaths.gd` 98).
 5. **Combo** (3+ back-to-back items with the same mechanic and effect, any sources): first item full (18 f to the next), each later gap 0.75 × the last, floor 5 f. From the 9th, the rest land together. A card hit again and again keeps one burst, which re-pops with the running total. The count holds 16 f at the end.
 6. **The next attacker** lifts at max(C+28, queue end − 16) and launches at max(lift + 26, queue end + 4). Queue end is the last landing, fall end or arrival end. So it never sits raised for more than about 20 f during a chain (as in plan C).
 7. **Speed-up.** If a moment's after-hit queue would pass 120 f, beats after the first 60 f play faster, rising to 1.5×. Strikes keep their frames; falls stay ≥10 f. No attack-count ramp: our fights are short, and lengths "shouldn't vary too much" (owner, 18 Nov). G.
-8. **Extra attacks.** The same unit again (Windfury, Oakfeller, Tourney Champion) re-lifts from mid-return at C+8 in 6 f, holds 8 f and strikes. Another unit out of turn: a full lift once its cause lands. A nested attack finishes its own aftermath before the order resumes.
+8. **Extra attacks.** The same unit again (Windfury, Oakfeller, Tourney Champion): the rules resolve each swing's death round before the next swing (`combat.gd` 334–341, 436); Oakfeller's extra attack comes only after its kill's death round (`oakfeller.gd` 42–64); Tourney Champion's attacks are each a full `attack_now` (`tourney.gd` 26–29). So it re-lifts in 6 f at max(C+8, queue end − 14), holds 8 f and launches no earlier than queue end + 4. It re-lifts from mid-return only when the after-hit queue is empty. Oakfeller always waits for its kill's fall. Another unit out of turn: a full lift once its cause lands. A nested attack finishes its own aftermath before the order resumes.
 
 ## 4. The decision tree
 
@@ -84,10 +86,10 @@ The full tree as data is `tree.json`; each node is one row here. **CB** marks a 
 |---|---|---|---|---|---|
 | `attack`, in turn | Section 2 (CB1, CB2, CB3) | rule 6 (CB6) | its three windows | — | 33–35 to contact |
 | `trigger` logged before `attack` (Hedge Lancer) | Its pulse merges into the lift. `takes_no_damage` shows today's "0" burst on the attacker at C+2. | with the lift | — | — | 0 |
-| Same unit again (Windfury, Oakfeller, Tourney) | Re-lift 6 + hold 8 + strike | C+8 | — | Tourney: hold −2 f per repeat, never under 4 | about −20 against a fresh attack |
+| Same unit again (Windfury, Oakfeller, Tourney) | Re-lift 6 + hold 8 + strike (rule 8); from mid-return only when the after-hit queue is empty; Oakfeller after its kill's fall | max(C+8, queue end − 14); launch ≥ queue end + 4 | — | Tourney: hold −2 f per repeat, never under 4 | about −20 against a fresh attack when nothing is queued |
 | Out of turn, another unit (Air Marshal's reservist, Needle Sister, Hand-me-down → Sister) | Full lift, hold 8 base | its cause's landing | the rest of the chain | in log order, nested | 31–33 to contact |
 
-**Before the hit: played in the hold (CB4)**
+**Before the hit: played in the hold (CB4; G)**
 
 | If… | Shows | Starts | Waits for it | Repeats | Cost |
 |---|---|---|---|---|---|
@@ -95,7 +97,8 @@ The full tree as data is `tree.json`; each node is one row here. **CB** marks a 
 | Thorns `damage`, not lethal | Defender pulses; burst on the raised attacker | hold f0 | the strike | — | 0–4 |
 | Thorns kills the attacker | Burst, then it falls from its raised pose. **No strike** (the rules' outcome) | as above | its death effects | — | the hold + fall |
 | `hit` (pile-on) with its `uses` and `trigger` | Pilers jab in reading order, 5 f apart (today's jab); target's burst re-pops with the total | hold f0 | the strike | up to 4 | +3 to +11 |
-| Pilers kill the target | Attacker settles back unstruck (8 f); after_attack still plays | last jab + 20 | — | — | +8 |
+| Drum's death effects, Captain's Cousin, a nested attack | Played in the hold as beats, arrivals or a whole attack; the attacker stays raised | hold f0 | the strike | in log order | their own cost |
+| Any kill of the defender before the hit (pilers, Drum, a nested attack, `on_attacked`) | Attacker settles back unstruck (8 f). after_attack still plays, except after an `on_attacked` kill | the kill's fall end | — | — | +8 |
 | Shield `status` logged before its `prevented` | Moved to contact | C | — | — | 0 |
 
 **At the hit**
@@ -103,7 +106,7 @@ The full tree as data is `tree.json`; each node is one row here. **CB** marks a 
 | If… | Shows | Starts | Waits for it | Repeats | Cost |
 |---|---|---|---|---|---|
 | `damage` (exchange, strike back, Cleave) | Bursts and Health on all, same frame | C+2 | death check | all at once | 0 |
-| `prevented` (shield, takes_no_damage, Stag Beetle) | Today's "0" burst, blocked knock-back; the pill drops (`status` rider) | C+2, or where the effect lands | — | with the hit | 0 |
+| `prevented` (shield, takes_no_damage; Stag Beetle against effect damage and Cleave, `combat.gd` 633) | Today's "0" burst, blocked knock-back; the pill drops (`status` rider) | C+2, or where the effect lands | — | with the hit | 0 |
 | Venomous `trigger` → `destroy` → `status` | Today's numberless burst | C+2 | death at C+30 | rare | 0 |
 | Overrun `trigger` → `damage` | Burst on the next enemy (stand-in: no line) | C+8, then +6 per hop | death check | per hop | +6 per hop |
 
@@ -121,12 +124,12 @@ The full tree as data is `tree.json`; each node is one row here. **CB** marks a 
 | `buff` to itself (Grow, Molt gain, Veteran, Coppicer) | Pulse; numbers pop at f6 | beat | — | combo | 12 |
 | Two different mechanics at the same moment | One at a time, the second at the first's landing + 6 | — | — | — | +18 each |
 | The same mechanic ×N (N ≥ 3) | Combo, rule 5 (CB7) | beat | the next beat | — | ~98 for any N ≥ 9 |
-| `summon` (death effects, Hoppers, Cousin, King Speck, Elder Mother, Old Stump) | Drops in from 0.15 h above with today's fade, 12 f, landing at f9 | when the fall in its slot ends, or its beat's landing | its `on_fight_enter` | one source: a wave 4 f apart | 12 + 4 per extra |
+| `summon` (death effects, Hoppers, Cousin, King Speck, Elder Mother, Old Stump) | Drops in from 0.15 h above, into the slot the event names, with today's fade, 12 f, landing at f9 | when the fall in its slot ends, or its beat's landing | its `on_fight_enter` | one source: a wave 4 f apart | 12 + 4 per extra |
 | `reserve` | Rises from below its slot, 14 f, with the slot's Renown | the fall end | Weasel, Air Marshal | up to 2 | 14 |
-| `return` (Molt, Root) | Today's fade-in in its own slot. Stand-in for the accepted husk and roots looks, which aren't built | the fall end | after_friendly_return | one per death | 12 |
+| `return` (Molt, Root) | Today's fade-in in the slot the event names (its own, else the nearest empty one). Stand-in for the accepted husk and roots looks, which aren't built | its own fall end | after_friendly_return | one per death | 12 |
 | `heap_use` | Your Compost plate pops | with its summon | the summon | — | 0 |
 | `summon_failed` | nothing; a lost Hopper's +1 Tide rides | — | — | — | 0 |
-| Riders: `stats`, `status` (not a shield), `uses`, `player_counter`, `heap_add`, `heap_remove`, `slot` | Numbers, pips, pills or your plates change on their cause's landing (a lender's aura at its fall). Stealth ends at the lift; Molt or Root used at the return. Opponent's plates: nothing. | cause | — | all at once | 0 |
+| Riders: `stats`, `status` (not a shield), `uses`, `player_counter`, `heap_add`, `heap_remove`, `slot` | Numbers, pips, pills or your plates change on their cause's landing (a lender's aura ends at the lethal hit or `destroy`, when the core removes it: `fight_auras.gd` 19, `combat.gd` 673, 724). Stealth ends at the lift; Molt or Root used at the return. Opponent's plates: nothing. | cause | — | all at once | 0 |
 | `renown`, `gold` | Nothing (they count next fight, as today) | — | — | — | 0 |
 
 **Not in the tree:** `instead_of_attack` and an in-fight `counter`. No card produces them (R3). Divine Shield, Reborn and Stealth exist only on stand-in units; they are covered by the shield and `status` rows.
@@ -147,7 +150,7 @@ Contact to the next contact, in frames. The best proposal's numbers are worked o
 | One trigger ×10 | 530 | **~98** | ~128 | ~75 | ~137 | ~470–500 (M) |
 | 8-attack fight (start, 4 plain, 3 with a death, 1 chain) | ~650 (10.9 s) | **~613 (10.2 s)** | ~690 | ~417 | ~620 | — |
 
-Plain attacks cost 4–6 f more than today. Anything with triggers costs much less. No moment runs past about 2 s, except chains that loop through several death passes; rule 7 trims those.
+Plain attacks cost 4–6 f more than today. Anything with triggers costs much less. A repeat group never passes about 1.6 s. A moment's whole aftermath can: the comparison fight's longest runs 156 f (2.6 s). Rule 7 trims those.
 
 ## 6. Contested branches
 
@@ -158,8 +161,8 @@ All clips use the fixed comparison fight, panes side by side, looped 3× at 1×.
 | CB1 | Wind-up | Today: 4 f, 12 px pull, ×1.04 · A: 10 f lift to ×1.15, no pull, 18 f hold · B: 8 f to ×1.14, 15 px pull, 14 f hold · C: 10 f to ×1.18, 20 px pull, 14 f hold, amber rim glow (needs art; stand-in: today's lunge glow) · Best: 10 f to ×1.14, 12 px pull, 16 f hold | **Best.** The lift and hold are measured on Battlegrounds; the small pull shows the aim on a flat board full of diagonal and back-row targets. | Plain attack straight across, 5 panes. Lift length, scale, pull-back and hold. |
 | CB2 | Stop point | A: 0.78 h near · B: 0.70 near, 0.50 far · Today: 0.62 everywhere · Best: 0.62 near → 0.45 far, 0.40 back row · C: 0.50 near, 0.42 far | **Best.** Today's near stop already goes deeper than Battlegrounds'; C's covers the target's Health just as it changes. | (a) Plain attack straight across, 4 panes; (b) attack to a far target, 4 panes. The centre gap only. |
 | CB3 | Strike curve | A, B, best: linear · C: mild ease-in (power 1.6) · Today: quad ease-in | **Linear.** It is measured (R1), and after a dead-still hold it gives the sharpest change of speed. | Attack to a far target, 3 panes, all 8 f; then once at 0.25× with a position trail. The curve only. |
-| CB4 | Trigger before the hit (the owner's own point) | Today: freeze at contact (41 f for Rally) · A, B, C, best: in the raised hold · After the return, with the gain already in the hit's numbers (listed by A and C, not picked; the most literal reading of "then the other animation goes off") | **The hold.** Cause shows before effect, and nothing pauses. | Attack whose trigger fires before the hit, 3 panes. Where the trigger plays. |
-| CB5 | When a dead card falls | B: C+14 · C: crack C+18, shatter C+24 (needs art; stand-in: today's fall at C+24) · Best: C+30 (A's C+33 is too close to film apart) · Battlegrounds 2020–25: C+60 | **C+30.** Its number gets ~28 f to read, and the fall still hides under the next lift. | Kill whose death effect summons, 4 panes. The fall's start only; the summon follows the fall in all. |
+| CB4 | Trigger before the hit (the owner's own point) | Today: freeze at contact (41 f for Rally) · A, B, C, best: in the raised hold · After the return, with the gain already in the hit's numbers (listed by A and C, not picked; the most literal reading of "then the other animation goes off") | **The hold** (G: no Battlegrounds footage of this case). Cause shows before effect, and nothing pauses. | Attack whose trigger fires before the hit, 3 panes. Where the trigger plays. |
+| CB5 | When a dead card falls | B: C+14 · C: crack C+18, shatter C+24 (needs art; stand-in: today's fall at C+24) · Best: C+30 (A's C+33 is too close to film apart) · Battlegrounds 2020–25: C+60 | **C+30.** Its number gets ~28 f to read, and the fall still hides under the next lift. | The Orchard Stripper killed in the exchange, 4 panes; its death effect then damages every card. (The fight's only summoning kill is a Thorns kill, so it can't show a fall after contact.) The fall's start only; the death effect follows the fall in all. |
 | CB6 | When the next attacker lifts | B: C+8 · Best and C: C+28; during a chain, when ≤16 f of queue are left · A: C+36, then holds up to ~48 f · Battlegrounds: early, held as long as needed (220 f seen) | **C+28 with the queue gate.** "Who's next" shows in the aftermath, but no raised card competes with a chain for the eye. | (a) Two plain attacks in a row; (b) the kill with a summon; 4 panes each. The lift rule only. |
 | CB7 | One trigger many times | Battlegrounds: one at a time, ~2× faster by the end, no count · A: 2 full, then ×0.7, floor 8 f, ×N · B: ×0.75 from the 2nd, floor 4 f, one re-popping running-total burst, rest together after the 8th, ×N · C: ×1.3 tempo per repeat to ×3.5, ×N lozenge · Best: B's shape, floor 5 f (the trigger cue's 80 ms gap still fits) | **Best.** The ×N counter needs art; stand-in: the re-popping running-total burst. The owner asked for the counter, so what's needed is a picture and his yes. | Trigger repeated many times, 4 panes (Battlegrounds-style, A, C, best), none with ×N; plus 1 pane of best with a plain-text "×N" marked as a placeholder. Gap sequence and burst handling. |
 
@@ -184,7 +187,7 @@ No cue today for the lift, the launch or the combo's final count. `delay_s` is w
 - Whether 10 + 16 f reads as "very clearly visible", or as a stall.
 - Whether ×1.14 reads as rising toward the camera on a flat glass board.
 - Whether a 140 px strike straight across reads as "all the way", and whether a linear strike feels heavy or mechanical.
-- Whether 76 px a frame on the longest attack strobes. That needs real hardware at full frame rate; a film can't show it.
+- Whether 77 px a frame on the longest attack strobes. That needs real hardware at full frame rate; a film can't show it.
 - Whether a card falling while the next attacker lifts reads as two things or as clutter.
 - Whether a back-row hit through the front row reads as hitting the back-row card.
 - Whether the jab stand-in shows cause and effect well enough, or a drawn link is needed (art pass).

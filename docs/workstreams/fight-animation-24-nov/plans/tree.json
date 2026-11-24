@@ -114,8 +114,8 @@
    "id": "attack.again",
    "parent": "fight",
    "condition": "the same unit attacks again (Windfury, Oakfeller after a kill, Tourney Champion's next target)",
-   "shows": "re-lift from mid-return in 6 f, hold 8 f, strike",
-   "starts": "C+8 of its previous attack",
+   "shows": "re-lift in 6 f, hold 8 f, strike; the rules resolve each swing's death round first (combat.gd 334–341, 436); from mid-return only when the after-hit queue is empty; Oakfeller always waits for its kill's fall (oakfeller.gd 42–64); each Tourney attack is a full attack_now (tourney.gd 26–29)",
+   "starts": "max(C+8, queue end − 14); launch no earlier than queue end + 4",
    "waits_for": "—",
    "repeats": "Tourney: hold −2 f per repeat, never under 4",
    "cost_frames": 41,
@@ -135,8 +135,8 @@
   {
    "id": "pre",
    "parent": "attack",
-   "condition": "logged between attack and the exchange's first damage",
-   "shows": "played in the raised hold; hold = max(16, last landing + 8)",
+   "condition": "logged between attack and the exchange, keyed on the combat action (a display-only exchange marker from _attack_steps; fallback: the first damage or prevented from attacker to defender with from_attack, none if a death pass or after_attack comes first); a fully prevented exchange logs no damage",
+   "shows": "played in the raised hold; hold = max(16, last item's end + 8). Guess (G): no Battlegrounds footage of an attacker's own trigger before its hit",
    "starts": "hold f0",
    "waits_for": "the strike",
    "repeats": "in log order",
@@ -168,7 +168,7 @@
   {
    "id": "pre.thorns_lethal",
    "parent": "pre",
-   "condition": "Thorns kills the attacker",
+   "condition": "the attacker dies before the hit (Thorns, or anything in the hold)",
    "shows": "burst, then it falls from its raised pose; no strike (the rules end the attack)",
    "starts": "hold f0",
    "waits_for": "its death effects",
@@ -188,15 +188,26 @@
    "contested_branch_id": null
   },
   {
-   "id": "pre.pileon_kill",
-   "parent": "pre.pileon",
-   "condition": "pilers kill the target",
-   "shows": "attacker settles back unstruck over 8 f; after_attack still plays",
-   "starts": "last jab + 20",
+   "id": "pre.defender_dies",
+   "parent": "pre",
+   "condition": "the defender dies before the hit (pilers, Drum's death effects, a nested attack, on_attacked)",
+   "shows": "exchange skipped (combat.gd 429); attacker settles back unstruck over 8 f; after_attack still plays, except after an on_attacked kill, which ends the attack (combat.gd 419–422)",
+   "starts": "the kill's fall end",
    "waits_for": "—",
    "repeats": "—",
    "cost_frames": 8,
    "contested_branch_id": null
+  },
+  {
+   "id": "pre.other",
+   "parent": "pre",
+   "condition": "other beats, arrivals or nested attacks before the hit (War-drummer's death effects inside on_attack, drum.gd 21–27; Captain's Cousin, captain.gd 21–22; an out-of-turn attack)",
+   "shows": "played in the hold as beats, arrivals or a whole attack; the attacker stays raised",
+   "starts": "hold f0",
+   "waits_for": "the strike",
+   "repeats": "in log order",
+   "cost_frames": 18,
+   "contested_branch_id": "CB4"
   },
   {
    "id": "pre.shield",
@@ -223,7 +234,7 @@
   {
    "id": "hit.prevented",
    "parent": "hit",
-   "condition": "prevented (shield absorbed, takes_no_damage, Stag Beetle against effect damage)",
+   "condition": "prevented (shield absorbed, takes_no_damage, Stag Beetle against effect damage and Cleave, combat.gd 633)",
    "shows": "today's '0' burst, blocked knock-back 30 %; shield pill drops (status rider)",
    "starts": "C+2, or where the effect lands",
    "waits_for": "—",
@@ -258,7 +269,7 @@
    "parent": "attack",
    "condition": "after_attack, deaths and everything they cause",
    "shows": "beats in log order; each starts at the previous landing + 6",
-   "starts": "C+14 (attacker home)",
+   "starts": "max(C+14, attacker home): C+14 near, C+15 or C+17 for far returns",
    "waits_for": "the next launch",
    "repeats": "—",
    "cost_frames": 0,
@@ -370,7 +381,7 @@
    "shows": "first full (18 f), each later gap ×0.75, floor 5 f; from the 9th the rest land together; one re-popping running-total burst per card; count held 16 f (a ×N counter needs art)",
    "starts": "beat",
    "waits_for": "the next beat",
-   "repeats": "bounded: ~98 f for any N ≥ 9",
+   "repeats": "bounded per repeat group: ~98 f for any N ≥ 9; a moment's whole aftermath can run longer (the comparison fight's longest: 156 f, 2.6 s)",
    "cost_frames": 98,
    "contested_branch_id": "CB7"
   },
@@ -400,7 +411,7 @@
    "id": "arrive.summon",
    "parent": "after",
    "condition": "summon (death effects, Hoppers, Cousin, King Speck, Elder Mother, Old Stump)",
-   "shows": "drops in from 0.15 h above with today's fade, 12 f, landing f9",
+   "shows": "drops in from 0.15 h above, into the slot the event names, with today's fade, 12 f, landing f9",
    "starts": "when the fall in its slot ends, or its beat's landing",
    "waits_for": "its on_fight_enter",
    "repeats": "one source: a wave 4 f apart",
@@ -422,8 +433,8 @@
    "id": "arrive.return",
    "parent": "after",
    "condition": "return (Molt, Root)",
-   "shows": "today's fade-in in its own slot (stand-in for the accepted husk and roots looks)",
-   "starts": "the fall end",
+   "shows": "today's fade-in in the slot the event names: its own, else the nearest empty one (fight_deaths.gd 98); stand-in for the accepted husk and roots looks",
+   "starts": "its own fall end",
    "waits_for": "after_friendly_return",
    "repeats": "one per dying unit",
    "cost_frames": 12,
@@ -477,7 +488,7 @@
    "id": "rider.stats",
    "parent": "rider",
    "condition": "stats (auras, Lends, the Swarm, Renown)",
-   "shows": "numbers tick with a soft pop; a lender's aura ends at its fall",
+   "shows": "numbers tick with a soft pop; a lender's aura ends at the lethal hit or destroy, when the core removes it (fight_auras.gd 19; combat.gd 673, 724)",
    "starts": "cause's landing",
    "waits_for": "—",
    "repeats": "whole side at once",
@@ -634,7 +645,7 @@
     {
      "label": "In the raised hold",
      "from_plan": "A, B, C, best",
-     "summary": "played before the strike launches; the hold stretches"
+     "summary": "played before the strike launches; the hold stretches; a guess (G): no Battlegrounds footage of this case"
     },
     {
      "label": "After the return",
@@ -646,7 +657,7 @@
   },
   {
    "id": "CB5",
-   "title": "When a dead card falls",
+   "title": "When a dead card falls (moment: the Orchard Stripper killed in the exchange)",
    "options": [
     {
      "label": "Early",
