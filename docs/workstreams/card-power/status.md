@@ -82,6 +82,13 @@ Trace (job 1), early findings: the process flagged these cards four times (16, 1
 
 - **The owner's follow-up on ignored cards (25 Nov night):** change the rules the bot teams work under so they have to find uses for cards ("the value tables can't set a card to zero ... It's very hard to create a rule that can't be gamed"). The session's answer: rule on measured results, not on a bot's insides. Two proposals to write up with the league changes: (a) each team fields a roster, one bot per tribe or style, and the team's score counts all of them; (b) a bounty for any card bought on under 1 offer in 100: a team earns it with a bot variant that plays the card often and that the referee's left-out test shows really depends on it. A card no team can claim goes to design as weak.
 
+## Update, 25 Nov, last of the day
+
+- The owner answered the two review questions "Yes to both"; the unused damage-taken fields are dropped. Draft pull request to `dev`: https://github.com/SwitchOCE/Bramble/pull/257. A fresh review of the whole branch found no cut items; its two small fixes are applied. Two questions are with the owner before merge: keep or drop the plain refight's own statistics (`summary.tsv`), and whether this status file goes to `dev` or is removed before merge.
+- More left-out results on r1: all four Grudge cards together, blue 0.74 places worse, red no loss; Gleaner, red 0.32 places BETTER without it (bought in 883 of 1,000 games), so red over-values it; Fencing Master, no effect.
+- The owner rejected specialist bots (the Stockfish point: one bot that is simply good). The session's revised advice: test generality by taking tribes away. Running: `matches/r1-no-badger-locust` (every Badger and Locust unit left out of both bots' shops; list in `matches/without-badger-locust.txt`). Read: each bot's average place, what it ends on, and then the per-card measures on the other three tribes.
+- Roster idea dropped; bounty on ignored cards held back unless the tribes-missing match still leaves cards with no data.
+
 ## Next steps, in order
 
 1. When `ref-field` finishes: play a 2,000-game baseline on it with the tree's binary (records are forced on; delete them after), and check each bot's average place is near 4. If it is under 3.5, say so.
