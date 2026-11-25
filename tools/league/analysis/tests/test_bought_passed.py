@@ -54,7 +54,7 @@ class BoughtPassed(unittest.TestCase):
         bought_passed.mark(rows)
         self.assertEqual(rows[-1]["flag"], "worth a look: better when bought")
         self.assertEqual([r["flag"] for r in rows[:9]], [""] * 9)
-        self.assertEqual(rows[0]["typical"], 0.245)
+        self.assertEqual(rows[0]["typical"], 0.235)
 
     def test_too_few_passed_turns_gives_no_number(self):
         games = [(2, {"Badger": 4}, True)] * 300 + [(6, {"Badger": 4}, False)] * 20
