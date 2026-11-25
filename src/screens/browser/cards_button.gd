@@ -1,15 +1,22 @@
 class_name CardsButton
 extends Control
-## Only the recruit-screen entry. Its round target sits opposite the settings cog.
+## The recruit screen entry and its browser stand-in.
 
 signal pressed
 
 var held: Callable
+var l1: bool = false
+var at: Vector2 = BrowserLook.BUTTON_AT
 
 
 func _ready() -> void:
-	position = BrowserLook.BUTTON_AT
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if l1:
+		var entry: TextureRect = L1ColumnArt.entry("right.library", L1ColumnArt.BOOK, _pressed)
+		entry.name = "CardsButton"
+		add_child(entry)
+		return
+	position = at
 	var button: GlassBox = GlassUi.button(self, "", Vector2.ZERO, BrowserLook.BUTTON_SIDE, _pressed)
 	button.name = "CardsButton"
 	button.box_size = Vector2.ONE * BrowserLook.BUTTON_SIDE

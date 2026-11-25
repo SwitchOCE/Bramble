@@ -61,10 +61,15 @@ class Pruning(unittest.TestCase):
         self.write("timing.json", {"seconds": 2})
         with self.assertRaisesRegex(ValueError, "--cut-verified"):
             prune(self.match, "climb", verdict="kept")
+        with self.assertRaisesRegex(ValueError, "card_report.sh"):
+            prune(self.match, "climb", verdict="kept", cut_verified=True)
         self.assertTrue(self.record.is_file())
+        (self.match / "card-report").mkdir()
+        (self.match / "card-report/cards.csv").write_text("card\n")
         prune(self.match, "climb", verdict="kept", cut_verified=True)
         self.assertEqual({p.name for p in self.match.iterdir()},
-                         {"summary.json", "analysis.json", "timing.json", "verdict.jsonl"})
+                         {"summary.json", "analysis.json", "timing.json", "verdict.jsonl", "card-report"})
+        self.assertTrue((self.match / "card-report/cards.csv").is_file())
         verdict = (self.match / "verdict.jsonl").read_text()
         self.assertEqual(len(verdict.splitlines()), 1)
         self.assertEqual(json.loads(verdict)["red"], "candidate")

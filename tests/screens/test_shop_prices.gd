@@ -78,45 +78,46 @@ func test_shop_shows_core_prices_for_every_unit_tier_and_every_spell() -> void:
 		_screen.hide()
 
 
-func test_a_bought_spell_changes_from_shop_coin_to_the_original_hand_cost_disc() -> void:
+func test_a_bought_spell_changes_from_shop_coin_to_the_l1_hand_disc() -> void:
 	var flow: GameFlow = _flow()
 	var me: PlayerState = flow.human()
 	me.shop_spells = [&"sp_seek"]
 	_make(ViewAdapter.recruit_state(flow))
-	var offered: Control = _screen.node_for("spell", 0)
+	var offered: GlassSpell = _screen.node_for("spell", 0)
+	assert_true(offered.shop_disc)
+	assert_eq(offered.size, Vector2(116, 116))
 	var coin: GoldCoin = offered.get_node("Cost")
+	assert_almost_eq(coin.position, Vector2(77.1, 77.1), Vector2.ONE * 0.01)
 	assert_eq(coin.amount, 3, "shop offer has the numbered gold coin")
 	assert_eq(flow.session.act(0, {"type": "buy", "spell": true, "index": 0}), "")
 	_screen.show_state(ViewAdapter.recruit_state(flow))
 	_screen.settle()
-	var held: Control = _screen.node_for("hand", 0)
-	var disc: GlassBox = held.get_node("Cost")
+	var held: GlassSpell = _screen.node_for("hand", 0)
+	assert_true(held.hand_disc, "the hand uses a full-size disc")
+	assert_eq(held.size, Vector2(140, 140), "the disc is the full width of a unit card")
+	assert_null(held.get_node_or_null("Cost"), "the approved disc shows only spell art")
 	assert_null(_coin(held), "no price coin outside the shop")
-	var cream: Array = GlassPieces.rule("card", ".card .cost", "background")
-	assert_eq(disc.layers, cream, "the original cream disc")
-	assert_almost_eq(disc.position.x, -2.8, 0.001, "the original left shoulder")
-	assert_almost_eq(disc.position.y, 22.660758, 0.001)
-	assert_almost_eq(disc.box_size.x, 44.8, 0.001, "the original cream disc size")
-	var number: GlassText = disc.get_child(0)
-	assert_eq(number.words, "3", "the printed spell cost is retained")
+	assert_eq(held.cost, 3, "the printed spell cost is retained")
 
 
-func test_counter_and_cost_update_together_and_top_tier_has_no_upgrade_button() -> void:
+func test_counter_and_cost_update_together_and_top_tier_has_no_upgrade_cost() -> void:
 	var flow: GameFlow = _flow()
 	flow.human().refreshes_paid = 9
 	flow.human().gold = 10
 	_make(ViewAdapter.recruit_state(flow))
-	var counter: GlassText = _screen.find_child("RefreshCounter", true, false)
-	assert_eq(counter.words, "1 left at this price")
+	var beads: L1RefreshBeads = _screen.find_child("RefreshBeads", true, false)
+	assert_eq(beads.step, Vector2i(10, 1))
 	assert_eq(_coin(_screen.find_child("Button_refresh", true, false)).amount, 1)
 	assert_eq(flow.session.act(0, {"type": "refresh"}), "")
 	_screen.show_state(ViewAdapter.recruit_state(flow))
-	counter = _screen.find_child("RefreshCounter", true, false)
-	assert_eq(counter.words, "5 left at this price")
+	beads = _screen.find_child("RefreshBeads", true, false)
+	assert_eq(beads.step, Vector2i(5, 5))
 	assert_eq(_coin(_screen.find_child("Button_refresh", true, false)).amount, 2)
 	flow.human().tier = 6
 	_screen.show_state(ViewAdapter.recruit_state(flow))
-	assert_null(_screen.find_child("Button_tier*", true, false))
+	var readout: Control = _screen.find_child("Button_tier", true, false)
+	assert_not_null(readout, "the top tier keeps a readout")
+	assert_null(_coin(readout), "no cost at maximum tier")
 
 
 func test_sell_cue_shows_copy_value_and_clears_on_release_or_focus_loss() -> void:

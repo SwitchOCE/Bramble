@@ -25,12 +25,17 @@ Make design calls freely and mark them as yours, not decided. What makes a desig
   - Check the check: it should rate Hit as one of the strongest effects, Cleave as very strong, and a plain stat buff at about its own stats. The owner: "Something like Cleave is incredibly good. Something like Hit is unbelievably good." If it doesn't, the check is wrong.
   - It doesn't forbid strong effects: "I don't want to completely eliminate creativity". A strong effect is fine when its number is known and it is paid for (rarer, harder to trigger, smaller, or a capstone).
   - The owner's words in full: `docs/design/sources/2026-11-17a-backlog-scope-shop-tooltips-data.md`.
+- **Price an effect that grows on recorded boards.** For an effect that grows per turn, per death or per unit on the board, give its stats at rounds 6, 10 and 14 on boards from a real match, not on a board you made up. The card report (`tools/league/card_report.sh`) gives each card's growth per turn and how many plain stats its text is worth, by stage; `docs/workstreams/card-power/definitions.md` says how to read them. Why: the costing read Old Brock as on target at round 11 on one made-up board; on recorded boards his text was the strongest of any card from round 13.
+- **Compare the same effect across tiers.** When two cards do the same job at different tiers, put them side by side in the pitch and say why each sits where it does. Why: Sword-heir (tier 3) and Old Brock (tier 6) had nearly the same text, and The Eighth Plague (tier 5) does Gleaner's job (tier 3) and does it worse.
+- **Ask for a first-sight read, and record it.** Before a new or changed card is built, the owner, or a fresh agent that hasn't seen the design work, marks any card that looks too strong or too weak on sight. The pitch records the marks. Why: the owner saw that Sword-heir and Old Brock were too strong "Within two seconds of seeing them", and no stage asked.
+- **A fight on a made-up board illustrates; it isn't evidence.** The rough power number above is a first estimate for a pitch. Once a card is in a recorded match, the card report's numbers replace it.
 - Budgets and taxonomy are guidelines. The tier guide and the effect taxonomy are not exhaustive, and any agent may add an effect that isn't in them.
 
 ## Balancing existing cards
 
 The owner's method (19 Nov 2026). Their words are in `docs/design/owner-notes/2026-11-19a-balance-reads-bot-preferences.md`, `2026-11-19b-balance-pass-aims-and-method.md` and `2026-11-19c-double-tap-nerfs.md`; read them before a balance pass, and follow them over this summary where the two differ.
 
+- **Measure before you tune.** The card step in `docs/workstreams/balance/plan.md` says how one card's power is measured and when a marked card may be changed.
 - **Read what the bots prefer, not only how they place.** Buy rates when a card is on offer, and the values the bots give cards, show what a strong player wants. Placement by tribe hides which cards carried a board.
 - **Weigh four kinds of change for every card:** numbers, economy (its tier), replace it, or rework it. Pick the best of the four, not the first that works.
 - **Check the support before the card.** A card can be strong only because of another card that feeds it (the Flying Ace through the Wing Commander's free attacks). Fix the cause.

@@ -1,8 +1,7 @@
 class_name GlassPieces
 extends RefCounted
 ## The glass mock-ups' own pieces, as tools/glass/pull_mockups.py copies them into assets/glass:
-## the six tier frames, the card data (each tier's Attack and Health discs, the art polygon), the
-## layout numbers read out of the mock-ups' CSS and JS, and the fonts the pages use.
+## art and UI textures, layout numbers read out of the mock-ups' CSS and JS, and their fonts.
 ## layout.json says, for every number, which mock-up file and line it came from.
 
 const ROOT: String = "res://assets/glass/"
@@ -22,17 +21,10 @@ const STAND_IN_ICONS: Dictionary = {
 }
 
 static var _layout: Dictionary = {}
-static var _card_data: Dictionary = {}
 static var _fonts: Dictionary = {}
 ## Loaded textures are kept here: a texture drawn from a local variable is freed before the frame
 ## is rendered, and draws as plain white.
 static var _textures: Dictionary = {}
-
-
-## The frame texture for a tier, 1 to 6.
-static func frame(tier: int) -> Texture2D:
-	assert(tier >= 1 and tier <= TIERS, "tier %d is not 1 to %d" % [tier, TIERS])
-	return _texture(ROOT + "frames/tier%d.webp" % tier)
 
 
 ## Card art by the mock-ups' name for it, such as "badger-1".
@@ -69,12 +61,6 @@ static func _texture(path: String) -> Texture2D:
 		_textures[path] = load(path)
 	var tex: Texture2D = _textures[path]
 	return tex
-
-
-static func card_data() -> Dictionary:
-	if _card_data.is_empty():
-		_card_data = _read_json("card_data.json")
-	return _card_data
 
 
 ## The source record: which mock-ups commit the pieces came from, and each file's hash.
@@ -218,27 +204,9 @@ static func css_colour(css: String) -> Color:
 	)
 
 
-## A tier's disc for "attack" or "health": centre in card units (x, y) and radius (z).
-static func disc(tier: int, which: String) -> Vector3:
-	var tiers: Dictionary = card_data().get("roundels", {})
-	var discs: Dictionary = tiers.get("tier%d" % tier, {})
-	var entry: Dictionary = discs.get(which, {})
-	var centre: Array = entry.get("centre_units", [0.0, 0.0])
-	var x: float = centre[0]
-	var y: float = centre[1]
-	var radius: float = entry.get("radius_units", 0.0)
-	return Vector3(x, y, radius)
-
-
 ## Card space: every position on a card is in these units (card.js U: 560 wide, 1000 tall).
 static func card_units() -> Vector2:
 	return Vector2(number("card.units.w"), number("card.units.h"))
-
-
-## The art window: the polygon the art is clipped to, in card units.
-static func art_polygon() -> PackedVector2Array:
-	var raw: Array = card_data().get("art", [])
-	return _points(raw)
 
 
 ## A line of text as a browser lays it out with line-height: normal, for "display" or "body" at
@@ -281,15 +249,6 @@ static func _font(file: String, weight: int, lining: bool) -> Font:
 		variation.opentype_features = {server.name_to_tag("lnum"): 1}
 	_fonts[key] = variation
 	return variation
-
-
-static func _points(raw: Array) -> PackedVector2Array:
-	var out: PackedVector2Array = PackedVector2Array()
-	for point: Array in raw:
-		var x: float = point[0]
-		var y: float = point[1]
-		out.append(Vector2(x, y))
-	return out
 
 
 static func _read_json(file: String) -> Dictionary:

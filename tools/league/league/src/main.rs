@@ -1,4 +1,4 @@
-use league::{analyze, bench, checkcrate, ghostmatch, matchrun, selfcheck};
+use league::{analyze, bench, checkcrate, ghostmatch, matchrun, refight, selfcheck};
 use std::path::PathBuf;
 
 const USAGE: &str = "usage:
@@ -8,9 +8,15 @@ const USAGE: &str = "usage:
   league ghost-match --red <bot> --blue <bot> --field <store> --games N --seeds <file>
                      --out <dir> [--clock-ms 1000] [--threads K] [--secret <hex>] [--no-decisions]
                      [--red-label <tag>] [--blue-label <tag>] [--debug-logs]
+                     [--without <card id>[,<card id>...] --no-records]
   league selfcheck --records <dir>... [--bots flow-random|tribe] [--games N] [--threads K] [--keep <dir>]
   league check-crate <path> --name <red|blue> [--keep]
   league analyze <dir>
+  league refight --match <dir> [--repo-root <dir>] [--select tribe:<name>[:<min>]]
+                 --out <dir> [--threads N] [--verify] [--field <dir>]
+  league refight --match <dir> --out <dir> [--text-off] [--stat-worth] [--keyword-off <id>[,<id>...]]
+                 [--overrun-swings] [--fresh-copy all|<card id>[,<card id>...]]
+                 [--seeds 2] [--cap 500] [--threads N] [--verify] [--field <dir>]
   league bench [--content all|standin|<folders>] [--games N] [--fight-records <dir>] [--fights N]
   league bots";
 
@@ -118,11 +124,25 @@ fn run(args: &[String]) -> Result<(), String> {
             if m.games == 0 {
                 return Err(format!("usage: --games must be positive\n{USAGE}"));
             }
+            let without = match o.get("without") {
+                None => Vec::new(),
+                Some(list) => {
+                    let ids: Vec<String> = list.split(',').map(|s| s.trim().to_owned()).collect();
+                    if command != "ghost-match" {
+                        return Err(format!("usage: --without is a ghost-match option\n{USAGE}"));
+                    }
+                    if ids.iter().any(String::is_empty) {
+                        return Err(format!("usage: --without needs card ids\n{USAGE}"));
+                    }
+                    ids
+                }
+            };
             let result = if command == "ghost-match" {
-                ghostmatch::run_with_debug_logs(
+                ghostmatch::run_without(
                     &m,
                     &PathBuf::from(o.need("field")?),
                     o.has("debug-logs"),
+                    &without,
                 )?
             } else {
                 matchrun::run_with_debug_logs(&m, o.has("debug-logs"))?
@@ -197,6 +217,91 @@ fn run(args: &[String]) -> Result<(), String> {
                 .ok_or_else(|| format!("usage: missing directory\n{USAGE}"))?;
             let report = analyze::analyze(&PathBuf::from(dir))?;
             println!("{report}");
+            Ok(())
+        }
+        "refight" => {
+            let o = Opts::parse(
+                rest,
+                &["verify", "text-off", "stat-worth", "overrun-swings"],
+            );
+            if !o.free.is_empty()
+                || o.flags.iter().any(|(name, value)| {
+                    ![
+                        "match",
+                        "repo-root",
+                        "select",
+                        "out",
+                        "threads",
+                        "keyword-off",
+                        "seeds",
+                        "cap",
+                        "fresh-copy",
+                        "field",
+                    ]
+                    .contains(&name.as_str())
+                        || value.is_empty()
+                        || value.starts_with("--")
+                })
+            {
+                return Err(USAGE.into());
+            }
+            let dir = PathBuf::from(o.need("match")?);
+            let out = PathBuf::from(o.need("out")?);
+            let root = o.get("repo-root").map(PathBuf::from).unwrap_or(root);
+            let threads = o.num("threads", 1usize)?;
+            if threads == 0 {
+                return Err("usage: --threads must be positive".into());
+            }
+            let verify = o.has("verify");
+            if let Some(field) = o.get("field") {
+                refight::set_field(PathBuf::from(field));
+            }
+            let modes = refight::Modes {
+                text_off: o.has("text-off") || o.has("stat-worth"),
+                stat_worth: o.has("stat-worth"),
+                keywords: o
+                    .get("keyword-off")
+                    .map(|list| list.split(',').map(str::to_owned).collect())
+                    .unwrap_or_default(),
+                swings: o.has("overrun-swings"),
+                fresh: o
+                    .get("fresh-copy")
+                    .map(|list| list.split(',').map(|s| s.trim().to_owned()).collect())
+                    .unwrap_or_default(),
+                seeds: o.num("seeds", 2usize)?,
+                cap: o.num("cap", 500usize)?,
+            };
+            if modes
+                .keywords
+                .iter()
+                .chain(&modes.fresh)
+                .any(String::is_empty)
+            {
+                return Err(USAGE.into());
+            }
+            if modes.any() {
+                if o.get("select").is_some() {
+                    return Err("usage: --select does not combine with the refight modes".into());
+                }
+                let report = refight::run_modes(&dir, &root, &out, &modes, threads, verify)?;
+                println!("{report}");
+                if verify {
+                    report.verify()?;
+                }
+                return Ok(());
+            }
+            if o.get("seeds").is_some() || o.get("cap").is_some() {
+                return Err(
+                    "usage: --seeds and --cap need --text-off, --keyword-off or --fresh-copy"
+                        .into(),
+                );
+            }
+            let select = o.get("select").map(|rule| rule.parse()).transpose()?;
+            let report = refight::run(&dir, &root, &out, select.as_ref(), threads, verify)?;
+            println!("{report}");
+            if verify {
+                report.verify()?;
+            }
             Ok(())
         }
         "bench" => {

@@ -173,24 +173,11 @@ func _is_refresh(before: Dictionary, new_state: Dictionary) -> bool:
 
 func _refresh(before: Dictionary) -> void:
 	_press(_button("refresh"), 0.0)
-	var counter: GlassText = _screen._back.get_node_or_null("RefreshCounter") as GlassText
-	if counter != null and before.has("refreshes_left"):
-		var words: String = counter.words
-		_set_words(counter, "%d left at this price" % GlassPieces.as_int(before["refreshes_left"]))
-		_tl().call_at(AFTER_CLICK, func() -> void: _set_words(counter, words))
-		_centre_pivot(counter)
-		var base: Color = RecruitShop.SHOP_READOUT_TINT
-		var lit: Color = Color("ffe08a")
-		var tint: Color = Color(lit.r / base.r, lit.g / base.g, lit.b / base.b)
-		_tl().frames(
-			AFTER_CLICK,
-			0.3,
-			[[0.0, Vector3(1.15, 1.0, 0.0)], [1.0, Vector3(1.0, 0.0, 0.0)]],
-			GlassMotion.OUT,
-			func(v: Vector3) -> void:
-				counter.scale = Vector2.ONE * v.x
-				counter.modulate = Color.WHITE.lerp(tint, v.y)
-		)
+	var beads: L1RefreshBeads = _screen._back.get_node_or_null("RefreshBeads")
+	if beads != null and before.has("refreshes_left"):
+		var next: Vector2i = beads.step
+		beads.show_step(RecruitShop.refresh_step(before))
+		_tl().call_at(AFTER_CLICK, func() -> void: beads.show_step(next))
 	var units: int = 0
 	for entry: Dictionary in _old_shop:
 		var node: Control = entry["node"]
@@ -242,7 +229,7 @@ func _shop_in(start: float) -> void:
 						GlassMotion.OUT
 					)
 				)
-				_swing_tag(node.get_node_or_null("ShopTag") as Control, at + 0.14)
+				_show_price(node.get_node_or_null("ShopTag") as Control, at + 0.14)
 			else:
 				var at: float = start + (first_gap + index) * IN_STEP + 0.02
 				(
@@ -260,21 +247,12 @@ func _shop_in(start: float) -> void:
 				)
 
 
-## protos.js shopIn: a price tag swings in about its pin, from -28 degrees through 10, as it
-## shows, over 0.26 s.
-func _swing_tag(tag: Control, at: float) -> void:
-	if tag == null:
+## The coin appears as the new shop card lands.
+func _show_price(coin: Control, at: float) -> void:
+	if coin == null:
 		return
-	tag.modulate.a = 0.0
-	_tl().frames(
-		at,
-		0.26,
-		[[0.0, Vector2(0.0, -28.0)], [0.5, Vector2(1.0, 10.0)], [1.0, Vector2(1.0, 0.0)]],
-		GlassMotion.OUT,
-		func(v: Vector2) -> void:
-			tag.modulate.a = v.x
-			tag.rotation_degrees = v.y
-	)
+	coin.modulate.a = 0.0
+	_tl().phase(at, 0.26, func(u: float) -> void: coin.modulate.a = u)
 
 
 static func _shop_size(state: Dictionary) -> int:
@@ -302,8 +280,11 @@ func _tier_up(before: Dictionary) -> void:
 		if tiers != null:
 			var words: String = tiers.words
 			var old: int = GlassPieces.as_int(before.get("tier", 1))
-			_set_words(tiers, "%d → %d" % [old, old + 1])
-			_centre_pivot(tiers)
+			var show_level: Callable = func(level: String) -> void:
+				_set_words(tiers, level)
+				_centre_pivot(tiers)
+				tiers.position.x = (button.size.x - tiers.size.x) / 2.0
+			show_level.call(str(old))
 			_tl().frames(
 				0.02,
 				0.11,
@@ -311,7 +292,7 @@ func _tier_up(before: Dictionary) -> void:
 				GlassMotion.IN,
 				func(deg: float) -> void: tiers.scale.y = cos(deg_to_rad(deg))
 			)
-			_tl().call_at(0.13, func() -> void: _set_words(tiers, words))
+			_tl().call_at(0.13, show_level.bind(words))
 			_tl().frames(
 				0.13,
 				0.18,
@@ -528,7 +509,7 @@ func _join(before: Dictionary) -> void:
 		_tl().fly(
 			node, from, GlassMotion.pose(Vector2(place.x, place.y), place.z), 0.2, 0.22, "out"
 		)
-	var top: Vector2 = RecruitWaitingPile.TOP
+	var top: Vector2 = RecruitWaitingPile.top()
 	for j: int in joining.size():
 		var target: Dictionary = joining[j]
 		var node: Control = target["node"]
@@ -580,7 +561,7 @@ func _join(before: Dictionary) -> void:
 func _count_goes(at: float, was: int) -> void:
 	var chip: Control = RecruitWaitingPile.count_chip(was)
 	chip.name = "WaitingCountGone"
-	chip.position = RecruitWaitingPile.TOP + RecruitWaitingPile.COUNT_OFFSET
+	chip.position = RecruitWaitingPile.top() + RecruitWaitingPile.COUNT_OFFSET
 	chip.pivot_offset = chip.size / 2.0
 	_screen._front.add_child(chip)
 	_tl().frames(
@@ -703,7 +684,6 @@ func _after_end() -> void:
 			var tag: Control = node.get_node_or_null("ShopTag")
 			if tag != null:
 				tag.modulate.a = 1.0
-				tag.rotation = 0.0
 	var chip: Control = _screen._front.get_node_or_null("WaitingCount")
 	if chip != null:
 		chip.modulate.a = 1.0

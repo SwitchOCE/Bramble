@@ -37,7 +37,7 @@ A deploy means Windows unless the owner names another system.
 
 **Linux and Android** have export presets (`export_presets.cfg`) and the export smoke test builds them as debug builds, but no script makes a build for a player yet. When the owner asks for one, that script comes first: say so, and don't upload a smoke-test build. Name its output `Bramble-linux-<commit>-<date>-<time>[-label].zip` or `Bramble-android-<commit>-<date>-<time>[-label].apk` and `scripts/share_build.sh` puts it at the right link.
 
-**Mac.** Deploy the Mac build only when the owner asks for Mac. `scripts/build_macos.sh` makes it, and its own rule is the same: only when the owner asks. If the repo you are in has no such script, it hasn't been merged yet: tell the owner the Mac link can't be updated until it is, and leave the link alone.
+**Mac.** Deploy the Mac build only when the owner asks for Mac. `scripts/build_macos.sh` makes it, and its own rule is the same. The owner: "it's to be triggered only when I request it, explicitly only".
 
 The Mac link can hold an older build than the Windows link. When it does, say so with both dates.
 

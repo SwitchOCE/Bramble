@@ -227,7 +227,7 @@ These checks also run again for every port fix during the league.
 - a team reads nothing outside its own clone, the pinned build, its own Codex worktrees, and what the referee gives it (section 7b);
 - each team's bot is a crate in `tools/league/bots/<colour>/`.
 
-The other team's code, data and notes stay private until the league is over.
+The other team's code, data and notes stay private until the league is over. One thing leaves the team early: its own per-card measurements go to balance through the referee with each kept version (the owner's yes, 26 Nov 2026; the blue team's 18 Nov table had Old Brock first and nobody outside the team saw it). Balance never passes them to the other team.
 
 **Allowed: anything that raises the bot's placement, inside its own folder.** For example:
 - any design: value tables, search, simulation, rules of thumb, weights tuned offline by self-play;
@@ -363,13 +363,7 @@ During a round the teams use up to 4 cores between them. Official matches use up
 
 **Distribution, per team:** the rate of each place 1st to 8th, the top-4 rate and the win rate.
 
-**Cards: what strong bots really think of them.** For every unit, per team and both together, counting only shops where the card was buyable:
-- **offered-to-bought rate** by round band (rounds 1–3, 4–6, 7–9, 10–12, 13+), and by the buyer's **final** main tribe. This shows, for example, how often bots that end up as Badgers buy Pigeon tier 1 units. A board's main tribe at the time of an early buy is noise, because it has only 0–3 units;
-- where a bot gives `report()`, its **value rank** for the card within the shop it was offered in. Raw values aren't comparable between teams, because each team uses its own scale; ranks and buy rates are;
-- **never bought** (under 2% when buyable), and **always bought** (over 80% when buyable, for every final main tribe);
-- Discover pick rate against the options offered;
-- lift: its presence on the final board against placement, within its tribe and round, as in the balance pass;
-- golden rate.
+**Cards: the card report.** Run `tools/league/card_report.sh <match dir>` (with `--field <the field>` for a ghost match) before the match's records are deleted (about 13 minutes). It gives one row per card: how often each bot buys it when offered, how much of its fight power is in its text, how fast it grows, how the bots treat it in the shop (bought, refused, seldom offered, tribe not played), and whether any measure marks it worth a look. Definitions: [card-power/definitions.md](../card-power/definitions.md). It replaced this section's nine per-card numbers on 26 Nov 2026 (the owner's yes): none of them separated a strong card from a strong board, and none was run in the third run.
 
 **Where the two teams agree.** The teams never see each other's code, so their verdicts are independent reads. Say which cards and tribes both teams' bots rate the same way, such as both never buying a card or both committing to a tribe early. Also say where they disagree most. Agreement is the strongest sign a verdict is real.
 

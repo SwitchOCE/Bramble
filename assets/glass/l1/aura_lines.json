@@ -1,0 +1,8 @@
+{
+  "_note": "Short lines for the L1 Auras list, read by RecruitCounters. N is the effect's value.",
+  "locust_tide": "Locusts +N Attack",
+  "locust_hopper_bonus": "Hoppers +N/+N",
+  "pigeon_guard_post": "Its unit has Guard",
+  "renown": "+N/+N on entry",
+  "thorn_compost": "Units for Briar effects"
+}
