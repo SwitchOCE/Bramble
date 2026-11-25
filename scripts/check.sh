@@ -4,7 +4,7 @@
 #   ./scripts/check.sh --keep-going  run every step, report all failures at the end
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
-# Steps: leftovers, tools, versions, shell, python, format, lint, import, compile, tests, feel, soak, records.
+# Steps: leftovers, tools, versions, shell, python, format, lint, import, rules, compile, tests, feel, soak, records.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
@@ -171,6 +171,13 @@ step_import() {
   return 1
 }
 
+# The rules hash must match tools/checks/rules_hash.txt, so a stray edit to the rules files
+# fails here rather than at a build's ghost field. A rules change on purpose updates the file
+# (scripts/rules_hash.sh --update) in the same commit.
+step_rules() {
+  "$ROOT/scripts/rules_hash.sh" --check
+}
+
 # --import does not compile scripts. Load the game, tests and Godot tools, including league oracles.
 step_compile() {
   local log="$LOG_DIR/compile.log" status found
@@ -306,6 +313,7 @@ run_step "python" step_python
 run_step "format" step_format
 run_step "lint" step_lint
 run_step "import" step_import
+run_step "rules" step_rules
 run_step "compile" step_compile
 run_step "tests" step_tests
 run_step "feel" step_feel
