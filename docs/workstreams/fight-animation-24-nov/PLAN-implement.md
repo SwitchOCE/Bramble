@@ -109,6 +109,16 @@ The orchestrator's sort of `research/balatro.md`'s eight points:
 
 It has the same gates as every step, plus its own reference film: the game before and after B on seed 22 and r10-074, and the 4 f and 6 f death stagger side by side.
 
-**Sound, step S:** after the sound study. The builder wires only what the study supports, for example pitch steps across a repeated trigger, as cues tied to events. An agent can't judge sound, so the owner listens on his PC before it counts as done.
+**Sound, step S** (from the sound study, `research/balatro.md` "What Bramble could take"). The orchestrator's sort:
+- **Take:**
+  - A stat gain gets its own cue, landing on the number (point 1).
+  - Repeated triggers in one fight climb a pitch ladder (point 2). It steps through the audio spec's D pentatonic notes rather than Balatro's off-key +1.8%, and resets each fight.
+  - At speed, sounds get shorter instead of being dropped (point 3).
+  - Damage to the player gets one hit when the Health number lands, with a silent count (point 4).
+  - A sound may trail its number by up to 2 f, and never comes before it (point 6).
+- **Later:** separate cues for Attack and Health gains (point 5). That means new sounds, so the owner hears the single gain cue first.
+- **Only existing sounds** in the library are used, re-pitched or trimmed. A new sound counts as a new element and waits for the owner.
+
+An agent can't judge sound, so step S is done only when the owner has listened on his PC.
 
 The owner plays the build from steps 0–6 first, then a second build with B and S.
