@@ -77,3 +77,28 @@ Reviewed by plan-interrogate (fresh agent, 25 Nov). Its fixes are in the steps a
 - **Lean:** the 4° in-plane tilt with the turn (CB17 "lean", `aim_lean`), no 3D tip, until the owner picks on the page. So step 1a needs no tip shader in `src/`.
 - **Stand-ins:** yes, in the game build: CB13 c, CB12 b (portraits travel, as a stand-in) and CB14 c (the recruit green pill in fights). They are replaced by the shatter, the bolt and a designed marker once the owner approves pictures.
 - **Late-fight speed-ups:** both, ×1.5 from the 5th attack and up to 3 triggers at once (median late fight 12.7 s).
+
+## Balatro learnings (owner, 25 Nov)
+
+> "I think there's a lot we can learn and a lot that doesn't apply to us as well… I'd like you to have a go at implementing what you think is reasonable and throwing out, of course, all the stuff that is probably not suited to us. I would like the sound stuff, yeah."
+
+The orchestrator's sort of `research/balatro.md`'s eight points:
+
+| # | Balatro | Verdict | What changes in the game |
+|---|---|---|---|
+| 1 | Smooth speed-up with the count | **Take** | FAST becomes a smooth ramp by attack number (×1 up to attack 3, rising to about ×1.6 by attack 12, then flat) in place of the ×1.5 step at attack 5. Median late fight about the same length. |
+| 2 | Never plays triggers at once | **Leave** | GROUP stays: "not slow" outweighs it at our trigger counts. |
+| 3 | Cause and number land together, nothing flies | **Take in part** | The +N flight (CB14 c) gets shorter, and the number lands on the frame the gain arrives. The flight stays, because our stats sit on moving cards. |
+| 4 | The spring pop | **Take** | Contact and trigger pops overshoot, dip and settle within about 15 f (×1.25, ×0.9, ×1.05). The card scales and tilts, never bends: rigid glass. |
+| 5 | Numbers slam at each step; only the final total rolls | **Take** | A card's stats slam to each new value with a short shake. The player's Health rolls down once (CB12 b step). |
+| 6 | No ×N combo count | **Leave for now** | The combo look is waiting on the owner's picture pick. Noted there. |
+| 7 | Spectacle hides the number late on | **Leave** | Clashes with "fights clear" and with lead and glass. Only the structure is kept: the result shows alone. |
+| 8 | Gentler shrinking gaps | **Take** | CB8 c's death stagger keeps its shape but floors at 6 f instead of 4 (10/8/7/6/6, cap 30). |
+
+**Sound:** a separate study measures Balatro's sound and motion pairing from the same videos (audio only, kept under `/data`). What to take from it is decided after that study, and the owner or a sound-capable reviewer judges anything that changes how the game sounds.
+
+**When:** after steps 2 and 3 merge, as step **B**, one builder:
+- points 1, 4, 5 and 8 in `src/`, plus point 3 once CB14 c is in;
+- each change is a constant or a small curve, so it can be reverted if the owner dislikes it on his PC.
+
+It gets the same gates as the other steps.
