@@ -71,6 +71,9 @@ var runs: Array[Dictionary] = []
 ## a gain has taken as its cause.
 var _causes: Array[Dictionary] = []
 var _taken: int = 0
+## While a staggered group (CB8) plays, its gains' rows, shown in one tally per card.
+var _grouping: bool = false
+var _group_rows: Array[Dictionary] = []
 var _run_count: int = 0
 
 
@@ -218,14 +221,37 @@ func _gains(run: Array[Dictionary], start: int) -> Dictionary:
 				}
 			)
 		)
-		if option != "a":
+		if option != "a" and _grouping:
+			_group_rows.append_array(rows)
+		elif option != "a":
 			_tally(rows, run_id, last)
 	return {"land": last, "next": last + BEAT_GAP, "end": end, "damage": false}
 
 
-## The next cause for a gain: the latest death item's next unit on the gain's source's side
-## (the k-th gain after a group of deaths is that side's k-th death in the log), or {}.
+## A staggered group's gains add up in one tally per card (CB14 c: "adds up").
+func _stagger_open() -> void:
+	_grouping = true
+	_group_rows = []
+
+
+func _stagger_close(lands: Array[int]) -> void:
+	_grouping = false
+	if _commit and not _group_rows.is_empty():
+		_tally(_group_rows, _i(_group_rows[0]["run"]), _i(lands.max()))
+
+
+## The next cause for a gain: the death it is for when the group named one (a staggered beat's
+## `stagger_cause`), else the latest death item's next unit on the gain's source's side (the
+## k-th gain after a group of deaths is that side's k-th death in the log), or {}.
 func _next_cause(item: Dictionary) -> Dictionary:
+	var listed: Array = item["events"]
+	var trigger: Dictionary = _at(_events, _i(listed[0]))
+	if trigger.has("stagger_cause"):
+		var dead: int = _i(trigger["stagger_cause"])
+		for value: Variant in _events:
+			var event: Dictionary = value
+			if _kind_of(event) == "death" and _i(event.get("uid", -1)) == dead:
+				return {"uid": dead, "side": _i(event["side"]), "slot": _i(event["slot"])}
 	var source: int = _i(item["source"])
 	if not _where.has(source):
 		return {}
