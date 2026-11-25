@@ -28,7 +28,7 @@ def bought(name, offered, rate, difference="", typical="", flag=""):
 
 
 class CardSummary(unittest.TestCase):
-    def rows(self, with_fights=True, left_out=False):
+    def rows(self, with_fights=True, left_out=False, fresh=False):
         with tempfile.TemporaryDirectory() as directory:
             match, report = Path(directory) / "match", Path(directory) / "report"
             match.mkdir()
@@ -53,6 +53,12 @@ class CardSummary(unittest.TestCase):
                 write(report / "text_cards.csv", [text, {**text, "stage": "1-4", "status": "too few", "pointer": ""}])
                 write(report / "stat_growth.csv", [{"card": "heir", "stage": "5-8", "status": "ok",
                                                     "stats_per_turn": 4.0, "look": "worth a look"}])
+            if fresh:
+                cell = {"card": "dud", "stage": "5-8", "boards": 400, "status": "ok", "fresh_value": 0.2,
+                        "low": 0.15, "high": 0.25, "pointer": "worth a look", "reading": "has fight text worth"}
+                write(report / "fresh_copy.csv", [cell, {**cell, "card": "heir"},
+                                                  {**cell, "stage": "13+", "boards": 50, "status": "too few",
+                                                   "fresh_value": "", "pointer": ""}])
             path = None
             if left_out:
                 path = report / "left_out.csv"
@@ -82,6 +88,19 @@ class CardSummary(unittest.TestCase):
         self.assertEqual({name: rows[name]["in the shop"] for name in ("heir", "stray", "dud", "rare", "loner")},
                          {"heir": "bought", "stray": "tribe not played", "dud": "refused", "rare": "seldom offered",
                           "loner": "refused"})
+
+    def test_fresh_copy_columns_are_for_refused_cards_only(self):
+        rows = self.rows(fresh=True)
+        dud, heir, loner = rows["dud"], rows["heir"], rows["loner"]
+        self.assertEqual((dud["fresh 5-8"], dud["fresh boards 5-8"], dud["fresh 13+"], dud["fresh boards 13+"]),
+                         ("0.2", "400", "", "50"))
+        self.assertEqual(dud["fresh reading"], "has fight text worth")
+        self.assertIn("fresh copy (5-8)", dud["worth a look"])
+        self.assertEqual((heir["fresh 5-8"], heir["fresh reading"]), ("", ""))  # bought: not read
+        self.assertNotIn("fresh copy", heir["worth a look"])
+        self.assertEqual(loner["fresh reading"], "no boards it fits")
+        self.assertEqual(self.rows()["dud"]["fresh reading"], "not run")
+        self.assertEqual(self.rows(with_fights=False)["dud"]["fresh reading"], "")
 
     def test_a_card_another_bot_buys_is_not_refused(self):
         plays = {"red-1": {"Mouse": 0.12}, "blue-1": {"Mouse": 0.01}}

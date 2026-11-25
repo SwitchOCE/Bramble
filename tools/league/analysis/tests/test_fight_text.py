@@ -43,6 +43,36 @@ class FightText(unittest.TestCase):
         self.assertEqual((beyond["stat_worth"], beyond["adds_attack"]), (">8", ">28"))
         self.assertNotIn("stat_worth", fight_text.text_table(obs("old", 3, "9-12", 0.25))[0])
 
+    def test_fresh_copy_is_read_against_the_stage_s_fresh_copies(self):
+        def fresh(card, stage, value, n=250, displaced=True, noise=0.0):
+            return [{"card": card, "tier": 3, "stage": stage, "game": g,
+                     "score_on": 0.5 + value + (noise if g % 2 else -noise), "score_off": 0.5,
+                     "dealt_on": 2.0, "dealt_off": 1.0, "result_changed": value != 0,
+                     "displaced": "x" if displaced and g % 4 else None} for g in range(n)]
+        plain = [v for i in range(9) for v in fresh(f"plain-{i}", "9-12", 0.02 + 0.005 * i)]
+        rows = (plain + fresh("strong", "9-12", 0.30) + fresh("strong", "13+", 0.3) + fresh("blank", "9-12", 0.0)
+                + fresh("blank", "5-8", 0.0) + fresh("noisy", "9-12", 0.0, noise=0.2) + fresh("small", "9-12", 0.02)
+                + fresh("rare", "9-12", 0.5, n=40))
+        table = {(r["card"], r["stage"]): r for r in fight_text.fresh_table(rows)}
+        strong = table[("strong", "9-12")]
+        self.assertEqual((strong["fresh_value"], strong["boards"], strong["damage_change"], strong["displaced"]),
+                         (0.3, 250, 1.0, 0.748))
+        self.assertEqual((strong["pointer"], strong["stage_middle"]), ("worth a look", 0.035))
+        self.assertEqual(strong["reading"], "has fight text worth")
+        self.assertEqual([table[(f"plain-{i}", "9-12")]["pointer"] for i in range(9)], [""] * 9)
+        self.assertEqual(table[("strong", "13+")]["pointer"], "")  # alone in its stage: nothing to compare with
+        self.assertEqual(table[("blank", "5-8")]["reading"], "no fight text: needs the whole-game route")
+        self.assertEqual(table[("noisy", "9-12")]["reading"], "no fight text: needs the whole-game route")
+        self.assertEqual(table[("small", "9-12")]["reading"],
+                         "fight text worth under 5 in 100: needs the whole-game route")
+        self.assertEqual((table[("rare", "9-12")]["status"], table[("rare", "9-12")]["reading"]),
+                         ("too few", "too few boards"))
+        # One card run alone is read against an earlier full table (read back as strings).
+        reference = [{k: str(v) for k, v in r.items()} for r in fight_text.fresh_table(rows)]
+        alone = fight_text.fresh_table(fresh("strong", "9-12", 0.30), reference)[0]
+        self.assertEqual((alone["pointer"], alone["stage_middle"]), ("worth a look", 0.035))
+        self.assertEqual(fight_text.fresh_table(fresh("strong", "9-12", 0.30))[0]["pointer"], "")
+
     def test_interval_is_grouped_by_game(self):
         rows = [{"game": g, "v": v} for g, v in ((0, 1.0), (0, 1.0), (1, 0.0), (1, 0.0))]
         mean, low, high, n = fight_text.clustered(rows, lambda r: r["v"])

@@ -1,8 +1,9 @@
 """One row per card: every card-power measure side by side, and why a card has no fight data.
 
 Definitions: docs/workstreams/card-power/definitions.md. Reads a ghost match and the tables that
-`card_report.sh` wrote for it (bought_passed.csv always; text_cards.csv and stat_growth.csv when
-the match kept its records). Every mark is "worth a look": where to look, never "too strong".
+`card_report.sh` wrote for it (bought_passed.csv always; text_cards.csv, stat_growth.csv and
+fresh_copy.csv when the match kept its records). Every mark is "worth a look": where to look,
+never "too strong". Fresh-copy columns are filled for refused cards only.
 
 usage: card_summary.py <match dir> <report dir> [--left-out <left_out.csv>] [--out <cards.csv>]
 """
@@ -84,6 +85,7 @@ def summary(match, report, left_out=None):
     bought = [r for r in table(report / "bought_passed.csv") if r["bot"] != "all"]
     text = {(r["card"], r["stage"]): r for r in table(report / "text_cards.csv")}
     growth = {(r["card"], r["stage"]): r for r in table(report / "stat_growth.csv")}
+    fresh = {(r["card"], r["stage"]): r for r in table(report / "fresh_copy.csv")}
     left = defaultdict(dict)
     for r in table(Path(left_out)) if left_out else []:
         left[r["card"]][r["colour"]] = r
@@ -133,6 +135,19 @@ def summary(match, report, left_out=None):
         reason = {"refused": "offered and refused", "bought": "bought, held too briefly"}.get(shop, shop)
         row["fight data"] = ("yes" if tested else reason) if fights else "no records"
         row["in the shop"] = shop
+        refused = shop == "refused"
+        readings = set()
+        for name in STAGES:
+            cell = fresh.get((card, name)) if refused else None
+            ok = bool(cell) and cell["status"] == "ok"
+            row[f"fresh {name}"] = cell["fresh_value"] if ok else ""
+            row[f"fresh boards {name}"] = cell["boards"] if cell else ""
+            if cell:
+                readings.add(cell["reading"])
+            if ok and cell["pointer"]:
+                marks.append(f"fresh copy ({name})")
+        missing = "no boards it fits" if fresh else "not run" if fights else ""
+        row["fresh reading"] = next(iter(readings)) if readings else (missing if refused else "")
         row["worth a look"] = "; ".join(marks)
         out.append(row)
     return out
@@ -159,8 +174,38 @@ def main():
         print(f"  tier {r['tier']} {r['name']}: {r['worth a look']}")
     refused = [r for r in rows if r["in the shop"] == "refused"]
     print(f"{len(refused)} refused by every bot that saw them: " + ", ".join(r["name"] for r in refused))
+    for line in fresh_lines(Path(args.report) / "fresh_copy.csv", refused):
+        print(line)
     for line in keyword_lines(Path(args.report) / "keywords.csv"):
         print(line)
+
+
+def fresh_lines(path, refused):
+    """For each refused card: its fresh copy's fight text worth by stage, and the reading."""
+    cells = defaultdict(dict)
+    for r in table(path):
+        cells[r["card"]][r["stage"]] = r
+    if not cells:
+        return
+    yield "  fresh copy on recorded boards (in-fight text worth, text on minus off; not card power):"
+    for row in refused:
+        mine = cells.get(row["card"])
+        if not mine:
+            yield f"    tier {row['tier']} {row['name']}: no boards it fits"
+            continue
+        parts = []
+        for name in STAGES:
+            c = mine.get(name)
+            if not c:
+                continue
+            if c["status"] != "ok":
+                parts.append(f"{name} too few ({c['boards']})")
+                continue
+            look = " worth a look" if c["pointer"] else ""
+            parts.append(f"{name} {float(c['fresh_value']):+.3f} [{float(c['low']):+.3f}, {float(c['high']):+.3f}]"
+                         f" n={c['boards']}{look}")
+        reading = next(iter(mine.values()))["reading"]
+        yield f"    tier {row['tier']} {row['name']}: " + "; ".join(parts) + f" -> {reading}"
 
 
 def keyword_lines(path):
