@@ -75,7 +75,8 @@ def text_table(rows):
             tier = r["tier"]
             r["tier_median"] = fmt(median[tier])
             bar = top6 if tier >= 5 else median.get(tier + 2)
-            if bar is not None and r["low"] != "" and r["low"] > bar:
+            own = statistics.quantiles(by_tier[tier], n=4)[2] if len(by_tier[tier]) >= 4 else median[tier]
+            if bar is not None and r["low"] != "" and r["low"] > max(bar, own):
                 r["pointer"] = "text fights above its tier"
     return out
 
