@@ -106,7 +106,7 @@
       "volume_db": 0.0,
       "pitch": [0.975, 1.025],
       "gain_jitter_db": 0.5,
-      "max_voices": 3,
+      "max_voices": 6,
       "min_gap_s": 0.045,
       "target_m400_lufs": -16.5
     },
@@ -144,7 +144,7 @@
       "volume_db": 0.0,
       "pitch": [0.990, 1.010],
       "gain_jitter_db": 0.4,
-      "max_voices": 2,
+      "max_voices": 6,
       "min_gap_s": 0.080,
       "target_m400_lufs": -21.0
     },
