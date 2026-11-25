@@ -13,7 +13,7 @@ On what a match keeps (to the Ghost Build Orchestrator): "The match should only 
 | Match | Keep | Delete |
 |---|---|---|
 | Climb and stopping-test matches, once decided | `summary.json`, `analysis.json`, a one-line verdict (bot versions, seeds sha, games, mean-place gap, 95% interval, kept or not). For a kept version, also the card report's `card-report/` folder (under 1 MB) | Everything else, at once. If the new version is kept, cut and verify its ghosts first |
-| Matches balance reads (named by the balance session), and matches the per-tribe report or rework checks read | Raw files gzipped, with the decision log trimmed to the chosen moves, until the tuning change merges or the report is written; then only the findings | The legal-move lists at once; the raw files after that |
+| Matches balance reads (named by the balance session), and matches the tribes-left-out report or rework checks read | Raw files gzipped, with the decision log trimmed to the chosen moves, until the tuning change merges or the report is written; then only the findings | The legal-move lists at once; the raw files after that |
 | Matches that make a ghost field | `summary.json` | `records/` and raw logs, once `bramble-ghosts cut` and `verify` pass |
 | Any match whose build is old (rules hash no longer on dev) | One folder per build, at most 2 MB: findings report, per-card × round × tribe and per-tribe tables as CSV, stopping-test verdicts | Everything else |
 

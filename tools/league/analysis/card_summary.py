@@ -153,7 +153,7 @@ def main():
         writer.writerows(rows)
     marked = [r for r in rows if r["worth a look"]]
     reasons = Counter(r["fight data"] for r in rows)
-    print(f"{len(rows)} cards, {len(marked)} worth a look -> {path}")
+    print(f"{len(rows)} cards, {len(marked) or 'nothing'} marked worth a look -> {path}")
     print("fight data: " + ", ".join(f"{reason} {n}" for reason, n in reasons.most_common()))
     for r in marked:
         print(f"  tier {r['tier']} {r['name']}: {r['worth a look']}")

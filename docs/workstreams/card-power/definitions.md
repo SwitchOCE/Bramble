@@ -18,6 +18,20 @@ The owner, 25 Nov: "there should be some sort of escalation ladder ... if we ran
 
 Steps 1 and 2 need one match with records kept (2,000 games, 10 to 20 minutes), which a balance pass plays anyway. Step 3 is the only costly one, and it is spent only where a cheaper step points.
 
+## Edge cases
+
+Cases the ladder does not handle on its own, each with its route (approved by the owner, 26 Nov, with the [proposals](proposals.md)).
+
+| Case | Sign | Route | Built? |
+|---|---|---|---|
+| A card no bot buys | "refused" in the report: bought on under 1 offer in 100 by every bot that sees it, with its tribe in play | A fight test that adds a fresh copy to recorded boards; then a whole-game test with the card forced in; then a design read. Unexplained after that: to the owner as "weak or unfound" | The report names the cards. The two tests are not built |
+| A card a bot is built around | Left out of the shop reads far above every other card | Treat the number as an upper bound. Compare with leaving out the card's whole tribe | Yes (`--without` takes a list) |
+| A card whose worth is outside fights | Bought a lot, little fight text | Left out of the shop is the only measure; run it | Yes |
+| A card that grows over turns | Marked on stat growth | Left out of the shop, alone and with the cards that share its mechanic | Yes |
+| A tier the bots rarely reach | "seldom offered" in the report: under 100 offers to every bot that plays the tribe | Say "not tested". Do not read it as weak or fine | The report says it |
+| Two stages disagree | A design estimate and a measurement point opposite ways | The measurement on a strong field wins; both are shown to the owner | A rule, no tool |
+| A balanced game | Nothing clears a worth-a-look line | Expected. The report says "nothing marked worth a look" and stops | Yes |
+
 ## Worth a look (every measure)
 
 The owner, 25 Nov: "there's going to be a statistically significant threshold where it's worth looking into for every measure we develop ... we might get some false positives, but we should figure out when we make a measure what exactly a threshold is where that single measure would be worth a look".

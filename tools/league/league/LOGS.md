@@ -75,7 +75,7 @@ Each seat's `rounds[]` entry:
 | `tier` | `PlayerState.tier` before fights |
 | `gold_start` | gold in the seat's first decision view, after start-of-turn effects and before choosing any action; null if the seat had no decision |
 | `gold_left` | `PlayerState.gold` after the turn |
-| `gold_from_cards` | gross positive gold **generated** by cards this round, finalized after fights: positive `amount` in session `gold` events for this player with `source_uid >= 0` (`RecruitContext::gain_gold`, including start-of-turn Relic Seeker payouts and end-of-turn effects), plus positive `PlayerState.gold_next_turn` after combat (`FightSide::add_gold`, e.g. Cutpurse). `start_turn` resets `gold_next_turn`, so each combat payout counts in the round earned, not again when credited next turn. Excludes normal income, ordinary sale proceeds, spending, and source-less standing effects. Combat payouts become spendable next round, so the next `gold_start` includes them too. Combat events need not be retained |
+| `gold_from_cards` | **Card-made gold only: normal income, sale proceeds, spending and source-less standing effects are left out.** Gross positive gold **generated** by cards this round, finalized after fights: positive `amount` in session `gold` events for this player with `source_uid >= 0` (`RecruitContext::gain_gold`, including start-of-turn Relic Seeker payouts and end-of-turn effects), plus positive `PlayerState.gold_next_turn` after combat (`FightSide::add_gold`, e.g. Cutpurse). `start_turn` resets `gold_next_turn`, so each combat payout counts in the round earned, not again when credited next turn. Excludes normal income, ordinary sale proceeds, spending, and source-less standing effects. Combat payouts become spendable next round, so the next `gold_start` includes them too. Combat events need not be retained |
 | `triple` | whether the session events contain a `triple` for this player this round |
 | `golden_gained` | whether the count of golden cards in board and hand increased since the last round (not a count of triples) |
 | `slot_buff` | whether serialized `PlayerState.slots` changed since the previous round (keywords or Renown; slots have no stats since S9) |
@@ -116,7 +116,7 @@ the ghost's board and events when applicable. The engine writes these fields to 
 | `deaths` | resolved friendly death events per side. Includes summons, Reserve arrivals and each resolved death of a unit that returns |
 | `survivors` | combat UIDs on each final board, including arrivals |
 | `survivor_recruit_uids` | distinct recruit UIDs of starting units represented on each final board |
-| `outnumbered_by` | per side, the opponent's counted starting units minus its own, floored at zero. A rear unit with the uncounted mechanic is excluded |
+| `outnumbered_by` | **Rear units with the uncounted mechanic are left out.** Per side, the opponent's counted starting units minus its own, floored at zero |
 | `attacks`, `triggers` | fight-wide counters for attacks (including instead-of-attack replacements) and mechanic triggers counted toward the engine's trigger limit |
 
 Schema 1 also covers these additive fields.
@@ -252,6 +252,6 @@ different seeds-file lines remains separate. Reads the plain-text `games.jsonl`.
 
 ## Combat TSVs
 
-`tools/league/analyse_match.sh MATCH` writes `kills_by_card.tsv`, `summons_by_source.tsv` and
-`kill_shares.tsv` next to the match logs. See the [analysis notes](../analysis/README.md#combat-tsvs)
+`tools/league/analyse_match.sh MATCH` writes `kills_by_card.tsv`, `summons_by_source.tsv`,
+`kill_shares.tsv` and `joined_by_kind.tsv` next to the match logs. See the [analysis notes](../analysis/README.md#combat-tsvs)
 for the columns and denominators.

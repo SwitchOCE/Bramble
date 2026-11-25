@@ -19,7 +19,7 @@ Written by the outgoing balance orchestrator as its last act, for the session th
 
 ## 2. What each was measured with, and whether it counts
 
-Since [owner note 2026-11-20a](../../design/owner-notes/2026-11-20a-strong-bots-for-balance.md), only league bots that have passed the stopping test count for tuning. **No reading below meets that bar.** The league readings are 1,000 games of red against blue, with 8,000 final boards each.
+Since [owner note 2026-11-20a](../../design/owner-notes/2026-11-20a-strong-bots-for-balance.md), only league bots that have passed the stopping test count for tuning. **No reading below meets that bar.** Since 26 Nov one thing does not wait for a passed bot: a card the card step marks ([plan.md](plan.md)). The league readings are 1,000 games of red against blue, with 8,000 final boards each.
 
 | Arm | League bots: final main tribe, share and average place (of 8) | TribeBot (doesn't count) |
 |---|---|---|
@@ -81,7 +81,7 @@ Since [owner note 2026-11-20a](../../design/owner-notes/2026-11-20a-strong-bots-
 
 ## 6. What balance waits on, and what can go ahead
 
-- **Waits on:** the third run. Bots hill-climb to at least a local maximum, then pass the stopping test, and each one comes with placement and picks per tribe, locked to that tribe, plus per-mechanic use checks. The ghost orchestrator sends each one. Card rules are frozen during each climb, and tuning uses only bots that passed.
+- **Waits on:** the third run. Bots hill-climb to at least a local maximum, then pass the stopping test, and each one comes with placement and picks per tribe, its card report, a match with its most-played tribes left out, and per-mechanic use checks. The ghost orchestrator sends each one. Card rules are frozen during each climb, and tuning uses bots that passed, except for a card the card step marks ([plan.md](plan.md)).
 - **Can go ahead now, on branches, without merging during a climb:**
   - design work on the untouched items in sections 3 and 4 (Wing Commander, neutral and scam units, Fury, Gleaner, Briars, Locusts' late game);
   - constructed-board simulations at turn thresholds, which the owner prefers to bot play for checking single cards;
@@ -120,7 +120,7 @@ The morning pack's other questions are all answered: Mouse Health kept, the tuni
 
 ## 10. Memory the next session needs
 
-- **Strong bots only:** balance uses only league bots that passed the stopping test. TribeBot plays no match; it only drives the engine check. Label any other reading as interim.
+- **Strong bots only:** balance uses only league bots that passed the stopping test, except that a card the card step marks may be changed sooner ([plan.md](plan.md)). TribeBot plays no match; it only drives the engine check. Label any other reading as interim.
 - **Design remarks are ideas, not rules:** read an owner design or flavour remark by its reason, and change it when that reason lapses. UI/UX instructions are firm. Don't over-follow. Example: Mouse "no HP" was an archetype idea from the Ambush days.
 - **Balance work proceeds without asking:** pick your own recommendations, label them proposals, merge balance PRs to `dev`, and bring the owner directions and results. Card changes on `dev` move the ghost rules fingerprint, so tell the ghost orchestrator first.
 - **Generous first:** start overpowered and dial back.
