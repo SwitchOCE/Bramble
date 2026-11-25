@@ -257,6 +257,76 @@ func test_deaths_at_once_fall_one_after_another() -> void:
 	assert_eq(lands[0], base + FightOrder.LAND + 4, "the first lands as its fall ends, and 4")
 
 
+## CB14 c ("each +N flies from the dead card into the stat and adds up") on moment (e): each of
+## Old Brock's six gains flies from the death it is for, never from Brock, and the one tally over
+## him counts up, each total the sum of the gains landed so far, the last his whole change.
+func test_staggered_gains_fly_from_their_deaths_and_add_up() -> void:
+	var game: FightReplay = _both()[1]
+	var plan: FightTimeline = game.plan
+	var meant: Dictionary = {}
+	var first: Vector2i = Vector2i(-1, -1)
+	var last: Vector2i = Vector2i.ZERO
+	for value: Variant in game.played:
+		var event: Dictionary = value
+		if event.has("stagger_cause") and str(event["type"]) == "trigger":
+			meant[_i(event["stagger_cause"])] = true
+		if event.has("stagger_cause") and str(event["type"]) == "buff":
+			last = Vector2i(_i(event["attack"]), _i(event["health"]))
+	assert_eq(meant.size(), 6, "six beats, each for its own death")
+	# moment (e)'s first fall (the fourth death of the fight)
+	var fell: Array[int] = []
+	for fall: Dictionary in plan.falls:
+		fell.append(_i(fall["frame"]))
+	fell.sort()
+	var base: int = fell[3]
+	var brock: String = ""
+	var rows: Array[Dictionary] = []
+	for gain: Dictionary in plan.gains:
+		if str(gain["source"]) == str(gain["key"]) and _i(gain["land"]) > base:
+			rows.append(gain)
+			brock = str(gain["key"])
+	assert_eq(rows.size(), 6, "Old Brock's six gains")
+	var causes: Array[int] = []
+	for gain: Dictionary in rows:
+		var cause: Dictionary = gain["cause"]
+		assert_false(cause.is_empty(), "gain %d flies from a death, not from Brock" % _i(gain["k"]))
+		assert_ne(_key_of(cause), brock, "never from Brock himself")
+		causes.append(_i(cause.get("uid", -1)))
+		if first.x < 0:
+			var stats: Dictionary = gain["stats"]
+			var attack: Array = stats.get("attack", [0, 0, 0])
+			var health: Array = stats.get("health", [0, 0, 0])
+			first = Vector2i(_i(attack[1]) - _i(attack[2]), _i(health[1]) - _i(health[2]))
+	causes.sort()
+	var wanted: Array = meant.keys()
+	wanted.sort()
+	assert_eq(str(causes), str(wanted), "each from its own death, all six different")
+	var groups: Array[Dictionary] = []
+	for tally: Dictionary in plan.tallies:
+		var lands: Array = tally["lands"]
+		if str(tally["key"]) == brock and _i(lands[0]) > base:
+			groups.append(tally)
+	assert_eq(groups.size(), 1, "one tally over Brock for the whole group")
+	var tally: Dictionary = groups[0]
+	var totals: Array = tally["totals"]
+	assert_eq(totals.size(), 6, "it re-pops with each gain")
+	var sum: Vector2i = Vector2i.ZERO
+	for k: int in rows.size():
+		var stats: Dictionary = rows[k]["stats"]
+		var attack: Array = stats.get("attack", [0, 0, 0])
+		var health: Array = stats.get("health", [0, 0, 0])
+		sum += Vector2i(_i(attack[2]), _i(health[2]))
+		var shown: Dictionary = totals[k]
+		assert_eq(
+			Vector2i(_i(shown["attack"]), _i(shown["health"])), sum, "total %d: the sum so far" % k
+		)
+	assert_eq(sum, last - first, "the last total is Brock's whole change")
+
+
+static func _key_of(cause: Dictionary) -> String:
+	return "u%d" % _i(cause.get("uid", -1))
+
+
 func test_fast_plays_from_the_fifth_attack_to_the_result() -> void:
 	var plan: FightTimeline = _both()[1].plan
 	var fifth: Dictionary = plan.attacks[FightTimeline.FAST_ATTACK - 1]
@@ -448,8 +518,11 @@ func test_the_same_fight_at_30_and_144_frames_a_second() -> void:
 		if due >= plan.end_frame:
 			# the fight is over: its clock stops
 			break
-		# within a drawn frame's share at 144 fps (FAST's start and end fall between its frames)
-		assert_almost_eq(slow_clocks[k], due, 0.001, "at %d/6 s at 30 fps: game time, FAST" % k)
+		# within a drawn frame's share at 144 fps (FAST's start and end fall between its frames);
+		# past the result the clock has stopped on the result's frame (advance), so at 30 fps it
+		# can trail by up to one drawn frame's FAST share (3 schedule frames)
+		var slack: float = 0.001 if due <= plan.fast_to else 3.0
+		assert_almost_eq(slow_clocks[k], due, slack, "at %d/6 s at 30 fps: game time, FAST" % k)
 		assert_almost_eq(fast_clocks[k], due, 0.7, "at %d/6 s at 144 fps" % k)
 	var differ: int = 0
 	for k: int in slow_brock.size():

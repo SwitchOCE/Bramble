@@ -851,6 +851,7 @@ func _stagger(item: Dictionary, base: int) -> Dictionary:
 	var lands: Array[int] = []
 	var falls: Array[Dictionary] = []
 	var k: int = 0
+	_stagger_open()
 	while k < listed.size():
 		var i: int = _i(listed[k])
 		var event: Dictionary = _events[i]
@@ -874,6 +875,7 @@ func _stagger(item: Dictionary, base: int) -> Dictionary:
 		elif _commit:
 			_reveal[i] = at
 		k += 1
+	_stagger_close(lands)
 	if _commit:
 		_staggers.append(
 			{"attack": attacks.size(), "base": base, "falls": falls, "lands": lands.duplicate()}
@@ -885,6 +887,15 @@ func _stagger(item: Dictionary, base: int) -> Dictionary:
 		"next": maxi(fall_end, _i(lands.max()) + BEAT_GAP),
 		"end": maxi(fall_end, _i(lands.max()) + hold),
 	}
+
+
+## A staggered group starts and ends (buff_timeline.gd adds its gains up in one tally).
+func _stagger_open() -> void:
+	pass
+
+
+func _stagger_close(_lands: Array[int]) -> void:
+	pass
 
 
 ## How many beats from j on are the same mechanic with the same effect, back to back.
@@ -1148,6 +1159,8 @@ static func _staggered(events: Array, rule: Dictionary) -> Array:
 				var part: Dictionary = value
 				var copy: Dictionary = part.duplicate()
 				copy["stagger_at"] = at
+				# the death this gain is for: its +N flies from that unit's slot
+				copy["stagger_cause"] = friendly[k]
 				tagged.append(copy)
 			rows.append([at, 1, k, tagged])
 		rows.sort_custom(_row_before)

@@ -22,10 +22,10 @@ const LAND: int = 15
 ## `stagger_at` (frames after the group's first fall). When the run is followed by one "after a
 ## friendly unit dies" beat per friendly death, of one mechanic, from a living source (Old Brock),
 ## the k-th beat is that side's k-th death in the log: its events are tagged `stagger_at` (that
-## death's start + LAND), and the group is sorted by frame. When that changes the order of the
-## beats, their buffs' Attack and Health are recounted so each stays true and the last equals the
-## log's. Otherwise (a death effect among them, say)
-## what follows waits for the last fall. A log with no such run comes back as it is.
+## death's start + LAND) and `stagger_cause` (its uid), and the group is sorted by frame. When
+## that changes the order of the beats, their buffs' Attack and Health are recounted so each
+## stays true and the last equals the log's. Otherwise (a death effect among them, say) what
+## follows waits for the last fall. A log with no such run comes back as it is.
 static func staggered(events: Array) -> Array:
 	var out: Array = []
 	var active: int = -1
@@ -72,6 +72,8 @@ static func staggered(events: Array) -> Array:
 				var part: Dictionary = value
 				var copy: Dictionary = part.duplicate()
 				copy["stagger_at"] = at
+				# the death this gain is for: its +N flies from that unit's slot
+				copy["stagger_cause"] = friendly[k]
 				tagged.append(copy)
 			rows.append([at, 1, k, tagged])
 		rows.sort_custom(_row_before)

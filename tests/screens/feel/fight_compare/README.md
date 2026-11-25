@@ -102,11 +102,11 @@ times at 60 frames a second):
   once (CB8 c) sound one by one as they fall, seed 22's six from 6.77 to 7.10 s, of which the
   sound player drops three for too many voices.
 - **Trigger**: at each source's pulse. Old Brock's six gains sound at each gain beat's start
-  (6.87 to 7.52 s, three dropped for voices); GROUP starts his first with the Hopper's arrival
+  (6.87 to 7.48 s, three dropped for voices); GROUP starts his first with the Hopper's arrival
   (5.45 s, beside the summon).
 - **Start of Combat**: its triggers as beats after the rest; with GROUP up to three start
   together (`r10-074`: all three at 0.5 s, as the first attacker lifts; 1b alone 0.5, 0.8, 1.1 s).
-- **Summon** at the arrival, **result** as it shows (seed 22: 8.58 s; `r10-074`: 12.70 s).
+- **Summon** at the arrival, **result** as it shows (seed 22: 8.57 s; `r10-074`: 12.70 s).
 - **Skip** plays only the result.
 
 `turn_check.py` reads the logs: `same` (two films' `cards.csv` frame for frame, `--except` some

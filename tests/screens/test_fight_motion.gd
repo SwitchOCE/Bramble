@@ -199,7 +199,8 @@ func test_death_falls_and_skip_removes_it_even_at_double_speed() -> void:
 	assert_lt(dying.modulate.a, 1.0)
 	_screen.skip()
 	assert_true(_screen._keeper._fading.is_empty(), "skip leaves no dying cards")
-	assert_true(_screen._keeper.dying.is_empty(), "nor any drawn by the screen")
+	var motion: FightMotion = _screen._keeper as FightMotion
+	assert_true(motion.dying.is_empty(), "nor any drawn by the screen")
 	_screen.play(replay)
 	assert_eq(_screen.targets_of("board").size(), 2, "restart restores both units")
 	for target: Dictionary in _screen.targets_of("board"):

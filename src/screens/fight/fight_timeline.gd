@@ -251,6 +251,9 @@ var _causes: Array[Dictionary] = []
 var _taken: int = 0
 ## Keys of the units that fell in a staggered group (CB8 c), which keep their own fall.
 var _staggered: Dictionary = {}
+## While a staggered group (CB8 c) plays, its gains' rows, shown in one tally per card.
+var _grouping: bool = false
+var _group_rows: Array[Dictionary] = []
 
 
 ## events: the rules core's log as played (FightReplay.played); views: the view state after each
@@ -723,7 +726,6 @@ func _tempo(into: int) -> float:
 
 
 ## Deaths falling from `at` for `length` frames; they are the causes of the gains that follow.
-## (In a staggered group each fall starts a new set, as in the fixture: see _cause_of.)
 func _fall(item: Dictionary, at: int, length: int) -> void:
 	_causes = []
 	_taken = 0
@@ -760,6 +762,9 @@ func _stagger(item: Dictionary, base: int) -> Dictionary:
 	var fall_end: int = base
 	var lands: Array[int] = []
 	var k: int = 0
+	# the group's gains add up in one tally per card (CB14 c: "adds up")
+	_grouping = true
+	_group_rows = []
 	while k < listed.size():
 		var i: int = _i(listed[k])
 		var event: Dictionary = _events[i]
@@ -784,6 +789,9 @@ func _stagger(item: Dictionary, base: int) -> Dictionary:
 		elif _commit:
 			_reveal[i] = at
 		k += 1
+	_grouping = false
+	if _commit and not _group_rows.is_empty():
+		_tally(_group_rows, str(_group_rows[0]["source"]), _i(lands.max()))
 	if lands.is_empty():
 		return {"next": fall_end, "end": fall_end}
 	return {
@@ -1030,18 +1038,30 @@ func _gains(run: Array[Dictionary], start: int) -> Dictionary:
 		_cue(start, "trigger", {})
 	if alive and _commit:
 		glows.append({"key": _key(source), "from": start, "to": light_to})
-	if _commit:
+	if _commit and _grouping:
+		_group_rows.append_array(rows)
+	elif _commit:
 		_tally(rows, _key(source), last)
 	return {"land": last, "next": last + BEAT_GAP, "end": settle, "damage": false}
 
 
-## A gain's cause: the latest death item's next unit on the gain's source's side (the k-th gain
-## after a group of deaths at once is that side's k-th death), else {} (a giver, a gain to itself
-## with no death behind it). KNOWN FAULT, kept from the fixture (buff_timeline.gd) so the game
-## matches the recommended film: in a staggered group (CB8 c) each fall starts a new set, so each
-## of Old Brock's gains takes the death that fell just before it, not its own, and once those run
-## out the rest rise from Brock himself. Waiting on the owner.
+## A gain's cause: the death it is for when FightOrder named one (a staggered group's beat:
+## `stagger_cause`), else the latest death item's next unit on the gain's source's side (the k-th
+## gain after a group of deaths at once is that side's k-th death), else {} (a giver, a gain to
+## itself with no death behind it).
 func _cause_of(item: Dictionary) -> Dictionary:
+	var listed: Array = item["events"]
+	var trigger: Dictionary = _at(_events, _i(listed[0]))
+	if trigger.has("stagger_cause"):
+		var dead: int = _i(trigger["stagger_cause"])
+		for value: Variant in _events:
+			var event: Dictionary = value
+			if _kind_of(event) == "death" and _i(event.get("uid", -1)) == dead:
+				return {
+					"uid": dead,
+					"side": _i(event.get("side", 0)),
+					"slot": _i(event.get("slot", 0)),
+				}
 	var source: int = _i(item["source"])
 	if not _where.has(source):
 		return {}
@@ -1143,10 +1163,8 @@ func _count_from(key: String, stat: String, land: int, was: int) -> int:
 	return was
 
 
-## One tally per changed card and run of gains, showing the running total of each stat changed.
-## KNOWN FAULT, kept from the fixture (buff_timeline.gd) so the game matches the recommended
-## film: CB8 c plays each of Old Brock's gains as a run of its own, so his six +N pills don't add
-## up; each shows its own gain, over the one before. Waiting on the owner.
+## One tally per changed card and run of gains (or staggered group: _stagger), showing the
+## running total of each stat changed; the last is the whole change.
 func _tally(rows: Array[Dictionary], source: String, last: int) -> void:
 	var keys: Array[String] = []
 	for row: Dictionary in rows:

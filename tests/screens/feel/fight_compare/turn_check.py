@@ -42,6 +42,7 @@ TURN_LEAN = _const("TURN_LEAN")
 WINDUP_TURN = _const("WINDUP_TURN")
 # the log writes rotation and places to 2 decimals
 ROUNDING = 0.011
+FAST_SAMPLING = 0.05
 
 
 def rows_of(stem: str) -> list:
@@ -110,6 +111,11 @@ def cmd_turns(stem: str) -> int:
     bad = 0
     for a in report["attacks"]:
         start, contact, end = a["start_frame"], a["contact_frame"], a["end_frame"]
+        if contact < 0:
+            # no contact: it died before its hit (Thorns), or its target died first and it
+            # settled back unstruck; there is no contact turn to check
+            print(f"attack {a['attack']} {a['attacker_card']} -> {a['target_card']}: no contact, not checked")
+            continue
         # the screen aims from slot to slot (FightScreen._card_motion), not from where cards are
         home = homes[tuple(str(v) for v in a["from"])]
         target = homes[tuple(str(v) for v in a["to"])]
@@ -121,6 +127,9 @@ def cmd_turns(stem: str) -> int:
         ref = (0.0, -lead)
         full = math.degrees(math.atan2(ref[0] * way[1] - ref[1] * way[0], ref[0] * way[0] + ref[1] * way[1]))
         cock = WINDUP_TURN * (-1.0 if way[1] < 0.0 else 1.0)
+        if report.get("treatment") == "game":
+            # since step 1b the game plays FightTimeline's schedule, whose wind-up has no cock
+            cock = 0.0
         want = -cock / 2.0 + TURN_AIM * TURN_AT_CONTACT * full
         got = [
             (f, float(by_frame[f][a["attacker"]]["rotation"]))
@@ -130,7 +139,10 @@ def cmd_turns(stem: str) -> int:
         at_contact = float(by_frame[contact][a["attacker"]]["rotation"])
         peak = max(got, key=lambda fr: abs(fr[1] + cock / 2.0)) if got else (None, 0.0)
         last = got[-1][1] if got else float("nan")
-        ok = abs(at_contact - want) <= ROUNDING and (
+        # the game's FAST (x1.5 from the 5th attack) draws between schedule frames, so its drawn
+        # contact frame can sit up to half a schedule frame past the contact
+        allowed = FAST_SAMPLING if report.get("treatment") == "game" else ROUNDING
+        ok = abs(at_contact - want) <= allowed and (
             abs(full) < 1e-6 or math.copysign(1, at_contact + cock / 2.0) == math.copysign(1, full)
         )
         bad += 0 if ok else 1
