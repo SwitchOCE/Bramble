@@ -94,14 +94,14 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
 pub fn run_with_debug_logs(args: &MatchArgs, debug_logs: bool) -> Result<Value, String> {
     let red = crate::factory(&args.red)?;
     let blue = crate::factory(&args.blue)?;
-    run_match(args, red, blue, None, debug_logs)
+    run_match(args, red, blue, None, debug_logs, &[])
 }
 
 /// `run` with the two bots given as constructors instead of registry names; `args.red` and
 /// `args.blue` are then only labels in the logs. A team's tools crate uses it to play two
 /// versions of its own bot: `run_factories(&args, red::new_bot, old_red::new_bot)`.
 pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Value, String> {
-    run_match(args, red, blue, None, false)
+    run_match(args, red, blue, None, false, &[])
 }
 
 pub(crate) fn run_match(
@@ -110,8 +110,19 @@ pub(crate) fn run_match(
     blue: Factory,
     field: Option<&Path>,
     debug_logs: bool,
+    without: &[String],
 ) -> Result<Value, String> {
     league_api::harness::quiet_panics();
+    if !without.is_empty() {
+        if field.is_none() {
+            return Err("usage: --without is a ghost-match option".into());
+        }
+        // Check the ids before touching the output folder or playing any game.
+        let engine = crate::engine_for(&args.root, &|| {
+            crate::load_content(&args.root, args.content.as_deref())
+        })?;
+        crate::ghostmatch::check_without(&engine, without)?;
+    }
     // Invalidate a previous run's manifest before doing any work in a reused directory.
     match std::fs::remove_file(args.out.join("summary.json")) {
         Ok(()) => {}
@@ -221,6 +232,7 @@ pub(crate) fn run_match(
         );
         let seeds = seeds.clone();
         let lobbies = lobbies.clone();
+        let without = without.to_vec();
         let labels = [args.red_label.clone(), args.blue_label.clone()];
         handles.push(std::thread::spawn(move || {
             let engine = match crate::engine_for(&root, &|| {
@@ -276,7 +288,7 @@ pub(crate) fn run_match(
                 let out = if let Some(lobbies) = &lobbies {
                     match lobbies
                         .load(index / 2, &engine)
-                        .and_then(|runs| game::play_async(&engine, plan, &watch, runs))
+                        .and_then(|runs| game::play_async(&engine, plan, &watch, runs, &without))
                     {
                         Ok(mut out) => {
                             if let Some(label) = &labels[usize::from(swapped)] {
@@ -428,6 +440,10 @@ pub(crate) fn run_match(
     });
     if lobbies.is_some() {
         summary["mode"] = "async".into();
+    }
+    if !without.is_empty() {
+        // Placement only: the live seat's shop and Discover never offered these cards.
+        summary["without"] = json!(without);
     }
     let seconds = started.elapsed().as_secs_f64();
     let timing = json!({"seconds": seconds, "threads": args.threads, "seconds_per_game": seconds / written.max(1) as f64});

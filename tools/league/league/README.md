@@ -223,6 +223,44 @@ side. A test wraps every mechanic and checks that 300 random boards fight exactl
   `decisions.jsonl` are compressed with `gzip -f -n` at match end, or kept as text if gzip
   is unavailable. `games.jsonl` stays plain text for analysis.
 
+## Leaving cards out of the shop
+
+`league ghost-match ... --without <card id>[,<card id>...] --no-records` plays a ghost match in
+which the live seat is never offered the named units, in the shop or in Discover. The shop
+draws other cards in their place by the normal tier weights. Seeds, secret, lobbies, bots and
+seats are those of the same match without the flag, so the two pair game by game. It measures
+"Left out of the shop" in `docs/workstreams/card-power/definitions.md`.
+
+- The harness rebuilds the game's unit draw list without the cards right after it creates
+  each session, before the first shop fills. The engine's rules code is unchanged. Ghost seats
+  never shop; their recorded boards still hold the cards and play as recorded.
+- Every id must be a unit the shop draws. An unknown id, a spell, a token or a repeated id is
+  an error before the output folder is touched.
+- **Placement only.** Such a match writes no records, and `--without` without `--no-records`
+  is refused. The draw list is not in the state hash, so a record could not say what was left
+  out: it would not replay, and `bramble-ghosts cut` would put runs from a changed game into a
+  field. `summary.json` lists the cards under `without`. Don't cut or refight these folders.
+- Without the flag, `ghost-match` and `match` write the same bytes as before.
+
+Two scripts in `analysis/` use it:
+
+- `python3 card_without_run.py BASELINE OUT_ROOT --field STORE --seeds FILE CARD...` plays one
+  `--without <card>` match per card into `OUT_ROOT/<card>`, one after another, with the
+  baseline's bots, labels, games, clock, content and secret, `--no-records --no-decisions`, and
+  `--timeout` seconds per match (default 7200). It checks the seeds file against the baseline's
+  SHA-256 and each finished match's lobbies against the baseline's, skips cards already done,
+  and stops at the first failure.
+- `python3 card_without.py BASELINE WITHOUT... [--control RERUN] [--out FILE.csv]` writes one row
+  per card per bot: games, mean place with and without, the mean paired difference (without
+  minus with, by game index) with its 95% interval over seed lines, the baseline games in which
+  the bot bought the card at least once, and the definition's `too_few` and `flag`. It refuses
+  matches whose summary fields, secret, games, seeds or lobbies differ.
+
+**Clock noise.** The red and blue bots read their CPU clock to size searches, so two runs of the
+same match differ in some games (4 of 40 on a busy machine, 25 Nov). That noise lands in the
+paired difference. `--control` takes a second, flag-free run of the baseline; its `(control)`
+rows show the size of the noise.
+
 ## The clock
 
 Each seat has `--clock-ms` of **thread CPU time** per game (`clock_gettime(CLOCK_THREAD_CPUTIME_ID)`),

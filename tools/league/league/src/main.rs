@@ -8,6 +8,7 @@ const USAGE: &str = "usage:
   league ghost-match --red <bot> --blue <bot> --field <store> --games N --seeds <file>
                      --out <dir> [--clock-ms 1000] [--threads K] [--secret <hex>] [--no-decisions]
                      [--red-label <tag>] [--blue-label <tag>] [--debug-logs]
+                     [--without <card id>[,<card id>...] --no-records]
   league selfcheck --records <dir>... [--bots flow-random|tribe] [--games N] [--threads K] [--keep <dir>]
   league check-crate <path> --name <red|blue> [--keep]
   league analyze <dir>
@@ -122,11 +123,25 @@ fn run(args: &[String]) -> Result<(), String> {
             if m.games == 0 {
                 return Err(format!("usage: --games must be positive\n{USAGE}"));
             }
+            let without = match o.get("without") {
+                None => Vec::new(),
+                Some(list) => {
+                    let ids: Vec<String> = list.split(',').map(|s| s.trim().to_owned()).collect();
+                    if command != "ghost-match" {
+                        return Err(format!("usage: --without is a ghost-match option\n{USAGE}"));
+                    }
+                    if ids.iter().any(String::is_empty) {
+                        return Err(format!("usage: --without needs card ids\n{USAGE}"));
+                    }
+                    ids
+                }
+            };
             let result = if command == "ghost-match" {
-                ghostmatch::run_with_debug_logs(
+                ghostmatch::run_without(
                     &m,
                     &PathBuf::from(o.need("field")?),
                     o.has("debug-logs"),
+                    &without,
                 )?
             } else {
                 matchrun::run_with_debug_logs(&m, o.has("debug-logs"))?
