@@ -78,10 +78,10 @@ func build(box: Vector2, art: Texture2D, circle: bool = false) -> void:
 
 ## Gilt lead and edge for a golden card, with its glint running along the gilt every few seconds
 ## (phase: a share of the glint's period, so golden cards do not glint together).
-func set_gilt(on: bool, phase: float = 0.0) -> void:
+func set_gilt(on: bool, phase: float = 0.0, animate: bool = true) -> void:
 	var mat: ShaderMaterial = material as ShaderMaterial
 	var glint: Color = L1Layout.colour("light.golden.glint_colour")
-	glint.a = L1Layout.number("light.golden.glint.strength") if on else 0.0
+	glint.a = L1Layout.number("light.golden.glint.strength") if on and animate else 0.0
 	mat.set_shader_parameter("glint_colour", glint)
 	mat.set_shader_parameter("glint", glint_timing(phase))
 	var key: String = "card.gilt" if on else "card.lead"
