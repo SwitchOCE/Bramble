@@ -230,7 +230,11 @@ func move(here: Vector2) -> bool:
 func _set_button_pressed(pressed: bool) -> void:
 	var face: Control = _press.get("pressed_face")
 	if is_instance_valid(face):
+		var was: bool = face.position.y != 0.0
 		face.position.y = GlassPieces.as_float(_press["press_offset"]) if pressed else 0.0
+		# the swords flash as they are pressed: the fight starts on the release, at once
+		if pressed and not was and str(_press.get("id", "")) == "end_turn":
+			RecruitColumns.flash_end_turn(_screen)
 
 
 func _start_drag() -> void:

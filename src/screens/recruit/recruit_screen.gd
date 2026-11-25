@@ -192,6 +192,8 @@ func _on_new_state() -> void:
 ## Reports what the player asks for (action_requested).
 func ask(action: Dictionary) -> void:
 	_motion.asked(action)
+	if str(action.get("type", "")) == "end_turn":
+		RecruitColumns.flash_end_turn(self)
 	action_requested.emit(action)
 
 

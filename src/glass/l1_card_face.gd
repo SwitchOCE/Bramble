@@ -76,8 +76,14 @@ func build(box: Vector2, art: Texture2D, circle: bool = false) -> void:
 		mat.set_shader_parameter("edge_line", Color.TRANSPARENT)
 
 
-func set_gilt(on: bool) -> void:
+## Gilt lead and edge for a golden card, with its glint running along the gilt every few seconds
+## (phase: a share of the glint's period, so golden cards do not glint together).
+func set_gilt(on: bool, phase: float = 0.0) -> void:
 	var mat: ShaderMaterial = material as ShaderMaterial
+	var glint: Color = L1Layout.colour("light.golden.glint_colour")
+	glint.a = L1Layout.number("light.golden.glint.strength") if on else 0.0
+	mat.set_shader_parameter("glint_colour", glint)
+	mat.set_shader_parameter("glint", glint_timing(phase))
 	var key: String = "card.gilt" if on else "card.lead"
 	var angle: float = deg_to_rad(L1Layout.number(key + ".angle"))
 	mat.set_shader_parameter("lead_direction", Vector2(sin(angle), -cos(angle)))
@@ -87,6 +93,22 @@ func set_gilt(on: bool) -> void:
 	var line: Color = Color("ffd68c") if on else Color("aabeb9")
 	line.a = L1Layout.number("card.gilt.line_alpha" if on else "card.edge.line_alpha")
 	mat.set_shader_parameter("edge_line", line)
+
+
+static func glint_timing(phase: float) -> Vector4:
+	return Vector4(
+		L1Layout.number("light.golden.glint.period"),
+		L1Layout.number("light.golden.glint.sweep"),
+		L1Layout.number("light.golden.glint.width"),
+		phase
+	)
+
+
+## How far round the outline (clockwise on screen from the bottom point, 0 to 1) a point of the
+## face lies, as the face shader measures it for the glint.
+static func way_round(at: Vector2, box: Vector2) -> float:
+	var c: Vector2 = (at - box / 2.0) / (box / 2.0)
+	return fposmod((atan2(c.y, c.x) - PI / 2.0) / TAU, 1.0)
 
 
 func _draw() -> void:

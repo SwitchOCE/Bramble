@@ -192,12 +192,56 @@ func set_hot(node: Control) -> void:
 		_reset_golden()
 		_hot_rest_z = node.z_index if is_instance_valid(node) else 0
 	super(node)
+	if previous != node:
+		light_tier(previous, false)
+		light_tier(node, true)
 	# Discover's choices belong above its veil even after the shared hover resets their z.
 	for option: Control in [previous, node]:
 		if is_instance_valid(option) and option.name.begins_with("Discover_"):
 			option.z_index = RecruitDiscover.Z + 1
 	if node != standing:
 		set_down()
+
+
+## The tier on hover (buy-screen-l1.md §11 item 15, owner L3): a board or hand card pointed at
+## gets its tier's light hugging it, the same light as a shop card's halo (S1). Nothing is drawn
+## on the card itself.
+func light_tier(node: Control, on: bool) -> void:
+	if not is_instance_valid(node):
+		return
+	var old: Node = node.get_node_or_null("TierLight")
+	if old != null:
+		node.remove_child(old)
+		old.queue_free()
+	if not on:
+		return
+	var card: Dictionary = {}
+	for target: Dictionary in _recruit._targets:
+		if target.get("node") == node and str(target["kind"]) in ["board", "hand"]:
+			card = target.get("card", {})
+			break
+	var face: Control = node.get_node_or_null("Face")
+	if card.is_empty() or face == null or not card.has("tier"):
+		return
+	var tint: Color = L1Layout.shop_tint(GlassPieces.as_int(card["tier"]))
+	var circle: bool = node is GlassSpell
+	var light: L1Light = L1Light.make(
+		L1Light.Shape.CIRCLE if circle else L1Light.Shape.CARD,
+		Rect2(Vector2.ZERO, node.size),
+		Color(tint, 1.0),
+		"TierLight"
+	)
+	light.show_behind_parent = face.show_behind_parent
+	light.glow(
+		Vector3(
+			L1Layout.number("light.hover.grow"),
+			L1Layout.number("light.hover.blur"),
+			L1Layout.number("light.hover.share") * tint.a
+		)
+	)
+	light.blend(L1Layout.number("light.shop.additive"))
+	node.add_child(light)
+	node.move_child(light, face.get_index())
 
 
 ## A hovered hand card stands up, unturned, at the L1 height for its kind.
