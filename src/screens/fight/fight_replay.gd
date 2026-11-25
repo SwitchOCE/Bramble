@@ -67,7 +67,7 @@ var played: Array = []
 var views: Array = []
 ## The fight's schedule (FightTimeline), once schedule() has made it.
 var plan: FightTimeline
-## The loss's parts from GameFlow._loss_parts: {big (rulebook 10.1.2), base, extra}. The
+## The loss's parts from GameFlow._loss_parts: {big (rulebook 10.1.2), base}. The
 ## result carries big and base, for the portrait strike's two landings on a big loss (FightStrike).
 var loss: Dictionary = {}
 
@@ -87,7 +87,7 @@ var _gone: Dictionary = {}
 ## base: the view state around the fight (hero, opponent, you_side, slots...); its boards are
 ## replaced by the log's. catalog: card id -> {name, tier, art, text, health} for what the log
 ## does not carry. damage: what the loser takes, from GameSession's fight entry (-1 for none);
-## parts: the entry's `loss` ({big, base, extra}: GameFlow._loss_parts).
+## parts: the entry's `loss` ({big, base}: GameFlow._loss_parts).
 static func build(
 	base: Dictionary, events: Array, catalog: Dictionary, damage: int = -1, parts: Dictionary = {}
 ) -> FightReplay:
