@@ -37,11 +37,12 @@ class CardSummary(unittest.TestCase):
                        card("rare", "Badger", 6), card("loner", ""), {"id": "spell", "name": "Spell", "tribes": [],
                                                                     "tier": 1, "spell": True, "token": False}]
             (match / "library.json").write_text(json.dumps(library))
-            seat = {"label": "red-1", "bot": "red", "colour": "red", "main_tribe": "Badger", "place": 2,
+            seat = {"bot": "red", "colour": "red", "main_tribe": "Badger", "place": 2,  # label from summary.json
                     "rounds": [{"round": 4, "board": [{"card": "heir"}, None]},
                                {"round": 5, "board": [{"card": "heir"}, {"card": "heir"}]},
                                {"round": 6, "board": []}]}
             (match / "games.jsonl").write_text(json.dumps({"game": 0, "seats": [seat]}) + "\n")
+            (match / "summary.json").write_text(json.dumps({"summary": {"red": "red", "blue": "blue", "red_label": "red-1"}}))
             write(report / "bought_passed.csv", [
                 bought("heir", 500, 0.95, 0.5, 0.1, "worth a look: worse when bought"),
                 bought("stray", 500, 0.0), bought("dud", 500, 0.005), bought("rare", 20, 0.5),
@@ -74,6 +75,29 @@ class CardSummary(unittest.TestCase):
                          {"stray": "tribe not played", "dud": "offered and refused", "rare": "seldom offered",
                           "loner": "offered and refused"})
         self.assertEqual(rows["stray"]["worth a look"], "")
+
+    def test_refusal_is_reported_whatever_the_fight_data(self):
+        rows = self.rows()
+        self.assertEqual({name: rows[name]["in the shop"] for name in ("heir", "stray", "dud", "rare", "loner")},
+                         {"heir": "bought", "stray": "tribe not played", "dud": "refused", "rare": "seldom offered",
+                          "loner": "refused"})
+
+    def test_a_card_another_bot_buys_is_not_refused(self):
+        plays = {"red-1": {"Mouse": 0.12}, "blue-1": {"Mouse": 0.01}}
+        reading = lambda blue: card_summary.shop_reading(["Mouse"], {"red-1": (500, 0.0), "blue-1": blue}, plays)
+        self.assertEqual((reading((500, 0.16)), reading((500, 0.0)), reading((50, 0.5))), ("bought", "refused", "refused"))
+        self.assertEqual(card_summary.shop_reading(["Mouse"], {"red-1": (50, 0.0), "blue-1": (500, 0.0)}, plays), "seldom offered")
+
+    def test_keyword_lines_mark_a_keyword_over_the_floor(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "keywords.csv"
+            cell = lambda health, value, status="ok": {"keyword": "overrun", "stage": "5-8", "enemy_health": health,
+                                                       "status": status, "keyword_value": value}
+            write(path, [cell("all", 0.068), cell("low", 0.139), cell("high", 0.04),
+                         {**cell("all", 0.005), "keyword": "cleave"}, {**cell("low", "", "too few"), "keyword": "cleave"}])
+            self.assertEqual(list(card_summary.keyword_lines(path)), [
+                "  keyword cleave, rounds 5-8: +0.005",
+                "  keyword overrun, rounds 5-8: +0.068, +0.139 against low-Health boards, +0.040 against high  <- worth a look"])
 
     def test_a_match_without_records_says_so(self):
         self.assertEqual(self.rows(with_fights=False)["heir"]["fight data"], "no records")

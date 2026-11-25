@@ -40,13 +40,22 @@ def main_tribe(tribes):
     return best[0] if best[1] >= MAIN_TRIBE_UNITS else None
 
 
+def seat_labels(directory):
+    """{colour: the bot's label in this match}, from summary.json."""
+    summary = json.loads((Path(directory) / "summary.json").read_text())
+    summary = summary.get("summary", summary)
+    return {"red": summary.get("red_label") or summary["red"],
+            "blue": summary.get("blue_label") or summary["blue"]}
+
+
+def seat_label(seat, labels):
+    return seat.get("label") or labels.get(seat.get("colour"), seat["bot"])
+
+
 def load_match(directory, tag):
     """Yield (game key, bot label, place, {(round, card): bought}, {round: main tribe at turn start})."""
     directory = Path(directory)
-    summary = json.loads((directory / "summary.json").read_text())
-    summary = summary.get("summary", summary)
-    labels = {"red": summary.get("red_label") or summary["red"],
-              "blue": summary.get("blue_label") or summary["blue"]}
+    labels = seat_labels(directory)
     turns = defaultdict(dict)
     for row in read_lines(directory / "shops.jsonl"):
         seen = turns[row["game"]]
@@ -58,7 +67,7 @@ def load_match(directory, tag):
                 seen[(row["round"], bought["card"])] = True
     for game in read_lines(directory / "games.jsonl"):
         seat = game["seats"][0]
-        label = seat.get("label") or labels.get(seat.get("colour"), seat["bot"])
+        label = seat_label(seat, labels)
         before = {r["round"] + 1: main_tribe(r["tribes"]) for r in seat["rounds"]}
         yield (tag, game["game"]), label, seat["place"], turns.get(game["game"], {}), before
 

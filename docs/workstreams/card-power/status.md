@@ -38,7 +38,7 @@ Branch `balance/card-power`, pushed. Draft pull request to `dev`: https://github
 - `league refight`, ported to today's engine, with the modes `--text-off`, `--keyword-off <ids>`, `--overrun-swings` (defaults 2 seeds, cap 500).
 - `league ghost-match --without <id[,id...]>` (needs `--no-records`), `analysis/card_without.py` (pairing, `--control`), `analysis/card_without_run.py` (runner).
 - `analysis/bought_passed.py`, `fight_text.py`, `stat_growth.py`, with tests.
-- `tools/league/card_report.sh <match dir>`: steps 1 and 2 in one command, ending in `card-report/cards.csv` (one row per card) from `analysis/card_summary.py`. 4 minutes 20 seconds on `r1`. Not yet scope-reviewed.
+- `tools/league/card_report.sh <match dir>`: steps 1 and 2 in one command, ending in `card-report/cards.csv` (one row per card) from `analysis/card_summary.py`. 4 minutes 20 seconds on `r1`. A fresh review found no cut items; its two fixes and three questions are applied and logged in definitions.md (the three go to the owner as one line each).
 - This folder's docs and the bot versions document.
 
 Checks at last run: 45 Rust tests, 72 Python tests, clippy clean with `--no-deps`. A fresh review of the whole branch found no cut items; its fixes are applied. The owner answered the workers' two ask items "Yes to both".
@@ -90,7 +90,7 @@ Raw matches are deleted once findings are written (storage rules: `docs/workstre
 
 **Bought against passed** leans +0.12 to +0.27 against buying whatever is controlled for. Kept as a hint, read against the bot's typical card.
 
-**Half the cards have no data.** Bought on under 1% of offers: Mouse 14 of 17, Briar 13 of 19, Pigeon 10 of 20, Locust 8 of 19, Badger 1 of 19, no tribe 7 of 8. Red ends on Locust 78%, Badger 12%, Pigeon 6%, Briar 4%, Mouse 1%; blue on Badger in all. Red's place by tribe: Badger 3.53, Locust 3.68, Mouse 4.33, Briar 5.36, Pigeon 6.00. The report gives the reason a card has no data: never offered, tribe not played, or offered and refused (only the last is a sign).
+**Half the cards have no data.** Bought on under 1% of offers: Mouse 14 of 17, Briar 13 of 19, Pigeon 10 of 20, Locust 8 of 19, Badger 1 of 19, no tribe 7 of 8. Red ends on Locust 78%, Badger 12%, Pigeon 6%, Briar 4%, Mouse 1%; blue on Badger in all. Red's place by tribe: Badger 3.53, Locust 3.68, Mouse 4.33, Briar 5.36, Pigeon 6.00. The report gives each card's shop reading: tribe not played, seldom offered, refused or bought (only refused is a sign).
 
 **Extra bodies in fights.** About 3.0 to 3.4 extra a side from round 5, about 10 bodies a side; 16 or more on about 1 side in 350; most seen 20. Counted as `deaths + survivors − starting`.
 

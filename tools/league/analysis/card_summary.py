@@ -12,13 +12,14 @@ import json
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from bought_passed import read_lines
+from bought_passed import read_lines, seat_label, seat_labels
 
 STAGES = ("1-4", "5-8", "9-12", "13+")
 PICK_LINE = 0.9       # worth a look: a bot buys the card on nine offers in ten or more
 PICK_OFFERS = 100     # offers a bot needs before its pick rate is read
 PLAYED_SHARE = 0.05   # a bot plays a tribe when it ends on it in at least this share of its games
 REFUSED = 0.01        # bought on under one offer in a hundred
+KEYWORD_FLOOR = 0.05  # a keyword worth a look turns at least 5 fights in 100 at a stage
 
 
 def stage(round_no):
@@ -43,9 +44,10 @@ def boards(match):
     seen = defaultdict(Counter)
     ends = defaultdict(Counter)
     games, colour = Counter(), {}
+    labels = seat_labels(match)
     for game in read_lines(match / "games.jsonl"):
         seat = game["seats"][0]
-        bot = seat.get("label") or seat["bot"]
+        bot = seat_label(seat, labels)
         games[bot] += 1
         colour[bot] = seat["colour"]
         ends[bot][seat.get("main_tribe") or "none"] += 1
@@ -58,17 +60,19 @@ def boards(match):
     return held, seen, shares, colour
 
 
-def no_data_reason(tribes, picks, plays):
-    """Why no bot put the card on enough boards to test. Only "offered and refused" is a sign."""
-    if all(offers < PICK_OFFERS for offers, _ in picks.values()):
-        return "seldom offered"
-    playing = [bot for bot, (offers, _) in picks.items() if offers >= PICK_OFFERS
-               and (not tribes or any(plays.get(bot, {}).get(t, 0) >= PLAYED_SHARE for t in tribes))]
+def shop_reading(tribes, picks, plays):
+    """How the bots that could use the card treat it in the shop: "tribe not played" (no bot ends
+    on its tribe often enough), "seldom offered" (the bots that play it saw it too rarely),
+    "refused" (a bot that plays it saw it enough, and every bot that saw it enough bought it on
+    under one offer in a hundred; a card with no tribe counts every bot), or "bought"."""
+    playing = [bot for bot in picks
+               if not tribes or any(plays.get(bot, {}).get(t, 0) >= PLAYED_SHARE for t in tribes)]
     if not playing:
         return "tribe not played"
-    if all(picks[bot][1] < REFUSED for bot in playing):
-        return "offered and refused"
-    return "bought, held too briefly"
+    if all(picks[bot][0] < PICK_OFFERS for bot in playing):
+        return "seldom offered"
+    seen = [bot for bot in picks if picks[bot][0] >= PICK_OFFERS]
+    return "refused" if all(picks[bot][1] < REFUSED for bot in seen) else "bought"
 
 
 def summary(match, report, left_out=None):
@@ -124,7 +128,10 @@ def summary(match, report, left_out=None):
         for bot in bots:
             cell = left.get(card, {}).get(colour[bot])
             row[f"left out {bot}"] = round(float(cell["diff_mean"]), 2) if cell else ""
-        row["fight data"] = ("yes" if tested else no_data_reason(info["tribes"], picks, plays)) if fights else "no records"
+        shop = shop_reading(info["tribes"], picks, plays)
+        reason = {"refused": "offered and refused", "bought": "bought, held too briefly"}.get(shop, shop)
+        row["fight data"] = ("yes" if tested else reason) if fights else "no records"
+        row["in the shop"] = shop
         row["worth a look"] = "; ".join(marks)
         out.append(row)
     return out
@@ -149,6 +156,24 @@ def main():
     print("fight data: " + ", ".join(f"{reason} {n}" for reason, n in reasons.most_common()))
     for r in marked:
         print(f"  tier {r['tier']} {r['name']}: {r['worth a look']}")
+    refused = [r for r in rows if r["in the shop"] == "refused"]
+    print(f"{len(refused)} refused by every bot that saw them: " + ", ".join(r["name"] for r in refused))
+    for line in keyword_lines(Path(args.report) / "keywords.csv"):
+        print(line)
+
+
+def keyword_lines(path):
+    """Each keyword's value by stage, on all boards and against low- and high-Health boards.
+    Worth a look: it turns at least KEYWORD_FLOOR of fights at a stage, the floor a card's text has."""
+    cells = {(r["keyword"], r["stage"], r["enemy_health"]): number(r["keyword_value"])
+             for r in table(path) if r["status"] == "ok"}
+    for keyword, name in sorted({(k[0], k[1]) for k in cells}, key=lambda kv: (kv[0], STAGES.index(kv[1]))):
+        value = cells.get((keyword, name, "all"))
+        if value is None:
+            continue
+        low, high = cells.get((keyword, name, "low")), cells.get((keyword, name, "high"))
+        split = f", {low:+.3f} against low-Health boards, {high:+.3f} against high" if low is not None and high is not None else ""
+        yield f"  keyword {keyword}, rounds {name}: {value:+.3f}{split}{'  <- worth a look' if value >= KEYWORD_FLOOR else ''}"
 
 
 if __name__ == "__main__":

@@ -46,7 +46,7 @@ Stages of the game, used everywhere: rounds 1–4, 5–8, 9–12, 13 on. Cards a
 
 ## Pick rate
 
-Bought observations divided by all observations, as defined above, per bot and pooled.
+Bought observations divided by all observations, as defined above, per bot and pooled. A bot's pick rate is read only when it saw the card on at least 100 offers; under that the report shows the count and no mark.
 
 ## Text off (how much of a unit's fight power is in its own text)
 
@@ -99,11 +99,13 @@ The owner's idea, 25 Nov: "stats generated per turn compared to the source of th
 `tools/league/card_report.sh <match dir>` runs steps 1 and 2 on one played match and writes `card-report/cards.csv`: every measure side by side, the marks, and two columns of context.
 
 - **Boards holding the card, by stage:** of the live seat's boards at the end of each round in the stage, the share with at least one copy, per bot. It shows when a bot keeps a card, which a pick rate cannot (red-c14 holds Gleaner on 87% of its boards from round 9, when the card's text has stopped paying).
-- **Why a card has no fight data:** a card has fight data when it has enough observations for text off in at least one stage. Otherwise one reason is given, and only the third is a sign about the card:
-  - *seldom offered*: no bot saw it on 100 offers.
-  - *tribe not played*: no bot that saw it enough ends on its tribe in one game in twenty or more.
-  - *offered and refused*: a bot that plays its tribe (or any bot, for a card with no tribe) saw it enough and bought it on under one offer in a hundred.
-  - *bought, held too briefly*: bought, but on too few boards to test.
+- **In the shop:** how the bots that could use the card treat it, for every card, whether or not it has fight data (the fight data often comes from opponents' boards). A bot plays a tribe when it ends on it in one game in twenty or more; a card with no tribe counts every bot.
+  - *tribe not played*: no bot plays its tribe.
+  - *seldom offered*: the bots that play its tribe saw it on under 100 offers each.
+  - *refused*: a bot that plays its tribe saw it enough, and every bot that saw it enough bought it on under one offer in a hundred. This is the only one of the four that is a sign about the card, and the report lists these cards.
+  - *bought*: otherwise.
+- **Why a card has no fight data:** a card has fight data when it has enough observations for text off in at least one stage. Otherwise the reason is its shop reading: tribe not played, seldom offered, offered and refused, or bought but held too briefly.
+- **Keywords:** the report prints each keyword's value by stage, on all boards and against low- and high-Health boards. Worth a look: it turns at least 5 fights in 100 at a stage, the same floor as a card's text. With three keywords there is no table to take a spread from, so the line is fixed.
 - A match without records gets the shop readings only, and the report says so. So the report is run before a match's records are deleted.
 
 ## Left out of the shop (what a card is worth over a whole game)
@@ -144,3 +146,4 @@ The owner called replacing a unit with a made-up plain unit "pretty unrealistic"
 - 25 Nov: the owner answered the two review questions "Yes to both": the real-game checks on left out of the shop run before the full report, and the unused damage-taken fields are dropped from the refight output.
 - 25 Nov: the card report's two context columns added (boards holding the card by stage; why a card has no fight data), after the Gleaner result showed a bot holding a card long after its text stopped paying, and the owner's remark that a bot ignoring a card is itself a finding.
 - 25 Nov, AFTER the tribes-missing match was read: left out of the shop is stated as an upper bound for a card a bot is built around. Reason: the comparison quoted in its section.
+- 25 Nov, AFTER the report was read, on a fresh reviewer's questions: the pick rate's 100-offer minimum is written into its definition (the code already had it); "refused" is reported for every card, not only for cards without fight data (29 refused cards on `r1` had fight data from opponents' boards and showed nothing); "seldom offered" now means seldom offered to the bots that play the tribe (tier 6 Locust cards had read "tribe not played" because only the Badger bot saw them 100 times); keyword off gets a fixed worth-a-look line.

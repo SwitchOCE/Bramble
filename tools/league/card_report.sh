@@ -48,6 +48,8 @@ if compgen -G "$match/records/game-*.jsonl" > /dev/null; then
   rm -r "$out/refight" "$out/refight-keywords"
 else
   echo "no records in $match: the fight tests and stat growth are skipped"
+  # Tables left by an earlier report in the same folder would be read as this match's.
+  rm -f "$out/text_cards.csv" "$out/stat_growth.csv" "$out/keywords.csv" "$out/overrun_swings.csv"
 fi
 
 step "one row per card"
