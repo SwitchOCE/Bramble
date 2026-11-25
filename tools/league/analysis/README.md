@@ -12,6 +12,8 @@ Run these Python 3 commands from this directory. Report commands print Markdown 
 | `python3 combat.py MATCH` | `kills_by_card.tsv`, `summons_by_source.tsv`, `kill_shares.tsv` |
 | `python3 agree.py MATCH` | `agree.md`, `agree.json` |
 | `python3 ladder.py MATCH [MATCH ...] [--trends]` | `ladder.md`, `ladder.json` beside the first match |
+| `python3 card_without_run.py BASELINE OUT_ROOT --field STORE --seeds FILE CARD ...` | one `ghost-match --without CARD` folder per card in `OUT_ROOT` (see `../league/README.md`, "Leaving cards out of the shop") |
+| `python3 card_without.py BASELINE WITHOUT ... [--control RERUN] [--out FILE]` | CSV, one row per card per bot: place with and without the card, paired difference and interval |
 
 ## Referee retention
 

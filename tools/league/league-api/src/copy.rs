@@ -1,7 +1,8 @@
 //! Deep copies between live engine objects and owned JSON-shaped data. Nothing returned here
 //! shares storage with a live game: every Array and Dictionary is rebuilt.
 use bramble_engine::core::{
-    records::fight_snapshot::FightSnapshot, recruit::player_state::PlayerState,
+    records::fight_snapshot::FightSnapshot,
+    recruit::player_state::{PlayerState, PlayerStateRef},
     session::game_session::GameSession,
 };
 use bramble_engine::{Array, Dictionary, ToState, Variant};
@@ -77,8 +78,13 @@ pub fn full_player(player: &PlayerState) -> Dictionary {
 
 /// Restores a fight payload onto the player identified by its saved seat.
 pub fn restore_payload(game: &mut GameSession, saved: &Dictionary) {
-    let player = game.player(saved.get("id").as_i64());
-    FightSnapshot::restore_player(saved, &mut player.borrow_mut(), game, 0);
+    let owner = game.player(saved.get("id").as_i64());
+    restore_payload_for(game, saved, &owner);
+}
+
+/// Restore onto an explicit owner, including a ghost outside the session's player list.
+pub fn restore_payload_for(game: &mut GameSession, saved: &Dictionary, owner: &PlayerStateRef) {
+    FightSnapshot::restore_player(saved, &mut owner.borrow_mut(), game, 0);
 }
 
 /// Restores a `full_player` copy: the payload, then every recruit field.

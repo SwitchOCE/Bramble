@@ -8,7 +8,7 @@ engine is `../bramble-engine`, a bit-exact port of the GDScript rules. Log forma
 tools/league/
   league-api/          the crate bots depend on: Bot, BotView, Sim, Sandbox, Action, Report
   league/              this binary and library: game loop, seats and seeds, clock, logs,
-                       baselines, selfcheck, check-crate, analyze, bench
+                       baselines, selfcheck, check-crate, analyze, refight, bench
   bots/registry/       `league-bots`: the team crates compiled into the binary, by name
   bots/examples/       clean/ (a clean team-style bot), testbots/ (busy, hang, panic, fault,
                        burn), cheat-*/ (planted cheats; outside the workspace on purpose)
@@ -34,6 +34,10 @@ target/release/league analyze /home/alex/league/matches/m1
 
 # An async match: each bot plays the live seat against the same seven runs in its pair.
 target/release/league ghost-match --red red --blue blue --field field --games 200 +  --seeds seeds.txt --clock-ms 5000 --threads 4 --out ghost-match [--secret HEX]
+
+# Fight the recorded boards again using the current engine and card data.
+target/release/league refight --match build/matches/m1 --out build/refight/m1 \
+  [--repo-root <dir>] [--select tribe:<name>[:<min>]] [--threads N] [--verify]
 
 # Baselines against the GDScript reference records (records.gd's games, line for line).
 target/release/league selfcheck --records /home/alex/league/records/gd/c0 \
@@ -69,6 +73,136 @@ To save the live seats' runs, use
 `bramble-ghosts cut --match ghost-match --ghost-store field --store new-runs --made TIME`.
 Keep the field available to replay the source match.
 
+## Refighting a match
+
+Pass a completed `league match` directory with its `records/`, `games.jsonl`, and
+`summary.json`. Each refight restores both pre-fight payloads, including the ghost where
+applicable, and uses the baseline game seed, round and ordered pairing. The baseline
+match's content option selects the card folders under `--repo-root`, which defaults to the
+checkout the binary was built in. The engine, config and card definitions come from the
+binary and that checkout. Refights are independent and log in game and round order at any
+thread count. The default is one thread.
+
+`--select tribe:badger` keeps fights with at least four Badger units on either baseline
+board. Tribe names are case-insensitive and an optional positive integer overrides the
+minimum. `All` units count toward the selected tribe. Qualifying sides come from the
+baseline `library.json` and pre-fight boards, so the same sides are compared across rule
+changes. With no selector, both sides qualify for every fight.
+
+- `refights.jsonl` logs `game`, `round`, `players` in original pair order, `ghost_of`,
+  `qualifying_sides` as player IDs, `original_winner`, `original_damage`, `new_winner`,
+  and `new_damage`. A winner of `null` is a draw and `-1` denotes the ghost. Damage is
+  before armor. A skip records its reason in `skip` and has `null` new winner and damage.
+  A card absent from the new content or a payload that cannot be restored skips the fight.
+- `summary.tsv` gives one pooled row (`all`) and one row per pairing position (`a`, `b`).
+  `sides` counts qualifying sides with both outcomes. The pooled row leaves out fights
+  where both sides qualify, since they cancel to zero; the per-side rows keep them.
+  Win, draw and loss rates and new-minus-original changes are fractions.
+  The 95% intervals use Student's t on paired differences, clustered by seeds-file line
+  to account for correlated fights and colour-swapped games. An interval is `NA` with
+  fewer than ten represented seed lines. Rates are `NA` with zero observations.
+
+**What a refight can and can't show.** Each unit keeps everything it had when the fight was
+recorded: buffs, granted effects and counters. Only base stats and each card's own effects
+come from the new rules. So a refight measures changes to combat: stats, combat effects and
+keywords. It can't see changes to the shop phase, economy, tiers or what the bots buy; a full
+match on the new rules measures those.
+
+Run `--verify` against the original binary and content to require the same winner, damage and
+full combat result from `games.jsonl` for every fight, including those outside a selector.
+Skips and mismatches are logged even if unselected. Verification exits 1 if any fight was
+skipped or differed and writes any result differences to `verify_mismatch`.
+
+### Switching one thing off (card power)
+
+```
+league refight --match <dir> --out <dir> [--text-off] [--stat-worth] [--keyword-off <id>[,<id>...]]
+               [--overrun-swings] [--seeds 2] [--cap 500] [--threads N] [--verify]
+```
+
+These modes measure what one card's text, or one keyword, is worth in the fights a match
+recorded (`docs/workstreams/card-power/definitions.md`). They write one JSON line per
+observation and aggregate nothing. With none of them asked for, `league refight` works as above.
+`--select` doesn't combine with them.
+
+Each fight is first fought as recorded on `--seeds` seeds: the recorded one, then seeds
+derived from it (game seed `hash32("<seed>|refight|<k>")` for k = 1, 2, ..., from which the
+engine derives the fight seed from round and pairing as usual). The recorded seed must give
+the recorded winner and damage (with `--verify`, the full combat result too). A fight that
+doesn't is left out, logged on stderr and counted as "not reproduced"; `--verify` then exits 1.
+The changed board is fought on the same seeds.
+
+**Text off** (`--text-off`, `text_off.jsonl`). One observation is one unit on a board at the
+start of one recorded fight. That unit keeps its stats, slot, counters and everything given to
+it (grants, and what auras and its slot give it in the fight). Its own card's mechanics, printed
+keywords included, are removed for that fight. Because auras are worked out again in the fight,
+an aura the unit gives others goes too.
+
+**Stat worth** (`--stat-worth`, more fields in `text_off.jsonl`; implies `--text-off`). Each
+text-off observation is fought six more times with the plain unit's own Attack and Health at
+1.5, 2, 3, 4, 6 and 8 times what was recorded (rounded to nearest; "own" is printed plus what
+the unit holds itself, without auras or its slot's Renown). The row gets `own_attack`,
+`own_health` and `score_x150` to `score_x800`. `analysis/fight_text.py` finds, per card and
+stage, the multiplier at which the plain unit does as well as the card did. About three times
+the fights of text off alone.
+
+**Keyword off** (`--keyword-off`, `keyword_off.jsonl`). Takes mechanic ids from the card
+data: `badger_overrun`, `cleave`, `badger_fury`. One observation is one side that has the
+keyword at the start of the fight. That side's keyword does nothing, on every unit, printed or
+given. The other side's copy still works, so fights where both sides have it are kept, one
+observation per side. A side **has** the keyword when at least one of its board units holds the
+mechanic in the recorded `fight_boards`: printed on its card, in its `grants`, in its
+`aura_grants` (Greatsword-bearer and Dame of the Old Sett give Overrun this way), or as a
+keyword of the slot it stands in. A unit that gets the keyword only during the fight doesn't
+make its side count. A keyword with an aura, a death effect or an ability is refused.
+
+**Sampling.** At most `--cap` observations per card (text off) or per keyword (keyword off)
+per stage (rounds 1–4, 5–8, 9–12, 13 on). The kept ones are those with the lowest
+`hash32("text_off|<game>|<round>|<position>|<slot>")` (keyword off:
+`"keyword_off|<id>|<game>|<round>|<position>"`). The outcome is never looked at.
+
+Fields of both files:
+
+| Field | Meaning |
+|---|---|
+| `mode` | `text_off` or `keyword_off` |
+| `game`, `round`, `stage` | match game index, round, and `1-4`, `5-8`, `9-12` or `13+` |
+| `player`, `ghost_of`, `position` | the observed side: its player id (`-1` for a ghost), the ghost's source player (else null), and `a` or `b` in the pairing |
+| `seeds` | seeds per board |
+| `slot`, `card`, `golden`, `tier` | text off only: the unit's board slot, card id, golden flag and card tier |
+| `keyword`, `keyword_units`, `enemy_keyword_units` | keyword off only: the mechanic id, and how many units hold it on the observed side and on the enemy's |
+| `score_recorded`, `score_off` | the observed side's mean score, win 1, draw ½, loss 0: board as recorded, and with the change |
+| `dealt_recorded`, `dealt_off` | mean damage the observed side's win deals to the enemy player (0 on a draw or loss) |
+| `result_changed` | the change gave a different winner (or a draw) on the recorded seed |
+| `own_units`, `enemy_units` | units on each board at the start of the fight |
+| `enemy_median_health` | median Health of the enemy's units at the start of the fight, as the recruit board shows it (auras included); null for an empty board |
+
+Damage is before armour. The engine deals a ghost no damage; here a ghost that loses takes
+what a player would, so damage reads the same for every fight.
+
+**Overrun swings** (`--overrun-swings`, `overrun_swings.jsonl`, `overrun_swings.tsv`). Every
+recorded fight is fought once more on its recorded seed, with the board as recorded, while each
+attack by a unit holding Overrun is noted. The count is left out if the fight's result changes
+(it never should). One line per such attack: `game`, `round`, `stage`, `player`, `ghost_of`,
+`position`, `card`, `golden`, `enemy_standing` (enemy units standing when the attack began),
+`kills` (enemy units that died credited to the attacker, from its attack up to the next attack:
+the target, carried damage and Cleave), and `whole_board` (it killed every enemy unit that was
+standing). `overrun_swings.tsv` counts them per stage: `attacks`, `kills_0`, `kills_1`,
+`kills_2_plus`, `kills_3_plus`, `whole_board`. An attack counts once it reaches the "on attack"
+step: one stopped by an "is attacked" effect isn't counted.
+
+**What these can't show.** Anything outside the fight: gold, shop effects, growth over turns,
+or what a Recruit effect already gave other units. The boards are the ones bots built around
+each card. A unit that comes back during the fight (Reborn given by another card) can come
+back as a fresh copy of its card, text included. An attack made at once inside another
+attack (Oakfeller) starts a new swing count.
+
+The modes don't change the engine's rules code. Text off edits the restored unit in the
+refight's own session. Keyword off and the swing count give that session its own copy of the
+mechanic registry, in which the chosen mechanic is wrapped (`src/refight/switch.rs`). The
+wrapper asks the real mechanic for every hook, and does nothing for units of the switched-off
+side. A test wraps every mechanic and checks that 300 random boards fight exactly as before.
+
 ## Seats, seeds and the secret
 
 - The seeds file has one decimal seed per line (blank lines and `#` comments skipped). Game `g`
@@ -95,6 +229,44 @@ Keep the field available to replay the source match.
   no summary, including when an output directory is reused. `shops.jsonl` and
   `decisions.jsonl` are compressed with `gzip -f -n` at match end, or kept as text if gzip
   is unavailable. `games.jsonl` stays plain text for analysis.
+
+## Leaving cards out of the shop
+
+`league ghost-match ... --without <card id>[,<card id>...] --no-records` plays a ghost match in
+which the live seat is never offered the named units, in the shop or in Discover. The shop
+draws other cards in their place by the normal tier weights. Seeds, secret, lobbies, bots and
+seats are those of the same match without the flag, so the two pair game by game. It measures
+"Left out of the shop" in `docs/workstreams/card-power/definitions.md`.
+
+- The harness rebuilds the game's unit draw list without the cards right after it creates
+  each session, before the first shop fills. The engine's rules code is unchanged. Ghost seats
+  never shop; their recorded boards still hold the cards and play as recorded.
+- Every id must be a unit the shop draws. An unknown id, a spell, a token or a repeated id is
+  an error before the output folder is touched.
+- **Placement only.** Such a match writes no records, and `--without` without `--no-records`
+  is refused. The draw list is not in the state hash, so a record could not say what was left
+  out: it would not replay, and `bramble-ghosts cut` would put runs from a changed game into a
+  field. `summary.json` lists the cards under `without`. Don't cut or refight these folders.
+- Without the flag, `ghost-match` and `match` write the same bytes as before.
+
+Two scripts in `analysis/` use it:
+
+- `python3 card_without_run.py BASELINE OUT_ROOT --field STORE --seeds FILE CARD...` plays one
+  `--without <card>` match per card into `OUT_ROOT/<card>`, one after another, with the
+  baseline's bots, labels, games, clock, content and secret, `--no-records --no-decisions`, and
+  `--timeout` seconds per match (default 7200). It checks the seeds file against the baseline's
+  SHA-256 and each finished match's lobbies against the baseline's, skips cards already done,
+  and stops at the first failure.
+- `python3 card_without.py BASELINE WITHOUT... [--control RERUN] [--out FILE.csv]` writes one row
+  per card per bot: games, mean place with and without, the mean paired difference (without
+  minus with, by game index) with its 95% interval over seed lines, the baseline games in which
+  the bot bought the card at least once, and the definition's `too_few` and `flag`. It refuses
+  matches whose summary fields, secret, games, seeds or lobbies differ.
+
+**Clock noise.** The red and blue bots read their CPU clock to size searches, so two runs of the
+same match differ in some games (4 of 40 on a busy machine, 25 Nov). That noise lands in the
+paired difference. `--control` takes a second, flag-free run of the baseline; its `(control)`
+rows show the size of the noise.
 
 ## The clock
 
