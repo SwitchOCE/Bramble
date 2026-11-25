@@ -106,3 +106,112 @@ fn refight_verifies_a_match_including_ghosts_and_rejects_a_changed_result() {
     assert!(String::from_utf8_lossy(&mismatch.stderr).contains("combat result triggers"));
     fs::remove_dir_all(dir).unwrap();
 }
+
+#[test]
+fn refight_modes_reproduce_every_fight_and_write_one_line_per_observation() {
+    let root = league::default_root();
+    let dir = root.join(format!(".copies/refight/modes-{}", std::process::id()));
+    fs::create_dir_all(&dir).unwrap();
+    let seeds = dir.join("seeds.txt");
+    fs::write(&seeds, "11\n13\n").unwrap();
+    matchrun::run(&MatchArgs {
+        red: "flow".into(),
+        blue: "random".into(),
+        red_label: None,
+        blue_label: None,
+        games: 4,
+        seeds,
+        clock_ms: 1000,
+        threads: 2,
+        out: dir.join("match"),
+        content: None,
+        secret: Some("aa".into()),
+        root: root.clone(),
+        records: true,
+        decisions: false,
+    })
+    .unwrap();
+    let modes = [
+        "--text-off",
+        "--keyword-off",
+        "badger_overrun,cleave,badger_fury",
+        "--overrun-swings",
+        "--seeds",
+        "2",
+    ];
+    let two = run(
+        &dir,
+        "two",
+        &[&modes[..], &["--verify", "--threads", "2"]].concat(),
+    );
+    assert!(
+        two.status.success(),
+        "{}",
+        String::from_utf8_lossy(&two.stderr)
+    );
+    let report = String::from_utf8_lossy(&two.stdout);
+    let fights = report
+        .split_whitespace()
+        .nth(2)
+        .and_then(|n| n.parse::<usize>().ok())
+        .unwrap();
+    assert!(
+        report.contains(&format!("{fights} / {fights} fights reproduced")),
+        "{report}"
+    );
+    let one = run(&dir, "one", &[&modes[..], &["--threads", "1"]].concat());
+    assert!(one.status.success());
+    for file in [
+        "text_off.jsonl",
+        "keyword_off.jsonl",
+        "overrun_swings.jsonl",
+        "overrun_swings.tsv",
+    ] {
+        assert_eq!(
+            fs::read(dir.join("one").join(file)).unwrap(),
+            fs::read(dir.join("two").join(file)).unwrap(),
+            "{file}"
+        );
+    }
+    let rows = log_lines(&dir.join("two/text_off.jsonl"));
+    assert!(!rows.is_empty());
+    for row in &rows {
+        assert_eq!(row["mode"], "text_off");
+        assert_eq!(row["seeds"], 2);
+        for field in [
+            "game",
+            "round",
+            "stage",
+            "player",
+            "slot",
+            "card",
+            "golden",
+            "tier",
+            "score_recorded",
+            "score_off",
+            "dealt_recorded",
+            "dealt_off",
+            "taken_recorded",
+            "taken_off",
+            "result_changed",
+            "own_units",
+            "enemy_units",
+        ] {
+            assert!(!row[field].is_null(), "{field} in {row}");
+        }
+    }
+
+    let capped = run(&dir, "capped", &["--text-off", "--cap", "1"]);
+    assert!(capped.status.success());
+    let mut groups = std::collections::BTreeSet::new();
+    for row in log_lines(&dir.join("capped/text_off.jsonl")) {
+        assert!(
+            groups.insert((row["card"].to_string(), row["stage"].to_string())),
+            "{row}"
+        );
+    }
+    assert!(!groups.is_empty());
+    let no_mode = run(&dir, "no-mode", &["--seeds", "2"]);
+    assert_eq!(no_mode.status.code(), Some(2));
+    fs::remove_dir_all(dir).unwrap();
+}

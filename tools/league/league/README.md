@@ -113,6 +113,89 @@ full combat result from `games.jsonl` for every fight, including those outside a
 Skips and mismatches are logged even if unselected. Verification exits 1 if any fight was
 skipped or differed and writes any result differences to `verify_mismatch`.
 
+### Switching one thing off (card power)
+
+```
+league refight --match <dir> --out <dir> [--text-off] [--keyword-off <id>[,<id>...]]
+               [--overrun-swings] [--seeds 4] [--cap 1000] [--threads N] [--verify]
+```
+
+These modes measure what one card's text, or one keyword, is worth in the fights a match
+recorded (`docs/workstreams/card-power/definitions.md`). They write one JSON line per
+observation and aggregate nothing. With none of them asked for, `league refight` works as above.
+`--select` doesn't combine with them.
+
+Each fight is first fought as recorded on `--seeds` seeds: the recorded one, then seeds
+derived from it (game seed `hash32("<seed>|refight|<k>")` for k = 1, 2, ..., from which the
+engine derives the fight seed from round and pairing as usual). The recorded seed must give
+the recorded winner and damage (with `--verify`, the full combat result too). A fight that
+doesn't is left out, logged on stderr and counted as "not reproduced"; `--verify` then exits 1.
+The changed board is fought on the same seeds.
+
+**Text off** (`--text-off`, `text_off.jsonl`). One observation is one unit on a board at the
+start of one recorded fight. That unit keeps its stats, slot, counters and everything given to
+it (grants, and what auras and its slot give it in the fight). Its own card's mechanics, printed
+keywords included, are removed for that fight. Because auras are worked out again in the fight,
+an aura the unit gives others goes too.
+
+**Keyword off** (`--keyword-off`, `keyword_off.jsonl`). Takes mechanic ids from the card
+data: `badger_overrun`, `cleave`, `badger_fury`. One observation is one side that has the
+keyword at the start of the fight. That side's keyword does nothing, on every unit, printed or
+given. The other side's copy still works, so fights where both sides have it are kept, one
+observation per side. A side **has** the keyword when at least one of its board units holds the
+mechanic in the recorded `fight_boards`: printed on its card, in its `grants`, in its
+`aura_grants` (Greatsword-bearer and Dame of the Old Sett give Overrun this way), or as a
+keyword of the slot it stands in. A unit that gets the keyword only during the fight doesn't
+make its side count. A keyword with an aura, a death effect or an ability is refused.
+
+**Sampling.** At most `--cap` observations per card (text off) or per keyword (keyword off)
+per stage (rounds 1–4, 5–8, 9–12, 13 on). The kept ones are those with the lowest
+`hash32("text_off|<game>|<round>|<position>|<slot>")` (keyword off:
+`"keyword_off|<id>|<game>|<round>|<position>"`). The outcome is never looked at.
+
+Fields of both files:
+
+| Field | Meaning |
+|---|---|
+| `mode` | `text_off` or `keyword_off` |
+| `game`, `round`, `stage` | match game index, round, and `1-4`, `5-8`, `9-12` or `13+` |
+| `player`, `ghost_of`, `position` | the observed side: its player id (`-1` for a ghost), the ghost's source player (else null), and `a` or `b` in the pairing |
+| `seeds` | seeds per board |
+| `slot`, `card`, `golden`, `tier` | text off only: the unit's board slot, card id, golden flag and card tier |
+| `keyword`, `keyword_units`, `enemy_keyword_units` | keyword off only: the mechanic id, and how many units hold it on the observed side and on the enemy's |
+| `score_recorded`, `score_off` | the observed side's mean score, win 1, draw ½, loss 0: board as recorded, and with the change |
+| `dealt_recorded`, `dealt_off` | mean damage the observed side's win deals to the enemy player (0 on a draw or loss) |
+| `taken_recorded`, `taken_off` | mean damage the observed side's player takes |
+| `result_changed` | the change gave a different winner (or a draw) on the recorded seed |
+| `own_units`, `enemy_units` | units on each board at the start of the fight |
+| `enemy_median_health` | median Health of the enemy's units at the start of the fight, as the recruit board shows it (auras included); null for an empty board |
+
+Damage is before armour. The engine deals a ghost no damage; here a ghost that loses takes
+what a player would, so damage reads the same for every fight.
+
+**Overrun swings** (`--overrun-swings`, `overrun_swings.jsonl`, `overrun_swings.tsv`). Every
+recorded fight is fought once more on its recorded seed, with the board as recorded, while each
+attack by a unit holding Overrun is noted. The count is left out if the fight's result changes
+(it never should). One line per such attack: `game`, `round`, `stage`, `player`, `ghost_of`,
+`position`, `card`, `golden`, `enemy_standing` (enemy units standing when the attack began),
+`kills` (enemy units that died credited to the attacker, from its attack up to the next attack:
+the target, carried damage and Cleave), and `whole_board` (it killed every enemy unit that was
+standing). `overrun_swings.tsv` counts them per stage: `attacks`, `kills_0`, `kills_1`,
+`kills_2_plus`, `kills_3_plus`, `whole_board`. An attack counts once it reaches the "on attack"
+step: one stopped by an "is attacked" effect isn't counted.
+
+**What these can't show.** Anything outside the fight: gold, shop effects, growth over turns,
+or what a Recruit effect already gave other units. The boards are the ones bots built around
+each card. A unit that comes back during the fight (Reborn given by another card) can come
+back as a fresh copy of its card, text included. An attack made at once inside another
+attack (Oakfeller) starts a new swing count.
+
+The modes don't change the engine's rules code. Text off edits the restored unit in the
+refight's own session. Keyword off and the swing count give that session its own copy of the
+mechanic registry, in which the chosen mechanic is wrapped (`src/refight/switch.rs`). The
+wrapper asks the real mechanic for every hook, and does nothing for units of the switched-off
+side. A test wraps every mechanic and checks that 300 random boards fight exactly as before.
+
 ## Seats, seeds and the secret
 
 - The seeds file has one decimal seed per line (blank lines and `#` comments skipped). Game `g`

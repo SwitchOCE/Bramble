@@ -1,6 +1,10 @@
 //! Reuse a completed match's boards and pairings for paired combat comparisons.
 mod input;
+mod modes;
 mod restore;
+mod switch;
+
+pub use modes::{ModeReport, Modes, run as run_modes};
 
 use bramble_engine::{Dictionary, Variant};
 use serde_json::{Value, json};

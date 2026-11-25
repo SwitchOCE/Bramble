@@ -1,8 +1,11 @@
 //! Restore the two snapshots into a private session with the original fight's identity.
 use super::input::{Fight, integer};
 use bramble_engine::core::{
+    mechanics::mechanic_registry::MechanicRegistryRef,
     recruit::player_state::PlayerState,
     session::{game_session::GameSession, matchmaking::Matchmaking},
+    state::slot_state::SlotStateRef,
+    units::unit::UnitRef,
 };
 use bramble_engine::game::game_content::GameContentRef;
 use bramble_engine::util::godot_json;
@@ -45,6 +48,39 @@ pub(super) struct Outcome {
     pub result: Value,
 }
 
+/// What a refight mode changes about one fight. The default is the fight as recorded.
+#[derive(Default)]
+pub(super) struct Setup {
+    /// Use this registry instead of the content's (switch.rs).
+    pub registry: Option<MechanicRegistryRef>,
+    /// The game seed the fight seed is derived from; the recorded game seed when `None`.
+    pub seed: Option<i64>,
+    /// Strip the own text of the unit at (pairing position, board slot): see `text_off`.
+    pub text_off: Option<(usize, usize)>,
+    /// Keep the fight's event log.
+    pub keep_events: bool,
+}
+
+/// One board unit as restored, before the fight.
+pub(super) struct Standing {
+    pub slot: usize,
+    pub card: String,
+    pub golden: bool,
+    pub tier: i64,
+    pub health: i64,
+    /// Mechanic ids it holds: own text, given, and from an aura or its slot as recorded.
+    pub mechanics: Vec<String>,
+}
+
+pub(super) struct Detail {
+    pub outcome: Outcome,
+    /// The damage each pairing position's player takes. A ghost's is worked out as the engine
+    /// does for a player (the engine itself deals a ghost none).
+    pub damage_to: [i64; 2],
+    pub boards: [Vec<Standing>; 2],
+    pub events: Array<Dictionary>,
+}
+
 pub(super) fn fight(
     content: &GameContentRef,
     seed: i64,
@@ -53,11 +89,76 @@ pub(super) fn fight(
     payloads: &[Dictionary; 2],
     verify: bool,
 ) -> Result<Outcome, Skip> {
-    let content = content.borrow();
-    let game = GameSession::create(
+    fight_with(
+        content,
+        &Setup::default(),
         seed,
+        round,
+        original,
+        payloads,
+        verify,
+    )
+    .map(|d| d.outcome)
+}
+
+/// Text off: the unit keeps its stats, slot, counters and everything given to it (grants and
+/// what auras and its slot give in the fight); its own card's mechanics, keywords included, go.
+fn text_off(unit: &UnitRef) {
+    let mut unit = unit.borrow_mut();
+    let given: Vec<_> = unit
+        .mechanics
+        .to_vec()
+        .into_iter()
+        .filter(|bound| bound.borrow().granted)
+        .collect();
+    unit.mechanics = Array::from(given);
+}
+
+fn standing(board: &Array<Option<UnitRef>>, slots: &Array<SlotStateRef>) -> Vec<Standing> {
+    board
+        .to_vec()
+        .into_iter()
+        .enumerate()
+        .filter_map(|(slot, unit)| {
+            let unit = unit?;
+            let unit = unit.borrow();
+            let def = unit.def.as_ref().expect("unit definition").borrow();
+            let mut mechanics: Vec<String> = unit
+                .hooks()
+                .to_vec()
+                .iter()
+                .map(|b| b.borrow().id.clone())
+                .collect();
+            if let Some(here) = slots.get(slot) {
+                mechanics.extend(here.borrow().keywords.to_vec());
+            }
+            Some(Standing {
+                slot,
+                card: def.id.clone(),
+                golden: unit.golden,
+                tier: def.tier,
+                health: unit.health(),
+                mechanics,
+            })
+        })
+        .collect()
+}
+
+pub(super) fn fight_with(
+    content: &GameContentRef,
+    setup: &Setup,
+    seed: i64,
+    round: i64,
+    original: &Fight,
+    payloads: &[Dictionary; 2],
+    verify: bool,
+) -> Result<Detail, Skip> {
+    let content = content.borrow();
+    let registry = setup.registry.as_ref().unwrap_or(&content.registry);
+    let game = GameSession::create(
+        setup.seed.unwrap_or(seed),
         &content.library,
-        &content.registry,
+        registry,
         None,
         &Array::new(),
     );
@@ -66,8 +167,9 @@ pub(super) fn fight(
     let result = catch_unwind(AssertUnwindSafe(|| {
         let mut session = game.borrow_mut();
         session.round_number = round;
-        session.keep_fight_events = false;
+        session.keep_fight_events = setup.keep_events;
         let slot_count = session.geometry.as_ref().unwrap().borrow().slot_count;
+        let mut owners = Vec::new();
         for (id, payload) in original.players.into_iter().zip(payloads) {
             validate_payload(&session, payload, slot_count)?;
             if id == Matchmaking::GHOST {
@@ -85,32 +187,76 @@ pub(super) fn fight(
                 session.ghost_hand = owner.borrow().hand.clone();
                 session.ghost_tier = owner.borrow().tier;
                 session.ghost_of = of;
-                session.ghost_player = Some(owner);
+                session.ghost_player = Some(owner.clone());
+                owners.push(owner);
             } else {
                 harness::restore_payload(&mut session, payload);
+                owners.push(session.player(id));
             }
         }
+        if let Some((side, slot)) = setup.text_off {
+            let unit = owners[side].borrow().board.get(slot).flatten();
+            text_off(&unit.ok_or_else(|| Skip::Payload(format!("no unit in slot {slot}")))?);
+        }
+        let boards = [0, 1].map(|i| {
+            let owner = owners[i].borrow();
+            standing(&owner.board, &owner.slots)
+        });
         drop(session);
         // _fight derives the seed from the game seed, round and ordered ids (including -1).
-        Ok(GameSession::_fight(&game, a, b))
+        let fought = GameSession::_fight(&game, a, b);
+        let mut damage_to = [0; 2];
+        let combat = fought.get("result").as_dict();
+        let winner = combat.get("winner").as_i64();
+        if winner == 0 || winner == 1 {
+            let loser = 1 - winner as usize;
+            damage_to[loser] = if original.players[loser] == Matchmaking::GHOST {
+                // The engine's loss damage, for the ghost's owner as if it were a player.
+                let side = |key: &str| {
+                    combat
+                        .get(key)
+                        .as_array()
+                        .get(winner as usize)
+                        .unwrap_or_default()
+                        .as_i64()
+                };
+                let big = side("killed") * 2 < side("starting");
+                let session = game.borrow();
+                let rules = session.rules.as_ref().expect("rules").borrow();
+                rules.loss_damage(&owners[loser], round, big)
+            } else {
+                fought.get("damage").as_i64()
+            };
+        }
+        Ok((fought, damage_to, boards))
     }))
     .map_err(|e| Skip::Payload(harness::panic_text(&e)))??;
+    let (result, damage_to, boards) = result;
     let combat = result.get("result");
     let winner = match combat.as_dict().get("winner").as_i64() {
         0 => Some(a),
         1 => Some(b),
         _ => None,
     };
-    let combat = if verify {
+    let combat_json = if verify {
         serde_json::from_str(&godot_json::stringify(&combat))
             .map_err(|e| Skip::Payload(format!("invalid combat result: {e}")))?
     } else {
         Value::Null
     };
-    Ok(Outcome {
-        winner,
-        damage: result.get("damage").as_i64(),
-        result: combat,
+    let events = match result.get("events") {
+        Variant::Array(events) => events.to_vec().iter().map(Variant::as_dict).collect(),
+        _ => Array::new(),
+    };
+    Ok(Detail {
+        outcome: Outcome {
+            winner,
+            damage: result.get("damage").as_i64(),
+            result: combat_json,
+        },
+        damage_to,
+        boards,
+        events,
     })
 }
 
