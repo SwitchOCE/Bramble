@@ -348,8 +348,7 @@ func _build() -> void:
 	cards_button.held = is_holding
 	cards_button.pressed.connect(cards_requested.emit)
 	_front.add_child(cards_button)
-	if show_leaderboard:
-		_build_leaderboard()
+	_build_leaderboard()
 	_build_message(AIM_PROMPT if is_aiming() else str(state.get("message", "")))
 	if is_discovering():
 		var discover: Dictionary = state["discover"]
@@ -534,8 +533,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if is_aiming():
 			cancel_aim()
 			get_viewport().set_input_as_handled()
-		return
-	super(event)
 
 
 func _gui_input(event: InputEvent) -> void:

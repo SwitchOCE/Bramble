@@ -29,7 +29,7 @@
   "column.shade.alpha": {"value": 0.45, "from": "buy-screen-l1.md §5"},
   "board.point_angle": {"value": 30, "from": "buy-screen-l1.md §5"},
   "hand.y": {"value": 955, "from": "buy-screen-l1.md §6"},
-  "hand.unit_hover_y": {"value": 854, "from": "buy-screen-l1.md §6"},
+  "hand.unit_hover_y": {"value": 822, "from": "buy-screen-l1.md §6"},
   "hand.spell_hover_y": {"value": 900, "from": "buy-screen-l1.md §6"},
   "shop.arch.count": {"value": 5, "from": "buy-screen-l1.md §7"},
   "shop.arch.w": {"value": 188, "from": "buy-screen-l1.md §7"},

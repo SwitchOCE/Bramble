@@ -6,7 +6,7 @@ extends RefCounted
 ## Dragging and clicking share the press and the release, so they live together here.
 ##
 ## It works through the screen's public face (state, redraw, target_at, card_target_at, geom,
-## slot_xy, hand_place, shown_count, is_discovering, toggle_leaderboard, forget_pointer,
+## slot_xy, hand_place, shown_count, is_discovering, forget_pointer,
 ## action_requested) and the parts it is given: the card keeper (lands and stops cards), the board
 ## (slots, lit targets) and the hover detail.
 ##
@@ -436,8 +436,6 @@ func _click(pressed: Dictionary, at: Vector2) -> void:
 			)
 		"button":
 			match str(pressed["id"]):
-				"hero":
-					_screen.toggle_leaderboard()
 				"tier":
 					_request({"type": "upgrade"})
 				"refresh", "freeze", "end_turn":

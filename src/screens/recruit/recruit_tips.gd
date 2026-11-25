@@ -188,7 +188,7 @@ func _layout_details(target: Dictionary) -> void:
 
 func show_words(target: Dictionary, at: Vector2) -> void:
 	super(target, at)
-	open_details(target)
+	_layout_details(target)
 
 
 ## An ability's existing name, cost and reminder take the same column as unit details.

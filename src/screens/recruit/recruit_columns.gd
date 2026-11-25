@@ -30,15 +30,6 @@ static func build_hero(screen: RecruitScreen) -> void:
 	)
 	screen._front.add_child(port)
 	screen._front.add_child(hero_name)
-	screen._targets.append(
-		{
-			"kind": "button",
-			"index": 0,
-			"id": "hero",
-			"node": port,
-			"poly": GlassScreen._circle(port.box_size)
-		}
-	)
 
 	var hp: GlassBox = GlassParts.health_badge(
 		GlassPieces.as_int(screen.state.get("health", 0)), [".hp"]

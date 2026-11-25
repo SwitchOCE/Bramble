@@ -111,14 +111,11 @@ func test_empty_board_shows_seven_slots() -> void:
 
 
 func test_leaderboard_lists_every_player() -> void:
-	_screen = SCREEN.instantiate()
-	_screen.show_leaderboard = true
-	_screen.state = _mockup()
-	add_child_autofree(_screen)
-	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "initial slot rows")
-	_screen.show_state(_mockup())
-	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
+	var state: Dictionary = _mockup()
+	_make(state)
 	assert_not_null(_find("Leaderboard"))
+	var players: Array = state["players"]
+	assert_eq(_count("LeaderPortrait_"), players.size())
 
 
 func test_a_player_who_is_out_looks_out_on_the_leaderboard() -> void:
@@ -126,13 +123,7 @@ func test_a_player_who_is_out_looks_out_on_the_leaderboard() -> void:
 	var players: Array = state["players"]
 	var last: Dictionary = players[players.size() - 1]
 	last["alive"] = false
-	_screen = SCREEN.instantiate()
-	_screen.show_leaderboard = true
-	_screen.state = state
-	add_child_autofree(_screen)
-	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "initial slot rows")
-	_screen.show_state(state)
-	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
+	_make(state)
 	var out: int = players.size() - 1
 	assert_null(_find("LeaderHealth_%d" % out), "no Health for a player who is out")
 	assert_not_null(_find("LeaderHealth_0"))
@@ -300,17 +291,21 @@ func test_counters_message_golden_and_renown() -> void:
 	assert_not_null(_find("Renown_0"), "the board draws Renown over the unit")
 
 
-func test_tab_and_the_portrait_toggle_the_leaderboard() -> void:
+func test_tab_and_the_hero_leave_the_leaderboard_visible() -> void:
 	_make(_mockup())
-	assert_not_null(_find("Leaderboard"), "visible on entering the screen")
+	watch_signals(_screen)
+	var leaderboard: Control = _find("Leaderboard")
+	assert_not_null(leaderboard, "visible on entering the screen")
 	var tab: InputEventKey = InputEventKey.new()
 	tab.keycode = KEY_TAB
 	tab.pressed = true
 	_screen._unhandled_key_input(tab)
-	assert_null(_find("Leaderboard"))
+	assert_same(_find("Leaderboard"), leaderboard, "Tab leaves the board in place")
 	var hero: Control = _find("Hero")
 	_click(hero.position + hero.size / 2.0)
-	assert_not_null(_find("Leaderboard"))
+	assert_same(_find("Leaderboard"), leaderboard, "the hero leaves the board in place")
+	assert_true(leaderboard.is_visible_in_tree())
+	assert_signal_not_emitted(_screen, "action_requested")
 
 
 func test_the_stage_is_letterboxed_in_other_window_shapes() -> void:
@@ -440,7 +435,7 @@ func test_a_hovered_hand_card_rises_and_its_words_stay_in_the_left_column() -> v
 	var turn: float = card.rotation
 	assert_gt(rest.y + card.size.y, 1080.0, "at rest a hand card is cut by the bottom")
 	_move(Vector2(rest.x + card.size.x / 2.0, 1060.0))
-	assert_almost_eq(card.position.y, 854.0, 0.5, "the hand card lifts in place")
+	assert_almost_eq(card.position.y + card.size.y, 1072.0, 0.5, "its foot 8 px above the bottom")
 	assert_eq(card.rotation, 0.0, "unturned")
 	var tip: Control = _find("Tip")
 	assert_true(tip.visible)
@@ -646,6 +641,8 @@ func test_the_hover_keeps_reminders_in_keyword_details() -> void:
 
 func test_player_counters_show_name_and_value_with_a_reminder_on_hover() -> void:
 	_make(_display_state())
+	_move(_centre(0, "board"))
+	assert_gt(_screen._tips.details.size(), 0, "the unit's keyword boxes are open")
 	var chip: GlassBox = _find("Chip_0")
 	assert_eq(_texts(chip), ["Heap", "4"] as Array[String])
 	assert_null(_find("Chip_1"), "the hidden counter is not drawn")
@@ -653,8 +650,12 @@ func test_player_counters_show_name_and_value_with_a_reminder_on_hover() -> void
 	_move(chip.global_position - frame.global_position + chip.size / 2.0)
 	var tip: Control = _find("Tip")
 	assert_true(tip.visible)
-	assert_has(_texts(_find("Tip")), "Heap")
-	assert_string_contains(" ".join(_texts(_find("Tip"))), "Every unit sold goes here.")
+	assert_eq(tip.position, Vector2(12, 82), "counter hover is in the left column")
+	assert_eq(tip.get_child_count(), 1, "only the original words pane")
+	assert_not_null(tip.get_node_or_null("Words"))
+	assert_eq(_screen._tips.details.size(), 0, "the previous unit's keyword boxes are gone")
+	assert_has(_texts(tip), "Heap")
+	assert_string_contains(" ".join(_texts(tip)), "Every unit sold goes here.")
 
 
 func test_whole_numbers_from_json_drop_their_point() -> void:

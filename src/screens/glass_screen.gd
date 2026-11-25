@@ -3,8 +3,8 @@ extends Control
 ## What the recruit and fight screens share: the 1920 x 1080 stage letterboxed in its window, the
 ## card nodes kept by key between states (CardKeeper), the hero in the left light, the leaderboard,
 ## the message area, the hover detail, and the pointer targets. A screen draws one plain view-state
-## Dictionary (show_state) and holds no rules. Input here is only what both screens use: hover,
-## Tab and a click on your portrait for the leaderboard.
+## Dictionary (show_state) and holds no rules. It supplies shared hover handling and the fight
+## screen's leaderboard shortcuts.
 ##
 ## The stage has four layers: Back (the stone window, buttons), Slots (permanent backings),
 ## Cards (the kept card nodes) and Front (heroes, labels, leaderboard, vignette, hover detail).
@@ -16,7 +16,7 @@ const FRONT_SLOTS: int = 4
 ## STAND-IN: the dark round the stage when the window is not 16:9 (the stone's own shade).
 const SURROUND: Color = Color("0b0907")
 
-## The leaderboard in the right light, as the mock-up's "Leaderboard: Shown" switch.
+## The fight leaderboard in the right light, as the mock-up's "Leaderboard: Shown" switch.
 @export var show_leaderboard: bool = false
 ## A card id to show the hover detail for without a pointer, as the mock-up's "Hover" switch.
 @export var pinned_hover: String = ""

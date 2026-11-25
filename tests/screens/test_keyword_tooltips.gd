@@ -390,9 +390,7 @@ func test_hand_bottom_mark_opens_its_keyword_without_the_card_pane() -> void:
 		return
 	_screen._tips.hover(card.position + Vector2(card.size.x / 2.0, 45.0))
 	assert_eq((_screen._tips as RecruitTips).standing, card)
-	var pointer: Vector2 = _point(mark)
-	pointer.y = minf(pointer.y, 1078.0)
-	_screen._tips.hover(pointer)
+	_screen._tips.hover(_point(mark))
 	assert_true(_screen._tips.tip.visible)
 	assert_null(_screen._tips.tip.get_node_or_null("Words"))
 	assert_null(_screen._tips.tip.get_node_or_null("Card"))
