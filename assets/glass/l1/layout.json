@@ -312,6 +312,7 @@
   "light.shop.spill.grow": {"value": 9, "from": "buy-screen-l1.md §9"},
   "light.shop.spill.blur": {"value": 14, "from": "buy-screen-l1.md §9"},
   "light.shop.spill.share": {"value": 0.5, "from": "buy-screen-l1.md §9"},
+  "light.shop.spill.additive": {"value": 0.9, "from": "buy-screen-l1.md §9"},
   "light.shop.pool.y": {"value": 312, "from": "buy-screen-l1.md §9"},
   "light.shop.pool.w": {"value": 150, "from": "buy-screen-l1.md §9"},
   "light.shop.pool.h": {"value": 14, "from": "buy-screen-l1.md §9"},

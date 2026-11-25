@@ -2,9 +2,10 @@ class_name L1ShopArch
 extends GlassBox
 ## A persistent shop slot: the arch's recess, its painted stone and the tier light of the card in
 ## it (buy-screen-l1.md §9, S1). Recess, then painted arch, then the light on the card, then the
-## card. The recess is lit from behind in the tier's colour at the tier's strength, light spills
-## onto the wall round the arch and pools on its foot, the stone takes a faint soft-light tint and
-## a halo hugs the card. An empty arch is dark. The light breathes slowly, tier 6 the most.
+## card. The recess is lit from behind in the tier's colour at the tier's strength, the stone takes
+## a soft-light tint, light spills out of the opening over the stone and the wall round it and
+## pools on its foot, and a halo hugs the card. An empty arch is dark. The light breathes slowly,
+## tier 6 the most.
 
 const STONE_SHADER: Shader = preload("res://src/glass/l1_stone_tint.gdshader")
 
@@ -23,6 +24,7 @@ var place: int = 0:
 
 var _recess: L1Light
 var _stone: Control
+var _spill: L1Light
 var _pool: L1Light
 var _halo: L1Light
 
@@ -49,6 +51,9 @@ func _ready() -> void:
 	_stone.material = stone_mat
 	_stone.draw.connect(_draw_stone)
 	add_child(_stone)
+	_spill = L1Light.make(L1Light.Shape.ARCH, opening, Color.WHITE, "Spill")
+	_spill.arch(radius, sqrt(radius * radius - pow(radius - half, 2.0))).outside_only(true)
+	add_child(_spill)
 	var pool: Rect2 = Rect2(
 		Vector2(
 			(opening.size.x - L1Layout.number("light.shop.pool.w")) / 2.0 + opening.position.x,
@@ -108,18 +113,19 @@ func _light_up() -> void:
 	)
 	var phase: float = place * L1Layout.number("light.shop.breathe.phase_step")
 	var additive: float = L1Layout.number("light.shop.additive")
-	for each: L1Light in [_recess, _pool, _halo]:
+	for each: L1Light in [_recess, _spill, _pool, _halo]:
 		each.colour = colour
 		each.visible = lit or each == _recess
 		each.blend(additive).breathe(period, depth, phase)
-	_recess.glow(
+	_spill.blend(L1Layout.number("light.shop.spill.additive"))
+	_spill.glow(
 		Vector3(
 			L1Layout.number("light.shop.spill.grow"),
 			L1Layout.number("light.shop.spill.blur"),
 			L1Layout.number("light.shop.spill.share") * a
 		)
 	)
-	_recess.fill_inside(
+	_recess.glow(Vector3.ZERO).fill_inside(
 		L1Layout.colour("shop.arch.recess_colour"),
 		L1Layout.number("shop.arch.recess_grow"),
 		Rect2(
@@ -155,6 +161,6 @@ func _light_up() -> void:
 	stone.set_shader_parameter("motion", Vector3(period, depth, phase))
 
 
-## The lights, for tests and the film: Recess (with the spill), Pool and Halo.
+## The lights, for tests and the film: Recess, Spill, Pool and Halo.
 func light(light_name: String) -> L1Light:
 	return get_node_or_null(light_name) as L1Light

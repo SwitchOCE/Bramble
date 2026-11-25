@@ -69,6 +69,12 @@ func fill_inside(base: Color, grow: float, ellipse: Rect2, opacities: Vector4) -
 	return self
 
 
+## Light only outside the shape (on what surrounds it), or all over it.
+func outside_only(on: bool) -> L1Light:
+	_mat.set_shader_parameter("hollow", 1.0 if on else 0.0)
+	return self
+
+
 ## The arch's side radius and springing depth (Shape.ARCH).
 func arch(radius: float, spring: float) -> L1Light:
 	_mat.set_shader_parameter("arch", Vector2(radius, spring))

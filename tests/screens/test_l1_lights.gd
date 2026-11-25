@@ -73,7 +73,7 @@ func test_each_shop_arch_is_lit_in_its_tier_colour_and_strength() -> void:
 		var arch: L1ShopArch = _arch(i)
 		var tier: int = arch.tier
 		var tint: Color = L1Layout.shop_tint(tier)
-		for light_name: String in ["Recess", "Pool", "Halo"]:
+		for light_name: String in ["Recess", "Spill", "Pool", "Halo"]:
 			var light: L1Light = arch.light(light_name)
 			assert_not_null(light, "arch %d has its %s light" % [i, light_name])
 			assert_true(light.visible, "%s of arch %d is lit" % [light_name, i])
@@ -83,9 +83,10 @@ func test_each_shop_arch_is_lit_in_its_tier_colour_and_strength() -> void:
 			assert_true(light.material is ShaderMaterial, "%s is drawn by a shader" % light_name)
 		var halo: L1Light = arch.light("Halo")
 		assert_almost_eq(halo.strength(), L1Layout.number("light.shop.halo.share") * tint.a, 1e-5)
-		var spill: L1Light = arch.light("Recess")
+		var spill: L1Light = arch.light("Spill")
 		assert_almost_eq(spill.strength(), L1Layout.number("light.shop.spill.share") * tint.a, 1e-5)
-		var fill: Vector4 = (spill.material as ShaderMaterial).get_shader_parameter("fill")
+		var recess: L1Light = arch.light("Recess")
+		var fill: Vector4 = (recess.material as ShaderMaterial).get_shader_parameter("fill")
 		assert_almost_eq(fill.x, L1Layout.number("light.shop.recess.centre_share") * tint.a, 1e-5)
 	assert_gt(
 		_arch(3).light("Halo").strength(),
@@ -117,9 +118,10 @@ func test_an_empty_arch_is_dark() -> void:
 	assert_eq(empty.tier, 0)
 	assert_false(empty.light("Halo").visible, "no halo where no card is")
 	assert_false(empty.light("Pool").visible, "no pool")
+	assert_false(empty.light("Spill").visible, "no light spilling")
 	var recess: L1Light = empty.light("Recess")
 	assert_true(recess.visible, "the dark recess is still drawn")
-	assert_eq(recess.strength(), 0.0, "with no light spilling")
+	assert_eq(recess.strength(), 0.0, "with no glow of its own")
 	var fill: Vector4 = (recess.material as ShaderMaterial).get_shader_parameter("fill")
 	assert_eq(Vector3(fill.x, fill.y, fill.z), Vector3.ZERO, "and none inside")
 

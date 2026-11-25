@@ -28,6 +28,8 @@ uniform vec4 fill_ellipse = vec4(0.5, 0.5, 0.5, 0.5);
 uniform vec4 fill = vec4(0.0, 0.0, 0.0, 0.5);
 // period (s), depth of the slow breath, phase (share of a period), flicker depth
 uniform vec4 motion = vec4(6.0, 0.0, 0.0, 0.0);
+// 1: the glow only outside the shape (light on what surrounds it, never in it)
+uniform float hollow = 0.0;
 // extra opacity on top of everything, for a flash (0 none)
 uniform float boost = 0.0;
 
@@ -88,6 +90,7 @@ void fragment() {
 	}
 	float glow = near.z * soft(d - near.x, near.y) + far.z * soft(d - far.x, far.y);
 	glow = clamp(glow * pulse + boost, 0.0, 1.0);
+	glow *= mix(1.0, smoothstep(-0.5, 0.5, d), hollow);
 	vec4 light = vec4(colour.rgb * glow, glow * (1.0 - additive));
 	if (base.a > 0.0 || fill.x > 0.0) {
 		vec2 box = shape_rect.zw;
