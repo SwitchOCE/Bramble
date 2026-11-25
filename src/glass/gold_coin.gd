@@ -80,6 +80,7 @@ static func painted_cost(value: int, side: float, unaffordable: bool) -> GoldCoi
 
 
 func _draw_painted() -> void:
+	# STAND-IN: free and multi-digit prices use the same coin with a fitted numeral.
 	var centre: Vector2 = Vector2.ONE * diameter / 2.0
 	var shadow: Vector2 = Vector2(0, L1Layout.number("shop.coin.shadow_y"))
 	draw_circle(centre + shadow, diameter / 2.0, Color(0, 0, 0, 0.6), true, -1.0, true)

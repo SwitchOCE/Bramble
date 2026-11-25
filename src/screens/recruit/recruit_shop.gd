@@ -234,7 +234,7 @@ static func dress_card(node: Control, data: Dictionary, poor: bool) -> void:
 	var coin: GoldCoin = GoldCoin.painted_cost(
 		GlassPieces.as_int(data.get("price", 0)), diameter, poor
 	)
-	# The carry keeps today's price visibility and travels with the offer.
+	# STAND-IN: the carried offer keeps today's price visibility and carries its coin.
 	coin.name = "ShopTag"
 	coin.position = Vector2(
 		(node.size.x - diameter) / 2.0, L1Layout.number("shop.price.y") - unit_xy(0).y
