@@ -52,7 +52,7 @@ tools/checks/                    The quality gate's own checks (version drift, c
 tools/look/                      Run any scene on a virtual display: screenshots, clicks, keys and the game's errors; compare a scene with an HTML mock-up, region by region
 tools/feel/                      Film any scene with a scripted pointer at a true 60 frames a second, to judge motion and feel
 tools/glass/                     pull_mockups.py pulls the earlier glass mock-ups' pieces into assets/glass (the fight screen still reads them); compare.py compares a scene with those mock-ups
-scripts/                         Cloud setup, session hook, quality gate (check.sh), export smoke test, the Windows build (build_windows.sh), the macOS build (build_macos.sh, only when the owner asks for one), the bot soak (soak.sh)
+scripts/                         Cloud setup, session hook, quality gate (check.sh), export smoke test, the Windows build (build_windows.sh), the macOS build (build_macos.sh; the owner: "to be triggered only when I request it, explicitly only"), the bot soak (soak.sh)
 project.godot, src/, tests/      The Godot project, the playable build: rules core (src/core), ghost store and matchmaker (src/ghosts), tribes and cards as data (src/content), screens (src/screens, src/glass), game flow and bots (src/game)
 assets/glass/l1/                 The L1 buy screen's painted pieces and its hand-kept layout numbers (layout.json)
 assets/glass/                    The rest is pulled from the earlier glass mock-ups by tools/glass/pull_mockups.py: portraits, fonts, emblems, and that look's frames, card data and layout numbers, which the fight screen and the buy screen's stand-ins still read

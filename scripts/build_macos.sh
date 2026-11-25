@@ -139,8 +139,11 @@ fi
 GODOT="$GODOT" "$PROJECT/scripts/stage_ghost_field.sh" "$PROJECT" "$FIELD" || fail "validate ghost field"
 
 echo "exporting macOS (release, universal, ad-hoc signed)"
-zip="$OUT/$name.zip"
-[ ! -e "$zip" ] || fail "zip already exists: $zip"
+# The zip is made in the work folder and moved out only after every check, so a failed build
+# never leaves a finished-looking zip in build/macos.
+final="$OUT/$name.zip"
+[ ! -e "$final" ] || fail "zip already exists: $final"
+zip="$WORK/$name.zip"
 timeout -k 10 1200 "$GODOT" --headless --path "$PROJECT" --export-release macOS "$zip" \
   >"$WORK/export.log" 2>&1
 status=$?
@@ -208,6 +211,7 @@ Game records stay on this Mac, in:
 ~/Library/Application Support/Godot/app_userdata/Bramble/records
 EOF
 (cd "$WORK" && zip -q "$zip" README.txt) || fail "add the README"
-echo "zip ok: ${zip#"$ROOT"/} $(($(stat -c %s "$zip") / 1048576)) MB"
+mv -- "$zip" "$final" || fail "move the zip to $final"
+echo "zip ok: ${final#"$ROOT"/} $(($(stat -c %s "$final") / 1048576)) MB"
 rm -rf "${WORK:?}"
 echo "build_macos: $name passed"
