@@ -135,8 +135,9 @@ func test_on_today_turns_on_top_of_its_own_attack_and_unwinds() -> void:
 	assert_null(card.material, "drawn flat again")
 
 
-func test_lean_is_the_games_turn_frame_for_frame() -> void:
-	# "ROTATE": "lean" on today's motion (rotate_motion.gd) against the game's FightMotion: the same
+func test_lean_is_fight_motions_turn_frame_for_frame() -> void:
+	# "ROTATE": "lean" on today's motion (rotate_motion.gd) against FightMotion's attack (its turn
+	# numbers are the schedule's; the game plays FightTimeline in a fight since step 1b): the same
 	# attack, contact, wait and return, the same pose every 1/60 s
 	var layer: Control = Control.new()
 	add_child_autofree(layer)

@@ -71,8 +71,31 @@ the game's `FightMotion` turns every attacker toward its target (plan step 1a,
 `docs/workstreams/fight-animation-24-nov/PLAN-implement.md`), so `today_motion.gd` keeps the
 game's motion from before that, a full copy that later changes to `src/` don't reach: `today`,
 `pilot` and the rotation switch film what they filmed before the port. Refilmed on seed 22 after
-the port, `today`'s `cards.csv` equals the one filmed before it, frame for frame. `game`
-(`game.gd`, scenario `fight-compare-game.json`) is the game's own motion now, on the same fight.
+the port, `today`'s `cards.csv` equals the one filmed before it, frame for frame.
+
+`game` (`game.gd`, scenario `fight-compare-game.json`) is the game's own fight screen on the same
+fight: since plan step 1b it plays the schedule (`src/screens/fight/fight_timeline.gd`), which is
+`best` with the owner's picks (`{"CB2": "b", "CB3": "mild", "CB9": "aim_lean"}`), frame for frame
+(`tests/screens/test_fight_timeline.gd`). `compare_screen.gd` keeps the game's step playback from
+before that (b94a8021), so every other treatment plays as it did. Beyond `best`, the game turns
+every jab toward its target (the turn's numbers, over the jab's frames), so on film the two
+`cards.csv` differ only in `rotation`, on the jabs' frames; `test_fight_timeline.gd` checks the
+rest pose for pose. The game also plays three best.md rules `best` leaves out: Start of Combat as
+beats after the 30 f rest, an attacker whose target died before the hit settling back unstruck
+(8 f), and pilers jabbing 5 f apart.
+
+Sound cues that moved with the schedule (nothing retimed by hand; seed 22 and `r10-074`):
+
+- **Hit**: at its burst (contact + 2), not when the splash step showed: the first at 1.08 s
+  (today 0.93 s). Thorns sounds at its own landing (3.03 s) instead of sharing the exchange's
+  splash (3.32 s). Seed 22 has 6 light hits against today's 8.
+- **Trigger**: at each source's pulse. Old Brock's six gains sound six times (8.15 to 8.95 s;
+  today once, as identical steps were dropped): seed 22 has 10 against today's 5.
+- **Start of Combat**: each trigger at its beat after the rest (`r10-074`: 0.5, 0.8, 1.1 s;
+  today 0.7, 1.3, 2.0 s).
+- **Death** at the fall's start (an exchange kill at contact + 30), **summon** at the arrival,
+  **result** as it shows (seed 22: 10.57 s, today 11.48 s; `r10-074`: 18.1 s, today 30.7 s).
+- **Skip** plays only the result.
 
 `turn_check.py` reads the logs: `same` (two films' `cards.csv` frame for frame, `--except` some
 columns), `turns` (every attacker turned toward its target by the game's numbers at contact, and
@@ -80,10 +103,10 @@ the core check), `sounds` (the cues at the same frames) and `cut` (the picks pag
 crop and scale):
 
 ```bash
-tools/feel/film tests/screens/feel/fight-compare-game.json /data/fight-anim-work/game-1a/films/game.mp4
-tools/feel/film tests/screens/feel/fight-compare-today-lean.json /data/fight-anim-work/game-1a/films/today-lean.mp4
-python3 tests/screens/feel/fight_compare/turn_check.py turns /data/fight-anim-work/game-1a/films/game
-python3 tests/screens/feel/fight_compare/turn_check.py same /data/fight-anim-work/game-1a/films/game /data/fight-anim-work/game-1a/films/today-lean
+tools/feel/film tests/screens/feel/fight-compare-game.json /data/fight-anim-work/game-1b/films/game.mp4
+# best-picks.json: "treatment": "best", "options": {"CB2": "b", "CB3": "mild", "CB9": "aim_lean"}
+tools/feel/film best-picks.json /data/fight-anim-work/game-1b/films/best-picks.mp4
+python3 tests/screens/feel/fight_compare/turn_check.py same /data/fight-anim-work/game-1b/films/game /data/fight-anim-work/game-1b/films/best-picks --except rotation
 ```
 
 ## `best`: the best proposal, and its contested branches
@@ -377,8 +400,9 @@ modified as if it had rotation." `"options": {"ROTATE": "on"}` turns it on in an
   95 % of the path, a medium lean (keystone 0.94, length 0.85). Change them there.
 - `"ROTATE": "lean"` plays `rotate.gd` `SET_LEAN` instead: the owner's answer of 25 Nov (CB17
   `aim_lean`), the same aim with the 4-degree in-plane lean the same way as the turn (up with the
-  lift, gone by contact), no tip, no shortening. It is what the game plays (`fight_motion.gd`
-  `TURN_*`): `today` with it matches the `game` film's rotation frame for frame.
+  lift, gone by contact), no tip, no shortening, from the numbers the game plays
+  (`fight_motion.gd` `TURN_*`). Its test compares it with `FightMotion`'s own attack, which the
+  game no longer plays in a fight since step 1b (the schedule turns the cards).
 - `best`, `buffs`: `best_timeline.gd` `_rotation()` plays `SET` in place of CB9's option (CB9's
   timing, as before).
 - `today`, `pilot`: `rotate_motion.gd`, today's motion exactly (its 6-degree cock, 12-frame

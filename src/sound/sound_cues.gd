@@ -37,6 +37,34 @@ static func for_fight_step(
 	return out
 
 
+## The cues of one moment of a fight's schedule (FightTimeline cues), by the same rules as the
+## steps': {kind: "hit", splashes} (the bursts showing on one frame), {kind: "death", count} (the
+## units starting to fall on one frame), {kind: "summon"}, {kind: "trigger"} (a source pulses),
+## {kind: "result", winner, you_side}.
+static func for_fight_cue(cue: Dictionary, table: Dictionary) -> Array[Dictionary]:
+	match str(cue.get("kind", "")):
+		"hit":
+			return _hits({"splashes": cue.get("splashes", [])}, table)
+		"death":
+			return _deaths(CoreUtil.to_int(cue.get("count", 0)), table)
+		"summon":
+			return [_cue("fight.summon", 0.0, 0.0)]
+		"trigger":
+			return [_cue("fight.trigger", 0.0, 0.0)]
+		"result":
+			var winner: int = CoreUtil.to_int(cue.get("winner", -1))
+			var named: String = "fight.tie"
+			if winner >= 0:
+				named = (
+					"fight.win"
+					if winner == CoreUtil.to_int(cue.get("you_side", 0))
+					else "fight.lose"
+				)
+			return [_cue(named, 0.0, 0.0)]
+	var none: Array[Dictionary] = []
+	return none
+
+
 static func _hits(moment: Dictionary, table: Dictionary) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	var hits: Array[int] = []
