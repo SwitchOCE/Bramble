@@ -13,7 +13,8 @@ Written by the orchestrator of `ideation/ui-ux` on 25 Nov 2026. **Status:** the 
 - 25 Nov: the panels, the documents part of merge prep and the hover fix are joined on `ui/l1` at `5d82cb31`; the full checks pass on the three together. Nothing in the rework touches `src/content/` or `src/core/`; the rules hash is unchanged.
 - Running: the code part of merge prep (`briefs/48-merge-prep-code.md`); a Windows build of `5d82cb31` for the owner.
 - 25 Nov: merge prep is done (the old tier frames and their data removed; documents true for the look). The coordinator's recheck passed: `dev` + the fight animation branch + `ui/l1` merges with no conflict and passes all of `check.sh` (1,167 tests). The pull request into `dev` is open from `ui/l1` at `2867e1b6`: https://github.com/SwitchOCE/Bramble/pull/258. A second Windows build (light, panels, the hover fix; cut at `5d82cb31`) is in R2; the owner's PC was offline for Taildrop.
-- Waiting on: the owner's say-so for the merge of that pull request. After it merges, tell the coordinator.
+- 26 Nov: the owner said "Merge". Pull request 258 is merged into `dev` (`1add4880`). `dev` had moved 55 commits since the branch point, all under `tools/league/` and `docs/workstreams/` plus one skill file, with no file in common with `ui/l1`. The coordinator is told. The second Windows build is on the owner's PC by Taildrop. The three build worktrees and the step branches are removed; the step pictures stay in `/data/ui-ideation/build/` (122 MB) for comparing a fix round.
+- Waiting on: the owner's play-test of the second build. `main` waits for the owner to play a `dev` build with both reworks, as the coordinator's plan says.
 
 ## What the owner asked for
 
