@@ -36,6 +36,16 @@ The owner, 25 Nov: "It doesn't tell you whether it's overpowered, but it does te
 - **Pointer, not a verdict:** a card is listed as "text fights above its tier" when the low end of the interval is above the median card two tiers up at that stage (for tiers 5 and 6: above the top quarter of tier 6). The list says where to look; it does not say a card is too strong.
 - **Cannot see:** anything outside the fight (gold, shop effects, growth over turns, what a Recruit effect already gave other units). Boards are the ones bots built, and each was built around the card. A card with no fight text reads about zero.
 
+## Stat worth of the text
+
+The owner's idea, 25 Nov: "if I take away all of its abilities and keywords ... and replace it with a plain unit of stats, how much stats would I have to give that unit for the fight to have the same ... expected value ... it would give you a more precise measure of how powerful the [card's in-fight] effects are."
+
+- **The change:** as text off, and the unit's own Attack and Health as recorded are both multiplied by the same number, so it keeps its shape. Rungs: ×1 (plain text off), ×1.5, ×2, ×3, ×4, ×6, ×8.
+- **Number:** per card per stage, the multiplier at which the mean score over the card's observations equals the mean score as recorded, read between the two nearest rungs. Reported as the multiplier and as the Attack and Health it adds to the card's average recorded stats at that stage.
+- **Solved over the sample, not per fight:** one fight is a win, a draw or a loss, so only the average over many fights can be matched. Draw rates are not matched, only the average score.
+- **Edges:** ×1 when the plain unit already does as well. "More than ×8" when no rung reaches the recorded score; that happens for a unit whose text helps other units, or that stands where plain stats do little.
+- **Sample, seeds, interval, cannot see:** as text off. The interval comes from resampling games and solving again.
+
 ## Keyword off
 
 - **The change:** one keyword's mechanic does nothing for one side of the fight, on every unit that has it, printed or given.
@@ -68,3 +78,4 @@ The owner called replacing a unit with a made-up plain unit "pretty unrealistic"
 ## Changes
 
 - 25 Nov, before any card result was read: the plain-unit swap is dropped and "left out of the shop" added, and text off is a pointer and no longer a flag, both on the owner's words quoted above.
+- 25 Nov, before any card result was read: stat worth of the text added, on the owner's idea quoted in its section.
