@@ -9,6 +9,7 @@ usage: card_summary.py <match dir> <report dir> [--left-out <left_out.csv>] [--o
 """
 import argparse
 import csv
+import statistics
 import json
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -205,7 +206,9 @@ def fresh_lines(path, refused):
             parts.append(f"{name} {float(c['fresh_value']):+.3f} [{float(c['low']):+.3f}, {float(c['high']):+.3f}]"
                          f" n={c['boards']}{look}")
         reading = next(iter(mine.values()))["reading"]
-        yield f"    tier {row['tier']} {row['name']}: " + "; ".join(parts) + f" -> {reading}"
+        displaced = statistics.fmean(float(c["displaced"]) for c in mine.values())
+        yield (f"    tier {row['tier']} {row['name']}: " + "; ".join(parts)
+               + f" -> {reading} (took a unit's place on {displaced:.0%} of boards)")
 
 
 def keyword_lines(path):

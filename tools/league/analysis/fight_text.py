@@ -9,10 +9,9 @@ the multiplier on a plain unit's own Attack and Health at which it does as well 
 
 With `league refight --fresh-copy` it writes fresh_copy.csv: what a fresh copy's own fight text is
 worth on recorded boards it was added to. Each card is read against the fresh copies of the other
-cards at the same stage: this run's, plus those of --fresh-reference (an earlier full
-fresh_copy.csv) for cards this run did not try. Also in-fight text worth, never card power.
+cards at the same stage, so run it for every card. Also in-fight text worth, never card power.
 
-usage: fight_text.py <refight modes dir> --out <dir> [--fresh-reference <fresh_copy.csv>]
+usage: fight_text.py <refight modes dir> --out <dir>
 Writes text_cards.csv, keywords.csv, overrun_swings.csv and (with fresh copies) fresh_copy.csv into --out.
 """
 import argparse
@@ -146,10 +145,10 @@ def text_table(rows):
 MIN_REFERENCE = 10  # fresh copies of at least this many cards at a stage before any is marked
 
 
-def fresh_table(rows, reference=()):
+def fresh_table(rows):
     """Per card and stage: the fresh copy's score with its text on minus with it off, and the share
     of boards where it took the weakest unit's place. Worth a look by the text-off rule, inside the
-    stage's table of fresh copies (this table, plus `reference` rows for cards it lacks). A fresh
+    stage's table of fresh copies. A fresh
     copy is never compared with held copies: they carry the stats they gathered, and read higher."""
     cells = defaultdict(list)
     for row in rows:
@@ -165,9 +164,8 @@ def fresh_table(rows, reference=()):
                     "results_changed": fmt(statistics.fmean(r["result_changed"] for r in obs)) if enough else "",
                     "displaced": fmt(statistics.fmean(r["displaced"] is not None for r in obs)),
                     "stage_middle": "", "spreads": "", "pointer": ""})
-    mine = {(r["card"], r["stage"]) for r in out}
     tables = defaultdict(list)
-    for r in out + [r for r in reference if (r["card"], r["stage"]) not in mine]:
+    for r in out:
         if r["status"] == "ok":
             tables[r["stage"]].append(float(r["fresh_value"]))
     for r in out:
@@ -187,23 +185,19 @@ def fresh_table(rows, reference=()):
 
 
 def fresh_reading(rows):
-    """One reading per card over its stages: "too few boards" (no stage with enough), "no fight
-    text" (every measured stage's interval includes zero), "fight text worth under the floor"
-    (every stage under LOOK_FLOOR, some clear of zero), or "has fight text worth"."""
+    """One description per card over its stages: "too few boards" (no stage with enough), "no fight
+    text" (every measured stage's interval includes zero), "fight text worth under 5 in 100"
+    (every stage under LOOK_FLOOR, some clear of zero), or "has fight text worth". It routes
+    nothing: every refused card goes on to the whole-game step."""
     measured = [r for r in rows if r["status"] == "ok"]
     if not measured:
         return "too few boards"
-    clear = [r for r in measured if r["fresh_value"] != 0 and r["low"] != "" and r["low"] > 0]
+    clear = [r for r in measured if r["low"] != "" and (r["low"] > 0 or r["high"] < 0)]
     if not clear:
-        return "no fight text: needs the whole-game route"
+        return "no fight text"
     if all(r["fresh_value"] < LOOK_FLOOR for r in measured):
-        return "fight text worth under 5 in 100: needs the whole-game route"
+        return "fight text worth under 5 in 100"
     return "has fight text worth"
-
-
-def read_csv(path):
-    with open(path, newline="") as stream:
-        return list(csv.DictReader(stream))
 
 
 def thirds(rows):
@@ -276,24 +270,17 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("modes")
     parser.add_argument("--out", required=True)
-    parser.add_argument("--fresh-reference", help="an earlier full fresh_copy.csv, for cards this run did not try")
     args = parser.parse_args()
     source, out = Path(args.modes), Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     text = read(source / "text_off.jsonl")
     keywords = read(source / "keyword_off.jsonl")
     fresh = read(source / "fresh_copy.jsonl")
-    texts = text_table(text)
-    if text:
-        write(out / "text_cards.csv", texts)
-    if keywords or text:
-        write(out / "keywords.csv", keyword_table(keywords, thirds(text + keywords)))
-    swings = read(source / "overrun_swings.jsonl")
-    if swings or text:
-        write(out / "overrun_swings.csv", swing_table(swings))
+    write(out / "text_cards.csv", text_table(text))
+    write(out / "keywords.csv", keyword_table(keywords, thirds(text + keywords)))
+    write(out / "overrun_swings.csv", swing_table(read(source / "overrun_swings.jsonl")))
     if fresh:
-        reference = read_csv(args.fresh_reference) if args.fresh_reference else []
-        write(out / "fresh_copy.csv", fresh_table(fresh, reference))
+        write(out / "fresh_copy.csv", fresh_table(fresh))
     print(f"{len(text)} text-off, {len(keywords)} keyword-off and {len(fresh)} fresh-copy observations -> {out}")
 
 
