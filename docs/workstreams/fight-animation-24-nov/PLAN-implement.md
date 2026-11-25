@@ -97,8 +97,18 @@ The orchestrator's sort of `research/balatro.md`'s eight points:
 
 **Sound:** a separate study measures Balatro's sound and motion pairing from the same videos (audio only, kept under `/data`). What to take from it is decided after that study, and the owner or a sound-capable reviewer judges anything that changes how the game sounds.
 
-**When:** after steps 2 and 3 merge, as step **B**, one builder:
-- points 1, 4, 5 and 8 in `src/`, plus point 3 once CB14 c is in;
-- each change is a constant or a small curve, so it can be reverted if the owner dislikes it on his PC.
+**After the plan review (25 Nov):**
+- **Point 1, the ramp.** It replaces the owner's ×1.5 step, under his "have a go at implementing what you think is reasonable". It is tuned so the median late fight (r10-074) lasts as long as with the step, to within 0.3 s, and is measured, not assumed. The step stays one constant away.
+- **Point 8, the 6 f floor.** Filmed against 4 f, so the owner can judge both. The game takes 6 f until he does.
+- **Point 5, shrunk.** The number jitters on the card only, with no card or screen shake. GUIDELINES' "count over 8 f" is updated to match, and it is shown on film.
+- **Point 4.** GUIDELINES' contact-pop rule (back within 5 f, no dip) is updated in the same step.
+- **Point 3, deferred.** CB14 c is a stand-in.
+- **Point 7.** "The result shows alone" is dropped, since it changes nothing.
 
-It gets the same gates as the other steps.
+**When:** step B comes after the deaths, gains and speed-ups step and the single-death and portrait step have merged. One builder does it, with points 1, 4, 5 and 8 in `src/`. Each change is a constant or a small curve.
+
+It has the same gates as every step, plus its own reference film: the game before and after B on seed 22 and r10-074, and the 4 f and 6 f death stagger side by side.
+
+**Sound, step S:** after the sound study. The builder wires only what the study supports, for example pitch steps across a repeated trigger, as cues tied to events. An agent can't judge sound, so the owner listens on his PC before it counts as done.
+
+The owner plays the build from steps 0–6 first, then a second build with B and S.
