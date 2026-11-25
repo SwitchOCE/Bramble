@@ -19,6 +19,7 @@ from tribes import final_tribes
 
 BUILD_LIMIT = 2_000_000
 VERDICT = "verdict.jsonl"
+CARD_REPORT = "card-report"  # written by tools/league/card_report.sh; small, and kept
 READING_FILES = (
     "summary.json", "analysis.json", "library.json", "games.jsonl", "shops.jsonl", "decisions.jsonl",
     "cpu.jsonl", "events.jsonl",
@@ -76,12 +77,19 @@ def read_summary(root):
     return summary
 
 
+def card_report(root):
+    return {path for path in (root / CARD_REPORT).rglob("*") if path.is_file()}
+
+
 def climb(root, summary, verdict, cut_verified):
     if verdict == "kept" and not cut_verified:
         raise ValueError("kept version: cut and verify its ghosts, then pass --cut-verified")
+    if verdict == "kept" and not (root / CARD_REPORT / "cards.csv").is_file():
+        raise ValueError("kept version: run tools/league/card_report.sh on the match first (it needs the records)")
     files = {root / name for name in ("summary.json", "analysis.json", "timing.json")}
     if any(not path.is_file() for path in files):
         raise ValueError("climb requires summary.json, timing.json and analysis.json from league analyze")
+    files |= card_report(root)
     score = json.loads((root / "analysis.json").read_bytes())["score"]
     gap, half_width = score["gap_red_minus_blue"], score["gap_ci95"]
     line = {
@@ -152,7 +160,7 @@ def reading(root, summary):
             pending.append((staged, compressed))
         for staged, destination in pending:
             staged.replace(destination)
-    return kept
+    return kept | card_report(root)
 
 
 def read_table(path, columns, dimensions):

@@ -13,13 +13,13 @@ from PIL import Image, ImageDraw
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-# The art window, in card units (card = 560 x 1000): the window of the guide the thin frames were drawn to
-# (card frames session, 15 Nov 2026). The frames' own windows sit 1.6 to 3.3 units inside it on every tier.
-# A working spec, not locked.
+# The art window, in card units (card = 560 x 1000): the window the earlier tier frames were drawn to (15 Nov 2026),
+# kept for the L1 card. The L1 card's window (the outline inset by its lead, docs/design/art-direction/
+# card-art-recipe.md) sits 14 units or more inside it on every side.
 WINDOW = [(280, 52.5), (529.1, 188.4), (529.1, 811.6), (280, 947.5), (30.9, 811.6), (30.9, 188.4)]
-# Extra on every side, in card units, so the art reaches under the border. Codex returns the panel within about
-# 7 canvas px (5 units). 8 puts the art 9.6 units or more under the border on every tier. At about 12.5 the art
-# starts to show past the frame's outer edge on tiers 3 and 4. Measure again when the frame files change.
+# Extra on every side, in card units, so a picture that comes back a little small still fills the card. Codex returns
+# the panel within about 7 canvas px (5 units). With 8, the L1 card's window sits 22 units or more inside the art.
+# Measure again if the card's numbers in assets/glass/l1/layout.json change.
 BLEED = 8
 # Codex's portrait canvas, and where the card sits on it.
 CANVAS = (1024, 1536)

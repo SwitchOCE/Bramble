@@ -1,7 +1,6 @@
 extends Control
-## Proof scene: the mock-ups' card sheet (cards.html) drawn in Godot from the pulled pieces, at
-## the page's own pixel sizes: every tier at 212 and 250 px tall and at 2x 212, one- and
-## two-digit numbers. Compare a screenshot of this with cards.html at the same window size.
+## Review the shared L1 card with the original card sheet's art and numbers, at 212 and 250 px
+## tall and at 2x 212.
 ## The page's sizes, colours and words come from layout.json's sheet.* entries.
 
 const READY_LINE: String = "card_sheet: ready"
@@ -53,7 +52,6 @@ func _build() -> void:
 			var health: float = pair[1]
 			var card: GlassCard = GlassCard.new()
 			card.name = "Card%d_%d" % [int(height), tier]
-			card.tier = tier
 			card.art = GlassPieces.art(str(arts[tier - 1]))
 			card.attack = int(attack)
 			card.health = int(health)

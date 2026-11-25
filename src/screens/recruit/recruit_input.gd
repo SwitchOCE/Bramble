@@ -6,7 +6,7 @@ extends RefCounted
 ## Dragging and clicking share the press and the release, so they live together here.
 ##
 ## It works through the screen's public face (state, redraw, target_at, card_target_at, geom,
-## slot_xy, hand_place, shown_count, is_discovering, toggle_leaderboard, forget_pointer,
+## slot_xy, hand_place, shown_count, is_discovering, forget_pointer,
 ## action_requested) and the parts it is given: the card keeper (lands and stops cards), the board
 ## (slots, lit targets) and the hover detail.
 ##
@@ -53,6 +53,7 @@ func _init(
 func reset() -> void:
 	RecruitShop.show_sell(_screen, 0, false)
 	_board.clear_drop_preview()
+	_set_button_pressed(false)
 	_press = {}
 	_dragging = false
 	_carry = null
@@ -109,6 +110,7 @@ func focus_lost() -> void:
 	if is_instance_valid(held):
 		_keeper.land(held)
 	var was_dragging: bool = _dragging or held != null
+	_set_button_pressed(false)
 	_press = {}
 	_dragging = false
 	_carry = null
@@ -178,6 +180,7 @@ func _held_card() -> Control:
 
 func press(at: Vector2, double_click: bool = false) -> void:
 	_press = _screen.target_at(at, false)
+	_set_button_pressed(true)
 	_press_at = at
 	_dragging = false
 	_tips.put_back = null
@@ -199,6 +202,8 @@ func press(at: Vector2, double_click: bool = false) -> void:
 
 ## The pointer moved; whether a carried card took the move (no hover then).
 func move(here: Vector2) -> bool:
+	if _press.has("pressed_face"):
+		_set_button_pressed(_screen.target_at(here, false) == _press)
 	if not _press.is_empty() and not _dragging and here.distance_to(_press_at) > DRAG_START:
 		_start_drag()
 	if _carry != null:
@@ -222,6 +227,12 @@ func move(here: Vector2) -> bool:
 	return false
 
 
+func _set_button_pressed(pressed: bool) -> void:
+	var face: Control = _press.get("pressed_face")
+	if is_instance_valid(face):
+		face.position.y = GlassPieces.as_float(_press["press_offset"]) if pressed else 0.0
+
+
 func _start_drag() -> void:
 	if not _press.is_empty() and str(_press["kind"]) in ["ability", "ability_off"]:
 		# a drag that starts on a button carries its card
@@ -235,6 +246,7 @@ func _start_drag() -> void:
 	_tips.fade()
 	_carry.node.z_index = CARRIED_Z
 	var tag: Control = _carry.node.get_node_or_null("ShopTag")
+	# the price travels with a carried shop card (recruit/NOTES.md 2; the owner, 22 Nov)
 	if tag != null:
 		tag.show()
 
@@ -259,6 +271,7 @@ func _pick_up() -> void:
 	var card: Dictionary = _press["card"]
 	var tag: Control = node.get_node_or_null("ShopTag")
 	if tag != null:
+		# hidden at the press; it comes back on the card once the press is a drag
 		tag.hide()
 	var index: int = GlassPieces.as_int(_press["index"])
 	if _press["kind"] == "board":
@@ -280,6 +293,7 @@ func release(at: Vector2) -> void:
 	var was_drag: bool = _dragging
 	var lifted: Control = _carry.node if _carry != null else null
 	var drop_at: Vector2 = _drop_point(at)
+	_set_button_pressed(false)
 	_press = {}
 	_dragging = false
 	_carry = null
@@ -434,8 +448,6 @@ func _click(pressed: Dictionary, at: Vector2) -> void:
 			)
 		"button":
 			match str(pressed["id"]):
-				"hero":
-					_screen.toggle_leaderboard()
 				"tier":
 					_request({"type": "upgrade"})
 				"refresh", "freeze", "end_turn":

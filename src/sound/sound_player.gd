@@ -71,9 +71,9 @@ func apply_settings() -> void:
 
 
 ## The fight screen calls this as it shows each step.
-func fight_step(step: Dictionary) -> void:
+func fight_step(step: Dictionary, before: Dictionary = {}) -> void:
 	_step_takes.clear()
-	for cue: Dictionary in SoundCues.for_fight_step(step, table):
+	for cue: Dictionary in SoundCues.for_fight_step(step, table, before):
 		play(str(cue["cue"]), _num(cue["delay_s"]), _num(cue["gain_db"]))
 
 

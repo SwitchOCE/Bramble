@@ -92,8 +92,8 @@ impl Sim {
     /// One fight of `a` against `b` on the real engine, run as FORMAT.md's runner does: a fresh
     /// session seeded with `seed`, the round set to the current round, both payloads restored,
     /// `GameSession._fight` once. Seat ids outside 0..7 (ghosts) or equal on both sides are
-    /// remapped; if the two payloads share a uid, all uids are renumbered a board, a hand,
-    /// b board, b hand. An invalid payload gives `Err`, never a panic.
+    /// remapped. If the payloads share a uid, both boards and hands are renumbered in side
+    /// order, followed by both waiting piles. An invalid payload gives `Err`, never a panic.
     pub fn fight(&mut self, a: &Payload, b: &Payload, seed: i64) -> Result<FightOutcome, String> {
         run_fight(&self.content, self.round(), a, b, seed)
     }
@@ -195,8 +195,10 @@ impl Sandbox {
         if let Some(problem) = &self.broken {
             return problem.clone();
         }
-        let dict = action.to_dict();
-        match guard(|| GameSession::act(&self.game, self.me, &dict)) {
+        match guard(|| {
+            let dict = action.to_dict_for(&self.game, self.me);
+            GameSession::act(&self.game, self.me, &dict)
+        }) {
             Ok(result) => {
                 self.actions.push(action.clone());
                 result
@@ -350,7 +352,7 @@ fn fight_inner(
     b_raw.insert("id", b_id.into());
     let uids = |raw: &Dictionary| -> Vec<i64> {
         let mut out = Vec::new();
-        for key in ["board", "hand"] {
+        for key in ["board", "hand", "waiting_pile"] {
             for unit in raw.get(key).as_array().to_vec() {
                 if let Variant::Dictionary(unit) = unit {
                     out.push(unit.get("uid").as_i64());
@@ -366,13 +368,18 @@ fn fight_inner(
         .any(|uid| uid <= 0 || !seen.insert(uid));
     if clash {
         let mut next = 1;
-        for raw in [&a_raw, &b_raw] {
-            for key in ["board", "hand"] {
-                for unit in raw.get(key).as_array().to_vec() {
-                    if let Variant::Dictionary(unit) = unit {
-                        unit.insert("uid", next.into());
-                        next += 1;
-                    }
+        for (raw, zone) in [
+            (&a_raw, "board"),
+            (&a_raw, "hand"),
+            (&b_raw, "board"),
+            (&b_raw, "hand"),
+            (&a_raw, "waiting_pile"),
+            (&b_raw, "waiting_pile"),
+        ] {
+            for unit in raw.get(zone).as_array().to_vec() {
+                if let Variant::Dictionary(unit) = unit {
+                    unit.insert("uid", next.into());
+                    next += 1;
                 }
             }
         }

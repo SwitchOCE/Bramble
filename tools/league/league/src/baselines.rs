@@ -81,11 +81,14 @@ pub fn score(view: &BotView, action: &Action) -> f64 {
             100.0 + worth(option)
         }
         Action::Upgrade => upgrade_score(view),
-        Action::Play { hand, slot, target } => play_score(view, *hand, *slot, *target),
+        Action::Play { hand, slot, target } => play_score(view, *hand, *slot, *target, false),
+        Action::Swap { hand, slot } => play_score(view, *hand, *slot, -1, true),
         Action::Buy { spell, index } | Action::BuyTarget { spell, index, .. } => {
-            buy_score(view, *spell, *index)
+            buy_score(view, *spell, *index, false)
         }
+        Action::BuyBoard { index, .. } => buy_score(view, false, *index, true),
         Action::Sell { slot } => sell_score(view, *slot),
+        Action::SellHand { hand } => hand_sell_score(view, *hand),
         Action::Ability { .. } => 2.0, // an ability a card offers is worth using
         _ => -1.0,
     }
@@ -111,7 +114,7 @@ fn upgrade_score(view: &BotView) -> f64 {
     if me.tier < goal { 60.0 } else { -1.0 }
 }
 
-fn play_score(view: &BotView, hand: i64, slot: i64, target: i64) -> f64 {
+fn play_score(view: &BotView, hand: i64, slot: i64, target: i64, swap: bool) -> f64 {
     let me = view.me();
     let card = &me.hand[hand as usize];
     let mut score = if card.spell {
@@ -119,6 +122,15 @@ fn play_score(view: &BotView, hand: i64, slot: i64, target: i64) -> f64 {
     } else {
         50.0 + card.tier as f64
     };
+    if swap {
+        let other = me.board[slot as usize].as_ref().expect("swap unit");
+        let improvement = swap_worth(card) - swap_worth(other);
+        return if improvement > 0.0 {
+            40.0 + improvement / (1.0 + improvement)
+        } else {
+            -1.0
+        };
+    }
     if slot >= 0 {
         score -= slot as f64 * 0.1;
     }
@@ -128,7 +140,12 @@ fn play_score(view: &BotView, hand: i64, slot: i64, target: i64) -> f64 {
     score
 }
 
-fn buy_score(view: &BotView, spell: bool, index: i64) -> f64 {
+fn swap_worth(unit: &UnitView) -> f64 {
+    (unit.tier + if unit.golden { 2 } else { 0 }) as f64 * 10.0
+        + (unit.own_attack + unit.own_health) as f64 * 0.1
+}
+
+fn buy_score(view: &BotView, spell: bool, index: i64, board: bool) -> f64 {
     let me = view.me();
     if spell {
         return if me.board_count() > 0 { 20.0 } else { -1.0 };
@@ -152,7 +169,8 @@ fn buy_score(view: &BotView, spell: bool, index: i64) -> f64 {
     if !room && weakest.is_none_or(|w| worth(card) <= unit_worth(w) + 5.0) {
         return if held > 0 { 15.0 * held as f64 } else { -1.0 };
     }
-    40.0 + worth(card) * 0.1 + 15.0 * held as f64
+    let on_board = if board { 0.01 } else { 0.0 };
+    40.0 + worth(card) * 0.1 + 15.0 * held as f64 + on_board
 }
 
 fn sell_score(view: &BotView, slot: i64) -> f64 {
@@ -172,6 +190,18 @@ fn sell_score(view: &BotView, slot: i64) -> f64 {
         }
     }
     -1.0
+}
+
+fn hand_sell_score(view: &BotView, hand: i64) -> f64 {
+    let me = view.me();
+    let unit = &me.hand[hand as usize];
+    if unit.spell || !me.empty_slots().is_empty() {
+        return -1.0;
+    }
+    if weakest(view).is_none_or(|weakest| swap_worth(unit) > swap_worth(weakest)) {
+        return -1.0;
+    }
+    35.0
 }
 
 fn weakest(view: &BotView) -> Option<&UnitView> {
@@ -358,7 +388,8 @@ impl TribeBot {
                 spell: false,
                 index,
                 ..
-            } = action
+            }
+            | Action::BuyBoard { index, .. } = action
             {
                 let card = lib.get(&me.shop_units[*index as usize]).expect("shop card");
                 if !card.has_tribe(&self.tribe) {
@@ -379,7 +410,7 @@ impl TribeBot {
                     score = 1.0;
                 }
             }
-            if let Action::Play { hand, slot, .. } = action {
+            if let Action::Play { hand, slot, .. } | Action::Swap { hand, slot } = action {
                 if held.contains(&(*hand as usize)) {
                     continue;
                 }
@@ -426,7 +457,10 @@ impl TribeBot {
             return refresh;
         }
         if let Some(i) = best
-            && matches!(actions[i], Action::Play { slot: 0.., .. })
+            && matches!(
+                actions[i],
+                Action::Play { slot: 0.., .. } | Action::Swap { .. }
+            )
         {
             return Some(play_at_best_renown(view, actions, i, best_score));
         }
@@ -467,17 +501,22 @@ fn play_at_best_renown(
     mut best_score: f64,
 ) -> usize {
     // Keep the unit chosen by the usual scores; use those scores again for equal Renown.
-    let Action::Play { hand, slot, .. } = actions[best] else {
-        unreachable!()
+    let (hand, slot) = match actions[best] {
+        Action::Play { hand, slot, .. } | Action::Swap { hand, slot } => (hand, slot),
+        _ => unreachable!(),
     };
     let slots = &view.me().slots;
     let mut best_renown = slots[slot as usize].renown;
     for (i, action) in actions.iter().enumerate() {
-        let Action::Play {
+        let (Action::Play {
             hand: candidate,
             slot,
-            target,
-        } = *action
+            ..
+        }
+        | Action::Swap {
+            hand: candidate,
+            slot,
+        }) = *action
         else {
             continue;
         };
@@ -485,7 +524,7 @@ fn play_at_best_renown(
             continue;
         }
         let renown = slots[slot as usize].renown;
-        let score = play_score(view, hand, slot, target) + row_pref(view, hand, slot);
+        let score = score(view, action) + row_pref(view, hand, slot);
         if renown > best_renown || (renown == best_renown && score > best_score) {
             best = i;
             best_renown = renown;

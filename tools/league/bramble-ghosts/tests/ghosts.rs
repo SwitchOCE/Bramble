@@ -87,6 +87,23 @@ fn run_path(root: &Path, id: &str) -> PathBuf {
 }
 
 #[test]
+fn waiting_payload_round_trips_without_card_fingerprints() {
+    let mut run = run();
+    run.turns[0].payload["waiting_pile"] = json!([{"def": "cousin", "uid": 7, "golden": false}]);
+    let decoded = Run::from_bytes(&run.to_bytes().unwrap()).unwrap();
+    assert_eq!(decoded.turns[0].payload, run.turns[0].payload);
+    assert!(decoded.cards.is_empty());
+
+    run.turns[0].payload["hand"] = json!([{"def": "cousin", "uid": 7, "golden": false}]);
+    assert!(run.validate().unwrap_err().contains("duplicate unit uid 7"));
+    run.turns[0].payload["waiting_pile"] = Value::Null;
+    assert_eq!(
+        run.validate().unwrap_err(),
+        "payload.waiting_pile must be an array"
+    );
+}
+
+#[test]
 fn add_is_idempotent_and_fetch_refuses_tampering() {
     let scratch = Scratch::new();
     let store = FolderStore::new(&scratch.0);

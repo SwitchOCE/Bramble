@@ -2,7 +2,6 @@ class_name RecruitWaitingPile
 extends RefCounted
 ## The small stack shows the newest gain. The hover lists cards in arrival order.
 
-const TOP: Vector2 = Vector2(1380, 972)
 const COUNT_OFFSET: Vector2 = Vector2(104, -8)
 const FAN_STEP: Vector2 = Vector2(12, -4)
 const VISIBLE_CARDS: int = 3
@@ -24,13 +23,18 @@ func _init(screen: RecruitScreen) -> void:
 	_screen = screen
 
 
+## STAND-IN: the stack remains on the ledge beside the hand count.
+static func top() -> Vector2:
+	return L1Layout.point("hand.waiting")
+
+
 func want_cards() -> void:
 	var cards: Array = _screen.state.get("waiting_pile", [])
 	var last: int = cards.size() - 1
 	for i: int in range(maxi(0, cards.size() - VISIBLE_CARDS), cards.size()):
 		var card: Dictionary = cards[i]
 		var depth: int = i - last
-		var at: Vector2 = TOP + depth * FAN_STEP
+		var at: Vector2 = top() + depth * FAN_STEP
 		if GlassScreen._is_spell(card):
 			at.y += 8.0
 		_screen._want_card(
@@ -52,47 +56,31 @@ func build_count() -> void:
 	var cards: Array = _screen.state.get("waiting_pile", [])
 	if cards.is_empty():
 		return
-	var label: GlassText = _label("+%d" % cards.size(), 26, 900, Color("#16120e"))
-	label.family = "display"
-	label.refresh()
-	_count = GlassBox.new()
+	_count = count_chip(cards.size())
 	_count.name = "WaitingCount"
-	_count.box_size = Vector2(maxf(52.0, label.size.x + 26.0), 40.0)
-	_count.use_css("stage", ".chipv")
-	_count.radii = Vector4.ONE * 20.0
-	_count.border_width = 3.0
-	_count.shadows = [
-		{"inset": false, "x": 0, "y": 0, "blur": 10, "spread": 0, "colour": "#ffc86e8c"},
-		{"inset": false, "x": 0, "y": 3, "blur": 6, "spread": 0, "colour": "#00000099"}
-	]
-	_count.refresh()
-	label.position = (_count.box_size - label.size) / 2.0
-	_count.add_child(label)
-	_count.position = TOP + COUNT_OFFSET
+	_count.position = top() + COUNT_OFFSET
 	_count.z_index = 7
 	_screen._front.add_child(_count)
 
 
-## Before joining, cards deeper than the visible stack have no kept node to slide from.
-func animate_hidden_arrivals(before: Dictionary) -> void:
-	var old: Array = before.get("waiting_pile", [])
-	if old.size() <= VISIBLE_CARDS or not _screen._keeper.animate:
-		return
-	var hidden: Dictionary = {}
-	for i: int in old.size() - VISIBLE_CARDS:
-		var card: Dictionary = old[i]
-		hidden[card.get("uid", -1)] = true
-	var hand: Array = _screen.state.get("hand", [])
-	for target: Dictionary in _screen.targets_of("hand"):
-		var card: Dictionary = target["card"]
-		var node: Control = target["node"]
-		if node.visible and hidden.has(card.get("uid", -1)):
-			var index: int = GlassPieces.as_int(target["index"])
-			# The aim layout already put this card in its lifted position.
-			if _screen._input.aim_place(GlassScreen.card_key("hand", index, card)) != null:
-				continue
-			var place: Vector3 = _screen.hand_place(index, hand.size())
-			_screen._keeper.arrive_from(node, TOP, Vector2(place.x, place.y), place.z)
+## The stack's count: "+N" on a cream chip.
+static func count_chip(count: int) -> GlassBox:
+	var label: GlassText = _label("+%d" % count, 26, 900, Color("#16120e"))
+	label.family = "display"
+	label.refresh()
+	var chip: GlassBox = GlassBox.new()
+	chip.box_size = Vector2(maxf(52.0, label.size.x + 26.0), 40.0)
+	chip.use_css("stage", ".chipv")
+	chip.radii = Vector4.ONE * 20.0
+	chip.border_width = 3.0
+	chip.shadows = [
+		{"inset": false, "x": 0, "y": 0, "blur": 10, "spread": 0, "colour": "#ffc86e8c"},
+		{"inset": false, "x": 0, "y": 3, "blur": 6, "spread": 0, "colour": "#00000099"}
+	]
+	chip.refresh()
+	label.position = (chip.box_size - label.size) / 2.0
+	chip.add_child(label)
+	return chip
 
 
 func hover(here: Vector2, tips: RecruitTips) -> bool:
@@ -147,8 +135,8 @@ func _over_pane(here: Vector2) -> bool:
 		return true
 	# Keep the list open along the short path between it and the stack.
 	var bridge := Rect2(
-		Vector2(TOP.x - 24.0, _pane.position.y + _pane.size.y),
-		Vector2(COUNT_OFFSET.x + _count.size.x + 24.0, TOP.y - _pane.position.y - _pane.size.y)
+		Vector2(top().x - 24.0, _pane.position.y + _pane.size.y),
+		Vector2(COUNT_OFFSET.x + _count.size.x + 24.0, top().y - _pane.position.y - _pane.size.y)
 	)
 	return bridge.has_point(here)
 
@@ -189,7 +177,7 @@ func _build_pane() -> void:
 		maxf(width, note.size.x) + 2.0 * PANE_PAD, _scroll.position.y + _scroll.size.y + 16.0
 	)
 	_pane.use_css("stage", "#tip .txt").refresh()
-	_pane.position = TOP + Vector2(30.0 - _pane.box_size.x / 2.0, -40.0 - _pane.box_size.y)
+	_pane.position = top() + Vector2(30.0 - _pane.box_size.x / 2.0, -40.0 - _pane.box_size.y)
 	_pane.z_index = 7
 	_screen._front.add_child(_pane)
 

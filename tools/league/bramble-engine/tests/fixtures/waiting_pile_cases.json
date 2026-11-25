@@ -1,0 +1,113 @@
+{
+  "sell_and_cast_fifo": [
+    ["board", "needle-page", 0, "waiting_proof"], ["hand", "brock-cub*", 1, "waiting_proof"],
+    ["hand", "sp_sharpen"], ["hand", "brock-cub*", 5],
+    ["give", "harvest-piper", 0], ["give", "sp_sharpen"],
+    ["give", "sp_seek", -1, 8],
+    ["act", {"type":"play","hand":7}], ["act", {"type":"sell","hand":7}],
+    ["act", {"type":"sell","hand":0}],
+    ["act", {"type":"play","hand":0}, 0]
+  ],
+  "deferred_discover_target": [
+    ["board", "needle-page", 0], ["hand", "brock-cub*", 7],
+    ["offer", "master-at-arms"], ["legal"],
+    ["act", {"type":"pick","index":0,"target":-2}],
+    ["act", {"type":"pick","index":0,"target":-1}],
+    ["act", {"type":"pick","index":0}, 0],
+    ["act", {"type":"pick","index":0}],
+    ["act", {"type":"play","hand":0,"slot":1}], ["legal"],
+    ["act", {"type":"recruit_target"}, 1]
+  ],
+  "waiting_third_only_golden_recruits": [
+    ["board", "needle-page", 0], ["board", "harvest-piper", 1],
+    ["hand", "harvest-piper"], ["hand", "brock-cub*", 6],
+    ["offer", "harvest-piper"], ["act", {"type":"pick","index":0}],
+    ["settle"], ["act", {"type":"play","hand":1,"slot":2}]
+  ],
+  "golden_place_reserved_before_joining_hooks": [
+    ["hand", "brock-cub*", 4], ["hand", "bumblebee", 3],
+    ["give", "hayloft-aunt"], ["give", "sp_sharpen"],
+    ["settle"], ["act", {"type":"sell","hand":0}]
+  ],
+  "board_golden_keeps_its_waiting_reward": [
+    ["board", "needle-page", 0],
+    ["board", "harvest-piper", 1], ["board", "harvest-piper", 2], ["board", "harvest-piper", 3],
+    ["hand", "brock-cub*", 7], ["settle"], ["act", {"type":"play","hand":0,"slot":2}]
+  ],
+  "board_golden_recruits_after_its_aura": [
+    ["board", "needle-page", 0], ["board", "squadron-leader", 4, "waiting_proof"],
+    ["board", "squadron-leader", 5, "waiting_proof"], ["board", "squadron-leader", 6, "waiting_proof"],
+    ["auras"], ["hand", "brock-cub*", 7], ["settle"], ["attack", 0]
+  ],
+  "new_board_aura_before_joining_hook": [
+    ["board", "needle-page", 0], ["hand", "squadron-leader"], ["hand", "brock-cub*", 6],
+    ["give", "brock-cub"], ["grant_waiting", "waiting_proof"],
+    ["act", {"type":"play","hand":0,"slot":4}]
+  ],
+  "merge_created_space_uses_the_postmerge_aura": [
+    ["board", "needle-page", 0], ["board", "squadron-leader", 4], ["auras"],
+    ["hand", "squadron-leader", 2], ["hand", "brock-cub*", 5],
+    ["give", "brock-cub"], ["grant_waiting", "waiting_proof"],
+    ["settle"], ["attack", 5]
+  ],
+  "pending_choice_loses_its_targets": [
+    ["hand", "sp_seek", 2], ["hand", "brock-cub*", 2], ["hand", "bumblebee", 3],
+    ["give", "quartermaster"], ["grant_waiting", "waiting_proof"], ["give", "quartermaster"],
+    ["settle"], ["legal"], ["act", {"type":"recruit_target"}, -4], ["legal"]
+  ],
+  "end_turn_resolves_a_golden_target_opened_by_settling": [
+    ["hand", "master-at-arms", 3], ["hand", "brock-cub*", 4],
+    ["end"], ["legal"]
+  ],
+  "waiting_state_round_trip_and_turn_expiry": [
+    ["board", "needle-page", 0], ["hand", "brock-cub*", 7],
+    ["give", "harvest-piper", 0], ["give", "sp_sharpen"], ["stamp"],
+    ["restore"], ["offer", "bumblebee"], ["end"], ["start"], ["act", {"type":"sell","hand":0}], ["retire"]
+  ],
+  "full_hand_board_buy_queues_recruit_gain": [
+    ["board", "needle-page", 0], ["hand", "brock-cub*", 7], ["give", "sp_seek"],
+    ["shop_unit", "hayloft-aunt"], ["shop_spell", "sp_sharpen"], ["legal", "all"],
+    ["act", {"type":"buy","index":0}],
+    ["act", {"type":"buy","index":0,"slot":0}],
+    ["act", {"type":"buy","index":0,"slot":7}],
+    ["act", {"type":"buy","spell":true,"index":0,"slot":1}],
+    ["act", {"type":"buy","index":0,"slot":1}],
+    ["act", {"type":"sell","hand":4}]
+  ],
+  "full_hand_board_buy_completes_triple": [
+    ["board", "needle-page", 0], ["board", "harvest-piper", 2], ["board", "harvest-piper", 4],
+    ["hand", "brock-cub*", 7], ["shop_unit", "harvest-piper"],
+    ["act", {"type":"buy","index":0,"slot":5}]
+  ],
+  "full_hand_board_buy_opens_target_choice": [
+    ["board", "needle-page", 0], ["hand", "brock-cub*", 7],
+    ["shop_unit", "quartermaster"], ["legal", "all"],
+    ["act", {"type":"buy","index":0,"slot":1}], ["legal"],
+    ["act", {"type":"recruit_target"}, 0], ["act", {"type":"recruit_target"}, -6]
+  ],
+  "full_hand_swap_keeps_waiting_and_refreshes_auras": [
+    ["board", "needle-page", 0], ["board", "squadron-leader", 4],
+    ["hand", "brock-cub*", 3], ["hand", "harvest-piper"], ["hand", "brock-cub*", 3],
+    ["auras"], ["give", "sp_seek"], ["give", "cousin"],
+    ["act", {"type":"play","hand":3,"slot":4,"swap":true}],
+    ["act", {"type":"play","hand":3,"slot":2}]
+  ],
+  "swap_leaves_a_preexisting_triple_unsettled": [
+    ["board", "harvest-piper", 0], ["board", "harvest-piper", 1], ["board", "needle-page", 4],
+    ["hand", "harvest-piper"], ["act", {"type":"play","hand":0,"slot":4,"swap":true}]
+  ],
+  "swap_refuses_worked_unit_and_invalid_slots": [
+    ["board", "lance-corporal", 4], ["worked", 4],
+    ["hand", "needle-page"], ["hand", "sp_sharpen"], ["legal", "all"],
+    ["act", {"type":"play","hand":0,"slot":4}],
+    ["act", {"type":"play","hand":0,"slot":4,"swap":true}],
+    ["act", {"type":"play","hand":0,"slot":5,"swap":true}],
+    ["act", {"type":"play","hand":1,"slot":4,"swap":true}]
+  ],
+  "simple_bot_uses_own_stats_then_sells_the_outgoing_hand_unit": [
+    ["board", "needle-page", 0], ["board", "brock-cub*", 1], ["board", "brock-cub*", 2],
+    ["board", "brock-cub*", 3], ["board", "squadron-leader", 4], ["board", "brock-cub*", 5],
+    ["board", "brock-cub*", 6], ["hand", "bramble-runner"], ["auras"], ["gold", 0],
+    ["bot"], ["bot"]
+  ]
+}

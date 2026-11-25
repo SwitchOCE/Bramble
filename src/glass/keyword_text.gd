@@ -24,11 +24,18 @@ static func make(
 	table: Dictionary,
 	width: float,
 	totals: Array[Dictionary] = [],
-	exclude: String = ""
+	exclude: String = "",
+	reminder_box: bool = false
 ) -> KeywordText:
 	words = effect_lines(words)
 	var node: KeywordText = KeywordText.new()
 	node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var mark_side: float = (
+		1.55 * KeywordStyle.DETAIL_BODY_MARK_PX if reminder_box else KeywordStyle.TOOLTIP_MARK_H
+	)
+	var mark_px: int = (
+		KeywordStyle.DETAIL_BODY_MARK_PX if reminder_box else roundi(KeywordStyle.MARK_PX)
+	)
 	var entries: Dictionary = {}
 	for value: Variant in table.values():
 		if not value is Dictionary:
@@ -85,7 +92,10 @@ static func make(
 						"name": entry["name"],
 						"words": said,
 						"reminder": reminder,
-					}
+					},
+					false,
+					mark_side,
+					mark_px
 				)
 			)
 			spans.append({"at": hit.get_start(), "end": end, "mark": mark})
@@ -108,18 +118,21 @@ static func make(
 	spans.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["at"] < b["at"])
 	var cursor: int = 0
 	var parts: Array[Control] = []
+	var plain_px: float = KeywordStyle.DETAIL_BODY_PX if reminder_box else KeywordStyle.BODY_PX
+	var line_h: float = KeywordStyle.DETAIL_LINE_H if reminder_box else KeywordStyle.LINE_H
 	for span: Dictionary in spans:
-		node._plain(parts, words.substr(cursor, GlassPieces.as_int(span["at"]) - cursor))
+		node._plain(parts, words.substr(cursor, GlassPieces.as_int(span["at"]) - cursor), plain_px)
 		var mark: KeywordMark = span["mark"]
+		line_h = maxf(line_h, mark.size.y)
 		parts.append(mark)
 		node.marks.append(mark)
 		cursor = GlassPieces.as_int(span["end"])
-	node._plain(parts, words.substr(cursor))
+	node._plain(parts, words.substr(cursor), plain_px)
 	var at: Vector2 = Vector2.ZERO
 	for index: int in parts.size():
 		var part: Control = parts[index]
 		if part is GlassText and (part as GlassText).words == "\n":
-			at = Vector2(0, at.y + KeywordStyle.LINE_H)
+			at = Vector2(0, at.y + line_h)
 			part.position = at
 			part.size = Vector2.ZERO
 			node.add_child(part)
@@ -129,13 +142,13 @@ static func make(
 		if part is KeywordMark and index + 1 < parts.size() and _punctuation(parts[index + 1]):
 			needed += parts[index + 1].size.x - PUNCTUATION_INSET
 		if not attached and at.x > 0.0 and at.x + needed > width:
-			at = Vector2(0, at.y + KeywordStyle.LINE_H)
+			at = Vector2(0, at.y + line_h)
 		if attached:
 			at.x += COIN_COLON_GAP if (parts[index - 1] as KeywordMark).coin else -PUNCTUATION_INSET
-		part.position = at + Vector2(0, (KeywordStyle.LINE_H - part.size.y) / 2.0)
+		part.position = at + Vector2(0, (line_h - part.size.y) / 2.0)
 		node.add_child(part)
 		at.x += part.size.x
-	node.size = Vector2(width, at.y + KeywordStyle.LINE_H if not parts.is_empty() else 0.0)
+	node.size = Vector2(width, at.y + line_h if not parts.is_empty() else 0.0)
 	return node
 
 
@@ -153,11 +166,11 @@ static func _own_number(entry: Dictionary, following: String) -> bool:
 	return stat.search(following) == null
 
 
-func _plain(parts: Array[Control], words: String) -> void:
+func _plain(parts: Array[Control], words: String, font_px: float) -> void:
 	var regex: RegEx = RegEx.create_from_string("\n|[ \t\r]+|[^\\s]+")
 	for hit: RegExMatch in regex.search_all(words):
 		var label: GlassText = GlassText.from_rule("stage", "#tip .r", hit.get_string())
-		label.font_px = KeywordStyle.BODY_PX
+		label.font_px = font_px
 		label.colour = KeywordStyle.WORD
 		label.refresh()
 		parts.append(label)

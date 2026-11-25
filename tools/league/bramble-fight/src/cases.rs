@@ -81,13 +81,16 @@ fn validate_player(
             return Err(format!("{key} must be an array"));
         }
     }
+    if saved.has("waiting_pile") && !matches!(saved.get("waiting_pile"), Variant::Array(_)) {
+        return Err("waiting_pile must be an array".into());
+    }
     let board = saved.get("board").as_array();
     let slots = saved.get("slots").as_array();
     let hand = saved.get("hand").as_array();
     if board.len() != 7 || slots.len() != 7 || hand.len() > 7 {
         return Err("expected 7 board slots, 7 slot states, and at most 7 hand cards".into());
     }
-    for key in ["board", "hand"] {
+    for key in ["board", "hand", "waiting_pile"] {
         for raw in saved.get(key).as_array().to_vec() {
             if raw == Variant::Nil && key == "board" {
                 continue;

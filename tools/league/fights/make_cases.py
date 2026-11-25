@@ -237,6 +237,12 @@ class Generator:
                 unit["uid"] = uid
                 uid += 1
         changes.append("uid:renumber_board_then_hand_a_then_b")
+        for owner in (a, b):
+            for unit in owner.get("waiting_pile", []):
+                unit["uid"] = uid
+                uid += 1
+        if a.get("waiting_pile") or b.get("waiting_pile"):
+            changes.append("uid:renumber_waiting_a_then_b")
         return {
             "id": case_id,
             "game_seed": str(rng.randrange(-(2**63), 2**63)),
@@ -363,6 +369,7 @@ def cover(case, card_tribes, generator, coverage):
         "golden_units": any(unit["golden"] for unit in all_units),
         "nonempty_heaps": any(heap["entries"] for owner in payloads for heap in owner["heaps"].values()),
         "nonempty_hands": any(owner["hand"] for owner in payloads),
+        "nonempty_waiting_piles": any(owner.get("waiting_pile") for owner in payloads),
         "reserve_hands": any(
             generator.is_reserve(unit) for owner in payloads for unit in owner["hand"] if unit["def"] in generator.cards
         ),

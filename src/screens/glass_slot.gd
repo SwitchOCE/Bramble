@@ -6,7 +6,7 @@ extends RefCounted
 
 ## An empty board slot (stage.css .slot and .slot::after): a dim pane in a lead outline, or the
 ## Ring slot (.slot.ring::after) with its keyword written on it when the slot carries one.
-static func make(info: Dictionary, size: Vector2) -> GlassBox:
+static func make(info: Dictionary, size: Vector2, outline: Callable = Callable()) -> GlassBox:
 	var box: GlassBox = GlassBox.new()
 	box.box_size = size
 	var whole: Rect2 = Rect2(Vector2.ZERO, box.box_size)
@@ -17,10 +17,15 @@ static func make(info: Dictionary, size: Vector2) -> GlassBox:
 		-GlassPieces.as_float(inset[1]),
 		-GlassPieces.as_float(inset[0])
 	)
-	var outer_clip: Array = GlassPieces.rule("stage", ".slot", "clip-path")
-	var inner_clip: Array = GlassPieces.rule("stage", ".slot::after", "clip-path")
-	box.polygon_outer = GlassBox.css_polygon(outer_clip, whole)
-	box.polygon_inner = GlassBox.css_polygon(inner_clip, inner)
+	if outline.is_valid():
+		box.polygon_outer = outline.call(whole.size)
+		var pane: PackedVector2Array = outline.call(inner.size)
+		box.polygon_inner = Transform2D(0.0, inner.position) * pane
+	else:
+		var outer_clip: Array = GlassPieces.rule("stage", ".slot", "clip-path")
+		var inner_clip: Array = GlassPieces.rule("stage", ".slot::after", "clip-path")
+		box.polygon_outer = GlassBox.css_polygon(outer_clip, whole)
+		box.polygon_inner = GlassBox.css_polygon(inner_clip, inner)
 	var lead: Array = GlassPieces.rule("stage", ".slot", "background")
 	var lead_layer: Dictionary = lead[0]
 	box.border_colour = Color.html(str(lead_layer["colour"]))

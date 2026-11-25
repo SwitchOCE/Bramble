@@ -277,7 +277,20 @@ step_feel() {
     cat "$pixel_log"
     return 1
   fi
-  grep '^dupes_pixels: PASS' "$pixel_log"
+  grep '^dupes_pixels: PASS' "$pixel_log" || return 1
+  # The L1 lights must fade and darken with their card's modulate (a dying card in a fight).
+  pixel_log="$LOG_DIR/light-fade-pixels.log" pixel_out="$LOG_DIR/light-fade-pixels"
+  timeout 90 xvfb-run -a -s "-screen 0 1920x1080x24 -nolisten tcp" \
+    "$GODOT" --path "$ROOT" --rendering-driver opengl3 --audio-driver Dummy \
+    --windowed --resolution 1920x1080 res://tests/screens/light_fade_pixels.tscn \
+    -- "--out=$pixel_out" >"$pixel_log" 2>&1 || status=$?
+  pixel_problems="$(problems "$pixel_log" | grep -vFx \
+    "WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.")"
+  if [ "$status" -ne 0 ] || [ -n "$pixel_problems" ]; then
+    cat "$pixel_log"
+    return 1
+  fi
+  grep '^light_fade_pixels: PASS' "$pixel_log"
 }
 
 # Exact replay must match every turn and must catch one deliberately changed action.

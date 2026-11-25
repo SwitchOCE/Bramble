@@ -203,6 +203,7 @@
 		"shop_units",
 		"shop_spells",
 		"hand",
+		"waiting_pile",
 		"recruit_choices",
 		"board",
 		"discover_options",

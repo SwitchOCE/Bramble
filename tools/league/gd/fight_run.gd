@@ -198,13 +198,15 @@ func _validate_player(saved: Dictionary, seen: Dictionary) -> String:
 	for key: String in ["board", "hand", "slots", "standing"]:
 		if not saved.get(key) is Array:
 			return key + " must be an array"
+	if not saved.get("waiting_pile", []) is Array:
+		return "waiting_pile must be an array"
 	var board: Array = saved["board"]
 	var slots: Array = saved["slots"]
 	var hand: Array = saved["hand"]
 	if board.size() != 7 or slots.size() != 7 or hand.size() > 7:
 		return "expected 7 board slots, 7 slot states, and at most 7 hand cards"
-	for key: String in ["board", "hand"]:
-		for raw: Variant in saved[key]:
+	for key: String in ["board", "hand", "waiting_pile"]:
+		for raw: Variant in saved.get(key, []):
 			if raw == null and key == "board":
 				continue
 			if not raw is Dictionary:

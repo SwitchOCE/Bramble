@@ -1,0 +1,18 @@
+{
+  "about": "Recruit batch (plan step 12), prototype 19: buy straight onto the board with a full hand. The tag drops off as the card is lifted, the empty slots light, the unit drops in and hops, the lit slots fade and the gold counts down.",
+  "scene": "res://tests/screens/feel/feel_game.tscn",
+  "seed": 7,
+  "setup": {
+    "gold": 9,
+    "board": {"0": "brock-cub", "1": "hedge-knight", "2": "old-campaigner", "3": "padre", "4": "relic-seeker", "6": "horde-runner"},
+    "hand": ["lance-corporal", "master-at-arms", "sett-shield-bearer", "cousin", "private", "pip", "hopper"]
+  },
+  "steps": [
+    {"wait": 0.4},
+    {"move": "shop:3", "time": 0.4},
+    {"press": true, "note": "buy-to-board pickup"},
+    {"move": "slot:5", "time": 0.56},
+    {"release": true, "note": "buy-to-board drop"},
+    {"wait": 0.8}
+  ]
+}

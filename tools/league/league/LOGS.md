@@ -75,7 +75,7 @@ Each seat's `rounds[]` entry:
 | `tier` | `PlayerState.tier` before fights |
 | `gold_start` | gold in the seat's first decision view, after start-of-turn effects and before choosing any action; null if the seat had no decision |
 | `gold_left` | `PlayerState.gold` after the turn |
-| `gold_from_cards` | gross positive gold **generated** by cards this round, finalized after fights: positive `amount` in session `gold` events for this player with `source_uid >= 0` (`RecruitContext::gain_gold`, including start-of-turn Relic Seeker payouts and end-of-turn effects), plus positive `PlayerState.gold_next_turn` after combat (`FightSide::add_gold`, e.g. Cutpurse). `start_turn` resets `gold_next_turn`, so each combat payout counts in the round earned, not again when credited next turn. Excludes normal income, ordinary sale proceeds, spending, and source-less standing effects. Combat payouts become spendable next round, so the next `gold_start` includes them too. Combat events need not be retained |
+| `gold_from_cards` | **Card-made gold only: normal income, sale proceeds, spending and source-less standing effects are left out.** Gross positive gold **generated** by cards this round, finalized after fights: positive `amount` in session `gold` events for this player with `source_uid >= 0` (`RecruitContext::gain_gold`, including start-of-turn Relic Seeker payouts and end-of-turn effects), plus positive `PlayerState.gold_next_turn` after combat (`FightSide::add_gold`, e.g. Cutpurse). `start_turn` resets `gold_next_turn`, so each combat payout counts in the round earned, not again when credited next turn. Excludes normal income, ordinary sale proceeds, spending, and source-less standing effects. Combat payouts become spendable next round, so the next `gold_start` includes them too. Combat events need not be retained |
 | `triple` | whether the session events contain a `triple` for this player this round |
 | `golden_gained` | whether the count of golden cards in board and hand increased since the last round (not a count of triples) |
 | `slot_buff` | whether serialized `PlayerState.slots` changed since the previous round (keywords or Renown; slots have no stats since S9) |
@@ -87,21 +87,24 @@ session round number. `players` is all seats, in seat order, **after** fights an
 The round's `renown` contains the game log's Renown events in order, including start-of-turn
 rewards such as Old Campaigner. Each carries `type`, `round`, `player`, `slot`, `amount`, `total` and `source_uid`.
 Each nested `fights[]` item has `a`, `b`, `winner`, `loser`, `damage`, `result`,
-`ghost_of`, `kills`, `summons` and `renown`.
+`ghost_of`, `kills`, `summons`, `joined` and `renown`.
+
+A field that leaves something out says what in its first sentence. Read that before reporting a number from it.
 
 | Field | Meaning and source |
 |---|---|
 | `a`, `b` | seat ids from the engine fight's `players`. In a live match `b == -1` identifies the copied ghost (`Matchmaking::GHOST`). Async opponents occupy seats 1–7 with run IDs in the game's `runs` list |
 | `winner` | result winner side mapped to `a` or `b`, so -1 when the ghost won; **null for a draw** |
 | `loser` | engine fight's `loser`: seat id, -1 for the ghost, -2 when there is no loser |
-| `damage` | engine fight's damage to the losing live player **before armour** (0 when no live loser); `players[].hp`/`armor` show what was lost |
+| `damage` | **Before armour.** The engine fight's damage to the losing live player (0 when no live loser); `players[].hp`/`armor` show what was lost |
 | `result` | engine combat result dictionary, unchanged, from `GameSession::finish_round`; combat events are read separately for the two counts |
 | `ghost_of` | seat copied when `b == -1`, otherwise null. The harness reads session `ghost_of` **before** `finish_round`, since elimination can replace the copy for the next round |
-| `kills` | Two arrays in `[a, b]` order, including zero counts. Every starting unit has a row `{card, golden, slot, origin: "start", source: null, kills}` in slot order. Arrivals follow, grouped by `{card, golden, origin, source}` with `kills` and no slot. A `"summon"` names the summoning unit's card id, or null when the event names no unit. A `"reserve"` has null source. Each enemy death credits the engine's `killer_uid`, the last recorded damaging or destroying source, including Cleave and other effects. Kills by returned copies credit the original unit and its origin. Deaths with no credited enemy unit add no kill |
-| `summons` | Two arrays in `[a, b]` order. Each groups successful `summon` events by `{source, card, count}`, sorted by source and summoned card id. `source` is the summoning unit's card id, or null when the event names no unit. Waiting summons count when they land. Failed summons, returns and Reserve arrivals are excluded |
+| `kills` | **Kills by units only: a death with no credited enemy unit adds no kill, and a returned copy's kills go to the original unit.** Two arrays in `[a, b]` order, including zero counts. Every starting unit has a row `{card, golden, slot, origin: "start", source: null, kills}` in slot order. Arrivals follow, grouped by `{card, golden, origin, source}` with `kills` and no slot. A `"summon"` names the summoning unit's card id, or null when the event names no unit. A `"reserve"` has null source. Each enemy death credits the engine's `killer_uid`, the last recorded damaging or destroying source, including Cleave and other effects. Kills by returned copies credit the original unit and its origin. Deaths with no credited enemy unit add no kill |
+| `summons` | **Freshly summoned units only: units that return (Molt, Root and the like) and Reserve arrivals are left out, as are failed summons. For every body that joins a fight, read `joined`.** Two arrays in `[a, b]` order. Each groups successful `summon` events by `{source, card, count}`, sorted by source and summoned card id. `source` is the summoning unit's card id, or null when the event names no unit. Waiting summons count when they land |
+| `joined` | Every body that joins a side after the fight starts; nothing is left out but failed summons. Two arrays in `[a, b]` order. Each groups arrivals by `{kind, source, card, count}`, sorted by kind, source and card id. `kind` is `summon`, `return` or `reserve`. `source` is what brought the body: for a summon or a Reserve arrival, the card id of the unit the event names, or null when it names none; for a return, the id of the mechanic that brought the unit back. A unit that returns twice counts twice. Bodies a side by kind, per fight: sum `count` |
 | `renown` | Combat Renown events in order, each with `type`, `side`, `slot`, `amount`, `next_fight`, `permanent` and `source_uid` |
 
-Arrays in `result`, `kills` and `summons` use combat side order `[a, b]`, including
+Arrays in `result`, `kills`, `summons` and `joined` use combat side order `[a, b]`, including
 the ghost's board and events when applicable. The engine writes these fields to `result`.
 
 | Field | Meaning |
@@ -113,7 +116,7 @@ the ghost's board and events when applicable. The engine writes these fields to 
 | `deaths` | resolved friendly death events per side. Includes summons, Reserve arrivals and each resolved death of a unit that returns |
 | `survivors` | combat UIDs on each final board, including arrivals |
 | `survivor_recruit_uids` | distinct recruit UIDs of starting units represented on each final board |
-| `outnumbered_by` | per side, the opponent's counted starting units minus its own, floored at zero. A rear unit with the uncounted mechanic is excluded |
+| `outnumbered_by` | **Rear units with the uncounted mechanic are left out.** Per side, the opponent's counted starting units minus its own, floored at zero |
 | `attacks`, `triggers` | fight-wide counters for attacks (including instead-of-attack replacements) and mechanic triggers counted toward the engine's trigger limit |
 
 Schema 1 also covers these additive fields.
@@ -235,6 +238,7 @@ marker. `private/summary.json.tmp` can remain if interrupted during publication.
 | `red_avg_place`, `blue_avg_place` | colour's mean placement over its bot seats, seat 0 in an async game |
 | `gap_red_minus_blue` | red mean placement minus blue mean placement |
 | `mode` | async matches add `mode: "async"`; the sign of `gap_red_minus_blue` says which team placed better |
+| `without` | only in a `ghost-match --without` match: the card ids the live seat was never offered. Such a match has no `records/` and is for placement only (README, "Leaving cards out of the shop") |
 
 `timing.json` (not deterministic): wall seconds, threads, seconds a game.
 `private/secret.txt`: the match secret the bots' seeds come from (see README). Don't give it to
@@ -248,6 +252,6 @@ different seeds-file lines remains separate. Reads the plain-text `games.jsonl`.
 
 ## Combat TSVs
 
-`tools/league/analyse_match.sh MATCH` writes `kills_by_card.tsv`, `summons_by_source.tsv` and
-`kill_shares.tsv` next to the match logs. See the [analysis notes](../analysis/README.md#combat-tsvs)
+`tools/league/analyse_match.sh MATCH` writes `kills_by_card.tsv`, `summons_by_source.tsv`,
+`kill_shares.tsv` and `joined_by_kind.tsv` next to the match logs. See the [analysis notes](../analysis/README.md#combat-tsvs)
 for the columns and denominators.

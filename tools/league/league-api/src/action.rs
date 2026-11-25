@@ -1,6 +1,7 @@
 //! A recruit action, typed. The harness turns each `LegalActions.of` dictionary into one of
 //! these, in the same order, and plays the original dictionary for the index a bot returns.
 use bramble_engine::core::recruit::legal_actions::ActionOutput;
+use bramble_engine::core::{recruit::recruit::Recruit, session::game_session::GameSessionRef};
 use bramble_engine::{Dictionary, Variant};
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
@@ -25,6 +26,12 @@ pub enum Action {
         index: i64,
         target: i64,
     },
+    /// Buy a unit directly into an empty board slot, with its Recruit target if any.
+    BuyBoard {
+        index: i64,
+        slot: i64,
+        target: i64,
+    },
     /// Resolve the pending Recruit effect on the friendly unit with this uid.
     RecruitTarget {
         target: i64,
@@ -46,6 +53,11 @@ pub enum Action {
         hand: i64,
         slot: i64,
         target: i64,
+    },
+    /// Swap a hand unit with the occupant of a board slot.
+    Swap {
+        hand: i64,
+        slot: i64,
     },
     /// Use board unit `uid`'s ability `mechanic`, aimed at uid `target` (-1: none).
     Ability {
@@ -69,11 +81,11 @@ impl Action {
     pub fn kind(&self) -> &'static str {
         match self {
             Self::Pick { .. } | Self::PickTarget { .. } => "pick",
-            Self::Buy { .. } | Self::BuyTarget { .. } => "buy",
+            Self::Buy { .. } | Self::BuyTarget { .. } | Self::BuyBoard { .. } => "buy",
             Self::RecruitTarget { .. } => "recruit_target",
             Self::Sell { .. } | Self::SellHand { .. } => "sell",
             Self::ToHand { .. } => "to_hand",
-            Self::Play { .. } => "play",
+            Self::Play { .. } | Self::Swap { .. } => "play",
             Self::Ability { .. } => "ability",
             Self::Move { .. } => "move",
             Self::Refresh => "refresh",
@@ -99,6 +111,11 @@ impl Action {
                 index: int("index"),
                 target,
             },
+            "buy" if get("slot").is_some() => Self::BuyBoard {
+                index: int("index"),
+                slot: int("slot"),
+                target,
+            },
             "buy" if target >= 0 => Self::BuyTarget {
                 spell,
                 index: int("index"),
@@ -114,6 +131,10 @@ impl Action {
             "sell" if get("hand").is_some() => Self::SellHand { hand: int("hand") },
             "sell" => Self::Sell { slot: int("slot") },
             "to_hand" => Self::ToHand { slot: int("slot") },
+            "play" if matches!(get("swap"), Some(Variant::Bool(true))) => Self::Swap {
+                hand: int("hand"),
+                slot: int("slot"),
+            },
             "play" => Self::Play {
                 hand: int("hand"),
                 slot: int("slot"),
@@ -162,6 +183,16 @@ impl Action {
                 out.insert("index", (*index).into());
                 out.insert("target", (*target).into());
             }
+            Self::BuyBoard {
+                index,
+                slot,
+                target,
+            } => {
+                out.insert("spell", false.into());
+                out.insert("index", (*index).into());
+                out.insert("slot", (*slot).into());
+                out.insert("target", (*target).into());
+            }
             Self::RecruitTarget { target } => {
                 out.insert("target", (*target).into());
             }
@@ -175,6 +206,12 @@ impl Action {
                 out.insert("hand", (*hand).into());
                 out.insert("slot", (*slot).into());
                 out.insert("target", (*target).into());
+            }
+            Self::Swap { hand, slot } => {
+                out.insert("hand", (*hand).into());
+                out.insert("slot", (*slot).into());
+                out.insert("target", (-1).into());
+                out.insert("swap", true.into());
             }
             Self::Ability {
                 uid,
@@ -192,6 +229,24 @@ impl Action {
             Self::Refresh | Self::Freeze | Self::Upgrade | Self::EndTurn => {}
         }
         out
+    }
+
+    /// An un-aimed pick still uses the usual self-target when it enters hand immediately.
+    pub(crate) fn to_dict_for(&self, game: &GameSessionRef, player_id: i64) -> Dictionary {
+        let action = self.to_dict();
+        if matches!(self, Self::Pick { .. }) {
+            let (recruit, player) = {
+                let game = game.borrow();
+                (
+                    game.recruit.clone().expect("session recruit"),
+                    game.player(player_id),
+                )
+            };
+            if Recruit::gain_waits(&recruit, &player) {
+                action.erase("target");
+            }
+        }
+        action
     }
 }
 

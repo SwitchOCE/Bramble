@@ -733,6 +733,7 @@ impl GameSession {
             p.discover_options.clear();
             p.discover_queue.clear();
             p.hand.clear();
+            p.waiting_pile.clear();
         }
         game.borrow_mut().log_event(&crate::state_dict!{"type"=>"eliminated","player"=>&each.borrow().id,"placement"=>&place,"health"=>&each.borrow().health}.as_dict());
     }

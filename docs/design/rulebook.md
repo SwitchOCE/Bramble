@@ -238,7 +238,7 @@ Note: Bramble's activated abilities are Actives (11.7.1).
 
 **4.2.2** [BRAMBLE] With a full hand, a player can only buy a unit straight onto an empty board slot (C18). Buying into the hand requires a free hand place.
 
-**4.2.2a** [PROPOSED] Buying a unit straight onto an empty board slot also works when the hand has room. The shop drag works the same way at every hand size.
+**4.2.2a** [BRAMBLE] Buying a unit straight onto an empty board slot also works when the hand has room. The shop drag works the same way at every hand size. Decided by the owner, 22 Nov 2026, asked about the four proposed rules: "Yeah, I thought I said yes to all the four proposed rules."
 
 **4.2.3** [BG] Buying a unit leaves its shop slot empty until the shop next refills.
 
@@ -431,7 +431,7 @@ Note: on 12 Nov the owner leaned toward TFT-style rarities, and asked to come ba
 
 **7.1.2** [BRAMBLE] A card gained while the hand is full goes into an unlimited waiting pile that carries over between turns. When a hand place frees, the oldest waiting card joins the hand. A waiting card joins after the action that freed the place has fully resolved. A waiting unit resolves its Recruit effect when it joins (7.2.6). Decided by the owner, 21 Nov 2026: asked whether a waiting card joins before or after the sale or spell, the owner chose "After", whose option read "The sale or spell resolves fully, then the waiting card joins."
 
-**7.1.2a** [PROPOSED] Waiting cards can't be played, cast, sold or counted toward a triple. Agent default.
+**7.1.2a** [BRAMBLE] Waiting cards can't be played, cast, sold or counted toward a triple. Decided by the owner, 22 Nov 2026, asked about the four proposed rules: "Yeah, I thought I said yes to all the four proposed rules."
 
 ### 7.2 Playing a unit
 
@@ -439,11 +439,11 @@ Note: on 12 Nov the owner leaned toward TFT-style rarities, and asked to come ba
 
 **7.2.2** [BRAMBLE] When the board is full, playing a unit from the hand requires a swap (C18). A swap keeps the hand size and the waiting pile order.
 
-**7.2.2a** [PROPOSED] A unit that worked this turn and must stay for the fight also stays in play when a swap is attempted. The same commitment applies to both ways of returning a unit to the hand.
+**7.2.2a** [BRAMBLE] A unit that worked this turn and must stay for the fight also stays in play when a swap is attempted. The same commitment applies to both ways of returning a unit to the hand. Decided by the owner, 22 Nov 2026, asked about the four proposed rules: "Yeah, I thought I said yes to all the four proposed rules."
 
 **7.2.3** [BRAMBLE] **Recruit effects.** Bramble's equivalent of a "when played" effect resolves when the unit is recruited. When bought, that happens as it enters the hand or the board (4.2.1). Playing a unit from hand triggers nothing by itself, so a unit that returns to hand and is played again (7.2.4) repeats nothing. In the owner's words (15 Nov 2026, [owner-ideas-log.md](owner-ideas-log.md), entry 4): "So I think our battlecry effect should be on recruit rather than on play, our equivalent." The owner confirmed it as decided on 17 Nov 2026 (C15). Example: Galaxy's Recruit (11.6.4). *HSBG:* a played minion is placed first, then its Battlecry resolves (11.3.1).
 
-**7.2.3a** [PROPOSED] The usual timing for free moves applies to a swap. Neither unit resolves its Recruit effect on the swap or any later play from the hand.
+**7.2.3a** [BRAMBLE] The usual timing for free moves applies to a swap. Neither unit resolves its Recruit effect on the swap or any later play from the hand. Decided by the owner, 22 Nov 2026, asked about the four proposed rules: "Yeah, I thought I said yes to all the four proposed rules."
 
 **7.2.4** [BRAMBLE] **Back to hand.** During the Recruit Phase a player may move a unit from the board back to hand and play it again, for free and any number of times. In the owner's words (17 Nov 2026): "Units could move freely between the hand and the board, unlike in Battlegrounds." (C15) *HSBG:* a played minion can't return to hand, except by a card effect.
 

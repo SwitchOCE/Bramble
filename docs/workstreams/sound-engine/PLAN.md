@@ -20,7 +20,7 @@ No sound code. Playback speed is fixed at 1. A fight lasts about 20 s (p90 28 s)
 
 1. **Fight hits in the game.** `src/sound/`: one player that reads Neon's table, with its own random source and a limiter on its own sound bus. One call per step in the fight screen's playback (`src/screens/fight/fight_screen.gd`), agreed with the fix round. Only the fields and cues Neon's instruction asks for. Placeholders until Neon's hits land: the trial's `ladder-3/4/5.wav`.
 2. **Neon's hits in, Windows build to the owner** with a short note on what to listen for. The owner's verdict decides what comes next.
-3. **The rest in batches as Neon delivers them** (deaths, fight result, shop actions), each heard by the owner before the next. The shop hook in `src/game/game_controller.gd` is agreed with the ghost build session first.
+3. **The rest in batches as Neon delivers them** (Wave 2, 21 Nov: the rest of the fight; Wave 3: shop actions), each heard by the owner before the next. The shop hook in `src/game/game_controller.gd` is agreed with the ghost build session first.
 
 ## Checks for each step
 

@@ -1,7 +1,6 @@
 class_name RecruitButtons
 extends RefCounted
-## The recruit screen's buttons: the shop's four (gold, upgrade, refresh, freeze), the end-turn
-## portrait in the right light, and the ability buttons on board units. Each is a pointer target;
+## The recruit screen's shop and board ability buttons. Each is a pointer target;
 ## a button whose action the state's legal_actions lacks is drawn dimmed (RecruitScreen.SHORT_DIM).
 ##
 ## A part of its screen: it draws on the screen's layers and adds the buttons to its targets.
@@ -20,87 +19,6 @@ func _init(screen: RecruitScreen) -> void:
 ## right.
 func build_shop_buttons() -> void:
 	RecruitShop.build_buttons(_screen)
-
-
-## The right light's sill: the next opponent's portrait, which ends the turn, under its words.
-func build_end_turn() -> void:
-	var height: float = _screen._stage.size.y
-	var x: float = (
-		1904.0
-		- GlassPieces.number("stage.recruit.end.margin")
-		- GlassPieces.number("stage.recruit.end.port_room")
-		- GlassPieces.number("stage.recruit.end.inset")
-	)
-	var words: GlassText = GlassText.from_rule("stage", ".lbl", "End turn")
-	words.name = "EndTurnWords"
-	words.font_px = GlassPieces.number("stage.recruit.end.label_size")
-	words.colour = GlassPieces.rule_colour("stage", ".endlbl", "color")
-	words.refresh()
-	words.position = Vector2(
-		x - GlassPieces.number("stage.recruit.end.label_left"),
-		height - GlassPieces.number("stage.recruit.end.label_up")
-	)
-	_screen._front.add_child(words)
-	var next: Dictionary = _screen.state.get("next_opponent", {})
-	var side: float = GlassPieces.number("stage.recruit.end.port")
-	var port: GlassBox = GlassParts.make_portrait(str(next.get("portrait", "")), side, [".endturn"])
-	port.name = "EndTurn"
-	port.position = Vector2(x, height - GlassPieces.number("stage.recruit.end.port_up"))
-	_screen._front.add_child(port)
-	var hp: GlassBox = GlassParts.health_badge(GlassPieces.as_int(next.get("health", 0)), [".hp"])
-	hp.position = Vector2(
-		x - GlassPieces.number("stage.recruit.end.hp_left"),
-		height - GlassPieces.number("stage.recruit.end.hp_up")
-	)
-	_screen._front.add_child(hp)
-	if _screen.state.has("next_turn_income"):
-		var income: int = GlassPieces.as_int(_screen.state["next_turn_income"])
-		# A2 in after.js: (1846, 900), relative to the portrait at (1734, 930).
-		var at: Vector2 = port.position + Vector2(112.0, -30.0)
-		var right: float = _screen._stage.size.x
-		var badge: GlassBox = _income_badge(income)
-		badge.position = Vector2(minf(at.x, right - badge.box_size.x), at.y)
-		_screen._front.add_child(badge)
-	_screen._targets.append(
-		{
-			"kind": "button",
-			"index": 0,
-			"id": "end_turn",
-			"node": port,
-			"poly": GlassScreen._circle(port.box_size)
-		}
-	)
-
-
-## A2's .rd.incbadge: a 30 px cream plate, with a 21 px value and a 26 px coin, padded 8 px
-## left and 2 px right (the mock-up's 4 px puts its border past the screen edge at 1846).
-static func _income_badge(income: int) -> GlassBox:
-	var height: float = 30.0
-	var value: GlassText = GlassText.new()
-	value.name = "Value"
-	value.words = "+%d" % income
-	value.family = "display"
-	value.weight = 900
-	value.font_px = 21.0
-	value.colour = GlassPieces.rule_colour("stage", ".chipv", "color")
-	value.refresh()
-	var coin: GoldCoin = GoldCoin.make(-1, 26.0)
-	var badge: GlassBox = GlassBox.new()
-	badge.name = "NextTurnIncome"
-	badge.z_index = 1  # The mock-up draws the badge above the vignette.
-	badge.use_css("stage", ".chipv")
-	badge.border_width = 3.0
-	badge.shadows = [
-		{"x": 0.0, "y": 3.0, "blur": 6.0, "spread": 0.0, "inset": false, "colour": "00000099"}
-	]
-	value.position = Vector2(badge.border_width + 8.0, (height - value.size.y) / 2.0)
-	coin.position = Vector2(value.position.x + value.size.x + 4.0, (height - coin.size.y) / 2.0)
-	badge.box_size = Vector2(coin.position.x + coin.size.x + 2.0 + badge.border_width, height)
-	badge.radii = Vector4.ONE * badge.box_size.y / 2.0
-	badge.refresh()
-	badge.add_child(value)
-	badge.add_child(coin)
-	return badge
 
 
 ## A board unit's ability buttons, on its card (extra's `abilities`), stacked up from

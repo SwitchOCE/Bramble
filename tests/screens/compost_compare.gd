@@ -27,4 +27,6 @@ func _ready() -> void:
 		flow.human().heap(&"thorn_compost").add(def.id, def.tier)
 	recruit.show_state(ViewAdapter.recruit_state(flow))
 	recruit.settle()
-	recruit._open_compost.call_deferred()
+	recruit._open_auras.call_deferred(
+		"thorn_compost", RecruitCounters.counter_area(0).get_center().y
+	)

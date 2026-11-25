@@ -51,6 +51,7 @@ const LINE_COIN_ROOM: String = "000"
 
 ## Grey copies of portraits, by name, for players who are out.
 static var _greys: Dictionary = {}
+static var _type_library: UnitLibrary
 
 
 ## A CSS length in px: a number, "1.4em" of em px, or "50%" of em too (for radii on squares).
@@ -65,6 +66,10 @@ static func em_px(value: Variant, em: float) -> float:
 static func round_poly(box: Vector2) -> PackedVector2Array:
 	var out: PackedVector2Array = PackedVector2Array()
 	var r: float = box.y / 2.0
+	if is_equal_approx(box.x, box.y):
+		for i: int in 24:
+			out.append(box / 2.0 + Vector2.from_angle(TAU * i / 24.0) * r)
+		return out
 	for i: int in 13:
 		out.append(Vector2(box.x - r, r) + Vector2.from_angle(-PI / 2.0 + PI * i / 12.0) * r)
 	for i: int in 13:
@@ -215,8 +220,25 @@ static func health_badge(value: int, rules: Array) -> GlassBox:
 	return box
 
 
-## #tip .txt: the name, "Tier n · unit" or "Spell · costs n", the rules text, wrapped, and any
-## reminder lines (a keyword's or counter's reminder text) under it.
+## Game views and old recordings carry the card ID. Resolve its types in the content library.
+static func unit_types(card: Dictionary) -> String:
+	var types: Variant = card.get("types")
+	if types is PackedStringArray:
+		var packed: PackedStringArray = types
+		return " ".join(packed)
+	if types is Array:
+		var list: Array = types
+		return " ".join(PackedStringArray(list))
+	var id: StringName = StringName(str(card.get("id", "")))
+	if id == &"":
+		return ""
+	if _type_library == null:
+		_type_library = GameContent.load_default().library
+	var definition: UnitDef = _type_library.get_card(id)
+	return " ".join(definition.types) if definition != null else ""
+
+
+## #tip .txt: name, kind (e.g. "Tier n · Badger Knight"), wrapped rules and any reminder lines.
 static func tip_text(
 	card: Dictionary,
 	is_spell: bool,
@@ -248,10 +270,11 @@ static func tip_text(
 	box.add_child(title)
 	y += title.size.y
 	var margins: Array = GlassPieces.rule("stage", "#tip .m", "margin")
+	var types: String = "" if is_spell or card.has("kind_line") else unit_types(card)
 	var kind_words: String = (
 		"Spell · costs %d" % _i(card.get("cost", 0))
 		if is_spell
-		else "Tier %d · unit" % _i(card.get("tier", 1))
+		else "Tier %d · %s" % [_i(card.get("tier", 1)), types if not types.is_empty() else "unit"]
 	)
 	if card.has("price") and not is_spell:
 		kind_words += " · costs %d" % _i(card["price"])
@@ -260,9 +283,15 @@ static func tip_text(
 	if card.has("kind_line"):
 		kind_words = str(card["kind_line"])
 	var kind: GlassText = GlassText.from_rule("stage", "#tip .m", kind_words.to_upper())
+	kind.name = "Kind"
 	kind.font_px = GlassPieces.rule_number("stage", "#tip .m", "font-size")
-	kind.spacing = em_px(GlassPieces.rule("stage", "#tip .m", "letter-spacing"), kind.font_px)
-	kind.refresh()
+	var tracking: Variant = GlassPieces.rule("stage", "#tip .m", "letter-spacing")
+	while true:
+		kind.spacing = em_px(tracking, kind.font_px)
+		kind.refresh()
+		if kind.size.x <= inner_w or kind.font_px <= 1.0:
+			break
+		kind.font_px -= 1.0
 	y += _f(margins[0])
 	kind.position = Vector2(x, y)
 	box.add_child(kind)

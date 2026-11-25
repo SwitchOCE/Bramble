@@ -63,7 +63,7 @@ func build(shown_counters: Array) -> void:
 			str(shown["name"]), value, _emblem(str(counter.get("id", "")))
 		)
 		plate.name = "Chip_%d" % i
-		plate.position = plate_xy(i, _screen._stage.size.y)
+		_screen._layout_counter(plate, i)
 		_screen._front.add_child(plate)
 		_add_target(plate, _tip_card(counter, shown))
 		var key: String = str(counter.get("id", ""))
@@ -141,9 +141,11 @@ static func _tip_card(counter: Dictionary, shown: Dictionary) -> Dictionary:
 func _pop(plate: Control) -> void:
 	if not _screen.is_inside_tree():
 		return
+	var rest: Vector2 = plate.scale
 	plate.pivot_offset = plate.size / 2.0
-	plate.scale = Vector2.ONE * PLATE_POP
-	_screen.create_tween().tween_property(plate, "scale", Vector2.ONE, PLATE_POP_TIME).set_trans(
+	plate.position += plate.pivot_offset * (rest - Vector2.ONE)
+	plate.scale = rest * PLATE_POP
+	_screen.create_tween().tween_property(plate, "scale", rest, PLATE_POP_TIME).set_trans(
 		Tween.TRANS_BACK
 	)
 

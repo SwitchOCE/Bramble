@@ -155,6 +155,70 @@ fn sandbox_keeps_a_created_triples_copies_and_sell_value() {
     assert_eq!(player.borrow().gold, view.me().gold);
 }
 
+#[test]
+fn sandbox_plays_a_full_hand_pick_and_the_waiting_recruit_target() {
+    let content = league::load_content(&root(), None).unwrap();
+    let game = content.borrow().new_session(42, &Array::new());
+    GameSession::start_round(&game);
+    let player = game.borrow().player(0);
+    let cub = content
+        .borrow()
+        .library
+        .borrow()
+        .get_card("brock-cub")
+        .unwrap();
+    for _ in 0..7 {
+        player
+            .borrow()
+            .hand
+            .push(game.borrow_mut().new_unit(&cub, true));
+    }
+    player
+        .borrow()
+        .discover_options
+        .push("master-at-arms".into());
+    let pick = Action::Pick { index: 0 };
+    assert!(!harness::action_dict_for(&game, 0, &pick).has("target"));
+
+    let library = Rc::new(harness::library_of_game(&game));
+    let past = Rc::new(Vec::new());
+    let deadline = Rc::new(Cell::new(i64::MAX / 4));
+    let mut sim = harness::sim(content, library, 1, deadline);
+    harness::sim_begin(&mut sim, &game, &player, &past);
+    let mut sandbox = sim.sandbox().unwrap();
+    assert_eq!(sandbox.legal(), vec![pick.clone()]);
+    assert_eq!(sandbox.act(&pick), "");
+
+    // Build another sandbox once the real pick is waiting, then free a hand place there.
+    assert_eq!(
+        GameSession::act(&game, 0, &harness::action_dict_for(&game, 0, &pick)),
+        ""
+    );
+    let mut sandbox = sim.sandbox().unwrap();
+    assert_eq!(sandbox.act(&Action::SellHand { hand: 0 }), "");
+    assert!(
+        sandbox
+            .legal()
+            .iter()
+            .all(|action| matches!(action, Action::RecruitTarget { .. }))
+    );
+    let target = sandbox.legal().into_iter().next().unwrap();
+    assert_eq!(sandbox.act(&target), "");
+    assert_eq!(player.borrow().waiting_pile.len(), 1);
+
+    assert_eq!(
+        GameSession::act(
+            &game,
+            0,
+            &harness::action_dict(&Action::SellHand { hand: 0 })
+        ),
+        ""
+    );
+    let mut sandbox = sim.sandbox().unwrap();
+    assert!(sandbox.legal().contains(&target));
+    assert_eq!(sandbox.act(&target), "");
+}
+
 fn play(
     name: &str,
     red: &str,

@@ -72,6 +72,12 @@ func _leaderboard_key() -> String:
 	return "stage.fight.leaderboard"
 
 
+func _make_tips() -> GlassTips:
+	var tips: GlassTips = super()
+	tips.fixed_keywords = true
+	return tips
+
+
 func _ensure_stage() -> void:
 	super()
 	if not _keeper is FightMotion:
@@ -147,7 +153,7 @@ func _next_step() -> void:
 	_keeper.speed = maxf(speed, 0.01)
 	var view: Dictionary = step["state"]
 	show_state(view)
-	Sound.fight_step(step)
+	Sound.fight_step(step, _replay.steps[_step - 1] if _step > 0 else {})
 	_wait = _f(step["hold"])
 	if _step == _replay.steps.size() - 1:
 		# the result: no dead unit still fading over its slot

@@ -9,6 +9,10 @@ use bramble_engine::core::{
         game_session::{GameSession, GameSessionRef},
         matchmaking::Matchmaking,
     },
+    units::{
+        shop_odds::{ShopOdds, ShopOddsRef},
+        unit_def::UnitDefRef,
+    },
     util::rng::Rng,
 };
 use bramble_engine::game::game_content::GameContentRef;
@@ -152,12 +156,51 @@ pub(crate) fn play_async(
     plan: GamePlan,
     watch: &Watch,
     runs: RunsBySeat,
+    without: &[String],
 ) -> Result<GameOut, String> {
     let game = engine
         .content
         .borrow()
         .new_async_session(plan.seed, runs, &Array::new())?;
+    if !without.is_empty() {
+        leave_out(&game, without);
+    }
     Ok(play_session(engine, plan, watch, game))
+}
+
+/// Tool-only (`ghost-match --without`): rebuild the session's unit draw list without these cards,
+/// the way `GameSession::create` builds it, before the first round fills a shop. The shop and
+/// Discover both draw from `unit_odds`, so the live seat is never offered them. Run seats never
+/// recruit; their boards are restored from the recorded runs through the unchanged library.
+/// The engine's rules code is untouched. `unit_odds` is left out of the state hash, so a record
+/// of such a game would not say what was left out: `ghost-match --without` writes no records.
+pub(crate) fn leave_out(game: &GameSessionRef, without: &[String]) {
+    let odds = unit_odds_without(game, without);
+    game.borrow_mut().unit_odds = Some(odds);
+}
+
+/// The unit draw list `GameSession::create` builds for a session with no lobby tribes, less
+/// `without`. With `without` empty it equals the session's own list (checked before a match).
+pub(crate) fn unit_odds_without(game: &GameSessionRef, without: &[String]) -> ShopOddsRef {
+    let g = game.borrow();
+    let cards: Array<UnitDefRef> = g
+        .library
+        .as_ref()
+        .expect("session library")
+        .borrow()
+        .drawable_cards(false)
+        .to_vec()
+        .into_iter()
+        .filter(|card| !without.contains(&card.borrow().id))
+        .collect();
+    let weights = g
+        .config
+        .as_ref()
+        .expect("session config")
+        .borrow()
+        .unit_weights_by_tier
+        .clone();
+    ShopOdds::create(&cards, &weights, &Array::new())
 }
 
 fn play_session(engine: &Engine, plan: GamePlan, watch: &Watch, game: GameSessionRef) -> GameOut {
@@ -580,11 +623,13 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
                         if card.is_empty() {
                             continue;
                         }
-                        let buyable = view.legal().iter().any(|a| {
-                            *a == Action::Buy {
-                                spell,
-                                index: i as i64,
-                            }
+                        let buyable = view.legal().iter().any(|action| match *action {
+                            Action::Buy { spell: row, index }
+                            | Action::BuyTarget {
+                                spell: row, index, ..
+                            } => row == spell && index == i as i64,
+                            Action::BuyBoard { index, .. } => !spell && index == i as i64,
+                            _ => false,
                         });
                         offers.push(
                             json!({"card": card, "spell": spell, "index": i, "buyable": buyable}),
@@ -620,7 +665,7 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
         let typed = view.legal()[index].clone();
         // The same engine enumeration emitted these fields directly. Only the chosen
         // action needs a Godot dictionary (for act and the record), in its original order.
-        let action = harness::action_dict(&typed);
+        let action = harness::action_dict_for(&game, id, &typed);
         let result = timed(2, || GameSession::act(&game, id, &action));
         let me = view.me();
         if ctx.log_decisions {
@@ -657,18 +702,18 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
             }));
         }
         if result.is_empty()
-            && let (
-                Action::Buy { spell, index } | Action::BuyTarget { spell, index, .. },
-                Some(shop),
-            ) = (&typed, seat.shop.as_mut())
+            && typed.kind() == "buy"
+            && let Some(shop) = seat.shop.as_mut()
         {
-            let row = if *spell {
+            let spell = matches!(action.get("spell"), Variant::Bool(true));
+            let index = action.get("index").as_i64();
+            let row = if spell {
                 &mut shop.expect_spells
             } else {
                 &mut shop.expect_units
             };
-            let card = row[*index as usize].clone();
-            row[*index as usize] = String::new();
+            let card = row[index as usize].clone();
+            row[index as usize] = String::new();
             shop.value["bought"]
                 .as_array_mut()
                 .expect("bought list")
@@ -711,23 +756,36 @@ fn legal_entry(action: &Action, me: &league_api::Me) -> Value {
             json!({"type": "pick", "index": index, "target": target, "card": at(&me.discover_options, *index)})
         }
         Action::RecruitTarget { target } => json!({"type": "recruit_target", "target": target}),
-        Action::Buy { spell, index } | Action::BuyTarget { spell, index, .. } => {
-            let (row, prices) = if *spell {
+        Action::Buy { .. } | Action::BuyTarget { .. } | Action::BuyBoard { .. } => {
+            let (spell, index, target, slot) = match *action {
+                Action::Buy { spell, index } => (spell, index, -1, None),
+                Action::BuyTarget {
+                    spell,
+                    index,
+                    target,
+                } => (spell, index, target, None),
+                Action::BuyBoard {
+                    index,
+                    slot,
+                    target,
+                } => (false, index, target, Some(slot)),
+                _ => unreachable!(),
+            };
+            let (row, prices) = if spell {
                 (&me.shop_spells, &me.spell_prices)
             } else {
                 (&me.shop_units, &me.unit_prices)
             };
-            let price = usize::try_from(*index)
+            let price = usize::try_from(index)
                 .ok()
                 .and_then(|i| prices.get(i))
                 .copied();
-            let target = if let Action::BuyTarget { target, .. } = action {
-                *target
-            } else {
-                -1
-            };
-            json!({"type": "buy", "spell": spell, "index": index, "target": target,
-                   "card": at(row, *index), "price": price})
+            let mut entry = json!({"type": "buy", "spell": spell, "index": index, "target": target,
+                   "card": at(row, index), "price": price});
+            if let Some(slot) = slot {
+                entry["slot"] = json!(slot);
+            }
+            entry
         }
         Action::Sell { slot } => {
             let card = usize::try_from(*slot)
@@ -748,6 +806,12 @@ fn legal_entry(action: &Action, me: &league_api::Me) -> Value {
                 .ok()
                 .and_then(|i| unit(me.hand.get(i)));
             json!({"type": "play", "hand": hand, "slot": slot, "target": target, "card": card})
+        }
+        Action::Swap { hand, slot } => {
+            let card = usize::try_from(*hand)
+                .ok()
+                .and_then(|i| unit(me.hand.get(i)));
+            json!({"type": "play", "hand": hand, "slot": slot, "target": -1, "swap": true, "card": card})
         }
         Action::Ability {
             uid,
@@ -792,6 +856,7 @@ fn fight_round(
         FightLog {
             kills,
             summons,
+            joined,
             renown,
         },
     ) in fights.borrow().iter().zip(stats)
@@ -812,7 +877,7 @@ fn fight_round(
         lines.push(json!({
             "a": a, "b": b, "winner": winner, "loser": fight.get("loser").as_i64(),
             "damage": fight.get("damage").as_i64(), "result": result_json,
-            "kills": kills, "summons": summons, "renown": renown,
+            "kills": kills, "summons": summons, "joined": joined, "renown": renown,
             "ghost_of": (b == Matchmaking::GHOST && ghost_of >= 0).then_some(ghost_of),
         }));
     }
@@ -830,6 +895,7 @@ fn fight_round(
 struct FightLog {
     kills: Value,
     summons: Value,
+    joined: Value,
     renown: Vec<Value>,
 }
 
@@ -864,6 +930,7 @@ fn combat_log(events: &Array<Dictionary>) -> FightLog {
     let mut starters = [Vec::new(), Vec::new()];
     let mut arrivals = Vec::new();
     let mut returns = BTreeMap::new();
+    let mut returned = Vec::new();
     let events = events.borrow();
     for event in events.iter() {
         let kind = event.get("type").as_text();
@@ -887,6 +954,7 @@ fn combat_log(events: &Array<Dictionary>) -> FightLog {
             "return" => {
                 let id = event.get("uid").as_i64();
                 returns.insert(id, event.get("from_uid").as_i64());
+                returned.push((id, event.get("mechanic").as_text()));
                 units.insert(id, FightLogUnit::from_event(event));
             }
             _ => {}
@@ -919,12 +987,23 @@ fn combat_log(events: &Array<Dictionary>) -> FightLog {
     });
     let mut arrival_kills = [BTreeMap::new(), BTreeMap::new()];
     let mut summons = [BTreeMap::new(), BTreeMap::new()];
+    // Every body that joins after the fight starts, by kind and by what brought it.
+    let mut joined = [BTreeMap::new(), BTreeMap::new()];
+    for (id, mechanic) in returned {
+        let unit = &units[&id];
+        *joined[unit.side]
+            .entry(("return".to_string(), Some(mechanic), &unit.card))
+            .or_insert(0) += 1;
+    }
     for (id, origin, source_uid) in arrivals {
         let unit = &units[&id];
+        let caller = units.get(&source_uid).map(|u| u.card.as_str());
+        *joined[unit.side]
+            .entry((origin.clone(), caller.map(str::to_string), &unit.card))
+            .or_insert(0) += 1;
         let source = if origin == "summon" {
-            let source = units.get(&source_uid).map(|u| u.card.as_str());
-            *summons[unit.side].entry((source, &unit.card)).or_insert(0) += 1;
-            source
+            *summons[unit.side].entry((caller, &unit.card)).or_insert(0) += 1;
+            caller
         } else {
             None
         };
@@ -943,9 +1022,16 @@ fn combat_log(events: &Array<Dictionary>) -> FightLog {
             .map(|((source, card), count)| json!({"source": source, "card": card, "count": count}))
             .collect::<Vec<_>>()
     });
+    let joined = joined.map(|groups| {
+        groups
+            .into_iter()
+            .map(|((kind, source, card), count)| json!({"kind": kind, "source": source, "card": card, "count": count}))
+            .collect::<Vec<_>>()
+    });
     FightLog {
         kills: json!(kills),
         summons: json!(summons),
+        joined: json!(joined),
         renown: renown_events(&events),
     }
 }
@@ -1096,6 +1182,9 @@ mod tests {
     use bramble_engine::core::state::fight_report::FightReport;
     use std::cell::RefCell;
 
+    // GDScript's seed-1001 prefix through turn two, from tests/core/test_async_session.gd.
+    const LIVE_REFERENCE: &str = "4b2b45f86988d2202b709419f58f0c9135df8c4d09e0c6edaba61b24d140b59f";
+
     #[test]
     fn eight_live_seats_match_the_format_three_reference() {
         use bramble_engine::core::records::record_replay::RecordReplay;
@@ -1147,10 +1236,7 @@ mod tests {
             header.erase(key);
         }
         let canonical = godot_json::stringify(&RecordState::value(&entries.to_state()));
-        assert_eq!(
-            format!("{:x}", Sha256::digest(canonical)),
-            "93ba8d730b9f10fbc3bfb782212e4ad928acaf4946e1627972ddb72276d44d2c"
-        );
+        assert_eq!(format!("{:x}", Sha256::digest(canonical)), LIVE_REFERENCE);
     }
 
     #[test]
@@ -1210,6 +1296,56 @@ mod tests {
             log["fights"][0]["summons"],
             json!([[], [{"source": "crab-apple", "card": "pip", "count": 1}]])
         );
+        assert_eq!(
+            log["fights"][0]["joined"],
+            json!([[], [{"kind": "summon", "source": "crab-apple", "card": "pip", "count": 1}]])
+        );
+    }
+
+    #[test]
+    fn fight_log_counts_every_body_that_joins_by_kind() {
+        let event = |kind: &str, uid: i64, card: &str, extra: &[(&str, Variant)]| {
+            let event = Dictionary::new();
+            for (key, value) in [
+                ("type", kind.into()),
+                ("uid", uid.into()),
+                ("id", card.into()),
+                ("side", 0i64.into()),
+            ] {
+                event.insert(key, value);
+            }
+            for (key, value) in extra {
+                event.insert(*key, value.clone());
+            }
+            event
+        };
+        let molt = |uid, from: i64| {
+            event(
+                "return",
+                uid,
+                "adder",
+                &[("from_uid", from.into()), ("mechanic", "molt".into())],
+            )
+        };
+        let events = Array::from(vec![
+            event("summon", 10, "pip", &[("source_uid", 99i64.into())]),
+            event("reserve", 11, "sentry", &[("source_uid", 10i64.into())]),
+            molt(12, 11),
+            molt(13, 12),
+        ]);
+        let log = combat_log(&events);
+        assert_eq!(
+            log.joined,
+            json!([[
+                {"kind": "reserve", "source": "pip", "card": "sentry", "count": 1},
+                {"kind": "return", "source": "molt", "card": "adder", "count": 2},
+                {"kind": "summon", "source": null, "card": "pip", "count": 1},
+            ], []])
+        );
+        assert_eq!(
+            log.summons,
+            json!([[{"source": null, "card": "pip", "count": 1}], []])
+        );
     }
 
     #[test]
@@ -1257,5 +1393,53 @@ mod tests {
             6,
             "Relic Seeker pays two plus one for each of four excess opponents"
         );
+    }
+
+    #[test]
+    fn a_left_out_card_is_never_in_the_shop_or_discover_and_the_rest_keep_their_weights() {
+        use bramble_engine::core::recruit::recruit::Recruit;
+        let content = crate::load_content(&crate::default_root(), None).unwrap();
+        let game = content.borrow().new_session(7, &Array::new());
+        game.borrow_mut().record_recipe.clear();
+        let all = game.borrow().unit_odds.clone().unwrap();
+        // With nothing left out the rebuilt list is the session's own.
+        assert_eq!(unit_odds_without(&game, &[]).to_state(), all.to_state());
+        let gone = ["green-recruit".to_owned(), "gate-warden".to_owned()];
+        assert!(gone.iter().all(|id| all.weight_of(id) > 0));
+        leave_out(&game, &gone);
+        let left = game.borrow().unit_odds.clone().unwrap();
+        let library = game.borrow().library.clone().unwrap();
+        for card in library.borrow().drawable_cards(false).to_vec() {
+            let id = card.borrow().id.clone();
+            let want = if gone.contains(&id) {
+                0
+            } else {
+                all.weight_of(&id)
+            };
+            assert_eq!(left.weight_of(&id), want, "{id}");
+        }
+        GameSession::start_round(&game);
+        let player = game.borrow().player(0);
+        let recruit = game.borrow().recruit.as_ref().unwrap().clone();
+        player.borrow_mut().tier = 3;
+        let refresh = Dictionary::new();
+        refresh.insert("type", "refresh".into());
+        let (mut shown, mut offered) = (0, 0);
+        for _ in 0..300 {
+            player.borrow_mut().gold = 1000;
+            assert_eq!(GameSession::act(&game, 0, &refresh), "");
+            for id in player.borrow().shop_units.to_vec() {
+                assert!(!gone.contains(&id), "shop offered {id}");
+                shown += 1;
+            }
+            // Green Recruit is tier 1, Gate Warden tier 3.
+            Recruit::offer_discover(&recruit, &player, 1, 3);
+            for id in player.borrow().discover_options.to_vec() {
+                assert!(!gone.contains(&id), "Discover offered {id}");
+                offered += 1;
+            }
+            player.borrow_mut().discover_options = Array::new();
+        }
+        assert!(shown > 500 && offered > 500, "{shown} {offered}");
     }
 }
