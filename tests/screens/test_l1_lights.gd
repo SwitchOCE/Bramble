@@ -67,6 +67,22 @@ func test_tier_strength_follows_the_owner_scale() -> void:
 	assert_lt(a[5], a[4], "and weaker than tier 5")
 
 
+func test_tier_order_holds_at_every_moment_of_the_breath() -> void:
+	# weakest to strongest, the owner's order: tier 6 between 4 and 5
+	var order: Array[int] = [1, 2, 3, 4, 6, 5]
+	for i: int in order.size():
+		for j: int in range(i + 1, order.size()):
+			var weak: int = order[i]
+			var strong: int = order[j]
+			var weak_high: float = _a(weak) * (1.0 + L1Layout.shop_breath(weak))
+			var strong_low: float = _a(strong) * (1.0 - L1Layout.shop_breath(strong))
+			assert_gt(
+				strong_low,
+				weak_high,
+				"tier %d at its dimmest is above tier %d at its brightest" % [strong, weak]
+			)
+
+
 func test_each_shop_arch_is_lit_in_its_tier_colour_and_strength() -> void:
 	_make(_shop_state([1, 2, 3, 6, 5]))
 	for i: int in 5:
@@ -175,9 +191,10 @@ func test_only_lit_lanterns_and_beads_give_light() -> void:
 		if child is L1Light:
 			lit += 1
 	assert_eq(lit, 4, "one light for each refresh left")
-	assert_eq(
-		(_find("LanternLight_0") as L1Light).colour, L1Layout.colour("light.lantern.light_colour")
-	)
+	var lantern: L1Light = _find("LanternLight_0")
+	assert_eq(lantern.colour, L1Layout.colour("light.lantern.light_colour"))
+	var motion: Vector4 = (lantern.material as ShaderMaterial).get_shader_parameter("motion")
+	assert_eq(motion.w, 0.0, "lanterns hold steady: no flicker by default")
 
 
 func test_a_golden_unit_has_its_halo_rims_and_glint_and_a_plain_one_none() -> void:
@@ -269,3 +286,39 @@ func test_end_turn_glows_only_when_nothing_is_left_to_do_and_flashes_when_presse
 	await get_tree().process_frame
 	await get_tree().process_frame
 	assert_gt(light.boost(), 0.0, "the swords flash as the fight starts")
+
+
+func test_end_turn_flashes_only_when_the_end_is_asked_for() -> void:
+	var state: Dictionary = _mockup()
+	state["legal_actions"] = [{"type": "end_turn"}]
+	_make(state)
+	watch_signals(_screen)
+	var light: L1Light = _find("EndTurnLight")
+	var button: Vector2 = L1Layout.rect("right.end_turn").get_center()
+	_press(button, true)
+	assert_eq(light.boost(), 0.0, "no flash on the press itself")
+	_move(Vector2(960, 600))
+	_press(Vector2(960, 600), false)
+	assert_signal_not_emitted(_screen, "action_requested", "dragged off: no end of turn")
+	await get_tree().process_frame
+	assert_eq(light.boost(), 0.0, "and no flash")
+	_press(button, true)
+	_press(button, false)
+	assert_signal_emitted(_screen, "action_requested")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	assert_gt(light.boost(), 0.0, "a click that ends the turn flashes")
+
+
+func _press(at: Vector2, down: bool) -> void:
+	var event: InputEventMouseButton = InputEventMouseButton.new()
+	event.button_index = MOUSE_BUTTON_LEFT
+	event.pressed = down
+	event.position = at + (_screen.get_node("Frame") as Control).position
+	_screen._gui_input(event)
+
+
+func _move(at: Vector2) -> void:
+	var event: InputEventMouseMotion = InputEventMouseMotion.new()
+	event.position = at + (_screen.get_node("Frame") as Control).position
+	_screen._gui_input(event)

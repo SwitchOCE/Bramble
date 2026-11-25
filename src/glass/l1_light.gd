@@ -87,7 +87,8 @@ func set_boost(value: float) -> void:
 
 
 func boost() -> float:
-	return GlassPieces.as_float(_mat.get_shader_parameter("boost"))
+	var value: Variant = _mat.get_shader_parameter("boost")
+	return 0.0 if value == null else GlassPieces.as_float(value)
 
 
 ## The glow's opacity at the shape's edge before any breath: what a test can read.
