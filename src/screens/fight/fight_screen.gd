@@ -1,3 +1,4 @@
+# gdlint: disable=max-file-lines
 class_name FightScreen
 extends GlassScreen
 ## The fight screen in lead and stained glass, rebuilt from fight.html: the shared window, hero,
@@ -26,7 +27,11 @@ extends GlassScreen
 ## (where it stands plus its offset, scale, turn and light), the damage bursts, glows and stat
 ## gains (FightGains) are drawn, and the sound cues play (SoundCues.for_fight_cue). Late in a fight
 ## the clock runs faster (FightTimeline.advance, FAST). The keeper still draws the boards, the
-## numbers, the deaths (FightMotion's fall) and the result. Shown on its own, a moment's lunge,
+## numbers, the deaths (FightMotion's fall) and the result. A unit dying on its own goes dark and
+## sinks from the schedule (CB13 c, FightTimeline.death_pose), the number that killed it held on
+## through it. After the result the winner's portrait strikes the loser's and the loser's Health
+## counts down (CB12 b, FightTimeline.hero_strike, on its own game clock past the fight's end); Skip
+## lands it at once. Shown on its own, a moment's lunge,
 ## splashes and trigger are drawn at rest, and a change of moment moves with FightMotion. Red
 ## Health and the result banner retain the glass mock-up's drawing.
 
@@ -36,6 +41,9 @@ signal playback_finished
 signal result_shown
 ## The player clicked the Skip button.
 signal skip_requested
+## The loser's Health has landed (the portrait strike's count ended, or a skip): the round's
+## Health may show everywhere now.
+signal health_counted
 
 const FIGHT_READY_LINE: String = "fight_screen: ready"
 ## How long the attacker takes to lunge, in seconds at speed 1.
@@ -53,6 +61,12 @@ const BURST_POP_F: int = 3
 const BURST_SETTLE_F: int = 5
 const BURST_READ_F: int = 20
 const BURST_FADE_F: int = 8
+
+## The portrait strike over the board and the banner, the Health badge and the "-N" above the
+## striker, so it never hides them (E6).
+const STRIKE_PORTRAIT_Z: int = 20
+const STRIKE_BADGE_Z: int = 21
+const STRIKE_BURST_Z: int = 22
 
 ## Playback speed: 2 plays twice as fast.
 @export var speed: float = 1.0
@@ -86,6 +100,11 @@ var _shown_splashes: Array = []
 var _attack_start: bool = false
 var _impact_start: bool = false
 var _recoiled: bool = false
+## CB12 b: game frames since the result showed (-1 before), and where the strike is: "" none,
+## "playing", "skipped" (landed at once) or "over".
+var _strike_age: float = -1.0
+var _strike_mode: String = ""
+var _health_landed: bool = false
 
 
 func _geom() -> Dictionary:
@@ -113,6 +132,9 @@ func _ensure_stage() -> void:
 
 
 func _on_new_state() -> void:
+	var shown_moment: Dictionary = state.get("moment", {})
+	if not shown_moment.has("result") and _strike_mode != "":
+		_end_strike()
 	var lunge: Dictionary = _lunge()
 	_attack_start = not lunge.is_empty() and lunge != _shown_lunge
 	if lunge != _shown_lunge or lunge.is_empty():
@@ -154,6 +176,8 @@ func play(replay: FightReplay) -> void:
 	_burst_due = 0
 	_cue_due = 0
 	_glow_on.clear()
+	_end_strike()
+	(_keeper as FightMotion).drawn_deaths = _schedule.single_deaths
 	_running = true
 	_show_due()
 	_pose_all()
@@ -170,9 +194,14 @@ static func schedule(replay: FightReplay) -> void:
 	probe.free()
 
 
-## Jumps to the end of the fight being played: the result shows at once, every card at rest.
-## Once there, a second skip does nothing: the result keeps its hold and then finishes.
+## Jumps to the end of the fight being played: the result shows at once, every card at rest,
+## and the loser's Health lands with no strike (its "-N" on their portrait). Once there, a second
+## skip does nothing: the result keeps its hold and then finishes. During the portrait strike it
+## lands the strike at once.
 func skip() -> void:
+	if _strike_mode == "playing" and (not _running or _step_due >= _schedule.steps.size()):
+		_settle_strike()
+		return
 	if not _running or _step_due >= _schedule.steps.size():
 		return
 	var last: int = _schedule.steps.size() - 1
@@ -189,30 +218,44 @@ func skip() -> void:
 	_pose_all()
 	_glow_cards()
 	_play_cues()
+	_settle_strike()
 
 
 func is_playing() -> bool:
 	return _running
 
 
+## Whether the loser's Health has landed: no strike, or its count ended (or was skipped).
+func health_landed() -> bool:
+	return _health_landed or _schedule == null or _schedule.hero_strike == null
+
+
 func _process(delta: float) -> void:
 	super(delta)
-	if not _running:
-		return
 	# game time, not drawn frames: the same fight at any frame rate; FAST moves the schedule
 	# faster late in the fight (FightTimeline.advance)
 	var frames: float = delta * 60.0 * speed
 	if absf(frames - roundf(frames)) < 1e-6:
 		frames = roundf(frames)
+	if not _running:
+		# the strike plays on past the fight's end, on its own game clock
+		if _strike_mode == "playing":
+			_strike_age += frames
+			_draw_strike()
+		return
 	_clock = _schedule.advance(_clock, frames)
 	_schedule.clock_step = maxf(1.0, frames * _schedule.speed_at(_clock))
 	_show_due()
 	_pose_all()
+	_draw_deaths()
 	_show_bursts()
 	_age_bursts()
 	_glow_cards()
 	_gain_pieces().draw(_schedule, _clock)
 	_play_cues()
+	if _strike_mode == "playing":
+		_strike_age = _clock - _schedule.result_frame
+	_draw_strike()
 
 
 ## Shows every step whose frame has come; the last is the result, which then holds to the end.
@@ -229,6 +272,7 @@ func _show_due() -> void:
 		if _step_due == plan.size():
 			# the result: no dead unit still fading over its slot
 			settle()
+			_start_strike()
 			result_shown.emit()
 	if _running and _step_due >= plan.size() and _clock >= _schedule.end_frame:
 		_running = false
@@ -320,6 +364,7 @@ func _show_bursts() -> void:
 					"offset": offset,
 					"from": _clock,
 					"merge": merge,
+					"hold": _f(burst.get("hold", -1.0)),
 				}
 			)
 		)
@@ -359,6 +404,10 @@ func _age_bursts() -> void:
 	for live: Dictionary in _bursts_on:
 		var hit: Control = live["node"]
 		var age: float = _clock - _f(live["from"])
+		if _f(live.get("hold", -1.0)) >= 0.0:
+			if _age_held(live, age):
+				still.append(live)
+			continue
 		if age >= life or not is_instance_valid(hit):
 			if is_instance_valid(hit):
 				hit.queue_free()
@@ -385,6 +434,55 @@ func _age_bursts() -> void:
 		hit.modulate.a = 1.0 - fade
 		still.append(live)
 	_bursts_on = still
+
+
+## CB13 c: the number that killed a unit dying on its own pops as any burst does, follows its
+## card until the card leaves the board (D), then stands still, full to D+18 and fading over 8 f.
+## False once it is gone.
+func _age_held(live: Dictionary, age: float) -> bool:
+	var hit: Control = live["node"]
+	var alpha: float = FightTimeline.kill_number_alpha(_clock - _f(live["hold"]))
+	if alpha <= 0.0 or not is_instance_valid(hit):
+		if is_instance_valid(hit):
+			hit.queue_free()
+		return false
+	var swell: float = 1.0
+	if age < BURST_POP_F:
+		swell = lerpf(FightMotion.BURST_START, FightMotion.BURST_SCALE, float(age) / BURST_POP_F)
+	elif age < BURST_POP_F + BURST_SETTLE_F:
+		swell = lerpf(FightMotion.BURST_SCALE, 1.0, float(age - BURST_POP_F) / BURST_SETTLE_F)
+	var recipient: Control = _kept_node(str(live["key"]))
+	if recipient != null:
+		var offset: Vector2 = live["offset"]
+		hit.position = recipient.position + offset
+	hit.scale = Vector2.ONE * swell
+	hit.modulate.a = alpha
+	return true
+
+
+## CB13 c: each unit dying on its own, `age` frames of the schedule after it left the board: dark,
+## held, sinking along its death direction; let go once it is gone.
+func _draw_deaths() -> void:
+	var motion: FightMotion = _keeper as FightMotion
+	for key: Variant in motion.dying.keys():
+		var held: Dictionary = motion.dying[key]
+		var node: Variant = held["node"]
+		if not is_instance_valid(node):
+			motion.dying.erase(key)
+			continue
+		var card: Control = node
+		var age: float = _clock - _f(_schedule.single_deaths.get(key, _clock))
+		var look: Dictionary = FightTimeline.death_pose(age)
+		if look.is_empty():
+			motion.let_go(str(key))
+			continue
+		var base: Vector2 = held["base"]
+		var direction: Vector2 = card.get_meta("death_direction", Vector2.DOWN)
+		card.position = base + direction * FightTimeline.DEATH_SINK_PX * _f(look["sink"])
+		if _f(look["scale"]) >= 0.0:
+			card.scale = Vector2.ONE * _f(look["scale"])
+		var light: float = _f(look["light"])
+		card.modulate = Color(light, light, light, _f(look["alpha"]))
 
 
 func _drop_bursts() -> void:
@@ -462,6 +560,185 @@ func _layout() -> void:
 		_front.add_child(node)
 	for node: Node in pieces:
 		_front.add_child(node)
+	# a redraw mid-strike (Tab, the round's Health) keeps the strike where it is
+	_draw_strike()
+
+
+# ---- CB12 b: the portrait strike after the result ----
+
+
+## The result has shown: the strike starts, from the loser's old Health.
+func _start_strike() -> void:
+	_end_strike()
+	if _schedule.hero_strike == null:
+		return
+	_strike_age = maxf(0.0, _clock - _schedule.result_frame)
+	_strike_mode = "playing"
+	var strike: FightStrike = _schedule.hero_strike
+	var striker: Control = _strike_node(false)
+	var loser: Control = _strike_node(true)
+	if striker == null or loser == null:
+		return
+	strike.place(
+		_home_of(striker) + striker.size / 2.0,
+		_home_of(loser) + loser.size / 2.0,
+		striker.size.x / 2.0,
+		loser.size.x / 2.0,
+		Vector2(960.0, (_f(_g["T0"]) + _f(_g["T1"])) / 2.0)
+	)
+	_draw_strike()
+
+
+## No strike: a new fight, or a state with no result.
+func _end_strike() -> void:
+	_strike_age = -1.0
+	_strike_mode = ""
+	_health_landed = false
+	if _stage != null:
+		_stage.position = Vector2.ZERO
+
+
+## Skip: the strike lands at once, every portrait at rest, the loss on the loser's Health and its
+## "-N" on their portrait, still.
+func _settle_strike() -> void:
+	if _strike_mode != "playing":
+		return
+	_strike_mode = "skipped"
+	var strike: FightStrike = _schedule.hero_strike
+	_draw_strike_pose(strike.pose(float(strike.end())))
+	_draw_strike_burst({"shown": true, "scale": 1.0, "alpha": 1.0, "amount": strike.total})
+	_land_health()
+
+
+## The loss is on the loser's Health: the state shown says so too, and the round may show it.
+func _land_health() -> void:
+	if _health_landed:
+		return
+	_health_landed = true
+	var landed: Dictionary = _schedule.hero_strike.landed
+	var view: Dictionary = state.duplicate(true)
+	view["health"] = landed.get("health", view.get("health", 0))
+	var opponent: Dictionary = view.get("opponent", {})
+	opponent["health"] = landed.get("opponent_health", opponent.get("health", 0))
+	view["players"] = landed.get("players", view.get("players", []))
+	state = view
+	health_counted.emit()
+
+
+## The strike at its age; its last frame once more as it ends.
+func _draw_strike() -> void:
+	if _strike_mode == "skipped" and _schedule != null and _schedule.hero_strike != null:
+		_draw_strike_pose(_schedule.hero_strike.pose(float(_schedule.hero_strike.end())))
+		return
+	if _strike_mode != "playing":
+		return
+	var strike: FightStrike = _schedule.hero_strike
+	var f: float = minf(_strike_age, float(strike.end()))
+	var pose: Dictionary = strike.pose(f)
+	_draw_strike_pose(pose)
+	var burst: Dictionary = pose["burst"]
+	_draw_strike_burst(burst)
+	if f >= strike.count_end():
+		_land_health()
+	if f >= strike.end():
+		_strike_mode = "over"
+		var striker: Control = _strike_node(false)
+		if striker != null:
+			striker.z_index = 0
+
+
+func _draw_strike_pose(pose: Dictionary) -> void:
+	var striker: Control = _strike_node(false)
+	var loser: Control = _strike_node(true)
+	if striker == null or loser == null:
+		return
+	var moved: Dictionary = pose["striker"]
+	var light: float = _f(moved["light"])
+	var offset: Vector2 = moved["offset"]
+	striker.pivot_offset = striker.size / 2.0
+	striker.position = _home_of(striker) + offset
+	var grown: float = _f(moved["scale"])
+	striker.scale = Vector2(grown, grown)
+	striker.rotation_degrees = _f(moved["turn"])
+	striker.modulate = Color(light, light, light)
+	striker.z_index = STRIKE_PORTRAIT_Z
+	var hit: Dictionary = pose["loser"]
+	var knocked: Vector2 = hit["offset"]
+	loser.position = _home_of(loser) + knocked
+	loser.modulate = hit["light"]
+	_stage.position = pose["stage"]
+	_draw_strike_badge(_i(pose["health"]), _f(pose["badge"]))
+
+
+## The loser's Health badge showing `health`, swollen `swell` times.
+func _draw_strike_badge(health: int, swell: float) -> void:
+	var badge_name: String = (
+		"HeroHealth" if _schedule.hero_strike.loser_is_you else "OpponentHealth"
+	)
+	var badge: Control = _front.get_node_or_null(badge_name)
+	if badge == null:
+		return
+	if _badge_number(badge) != health:
+		var fresh: GlassBox = GlassParts.health_badge(health, [".hp"])
+		fresh.position = badge.position
+		# out first, so the new badge takes its name
+		_front.remove_child(badge)
+		badge.queue_free()
+		fresh.name = badge_name
+		_front.add_child(fresh)
+		badge = fresh
+	badge.z_index = STRIKE_BADGE_Z
+	badge.pivot_offset = badge.size / 2.0
+	badge.scale = Vector2.ONE * swell
+
+
+## The "-N" on the loser's portrait (ResultHit), as the strike shows it.
+func _draw_strike_burst(burst: Dictionary) -> void:
+	var node: Control = _front.get_node_or_null("ResultHit")
+	var amount: int = _i(burst["amount"])
+	if not _b(burst["shown"]):
+		if node != null:
+			_front.remove_child(node)
+			node.queue_free()
+		return
+	if node != null and _i(node.get_meta("amount", -1)) != amount:
+		_front.remove_child(node)
+		node.queue_free()
+		node = null
+	if node == null:
+		var r: float = GlassPieces.number("stage.fight.hit.dealt_r")
+		node = hit_splash(amount, r)
+		node.name = "ResultHit"
+		node.set_meta("amount", amount)
+		var loser: Control = _strike_node(true)
+		node.position = _home_of(loser) + loser.size / 2.0 - Vector2(r, r)
+		node.z_index = STRIKE_BURST_Z
+		_front.add_child(node)
+	node.pivot_offset = node.size / 2.0
+	node.scale = Vector2.ONE * _f(burst["scale"])
+	node.modulate.a = _f(burst["alpha"])
+
+
+## The winner's portrait (loser false) or the loser's, as drawn now.
+func _strike_node(loser: bool) -> Control:
+	var you_lost: bool = _schedule.hero_strike.loser_is_you
+	var hero: bool = you_lost == loser
+	return _front.get_node_or_null("Hero" if hero else "Opponent") as Control
+
+
+## Where a portrait stands: where it was built (its first position, kept as it moves).
+static func _home_of(node: Control) -> Vector2:
+	if not node.has_meta("strike_home"):
+		node.set_meta("strike_home", node.position)
+	return node.get_meta("strike_home")
+
+
+## The number drawn on a Health badge (its text), or -1.
+static func _badge_number(badge: Node) -> int:
+	for child: Node in badge.get_children():
+		if child is GlassText:
+			return (child as GlassText).words.to_int()
+	return -1
 
 
 # ---- building ----
@@ -823,7 +1100,8 @@ func _reminders(card: Dictionary) -> PackedStringArray:
 	return lines
 
 
-## STAND-IN: the result over the transom, and the loser's damage as a splash on their portrait.
+## STAND-IN: the result over the transom, and the loser's damage as a splash on their portrait
+## (shown on its own, or after a skip; while the portrait strike plays, it draws the "-N").
 func _build_result() -> void:
 	var moment: Dictionary = state.get("moment", {})
 	if not moment.has("result"):
@@ -843,11 +1121,13 @@ func _build_result() -> void:
 	)
 	_front.add_child(banner)
 	var damage: int = _i(result.get("damage", 0))
-	if winner < 0 or damage <= 0:
+	if winner < 0 or damage <= 0 or _strike_mode in ["playing", "over"]:
+		# the portrait strike draws its own "-N" (_draw_strike_burst)
 		return
 	var r: float = GlassPieces.number("stage.fight.hit.dealt_r")
 	var hit: Control = hit_splash(damage, r)
 	hit.name = "ResultHit"
+	hit.set_meta("amount", damage)
 	var target: Control = _front.get_node("Opponent" if winner == _you() else "Hero")
 	hit.position = target.position + target.size / 2.0 - Vector2(r, r)
 	_front.add_child(hit)

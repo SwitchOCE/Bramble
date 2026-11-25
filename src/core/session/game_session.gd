@@ -308,6 +308,7 @@ func _fight(a: int, b: int) -> Dictionary:
 	var winner: int = CoreUtil.to_int(result["winner"])
 	var damage: int = 0
 	var loser_id: int = -2
+	var big: bool = false
 	if winner >= 0:
 		var loser_side: int = 1 - winner
 		loser_id = a if loser_side == 0 else b
@@ -315,7 +316,7 @@ func _fight(a: int, b: int) -> Dictionary:
 		var killed: Array = result["killed"]
 		var winner_start: int = CoreUtil.to_int(starting[winner])
 		var winner_killed: int = CoreUtil.to_int(killed[winner])
-		var big: bool = winner_killed * 2 < winner_start
+		big = winner_killed * 2 < winner_start
 		if loser_id != Matchmaking.GHOST:
 			var loser: PlayerState = player(loser_id)
 			damage = rules.loss_damage(loser, round_number, big)
@@ -326,6 +327,7 @@ func _fight(a: int, b: int) -> Dictionary:
 		"result": result,
 		"loser": loser_id,
 		"damage": damage,
+		"big": big,
 		"events": combat.events if keep_fight_events else [],
 	}
 	fights.append(fight)

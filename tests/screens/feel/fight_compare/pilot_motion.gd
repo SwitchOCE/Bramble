@@ -41,6 +41,11 @@ var solo: Dictionary = {}
 var clock: float = 0.0
 ## Called with (key, name) as a death reaches a beat: death_tip, death_dark, death_gone.
 var on_marker: Callable = Callable()
+## `recommended` (recommended_screen.gd): key -> the second its death starts (the schedule's
+## frame it leaves the board, / 60), in place of the clock as it leaves; and ages in fractions of
+## a frame (whole_frames false), as the game's schedule draws them under FAST. `pilot` leaves both.
+var starts: Dictionary = {}
+var whole_frames: bool = true
 ## key -> {node, start, base, pivot, direction, side}
 var _dying: Dictionary = {}
 
@@ -86,20 +91,21 @@ func _fade_out(node: Control) -> void:
 		pivot = Vector2(node.size.x if away > 0.0 else 0.0, node.size.y)
 		node.set_meta("pilot_tip", away)
 	set_pivot(node, pivot)
-	_dying[key] = {"node": node, "start": clock, "base": node.position, "direction": direction}
+	var start: float = GlassPieces.as_float(starts.get(key, clock))
+	_dying[key] = {"node": node, "start": start, "base": node.position, "direction": direction}
 	_mark(key, "death_tip" if option == "b" else "death_dark")
-	_draw_death(key, 0)
+	_draw_death(key, 0.0)
 
 
 ## Every death on its frame of the clock; one that has drawn its last frame is gone.
 func advance() -> void:
 	for key: Variant in _dying.keys():
 		var held: Dictionary = _dying[key]
-		var age: int = roundi((clock - GlassPieces.as_float(held["start"])) * 60.0)
-		_draw_death(str(key), age)
+		var age: float = (clock - GlassPieces.as_float(held["start"])) * 60.0
+		_draw_death(str(key), roundf(age) if whole_frames else age)
 
 
-func _draw_death(key: String, age: int) -> void:
+func _draw_death(key: String, age: float) -> void:
 	var held: Dictionary = _dying[key]
 	var node: Control = held["node"]
 	if not is_instance_valid(node):
@@ -115,12 +121,12 @@ func _draw_death(key: String, age: int) -> void:
 	if option == "b":
 		var away: float = GlassPieces.as_float(node.get_meta("pilot_tip", 1.0))
 		if age < B_TIP_FRAMES:
-			var tipped: float = Tokens.fall(float(age + 1) / B_TIP_FRAMES)
+			var tipped: float = Tokens.fall((age + 1.0) / B_TIP_FRAMES)
 			node.rotation_degrees = B_TIP_TURN * away * tipped
 			_light(node, lerpf(1.0, B_TIP_LIGHT, tipped), 1.0)
 			return
-		var into: int = age - B_TIP_FRAMES
-		var p: float = float(into + 1) / B_DROP_FRAMES
+		var into: float = age - B_TIP_FRAMES
+		var p: float = (into + 1.0) / B_DROP_FRAMES
 		node.position = base + direction * B_DROP_PX * Tokens.gravity(p)
 		node.rotation_degrees = lerpf(B_TIP_TURN, B_DROP_TURN, Tokens.fall(p)) * away
 		node.scale = Vector2.ONE * lerpf(1.0, B_DROP_SCALE, p)
@@ -130,13 +136,13 @@ func _draw_death(key: String, age: int) -> void:
 		_light(node, B_TIP_LIGHT, alpha)
 		return
 	if age < C_DARK_FRAMES:
-		var dark: float = Tokens.exit(float(age + 1) / C_DARK_FRAMES)
+		var dark: float = Tokens.exit((age + 1.0) / C_DARK_FRAMES)
 		_light(node, lerpf(1.0, C_DARK, dark), 1.0)
 		return
 	if age < C_DARK_FRAMES + C_HOLD_FRAMES:
 		_light(node, C_DARK, 1.0)
 		return
-	var sink: float = float(age - C_DARK_FRAMES - C_HOLD_FRAMES + 1) / C_SINK_FRAMES
+	var sink: float = (age - C_DARK_FRAMES - C_HOLD_FRAMES + 1.0) / C_SINK_FRAMES
 	var sunk: float = Tokens.fall(sink)
 	node.position = base + direction * C_SINK_PX * sunk
 	node.scale = Vector2.ONE * lerpf(1.0, C_SINK_SCALE, sunk)

@@ -90,6 +90,10 @@ var loser_is_you: bool = true
 ## no keystone: the portrait has its own shader), on CB9's timing (_aim): its
 ## lift is the lift, its strike the strike, the return the return; held between two strikes.
 var rotation_set: Dictionary = {}
+## `recommended` with the game's turn (CB9 aim_lean, rotate.gd SET_LEAN): the set's in-plane lean
+## too, the same way as the turn, as every attack has it (up with the lift, gone by contact). Off
+## for `pilot`, whose striker turns without it.
+var lean_in_plane: bool = false
 
 
 func _init(chosen: String = "b") -> void:
@@ -265,6 +269,12 @@ func _striker_b(f: int) -> Dictionary:
 		out["length"] = aimed["length"]
 		out["keystone"] = aimed["keystone"]
 		out["lead"] = aim["lead"]
+		if lean_in_plane and f < last:
+			var n: float = f - B_LIFT_START + 1
+			var launch: float = B_STRIKE_START - B_LIFT_START
+			var share: float = Rotate.lean_share(n, B_LIFT_FRAMES, launch, B_STRIKE_FRAMES + 1)
+			var leaned: float = GlassPieces.as_float(out["turn"])
+			out["turn"] = leaned + Rotate.lean_of(incoming(), rotation_set) * share
 	return out
 
 

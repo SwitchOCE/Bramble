@@ -74,11 +74,13 @@ game's motion from before that, a full copy that later changes to `src/` don't r
 the port, `today`'s `cards.csv` equals the one filmed before it, frame for frame.
 
 `game` (`game.gd`, scenario `fight-compare-game.json`) is the game's own fight screen on the same
-fight: it plays the schedule (`src/screens/fight/fight_timeline.gd`), which is `recommended`
-with the owner's picks and both late-fight speed-ups, minus CB13 c (plan steps 1b, 3 to 5;
-`{"ROTATE": "off", "CB9": "aim_lean", "CB13": "none", "FAST": "a5", "GROUP": 3}`; recommended
-adds CB2 b, CB3 mild, CB8 c and CB14 c itself), frame for frame
-(`tests/screens/test_fight_timeline.gd`). `"CB13": "none"` leaves recommended's single death out.
+fight: it plays the schedule (`src/screens/fight/fight_timeline.gd`), which is the whole of
+`recommended` with the owner's picks and both late-fight speed-ups (plan steps 1b to 5;
+`{"ROTATE": "off", "CB9": "aim_lean", "FAST": "a5", "GROUP": 3}`; recommended adds CB2 b, CB3
+mild, CB8 c, CB13 c with its held number, CB14 c and CB12 b itself), frame for frame
+(`tests/screens/test_fight_timeline.gd`). `"CB13": "none"` leaves recommended's single death out,
+`"CB12": "none"` its portrait strike. The game's strike is `src/screens/fight/fight_strike.gd`,
+silent until the sound step (the pilot's stand-in `fight.hit.heavy` is not ported).
 The game's stat gains are logged to `<stem>.buffs.csv` as `buffs` logs them. `compare_screen.gd`
 keeps the game's step playback from before 1b (b94a8021), so every other treatment plays as it did.
 `buff_screen.gd` draws the gains from the schedule's clock (`_t`), which is the drawn frame except
@@ -115,7 +117,7 @@ crop and scale):
 ```bash
 tools/feel/film tests/screens/feel/fight-compare-game.json /data/fight-anim-work/game-2/films/game.mp4
 # recommended-picks.json: "treatment": "recommended", "options": {"ROTATE": "off",
-#   "CB9": "aim_lean", "CB13": "none", "FAST": "a5", "GROUP": 3}
+#   "CB9": "aim_lean", "FAST": "a5", "GROUP": 3}
 tools/feel/film recommended-picks.json /data/fight-anim-work/game-2/films/recommended-picks.mp4
 python3 tests/screens/feel/fight_compare/turn_check.py same /data/fight-anim-work/game-2/films/game /data/fight-anim-work/game-2/films/recommended-picks --except rotation
 ```
@@ -430,10 +432,12 @@ modified as if it had rotation." `"options": {"ROTATE": "on"}` turns it on in an
 
 `recommended.gd` plays every pick on the picks page in one fight: `buffs` with `ROTATE` on, CB11
 "mild" (CB2 "b", CB3 "mild"), CB8 "c", CB14 "c", and CB13 "c"'s death (the light goes out and it
-sinks: `pilot_motion.gd`, drawn from `recommended_screen.gd`'s game clock) for a unit the schedule
-drops alone (not one of CB8's staggered six). The pilot's other half of CB13, the killing number
-held on through the death, is today's step screen's (`pilot_screen.gd`); here the number is the
-best proposal's burst. A scenario's own options win over the picks.
+sinks: `pilot_motion.gd`, drawn from `recommended_screen.gd`'s schedule clock, faster under
+FAST) for a unit the schedule drops alone (not one of CB8's staggered six), with the number that
+killed it held on through the death (full to D+18, faded by D+26), and CB12 "b": after the
+result the winner's portrait strikes the loser's and their Health counts down
+(`pilot_hero_damage.gd`; with `"CB9": "aim_lean"` it adds the in-plane lean). A scenario's own
+options win over the picks.
 
 `picks_rot.py` films and cuts the picks page's pairs with rotation on in both panes, and the whole
 fight (today with rotation against `recommended`, both filmed with the same wait so the panes have

@@ -76,6 +76,7 @@ func start(matched: GameFlow) -> void:
 	fight.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	fight.result_shown.connect(_on_playback_finished)
 	fight.playback_finished.connect(_on_playback_finished)
+	fight.health_counted.connect(_on_health_counted)
 	fight.skip_requested.connect(_skip_fight)
 	var tools: Control = GlassUi.stage(self)
 	tools.z_index = 8
@@ -131,7 +132,7 @@ func _end_round() -> void:
 	_fight_age = 0.0
 	ViewAdapter.add_fight_cards(flow.content, events, _catalog)
 	var replay: FightReplay = FightReplay.build(
-		base, events, _catalog, CoreUtil.to_int(record["damage"])
+		base, events, _catalog, CoreUtil.to_int(record["damage"]), _big_loss(record)
 	)
 	_past_boards.append(replay.steps[0]["state"])
 	_show_only(fight)
@@ -141,6 +142,11 @@ func _end_round() -> void:
 	fight.play(replay)
 
 
+## Whether the human's last fight was a big loss (the session's, rulebook 10.1.2).
+static func _big_loss(record: Dictionary) -> bool:
+	return record.get("big", false) == true
+
+
 func _on_playback_finished() -> void:
 	if phase != Phase.FIGHT:
 		return
@@ -148,7 +154,19 @@ func _on_playback_finished() -> void:
 	phase = Phase.AFTER_FIGHT
 	_after_wait = AFTER_FIGHT
 	_result_age = 0.0
-	# the round is over: everyone's Health now, on the leaderboard
+	# the round's Health shows once the loser's has landed (the portrait strike's count)
+	if fight.health_landed():
+		_show_round_health()
+
+
+## The loser's Health has landed on the fight screen (the portrait strike's count, or a skip).
+func _on_health_counted() -> void:
+	if phase == Phase.AFTER_FIGHT:
+		_show_round_health()
+
+
+## The round is over: everyone's Health now, on the leaderboard.
+func _show_round_health() -> void:
 	var state: Dictionary = fight.state.duplicate()
 	state["players"] = ViewAdapter.players(flow)
 	state["health"] = maxi(0, flow.human().health)

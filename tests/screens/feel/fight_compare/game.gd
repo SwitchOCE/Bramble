@@ -6,15 +6,18 @@ extends "res://tests/screens/feel/fight_compare/fight_treatment.gd"
 ## does nothing here: the game always turns.
 
 const GAME_SCREEN: Script = preload("res://src/screens/fight/fight_screen.gd")
+const Pilot := preload("res://tests/screens/feel/fight_compare/pilot.gd")
 
 
 func make_motion(cards: Control) -> FightMotion:
 	return FightMotion.new(cards)
 
 
-## The game's replay, scheduled before the fixture reads its steps.
+## The game's replay, scheduled before the fixture reads its steps. Whether the loss was big comes
+## from the log's counts here (pilot.gd big_loss); the game takes it from the session.
 func make_replay(base: Dictionary, events: Array, catalog: Dictionary, damage: int) -> FightReplay:
-	var replay: FightReplay = FightReplay.build(base, events, catalog, damage)
+	var big: bool = Pilot.big_loss(events)
+	var replay: FightReplay = FightReplay.build(base, events, catalog, damage, big)
 	FightScreen.schedule(replay)
 	return replay
 

@@ -65,6 +65,11 @@ const JAB_TURN_CAP: float = 30.0
 
 ## key -> {attack, hit, blocked, returning, direction}; supplied by FightScreen each layout.
 var motions: Dictionary = {}
+## CB13 c: the keys of units that die on their own (FightTimeline.single_deaths), whose death the
+## fight screen draws from its schedule (FightTimeline.death_pose) instead of this fall. Each one
+## leaving stays where it stood, in `dying` (key -> {node, base}), until the screen lets it go.
+var drawn_deaths: Dictionary = {}
+var dying: Dictionary = {}
 ## Exposed for the film fixture's two wind-up candidates; total attack time stays fixed.
 var windup_time: float = WINDUP_TIME
 
@@ -102,6 +107,7 @@ func _place(entry: Dictionary, old: Dictionary, first: bool) -> Control:
 	var was: Control = null if old.is_empty() else old["node"]
 	var node: Control = super(entry, old, first)
 	node.set_meta("motion_destination", at)
+	node.set_meta("keeper_key", key)
 	var direction: Vector2 = motion.get("direction", Vector2.DOWN)
 	node.set_meta("death_direction", motion.get("death_direction", direction))
 	if old.is_empty() or not animate:
@@ -286,6 +292,23 @@ static func _num(value: Variant) -> float:
 func clear() -> void:
 	super()
 	_turns.clear()
+	dying.clear()
+
+
+## Every card at once where it is going; a death the screen draws goes too.
+func settle() -> void:
+	super()
+	dying.clear()
+
+
+## A death the screen draws is done: the card goes.
+func let_go(key: String) -> void:
+	var held: Dictionary = dying.get(key, {})
+	dying.erase(key)
+	var node: Variant = held.get("node")
+	if node is Control and is_instance_valid(node):
+		var card: Control = node
+		_gone(card)
 
 
 func _hit(node: Control, at: Vector2, motion: Dictionary) -> void:
@@ -327,6 +350,11 @@ func _fade_out(node: Control) -> void:
 	stop(node)
 	_fading.append(node)
 	set_pivot(node, node.size / 2.0)
+	var key: String = str(node.get_meta("keeper_key", ""))
+	if drawn_deaths.has(key):
+		# CB13 c: the screen draws it from the schedule, where it stood
+		dying[key] = {"node": node, "base": node.position}
+		return
 	var direction: Vector2 = node.get_meta("death_direction", Vector2.DOWN)
 	var tween: Tween = _run(node)
 	tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)

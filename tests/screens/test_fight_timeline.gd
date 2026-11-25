@@ -1,22 +1,23 @@
 extends GutTest
 ## The game's fight schedule (src/screens/fight/fight_timeline.gd) is the fixture's `recommended`
-## with the owner's picks and both late-fight speed-ups, minus CB13 c (plan steps 1b, 3 to 5:
-## CB2 b, CB3 mild, CB9 aim_lean, CB8 c, CB14 c, FAST a5, GROUP 3; the single death is a later
-## step): on the comparison fight, the same steps on the same frames, the same bursts, falls,
-## glows, gains and tallies, and every card's pose equal on every frame. Its sound cues sit on the
-## moments they belong to, and FAST speeds them up with the fight. The same fight on the screen at
-## 30 and 144 frames a second shows the same things at the same seconds.
+## with the owner's picks and both late-fight speed-ups (plan steps 1b, 3 to 5: CB2 b, CB3 mild,
+## CB9 aim_lean, CB8 c, CB13 c, CB14 c, CB12 b, FAST a5, GROUP 3): on the comparison fight, the
+## same steps on the same frames, the same bursts, falls, glows, gains and tallies, every card's
+## pose equal on every frame, the same units dying on their own with the same numbers held, and the
+## same portrait strike frame by frame. Its sound cues sit on the moments they belong to, and FAST
+## speeds them up with the fight. The same fight on the screen at 30 and 144 frames a second shows
+## the same things at the same seconds, the portrait strike too.
 
 const Compare := preload("res://tests/screens/feel/fight_compare/fight_compare.gd")
 const Treatments := preload("res://tests/screens/feel/fight_compare/treatments.gd")
 const SCREEN: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
 
 ## The fixture's options with exactly the game's picks (recommended's own: CB2 b, CB3 mild, CB8 c,
-## CB14 c), the game's turn (CB9 aim_lean, which overrides the rotation switch's set), no CB13,
-## and the two speed-ups.
-const PICKS: Dictionary = {
-	"ROTATE": "off", "CB9": "aim_lean", "CB13": "none", "FAST": "a5", "GROUP": 3
-}
+## CB13 c, CB14 c, CB12 b), the game's turn (CB9 aim_lean, which overrides the rotation switch's
+## set) and the two speed-ups.
+const PICKS: Dictionary = {"ROTATE": "off", "CB9": "aim_lean", "FAST": "a5", "GROUP": 3}
+const HeroDamage := preload("res://tests/screens/feel/fight_compare/pilot_hero_damage.gd")
+const Rotate := preload("res://tests/screens/feel/fight_compare/rotate.gd")
 ## The gain fields both schedules keep.
 const GAIN_FIELDS: Array[String] = ["key", "k", "start", "land", "born", "fly", "cause", "stats"]
 ## Every tenth of the 400 saved late fights' logs, by name (test_late_fights_end_true_and_at_rest).
@@ -24,13 +25,15 @@ const LATE_FIGHTS: String = "res://tests/screens/fixtures/late_fights.json.gz"
 
 var _content: GameContent
 var _screen: FightScreen
+## Late fights with a portrait strike (test_late_fights_end_true_and_at_rest).
+var _strikes: int = 0
 
 
 func before_all() -> void:
 	_content = GameContent.load_default()
 
 
-## [the fixture's timeline, the game's replay] on fight `which`.
+## [the fixture's timeline, the game's replay, the fixture's treatment] on fight `which`.
 func _both(which: String = "") -> Array:
 	var combat: Combat = Compare.fight_named(_content, which)
 	var base: Dictionary = _base()
@@ -43,7 +46,7 @@ func _both(which: String = "") -> Array:
 	)
 	var game: FightReplay = FightReplay.build(_base(), combat.events, catalog, Compare.DAMAGE)
 	FightScreen.schedule(game)
-	return [fixture.get("timeline"), game]
+	return [fixture.get("timeline"), game, recommended]
 
 
 static func _base() -> Dictionary:
@@ -135,6 +138,94 @@ func test_the_game_schedules_the_fixtures_recommended_with_the_picks() -> void:
 		if _strip(a) != _strip(b) or discs_a != discs_b:
 			differ += 1
 	assert_eq(differ, 0, "the gains' pieces on every frame")
+	# CB13 c: the same units die on their own, and the same numbers that killed them are held
+	var treatment: RefCounted = both[2]
+	var solo: Dictionary = treatment.get("solo")
+	var mine_solo: Array = plan.single_deaths.keys()
+	var their_solo: Array = solo.keys()
+	mine_solo.sort()
+	their_solo.sort()
+	assert_eq(mine_solo, their_solo, "the same single deaths")
+	var held: Dictionary = treatment.get("held")
+	for k: int in plan.bursts.size():
+		var hold: int = _i(plan.bursts[k].get("hold", -1))
+		assert_eq(hold, _i(held.get(k, -1)), "burst %d held to the same death" % k)
+	assert_eq(held.size(), plan.single_deaths.size(), "each single death's number held")
+	# CB12 b: the result shows the same old Health, and the strike is the pilot's frame by frame
+	var end_mine: Dictionary = game.steps.back()["state"]
+	var last_theirs: Dictionary = theirs.back()
+	var end_theirs: Dictionary = last_theirs["state"]
+	assert_eq(_i(end_mine["health"]), _i(end_theirs["health"]), "your Health at the result")
+	var opp_mine: Dictionary = end_mine["opponent"]
+	var opp_theirs: Dictionary = end_theirs["opponent"]
+	assert_eq(_i(opp_mine["health"]), _i(opp_theirs["health"]), "theirs at the result")
+	_same_strike(plan.hero_strike, end_theirs, treatment)
+
+
+## The game's strike (FightStrike) against the pilot's option b (pilot_hero_damage.gd) as the
+## recommended treatment sets it up, on the same portraits, for every frame of its budget.
+func _same_strike(strike: FightStrike, end_theirs: Dictionary, treatment: RefCounted) -> void:
+	assert_not_null(strike, "the result hurts the loser")
+	var moment: Dictionary = end_theirs["moment"]
+	var result: Dictionary = moment["result"]
+	var pilot: Dictionary = result["pilot"]
+	var theirs: RefCounted = HeroDamage.new("b")
+	theirs.set("big", _b(pilot["big"]))
+	theirs.set("old_health", _i(pilot["old"]))
+	theirs.set("base", _i(pilot["base"]))
+	theirs.set("total", _i(pilot["total"]))
+	theirs.set("loser_is_you", _b(pilot["loser_is_you"]))
+	theirs.set("rotation_set", treatment.get("strike_set"))
+	theirs.set("lean_in_plane", treatment.get("strike_lean"))
+	assert_eq(strike.old_health, _i(pilot["old"]), "the same old Health")
+	assert_eq(strike.total, _i(pilot["total"]), "the same loss")
+	assert_eq(strike.base, _i(pilot["base"]), "the same base")
+	assert_eq(strike.big, _b(pilot["big"]), "big or not alike")
+	assert_eq(strike.loser_is_you, _b(pilot["loser_is_you"]), "the same loser")
+	var winner: Vector2 = Vector2(150.0, 960.0)
+	var loser: Vector2 = Vector2(1790.0, 130.0)
+	if strike.loser_is_you:
+		var swap: Vector2 = winner
+		winner = loser
+		loser = swap
+	strike.place(winner, loser, 60.0, 64.0, Vector2(960.0, 540.0))
+	for field: String in ["winner_at", "loser_at", "winner_r", "loser_r", "board_at"]:
+		theirs.set(field, strike.get(field))
+	var differ: int = 0
+	for f: int in HeroDamage.BUDGET + 1:
+		var a: Dictionary = strike.pose(float(f))
+		var b: Dictionary = theirs.call("pose", f)
+		var sa: Dictionary = a["striker"]
+		var sb: Dictionary = b["striker"]
+		var la: Dictionary = a["loser"]
+		var lb: Dictionary = b["loser"]
+		var ba: Dictionary = a["burst"]
+		var bb: Dictionary = b["burst"]
+		var same: bool = (
+			_v2(sa["offset"]).is_equal_approx(_v2(sb["offset"]))
+			and is_equal_approx(_f(sa["scale"]), _f(sb["scale"]))
+			and is_equal_approx(_f(sa["turn"]), _f(sb["turn"]))
+			and is_equal_approx(_f(sa["light"]), _f(sb["light"]))
+			and _v2(la["offset"]).is_equal_approx(_v2(lb["offset"]))
+			and _col(la["light"]).is_equal_approx(_col(lb["light"]))
+			and _v2(a["stage"]).is_equal_approx(_v2(b["stage"]))
+			and _i(a["health"]) == _i(b["health"])
+			and is_equal_approx(_f(a["badge"]), _f(b["badge"]))
+			and ba["shown"] == bb["shown"]
+			and is_equal_approx(_f(ba["scale"]), _f(bb["scale"]))
+			and is_equal_approx(_f(ba["alpha"]), _f(bb["alpha"]))
+			and _i(ba["amount"]) == _i(bb["amount"])
+		)
+		if not same:
+			differ += 1
+			if differ <= 3:
+				fail_test("strike at R+%d: %s against %s" % [f, a, b])
+	assert_eq(differ, 0, "the strike on every frame")
+	assert_eq(strike.count_end(), _i(theirs.call("count_end")), "the count ends alike")
+	assert_eq(strike.home_frame(), _i(theirs.call("home_frame")), "home alike")
+	var turned: Dictionary = strike.pose(float(FightStrike.CONTACT))
+	var at_contact: Dictionary = turned["striker"]
+	assert_gt(absf(_f(at_contact["turn"])), 20.0, "the striker turns toward the loser")
 
 
 func test_deaths_at_once_fall_one_after_another() -> void:
@@ -287,6 +378,10 @@ func _run_at(fps: int) -> Dictionary:
 	var clocks: Array[float] = []
 	var brock: Array[Vector2i] = []
 	var pieces: Array[int] = []
+	var ages: Array[float] = []
+	var health: Array[int] = []
+	var dark: Array[float] = []
+	var off_pose: Array[int] = [0]
 	var result: Array[float] = [-1.0]
 	var elapsed: Array[float] = [0.0]
 	_screen.result_shown.connect(func() -> void: result[0] = elapsed[0])
@@ -296,10 +391,46 @@ func _run_at(fps: int) -> Dictionary:
 		var card: GlassCard = _screen._kept_node("u4") as GlassCard
 		brock.append(Vector2i(card.attack, card.health) if card != null else Vector2i(-1, -1))
 		pieces.append(_screen._gains.drawn.size() if _screen._gains != null else 0)
+		ages.append(_screen._strike_age)
+		var badge: Control = _screen._front.get_node_or_null("OpponentHealth")
+		health.append(FightScreen._badge_number(badge) if badge != null else -1)
+		# the darkest card dying on its own (1 when none)
+		var least: float = 1.0
+		var motion: FightMotion = _screen._keeper as FightMotion
+		for key: Variant in motion.dying:
+			var node: Control = motion.dying[key]["node"]
+			least = minf(least, node.modulate.r)
+		dark.append(least)
+		if _screen._strike_mode == "playing" and not _drawn_as_posed(_screen):
+			off_pose[0] += 1
 		for frame: int in per_sixth:
 			_screen._process(1.0 / fps)
 			elapsed[0] += 1.0 / fps
-	return {"clocks": clocks, "brock": brock, "pieces": pieces, "result": result[0]}
+	return {
+		"clocks": clocks,
+		"brock": brock,
+		"pieces": pieces,
+		"ages": ages,
+		"health": health,
+		"dark": dark,
+		"off_pose": off_pose[0],
+		"result": result[0],
+	}
+
+
+## Whether the striker (your portrait: you win the comparison fight) is drawn as the strike's pose
+## at the screen's strike age.
+static func _drawn_as_posed(screen: FightScreen) -> bool:
+	var strike: FightStrike = screen._schedule.hero_strike
+	var pose: Dictionary = strike.pose(minf(screen._strike_age, float(strike.end())))
+	var striker: Dictionary = pose["striker"]
+	var hero: Control = screen._front.get_node("Hero")
+	var home: Vector2 = hero.get_meta("strike_home")
+	var offset: Vector2 = striker["offset"]
+	return (
+		hero.position.is_equal_approx(home + offset)
+		and is_equal_approx(hero.rotation_degrees, _f(striker["turn"]))
+	)
 
 
 func test_the_same_fight_at_30_and_144_frames_a_second() -> void:
@@ -335,6 +466,37 @@ func test_the_same_fight_at_30_and_144_frames_a_second() -> void:
 	)
 	assert_almost_eq(_f(slow["result"]), expect, 1.0 / 30.0 + 0.001, "the result at 30 fps")
 	assert_almost_eq(_f(fast["result"]), expect, 1.0 / 30.0 + 0.001, "the result at 144 fps")
+	# CB12 b: the strike plays on game time after the result, past the fight's end, at both rates
+	var slow_ages: Array[float] = slow["ages"]
+	var fast_ages: Array[float] = fast["ages"]
+	var slow_health: Array[int] = slow["health"]
+	var fast_health: Array[int] = fast["health"]
+	var struck: int = 0
+	var health_differ: int = 0
+	for k: int in slow_ages.size():
+		if slow_ages[k] < 0.0:
+			continue
+		struck += 1
+		assert_almost_eq(fast_ages[k], slow_ages[k], 0.7, "the strike's age at %d/6 s" % k)
+		if slow_health[k] != fast_health[k]:
+			health_differ += 1
+	assert_gt(struck, 12, "the strike sampled over two seconds")
+	assert_gte(slow_ages[slow_ages.size() - 1], float(plan.hero_strike.end()), "and to its end")
+	assert_lte(health_differ, 2, "their Health counts down at the same seconds")
+	var strike: FightStrike = plan.hero_strike
+	assert_eq(slow_health[slow_health.size() - 1], strike.new_health(), "the loss landed at 30 fps")
+	assert_eq(fast_health[fast_health.size() - 1], strike.new_health(), "and at 144 fps")
+	assert_eq(_i(slow["off_pose"]), 0, "drawn as posed at 30 fps")
+	assert_eq(_i(fast["off_pose"]), 0, "drawn as posed at 144 fps")
+	# CB13 c: a death on its own darkens at the same seconds
+	var slow_dark: Array[float] = slow["dark"]
+	var fast_dark: Array[float] = fast["dark"]
+	var darkened: int = 0
+	for k: int in slow_dark.size():
+		if slow_dark[k] < 0.99 or fast_dark[k] < 0.99:
+			darkened += 1
+			assert_almost_eq(fast_dark[k], slow_dark[k], 0.12, "a death's light at %d/6 s" % k)
+	assert_gt(darkened, 1, "deaths on their own sampled going dark")
 
 
 func test_skip_leaves_no_gain_piece_and_the_cores_numbers() -> void:
@@ -412,7 +574,8 @@ static func _strip(text: String) -> String:
 ## 40 of the 400 saved late fights (every tenth of /data/fight-anim-work/fight-length/fights, the
 ## league's final bots; docs/workstreams/fight-animation-24-nov/research/fight-length.md): each
 ## schedule ends on the board the whole log leaves (the core's survivors), with every card at
-## rest, and nothing but the first board shows at frame 0.
+## rest and the portrait strike at rest, every death on its own and its held number done before
+## the result, and nothing but the first board shows at frame 0.
 func test_late_fights_end_true_and_at_rest() -> void:
 	var packed: PackedByteArray = FileAccess.get_file_as_bytes(LATE_FIGHTS)
 	var text: String = (
@@ -422,6 +585,8 @@ func test_late_fights_end_true_and_at_rest() -> void:
 	assert_eq(fights.size(), 40, "40 saved fights")
 	var unstruck: int = 0
 	var opened: int = 0
+	var singles: int = 0
+	_strikes = 0
 	for fight_name: Variant in fights:
 		var events: Array = fights[fight_name]
 		var catalog: Dictionary = {}
@@ -459,6 +624,16 @@ func test_late_fights_end_true_and_at_rest() -> void:
 						absf(_f(seg.get("aim", 0.0))) <= FightMotion.JAB_TURN_CAP + 0.001,
 						"%s: %s jab turn within the cap" % [fight_name, key]
 					)
+		_strike_ends_at_rest(str(fight_name), plan, _i(ending.get("winner", -1)))
+		# a death on its own, and the number that killed it, are done before the result
+		var last_gone: int = FightTimeline.DEATH_DARK_FRAMES + FightTimeline.DEATH_HOLD_FRAMES
+		last_gone += FightTimeline.DEATH_SINK_FRAMES
+		for key: Variant in plan.single_deaths:
+			var dies: int = _i(plan.single_deaths[key])
+			assert_lt(dies + last_gone, plan.result_frame, "%s: %s gone first" % [fight_name, key])
+			var number_gone: int = dies + FightTimeline.KILL_HELD_TO + FightTimeline.KILL_FADE
+			assert_lte(number_gone, plan.result_frame, "%s: %s's number too" % [fight_name, key])
+		singles += plan.single_deaths.size()
 		var zero: Dictionary = game.steps[0]
 		var zero_view: Dictionary = zero["state"]
 		assert_eq(_i(zero["frame"]), 0)
@@ -480,6 +655,38 @@ func test_late_fights_end_true_and_at_rest() -> void:
 			opened += 1
 	assert_gt(unstruck, 0, "the sample has attackers whose target died before the hit")
 	assert_gt(opened, 0, "and Start of Combat effects")
+	assert_gt(singles, 0, "and deaths on their own")
+	assert_gt(_strikes, 0, "and portrait strikes")
+
+
+## A fight with a winner ends with the portrait strike at rest: the striker home and upright, no
+## shake, the "-N" gone, the loser's Health the old less the loss.
+func _strike_ends_at_rest(fight_name: String, plan: FightTimeline, winner: int) -> void:
+	var strike: FightStrike = plan.hero_strike
+	if winner < 0:
+		assert_null(strike, "%s: a draw hurts no one" % fight_name)
+		return
+	assert_not_null(strike, "%s: the loser is struck" % fight_name)
+	if strike == null:
+		return
+	_strikes += 1
+	var winner_at: Vector2 = Vector2(150.0, 960.0)
+	var loser_at: Vector2 = Vector2(1790.0, 130.0)
+	if strike.loser_is_you:
+		strike.place(loser_at, winner_at, 64.0, 60.0, Vector2(960.0, 540.0))
+	else:
+		strike.place(winner_at, loser_at, 60.0, 64.0, Vector2(960.0, 540.0))
+	var rest: Dictionary = strike.pose(float(strike.end()))
+	var striker: Dictionary = rest["striker"]
+	var loser: Dictionary = rest["loser"]
+	var burst: Dictionary = rest["burst"]
+	assert_true(_v2(striker["offset"]).is_zero_approx(), "%s: striker home" % fight_name)
+	assert_almost_eq(_f(striker["scale"]), 1.0, 0.0001, "%s: its size" % fight_name)
+	assert_almost_eq(_f(striker["turn"]), 0.0, 0.0001, "%s: upright" % fight_name)
+	assert_true(_v2(loser["offset"]).is_zero_approx(), "%s: the loser" % fight_name)
+	assert_true(_v2(rest["stage"]).is_zero_approx(), "%s: no shake" % fight_name)
+	assert_false(_b(burst["shown"]), "%s: the -N gone" % fight_name)
+	assert_eq(_i(rest["health"]), maxi(0, strike.old_health - Compare.DAMAGE), fight_name)
 
 
 ## Rule C: a hit an effect makes that a shield blocks stays with its beat: its 0 shows as the
@@ -712,3 +919,130 @@ static func _b(v: Variant) -> bool:
 
 static func _f(v: Variant) -> float:
 	return GlassPieces.as_float(v)
+
+
+static func _v2(v: Variant) -> Vector2:
+	var out: Vector2 = Vector2.INF
+	if v is Vector2:
+		out = v
+	return out
+
+
+static func _col(v: Variant) -> Color:
+	var out: Color = Color(0, 0, 0, 0)
+	if v is Color:
+		out = v
+	return out
+
+
+## CB13 c: a unit dying on its own goes dark, holds and sinks, drawn from the schedule, and the
+## number that killed it stays on through it; the six of moment (e) keep CB8's staggered fall.
+func test_a_unit_dying_alone_goes_dark_and_keeps_its_killing_number() -> void:
+	var game: FightReplay = _both()[1]
+	var plan: FightTimeline = game.plan
+	assert_eq(plan.single_deaths.size(), 4, "four deaths on their own on the comparison fight")
+	var frames: Dictionary = {}
+	for fall: Dictionary in plan.falls:
+		frames[_i(fall["frame"])] = _i(frames.get(_i(fall["frame"]), 0)) + 1
+	for key: Variant in plan.single_deaths:
+		assert_eq(_i(frames[_i(plan.single_deaths[key])]), 1, "%s falls alone" % key)
+	assert_eq(plan.falls.size() - plan.single_deaths.size(), 6, "moment (e)'s six keep CB8's fall")
+	# the look, by frame after D
+	assert_lt(_f(FightTimeline.death_pose(0.0)["light"]), 1.0, "it darkens from D")
+	assert_eq(_f(FightTimeline.death_pose(8.0)["light"]), FightTimeline.DEATH_DARK, "dark, held")
+	assert_eq(_f(FightTimeline.death_pose(11.0)["sink"]), 0.0, "still through the hold")
+	assert_gt(_f(FightTimeline.death_pose(20.0)["sink"]), 0.5, "then it sinks")
+	assert_true(FightTimeline.death_pose(24.0).is_empty(), "gone after D+23")
+	assert_eq(FightTimeline.kill_number_alpha(18.0), 1.0, "the number full to D+18")
+	assert_eq(FightTimeline.kill_number_alpha(26.0), 0.0, "gone by D+26")
+	# on the screen: the first death on its own, at D+10 (an unheld burst is gone by then)
+	var first: String = ""
+	for key: Variant in plan.single_deaths:
+		if first == "" or _i(plan.single_deaths[key]) < _i(plan.single_deaths[first]):
+			first = str(key)
+	var dies: int = _i(plan.single_deaths[first])
+	var killing: Dictionary = {}
+	for burst: Dictionary in plan.bursts:
+		if _i(burst.get("hold", -1)) == dies:
+			killing = burst
+	assert_false(killing.is_empty(), "the number that killed it is held")
+	assert_lt(_i(killing["frame"]) + 36, dies + 10, "unheld, it would be gone by D+10")
+	_screen = SCREEN.instantiate()
+	add_child_autofree(_screen)
+	_screen.set_process(false)
+	_screen.play(game)
+	while _screen._clock < dies + 10:
+		_screen._process(1.0 / 60.0)
+	var motion: FightMotion = _screen._keeper as FightMotion
+	assert_true(motion.dying.has(first), "drawn by the screen, not FightMotion's fall")
+	var node: Control = motion.dying[first]["node"]
+	assert_almost_eq(node.modulate.r, FightTimeline.DEATH_DARK, 0.001, "dark at D+10")
+	assert_eq(node.modulate.a, 1.0, "not fading yet")
+	var held: Array[Dictionary] = []
+	for live: Dictionary in _screen._bursts_on:
+		if _f(live["hold"]) >= 0.0:
+			held.append(live)
+	assert_eq(held.size(), 1, "its number still showing")
+	var number: Control = held[0]["node"]
+	assert_eq(number.modulate.a, 1.0, "full")
+	while _screen._clock < dies + 30:
+		_screen._process(1.0 / 60.0)
+	assert_false(motion.dying.has(first), "gone after D+23")
+	var still: bool = is_instance_valid(number) and not number.is_queued_for_deletion()
+	assert_false(still, "and its number by D+26")
+
+
+## CB12 b: Skip during the portrait strike lands it at once: the loser's Health is the core's,
+## every portrait at rest, the stage still, the "-N" on the loser's portrait; nothing moves after.
+## Skip before the result lands it with no strike at all.
+func test_skip_during_the_portrait_strike_lands_it_at_once() -> void:
+	for when: String in ["strike", "fight"]:
+		var game: FightReplay = _both()[1]
+		_screen = SCREEN.instantiate()
+		add_child(_screen)
+		_screen.set_process(false)
+		_screen.play(game)
+		var plan: FightTimeline = _screen._schedule
+		var strike: FightStrike = plan.hero_strike
+		var counted: Array[int] = [0]
+		_screen.health_counted.connect(func() -> void: counted[0] += 1)
+		var stop_at: float = plan.result_frame + FightStrike.CONTACT + 6.0
+		if when == "fight":
+			stop_at = plan.result_frame * 0.5
+		while _screen._clock < stop_at:
+			_screen._process(1.0 / 60.0)
+		if when == "strike":
+			var moving: Control = _screen._front.get_node("Hero")
+			var moving_home: Vector2 = moving.get_meta("strike_home")
+			assert_ne(moving.position, moving_home, "mid-strike")
+			assert_false(_screen.health_landed(), "the count not done yet")
+		_screen.skip()
+		for k: int in 2:
+			var hero: Control = _screen._front.get_node("Hero")
+			var opponent: Control = _screen._front.get_node("Opponent")
+			var hero_home: Vector2 = hero.get_meta("strike_home")
+			var opponent_home: Vector2 = opponent.get_meta("strike_home")
+			assert_eq(hero.position, hero_home, "%s: the striker home" % when)
+			assert_eq(hero.scale, Vector2.ONE, "%s: its size" % when)
+			assert_almost_eq(hero.rotation_degrees, 0.0, 0.0001, "%s: upright" % when)
+			assert_eq(opponent.position, opponent_home, "%s: the loser" % when)
+			assert_eq(_screen._stage.position, Vector2.ZERO, "%s: no shake" % when)
+			var badge: Control = _screen._front.get_node("OpponentHealth")
+			assert_eq(FightScreen._badge_number(badge), strike.new_health(), "%s: Health" % when)
+			var shown_state: Dictionary = _screen.state
+			var shown: Dictionary = shown_state["opponent"]
+			assert_eq(_i(shown["health"]), strike.new_health(), "%s: and in the state" % when)
+			var hit: Control = _screen._front.get_node_or_null("ResultHit")
+			assert_not_null(hit, "%s: the loss on their portrait" % when)
+			if hit != null:
+				assert_eq(hit.modulate.a, 1.0, "%s: full" % when)
+				assert_eq(hit.scale, Vector2.ONE, "%s: still" % when)
+			assert_true(_screen.health_landed(), "%s: landed" % when)
+			assert_eq(counted[0], 1, "%s: health_counted once" % when)
+			for frame: int in 40:
+				_screen._process(1.0 / 60.0)
+		_screen.skip()
+		assert_eq(counted[0], 1, "%s: a second skip does nothing" % when)
+		remove_child(_screen)
+		_screen.free()
+		_screen = null

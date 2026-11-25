@@ -31,17 +31,20 @@ extends RefCounted
 ##   pill, arc and amber ring stand in for a designed marker);
 ##   the late-fight speed-ups (CB16; the owner's answer, 25 Nov: both): everything from the 5th
 ##   attack's lift to the result plays x1.5 (FAST: speed_at, advance), and up to 3 different
-##   triggers in a row start together (GROUP: _run_queue).
+##   triggers in a row start together (GROUP: _run_queue);
+##   a single death (CB13 c; the owner's yes to the stand-in, 25 Nov: "the light going out stands
+##   in for the shatter"): a unit that dies on its own (not one of CB8's staggered group) goes
+##   dark, holds, and sinks (death_pose; FightScreen draws it), and the number that killed it
+##   stays on through its fall (the burst's `hold`);
+##   damage to the player (CB12 b): the result shows the loser's old Health, then the winner's
+##   portrait strikes the loser's and the Health counts down (FightStrike, `hero_strike`).
 ## Beyond the fixture's `best`, from best.md: Start of Combat plays as a queue after the rest;
 ## an attacker whose target died before the hit settles back unstruck (8 f); pilers jab 5 f
 ## apart, the target's burst re-popping with the total.
 ## Frames are 1/60 s of game time at playback speed 1; frame 0 is the boards at rest. Every
 ## motion is a function of the frame (pose), so a card node the keeper rebuilds keeps its motion,
 ## and any frame rate shows the same moments.
-##
-## Not here yet (later steps of the plan): a single death's look (CB13 c: FightMotion's fall) and
-## the winner's portrait striking (CB12 b: after the result in _make_steps). No one has watched
-## this move.
+## No one has watched this move.
 
 ## One card height on the 1920 x 1080 stage.
 const H: float = 250.0
@@ -170,6 +173,19 @@ const ARC_LIFT: float = 0.15 * H
 const FLARE: int = 8
 ## The source's light ends this long after its tally is gone.
 const LIGHT_PAST: int = 2
+## CB13 c, a single death (docs/workstreams/fight-animation-24-nov/pilot/death.md, section 4 C),
+## by frame after D (the frame it leaves the board): its glass goes dark over 8 f (modulate 1 to
+## 0.25, ease.exit), holds 4 f, then sinks 24 px along its death direction over 12 f (ease.fall),
+## to x0.9, fading out; gone after D+23. Rule 7 does not speed it up; FAST does, with the clock.
+const DEATH_DARK_FRAMES: int = 8
+const DEATH_DARK: float = 0.25
+const DEATH_HOLD_FRAMES: int = 4
+const DEATH_SINK_FRAMES: int = 12
+const DEATH_SINK_PX: float = 24.0
+const DEATH_SINK_SCALE: float = 0.9
+## The number that killed it stays on, full, to D+18, then fades over 8 f, standing still from D.
+const KILL_HELD_TO: int = 18
+const KILL_FADE: int = 8
 
 ## [{state, hold, kind, frame, speed}]: the view state shown from each frame on (kind "lift" as an
 ## attack starts, "end" for the result, else "show"); speed is the card keeper's for that step.
@@ -204,6 +220,10 @@ var tallies: Array[Dictionary] = []
 ## Frames one drawn frame moves (FightScreen sets it): the contact pop shows at least this long,
 ## so every frame rate draws it once.
 var clock_step: float = 1.0
+## CB13 c: key -> D (the frame it leaves the board), for each unit that dies on its own.
+var single_deaths: Dictionary = {}
+## CB12 b: the portrait strike after the result (FightStrike), or null when no player is hurt.
+var hero_strike: FightStrike
 
 var _events: Array = []
 var _views: Array = []
@@ -229,6 +249,8 @@ var _deaths: Array[int] = []
 ## gain has taken as its cause.
 var _causes: Array[Dictionary] = []
 var _taken: int = 0
+## Keys of the units that fell in a staggered group (CB8 c), which keep their own fall.
+var _staggered: Dictionary = {}
 
 
 ## events: the rules core's log as played (FightReplay.played); views: the view state after each
@@ -270,6 +292,55 @@ func build(events: Array, views: Array, place: Callable) -> void:
 		)
 	_make_steps(result_frame)
 	_make_cues()
+	_single_deaths()
+
+
+## CB13 c: the units that leave on their own (the only fall on its frame, outside a staggered
+## group), and the burst that killed each: the last on it up to its death, held through the fall.
+func _single_deaths() -> void:
+	var at_frame: Dictionary = {}
+	for fall: Dictionary in falls:
+		var frame: int = _i(fall["frame"])
+		at_frame[frame] = _i(at_frame.get(frame, 0)) + 1
+	for fall: Dictionary in falls:
+		var key: String = str(fall["key"])
+		var frame: int = _i(fall["frame"])
+		if _staggered.has(key) or _i(at_frame[frame]) != 1:
+			continue
+		single_deaths[key] = frame
+		var killing: int = -1
+		for k: int in bursts.size():
+			if str(bursts[k]["key"]) == key and _i(bursts[k]["frame"]) <= frame:
+				killing = k
+		if killing >= 0:
+			bursts[killing]["hold"] = frame
+
+
+## CB13 c's look `age` frames after D (fractions too): {light, alpha, sink (0 to 1, of
+## DEATH_SINK_PX), scale (-1: as it was)}, or {} once it is gone.
+static func death_pose(age: float) -> Dictionary:
+	if age > DEATH_DARK_FRAMES + DEATH_HOLD_FRAMES + DEATH_SINK_FRAMES - 1:
+		return {}
+	if age < DEATH_DARK_FRAMES:
+		var dark: float = _exit((age + 1.0) / DEATH_DARK_FRAMES)
+		return {"light": lerpf(1.0, DEATH_DARK, dark), "alpha": 1.0, "sink": 0.0, "scale": -1.0}
+	if age < DEATH_DARK_FRAMES + DEATH_HOLD_FRAMES:
+		return {"light": DEATH_DARK, "alpha": 1.0, "sink": 0.0, "scale": -1.0}
+	var p: float = (age - DEATH_DARK_FRAMES - DEATH_HOLD_FRAMES + 1.0) / DEATH_SINK_FRAMES
+	var sunk: float = clampf(p, 0.0, 1.0) * clampf(p, 0.0, 1.0)
+	return {
+		"light": DEATH_DARK,
+		"alpha": clampf(1.0 - p, 0.0, 1.0),
+		"sink": sunk,
+		"scale": lerpf(1.0, DEATH_SINK_SCALE, sunk),
+	}
+
+
+## The held killing number's alpha `since` frames after its unit's D (1 before D).
+static func kill_number_alpha(since: float) -> float:
+	if since <= KILL_HELD_TO:
+		return 1.0
+	return clampf(1.0 - (since - KILL_HELD_TO) / KILL_FADE, 0.0, 1.0)
 
 
 ## Start of Combat: what the log holds before the first attack plays after the REST as a queue
@@ -707,6 +778,8 @@ func _stagger(item: Dictionary, base: int) -> Dictionary:
 			continue
 		if _kind(i) == "death":
 			_fall({"events": [i]}, at, FALL)
+			if _commit:
+				_staggered[_key(_i(event.get("uid", -1)))] = true
 			fall_end = maxi(fall_end, at + FALL)
 		elif _commit:
 			_reveal[i] = at
@@ -1415,9 +1488,12 @@ func _make_steps(result: int) -> void:
 		var was: Dictionary = view.get("moment", {})
 		var moment: Dictionary = {}
 		if was.has("result") and frame >= result:
-			# the result's hold (CB12 b, plan step 4, adds the winner's portrait striking here)
+			# the result's hold: the loser's old Health, until the winner's portrait strikes (CB12 b)
 			moment["result"] = was["result"]
 			kind = "end"
+			var before: Dictionary = _views[maxi(0, upto - 1)]
+			var result_of: Dictionary = was["result"]
+			_hold_old_health(view, before, result_of)
 		elif not lunge.is_empty():
 			moment["lunge"] = lunge.duplicate()
 		view["moment"] = moment
@@ -1428,6 +1504,37 @@ func _make_steps(result: int) -> void:
 		var next: int = _i(steps[k + 1]["frame"]) if k + 1 < steps.size() else result + END_HOLD
 		step["hold"] = (next - _i(step["frame"])) / 60.0
 	end_frame = result + END_HOLD
+
+
+## CB12 b: the result's view keeps the loser's Health from before the loss (its badge and the
+## leaderboard), and the strike that lands it is made: the loss, its base and whether it was big
+## come with the result (FightReplay, from the session), the old Health from the view before.
+func _hold_old_health(view: Dictionary, before: Dictionary, result: Dictionary) -> void:
+	var winner: int = _i(result.get("winner", -1))
+	var damage: int = _i(result.get("damage", 0))
+	if winner < 0 or damage <= 0:
+		return
+	var loser_is_you: bool = winner != _i(view.get("you_side", 0))
+	var opponent: Dictionary = view.get("opponent", {})
+	var opponent_before: Dictionary = before.get("opponent", {})
+	var shown_players: Array = view.get("players", [])
+	var landed: Dictionary = {
+		"health": view.get("health", 0),
+		"opponent_health": opponent.get("health", 0),
+		"players": shown_players.duplicate(true),
+	}
+	view["health"] = before.get("health", view.get("health", 0))
+	opponent["health"] = opponent_before.get("health", opponent.get("health", 0))
+	var players: Array = before.get("players", view.get("players", []))
+	view["players"] = players.duplicate(true)
+	hero_strike = FightStrike.new()
+	hero_strike.landed = landed
+	hero_strike.loser_is_you = loser_is_you
+	hero_strike.old_health = _i(view["health"]) if loser_is_you else _i(opponent["health"])
+	hero_strike.big = result.get("big", false) == true
+	hero_strike.total = damage
+	var extra: int = GameConfig.new().big_loss_extra
+	hero_strike.base = maxi(0, damage - extra) if hero_strike.big else damage
 
 
 ## A cue at a frame: one of each kind per frame (a death cue counts every fall starting then).
