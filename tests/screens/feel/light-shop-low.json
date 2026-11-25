@@ -1,0 +1,5 @@
+{
+  "scene": "res://tests/screens/feel/light_film.tscn",
+  "shop_tiers": [1, 2, 0, 4, 5], "spell_tiers": [2, 4], "level": 2, "golden": [],
+  "steps": [{"move": "1850,620", "time": 0.1}, {"wait": 5.0}]
+}

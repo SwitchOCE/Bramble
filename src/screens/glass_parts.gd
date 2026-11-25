@@ -66,6 +66,10 @@ static func em_px(value: Variant, em: float) -> float:
 static func round_poly(box: Vector2) -> PackedVector2Array:
 	var out: PackedVector2Array = PackedVector2Array()
 	var r: float = box.y / 2.0
+	if is_equal_approx(box.x, box.y):
+		for i: int in 24:
+			out.append(box / 2.0 + Vector2.from_angle(TAU * i / 24.0) * r)
+		return out
 	for i: int in 13:
 		out.append(Vector2(box.x - r, r) + Vector2.from_angle(-PI / 2.0 + PI * i / 12.0) * r)
 	for i: int in 13:

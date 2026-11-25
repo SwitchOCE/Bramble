@@ -149,15 +149,12 @@ func test_economy_readouts_redraw_from_core_after_upgrade_gold_and_turn_changes(
 	me.tier = 3
 	me.turns_waited = 3
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
-	var back: Node = _screen.get_node("Frame/Stage/Back")
 	var front: Node = _screen.get_node("Frame/Stage/Front")
 	var income: GlassText = front.get_node("NextTurnIncome/Value")
-	var drop: GlassText = back.get_node("TierUpDrop")
 	assert_eq(income.words, "+%d" % _flow.session.rules.income(me, 2))
-	assert_eq(drop.words, "−4 next turn")
+	assert_eq(_hover_discount(), "−4 next turn")
 	_on_action({"type": "upgrade"})
-	drop = back.get_node("TierUpDrop")
-	assert_eq(drop.words, "−1 next turn", "new tier immediately resets the drop")
+	assert_eq(_hover_discount(), "−1 next turn", "new tier immediately resets the drop")
 	_on_action({"type": "refresh"})
 	income = front.get_node("NextTurnIncome/Value")
 	assert_eq(income.words, "+%d" % _flow.session.rules.income(me, 2), "spending is not income")
@@ -165,19 +162,24 @@ func test_economy_readouts_redraw_from_core_after_upgrade_gold_and_turn_changes(
 	_flow.session.recruit.start_turn(me)
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
 	income = front.get_node("NextTurnIncome/Value")
-	drop = back.get_node("TierUpDrop")
 	assert_eq(income.words, "+%d" % _flow.session.rules.income(me, 3))
-	assert_eq(drop.words, "−2 next turn", "one more turn waited")
+	assert_eq(_hover_discount(), "−2 next turn", "one more turn waited")
 	me.turns_waited = 20
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
-	assert_null(back.get_node_or_null("TierUpDrop"), "hidden at cost zero")
+	assert_eq(_hover_discount(), "", "hidden at cost zero")
 	_on_action({"type": "upgrade"})
-	drop = back.get_node("TierUpDrop")
-	assert_eq(drop.words, "−1 next turn", "a free upgrade also resets the drop")
+	assert_eq(_hover_discount(), "−1 next turn", "a free upgrade also resets the drop")
 	_on_action({"type": "upgrade"})
 	assert_eq(me.tier, _flow.session.config.max_tier)
-	assert_null(back.get_node_or_null("TierUpDrop"), "hidden at the top tier")
+	assert_eq(_hover_discount(), "", "hidden at the top tier")
 	assert_not_null(front.get_node_or_null("NextTurnIncome"), "income remains visible")
+
+
+func _hover_discount() -> String:
+	_move(L1Layout.rect("shop.tier").get_center())
+	var tip: Control = _screen._tips.tip
+	var value: GlassText = tip.get_node_or_null("TierUpDrop/Value")
+	return value.words if tip.visible and value != null else ""
 
 
 func test_a_drag_out_of_the_shop_sends_the_cores_buy() -> void:

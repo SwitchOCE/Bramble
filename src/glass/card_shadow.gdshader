@@ -1,4 +1,4 @@
-// card.css's drop-shadow(0 6px 8px rgba(0,0,0,.6)) for a GlassCard: the frame's alpha,
+// The card or spell silhouette's alpha,
 // Gaussian-blurred and tinted. The quad is larger than the card so the blur has room.
 shader_type canvas_item;
 
@@ -6,7 +6,7 @@ uniform vec2 uv_scale = vec2(1.0);
 uniform vec2 uv_offset = vec2(0.0);
 uniform vec2 sigma_uv = vec2(0.01);
 // Explicit duplicate-layer opacity: default 1 keeps all existing card shadows unchanged.
-// Incoming fragment COLOR already includes the sampled frame alpha, which would clip the blur.
+// Incoming fragment COLOR already includes the sampled silhouette alpha, which would clip the blur.
 uniform float shadow_opacity = 1.0;
 uniform vec4 shadow_colour : source_color = vec4(0.0, 0.0, 0.0, 0.6);
 

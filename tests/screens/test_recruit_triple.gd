@@ -242,14 +242,14 @@ func test_buying_one_of_two_identical_shop_cards_preserves_the_other() -> void:
 	assert_true(_screen.node_for("shop", 0).visible)
 
 
-func test_keyboard_press_finishes_animation_and_keeps_its_normal_action() -> void:
+func test_tab_finishes_animation_and_leaves_the_scoreboard_visible() -> void:
 	_buy()
 	var event: InputEventKey = InputEventKey.new()
 	event.keycode = KEY_TAB
 	event.pressed = true
 	_screen._unhandled_key_input(event)
 	assert_false(_screen._triple.active())
-	assert_true(_screen.show_leaderboard, "Tab still toggles the leaderboard")
+	assert_not_null(_screen._front.get_node_or_null("Leaderboard"), "Tab leaves it displayed")
 
 
 func test_hover_during_merge_ignores_hidden_golden_and_keeps_other_cards_live() -> void:

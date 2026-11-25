@@ -38,13 +38,13 @@ Check `docs/design/owner-notes/` and CLAUDE.md for anything newer first.
 
 **Current direction, open to change.** These come from the owner's 11 Nov 2026 layout notes (full list: `docs/archive/design-lab/journey/HANDOFF.md`, archived and not decided). The owner, 14 Nov: they "were just things I suggested for improvements... suggestions that became rules", and "I'm not completely attached to anything." The owner's messages are in `docs/design/sources/2026-11-14-layout-rules-were-suggestions.md`. Check the design against them. If one has to break to make the screen work, say which one and why, with the evidence. Breaking one is not a failure.
 
-- Units are tall hexes. The owner, 14 Nov: "these are the right path"; on 11 Nov the pick was "somewhere between the mid hex and the tall hex". Since 15 Nov the card outline is 0.56 wide to 1 tall (`docs/workstreams/glass-frames.md`).
+- Units are tall hexes. The owner, 14 Nov: "these are the right path"; on 11 Nov the pick was "somewhere between the mid hex and the tall hex". The card is 0.56 wide to 1 tall (140 x 250 on the 1920 x 1080 stage) and its points take a regular hexagon's angles (owner, 24 and 25 Nov: L8, L24 in `docs/design/look-l1/decisions-l1.md`).
 - Your board stays centred left to right and never resizes between recruit, fight and travel. It may slide up or down between phases: the owner, 14 Nov, "I think it should stay centered", but "I don't think your hand is needed for combat" and "maybe the board can move a little bit."
 - Every unit is the same size everywhere: shop, hand and both boards.
 - The shop is its own zone, with tier up, refresh and freeze inside it.
 - Vertical space goes to the boards.
 - The hand holds up to 7 cards (owner, 16 Nov; rulebook 7.1.1).
-- Open: where the hand, the hero and End turn sit, and whether the other players show during play.
+- On the buy screen these are placed by the L1 look (`docs/design/look-l1/buy-screen-l1.md`): the hand full size, half below the screen's edge (L10); the scoreboard always shown in the left column, your hero at its foot (L31); End turn at the foot of the right column (L33). The fight screen is not designed in that look.
 
 What matters most to the owner: "the game's look and feel, its moment-to-moment gameplay is good."
 

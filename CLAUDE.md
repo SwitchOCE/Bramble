@@ -34,7 +34,8 @@ docs/design/rulebook.md          The rules, tagged BG / BRAMBLE / PROPOSED / OPE
 docs/design/content-guardrails.md Content-level safeguards: what units, spells and modifiers must not do
 docs/design/tier-guide.md        What each shop tier is for, and rough number targets as ratios (12 Nov)
 docs/design/review-queue.md      Decisions waiting on the owner
-docs/design/art-direction/       The art direction (lead and stained glass): what is decided, what is open, examples
+docs/design/art-direction/       The art direction (lead and stained glass): what is decided, what is open, examples; the card art recipe
+docs/design/look-l1/             The L1 look of the card and buy screen: its build spec (buy-screen-l1.md, which assets/glass/l1/layout.json cites) and the owner's decisions L1 to L51
 docs/design/owner-notes/         Dated owner instructions (don't reword)
 docs/design/owner-ideas-log.md   The owner's design directions, logged as said; directions, not decisions
 docs/design/sources/             The owner's words behind the rulebook and taste guide (not instructions)
@@ -43,17 +44,18 @@ docs/research/battlegrounds/analysis/unit_values.json  310 Battlegrounds units v
 docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card library, design notes
 docs/research/economy/           Economy and tier-price research: findings, the full record, saved sim outputs
 docs/folio/                      The Woodland Folio: research and ideation page with art; serve it with the folio entry in .claude/launch.json (port 8765)
-tools/art/                       The prompts used for Codex image batches, the card art guide and assembly (glass-art/), and the frame tools
+tools/art/                       The prompts used for Codex image batches, and the card art guide, check and preview (glass-art/)
 tools/research/                  Re-runnable scripts that build the card data libraries; tools/research/economy/ holds the economy sims
 tools/assets/                    Large files (screenshots, video, masters) kept in Cloudflare R2; pull them with assets.py
 tools/versions.env               Every toolchain version and checksum, in one place
 tools/checks/                    The quality gate's own checks (version drift, compile, strict GUT hook)
 tools/look/                      Run any scene on a virtual display: screenshots, clicks, keys and the game's errors; compare a scene with an HTML mock-up, region by region
 tools/feel/                      Film any scene with a scripted pointer at a true 60 frames a second, to judge motion and feel
-tools/glass/                     pull_mockups.py pulls the glass mock-ups' pieces into assets/glass; compare.py is the ideation build's whole-screen compare of a scene with its mock-up
+tools/glass/                     pull_mockups.py pulls the earlier glass mock-ups' pieces into assets/glass (the fight screen still reads them); compare.py compares a scene with those mock-ups
 scripts/                         Cloud setup, session hook, quality gate (check.sh), export smoke test, the Windows build (build_windows.sh), the bot soak (soak.sh)
 project.godot, src/, tests/      The Godot project, the playable build: rules core (src/core), ghost store and matchmaker (src/ghosts), tribes and cards as data (src/content), screens (src/screens, src/glass), game flow and bots (src/game)
-assets/glass/                    The glass mock-ups' frames, card data, layout numbers and fonts, pulled by tools/glass/pull_mockups.py
+assets/glass/l1/                 The L1 buy screen's painted pieces and its hand-kept layout numbers (layout.json)
+assets/glass/                    The rest is pulled from the earlier glass mock-ups by tools/glass/pull_mockups.py: portraits, fonts, emblems, and that look's frames, card data and layout numbers, which the fight screen and the buy screen's stand-ins still read
 assets/units/                    Card art for the five tribes' units
 addons/gut/                      GUT, the test framework (vendored)
 docs/CLOUD_SETUP.md              How the toolchain is set up and proved, locally, in the cloud and in CI
