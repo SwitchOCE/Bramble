@@ -67,9 +67,7 @@ static func build(screen: RecruitScreen, discover: Dictionary) -> void:
 			)
 		else:
 			node = screen._unit_card(option, height)
-			outline = GlassBox.hexagon(
-				Rect2(Vector2.ZERO, Vector2(width, height)), screen._slot_shoulder()
-			)
+			outline = L1CardFace.unit_outline(GlassCard.card_size(height))
 		node.name = "Discover_%d" % i
 		node.z_index = Z + 1
 		var x: float = 960.0 - row / 2.0 + i * (width + GAP)

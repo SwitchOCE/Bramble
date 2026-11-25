@@ -144,6 +144,8 @@ func stand(node: Control) -> void:
 	standing = node
 	rest = Vector3(node.position.x, node.position.y, node.rotation)
 	node.rotation = 0.0
+	node.z_index = int(L1Layout.number("hand.hover_z"))
+	_set_raised(true)
 	node.position.y = L1Layout.number(
 		"hand.spell_hover_y" if node is GlassSpell else "hand.unit_hover_y"
 	)
@@ -154,13 +156,22 @@ func set_down() -> void:
 	if is_instance_valid(standing):
 		standing.position = Vector2(rest.x, rest.y)
 		standing.rotation = rest.z
+		_set_raised(false)
 	standing = null
 
 
 ## The standing hand card is no longer this detail's (a press carries it from where it stands).
 func forget_standing() -> void:
 	_reset_golden()
+	_set_raised(false)
 	standing = null
+
+
+func _set_raised(on: bool) -> void:
+	if standing is GlassCard:
+		(standing as GlassCard).set_raised(on)
+	elif standing is GlassSpell:
+		(standing as GlassSpell).set_raised(on)
 
 
 ## STAND-IN: fit the existing hover artwork and text together above the scoreboard.

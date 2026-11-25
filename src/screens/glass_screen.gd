@@ -224,15 +224,17 @@ func _want_card(
 	extra: Dictionary = {},
 	time: float = -1.0
 ) -> void:
-	var look: String = JSON.stringify([data, extra, kind == "spell" or _is_spell(data)])
+	var spell: bool = kind == "spell" or _is_spell(data)
+	var look: String = JSON.stringify([data, extra, spell, spell and kind == "hand"])
 	var numbers: Vector2i = Vector2i(_i(data.get("attack", 0)), _i(data.get("health", 0)))
 	var make: Callable = func() -> Control: return _make_card(kind, data, extra)
 	_keeper.want(key, str(data.get("id", "")), look, numbers, at, turn, make, time)
 	var outline: PackedVector2Array
-	if kind == "spell" or _is_spell(data):
+	if spell:
+		# The hand disc keeps the same hexagonal pointer target as the old hand spell.
 		outline = GlassBox.hexagon(Rect2(Vector2.ZERO, _card_spell_size(kind)), _f(_g["SS"]))
 	else:
-		outline = GlassBox.hexagon(Rect2(Vector2.ZERO, Vector2(_w(), _h())), _slot_shoulder())
+		outline = L1CardFace.unit_outline(GlassCard.card_size(_h()))
 	_targets.append(
 		{"kind": kind, "index": index, "key": key, "poly": outline, "card": data, "extra": extra}
 	)
@@ -242,7 +244,7 @@ func _want_card(
 func _make_card(kind: String, data: Dictionary, _extra: Dictionary) -> Control:
 	var node: Control
 	if kind == "spell" or _is_spell(data):
-		node = _spell_card(data, _card_spell_size(kind))
+		node = _spell_card(data, _card_spell_size(kind), kind == "hand")
 	else:
 		node = _unit_card(data, _h())
 	node.name = "Card_" + str(data.get("id", ""))
@@ -321,7 +323,6 @@ func _add_vignette() -> void:
 func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 	var card: GlassCard = GlassCard.new()
 	card.name = "Card_" + str(unit.get("id", ""))
-	card.tier = _i(unit.get("tier", 1))
 	card.art = GlassPieces.art(str(unit.get("art", "")))
 	card.attack = _i(unit.get("attack", 0))
 	card.card_height = height
@@ -360,7 +361,7 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 			height * KeywordStyle.CARD_Y - side / 2.0
 		)
 		card.add_child(mark)
-	var pips: CardPips = CardPips.make(CardTerms.pips(unit, _display_table()), height, card.tier)
+	var pips: CardPips = CardPips.make(CardTerms.pips(unit, _display_table()), height)
 	if pips != null:
 		card.add_child(pips)
 	return card
@@ -428,13 +429,14 @@ func _slot_keyword_pill(card: GlassCard, keyword: String) -> void:
 	card.add_child(pill)
 
 
-func _spell_card(spell: Dictionary, spell_size: Vector2) -> GlassSpell:
+func _spell_card(spell: Dictionary, spell_size: Vector2, hand_disc: bool = false) -> GlassSpell:
 	var node: GlassSpell = GlassSpell.new()
 	node.name = "Card_" + str(spell.get("id", ""))
 	node.art = GlassPieces.art(str(spell.get("art", "")))
 	node.cost = _i(spell.get("cost", 0))
 	node.spell_size = spell_size
 	node.shoulder = _f(_g["SS"])
+	node.hand_disc = hand_disc
 	node.build()
 	return node
 

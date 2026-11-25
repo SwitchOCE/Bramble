@@ -270,7 +270,7 @@ func slot_xy(i: int) -> Vector2:
 	var step: float = _w() + _gap()
 	var front_width: float = FRONT_SLOTS * step - _gap()
 	var left: float = (L1Layout.stage_size().x - front_width) / 2.0
-	var angle: float = deg_to_rad(L1Layout.number("board.point_angle"))
+	var angle: float = L1CardFace.point_angle()
 	var point_rise: float = _w() * tan(angle) / 2.0
 	var nesting_gap: float = _gap() * (1.0 - sin(angle) / 2.0) / cos(angle)
 	var row_step: float = snappedf(_h() - point_rise + nesting_gap, 0.1)
@@ -430,17 +430,13 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 		node.size = _card_spell_size(kind) if node is GlassSpell else card_box()
 		RecruitShop.dress_card(node, data, _b(extra["poor"]))
 	if _b(extra.get("frost", false)):
-		var shoulder: float = _f(_g["SS"]) if node is GlassSpell else _slot_shoulder()
-		GlassParts.add_frost(
-			node,
-			GlassBox.hexagon(
-				Rect2(
-					Vector2.ZERO,
-					_card_spell_size(kind) if node is GlassSpell else GlassCard.card_size(_h())
-				),
-				shoulder
-			)
-		)
+		# STAND-IN: keep the existing frost, clipped to the new unit outline.
+		var outline: PackedVector2Array
+		if node is GlassSpell:
+			outline = GlassBox.hexagon(Rect2(Vector2.ZERO, _card_spell_size(kind)), _f(_g["SS"]))
+		else:
+			outline = L1CardFace.unit_outline(GlassCard.card_size(_h()))
+		GlassParts.add_frost(node, outline)
 	if kind == "board" and _b(data.get("worked_this_turn", false)):
 		var side: float = maxf(KeywordStyle.CARD_MIN_SIDE, _h() * KeywordStyle.CARD_DIAMETER)
 		var mark: KeywordMark = KeywordMark.make({"name": "Worked", "words": "Worked"}, true, side)

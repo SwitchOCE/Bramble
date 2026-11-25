@@ -1,6 +1,7 @@
 class_name GlassSpell
 extends Control
-## STAND-IN: a spell as the mock-ups draw one with no spell frame yet (card.js make() with
+## A spell in the hand uses the L1 lead disc. Elsewhere it uses the STAND-IN hexagon
+## from the mock-ups (card.js make() with
 ## spell "hex", card.css .card.hexsp): the spell picture in a hexagon the units' width, a plain lead
 ## outline round it, and a cream cost disc on its left shoulder. RecruitShop replaces the disc
 ## with a gold coin only on shop offers. Set the fields, then call build().
@@ -10,6 +11,10 @@ var cost: int = 0
 ## The hexagon's size, and its shoulders as a share of its height (geom()'s SW, SH and SS).
 var spell_size: Vector2 = Vector2(140, 167)
 var shoulder: float = 0.25
+var hand_disc: bool = false
+
+var _raised: bool = false
+var _shadow: Control
 
 
 func _init() -> void:
@@ -17,6 +22,9 @@ func _init() -> void:
 
 
 func build() -> void:
+	if hand_disc:
+		_build_hand_disc()
+		return
 	size = spell_size
 	var whole: Rect2 = Rect2(Vector2.ZERO, spell_size)
 	var lead: GlassBox = GlassBox.new()
@@ -51,6 +59,28 @@ func build() -> void:
 	picture.refresh()
 	add_child(picture)
 	add_child(_cost_disc())
+
+
+func _build_hand_disc() -> void:
+	size = Vector2.ONE * L1Layout.number("card.w")
+	var face: L1CardFace = L1CardFace.new()
+	face.name = "Face"
+	face.build(size, art, true)
+	_shadow = Control.new()
+	_shadow.name = "Shadow"
+	_shadow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_shadow.draw.connect(
+		func() -> void:
+			L1CardFace.draw_shadow(_shadow, L1CardFace.slab_shadow(_raised, true, 1.0), size, true)
+	)
+	add_child(_shadow)
+	add_child(face)
+
+
+func set_raised(on: bool) -> void:
+	_raised = on
+	if _shadow != null:
+		_shadow.queue_redraw()
 
 
 ## card.css .card .cost, moved by .card.hexsp .cost: a round disc, its size and place shares of

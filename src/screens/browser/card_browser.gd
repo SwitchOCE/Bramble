@@ -435,9 +435,10 @@ func _add_cell(card: Dictionary, at: Vector2) -> void:
 			"node": node,
 			"card": card,
 			"poly":
-			GlassBox.hexagon(
-				Rect2(Vector2.ZERO, node.size),
-				BrowserLook.SPELL_SHOULDER if spells else _slot_shoulder()
+			(
+				GlassBox.hexagon(Rect2(Vector2.ZERO, node.size), BrowserLook.SPELL_SHOULDER)
+				if spells
+				else L1CardFace.unit_outline(node.size)
 			)
 		}
 	)

@@ -287,10 +287,9 @@ func light(kind: String, targets: Array[int], skip: Control = null) -> void:
 			_:
 				continue
 		if targets.has(value):
-			var shoulder: float = (
-				GlassScreen._f(_screen._g["SS"]) if node is GlassSpell else _screen._slot_shoulder()
-			)
-			GlassParts.add_lit(node, GlassBox.hexagon(Rect2(Vector2.ZERO, node.size), shoulder))
+			# STAND-IN: the existing target rim follows the unit's lead outline.
+			var outline: PackedVector2Array = target["poly"]
+			GlassParts.add_lit(node, outline)
 
 
 ## Every card's and persistent slot's lit rim taken off (each drawing lights afresh). A slot's
