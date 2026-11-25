@@ -123,17 +123,11 @@ func _busy() -> bool:
 func _tint(hot: bool) -> void:
 	if _icon == null:
 		return
-	var colour: Color = (
-		GlassUi.GO if hot else GlassPieces.rule_colour("stage", ".btn svg", "stroke")
-	)
 	if _l1_face.visible:
-		var icon: TextureRect = _l1_face.get_node("Icon")
-		icon.texture = L1ColumnArt.icon_texture(
-			L1ColumnArt.COG,
-			GlassUi.GO if hot else L1ColumnArt.CREAM,
-			int(icon.size.x),
-			L1Layout.number("right.settings.stroke")
-		)
+		L1ColumnArt.set_roundel_hover(_l1_face, "right.settings", L1ColumnArt.COG, hot)
 	else:
+		var colour: Color = (
+			GlassUi.GO if hot else GlassPieces.rule_colour("stage", ".btn svg", "stroke")
+		)
 		var stroke: float = GlassPieces.rule_number("stage", ".btn svg", "stroke-width")
 		_icon.texture = GlassPieces.svg_icon(ICON, colour, int(_icon.size.x), stroke)

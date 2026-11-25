@@ -15,6 +15,7 @@ const TRIANGLE: String = '<path d="M6 4l12 8-12 8z" fill="#cfc6b0" stroke="none"
 
 static var _lead: GradientTexture2D
 
+var _order: Array[String] = []
 var _recent: Dictionary = {}
 var _revision: int = 0
 
@@ -31,14 +32,33 @@ static func counter_area(i: int) -> Rect2:
 	return area
 
 
-## Same ordering for the drawn counters and for a sold card's destination.
-func ordered(raw: Array) -> Array[Dictionary]:
-	var shown: Array[Dictionary] = []
+## The medallions and card flights use the same selection and places.
+func visible_counters(raw: Array) -> Array[Dictionary]:
+	return _select_visible(_fixed_order(raw))
+
+
+## Keep the order in which counters first appeared, regardless of the incoming order or values.
+func _fixed_order(raw: Array) -> Array[Dictionary]:
+	var by_id: Dictionary[String, Dictionary] = {}
 	for value: Variant in raw:
 		var counter: Dictionary = value if value is Dictionary else {}
 		if not _screen.counter_entry(counter).is_empty():
-			shown.append(counter)
-	shown.sort_custom(
+			by_id[str(counter.get("id", ""))] = counter
+	var counters: Array[Dictionary] = []
+	for id: String in _order:
+		if by_id.has(id):
+			counters.append(by_id[id])
+			by_id.erase(id)
+	counters.append_array(by_id.values())
+	return counters
+
+
+func _select_visible(counters: Array[Dictionary]) -> Array[Dictionary]:
+	var limit: int = int(L1Layout.number("right.counter.limit"))
+	if counters.size() <= limit:
+		return counters
+	var ranked: Array[Dictionary] = counters.duplicate()
+	ranked.sort_custom(
 		func(a: Dictionary, b: Dictionary) -> bool:
 			var newer_a: int = _recency(a)
 			var newer_b: int = _recency(b)
@@ -50,6 +70,11 @@ func ordered(raw: Array) -> Array[Dictionary]:
 				return amount_a > amount_b
 			return str(a.get("id", "")) < str(b.get("id", ""))
 	)
+	ranked.resize(limit)
+	var shown: Array[Dictionary] = []
+	for counter: Dictionary in counters:
+		if ranked.has(counter):
+			shown.append(counter)
 	return shown
 
 
@@ -62,23 +87,27 @@ func _recency(counter: Dictionary) -> int:
 
 
 func build(shown_counters: Array) -> void:
-	var counters: Array[Dictionary] = ordered(shown_counters)
+	var counters: Array[Dictionary] = _fixed_order(shown_counters)
+	var shown: Array[Dictionary] = _select_visible(counters)
 	var before: Dictionary = _values
 	var recent: Dictionary = {}
 	_values = {}
-	var visible_count: int = mini(counters.size(), int(L1Layout.number("right.counter.limit")))
-	for i: int in counters.size():
-		var counter: Dictionary = counters[i]
+	for counter: Dictionary in counters:
 		var id: String = str(counter.get("id", ""))
 		var value: String = GlassScreen.number_words(counter.get("value", ""))
 		var changed: bool = before.get(id, null) != value
+		if not _order.has(id):
+			_order.append(id)
 		recent[id] = _revision + 1 if _revision > 0 and changed else _recent.get(id, 0)
 		_values[id] = value
-		if i < visible_count:
-			_build_medallion(counter, id, value, i, before.has(id) and changed)
+	for i: int in shown.size():
+		var counter: Dictionary = shown[i]
+		var id: String = str(counter.get("id", ""))
+		var value: String = _values[id]
+		_build_medallion(counter, id, value, i, str(before.get(id, value)) != value)
 	_recent = recent
 	_revision += 1
-	if counters.size() > visible_count:
+	if counters.size() > shown.size():
 		_build_auras_plate(counters.size())
 
 

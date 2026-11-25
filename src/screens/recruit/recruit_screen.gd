@@ -361,13 +361,12 @@ func _leaving_places() -> Dictionary:
 					out[card_id] = slot_xy(i) + Vector2(_w(), _h()) / 2.0
 		elif str(where.get("to", "")) == "heap":
 			var counters: RecruitCounters = _counters as RecruitCounters
-			var held: Array[Dictionary] = counters.ordered(_shown_counters())
+			var held: Array[Dictionary] = counters.visible_counters(_shown_counters())
 			var raw: Array = state.get("counters", [])
-			var next: Array[Dictionary] = counters.ordered(raw)
+			var next: Array[Dictionary] = counters.visible_counters(raw)
 			var id: String = str(where.get("id", ""))
-			var limit: int = int(L1Layout.number("right.counter.limit"))
 			for order: Array[Dictionary] in [held, next]:
-				for i: int in mini(order.size(), limit):
+				for i: int in order.size():
 					if str(order[i].get("id", "")) == id:
 						out[card_id] = RecruitCounters.counter_area(i).get_center()
 						break

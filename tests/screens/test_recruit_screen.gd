@@ -118,6 +118,18 @@ func test_leaderboard_lists_every_player() -> void:
 	assert_eq(_count("LeaderPortrait_"), players.size())
 
 
+func test_pointing_at_a_scoreboard_portrait_shows_only_the_player_name() -> void:
+	var state: Dictionary = _mockup()
+	_make(state)
+	var player: Dictionary = state["players"][0]
+	var portrait: Control = _find("LeaderPortrait_0")
+	_move(portrait.position + portrait.size / 2.0)
+	var tip: Control = _find("Tip")
+	assert_true(tip.visible)
+	assert_eq(_texts(tip), [str(player["name"])] as Array[String])
+	assert_gt(tip.position.x, L1Layout.number("column.w"), "the name sits beside the scoreboard")
+
+
 func test_a_player_who_is_out_looks_out_on_the_leaderboard() -> void:
 	var state: Dictionary = _mockup()
 	var players: Array = state["players"]
@@ -293,7 +305,7 @@ func test_counters_message_golden_and_renown() -> void:
 	assert_not_null(_find("Renown_0"), "the board draws Renown over the unit")
 
 
-func test_tab_and_the_hero_leave_the_leaderboard_visible() -> void:
+func test_tab_leaves_the_leaderboard_visible() -> void:
 	_make(_mockup())
 	watch_signals(_screen)
 	var leaderboard: Control = _find("Leaderboard")
@@ -303,9 +315,22 @@ func test_tab_and_the_hero_leave_the_leaderboard_visible() -> void:
 	tab.pressed = true
 	_screen._unhandled_key_input(tab)
 	assert_same(_find("Leaderboard"), leaderboard, "Tab leaves the board in place")
+	assert_true(leaderboard.is_visible_in_tree())
+	assert_signal_not_emitted(_screen, "action_requested")
+
+
+func test_pressing_the_hero_leaves_the_scoreboard_visible_and_sends_no_action() -> void:
+	_make(_mockup())
+	watch_signals(_screen)
+	var leaderboard: Control = _find("Leaderboard")
 	var hero: Control = _find("Hero")
-	_click(hero.position + hero.size / 2.0)
-	assert_same(_find("Leaderboard"), leaderboard, "the hero leaves the board in place")
+	var at: Vector2 = hero.position + hero.size / 2.0
+	_press(at, true)
+	assert_true(_screen._input.is_pressing(), "the hero takes the press")
+	assert_true(leaderboard.is_visible_in_tree())
+	assert_signal_not_emitted(_screen, "action_requested")
+	_press(at, false)
+	assert_same(_find("Leaderboard"), leaderboard)
 	assert_true(leaderboard.is_visible_in_tree())
 	assert_signal_not_emitted(_screen, "action_requested")
 
@@ -690,6 +715,43 @@ func test_player_counters_show_value_and_keep_the_name_and_reminder_on_hover() -
 	assert_string_contains(" ".join(_texts(tip)), "Every unit sold goes here.")
 
 
+func test_compost_and_tide_keep_their_places_when_either_value_changes() -> void:
+	var state: Dictionary = _mockup()
+	state["display"]["thorn_compost"] = state["display"]["compost"]
+	state["display"]["locust_tide"] = state["display"]["tide"]
+	state["counters"] = [
+		{"id": "thorn_compost", "value": 4, "entries": []},
+		{"id": "locust_tide", "value": 3},
+	]
+	_make(state)
+	var compost: Vector2 = (_find("Chip_0") as Control).position
+	var tide: Vector2 = (_find("Chip_1") as Control).position
+	assert_eq(_counter_values(), ["4", "3"] as Array[String])
+
+	var more_tide: Dictionary = state.duplicate(true)
+	more_tide["counters"][1]["value"] = 8
+	var reordered: Array = more_tide["counters"]
+	reordered.reverse()
+	_screen.show_state(more_tide)
+	assert_eq(_counter_values(), ["4", "8"] as Array[String])
+	assert_eq((_find("Chip_0") as Control).position, compost)
+	assert_eq((_find("Chip_1") as Control).position, tide)
+
+	var more_compost: Dictionary = more_tide.duplicate(true)
+	more_compost["counters"][1]["value"] = 6
+	_screen.show_state(more_compost)
+	assert_eq(_counter_values(), ["6", "8"] as Array[String])
+	assert_eq((_find("Chip_0") as Control).position, compost)
+	assert_eq((_find("Chip_1") as Control).position, tide)
+
+
+func _counter_values() -> Array[String]:
+	var values: Array[String] = []
+	for i: int in _count("Chip_"):
+		values.append(_texts(_find("Chip_%d" % i))[0])
+	return values
+
+
 func test_counter_overflow_appears_at_five_and_counts_all_visible_counters() -> void:
 	var state: Dictionary = _display_state()
 	var shown: Array = []
@@ -705,11 +767,11 @@ func test_counter_overflow_appears_at_five_and_counts_all_visible_counters() -> 
 	_screen.show_state(state)
 	assert_eq(_count("Chip_"), 4)
 	assert_eq(_texts(_find("AurasPlate")), ["5"] as Array[String])
-	assert_eq(_texts(_find("Chip_0")), ["5"] as Array[String], "highest first initially")
+	assert_eq(_counter_values(), ["2", "3", "4", "5"] as Array[String], "highest four in order")
 	state = state.duplicate(true)
 	state["counters"][0]["value"] = 0
 	_screen.show_state(state)
-	assert_eq(_texts(_find("Chip_0")), ["0"] as Array[String], "recently changed first")
+	assert_eq(_counter_values(), ["0", "3", "4", "5"] as Array[String], "the changed one returns")
 
 
 func test_whole_numbers_from_json_drop_their_point() -> void:

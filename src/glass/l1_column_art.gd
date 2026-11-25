@@ -99,11 +99,20 @@ static func roundel(key: String, markup: String) -> TextureRect:
 	return face
 
 
+static func set_roundel_hover(face: TextureRect, key: String, markup: String, hot: bool) -> void:
+	var mark: TextureRect = face.get_node("Icon")
+	mark.texture = icon_texture(
+		markup, GlassUi.GO if hot else CREAM, int(mark.size.x), L1Layout.number(key + ".stroke")
+	)
+
+
 ## An icon entry with the same release-to-open behaviour as GlassUi.button.
 static func entry(key: String, markup: String, open: Callable) -> TextureRect:
 	var face: TextureRect = roundel(key, markup)
 	face.mouse_filter = Control.MOUSE_FILTER_STOP
 	face.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	face.mouse_entered.connect(func() -> void: set_roundel_hover(face, key, markup, true))
+	face.mouse_exited.connect(func() -> void: set_roundel_hover(face, key, markup, false))
 	face.gui_input.connect(
 		func(event: InputEvent) -> void:
 			var click: InputEventMouseButton = event as InputEventMouseButton

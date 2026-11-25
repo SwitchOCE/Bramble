@@ -158,19 +158,25 @@ func show(target: Dictionary, at: Vector2) -> void:
 	open_details(target)
 
 
-## STAND-IN: the old scoreboard had no portrait tooltip. Use its existing player fields.
+## The portrait's player name sits beside the scoreboard.
 func _show_player(target: Dictionary) -> void:
 	var node: Control = target["node"]
 	if hot != node or not tip.visible:
 		clear()
 		var player: Dictionary = target["card"]
-		var words: Dictionary = {
-			"name": str(player.get("name", "")),
-			"text": "Health %d" % maxi(0, GlassPieces.as_int(player.get("health", 0))),
-		}
-		if player.has("tier"):
-			words["kind_line"] = "Tier " + GlassScreen.number_words(player["tier"])
-		var box: GlassBox = GlassParts.tip_text(words, false, PackedStringArray())
+		var box: GlassBox = GlassBox.new()
+		box.use_css("stage", "#tip .txt")
+		var label: GlassText = GlassText.from_rule("stage", "#tip .n", str(player.get("name", "")))
+		label.colour = GlassPieces.rule_colour("stage", "#tip .txt", "color")
+		label.refresh()
+		var pad: Array = GlassPieces.rule("stage", "#tip .txt", "padding")
+		label.position = (
+			Vector2(GlassPieces.as_float(pad[1]), GlassPieces.as_float(pad[0]))
+			+ Vector2.ONE * box.border_width
+		)
+		box.box_size = label.size + 2.0 * label.position
+		box.refresh()
+		box.add_child(label)
 		tip.add_child(box)
 		tip.position = Vector2(
 			L1Layout.number("left.player_tip.x"),
