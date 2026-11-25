@@ -67,6 +67,9 @@ var played: Array = []
 var views: Array = []
 ## The fight's schedule (FightTimeline), once schedule() has made it.
 var plan: FightTimeline
+## The loss's parts from GameSession's fight entry: {big (rulebook 10.1.2), base, extra}. The
+## result carries big and base, for the portrait strike's two landings on a big loss (FightStrike).
+var loss: Dictionary = {}
 
 var _base: Dictionary
 ## The base as given, before the log changed it (schedule() replays a reordered log from it).
@@ -83,11 +86,13 @@ var _gone: Dictionary = {}
 
 ## base: the view state around the fight (hero, opponent, you_side, slots...); its boards are
 ## replaced by the log's. catalog: card id -> {name, tier, art, text, health} for what the log
-## does not carry. damage: what the loser takes, from GameSession's fight entry (-1 for none).
+## does not carry. damage: what the loser takes, from GameSession's fight entry (-1 for none);
+## parts: the entry's `loss` ({big, base, extra}: GameSession, Rules.loss_base, loss_extra).
 static func build(
-	base: Dictionary, events: Array, catalog: Dictionary, damage: int = -1
+	base: Dictionary, events: Array, catalog: Dictionary, damage: int = -1, parts: Dictionary = {}
 ) -> FightReplay:
 	var replay: FightReplay = FightReplay.start(base, catalog)
+	replay.loss = parts
 	for value: Variant in mark_pile_ons(events):
 		if value is Dictionary:
 			var event: Dictionary = value
@@ -172,6 +177,7 @@ func schedule(place: Callable) -> void:
 	var ordered: Array = FightOrder.staggered(played)
 	if FightOrder.has_stagger(ordered):
 		var again: FightReplay = FightReplay.start(_given.duplicate(true), _catalog)
+		again.loss = loss
 		for value: Variant in ordered:
 			var event: Dictionary = value
 			again.apply(event, _damage)
@@ -302,7 +308,12 @@ func _apply(event: Dictionary, damage: int) -> void:
 			if _set_player_number(event):
 				_push(HOLD_CHANGE, "change")
 		"combat_end":
-			_moment["result"] = {"winner": _i(event.get("winner", -1)), "damage": maxi(0, damage)}
+			_moment["result"] = {
+				"winner": _i(event.get("winner", -1)),
+				"damage": maxi(0, damage),
+				"big": loss.get("big", false) == true,
+				"base": _i(loss.get("base", -1)),
+			}
 			_push(HOLD_END)
 			_take_damage(_i(event.get("winner", -1)), damage)
 		_:

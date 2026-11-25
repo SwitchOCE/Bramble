@@ -187,13 +187,20 @@ func test_death_falls_and_skip_removes_it_even_at_double_speed() -> void:
 	var dying: Control = _screen.node_for("board", 13)
 	_run_to(GlassPieces.as_float(fall["frame"]))
 	assert_null(_screen.node_for("board", 13), "dead unit is no longer a pointer target")
+	# dying alone (CB13 c): its light goes out, it holds, then sinks, on the schedule's clock
 	var was: Vector2 = dying.position
-	_tick_tweens(FightMotion.DEATH_TIME / 4.0)
-	assert_gt(dying.position.distance_to(was), 0.0, "death moves away, distinct from a knock")
-	assert_gt(absf(dying.rotation_degrees), 0.0)
+	_run_to(GlassPieces.as_float(fall["frame"]) + FightTimeline.DEATH_DARK_FRAMES)
+	assert_almost_eq(dying.modulate.r, FightTimeline.DEATH_DARK, 0.001, "its light goes out")
+	assert_eq(dying.position, was, "and it holds")
+	var sinking: float = FightTimeline.DEATH_DARK_FRAMES + FightTimeline.DEATH_HOLD_FRAMES + 6.0
+	_run_to(GlassPieces.as_float(fall["frame"]) + sinking)
+	assert_gt(dying.position.distance_to(was), 0.0, "then sinks, distinct from a knock")
+	assert_lt(dying.scale.x, 1.0)
 	assert_lt(dying.modulate.a, 1.0)
 	_screen.skip()
 	assert_true(_screen._keeper._fading.is_empty(), "skip leaves no dying cards")
+	var motion: FightMotion = _screen._keeper as FightMotion
+	assert_true(motion.dying.is_empty(), "nor any drawn by the screen")
 	_screen.play(replay)
 	assert_eq(_screen.targets_of("board").size(), 2, "restart restores both units")
 	for target: Dictionary in _screen.targets_of("board"):
