@@ -39,7 +39,7 @@ Write `definitions.md` in this folder and commit it before step 3's match is ana
 
 **Bought against passed.** One observation is one turn of the live seat in which the card was on offer and affordable. Bought means at least one copy was bought that turn. The number is mean final place when bought minus when passed, compared only inside the same bot, round and "is this the seat's main tribe at the time of the offer" group, then averaged. Under 100 bought or 100 passed, the cell reads "too few". This is not an experiment: bots buy a card when it suits the board, and a card a bot always buys cannot be measured this way. The report says so on each row.
 
-**Pick rate against power.** Pick rate is bought divided by offered-and-affordable. One chart with each card a dot: pick rate across, whole-unit swap value up, colour by tribe, tier marked. A second chart puts bought-against-passed on the upright axis.
+**Pick rate against power.** Pick rate is bought divided by offered-and-affordable. One chart with each card a dot: pick rate across, places lost when the card is left out of the shop up, colour by tribe, tier marked. A second chart puts bought-against-passed on the upright axis.
 
 **The flag line.** A card is over the line when the bot finishes half a place or more worse without it (left out of the shop), or half a place or more better when it buys it (bought against passed), with the interval clear of zero. Text off gives a list of where to look, not a flag. These lines are a first guess; the first report shows where they fall and the owner can move them.
 
@@ -56,7 +56,7 @@ Tests: every recorded fight still reproduces with nothing switched off; text off
 
 Bots are built from their tags in a build tree of this session's own (`/data/card-power/tree`), never in the league's folders. Matches are ghost matches against the kept field, on today's cards.
 
-First: one match of 2,000 games, 1,000 with red-c14 in the live seat and 1,000 with blue-c17 (always Badger). About ten minutes. Fights between the field's ghosts are in the records too, so the swap test also sees boards from the 15,000 runs of earlier bots, of every tribe. More games are played only where a card reads "too few". Runs with a bot held to a tribe it plays badly are not planned: they measure the bot as much as the cards.
+First: one match of 2,000 games, 1,000 with red-c14 in the live seat and 1,000 with blue-c17 (always Badger). About ten minutes. Fights between the field's ghosts are in the records too, so text off also sees boards from the 15,000 runs of earlier bots, of every tribe. More games are played only where a card reads "too few". Runs with a bot held to a tribe it plays badly are not planned: they measure the bot as much as the cards.
 
 Text off and Overrun on and off are run on this match. Left out of the shop is run for the Badger cards first (19 cards, 2,000 games each), then the rest. **First report to the owner:** the four cases, and every card with enough data, as one table and one chart.
 
@@ -70,7 +70,7 @@ In Python, from the match's `shops.jsonl.gz` and `games.jsonl`, reusing what `to
 
 - Split the games in two halves and compare the rankings: they should agree, and a card flagged in one half only is noise.
 - The planted card from step 2 must be flagged in the real data.
-- Compare the swap ranking with the blue team's independent table.
+- Compare the text-off ranking with the blue team's independent table.
 
 These run before the first report in step 3 is shown. The report states plainly where the data disagrees with the owner on any card.
 
@@ -97,5 +97,5 @@ Delete raw matches and build output, keep the findings, write the disk report.
 
 ## Cost
 
-- To build all three: refight is ported. Left: the swap mode, bought against passed and the chart, the report command. About a day of agent work and about ten minutes of matches for the first answer.
+- To build all three: refight is ported. Left: the two refight modes, the left-out test, bought against passed and the chart, the report command. About a day of agent work and about ten minutes of matches for the first answer.
 - To keep catching this: one command after a match. Each run needs the match's records kept until the report is written (about 23 KB a game gzipped) and some tens of minutes of refights.
