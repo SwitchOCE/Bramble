@@ -1,22 +1,23 @@
 # Card art recipe: prompt, shape guide and assembly
 
-**Approved by the owner for the stained glass branch, 16 November 2026.** Asked "Merge the recipe (PR 56) into the stained glass branch?", the owner said: "Yes, merge it". On 16 November 2026 the owner also approved it going to `main` with PR 55: asked whether to merge PR 55 "with the art recipe" to `main`, the owner said: "Let's do everything except 11 and 12" (this was item 1 of 12). Written 15 November 2026 from the tests run that day. The owner, on reading it: "I just want the existing process captured. I don't want it changed. ... This process is producing what I like." The card shape and its window are a working spec, not locked: the owner, 15 Nov, "let's not be too rigid on anything yet until I'm absolutely certain that this method's going to work."
+**Approved by the owner for the stained glass branch, 16 November 2026.** Asked "Merge the recipe (PR 56) into the stained glass branch?", the owner said: "Yes, merge it". On 16 November 2026 the owner also approved it going to `main` with PR 55: asked whether to merge PR 55 "with the art recipe" to `main`, the owner said: "Let's do everything except 11 and 12" (this was item 1 of 12). Written 15 November 2026 from the tests run that day. The owner, on reading it: "I just want the existing process captured. I don't want it changed. ... This process is producing what I like." The card's shape is the L1 look's: its points take a regular hexagon's angles (L8), and its ratio stays 0.56, "the ratio that's already in the current game build that all the artwork is generated for" (L24; both in [../look-l1/decisions-l1.md](../look-l1/decisions-l1.md)).
 
 What this is for, in the owner's words (15 Nov): "our goal out of this is to get reproducible guides for prompting and card assembly so that we get consistent results".
 
 ## The method in one paragraph
 
-A card is two pictures made separately. The **art** is a stained-glass picture of the fighter, made by Codex to the exact shape of the frame's window. The **frame** is the tier border, made once per tier (see [../../workstreams/glass-frames.md](../../workstreams/glass-frames.md)). To build a card, the art is moved into the card's coordinates by one fixed crop and the frame is laid on top. Nothing is scaled, moved or cropped by hand.
+The **art** is a stained-glass picture of the fighter, made by Codex to the shape of a grey guide. It is moved into card space (560 × 1000) by one fixed crop and saved as the unit's card art. The **frame** is not a picture: the game draws one lead frame in code, the same at every tier and on every screen, and shows the middle of the art inside it ([../look-l1/buy-screen-l1.md](../look-l1/buy-screen-l1.md), section 6). Nothing is scaled, moved or cropped by hand.
 
-![The three steps: the grey shape guide, the picture Codex returns, and the finished tier 1 card](examples/glass-art-steps.jpg)
+![The three steps: the grey shape guide, the picture Codex returns, and the picture in the game's card outline](examples/card-art-steps.jpg)
 
 ## What the owner has decided
 
 - **The prompt is the loose one.** After two rounds of rule-heavy prompts came out worse than the first fox picture: "that prompt is going to be our process for image generation going forward, I think."
 - **Art and frame are made apart.** The owner's reason: "We don't want the borders influencing the image generation's algorithm's choice of color palette." It began as a suggestion, "So maybe we just ask it to generate it a little bigger and then just overlay the borders ourselves on the images. I'm not sure." After seeing it work the owner backed the method built on it (below).
 - **Art is made to the frame's window.** "Giving it the shape is good, but that shape needs to be the exact shape that fits in the inside of our frame", so that "we won't ever have to worry about scaling the image, moving it, positioning it, and cropping it."
-- **The window is the plain frame's.** "the internal area for the simple frames that have the least thickness", "Ignoring any of the accents that get added and start overlaying onto the image in the higher tier frames."
+- **The guide's window is the plain tier frame's.** "the internal area for the simple frames that have the least thickness", "Ignoring any of the accents that get added and start overlaying onto the image in the higher tier frames."
 - **This is the method to pursue.** "I think this approach is going to be the right method."
+- **The borders change; the art does not, for now.** On 25 Nov 2026 the card's border became the L1 look's code-drawn lead frame. The owner: "I think card art replacement can happen later. We'll just replace the borders for now." (L51). The art in the game is unchanged, and art made by this recipe fits the new card (below). The calmer backgrounds and per-tribe colour guide the owner asked for on 24 Nov (L6) will change the prompt when that work starts; it has not.
 - **Fighters are warriors, shown full body.** The owner, 14 Nov: "these are fighters. They're supposed to be warriors"; the art before was "far too big and zoomed in", with "Not enough ... actual arms and legs".
 - **Roundels may cover a little.** "It's not a massive deal if feet and tails get covered a little bit".
 - **The process stays as it is, lead and glass included.** Asked which stands, an earlier rule or the pictures: "I changed my mind on that rule. We're getting good results out of the existing stuff. So the existing process, like I just want the existing process captured. I don't want it changed."
@@ -27,24 +28,25 @@ A card is two pictures made separately. The **art** is a stained-glass picture o
 The owner, 15 Nov: "If previous stuff I've said overrides it, call it out like that. And let's get rid of it because it's wrong." These earlier statements no longer hold:
 
 - **"Lines need to be flat black. They can't be anything except black."** and **"The streaky stuff is not needed. And the painted stuff is also not needed."** (the owner, 15 Nov, in chat, before seeing the loose-prompt results). Withdrawn by the owner: "I changed my mind on that rule." The process gives dark brown lead and streaky, back-lit glass, and that is what is wanted. These two statements were never written into the repo.
-- **The style-rules step of the dial-in plan** ([../../workstreams/glass-dial-in.md](../../workstreams/glass-dial-in.md), step 4): trials to settle painted detail, lead weight and glass texture, then rules written from them. Two rounds of those trials were run and came out worse than the loose prompt. No style rules are being written. The step is marked as replaced in the plan.
+- **The style-rules step of the dial-in plan** ([../../archive/glass-first-look/glass-dial-in.md](../../archive/glass-first-look/glass-dial-in.md), step 4): trials to settle painted detail, lead weight and glass texture, then rules written from them. Two rounds of those trials were run and came out worse than the loose prompt. No style rules are being written. The step is marked as replaced in the plan.
 
-One line of agent wording is also out of date and is updated with this recipe: [README.md](README.md) said of how fighters look, "How that is done in glass is open".
-
-"The pieces", "Steps" and "What not to do" below are the process as it was run in the tests: the one the owner asked to have captured without change. The wording is the agent's. The test results and the "Not settled" list after them are the agent's report, not part of the process.
+"The pieces", "Steps" and "What not to do" below are the process as it was run in the tests: the one the owner asked to have captured without change, with the card it is fitted to now the L1 card. The wording is the agent's. The test results and the "Not settled" list after them are the agent's report, not part of the process.
 
 ## The pieces
 
 | Piece | Where | What it is |
 |---|---|---|
-| Card and window | [frame-lab/art-space.md](frame-lab/art-space.md) | Card 560 × 1000 (0.56 wide to 1 tall). Art window: a six-sided shape 498 × 895 inside it, set in `make_guide.py`. (art-space.md gives the same points in its opening note; the measurements under it are the earlier, smaller window.) |
-| Shape guide | `tools/art/glass-art/guide.png` | A plain grey panel in the window's outline, on Codex's 1024 × 1536 canvas. Drawn by `make_guide.py`. |
+| Card | [../look-l1/buy-screen-l1.md](../look-l1/buy-screen-l1.md), section 6; the numbers the game reads are in `assets/glass/l1/layout.json` (`card.*`) | Drawn by the game (`src/glass/glass_card.gd`, `l1_card_face.gd`): one lead frame, 5 px wide on a 140 × 250 card, round a window. The card shows the art file's source x 28 to 532, y 52 to 952 (504 × 900, a scale of 3.6 card units to a game pixel), so the card's outline in card units is (280, 52), (532, 197.5), (532, 806.5), (280, 952), (28, 806.5), (28, 197.5), and the window inside the lead is (280, 72.8), (514, 207.9), (514, 796.1), (280, 931.2), (46, 796.1), (46, 207.9). |
+| Attack and Health | the same | Two discs, the same on every card: centres at (122, 791.8) and (438, 791.8) in card units, 61 units in radius, 76 with their rims. The game draws the numbers on them. |
+| Art window and guide | `tools/art/glass-art/make_guide.py`, `guide.png`, `window.json` | The window the guide is drawn to: a six-sided shape 498 × 895 inside the 560 × 1000 card, (280, 52.5) to (529.1, 811.6), with 8 units added on every side. It is the window of the earlier tier frames, kept because art made to it covers the L1 card's window with room to spare. A plain grey panel in that outline, on Codex's 1024 × 1536 canvas. |
 | Prompt | `tools/art/prompts/glass-art-window.txt` | The loose wording plus the list of subjects. |
 | Codex worker | The `delegate_task` tool in a T3 Code thread | Starts a Codex worker that makes one batch, with the guide given by its path. |
-| Check and assembly | `tools/art/glass-art/assemble.py` | Measures each picture against the guide and builds the cards. |
-| Frames | [frame-lab/final/](frame-lab/final/) | Six tier frames in card space, 1120 × 2000, window clear, roundels empty. The thin set the owner locked on 15 November, redrawn sharper the same day (the owner, relayed by the card frames session: "Yes, i approve"). |
+| Check and preview | `tools/art/glass-art/assemble.py` | Measures each picture against the guide, and shows it in the game card's outline, with the window and the two discs, at 4 times and at 1 times game size. |
+| Into the game | `tools/art/glass-art/prep_units.py` | Moves a picture into card space with the same crop and saves it as `assets/units/<tribe>/<unit id>.jpg` (560 × 1000). |
 
-The art window is the window of the outline the thin frames were drawn to (the frames the owner locked on 15 November, after finding the first set, in words relayed by the card frames session, "too busy now that I see them on screen. We need to reduce the width"). The frames' own windows are close to it: 1.6 to 3.3 card units inside it on every tier. So the guide adds 8 units on every side, which puts the art 9.6 units or more under the border everywhere (tier 4 has the least). Codex returns the panel within about 7 pixels (5 units) of the guide, sometimes smaller and sometimes larger. There is room on the other side too: the art would start to show past the frame's outer edge on tiers 3 and 4, near both lower corners, at a margin of about 12.5. These figures were measured on the frames as they are now. Measure again whenever the frame files change: a small change to a frame's edge can use up the room that is left. The card sits on Codex's canvas at 1.44 times spec size with its top-left corner at (108.8, 48). The card frames session said on 15 November that it would use the same placement for its own outline guides; that has not been checked against its files.
+**The margins.** The window the card shows sits 22 card units or more inside the guide's art area on every side (14 or more inside the guide's window), and the card's outer edge 4 or more inside it. Codex returns the panel within about 7 canvas pixels (5 units) of the guide, so the art always fills the window. Outside the window the lead covers the art, and outside the outline nothing is drawn. The card sits on Codex's canvas at 1.44 times card-space size with its top-left corner at (108.8, 48). Measure again if the card's numbers in `assets/glass/l1/layout.json` change.
+
+**The safe area.** What matters in a picture should sit inside the card's window, and clear of the two discs at its lower corners: they cover about x 46 to 198 and 362 to 514, from y 716 down. The card's window is 14 to 20 units inside the guide's window all round (most at the top point), so the guide's own edge never shows. A spell is shown as a disc, not a card: in the game its window is the circle inside source x 90 to 470, y 320 to 700 (spec section 6, "A spell in the hand"), so a spell's subject should sit in the middle of the picture. `assemble.py` draws every picture as a unit card.
 
 ## Steps
 
@@ -69,18 +71,20 @@ The art window is the window of the outline the thin frames were drawn to (the f
 3. **Check and assemble.**
 
    ```
-   python tools/art/glass-art/assemble.py <art folder> <cards folder> --tiers 1,6
+   python tools/art/glass-art/assemble.py <art folder> <cards folder>
    ```
 
-   It prints, for each picture, how far the panel's four edges are from the guide's, and flags any that are more than 12 pixels off. The tightest frame, tier 4, has about 13.8 pixels of art to spare. The check measures the panel's left, top, right and bottom, not the sloping edges themselves. The guide is measured the same way as the pictures, so the guide itself reads 0 on every side. Make a flagged picture again. It then writes each card under each tier asked for.
+   It prints, for each picture, how far the panel's four edges are from the guide's, and flags any that are more than 12 pixels off. The card's window has about 32 canvas pixels (22 units) of art to spare. The check measures the panel's left, top, right and bottom, not the sloping edges themselves. The guide is measured the same way as the pictures, so the guide itself reads 0 on every side. Make a flagged picture again. It then writes each picture in the game card's outline: `<name>.png` at 4 times game size, `<name>-game.png` at game size, and `sheet.jpg` with all of them. It is an outline for judging the art, not the game's look: the lead is flat, with no bevel, slab or light.
 
-4. **Look at the cards** under the highest tier the fighter could have, at the size they will be in the game.
+4. **Look at the cards** at the size they will be in the game (`<name>-game.png`), and check the safe area above.
+
+5. **Put a chosen picture into the game** with `prep_units.py <tribe> <picture>[=<unit id>]`.
 
 ## What not to do
 
 - **Do not add style rules.** Lead weight, lead colour, glass texture, piece counts and palette limits were all tried on 15 November. Codex followed them literally and the pictures came out flat. The two short paragraphs that begin "Look:" and "The design" are the whole style.
 - **Do not attach a finished card as a style reference.** A reference locks whatever is in it. With a finished fox card attached, every picture copied its border and roundels. The grey guide works because there is nothing in it but the shape.
-- **Do not put the border or the numbers in the art.** They are added afterwards.
+- **Do not put the border or the numbers in the art.** The game draws them.
 - **Do not fit a picture by hand.** If it is off the guide, make it again.
 
 ## What the tests showed
@@ -101,18 +105,14 @@ The two 18-picture tests were made to an earlier, smaller window, for thicker fr
 
 Before the frames were thinned, the steps above were also run once exactly as written, to the earlier window, through the repo's runner and `assemble.py`, for a fighter not used before (a heron). The panel came back within 1 pixel of the guide and the cards assembled with no changes.
 
-Six pictures from the third 24-picture test under all six frames, tier 1 at the top:
+The tests up to 18 Nov were judged under the six tier frames the game drew then (the frames and those pictures are in [../../archive/glass-first-look/](../../archive/glass-first-look/ARCHIVED.md)). Twelve pictures from the third 24-picture test, in the L1 card's outline as `assemble.py` draws it (25 Nov); the last is a spell, which the game shows as a disc:
 
-![Six pictures under each of the six tier frames](examples/glass-art-tiers.jpg)
+![Twelve recipe pictures in the L1 card's outline](examples/card-art-cards.jpg)
 
 The full sets are on the Optiplex under `/data/bramble-art/stained-glass/` (`loose-prompt-test`, `window-art-test`; the three 24-picture sets are in `window-art-test/thin-frames`, `window-art-test/sharp-frames` and `window-art-test/margin-8`; the last holds the current pictures and cards).
 
 ## Not settled
 
-- **The card shape and window** are a working spec (above).
-- **Tier 5's roundels differ a little.** On the sharper frames its window was the only one that reached past the art window. Asked on 15 November whether to keep a wider guide or have tier 5's frame redrawn to match the other tiers, the owner said: "Redraw tier 5". The card frames session redrew it, and all six now sit inside the art window. Its roundels are a little bigger and higher than the other tiers'; the owner, relayed by that session: "but it'll do for now".
-- **The roundels are empty.** The frames carry no numbers; the game draws Attack on the left disc and Health on the right. Each tier's disc centres and sizes are in [frame-lab/final/roundels.json](frame-lab/final/roundels.json). `assemble.py` does not draw numbers, so assembled cards show empty discs.
-- **The roundels cover the lower corners.** Feet and tails often sit behind them. The two discs could be added to the guide so Codex keeps clear of them.
-- **The top accent covers the middle of the window's top edge on every tier.** A small diamond hangs down to about 15% of the card's height at the centre. Something placed at the very top centre of a picture sits behind it. At the bottom point, tiers 2 to 6 have an accent too: down the centre their windows end at about 82 to 88% of the card's height, where tier 1's runs to 93.5%.
+- **The discs cover the lower corners.** Feet and tails often sit behind them. The two discs could be added to the guide so Codex keeps clear of them.
+- **The guide is the earlier frames' window.** It works for the L1 card (the margins above), but it is not the L1 card's own outline. A guide drawn to the L1 window would give Codex the exact shape; nobody has tried one.
 - **A large set has not been made.** The most made to one guide is 24, in four batches of six. Colour strength varies a little between runs, and that may show across a hundred cards.
-- **Not judged at game size on the real screen.**

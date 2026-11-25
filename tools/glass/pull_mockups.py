@@ -7,7 +7,6 @@
 
 Run `git fetch origin` first to get the mock-ups' latest commit. Writes into assets/glass/:
 
-- frames/tier1..6.webp   the six tier frames, as the mock-ups use them (560 x 1000)
 - art/<name>.jpg         the card art cards.html and recruit.html show (the art recipe's test set, not
                          decided units)
 - portraits/<name>.jpg   the hero portraits the screens show (stand-ins)
@@ -15,12 +14,11 @@ Run `git fetch origin` first to get the mock-ups' latest commit. Writes into ass
                          emblems: every assets/ui file the screens' CSS and JS name
 - fonts/                 Alegreya and Alegreya Sans, the fonts the pages load from Google Fonts,
                          fetched from a pinned commit of github.com/google/fonts (OFL)
-- card_data.json         assets/card-data.js as JSON: each tier's Attack and Health discs, the art polygon
 - layout.json            every layout number, colour and font the Godot side reads, each with the file,
                          line and source text it came from
 - source.json            the commit pulled and the SHA-256 of every file written
 
-The frames and art import with mipmaps on, so they stay smooth when drawn small: a file new to
+The art imports with mipmaps on, so they stay smooth when drawn small: a file new to
 assets/glass needs `mipmaps/generate=true` in its .import file after Godot first imports it.
 The mock-ups still show a hand of 10; the rule is 7 (rulebook 7.1.1), so the hand count is not pulled.
 
@@ -498,14 +496,6 @@ def referenced(commit: str, folder: str) -> list[str]:
     return sorted(names)
 
 
-def card_data(commit: str) -> dict[str, object]:
-    js = show(commit, "assets/card-data.js").decode()
-    found = re.fullmatch(r"\s*window\.CARD_DATA = (\{.*\});\s*", js, re.DOTALL)
-    if not found:
-        sys.exit("pull_mockups: assets/card-data.js is no longer `window.CARD_DATA = {...};`")
-    return json.loads(found.group(1))
-
-
 def font_metrics(name: str, data: bytes) -> dict[str, dict[str, object]]:
     """A font's vertical metrics in em, as browsers lay out a line with line-height: normal.
 
@@ -540,10 +530,8 @@ def fetch_font(path: str) -> bytes:
 
 
 def build(commit: str, keep_fonts: dict[str, bytes]) -> dict[str, bytes]:
-    """Every file under assets/glass, as bytes, keyed by its path there."""
+    """Each pulled file, as bytes, keyed by its path under assets/glass."""
     files: dict[str, bytes] = {}
-    for tier in range(1, 7):
-        files[f"frames/tier{tier}.webp"] = show(commit, f"assets/frames/tier{tier}.webp")
     lay = layout(commit)
     lay.update(css(commit))
     recruit_h = float(lay["stage.recruit.card_h"]["value"])  # type: ignore[arg-type]
@@ -562,7 +550,6 @@ def build(commit: str, keep_fonts: dict[str, bytes]) -> dict[str, bytes]:
         files[f"fonts/{name}"] = keep_fonts.get(name) or fetch_font(path)
     for family, file in FONT_FILES.items():
         lay.update(font_metrics(family, files[f"fonts/{file}"]))
-    files["card_data.json"] = (json.dumps(card_data(commit), indent=1) + "\n").encode()
     files["layout.json"] = (json.dumps(lay, indent=1) + "\n").encode()
     return files
 

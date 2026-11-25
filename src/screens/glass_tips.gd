@@ -15,6 +15,7 @@ var tip: Control
 var hot: Control
 var details: Array[GlassBox] = []
 var fixed_keywords: bool = false
+var keyword_width: float = KeywordStyle.DETAIL_W
 var content: GameContent
 var _icon_mark: KeywordMark
 var _goldens: Dictionary = {}
@@ -270,7 +271,7 @@ func show_words(target: Dictionary, at: Vector2) -> void:
 ## Empties the pane, for new words.
 func clear() -> void:
 	_icon_mark = null
-	details.clear()
+	_drop_details()
 	for child: Node in tip.get_children():
 		tip.remove_child(child)
 		child.queue_free()
@@ -377,7 +378,7 @@ func _add_keyword(term: Dictionary, seen: Dictionary) -> KeywordText:
 	var pad: float = KeywordStyle.PAD
 	var top: float = pad
 	var foot: float = pad
-	var width: float = KeywordStyle.DETAIL_W
+	var width: float = keyword_width
 	var pane: GlassBox = tip.get_node_or_null("Words")
 	if fixed_keywords:
 		_use_left_light_glass(box)
@@ -411,9 +412,13 @@ func _add_keyword(term: Dictionary, seen: Dictionary) -> KeywordText:
 	box.box_size = Vector2(width, top + body.size.y + foot)
 	box.radii = Vector4.ONE * KeywordStyle.DETAIL_RADIUS
 	box.refresh()
-	tip.add_child(box)
+	_keyword_parent().add_child(box)
 	details.append(box)
 	return body
+
+
+func _keyword_parent() -> Control:
+	return tip
 
 
 ## tooltips.html, option 1: the left-light boxes use the same glass as Words.

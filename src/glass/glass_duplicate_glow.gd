@@ -34,6 +34,9 @@ static func apply(card: GlassCard, value: int) -> GlassDuplicateGlow:
 		glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		glow.show_behind_parent = true
 		card.add_child(glow)
+		# STAND-IN: draw the existing glow behind the new slab and face.
+		var face: Node = card.get_node("Face")
+		card.move_child(glow, face.get_index())
 	if glow != null:
 		glow._set_mark(card, value)
 	return glow
@@ -61,7 +64,7 @@ func _set_mark(card: GlassCard, value: int) -> void:
 		var layer: Control = Control.new()
 		layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var mat: ShaderMaterial = ShaderMaterial.new()
-		mat.shader = GlassCard.SHADOW_SHADER
+		mat.shader = L1CardFace.SHADOW_SHADER
 		layer.material = mat
 		var spec: Dictionary = specs[i]
 		var shadow: Dictionary = {"x": 0.0, "y": 0.0, "blur": spec.blur, "colour": spec.colour}

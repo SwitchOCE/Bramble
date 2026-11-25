@@ -20,4 +20,4 @@ What if we also got rid of the rule that your board never moves in state? I thin
 
 *[Editor notes:*
 - *Copied on 16 Nov 2026 from the session transcripts, so that the skill's quotes have a source in the repo (the owner, 16 Nov, asked whether to do this: "Yes, all twelve").*
-- *On the unit shape, the two messages differ: "somewhere between the mid hex and the tall hex" (11 Nov) and "the tall hexes ... these are the right path" (14 Nov). On 15 Nov the owner set the card outline at 0.56 wide to 1 tall; see `docs/workstreams/glass-frames.md`. The skill treats the shape as current direction, not fixed.]*
+- *On the unit shape, the two messages differ: "somewhere between the mid hex and the tall hex" (11 Nov) and "the tall hexes ... these are the right path" (14 Nov). On 15 Nov the owner set the card outline at 0.56 wide to 1 tall; see `docs/archive/glass-first-look/glass-frames.md`; on 25 Nov it kept 0.56 (L24 in `docs/design/look-l1/decisions-l1.md`). The skill treats the shape as current direction, not fixed.]*

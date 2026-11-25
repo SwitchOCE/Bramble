@@ -1,15 +1,18 @@
 class_name GlassSpell
 extends Control
-## STAND-IN: a spell as the mock-ups draw one with no spell frame yet (card.js make() with
-## spell "hex", card.css .card.hexsp): the spell picture in a hexagon the units' width, a plain lead
-## outline round it, and a cream cost disc on its left shoulder. RecruitShop replaces the disc
-## with a gold coin only on shop offers. Set the fields, then call build().
+## Spells use a lead disc on the shop wall and in the hand. Other views keep the STAND-IN
+## hexagon and its cream cost disc. RecruitShop adds the painted cost coin to a shop offer.
 
 var art: Texture2D
 var cost: int = 0
-## The hexagon's size, and its shoulders as a share of its height (geom()'s SW, SH and SS).
+## The spell box and, for hexagons, the shoulders as a share of its height.
 var spell_size: Vector2 = Vector2(140, 167)
 var shoulder: float = 0.25
+var hand_disc: bool = false
+var shop_disc: bool = false
+
+var _raised: bool = false
+var _shadow: Control
 
 
 func _init() -> void:
@@ -17,6 +20,9 @@ func _init() -> void:
 
 
 func build() -> void:
+	if hand_disc or shop_disc:
+		_build_disc()
+		return
 	size = spell_size
 	var whole: Rect2 = Rect2(Vector2.ZERO, spell_size)
 	var lead: GlassBox = GlassBox.new()
@@ -51,6 +57,36 @@ func build() -> void:
 	picture.refresh()
 	add_child(picture)
 	add_child(_cost_disc())
+
+
+func _build_disc() -> void:
+	size = Vector2.ONE * L1Layout.number("card.w") if hand_disc else spell_size
+	var face: L1CardFace = L1CardFace.new()
+	face.name = "Face"
+	face.build(size, art, true)
+	_shadow = Control.new()
+	_shadow.name = "Shadow"
+	_shadow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_shadow.draw.connect(
+		func() -> void:
+			if shop_disc:
+				var offset: Vector2 = Vector2(0, L1Layout.number("shop.spell.shadow_y"))
+				_shadow.draw_circle(
+					size / 2.0 + offset, size.x / 2.0, Color(0, 0, 0, 0.6), true, -1.0, true
+				)
+			else:
+				L1CardFace.draw_shadow(
+					_shadow, L1CardFace.slab_shadow(_raised, true, 1.0), size, true
+				)
+	)
+	add_child(_shadow)
+	add_child(face)
+
+
+func set_raised(on: bool) -> void:
+	_raised = on
+	if _shadow != null:
+		_shadow.queue_redraw()
 
 
 ## card.css .card .cost, moved by .card.hexsp .cost: a round disc, its size and place shares of

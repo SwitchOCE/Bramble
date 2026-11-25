@@ -188,17 +188,11 @@ func _grudge(effect: Dictionary, start: float) -> void:
 
 func _coin(source: GlassCard, amount: int, start: float) -> void:
 	_fire(source, start, 0.26)
-	var button: GlassBox = _screen._back.get_node("Button_gold")
+	var button: Control = _screen._back.get_node("Button_gold")
 	_remember(button)
 	button.pivot_offset = button.size / 2.0
 	var from: Vector2 = _centre(source) - Vector2(0.0, LIFT)
-	# protos.js coinToGold: to the coin on the gold button
 	var to: Vector2 = _centre(button)
-	for child: Node in button.get_children():
-		if child is GoldCoin:
-			var icon: GoldCoin = child
-			to = button.get_transform() * (icon.position + icon.size / 2.0)
-			break
 	# protos.js coinEl: a plain coin, what it gains beside it (.fxcoin b)
 	var coin: GoldCoin = GoldCoin.make(-1, 50.0)
 	coin.name = "GoldGain"

@@ -45,7 +45,7 @@ func test_every_recruit_and_fight_json_fixture_has_all_its_slot_rows() -> void:
 	assert_gt(checked, 0, "fixture enumeration exercised states")
 
 
-func test_real_unit_and_spell_purchases_leave_their_null_shop_places_visible() -> void:
+func test_real_purchases_keep_offer_indices_and_only_units_have_backings() -> void:
 	var content: GameContent = GameContent.load_default()
 	assert_eq(content.errors, PackedStringArray())
 	var flow: GameFlow = FlowFixture.live(content, 3)
@@ -56,9 +56,8 @@ func test_real_unit_and_spell_purchases_leave_their_null_shop_places_visible() -
 	me.shop_spells = [&"sp_seek", &"sp_sharpen"]
 	var screen: RecruitScreen = _make(RECRUIT, ViewAdapter.recruit_state(flow)) as RecruitScreen
 	var unit_slot: Node = screen.get_node_or_null("Frame/Stage/Slots/ShopSlot_0")
-	var spell_slot: Node = screen.get_node_or_null("Frame/Stage/Slots/SpellSlot_0")
 	assert_not_null(unit_slot, "occupied unit offer already has its slot")
-	assert_not_null(spell_slot, "occupied spell offer already has its slot")
+	assert_null(screen.get_node_or_null("Frame/Stage/Slots/SpellSlot_0"), "spells have no backing")
 	for spell: bool in [false, true]:
 		assert_eq(flow.act({"type": "buy", "spell": spell, "index": 0}), "", "real core purchase")
 		var state: Dictionary = ViewAdapter.recruit_state(flow)
@@ -70,14 +69,12 @@ func test_real_unit_and_spell_purchases_leave_their_null_shop_places_visible() -
 		assert_eq(Slots.check(screen), PackedStringArray(), "after spell=%s purchase" % spell)
 		assert_null(screen.node_for("spell" if spell else "shop", 0), "bought card left its place")
 		assert_same(screen.get_node_or_null("Frame/Stage/Slots/ShopSlot_0"), unit_slot)
-		assert_same(screen.get_node_or_null("Frame/Stage/Slots/SpellSlot_0"), spell_slot)
 		await get_tree().process_frame
 	assert_eq(flow.act({"type": "refresh"}), "", "real core refill")
 	screen.show_state(ViewAdapter.recruit_state(flow))
 	screen.settle()
 	assert_not_null(screen.node_for("shop", 0), "refill puts a card back over its place")
 	assert_same(screen.get_node_or_null("Frame/Stage/Slots/ShopSlot_0"), unit_slot)
-	assert_same(screen.get_node_or_null("Frame/Stage/Slots/SpellSlot_0"), spell_slot)
 	assert_eq(Slots.check(screen), PackedStringArray(), "after refill")
 
 

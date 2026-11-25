@@ -1,5 +1,5 @@
 extends Control
-## Three coin candidates side by side, plus the same combat settings before and after.
+## Three coin candidates side by side, plus the L1 combat settings.
 
 
 func _ready() -> void:
@@ -31,17 +31,16 @@ func _ready() -> void:
 		dull.position = Vector2(x + 240, 295)
 		add_child(dull)
 		_label("Can't afford", Vector2(x + 210, 360), 23)
-	_label("Attack and Health · before / after (same coin)", Vector2(80, 510), 36)
+	_label("Attack and Health", Vector2(80, 510), 36)
 	for i: int in 2:
 		var x: float = 340 + i * 800
-		_label("Before" if i == 0 else "After · diamond / shield", Vector2(x - 30, 575), 30)
+		_label("Lead" if i == 0 else "Gilt", Vector2(x - 30, 575), 30)
 		var card: GlassCard = GlassCard.new()
 		card.card_height = 350
-		card.tier = 3
 		card.art = GlassPieces.art("badger-1")
 		card.attack = 7
 		card.health = 7
-		card.distinct_stats = i == 1
+		card.golden = i == 1
 		card.position = Vector2(x, 630)
 		add_child(card)
 		var coin: GoldCoin = GoldCoin.make(7, 62)

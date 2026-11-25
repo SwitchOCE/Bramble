@@ -32,6 +32,7 @@ uniform bool has_image = false;
 uniform sampler2D image : source_color, repeat_enable, filter_linear_mipmap;
 uniform vec4 image_rect = vec4(0.0, 0.0, 1.0, 1.0);
 uniform bool image_multiply = false;
+uniform bool image_grayscale = false;
 
 uniform vec4 base_colour : source_color = vec4(0.0);
 uniform bool has_bottom = false;
@@ -177,6 +178,9 @@ void fragment() {
 		}
 		if (has_image) {
 			vec4 img = texture(image, (p - image_rect.xy) / image_rect.zw);
+			if (image_grayscale) {
+				img.rgb = vec3(dot(img.rgb, vec3(0.2126, 0.7152, 0.0722)));
+			}
 			if (image_multiply) {
 				bg = vec4(mix(bg.rgb, bg.rgb * img.rgb, img.a * bg.a) + img.rgb * img.a * (1.0 - bg.a), max(bg.a, img.a));
 			} else {

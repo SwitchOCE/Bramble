@@ -22,11 +22,9 @@ static func check(screen: GlassScreen) -> PackedStringArray:
 		for i: int in GlassScreen.BOARD_SLOTS:
 			expected["Slot_%d" % i] = [recruit.slot_xy(i), screen.card_box()]
 		var units: Array = screen.state.get("shop_units", [])
-		for i: int in units.size():
+		var arches: int = maxi(units.size(), int(L1Layout.number("shop.arch.count")))
+		for i: int in arches:
 			expected["ShopSlot_%d" % i] = [recruit.shop_xy(i), screen.card_box()]
-		var spells: Array = screen.state.get("shop_spells", [])
-		for i: int in spells.size():
-			expected["SpellSlot_%d" % i] = [recruit.spell_xy(i), screen._spell_size()]
 	elif screen is FightScreen:
 		var fight: FightScreen = screen as FightScreen
 		for side: int in 2:

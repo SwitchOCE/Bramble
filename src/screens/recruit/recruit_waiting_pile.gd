@@ -2,7 +2,6 @@ class_name RecruitWaitingPile
 extends RefCounted
 ## The small stack shows the newest gain. The hover lists cards in arrival order.
 
-const TOP: Vector2 = Vector2(1380, 972)
 const COUNT_OFFSET: Vector2 = Vector2(104, -8)
 const FAN_STEP: Vector2 = Vector2(12, -4)
 const VISIBLE_CARDS: int = 3
@@ -24,13 +23,18 @@ func _init(screen: RecruitScreen) -> void:
 	_screen = screen
 
 
+## STAND-IN: the stack remains on the ledge beside the hand count.
+static func top() -> Vector2:
+	return L1Layout.point("hand.waiting")
+
+
 func want_cards() -> void:
 	var cards: Array = _screen.state.get("waiting_pile", [])
 	var last: int = cards.size() - 1
 	for i: int in range(maxi(0, cards.size() - VISIBLE_CARDS), cards.size()):
 		var card: Dictionary = cards[i]
 		var depth: int = i - last
-		var at: Vector2 = TOP + depth * FAN_STEP
+		var at: Vector2 = top() + depth * FAN_STEP
 		if GlassScreen._is_spell(card):
 			at.y += 8.0
 		_screen._want_card(
@@ -54,7 +58,7 @@ func build_count() -> void:
 		return
 	_count = count_chip(cards.size())
 	_count.name = "WaitingCount"
-	_count.position = TOP + COUNT_OFFSET
+	_count.position = top() + COUNT_OFFSET
 	_count.z_index = 7
 	_screen._front.add_child(_count)
 
@@ -131,8 +135,8 @@ func _over_pane(here: Vector2) -> bool:
 		return true
 	# Keep the list open along the short path between it and the stack.
 	var bridge := Rect2(
-		Vector2(TOP.x - 24.0, _pane.position.y + _pane.size.y),
-		Vector2(COUNT_OFFSET.x + _count.size.x + 24.0, TOP.y - _pane.position.y - _pane.size.y)
+		Vector2(top().x - 24.0, _pane.position.y + _pane.size.y),
+		Vector2(COUNT_OFFSET.x + _count.size.x + 24.0, top().y - _pane.position.y - _pane.size.y)
 	)
 	return bridge.has_point(here)
 
@@ -173,7 +177,7 @@ func _build_pane() -> void:
 		maxf(width, note.size.x) + 2.0 * PANE_PAD, _scroll.position.y + _scroll.size.y + 16.0
 	)
 	_pane.use_css("stage", "#tip .txt").refresh()
-	_pane.position = TOP + Vector2(30.0 - _pane.box_size.x / 2.0, -40.0 - _pane.box_size.y)
+	_pane.position = top() + Vector2(30.0 - _pane.box_size.x / 2.0, -40.0 - _pane.box_size.y)
 	_pane.z_index = 7
 	_screen._front.add_child(_pane)
 
