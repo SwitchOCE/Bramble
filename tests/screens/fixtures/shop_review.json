@@ -1432,5 +1432,6 @@
    "hidden": false
   }
  },
+ "refresh_step_size": 10,
  "refreshes_left": 7
 }

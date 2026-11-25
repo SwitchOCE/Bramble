@@ -80,7 +80,9 @@ func start(matched: GameFlow) -> void:
 	fight.skip_requested.connect(_skip_fight)
 	var tools: Control = GlassUi.stage(self)
 	tools.z_index = 8
-	_past_button = GlassUi.button(tools, "Past boards", Vector2(38, 218), 170, _open_past_boards)
+	_past_button = L1ColumnArt.entry("right.past_boards", L1ColumnArt.HISTORY, _open_past_boards)
+	_past_button.name = "Button_Past_boards"
+	tools.add_child(_past_button)
 	_show_only(recruit)
 	_next_round()
 

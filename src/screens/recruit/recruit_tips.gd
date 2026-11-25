@@ -1,15 +1,8 @@
 class_name RecruitTips
 extends GlassTips
-## The recruit screen's hover detail: GlassTips' card detail, plus its own kinds. STAND-IN
-## (polish.html, m=recruit): a hovered hand card stands up, unturned, wholly on the screen, and its
-## detail is the words alone, beside it (the card is already big enough to read). An ability
-## button's detail is its words beside its card; a Discover option's is its words over its own
-## text pane. No detail shows on a card still on its way somewhere until it is still.
+## The recruit screen's hover detail in the left column. Discover keeps its own preview beside
+## its options, and a hand card rises in place.
 
-## STAND-IN (polish.html): a hovered hand card stands up unturned, its foot this far above the
-## stage's bottom, its words beside it this far to its right.
-const HAND_LIFT_FOOT: float = 8.0
-const HAND_TIP_GAP: float = 16.0
 const PREVIEW_FIELDS: PackedStringArray = [
 	"golden", "attack", "health", "base_attack", "base_health", "max_health"
 ]
@@ -20,6 +13,8 @@ var rest: Vector3 = Vector3.ZERO
 ## The card a click just put back: its detail shows while it settles.
 var put_back: Control
 
+var _hot_rest_z: int
+var _standing_rest_z: int
 var _recruit: RecruitScreen
 var _preview_node: GlassCard
 var _original: Dictionary = {}
@@ -87,8 +82,40 @@ func _pause_preview() -> void:
 
 
 func hover(here: Vector2) -> void:
-	if not _recruit._waiting.hover(here, self):
+	if _recruit._waiting.hover(here, self):
+		return
+	var drop: int = GlassPieces.as_int(_recruit.state.get("tier_up_drop", 0))
+	var target: Dictionary = _recruit.target_at(here, false)
+	if drop > 0 and target.get("id", "") == "tier" and not _recruit.is_discovering():
+		var button: Control = target["node"]
+		_show_discount(button, drop)
+	else:
 		super(here)
+
+
+func _show_discount(button: Control, drop: int) -> void:
+	if hot != button or not tip.visible:
+		clear()
+		var pane: GlassBox = GlassBox.new()
+		pane.name = "TierUpDrop"
+		pane.use_css("stage", "#tip .txt")
+		var words: GlassText = GlassText.from_rule("stage", "#tip .n", "−%d next turn" % drop)
+		words.name = "Value"
+		words.colour = GlassPieces.rule_colour("stage", "#tip .txt", "color")
+		words.refresh()
+		var pad: Array = GlassPieces.rule("stage", "#tip .txt", "padding")
+		words.position = Vector2(GlassPieces.as_float(pad[1]), GlassPieces.as_float(pad[0]))
+		words.position += Vector2.ONE * pane.border_width
+		pane.box_size = words.size + words.position * 2.0
+		pane.refresh()
+		pane.add_child(words)
+		tip.add_child(pane)
+		var gap: float = GlassPieces.number("stage.tip.gap")
+		tip.position = (
+			button.position + Vector2(-pane.size.x - gap, (button.size.y - pane.size.y) / 2.0)
+		)
+	set_hot(button)
+	tip.show()
 
 
 func fade() -> void:
@@ -105,6 +132,9 @@ func show(target: Dictionary, at: Vector2) -> void:
 		# no detail on a card still on its way (just dropped, say) until it is still
 		hide()
 		return
+	if str(target["kind"]) == "player":
+		_show_player(target)
+		return
 	if str(target["kind"]) == "discover":
 		_show_discover(target)
 		return
@@ -120,25 +150,47 @@ func show(target: Dictionary, at: Vector2) -> void:
 		var text: GlassBox = GlassParts.tip_text(
 			card, GlassScreen._is_spell(card), _recruit._reminders(card), _recruit._display_table()
 		)
-		text.position = Vector2(0, GlassPieces.rule_number("stage", "#tip .txt", "margin-top"))
 		tip.add_child(text)
 	var card_node: Control = node
 	set_hot(card_node)
 	stand(card_node)
-	# kept on the screen: a long list of reminders rises above the card's top
-	var text_box: GlassBox = last_box()
-	var bottom: float = 1080.0 - HAND_LIFT_FOOT - text_box.position.y - text_box.box_size.y
-	tip.position = Vector2(
-		card_node.position.x + card_node.size.x + HAND_TIP_GAP, minf(card_node.position.y, bottom)
-	)
 	tip.visible = true
 	open_details(target)
+
+
+## The portrait's player name sits beside the scoreboard.
+func _show_player(target: Dictionary) -> void:
+	var node: Control = target["node"]
+	if hot != node or not tip.visible:
+		clear()
+		var player: Dictionary = target["card"]
+		var box: GlassBox = GlassBox.new()
+		box.use_css("stage", "#tip .txt")
+		var label: GlassText = GlassText.from_rule("stage", "#tip .n", str(player.get("name", "")))
+		label.colour = GlassPieces.rule_colour("stage", "#tip .txt", "color")
+		label.refresh()
+		var pad: Array = GlassPieces.rule("stage", "#tip .txt", "padding")
+		label.position = (
+			Vector2(GlassPieces.as_float(pad[1]), GlassPieces.as_float(pad[0]))
+			+ Vector2.ONE * box.border_width
+		)
+		box.box_size = label.size + 2.0 * label.position
+		box.refresh()
+		box.add_child(label)
+		tip.add_child(box)
+		tip.position = Vector2(
+			L1Layout.number("left.player_tip.x"),
+			clampf(node.position.y, 0.0, L1Layout.stage_size().y - box.size.y)
+		)
+	set_hot(node)
+	tip.show()
 
 
 func set_hot(node: Control) -> void:
 	var previous: Control = hot
 	if node != hot:
 		_reset_golden()
+		_hot_rest_z = node.z_index if is_instance_valid(node) else 0
 	super(node)
 	# Discover's choices belong above its veil even after the shared hover resets their z.
 	for option: Control in [previous, node]:
@@ -148,7 +200,7 @@ func set_hot(node: Control) -> void:
 		set_down()
 
 
-## A hovered hand card stands up, unturned, its foot HAND_LIFT_FOOT above the stage's bottom.
+## A hovered hand card stands up, unturned, at the L1 height for its kind.
 func stand(node: Control) -> void:
 	if standing == node:
 		return
@@ -156,9 +208,14 @@ func stand(node: Control) -> void:
 	# a card still landing (a click puts a pressed card back) is at its place first
 	_recruit._keeper.finish(node)
 	standing = node
+	_standing_rest_z = _hot_rest_z if node == hot else node.z_index
 	rest = Vector3(node.position.x, node.position.y, node.rotation)
 	node.rotation = 0.0
-	node.position.y = 1080.0 - node.size.y - HAND_LIFT_FOOT
+	node.z_index = int(L1Layout.number("hand.hover_z"))
+	_set_raised(true)
+	node.position.y = L1Layout.number(
+		"hand.spell_hover_y" if node is GlassSpell else "hand.unit_hover_y"
+	)
 
 
 ## The standing hand card back to its rest.
@@ -166,17 +223,58 @@ func set_down() -> void:
 	if is_instance_valid(standing):
 		standing.position = Vector2(rest.x, rest.y)
 		standing.rotation = rest.z
-	standing = null
+	_release_standing()
 
 
 ## The standing hand card is no longer this detail's (a press carries it from where it stands).
 func forget_standing() -> void:
 	_reset_golden()
+	_release_standing()
+
+
+func _release_standing() -> void:
+	if is_instance_valid(standing):
+		standing.z_index = _standing_rest_z
+		_set_raised(false)
 	standing = null
 
 
-## STAND-IN (recruit-play.html ?abil=2): an ability button's hover is the words alone (its name,
-## its cost, what it does), beside its card on the right, clear of every button on that card.
+func _set_raised(on: bool) -> void:
+	if standing is GlassCard:
+		(standing as GlassCard).set_raised(on)
+	elif standing is GlassSpell:
+		(standing as GlassSpell).set_raised(on)
+
+
+## STAND-IN: fit the existing hover artwork and text together above the scoreboard.
+func _layout_details(target: Dictionary) -> void:
+	if str(target["kind"]) in ["discover", "waiting_preview"]:
+		super(target)
+		return
+	var column: Rect2 = L1Layout.rect("left.hover")
+	var parts: Array[Control] = []
+	for child: Node in tip.get_children():
+		if child is Control and not child.is_queued_for_deletion():
+			parts.append(child)
+	var height: float = KeywordStyle.GAP * maxi(0, parts.size() - 1)
+	for part: Control in parts:
+		height += part.size.y * minf(1.0, column.size.x / part.size.x)
+	var fit: float = minf(1.0, column.size.y / maxf(1.0, height))
+	tip.position = column.position
+	var y: float = 0.0
+	for part: Control in parts:
+		var scale_to_fit: float = fit * minf(1.0, column.size.x / part.size.x)
+		part.scale = Vector2.ONE * scale_to_fit
+		part.position = Vector2((column.size.x - part.size.x * scale_to_fit) / 2.0, y)
+		y += (part.size.y * scale_to_fit + KeywordStyle.GAP * fit)
+
+
+func show_words(target: Dictionary, at: Vector2) -> void:
+	super(target, at)
+	_layout_details(target)
+
+
+## An ability's existing name, cost and reminder take the same column as unit details.
 func _show_ability(target: Dictionary) -> void:
 	var node: Control = target["node"]
 	if hot != node or _icon_mark != null:
@@ -185,12 +283,6 @@ func _show_ability(target: Dictionary) -> void:
 		tip.add_child(
 			GlassParts.tip_text(words, false, PackedStringArray(), _screen._display_table())
 		)
-	var card: Control = node.get_parent()
-	var box: GlassBox = last_box()
-	var x: float = card.position.x + card.size.x + HAND_TIP_GAP
-	if x + box.box_size.x > GlassPieces.number("stage.tip.flip_edge"):
-		x = card.position.x - HAND_TIP_GAP - box.box_size.x
-	tip.position = Vector2(x, card.position.y + node.position.y)
 	tip.visible = true
 	open_details(target)
 	set_hot(node)

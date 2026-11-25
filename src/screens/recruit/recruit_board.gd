@@ -41,6 +41,7 @@ func want() -> void:
 		places.append(_screen.slot_xy(i))
 		var raw: Dictionary = slots[i] if i < slots.size() and slots[i] is Dictionary else {}
 		bonuses.append(_screen.slot_info(raw))
+	# STAND-IN: keep the empty slot art, including its slot bonuses and drop targets.
 	_screen._slots.set_row("Slot_", places, _screen.card_box(), bonuses)
 	for i: int in GlassScreen.BOARD_SLOTS:
 		var unit: Variant = board[i] if i < board.size() else null
@@ -286,10 +287,9 @@ func light(kind: String, targets: Array[int], skip: Control = null) -> void:
 			_:
 				continue
 		if targets.has(value):
-			var shoulder: float = (
-				GlassScreen._f(_screen._g["SS"]) if node is GlassSpell else _screen._slot_shoulder()
-			)
-			GlassParts.add_lit(node, GlassBox.hexagon(Rect2(Vector2.ZERO, node.size), shoulder))
+			# STAND-IN: the existing target rim follows the unit's lead outline.
+			var outline: PackedVector2Array = target["poly"]
+			GlassParts.add_lit(node, outline)
 
 
 ## Every card's and persistent slot's lit rim taken off (each drawing lights afresh). A slot's

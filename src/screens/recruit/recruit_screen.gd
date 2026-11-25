@@ -1,12 +1,8 @@
 class_name RecruitScreen
 extends GlassScreen
-## The recruit screen in lead and stained glass, rebuilt from the chosen mock-up (recruit.html at
-## its defaults: 250 px cards, spells above the shop). It draws one plain view-state Dictionary
-## (show_state) and reports what the player asks for as action_requested; it holds no rules.
-## Every place, size and colour comes from the mock-up through GlassPieces: recruit.html's geom()
-## for the geometry, stage.css's rules for the look, stage.js's numbers for the rest. The view
-## state is described in docs/ideation-track-2/SCREEN-CONTRACT.md;
-## tests/screens/fixtures/recruit_mockup.json is a full example.
+## The recruit screen in lead and stained glass. L1Layout supplies the room and placements;
+## GlassPieces still supplies the control and card art. The screen draws a plain view-state
+## Dictionary and emits actions without owning game rules.
 ##
 ## This file lays the screen out, holds the state and wires its parts: RecruitInput (press, drag,
 ## drop, click, target choice), RecruitBoard (slots, pills, lit targets), RecruitButtons,
@@ -42,6 +38,7 @@ var _turn_start: RecruitTurnStart
 var _waiting: RecruitWaitingPile
 var _motion: RecruitMotion
 var _last_turn: int = -1
+var _room: L1Room
 
 
 func _ready() -> void:
@@ -74,6 +71,10 @@ func _ensure_stage() -> void:
 
 func _make_tips() -> GlassTips:
 	return RecruitTips.new(self)
+
+
+func _make_counters() -> GlassCounters:
+	return RecruitCounters.new(self)
 
 
 func _ready_line() -> String:
@@ -218,8 +219,7 @@ func card_target_at(at: Vector2, kinds: Array) -> Dictionary:
 		var node: Control = target.get("node")
 		if node == null or not is_instance_valid(node) or node.is_queued_for_deletion():
 			continue
-		var poly: PackedVector2Array = target["poly"]
-		if Geometry2D.is_point_in_polygon(_to_local_of(node, at), poly):
+		if _target_contains(target, node, at):
 			return target
 	return {}
 
@@ -244,58 +244,75 @@ func is_discovering() -> bool:
 	return state.get("discover") is Dictionary and not state.has("recruit_choice")
 
 
-# ---- geometry (recruit.html render()) ----
+# ---- L1 geometry ----
 
 
 func _geom() -> Dictionary:
 	return RecruitShop.geometry()
 
 
-## Where shop unit i goes: the row of geom()'s width, centred, from shopL.
 func shop_xy(i: int) -> Vector2:
-	return Vector2(_f(_g["shopL"]) + i * (_w() + _gap()), _f(_g["shopTop"]))
+	return RecruitShop.unit_xy(i)
 
 
-## Where shop spell k goes: over the gap beside the middle unit, its lower point in the notch.
+## The top left of the shop spell disc.
 func spell_xy(k: int) -> Vector2:
-	var gx: float = (
-		_f(_g["shopL"])
-		+ (k + GlassPieces.number("stage.recruit.spell.first_gap")) * (_w() + _gap())
-		- _gap() / 2.0
-	)
-	var bottom: float = (
-		_f(_g["shopTop"])
-		+ GlassPieces.number("stage.recruit.spell.drop_per_h") * _h()
-		- GlassPieces.number("stage.recruit.spell.lift")
-	)
-	return Vector2(gx - _f(_g["SW"]) / 2.0, bottom - _f(_g["SH"]))
+	return L1Layout.point("shop.spell") + Vector2(0, k * L1Layout.number("shop.spell.step"))
 
 
-## Board slot i (0-3 the front row F1-F4, 4-6 the back row B1-B3, offset half a slot).
+func _card_spell_size(kind: String) -> Vector2:
+	return L1Layout.rect("shop.spell").size if kind == "spell" else super(kind)
+
+
+## Four in front and three behind, with the back points nestled between the front cards.
 func slot_xy(i: int) -> Vector2:
-	var fw: float = FRONT_SLOTS * _w() + (FRONT_SLOTS - 1) * _gap()
-	var fx: float = 960.0 - fw / 2.0
-	var by: float = _f(_g["boardTop"])
+	var step: float = _w() + _gap()
+	var front_width: float = FRONT_SLOTS * step - _gap()
+	var left: float = (L1Layout.stage_size().x - front_width) / 2.0
+	var angle: float = L1CardFace.point_angle()
+	var point_rise: float = _w() * tan(angle) / 2.0
+	var nesting_gap: float = _gap() * (1.0 - sin(angle) / 2.0) / cos(angle)
+	var row_step: float = snappedf(_h() - point_rise + nesting_gap, 0.1)
+	var wall: float = L1Layout.number("room.wall.h")
+	var table: float = L1Layout.number("room.table.h")
+	var top: float = roundf(wall + (table - row_step - _h()) / 2.0)
 	if i < FRONT_SLOTS:
-		return Vector2(fx + i * (_w() + _gap()), by)
-	var back_y: float = (
-		by
-		+ GlassPieces.number("stage.recruit.board.back_drop_per_h") * _h()
-		+ GlassPieces.number("stage.recruit.board.back_gap")
-	)
-	return Vector2(fx + (_w() + _gap()) / 2.0 + (i - FRONT_SLOTS) * (_w() + _gap()), back_y)
+		return Vector2(left + i * step, top)
+	return Vector2(left + (i - FRONT_SLOTS + 0.5) * step, top + row_step)
 
 
-## Hand card i of n: its unturned top left, and its turn in degrees about its bottom middle.
+## The hand rests in a centred, flat row. STAND-IN for a hand wider than the ledge: close the gaps.
 func hand_place(i: int, n: int) -> Vector3:
-	var step: float = _w() * GlassPieces.number("stage.recruit.hand.step_per_w")
-	var k: float = i - (n - 1) / 2.0
-	var x: float = 960.0 - _w() / 2.0 + k * step
-	var y: float = _f(_g["handTop"]) + k * k * GlassPieces.number("stage.recruit.hand.drop_per_k2")
-	return Vector3(x, y, k * GlassPieces.number("stage.recruit.hand.turn_deg_per_k"))
+	var middle: Rect2 = L1Layout.middle()
+	var step: float = _w() + _gap()
+	if n > 1:
+		step = minf(step, (middle.size.x - _w()) / (n - 1))
+	var x: float = middle.get_center().x - _w() / 2.0 + (i - (n - 1) / 2.0) * step
+	return Vector3(x, L1Layout.number("hand.y"), 0.0)
 
 
 # ---- building ----
+
+
+func _add_window() -> void:
+	if _room == null:
+		_room = L1Room.new()
+		_room.name = "Room"
+		_stage.add_child(_room)
+		_stage.move_child(_room, 0)
+
+
+func _build_hero() -> void:
+	RecruitColumns.build_hero(self)
+
+
+func _build_leaderboard() -> void:
+	RecruitColumns.build_leaderboard(self)
+
+
+func _message_y() -> float:
+	# STAND-IN: messages sit on the table's front edge.
+	return geom("sill") - L1Layout.number("room.edge.h") / 2.0
 
 
 func _build() -> void:
@@ -315,15 +332,14 @@ func _build() -> void:
 	_counts.build_reserve_limit()
 	_waiting.build_count()
 	_build_hero()
-	_buttons.build_end_turn()
+	RecruitColumns.build_end_turn(self)
 	var cards_button: CardsButton = CardsButton.new()
 	cards_button.name = "CardsEntry"
+	cards_button.l1 = true
 	cards_button.held = is_holding
 	cards_button.pressed.connect(cards_requested.emit)
 	_front.add_child(cards_button)
-	if show_leaderboard:
-		_build_leaderboard()
-	_add_vignette()
+	_build_leaderboard()
 	_build_message(AIM_PROMPT if is_aiming() else str(state.get("message", "")))
 	if is_discovering():
 		var discover: Dictionary = state["discover"]
@@ -344,15 +360,18 @@ func _leaving_places() -> Dictionary:
 				if not unit.is_empty() and _i(unit.get("uid", -1)) == _i(where["uid"]):
 					out[card_id] = slot_xy(i) + Vector2(_w(), _h()) / 2.0
 		elif str(where.get("to", "")) == "heap":
-			var shown: int = 0
-			# where its plate is drawn once the card arrives (the counters wait for it)
-			for value: Variant in state.get("counters", []):
-				var counter: Dictionary = value if value is Dictionary else {}
-				if counter_entry(counter).is_empty():
-					continue
-				if str(counter.get("id", "")) == str(where.get("id", "")):
-					out[card_id] = GlassCounters.plate_xy(shown, 1080.0) + Vector2(60.0, 22.0)
-				shown += 1
+			var counters: RecruitCounters = _counters as RecruitCounters
+			var held: Array[Dictionary] = counters.visible_counters(_shown_counters())
+			var raw: Array = state.get("counters", [])
+			var next: Array[Dictionary] = counters.visible_counters(raw)
+			var id: String = str(where.get("id", ""))
+			for order: Array[Dictionary] in [held, next]:
+				for i: int in order.size():
+					if str(order[i].get("id", "")) == id:
+						out[card_id] = RecruitCounters.counter_area(i).get_center()
+						break
+				if out.has(card_id):
+					break
 	return out
 
 
@@ -400,21 +419,20 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 	if kind == "waiting_pile":
 		var tint: float = _f(extra["waiting_tint"])
 		node.modulate = Color(tint, tint, tint)
-	if _b(extra.get("shop_price", false)):
-		# Unit controls size themselves in _ready; tags also need the size before entering the tree.
-		node.size = _spell_size() if node is GlassSpell else card_box()
-		RecruitShop.dress_card(node, data, _b(extra["poor"]))
+	var shop_price: bool = _b(extra.get("shop_price", false))
+	if shop_price and node is GlassCard:
+		# A unit sizes itself in _ready.
+		node.size = card_box()
 	if _b(extra.get("frost", false)):
-		var shoulder: float = _f(_g["SS"]) if node is GlassSpell else _slot_shoulder()
-		GlassParts.add_frost(
-			node,
-			GlassBox.hexagon(
-				Rect2(
-					Vector2.ZERO, _spell_size() if node is GlassSpell else GlassCard.card_size(_h())
-				),
-				shoulder
-			)
-		)
+		# STAND-IN: keep the existing frost, clipped to the offer's new outline.
+		var outline: PackedVector2Array
+		if node is GlassSpell:
+			outline = GlassParts.round_poly(node.size)
+		else:
+			outline = L1CardFace.unit_outline(GlassCard.card_size(_h()))
+		GlassParts.add_frost(node, outline)
+	if shop_price:
+		RecruitShop.dress_card(node, data, _b(extra["poor"]))
 	if kind == "board" and _b(data.get("worked_this_turn", false)):
 		var side: float = maxf(KeywordStyle.CARD_MIN_SIDE, _h() * KeywordStyle.CARD_DIAMETER)
 		var mark: KeywordMark = KeywordMark.make({"name": "Worked", "words": "Worked"}, true, side)
@@ -507,8 +525,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if is_aiming():
 			cancel_aim()
 			get_viewport().set_input_as_handled()
-		return
-	super(event)
 
 
 func _gui_input(event: InputEvent) -> void:

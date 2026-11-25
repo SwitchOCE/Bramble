@@ -79,8 +79,9 @@ func test_a_refresh_sinks_the_old_shop_and_drops_the_new_one_in() -> void:
 		assert_eq(node.modulate.a, 1.0)
 		var index: int = target["index"]
 		assert_almost_eq(node.position, _screen.shop_xy(index), Vector2(0.5, 0.5))
-		var tag: Control = node.get_node("ShopTag")
-		assert_almost_eq(tag.rotation, 0.0, 0.001)
+		var coin: GoldCoin = node.get_node("ShopTag")
+		assert_eq(coin.modulate.a, 1.0)
+		assert_eq(node.position.y + coin.position.y, L1Layout.number("shop.price.y"))
 	assert_eq(_gold_shown(), str(_flow.human().gold))
 
 
@@ -117,11 +118,11 @@ func test_a_tier_up_rolls_the_tiers_over_and_sweeps_the_shop() -> void:
 	_screen.ask({"type": "upgrade"})
 	assert_eq(_flow.human().tier, tier + 1)
 	var tiers: GlassText = _screen._back.find_child("Tiers", true, false)
-	assert_eq(tiers.words, "%d → %d" % [tier, tier + 1], "the old tiers until they turn over")
+	assert_eq(tiers.words, str(tier), "the old level until it turns over")
 	assert_not_null(_screen._motion.get_node_or_null("TierSweep"))
 	assert_true(_screen._hover_allowed(), "a flash and a count leave hover alone")
 	await get_tree().create_timer(DONE).timeout
-	assert_eq(tiers.words, "%d → %d" % [tier + 1, tier + 2])
+	assert_eq(tiers.words, str(tier + 1))
 	assert_almost_eq(tiers.scale, Vector2.ONE, Vector2(0.001, 0.001))
 	assert_null(_screen._motion.get_node_or_null("TierSweep"))
 	assert_eq(_gold_shown(), str(_flow.human().gold))

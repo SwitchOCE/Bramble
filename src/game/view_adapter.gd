@@ -32,6 +32,12 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 		"tier": me.tier,
 		"refresh_cost": CoreUtil.to_int(costs["refresh"]),
 		"refreshes_left": CoreUtil.to_int(view["refreshes_left"]),
+		"refresh_step_size":
+		(
+			session.config.refresh_first_step_after
+			if me.refreshes_paid < session.config.refresh_first_step_after
+			else session.config.refresh_step_length
+		),
 		"upgrade_cost": upgrade_cost,
 		"frozen": me.frozen,
 		"health": maxi(0, me.health),
@@ -638,6 +644,7 @@ static func _unit(
 		"art": CardArt.of(content, card_id),
 		"text": str(view.get("text", card.text)),
 		"spell": card.is_spell(),
+		"tier": card.tier,
 		"target_kind": "none",
 	}
 	if held != null:
@@ -657,7 +664,6 @@ static func _unit(
 	var golden: int = 2 if CoreUtil.to_bool(view.get("golden", false)) else 1
 	out.merge(
 		{
-			"tier": card.tier,
 			"combines": card.combines,
 			"attack": CoreUtil.to_int(view.get("attack", card.attack)),
 			"health": health,

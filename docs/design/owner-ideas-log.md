@@ -105,3 +105,35 @@ Follow-up, same day, on the two open questions:
 > I think we need to keep the shop's tier, like, more obvious elsewhere in general. Maybe we want to design an entire different kind of, like, diegetic thing for the shop that upgrades as time goes on. Anyway, you can shelf that for now.
 
 *[Said while choosing the shop-upgrade icon for the Tier up button and the discount readout (option A, a market stall with an up arrow). Shelved by the owner; not scheduled.]*
+
+## 24 Nov 2026
+
+*[Entries 12 to 16 were said to the assurance session in chat, after a playtester asked for a bigger card pool and cross synergies. The owner is holding new content back on purpose until the processes are ready: "I have my own plans that I've been keeping in reserve because I didn't want to distract the agents." None of this is scheduled.]*
+
+### 12. Effects that sit off the board and link tribes together
+
+> The system I want to do is something analogous, like treasures a little bit from Galaxy, or encounters from Oaken Tower, or the Bazaar, I guess. Something that doesn't sit on the board, but does provide transformative effects. And I want these to be horizontal effects, i.e. they link different tribes together. Like maybe your Renown now counts for tokens, so it makes Pigeon Renown suddenly good for token strategies. Or something that says: whenever a Badger gains Fury, you gain that much Tide for the fight. Stuff like that, that links tribes together and makes it so that you want to play in a different way.
+>
+> I want all these horizontal effects to ideally sit outside of cards, but they reward you for mixing and matching strategies a bit more. And I wanted these to be stuff that you encounter less, but are more transformational on gameplay. My idea for these was that you encounter them at certain turn thresholds, and you could maybe replace them. I don't necessarily know what the cap would be. I was thinking maybe two. So something similar to a quest reward.
+
+*[Just before this the owner said: "we might need more horizontal stuff without what I'm going to add". Kept as heard; it may mean cross-tribe cards are still needed besides this system, or that they might not be. "Galaxy" is Once Upon a Galaxy. "Oaken Tower" is as heard.]*
+
+### 13. Hero powers
+
+> Additionally, I do want to do hero powers, and that's planned as well. It's a system we need to think about. I've just been trying to focus on gameplay feel for a bit.
+
+### 14. The tribes to come: Corvids, otters or hedgehogs, the lizard cult, the fae
+
+> Corvids are intended to be an economy tribe that plays similarly to Pirates. That is definitely the plan. Additionally, I'm thinking otters are probably going to be something we experiment with soon, or hedgehogs. And the lizard cult definitely needs to come as well soon, the reptiles. The fairies I'm thinking about still. I quite like the idea of these healing units as a mechanic.
+
+*[The owner also said: "I have a lot of thoughts on Corvids and how I want them to work." Those thoughts are not written down here; ask the owner before designing Corvids. "Pirates" are Battlegrounds' Pirates. Whether the healing units belong to the fae or stand alone is not stated.]*
+
+### 15. What a mechanic needs for its animation is part of tribe design
+
+> I've uncovered that units and mechanics may need custom animations. That's something that needs to be thought about in tribe design. That's not something we had in our tribe design process. The animation work right now is coming up with the fact that Thorns needs its own animation, etc.
+
+*[The fight animation study (`ideation/fight-animation`, 24 Nov) was asked to write what a designer must state about a new mechanic so its animation can be made.]*
+
+### 16. Simplify the rulebook
+
+> Another thing I think we really need to do is have a look at the rulebook again and really try and simplify it.

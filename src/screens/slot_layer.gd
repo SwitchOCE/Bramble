@@ -7,7 +7,11 @@ var _counts: Dictionary = {}
 
 
 func set_row(
-	prefix: String, places: Array[Vector2], box: Vector2, bonuses: Array[Dictionary] = []
+	prefix: String,
+	places: Array[Vector2],
+	box: Vector2,
+	bonuses: Array[Dictionary] = [],
+	make_slot: Callable = GlassSlot.make
 ) -> void:
 	for i: int in places.size():
 		var id: String = "%s%d" % [prefix, i]
@@ -18,7 +22,7 @@ func set_row(
 			slot.queue_free()
 			slot = null
 		if slot == null:
-			slot = GlassSlot.make(info, box)
+			slot = make_slot.call(info, box)
 			slot.name = id
 			slot.set_meta("bonus", info.duplicate(true))
 			add_child(slot)

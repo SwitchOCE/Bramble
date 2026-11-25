@@ -3,8 +3,8 @@ extends Control
 ## What the recruit and fight screens share: the 1920 x 1080 stage letterboxed in its window, the
 ## card nodes kept by key between states (CardKeeper), the hero in the left light, the leaderboard,
 ## the message area, the hover detail, and the pointer targets. A screen draws one plain view-state
-## Dictionary (show_state) and holds no rules. Input here is only what both screens use: hover,
-## Tab and a click on your portrait for the leaderboard.
+## Dictionary (show_state) and holds no rules. It supplies shared hover handling and the fight
+## screen's leaderboard shortcuts.
 ##
 ## The stage has four layers: Back (the stone window, buttons), Slots (permanent backings),
 ## Cards (the kept card nodes) and Front (heroes, labels, leaderboard, vignette, hover detail).
@@ -16,7 +16,7 @@ const FRONT_SLOTS: int = 4
 ## STAND-IN: the dark round the stage when the window is not 16:9 (the stone's own shade).
 const SURROUND: Color = Color("0b0907")
 
-## The leaderboard in the right light, as the mock-up's "Leaderboard: Shown" switch.
+## The fight leaderboard in the right light, as the mock-up's "Leaderboard: Shown" switch.
 @export var show_leaderboard: bool = false
 ## A card id to show the hover detail for without a pointer, as the mock-up's "Hover" switch.
 @export var pinned_hover: String = ""
@@ -146,6 +146,10 @@ func _make_tips() -> GlassTips:
 
 
 ## A new state has come: drop anything the old one was in the middle of.
+func _make_counters() -> GlassCounters:
+	return GlassCounters.new(self)
+
+
 func _on_new_state() -> void:
 	pass
 
@@ -181,7 +185,7 @@ func _ensure_stage() -> void:
 	_front = _stage.get_node("Front")
 	_keeper = CardKeeper.new(_cards)
 	_tips = _make_tips()
-	_counters = GlassCounters.new(self)
+	_counters = _make_counters()
 	_stage.add_child(_counters)
 	tree_exiting.connect(_close_compost)
 	_fit()
@@ -224,15 +228,17 @@ func _want_card(
 	extra: Dictionary = {},
 	time: float = -1.0
 ) -> void:
-	var look: String = JSON.stringify([data, extra, kind == "spell" or _is_spell(data)])
+	var spell: bool = kind == "spell" or _is_spell(data)
+	var disc: String = kind if spell and kind in ["hand", "spell"] else ""
+	var look: String = JSON.stringify([data, extra, spell, disc])
 	var numbers: Vector2i = Vector2i(_i(data.get("attack", 0)), _i(data.get("health", 0)))
 	var make: Callable = func() -> Control: return _make_card(kind, data, extra)
 	_keeper.want(key, str(data.get("id", "")), look, numbers, at, turn, make, time)
 	var outline: PackedVector2Array
-	if kind == "spell" or _is_spell(data):
-		outline = GlassBox.hexagon(Rect2(Vector2.ZERO, _spell_size()), _f(_g["SS"]))
+	if spell:
+		outline = GlassBox.hexagon(Rect2(Vector2.ZERO, _card_spell_size(kind)), _f(_g["SS"]))
 	else:
-		outline = GlassBox.hexagon(Rect2(Vector2.ZERO, Vector2(_w(), _h())), _slot_shoulder())
+		outline = L1CardFace.unit_outline(GlassCard.card_size(_h()))
 	_targets.append(
 		{"kind": kind, "index": index, "key": key, "poly": outline, "card": data, "extra": extra}
 	)
@@ -242,7 +248,7 @@ func _want_card(
 func _make_card(kind: String, data: Dictionary, _extra: Dictionary) -> Control:
 	var node: Control
 	if kind == "spell" or _is_spell(data):
-		node = _spell_card(data, _spell_size())
+		node = _spell_card(data, _card_spell_size(kind), kind == "hand", kind == "spell")
 	else:
 		node = _unit_card(data, _h())
 	node.name = "Card_" + str(data.get("id", ""))
@@ -258,6 +264,10 @@ static func card_key(kind: String, index: int, data: Dictionary) -> String:
 
 static func _is_spell(data: Dictionary) -> bool:
 	return _b(data.get("spell", false))
+
+
+func _card_spell_size(_kind: String) -> Vector2:
+	return _spell_size()
 
 
 func _spell_size() -> Vector2:
@@ -317,7 +327,6 @@ func _add_vignette() -> void:
 func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 	var card: GlassCard = GlassCard.new()
 	card.name = "Card_" + str(unit.get("id", ""))
-	card.tier = _i(unit.get("tier", 1))
 	card.art = GlassPieces.art(str(unit.get("art", "")))
 	card.attack = _i(unit.get("attack", 0))
 	card.card_height = height
@@ -356,7 +365,7 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 			height * KeywordStyle.CARD_Y - side / 2.0
 		)
 		card.add_child(mark)
-	var pips: CardPips = CardPips.make(CardTerms.pips(unit, _display_table()), height, card.tier)
+	var pips: CardPips = CardPips.make(CardTerms.pips(unit, _display_table()), height)
 	if pips != null:
 		card.add_child(pips)
 	return card
@@ -424,13 +433,17 @@ func _slot_keyword_pill(card: GlassCard, keyword: String) -> void:
 	card.add_child(pill)
 
 
-func _spell_card(spell: Dictionary, spell_size: Vector2) -> GlassSpell:
+func _spell_card(
+	spell: Dictionary, spell_size: Vector2, hand_disc: bool = false, shop_disc: bool = false
+) -> GlassSpell:
 	var node: GlassSpell = GlassSpell.new()
 	node.name = "Card_" + str(spell.get("id", ""))
 	node.art = GlassPieces.art(str(spell.get("art", "")))
 	node.cost = _i(spell.get("cost", 0))
 	node.spell_size = spell_size
 	node.shoulder = _f(_g["SS"])
+	node.hand_disc = hand_disc
+	node.shop_disc = shop_disc
 	node.build()
 	return node
 
@@ -472,6 +485,11 @@ func _build_hero() -> void:
 		{"kind": "button", "index": 0, "id": "hero", "node": port, "poly": _circle(port.box_size)}
 	)
 	_counters.build(_shown_counters())
+
+
+## Where this screen puts a player's counter plate.
+func _layout_counter(plate: GlassBox, i: int) -> void:
+	plate.position = GlassCounters.plate_xy(i, _stage.size.y)
 
 
 ## The counters drawn now: the state's (a screen may hold the last ones a moment).
@@ -555,12 +573,13 @@ func _build_message(words: String) -> void:
 	label.refresh()
 	label.z_index = 7
 	label.position = (
-		Vector2(
-			960.0 - label.size.x / 2.0, (_f(_g["T0"]) + _f(_g["T1"])) / 2.0 - label.size.y / 2.0
-		)
-		. round()
+		Vector2(960.0 - label.size.x / 2.0, _message_y() - label.size.y / 2.0).round()
 	)
 	_front.add_child(label)
+
+
+func _message_y() -> float:
+	return (_f(_g["T0"]) + _f(_g["T1"])) / 2.0
 
 
 # ---- input: hover and the leaderboard ----
@@ -659,10 +678,19 @@ func _target_at(at: Vector2, cards_only: bool) -> Dictionary:
 		var node: Control = target.get("node")
 		if node == null or not is_instance_valid(node) or not node.is_visible_in_tree():
 			continue
-		var poly: PackedVector2Array = target["poly"]
-		if Geometry2D.is_point_in_polygon(_to_local_of(node, at), poly):
+		if _target_contains(target, node, at):
 			return target
 	return {}
+
+
+func _target_contains(target: Dictionary, node: Control, at: Vector2) -> bool:
+	var local: Vector2 = _to_local_of(node, at)
+	var spell: GlassSpell = node as GlassSpell
+	if spell != null and (spell.hand_disc or spell.shop_disc):
+		var centre: Vector2 = node.size / 2.0
+		return local.distance_squared_to(centre) <= centre.x * centre.x
+	var poly: PackedVector2Array = target["poly"]
+	return Geometry2D.is_point_in_polygon(local, poly)
 
 
 ## A stage point in a node's own space, through every parent up to the stage.

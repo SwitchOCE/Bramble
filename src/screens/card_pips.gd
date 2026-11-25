@@ -19,8 +19,8 @@ const ABOVE_DISCS: float = 3.0
 const CRATE_ROUND: float = 0.2
 
 
-## The pips for a card of `height` and `tier`, sized to the whole card. Null for no pips.
-static func make(pips: Array[Dictionary], height: float, tier: int) -> CardPips:
+## The pips for a card of `height`, sized to the whole card. Null for no pips.
+static func make(pips: Array[Dictionary], height: float) -> CardPips:
 	if pips.is_empty():
 		return null
 	var node: CardPips = CardPips.new()
@@ -28,9 +28,11 @@ static func make(pips: Array[Dictionary], height: float, tier: int) -> CardPips:
 	node.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	node.size = GlassCard.card_size(height)
 	var side: float = maxf(MIN_SIDE, roundf(height * SIDE_PER_H))
-	var k: float = height / GlassPieces.card_units().y
-	var disc: Vector3 = GlassPieces.disc(tier, "attack")
-	var bottom: float = (disc.y - disc.z * 1.12) * k - ABOVE_DISCS
+	# STAND-IN: keep the original gap above the outside of the new Attack rim.
+	var k: float = height / L1Layout.number("card.h")
+	var disc: Vector3 = GlassCard.stat_disc("attack")
+	var rim: float = L1Layout.number("card.stat.rim") + L1Layout.number("card.stat.outline")
+	var bottom: float = (disc.y - disc.z - rim) * k - ABOVE_DISCS
 	for group: Dictionary in pips:
 		var kind: String = str(group["kind"])
 		var total: int = GlassPieces.as_int(group["total"])
