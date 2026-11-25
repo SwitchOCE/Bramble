@@ -16,4 +16,4 @@ Where it is applied: [the third-run brief](../../workstreams/third-run/third-run
 
 *[Editor note: dictated. "tear up" was heard for "tier up", "fixed rules and the bots" for "fixed rules in the bots", and "balanced learnings" for "balance learnings".]*
 
-*[Editor note: the last sentence trails off. The session's reading, to be confirmed by the owner: when an idea the game doesn't mean to encourage is winning, find out whether it is truly the best play, which is a balance problem, or only looks best because the bots have stopped at a local maximum.]*
+*[Editor note: the last sentence trails off. The session's reading: when an idea the game doesn't mean to encourage is winning, find out whether it is truly the best play, which is a balance problem, or only looks best because the bots have stopped at a local maximum. The owner confirmed it: "Yeah, that's exactly what I meant. Your reading of my dictation is correct."]*
