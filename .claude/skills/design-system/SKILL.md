@@ -197,7 +197,8 @@ Lab code is reference only; don't count its hardcoded values.
 
 ## Where Things Are
 
-- Mock-ups and their tokens: the design lab (`docs/archive/design-lab/`, archived; its screenshots are under the tag `archive/design-lab-2026-11-12`). Its numbers are lab choices, not decisions.
+- The game's look and its numbers: the L1 look's spec and the owner's decisions (`docs/design/look-l1/`); the numbers the buy screen and the card read are in `assets/glass/l1/layout.json`, each citing its spec section. The fight screen and the stand-ins still read the earlier look's generated `assets/glass/layout.json`.
+- Earlier mock-ups and their tokens: the design lab (`docs/archive/design-lab/`, archived; its screenshots are under the tag `archive/design-lab-2026-11-12`). Its numbers are lab choices, not decisions.
 - The owner's layout rules: see the design-critique skill.
 ## If Connectors Available
 

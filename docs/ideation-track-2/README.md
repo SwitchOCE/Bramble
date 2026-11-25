@@ -19,7 +19,7 @@ The owner, 17 Nov 2026, after playing the build:
 
 - `tribes/`: the five tribes' designs (badger, locust, mouse, pigeon, thorn), each with a `LOG.md`; `SHARED-RULES.md` is the wording and timing the build's cards share; `CROSS-TRIBE.md`; `DESIGN-FRAME.md`.
 - `mechanics/`: the page of mechanic options the owner picked from on 16 Nov. The picks, as written, are in `HANDOVER.md`.
-- `mockups/`: HTML mock-ups for the screens and looks the owner's glass mock-ups do not have. Most are marked STAND-IN: agents made them, and the owner had not seen them when the game was matched to them.
+- `mockups/`: HTML mock-ups for the screens and looks the owner's glass mock-ups do not have. Most are marked STAND-IN: agents made them, and the owner had not seen them when the game was matched to them. They draw the earlier card and screen: the buy screen and the card are now the L1 look ([design/look-l1/](../design/look-l1/README.md)), so the recruit pages no longer describe them. The fight, menu and pause pages still describe those screens.
 - `ADDING-A-TRIBE.md`, `SCREEN-CONTRACT.md`: how a tribe is added as files, and what the screens read from the rules core.
 - `HANDOVER.md`: the track's last hand-over, kept as history.
 
@@ -46,9 +46,9 @@ None of these is decided for the real game. The plan's own list of the planning 
 - **Bots** are simple: they buy, play, tier up and refresh with spare gold.
 
 **Screens**
-- **Buying is by drag only.** The leaderboard is hidden until Tab or a click on the player's corner.
+- **Buying is by drag only.** On the fight screen the leaderboard is hidden until Tab or a click on the player's corner; on the buy screen the L1 look shows the scoreboard always.
 - **Stand-in looks** with no glass mock-up: frozen, golden, keyword and counter pills, the message line, a slot's bonus under its unit, the Discover picker, the start, result and pause screens.
-- **Counters by the portrait are named plates** ("Compost 4"), not the owner's emblem chips.
+- **Counters on the fight screen are named plates** ("Compost 4") by the portrait, not the owner's emblem chips. On the buy screen they are the L1 look's medallions (L36).
 - **An empty slot that holds a slot buff uses the mock-up's Ring slot look.**
 - **A seed line on the pause panel,** for bug reports from play-tests.
 - **The result screen leaves by itself after 2.5 s;** a "You" label sits under the player's portrait on the start screen.
@@ -75,7 +75,7 @@ None of these is decided for the real game. The plan's own list of the planning 
 - **Fights are long.** Over 173 fights the middle one ran 19 s and the longest 49 s. Space or a click skips to the result.
 
 **Screens**
-- **Chips or plates** for the counters by the portrait. If plates, the owner's own mock-up pages should change. Counter emblems are not drawn: the plates name an emblem that has no picture yet.
+- **Counters on the fight screen:** chips or plates. On the buy screen the owner chose medallions (L36); the fight screen is not designed in that look. Counter emblems are not drawn: the plates name an emblem that has no picture yet.
 - **In a fight, a hover does not always say why a number is green or red** (an opponent's saved board, units that arrive mid-fight).
 - **The seed line, the result screen's 2.5 s, the "You" label and the skip line** (above): keep or change.
 - **`mockups/recruit-tribes.html` is drawn from the build's own data,** so it checks layout with real cards and cannot catch a wrong pill. It is not a mock-up.
