@@ -181,3 +181,13 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
 - Gap: no new live games; the last measure stands (red 4.13, blue 4.87; blue first more often, 15.5% against 9.5%).
 - Stopping test: red-c14 passed. blue-c17 did not pass, and its next test waits on the owner's ruling about blue-c18.
 - The run has been idle since 19:10 on 23 Nov, waiting on the owner's three decisions: red's restarts, handing red-c14 to balance, and whether a change that won twice in the stopping test can be kept without winning its climbing match. The session restarted on 24 Nov; the approval watch was started again at 18:35.
+
+## On hold for the owner (25 Nov, 17:40)
+
+- **Why.** The owner, through the assurance session ("QA & Project Manager", their own words checked in that thread): the balance process passed Sword-heir, Old Brock and Brock Cub, which the owner judges overpowered. A review, "Card Power Measures and Balance Process Review" (branch `balance/card-power`), is tracing why and building per-card measures; card changes will follow, and it may change what the league is asked to produce. The owner agreed to hold all three open decisions: red's restart climbs, red-c14 to Balance Orchestrator 2, and keeping blue-c18.
+- **State kept as is.** Kept: red-c14 (passed its stopping test) and blue-c17 (not passed). blue-c18 set aside, not rejected. Nothing deleted: the clones, tags, the climbing field `/data/third-run/field-fa1d51ec`, match verdicts and the stopping-test results stay. `league-pin` stays active. Both leads were told there is nothing to do until the owner says otherwise.
+- **Stopped.** The referee heartbeat (T3 scheduled task `scheduled-task:247112e8-051d-49a0-9b7c-aa737ffa11fe`, every 2 h, bound to the referee thread) is paused, not deleted. The approval watch is stopped: no Codex worker runs.
+- **To start again:**
+  1. Unpause the heartbeat: `schedule_task` with `scheduledTaskId: scheduled-task:247112e8-051d-49a0-9b7c-aa737ffa11fe` and `enabled: true`.
+  2. Start the approval watch while blue's Codex lead works: a renamed copy of `~/.local/bin/t3-approval-watch.py` (the original name is killed on sight on this machine), run as `timeout 7100 python3 <copy> > watch.log 2>&1` in the background, restarted whenever it ends.
+  3. Reference fields for the next stopping tests are cut fresh with `tools/league/ref_field.sh`; blue's next test is on blue-c18 if it is kept, otherwise on `0eeed16c` (blue-c17 plus the c19 code, off by default).
