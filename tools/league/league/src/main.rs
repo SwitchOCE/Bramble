@@ -219,7 +219,10 @@ fn run(args: &[String]) -> Result<(), String> {
             Ok(())
         }
         "refight" => {
-            let o = Opts::parse(rest, &["verify", "text-off", "stat-worth", "overrun-swings"]);
+            let o = Opts::parse(
+                rest,
+                &["verify", "text-off", "stat-worth", "overrun-swings"],
+            );
             if !o.free.is_empty()
                 || o.flags.iter().any(|(name, value)| {
                     ![
