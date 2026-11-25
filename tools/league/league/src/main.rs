@@ -13,6 +13,8 @@ const USAGE: &str = "usage:
   league analyze <dir>
   league refight --match <dir> [--repo-root <dir>] [--select tribe:<name>[:<min>]]
                  --out <dir> [--threads N] [--verify]
+  league refight --match <dir> --out <dir> [--text-off] [--keyword-off <id>[,<id>...]]
+                 [--overrun-swings] [--seeds 4] [--cap 1000] [--threads N] [--verify]
   league bench [--content all|standin|<folders>] [--games N] [--fight-records <dir>] [--fights N]
   league bots";
 
@@ -202,10 +204,20 @@ fn run(args: &[String]) -> Result<(), String> {
             Ok(())
         }
         "refight" => {
-            let o = Opts::parse(rest, &["verify"]);
+            let o = Opts::parse(rest, &["verify", "text-off", "overrun-swings"]);
             if !o.free.is_empty()
                 || o.flags.iter().any(|(name, value)| {
-                    !["match", "repo-root", "select", "out", "threads"].contains(&name.as_str())
+                    ![
+                        "match",
+                        "repo-root",
+                        "select",
+                        "out",
+                        "threads",
+                        "keyword-off",
+                        "seeds",
+                        "cap",
+                    ]
+                    .contains(&name.as_str())
                         || value.is_empty()
                         || value.starts_with("--")
                 })
@@ -215,12 +227,39 @@ fn run(args: &[String]) -> Result<(), String> {
             let dir = PathBuf::from(o.need("match")?);
             let out = PathBuf::from(o.need("out")?);
             let root = o.get("repo-root").map(PathBuf::from).unwrap_or(root);
-            let select = o.get("select").map(|rule| rule.parse()).transpose()?;
             let threads = o.num("threads", 1usize)?;
             if threads == 0 {
                 return Err("usage: --threads must be positive".into());
             }
             let verify = o.has("verify");
+            let modes = refight::Modes {
+                text_off: o.has("text-off"),
+                keywords: o
+                    .get("keyword-off")
+                    .map(|list| list.split(',').map(str::to_owned).collect())
+                    .unwrap_or_default(),
+                swings: o.has("overrun-swings"),
+                seeds: o.num("seeds", 4usize)?,
+                cap: o.num("cap", 1000usize)?,
+            };
+            if modes.keywords.iter().any(String::is_empty) {
+                return Err(USAGE.into());
+            }
+            if modes.any() {
+                if o.get("select").is_some() {
+                    return Err("usage: --select does not combine with the refight modes".into());
+                }
+                let report = refight::run_modes(&dir, &root, &out, &modes, threads, verify)?;
+                println!("{report}");
+                if verify {
+                    report.verify()?;
+                }
+                return Ok(());
+            }
+            if o.get("seeds").is_some() || o.get("cap").is_some() {
+                return Err("usage: --seeds and --cap need --text-off or --keyword-off".into());
+            }
+            let select = o.get("select").map(|rule| rule.parse()).transpose()?;
             let report = refight::run(&dir, &root, &out, select.as_ref(), threads, verify)?;
             println!("{report}");
             if verify {
