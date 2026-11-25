@@ -76,7 +76,7 @@ The owner's idea, 25 Nov: "stats generated per turn compared to the source of th
 - **Number:** mean permanent stats gained per turn held, per card per stage, with a 95% interval grouped by game. Also Attack and Health apart, the share of turns on which it grew, and the permanent stats it holds on average.
 - **Above its board-mates:** the gain minus the average gain of the other units on the same board that turn. A buff that hits the whole board is taken off; what is left is growth that follows the card.
 - **Too few:** under 200 observations.
-- **Worth a look:** the rule at the top of this file, on "above its board-mates", inside each stage.
+- **Worth a look:** the rule at the top of this file, on "above its board-mates", inside each stage. And a second line, the owner's framing: raw growth three or more spreads above the middle card of the same tier at that stage (tiers with five or more cards measured).
 - **Cannot see:** where a gain came from. The record keeps one total of permanent gains per unit, so a gain another card gave only to this unit counts as its own. In-fight stats (this fight only) and stats lent or given by auras are not in it. Golden units are left out, because they double their numbers.
 - **Seen before this was defined:** one golden Brock Cub at round 9 holding +68/+83.
 
@@ -112,3 +112,4 @@ The owner called replacing a unit with a made-up plain unit "pretty unrealistic"
 - 25 Nov, AFTER the first table was read: bought against passed is a hint read against the typical card, and raises no flag alone. Reason and the owner's words are at the top of its section.
 - 25 Nov, AFTER the first tables were read: one worth-a-look rule for every measure (three spreads from the middle), on the owner's words quoted in its section. It replaces the text-off pointer (median two tiers up), which missed Sword-heir in rounds 1 to 8 because no tier 5 card was on a board that early.
 - 25 Nov: stat growth added, on the owner's idea quoted in its section, before its table was read.
+- 25 Nov, AFTER the growth table was read: a second worth-a-look line for stat growth, against cards of the same tier. Reason: "above its board-mates" cannot mark a card on a board where everything grows (Brock Cub on a Badger board), and the owner asked for the comparison with "the average unit of that tier".

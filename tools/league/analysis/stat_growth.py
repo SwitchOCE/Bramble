@@ -20,6 +20,7 @@ from pathlib import Path
 STAGES = ("1-4", "5-8", "9-12", "13+")
 MIN_OBSERVATIONS = 200
 LOOK_SPREADS = 3.0
+MIN_TIER_CARDS = 5
 
 
 def stage(turn):
@@ -103,7 +104,7 @@ def table(rows, tiers):
                     "stats_per_turn": show(gain), "low": show(low), "high": show(high),
                     "above_mates": show(above), "share_growing": show(sum(r["attack"] + r["health"] > 0 for r in obs) / n),
                     "perm_stats_held": show(statistics.fmean(r["held"] for r in obs), 1),
-                    "spreads": "", "look": ""})
+                    "spreads": "", "tier_spreads": "", "look": ""})
     for stage_name in STAGES:
         here = [r for r in out if r["stage"] == stage_name and r["status"] == "ok"]
         if len(here) < 4:
@@ -114,6 +115,19 @@ def table(rows, tiers):
                 r["spreads"] = round((r["above_mates"] - middle) / spread, 1)
                 if r["spreads"] >= LOOK_SPREADS and r["low"] != "" and r["low"] > 0:
                     r["look"] = "worth a look"
+        # Against its own tier (the owner's framing): raw growth, among cards of the same tier.
+        by_tier = defaultdict(list)
+        for r in here:
+            by_tier[r["tier"]].append(r)
+        for cards in by_tier.values():
+            if len(cards) < MIN_TIER_CARDS:
+                continue
+            middle, spread = middle_and_spread([r["stats_per_turn"] for r in cards])
+            for r in cards:
+                if spread:
+                    r["tier_spreads"] = round((r["stats_per_turn"] - middle) / spread, 1)
+                    if r["tier_spreads"] >= LOOK_SPREADS and r["low"] > middle:
+                        r["look"] = "worth a look"
     return out
 
 
