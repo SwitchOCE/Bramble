@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>L1 Aura Panels</title>
+<meta name="viewport" content="width=1920">
+<!--
+  The auras panel and a heap's panel, drawn at real size over the built buy screen.
+  ?state=
+    auras-few     two entries (today's game: Compost, Tide)            [pick: list]
+    auras-many    twelve entries, the column showing four and "+8"      [pick: list]
+    grid-many     the same twelve as a grid of medallions              [the other answer]
+    heap-full     Compost with 23 units: copies grouped, two golden
+    heap-empty    Compost with nothing in it
+    heap-from-auras  Compost opened from the auras panel (back arrow)
+  Ground: the step-4 build screenshot. Pieces: /data/ui-ideation/looks/L1/pieces/.
+-->
+<style>
+@font-face { font-family: "AlegreyaSans"; src: url("../../../../../../assets/glass/fonts/AlegreyaSans-Bold.ttf"); font-weight: 700; }
+@font-face { font-family: "AlegreyaSans"; src: url("../../../../../../assets/glass/fonts/AlegreyaSans-Regular.ttf"); font-weight: 400; }
+:root {
+  --lead: #15191a; --lead-hi: #3c4244; --cream: #f2e9d4; --dim: #a9b2ad;
+  --slate-1: #26343a; --slate-2: #1b262b; --slate-3: #121a1e;
+}
+html, body { margin: 0; background: #0c0e0e; }
+#screen { position: relative; width: 1920px; height: 1080px; overflow: hidden; font-family: "AlegreyaSans", sans-serif;
+  background: url("file:///data/ui-ideation/build/step4/buy.png") 0 0 / 1920px 1080px no-repeat; }
+.abs { position: absolute; }
+
+/* ---------- the panel: a leaded pane of dim slate glass ---------- */
+.panel { position: absolute; border-radius: 14px; color: var(--cream);
+  background:
+    linear-gradient(160deg, rgba(255,255,255,0.05), transparent 30%),
+    radial-gradient(ellipse 90% 60% at 30% 0%, #2f4148 0%, transparent 70%),
+    linear-gradient(180deg, var(--slate-1), var(--slate-2) 55%, var(--slate-3));
+  box-shadow: 0 0 0 5px var(--lead), 0 0 0 6px var(--lead-hi), 0 18px 30px rgba(0,0,0,0.65), 0 4px 8px rgba(0,0,0,0.6); }
+.panel::before { /* the lead came just inside the rim */
+  content: ""; position: absolute; inset: 7px; border-radius: 9px; box-shadow: inset 0 0 0 2px rgba(10,14,15,0.85), inset 0 0 0 3px rgba(120,135,135,0.18); pointer-events: none; }
+.tab { position: absolute; width: 22px; height: 30px; background: var(--slate-2);
+  clip-path: polygon(0 0, 100% 50%, 0 100%); filter: drop-shadow(3px 0 0 var(--lead)); }
+.head { position: absolute; left: 22px; right: 22px; top: 16px; height: 44px; display: flex; align-items: center; gap: 12px; }
+.title { font-weight: 700; font-size: 28px; letter-spacing: 0.01em; }
+.count { font-weight: 700; font-size: 24px; color: var(--dim); }
+.close { position: absolute; right: 16px; top: 16px; width: 40px; height: 40px; border-radius: 50%;
+  background: url("file:///data/ui-ideation/looks/L1/pieces/l1p-roundel-slate.png") center/100% 100%; display: grid; place-items: center;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6)); }
+.back { position: absolute; left: 16px; top: 16px; width: 40px; height: 40px; border-radius: 50%;
+  background: url("file:///data/ui-ideation/looks/L1/pieces/l1p-roundel-slate.png") center/100% 100%; display: grid; place-items: center;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6)); }
+.rule { position: absolute; left: 18px; right: 18px; height: 3px; background: var(--lead); box-shadow: 0 1px 0 rgba(140,155,155,0.18); }
+.sect { position: absolute; left: 24px; font-weight: 700; font-size: 17px; letter-spacing: 0.08em; color: #8f9a95; text-transform: uppercase; }
+
+/* ---------- medallions (the column's own) ---------- */
+.med { position: absolute; display: grid; place-items: center; }
+.med .face { position: absolute; inset: 0; display: grid; place-items: center; box-shadow: none; }
+.med.round .face { border-radius: 50%; }
+.med .rim { position: absolute; inset: -4px; background: #121617; }
+.med.round .rim { border-radius: 50%; }
+.med svg { position: relative; width: 52%; height: 52%; }
+.badge { position: absolute; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #241d14;
+  background: radial-gradient(circle at 40% 35%, #fbf4e2, #e8dbbd 62%, #cbb991);
+  box-shadow: 0 0 0 3px #141819, 0 0 0 4px #5b6163, 0 2px 3px rgba(0,0,0,0.6); }
+.badge span { position: relative; top: 0.04em; }
+.moreplate { position: absolute; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 700; font-size: 24px; color: var(--cream);
+  background: url("file:///data/ui-ideation/looks/L1/pieces/l1p-plate.png") center/100% 100% no-repeat; filter: drop-shadow(0 3px 4px rgba(0,0,0,0.6)); }
+.pressed { filter: brightness(1.18) drop-shadow(0 0 0 transparent); }
+.selring { position: absolute; border-radius: 50%; box-shadow: 0 0 0 3px #e8d49a; }
+
+/* ---------- aura rows ---------- */
+.row { position: absolute; left: 14px; right: 14px; height: 64px; border-radius: 8px; }
+.row.heap { background: rgba(255,255,255,0.035); }
+.row .name { position: absolute; left: 76px; top: 8px; font-weight: 700; font-size: 23px; }
+.row .eff { position: absolute; left: 76px; right: 118px; top: 35px; font-weight: 400; font-size: 18px; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row .val { position: absolute; right: 44px; top: 10px; width: 80px; text-align: right; font-weight: 700; font-size: 34px; line-height: 44px; }
+.row .chev { position: absolute; right: 12px; top: 17px; width: 26px; height: 30px; }
+.slotmap { position: absolute; right: 40px; top: 12px; }
+
+/* ---------- heap cards ---------- */
+.hc { position: absolute; }
+.hc .frame, .hc .win { position: absolute; inset: 0; }
+.hc .frame { background: linear-gradient(150deg, #4a4f4c, #232726 30%, #0e1110 70%, #262a29); }
+.hc.golden .frame { background: linear-gradient(143deg, #9a5e25 0%, #ffe39a 16%, #c08636 33%, #f2c467 55%, #8d521f 78%, #ffdf8f 100%); }
+.hc .win { overflow: hidden; background: #0e1211; }
+.hc .win img { position: absolute; }
+.hc .st { position: absolute; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #241d14;
+  background: radial-gradient(circle at 40% 35%, #fbf4e2, #e6d6b4 60%, #c9b48d); box-shadow: 0 0 0 2px #1c201f, 0 0 0 3px #555b58; }
+.hc.golden .st { box-shadow: 0 0 0 2px #d9a24a, 0 0 0 3px #fff0b8; }
+.hc .st span { position: relative; top: 0.04em; }
+.times { position: absolute; display: grid; place-items: center; font-weight: 700; color: var(--cream); border-radius: 13px;
+  background: #1a2226; box-shadow: 0 0 0 2px #0e1314, 0 0 0 3px #59605f, 0 2px 4px rgba(0,0,0,0.7); }
+.scrollrail { position: absolute; width: 6px; border-radius: 3px; background: rgba(0,0,0,0.45); }
+.scrollthumb { position: absolute; left: 0; width: 6px; border-radius: 3px; background: #7d8a86; }
+.fade { position: absolute; left: 10px; right: 10px; height: 46px; pointer-events: none; background: linear-gradient(transparent, var(--slate-3)); }
+.empty { position: absolute; left: 0; right: 0; text-align: center; color: var(--dim); font-weight: 700; font-size: 24px; }
+.pointer { position: absolute; width: 34px; height: 34px; z-index: 20; filter: drop-shadow(2px 3px 2px rgba(0,0,0,0.6)); }
+.caption { position: absolute; left: 260px; bottom: 6px; font: 700 20px "AlegreyaSans", sans-serif; color: #fff; background: rgba(0,0,0,0.6); padding: 4px 10px; border-radius: 6px; }
+</style>
+</head>
+<body>
+<div id="screen"></div>
+<script>
+const Q = new URLSearchParams(location.search);
+const STATE = Q.get("state") || "auras-few";
+const UNITS = "../../../../../../assets/units/";
+const scr = document.getElementById("screen");
+function el(cls, x, y, w, h, parent = scr, style = "") {
+  const d = document.createElement("div");
+  d.className = "abs " + cls;
+  d.style.cssText = `left:${x}px;top:${y}px;width:${w}px;height:${h}px;${style}`;
+  parent.appendChild(d);
+  return d;
+}
+
+// ---------------- icons (line icons, as on the column's medallions) ----------------
+const S = (p) => `<svg viewBox="0 0 24 24" fill="none" stroke="#f3ecd6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const IC = {
+  leaf: S(`<path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14z"/><path d="M5 19l7-7"/>`),
+  tide: S(`<path d="M3 9.5c2.5-2.5 4.5-2.5 6 0s3.5 2.5 6 0 4.5-2.5 6 0M3 15.5c2.5-2.5 4.5-2.5 6 0s3.5 2.5 6 0 4.5-2.5 6 0"/>`),
+  hopper: S(`<path d="M6 16l5-8 3 5 4-2"/><path d="M11 8l-1-4M14 13l2 6M6 16l-2 3"/>`),
+  guard: S(`<path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/>`),
+  slot: S(`<path d="M12 3l7 4v10l-7 4-7-4V7z"/><path d="M12 9v6M9 12h6"/>`),
+  flame: S(`<path d="M12 21c-4 0-6-3-6-6 0-4 4-6 4-10 3 2 4 4 4 6 1-1 1.5-2 1.5-3 2 2 2.5 4 2.5 7 0 3-2 6-6 6z"/>`),
+  hourglass: S(`<path d="M7 3h10M7 21h10M8 3c0 5 8 6 8 9s-8 4-8 9M16 3c0 5-8 6-8 9s8 4 8 9"/>`),
+  moon: S(`<path d="M19 15A8 8 0 0 1 9 5a7 7 0 1 0 10 10z"/>`),
+  honey: S(`<path d="M12 3l7 4v10l-7 4-7-4V7z"/><path d="M8 12h8"/>`),
+  feather: S(`<path d="M20 4C11 4 6 9 5 19c3-6 7-9 12-10"/><path d="M5 19l-1 2"/>`),
+  bell: S(`<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/>`),
+  spore: S(`<circle cx="8" cy="9" r="2.5"/><circle cx="15.5" cy="7.5" r="2"/><circle cx="14" cy="15" r="3"/><circle cx="7" cy="16" r="1.5"/>`),
+  close: S(`<path d="M7 7l10 10M17 7L7 17"/>`).replace('stroke-width="2"', 'stroke-width="2.8"'),
+  back: S(`<path d="M15 5l-7 7 7 7"/>`).replace('stroke-width="2"', 'stroke-width="2.8"'),
+  chev: `<svg viewBox="0 0 24 24" fill="none" stroke="#c9c2ae" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>`,
+  pointer: `<svg viewBox="0 0 24 24"><path d="M5 3l13 9.5-6 .8 3.6 6.8-2.8 1.4-3.5-6.9L5 19z" fill="#fbf7ec" stroke="#1b1b1b" stroke-width="1.4" stroke-linejoin="round"/></svg>`,
+};
+
+// a medallion: hexagon = a heap (it holds units), round = a level
+function medal(x, y, d, a, parent = scr, badge = null, badgeD = null) {
+  const w = a.heap ? Math.round(d * 0.9) : d;
+  const m = el("med" + (a.heap ? "" : " round"), x, y, w, d, parent);
+  const hex = "polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)";
+  const rim = el("rim", 0, 0, 0, 0, m, a.heap ? `clip-path:${hex}` : ""); rim.style.cssText += "inset:-4px;width:auto;height:auto;";
+  const f = el("face", 0, 0, w, d, m, `background:radial-gradient(circle at 38% 32%, ${a.c[0]}, ${a.c[1]} 60%, ${a.c[2]});${a.heap ? `clip-path:${hex}` : ""}`);
+  f.innerHTML = IC[a.icon];
+  if (badge !== null) {
+    const bd = badgeD || Math.round(d * 0.56);
+    const b = el("badge", x + w - bd * 0.62, y + d - bd * 0.62, bd, bd, parent, `font-size:${Math.round(bd * (String(badge).length > 2 ? 0.44 : 0.56))}px`);
+    b.innerHTML = `<span>${badge}</span>`;
+  }
+  return m;
+}
+
+// ---------------- what the panel lists ----------------
+// kind: heap (opens), level (a number), slot (a board slot's buff: shown on a 4-over-3 map)
+const C = {
+  green: ["#7fb05a", "#4c7e33", "#2f5520"], blue: ["#6aa3d6", "#3a6fa4", "#21466e"], amber: ["#e2a05a", "#b5692c", "#7a3e17"],
+  violet: ["#a98ad8", "#6e52a6", "#432f6f"], slate: ["#8a9aa3", "#55656e", "#334048"], rose: ["#e08a8a", "#a8484d", "#6d2a30"],
+  gold: ["#f0d27a", "#c3923a", "#8a5f1c"], teal: ["#73c3b4", "#3a8679", "#22564e"],
+};
+const COMPOST = { id: "compost", name: "Compost", eff: "Units you sold", icon: "leaf", c: C.green, heap: true, v: 23 };
+const TIDE = { id: "tide", name: "Tide", eff: "Locusts +3 Attack", icon: "tide", c: C.blue, v: 3 };
+const FEW = [{ ...COMPOST, v: 4 }, TIDE];
+// the many case: today's real ones first, then counters other tribes may add (invented, to test the size)
+const MANY = [
+  { ...COMPOST },
+  { name: "Embers", eff: "Fight start: 1 damage", icon: "flame", c: C.amber, v: 148 },
+  TIDE,
+  { name: "Hopper bonus", eff: "Hoppers +2/+2", icon: "hopper", c: C.teal, v: 2 },
+  { name: "Spores", eff: "Units that died", icon: "spore", c: C.violet, heap: true, v: 9 },
+  { name: "Waiting", eff: "Turns until it hatches", icon: "hourglass", c: C.violet, v: 1 },
+  { name: "Moon", eff: "Fairies +1 Health per 2", icon: "moon", c: C.slate, v: 6 },
+  { name: "Honey", eff: "Spend in the shop", icon: "honey", c: C.gold, v: 12 },
+  { name: "Feathers", eff: "Birds +1 Attack", icon: "feather", c: C.rose, v: 4 },
+  { name: "Bell", eff: "Rings at 10: refill the shop", icon: "bell", c: C.gold, v: 7 },
+  { name: "Guard post", eff: "Its unit has Guard", icon: "guard", c: C.slate, slot: 2 },
+  { name: "Slot", eff: "Its unit +2/+0", icon: "slot", c: C.amber, slot: 5 },
+];
+
+// ---------------- geometry: the panel sits on the empty right wing of the table ----------------
+const PX = 1290, PW = 372;                 // left of the right column, clear of the board (board ends x 1268)
+const COL_MED = { heap: [1707, 404, 66], round: [1807, 401, 72] };   // the column's medallions in the screenshot
+
+function panelBox(y, h, opts = {}) {
+  const p = el("panel", PX, y, PW, h);
+  // a small lead tab points at the medallion that opened it
+  if (opts.tabY) el("tab", PX + PW + 4, opts.tabY - 15, 22, 30, scr, "");
+  return p;
+}
+function head(p, title, count, opts = {}) {
+  const h = el("head", 0, 0, 0, 0, p); h.style.cssText = `position:absolute;left:${opts.back ? 66 : 22}px;right:66px;top:14px;height:44px;display:flex;align-items:center;gap:12px;`;
+  if (opts.icon) { const m = document.createElement("div"); m.style.cssText = "position:relative;width:36px;height:36px"; h.appendChild(m); medal(0, 0, 36, opts.icon, m); }
+  h.insertAdjacentHTML("beforeend", `<span class="title">${title}</span>${count !== null ? `<span class="count">${count}</span>` : ""}`);
+  el("close", 0, 0, 40, 40, p).style.cssText += `left:auto;right:14px;top:16px;`;
+  p.lastChild.innerHTML = IC.close.replace("<svg", "<svg width='22' height='22'");
+  if (opts.back) { const b = el("back", 14, 16, 40, 40, p); b.innerHTML = IC.back.replace("<svg", "<svg width='22' height='22'"); }
+  el("rule", 18, 66, 0, 3, p).style.cssText += "left:18px;right:18px;width:auto;";
+}
+
+// a tiny 4-over-3 board map with one slot lit
+function slotMap(parent, x, y, lit) {
+  const w = 11, h = 16, g = 3;
+  const box = el("slotmap", x, y, 4 * w + 3 * g, 2 * h + g - 2, parent, "");
+  const hex = "polygon(50% 0,100% 18%,100% 82%,50% 100%,0 82%,0 18%)";
+  for (let i = 0; i < 7; i++) {
+    const back = i >= 4, j = back ? i - 4 : i;
+    const sx = back ? (w + g) / 2 + j * (w + g) : j * (w + g), sy = back ? h - 2 + g : 0;
+    el("", sx, sy, w, h, box, `clip-path:${hex};background:${i === lit ? "#f0d68a" : "rgba(200,210,205,0.22)"}`);
+  }
+  return box;
+}
+
+function auraRow(p, y, a) {
+  const r = el("row" + (a.heap ? " heap" : ""), 14, y, 0, 64, p); r.style.cssText += "left:14px;right:14px;width:auto;";
+  medal(12, 8, 46, a, r);
+  el("name", 0, 0, 0, 0, r).outerHTML = "";
+  r.insertAdjacentHTML("beforeend", `<div class="name">${a.name}</div><div class="eff">${a.eff}</div>`);
+  if (a.slot !== undefined) slotMap(r, 0, 0, a.slot).style.cssText += "left:auto;right:16px;top:16px;";
+  else r.insertAdjacentHTML("beforeend", `<div class="val" style="right:${a.heap ? 40 : 16}px">${a.v}</div>`);
+  if (a.heap) r.insertAdjacentHTML("beforeend", `<div class="chev">${IC.chev}</div>`);
+  return r;
+}
+
+// cover the column's two medallions and draw a set of up to four, plus "+N"
+function columnMedals(list, pressedIdx) {
+  // cover the existing two with the column's glass (sampled colours)
+  const shown = list.length > 2 ? [list[0], list[2], list[1], list[3]] : list.slice(0, 4);
+  const pos = [[1706, 400], [1804, 400], [1706, 504], [1804, 504]];
+  shown.forEach((a, i) => {
+    const d = a.heap ? 75 : 77;
+    const [x, y] = pos[i];
+    const m = medal(x, y, d, a, scr, a.v ?? "", 42);
+    if (i === pressedIdx) m.classList.add("pressed");
+  });
+  if (list.length > 4) {
+    const mp = el("moreplate", 1722, 600, 150, 50, scr, "");
+    mp.innerHTML = `<span>+${list.length - 4}</span>`;
+    return mp;
+  }
+}
+
+// ---------------- heap cards ----------------
+function hexPts(w, h, p, d = 0) {
+  const th = Math.atan(p / (w / 2)), dy = d / Math.cos(th), m = Math.tan(th), ys = m * (w / 2 - d) + dy;
+  return [[w / 2, dy], [w - d, ys], [w - d, h - ys], [w / 2, h - dy], [d, h - ys], [d, ys]];
+}
+const poly = pts => `polygon(${pts.map(([x, y]) => `${x.toFixed(1)}px ${y.toFixed(1)}px`).join(",")})`;
+function heapCard(parent, x, y, w, u, n) {
+  const h = Math.round(w / 0.56), p = 0.2887 * w;
+  // copies: up to two cards' edges peek out behind, offset up and right
+  for (let k = Math.min(n, 3) - 1; k >= 1; k--)
+    el("", x + 4 * k, y - 4 * k, w, h, parent, `clip-path:${poly(hexPts(w, h, p))};background:linear-gradient(150deg,#555b58,#1a1e1d);filter:brightness(${1 - 0.18 * k})`);
+  const c = el("hc" + (u.golden ? " golden" : ""), x, y, w, h, parent);
+  el("frame", 0, 0, w, h, c, `clip-path:${poly(hexPts(w, h, p))}`);
+  const win = el("win", 0, 0, w, h, c, `clip-path:${poly(hexPts(w, h, p, u.golden ? 4.5 : 3))}`);
+  if (u.golden) c.style.filter = "drop-shadow(0 0 5px rgba(255,200,110,0.75))";
+  const img = document.createElement("img"); img.src = UNITS + u.art + ".jpg";
+  const sc = w / 504; img.style.cssText = `width:${560 * sc}px;height:${1000 * sc}px;left:${-28 * sc}px;top:${-48 * sc}px;`;
+  win.appendChild(img);
+  const d = 26;
+  [[0, u.a], [1, u.hp]].forEach(([i, v]) => {
+    const s = el("st", i ? w - d - 2 : 2, h - p - d * 0.55, d, d, c, `font-size:${String(v).length > 1 ? 15 : 17}px`);
+    s.innerHTML = `<span>${v}</span>`;
+  });
+  if (n > 1) {
+    const t = el("times", x + w / 2 - 22, y - 16, 44, 26, parent, "font-size:18px;z-index:2");
+    t.innerHTML = `<span style="position:relative;top:0.04em">×${n}</span>`;
+  }
+}
+// the Compost, newest first; copies grouped where the newest copy sits
+const HEAP = [
+  { art: "thorn/blackberry-sprawl", a: 4, hp: 6, n: 1 },
+  { art: "thorn/pip", a: 3, hp: 3, n: 4 },
+  { art: "thorn/holly-knight", a: 5, hp: 7, n: 1, golden: true },
+  { art: "thorn/nettle-sprout", a: 1, hp: 2, n: 3 },
+  { art: "thorn/hedge-layer", a: 3, hp: 4, n: 2 },
+  { art: "thorn/bramble-runner", a: 2, hp: 3, n: 1 },
+  { art: "thorn/ivy-climber", a: 2, hp: 5, n: 1 },
+  { art: "thorn/crab-apple", a: 4, hp: 4, n: 2 },
+  { art: "thorn/sweetbriar", a: 3, hp: 5, n: 1, golden: true },
+  { art: "thorn/blackthorn-sapling", a: 6, hp: 3, n: 1 },
+  { art: "thorn/hazel-coppicer", a: 3, hp: 6, n: 2 },
+  { art: "thorn/leafmould-carter", a: 2, hp: 7, n: 1 },
+  { art: "thorn/lone-hawthorn", a: 5, hp: 5, n: 1 },
+  { art: "thorn/old-stump", a: 1, hp: 9, n: 1 },
+  { art: "thorn/nettle-skirmisher", a: 4, hp: 2, n: 1 },
+];
+
+function heapPanel(entries, opts = {}) {
+  const total = entries.reduce((s, e) => s + e.n, 0);
+  const y = 360, h = opts.empty ? 200 : 524;
+  const p = panelBox(y, h, { tabY: opts.fromAuras ? null : 437 });
+  head(p, "Compost", total, { icon: COMPOST, back: opts.fromAuras });
+  if (opts.empty) {
+    const e = el("empty", 0, 108, 0, 40, p); e.style.cssText += "left:0;right:0;width:auto;"; e.textContent = "Empty";
+    return p;
+  }
+  // a window onto the cards, four across; it scrolls
+  const view = el("", 18, 78, PW - 36, h - 92, p, "overflow:hidden");
+  const W = 68, GX = 18, GY = 26, H = Math.round(W / 0.56);
+  const x0 = (PW - 36 - (4 * W + 3 * GX)) / 2 - 6;
+  entries.forEach((u, i) => heapCard(view, x0 + (i % 4) * (W + GX), 24 + Math.floor(i / 4) * (H + GY), W, u, u.n));
+  el("fade", 10, h - 60, 0, 46, p).style.cssText += "left:10px;right:24px;width:auto;";
+  const rail = el("scrollrail", PW - 18, 84, 6, h - 104, p);
+  el("scrollthumb", 0, 0, 6, (h - 104) * 0.72, rail);
+  return p;
+}
+
+function aurasPanel(list) {
+  const rowH = 70, top = 78;
+  const visible = Math.min(list.length, Math.floor((880 - 360 - top - 12) / rowH));
+  const h = top + visible * rowH + 12;
+  const y = Math.max(360, Math.min(880 - h, 397));
+  const p = panelBox(y, h, { tabY: list.length > 4 ? 625 : null });
+  head(p, "Auras", list.length, {});
+  const view = el("", 0, top, PW, h - top - 8, p, "overflow:hidden");
+  list.forEach((a, i) => auraRow(view, i * rowH, a));
+  if (list.length > visible) {
+    el("fade", 10, h - 56, 0, 46, p).style.cssText += "left:10px;right:24px;width:auto;";
+    const rail = el("scrollrail", PW - 16, top + 6, 6, h - top - 20, p);
+    el("scrollthumb", 0, 0, 6, (h - top - 20) * visible / list.length, rail);
+  }
+  return p;
+}
+
+// the other answer: the same panel as a grid of medallions, numbers only, names under
+function gridPanel(list) {
+  const cols = 4, cellW = 84, cellH = 112, top = 80;
+  const rows = Math.ceil(list.length / cols);
+  const h = top + rows * cellH + 10;
+  const y = Math.max(360, 880 - h);
+  const p = panelBox(y, h, { tabY: 625 });
+  head(p, "Auras", list.length, {});
+  const x0 = (PW - cols * cellW) / 2;
+  list.forEach((a, i) => {
+    const cx = x0 + (i % cols) * cellW, cy = top + Math.floor(i / cols) * cellH;
+    const d = 58;
+    if (a.slot !== undefined) { medal(cx + (cellW - d) / 2 - 6, cy + 6, d, a, p); slotMap(p, cx + cellW / 2 + 8, cy + 46, a.slot); }
+    else medal(cx + (cellW - d) / 2 - 6, cy + 6, d, a, p, a.v, 34);
+    const n = el("", cx - 4, cy + 74, cellW + 8, 22, p, `text-align:center;font-weight:700;font-size:16px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis`);
+    n.textContent = a.name;
+  });
+  return p;
+}
+
+function pointerAt(x, y) { el("pointer", x, y, 34, 34).innerHTML = IC.pointer; }
+
+// ---------------- states ----------------
+if (STATE === "auras-few") {
+  // everything fits the column, so there is no "+N" plate: pressing a level medallion (Tide) opens the
+  // auras panel with its row marked; pressing a heap medallion opens the heap
+  columnMedals(FEW, 1);
+  const p = aurasPanel(FEW);
+  p.style.top = "397px";
+  el("tab", PX + PW + 4, 424, 22, 30, scr, "");
+  const rows = p.querySelectorAll(".row");
+  rows[1].style.boxShadow = "inset 0 0 0 2px rgba(232,212,154,0.55)";
+  pointerAt(1830, 430);
+} else if (STATE === "auras-many") {
+  columnMedals(MANY, -1).classList.add("pressed");
+  aurasPanel(MANY);
+  pointerAt(1812, 626);
+} else if (STATE === "grid-many") {
+  columnMedals(MANY, -1).classList.add("pressed");
+  gridPanel(MANY);
+  pointerAt(1812, 626);
+} else if (STATE === "heap-full") {
+  columnMedals(FEW.map(a => a.heap ? { ...a, v: 23 } : a), 0);
+  heapPanel(HEAP);
+  pointerAt(1722, 430);
+} else if (STATE === "heap-empty") {
+  columnMedals(FEW.map(a => a.heap ? { ...a, v: 0 } : a), 0);
+  heapPanel([], { empty: true });
+  pointerAt(1722, 430);
+} else if (STATE === "heap-from-auras") {
+  columnMedals(MANY, -1).classList.add("pressed");
+  heapPanel(HEAP, { fromAuras: true });
+  el("tab", PX + PW + 4, 610, 22, 30, scr, "");
+}
+</script>
+</body>
+</html>

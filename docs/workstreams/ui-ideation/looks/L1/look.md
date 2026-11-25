@@ -109,3 +109,7 @@ Picture: `/data/ui-ideation/looks/L1/c/c5-fixes.png`.
 - **Shop level on the wall (L39).** The art director's answer is in `polish.md`: six carved bosses in the gaps between the arch heads, one more gilded per level; lanterns ordered to compare (`prompts-7.txt`, brief `briefs/38-l1-shop-level-on-the-wall.md`). Drawn as `lvl=boss|lantern|off` (default off) with `level=1..6`; strip of both at several levels: `/data/ui-ideation/looks/L1/c/c6-level-options.png`. The orchestrator's view from the pictures: the gilt bosses read as gold coins, which the screen already uses for money, so the lanterns are the better of the two; the owner chose lanterns (L43), now the default in `room=zones`.
 - **Not designed in this look (L35):** the auras panel, the Compost panel, the card library, settings, a landing screen, and the fight screen at this card size.
 
+### Panels (25 Nov, brief 44; not judged by the owner yet)
+
+The art director's design for the "all your auras" panel and the panel a heap opens is in `looks/L1/panels/` (`panels.html`, notes `panels.md`; pictures `/data/ui-ideation/looks/L1/panels/`). One slate-glass pane on the right wing of the table, nothing dimmed. Auras is a list (medallion, name, one short line, number); a heap's row opens the heap in the same pane, as small cards four across with copies stacked. Not solved: grouping copies breaks newest-first order; the fight screen has no empty wing for the pane; the pane wants one painted piece. Not in the game.
+
