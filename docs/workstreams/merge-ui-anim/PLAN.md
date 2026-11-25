@@ -44,7 +44,7 @@ Why:
 |---|---|---|---|
 | 1 | Fight | Finish step 3; tag `fight-anim/pre-l1` (the fallback). No fight-only build: the owner wants one build with both (25 Nov, to the fight session: "I was hoping to play a build with both UI and animations") | done 25 Nov |
 | 2 | Fight | Merge `ui/l1` at a commit the coordinator names into `ideation/fight-animation`; take the coordinator's port; re-film against its references (disc places move, as expected); full checks | after the owner has the first build, before B |
-| 3 | Fight | Windows build from its branch (`ui/l1` + fight + port), the first with both reworks, for the owner to play; light goes in only if it has joined `ui/l1` and been rechecked by then. Then B and S on the new card | after 2 |
+| 3 | Fight | B and S on the new card; fight PR ready, opened only after the UI PR has merged. No build from this branch: the owner plays the build from `dev` with both (step 9) | after 2 |
 | 4 | UI | Light (halos follow `modulate`), panels, owner's fix round, merge prep (removes `GlassPieces.disc`/`frame` only after step 2), PR `ui/l1` into `dev` | in parallel |
 | 5 | Coordinator | Before each PR: trial-merge with the other side's latest, run the full checks and the bot soak, report | before 4's and 6's PRs |
 | 6 | Owner | Merge the UI PR into `dev` | on the owner's say-so |
