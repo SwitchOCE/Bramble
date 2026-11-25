@@ -49,13 +49,7 @@ func _add_spell_lights() -> void:
 				L1Layout.number("light.spell.far.share") * tint.a
 			)
 		)
-		var depth: float = L1Layout.number(
-			(
-				"light.shop.breathe.depth_tier6"
-				if spell_tier == GlassPieces.TIERS
-				else "light.shop.breathe.depth"
-			)
-		)
+		var depth: float = L1Layout.shop_breath(spell_tier)
 		var phase: float = (i + 0.5) * L1Layout.number("light.shop.breathe.phase_step")
 		light.blend(additive).breathe(period, depth, phase)
 		add_child(light)

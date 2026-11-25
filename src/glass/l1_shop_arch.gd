@@ -104,13 +104,7 @@ func _light_up() -> void:
 	var a: float = tint.a if lit else 0.0
 	var colour: Color = Color(tint, 1.0)
 	var period: float = L1Layout.number("light.shop.breathe.period")
-	var depth: float = L1Layout.number(
-		(
-			"light.shop.breathe.depth_tier6"
-			if tier == GlassPieces.TIERS
-			else "light.shop.breathe.depth"
-		)
-	)
+	var depth: float = L1Layout.shop_breath(tier)
 	var phase: float = place * L1Layout.number("light.shop.breathe.phase_step")
 	var additive: float = L1Layout.number("light.shop.additive")
 	for each: L1Light in [_recess, _spill, _pool, _halo]:
