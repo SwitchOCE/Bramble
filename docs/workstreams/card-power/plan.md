@@ -16,7 +16,9 @@
 
 The owner agreed to three measures ("I think that all of those measures are good"): a swap test, bought against passed, and pick rate against power on one chart. They asked whether their view of the named cards is "borne out by the data".
 
-Out of scope: changing any card, keyword, rule or bot. The league is on hold and is not touched.
+Out of scope: changing any card, keyword, rule or bot.
+
+The league is inside the review (owner, 25 Nov): "The league is part of the process that leads into balance. So it definitely falls under the purview of your review ... any of your findings that lead to better balance, I want you to bring them to me because I want to act on them". The session brings league changes to the owner as proposals with their evidence; the league itself stays on hold and is changed only on the owner's word.
 
 ## What is already done (25 Nov)
 
