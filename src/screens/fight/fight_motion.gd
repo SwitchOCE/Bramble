@@ -59,6 +59,9 @@ const TURN_AT_CONTACT: float = 0.9
 const TURN_LEAN: float = 4.0
 ## The turn is gone this long after the return starts.
 const TURN_UNWIND: float = 25.0 / 60.0
+## A jab (pile-on, effect) turns at most this far, in degrees: a jab along its own row would
+## otherwise lie almost sideways for a 20 px nudge. Attacks are not capped (CB15 is open).
+const JAB_TURN_CAP: float = 30.0
 
 ## key -> {attack, hit, blocked, returning, direction}; supplied by FightScreen each layout.
 var motions: Dictionary = {}
