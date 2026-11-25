@@ -15,7 +15,8 @@ const USAGE: &str = "usage:
   league refight --match <dir> [--repo-root <dir>] [--select tribe:<name>[:<min>]]
                  --out <dir> [--threads N] [--verify]
   league refight --match <dir> --out <dir> [--text-off] [--stat-worth] [--keyword-off <id>[,<id>...]]
-                 [--overrun-swings] [--seeds 2] [--cap 500] [--threads N] [--verify]
+                 [--overrun-swings] [--fresh-copy all|<card id>[,<card id>...]]
+                 [--seeds 2] [--cap 500] [--threads N] [--verify]
   league bench [--content all|standin|<folders>] [--games N] [--fight-records <dir>] [--fights N]
   league bots";
 
@@ -234,6 +235,7 @@ fn run(args: &[String]) -> Result<(), String> {
                         "keyword-off",
                         "seeds",
                         "cap",
+                        "fresh-copy",
                     ]
                     .contains(&name.as_str())
                         || value.is_empty()
@@ -258,10 +260,19 @@ fn run(args: &[String]) -> Result<(), String> {
                     .map(|list| list.split(',').map(str::to_owned).collect())
                     .unwrap_or_default(),
                 swings: o.has("overrun-swings"),
+                fresh: o
+                    .get("fresh-copy")
+                    .map(|list| list.split(',').map(|s| s.trim().to_owned()).collect())
+                    .unwrap_or_default(),
                 seeds: o.num("seeds", 2usize)?,
                 cap: o.num("cap", 500usize)?,
             };
-            if modes.keywords.iter().any(String::is_empty) {
+            if modes
+                .keywords
+                .iter()
+                .chain(&modes.fresh)
+                .any(String::is_empty)
+            {
                 return Err(USAGE.into());
             }
             if modes.any() {
@@ -276,7 +287,10 @@ fn run(args: &[String]) -> Result<(), String> {
                 return Ok(());
             }
             if o.get("seeds").is_some() || o.get("cap").is_some() {
-                return Err("usage: --seeds and --cap need --text-off or --keyword-off".into());
+                return Err(
+                    "usage: --seeds and --cap need --text-off, --keyword-off or --fresh-copy"
+                        .into(),
+                );
             }
             let select = o.get("select").map(|rule| rule.parse()).transpose()?;
             let report = refight::run(&dir, &root, &out, select.as_ref(), threads, verify)?;

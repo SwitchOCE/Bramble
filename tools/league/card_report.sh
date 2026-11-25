@@ -2,7 +2,7 @@
 # The card report for one played ghost match: steps 1 and 2 of the card-power ladder
 # (docs/workstreams/card-power/definitions.md). Step 1 reads the games as played (pick rate,
 # bought against passed, stat growth). Step 2 refights the recorded fights with one thing changed
-# (text off, stat worth, keyword off, Overrun swings). It ends with one row per card and the cards worth a look.
+# (text off, stat worth, keyword off, Overrun swings, fresh copy). It ends with one row per card and the cards worth a look.
 # A match without records gets step 1's shop readings only. Run it before records are deleted.
 #
 # usage: card_report.sh <match dir> [--out <dir>] [--left-out <left_out.csv>] [--threads 4]
@@ -37,8 +37,10 @@ if compgen -G "$match/records/game-*.jsonl" > /dev/null; then
   fi
   step "stat growth"
   python3 "$A/stat_growth.py" "$match" --out "$out/stat_growth.csv"
-  step "text off and stat worth (every card)"
-  "$league" refight --match "$match" --out "$out/refight" --stat-worth --threads "$threads"
+  # A fresh copy of every card, so a refused card (on few boards or none) is read against the
+  # fresh copies of the others; cards.csv shows it for the refused cards.
+  step "text off and stat worth (every card); fresh copy (every card)"
+  "$league" refight --match "$match" --out "$out/refight" --stat-worth --fresh-copy all --threads "$threads"
   # Keywords are read in thirds by the enemy's Health, so they need more fights than a card does.
   step "keyword off and Overrun swings"
   "$league" refight --match "$match" --out "$out/refight-keywords" --keyword-off "$keywords" \
@@ -49,7 +51,8 @@ if compgen -G "$match/records/game-*.jsonl" > /dev/null; then
 else
   echo "no records in $match: the fight tests and stat growth are skipped"
   # Tables left by an earlier report in the same folder would be read as this match's.
-  rm -f "$out/text_cards.csv" "$out/stat_growth.csv" "$out/keywords.csv" "$out/overrun_swings.csv"
+  rm -f "$out/text_cards.csv" "$out/stat_growth.csv" "$out/keywords.csv" "$out/overrun_swings.csv" \
+    "$out/fresh_copy.csv"
 fi
 
 step "one row per card"

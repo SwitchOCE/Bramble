@@ -117,7 +117,8 @@ skipped or differed and writes any result differences to `verify_mismatch`.
 
 ```
 league refight --match <dir> --out <dir> [--text-off] [--stat-worth] [--keyword-off <id>[,<id>...]]
-               [--overrun-swings] [--seeds 2] [--cap 500] [--threads N] [--verify]
+               [--overrun-swings] [--fresh-copy all|<card id>[,<card id>...]]
+               [--seeds 2] [--cap 500] [--threads N] [--verify]
 ```
 
 These modes measure what one card's text, or one keyword, is worth in the fights a match
@@ -156,10 +157,28 @@ mechanic in the recorded `fight_boards`: printed on its card, in its `grants`, i
 keyword of the slot it stands in. A unit that gets the keyword only during the fight doesn't
 make its side count. A keyword with an aura, a death effect or an ability is refused.
 
-**Sampling.** At most `--cap` observations per card (text off) or per keyword (keyword off)
-per stage (rounds 1–4, 5–8, 9–12, 13 on). The kept ones are those with the lowest
+**Fresh copy** (`--fresh-copy`, `fresh_copy.jsonl`). For a card on few boards or none (one the
+bots refuse, or a new card). `all` means every card the shop can offer (no spells, no tokens).
+One observation is one side of a recorded fight that the card fits: the player's tier is at
+least the card's tier minus one, and the side holds three or more units of the card's tribe (a
+card with no tribe fits any side its tier allows). A fresh copy of the card (base stats, not
+golden, a new uid) goes in the lowest free slot, or on a full board in the slot of the side's
+weakest unit (lowest own Attack plus Health, lower slot on a tie), which leaves the fight. That
+board is fought on the same seeds twice: the copy's text on, and its text off as `--text-off`
+does it. The difference is what the copy's own text is worth in the fight; the body and the
+displaced unit are the same in both. `analysis/fight_text.py` writes `fresh_copy.csv` and reads
+each card against the fresh copies of the other cards at the same stage. Fields beyond the
+shared ones: `card`, `tier`, `slot`, `displaced` (the card id of the unit it replaced, or null),
+`player_tier`, `tribe_units` (units of the card's tribe on the recorded side), `score_recorded`
+(the board as recorded), `score_on`, `score_off`, `dealt_on`, `dealt_off`, `result_changed`
+(on and off differ in winner on the recorded seed). On `r1` (2,000 games, 4 threads) all 104
+cards take about two minutes.
+
+**Sampling.** At most `--cap` observations per card (text off, fresh copy) or per keyword
+(keyword off) per stage (rounds 1–4, 5–8, 9–12, 13 on). The kept ones are those with the lowest
 `hash32("text_off|<game>|<round>|<position>|<slot>")` (keyword off:
-`"keyword_off|<id>|<game>|<round>|<position>"`). The outcome is never looked at.
+`"keyword_off|<id>|<game>|<round>|<position>"`; fresh copy:
+`"fresh_copy|<id>|<game>|<round>|<position>"`). The outcome is never looked at.
 
 Fields of both files:
 
@@ -198,7 +217,7 @@ back as a fresh copy of its card, text included. An attack made at once inside a
 attack (Oakfeller) starts a new swing count.
 
 The modes don't change the engine's rules code. Text off edits the restored unit in the
-refight's own session. Keyword off and the swing count give that session its own copy of the
+refight's own session; fresh copy adds a unit to it. Keyword off and the swing count give that session its own copy of the
 mechanic registry, in which the chosen mechanic is wrapped (`src/refight/switch.rs`). The
 wrapper asks the real mechanic for every hook, and does nothing for units of the switched-off
 side. A test wraps every mechanic and checks that 300 random boards fight exactly as before.

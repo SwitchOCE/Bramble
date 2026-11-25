@@ -12,7 +12,7 @@ The owner, 25 Nov: "there should be some sort of escalation ladder ... if we ran
 |---|---|---|---|---|
 | 0 | First-sight read: the owner, or a fresh agent, marks any card that looks too strong or too weak on sight | Judgement | Minutes | Every card, when it is designed or changed |
 | 1 | Pick rate, bought against passed, stat growth | Reading games already played | Under a minute for every card | Every card, after any match with records |
-| 2 | Abilities off, keyword on and off, Overrun swings, stat worth of the text | Experiment on recorded fights | About 12 minutes for every card (4 without stat worth) | Every card, after any match with records |
+| 2 | Abilities off, keyword on and off, Overrun swings, stat worth of the text, fresh copy | Experiment on recorded fights | 8 to 13 minutes for every card, by how busy the machine is (4 without stat worth and fresh copy) | Every card, after any match with records |
 | 3 | Left out of the shop | Experiment over whole games | About 10 minutes a card | Only cards marked worth a look in steps 1 and 2, cards the owner names, and cards that are new or just changed |
 | 4 | A read of the card, then a line of explanation or a proposal to the owner | Judgement | Minutes | Cards that step 3 puts over the line, or that stay unexplained |
 
@@ -24,7 +24,7 @@ Cases the ladder does not handle on its own, each with its route (approved by th
 
 | Case | Sign | Route | Built? |
 |---|---|---|---|
-| A card no bot buys | "refused" in the report: bought on under 1 offer in 100 by every bot that sees it, with its tribe in play | A fight test that adds a fresh copy to recorded boards; then a whole-game test with the card forced in; then a design read. Unexplained after that: to the owner as "weak or unfound" | The report names the cards. The two tests are not built |
+| A card no bot buys | "refused" in the report: bought on under 1 offer in 100 by every bot that sees it, with its tribe in play | A fight test that adds a fresh copy to recorded boards; then a whole-game test with the card forced in; then a design read. Unexplained after that: to the owner as "weak or unfound" | The report names the cards and runs the fight test ([fresh copy](#fresh-copy-a-cards-fight-text-on-boards-that-do-not-hold-it)). The whole-game test is not built |
 | A card a bot is built around | Left out of the shop reads far above every other card | Treat the number as an upper bound. Compare with leaving out the card's whole tribe | Yes (`--without` takes a list) |
 | A card whose worth is outside fights | Bought a lot, little fight text | Left out of the shop is the only measure; run it | Yes |
 | A card that grows over turns | Marked on stat growth | Left out of the shop, alone and with the cards that share its mechanic | Yes |
@@ -90,6 +90,22 @@ The owner's idea, 25 Nov: "if I take away all of its abilities and keywords ... 
 - **Worth a look:** none of its own. It is the text-off number in another unit, so the mark stays on text off; a second line on the same fights would mark the same cards twice.
 - **Run with:** `league refight --stat-worth` (the card report does), about three times the fights of text off alone.
 
+## Fresh copy (a card's fight text on boards that do not hold it)
+
+The owner, 25 Nov: "a lack of data due to bots ignoring the card, when my estimate is that it's bad, is probably [a] finding [in] of itself ... not getting data on cards because bots completely ignore them is maybe an issue". Text off needs the card on boards; a card the bots refuse is on few or none. This test puts it there. It is the text-off measure pointed at a card no board holds, so it measures the same one thing: how much a fresh copy's own text is worth in a fight. It is never called card power. It is not the dropped plain-unit swap: both fights below hold the same copy in the same slot, so the body, and whatever unit it displaced, are the same in both and cancel out.
+
+- **Data:** the `fight_boards` of every fight in the match records, live seat and ghosts.
+- **Boards it fits:** a side whose player's shop tier is at least the card's tier minus one (a triple's reward offers a card one tier up; on `r1`, 13% of board units sit one tier above their player and none two), and which holds three or more units of the card's tribe. A card with no tribe fits any side its tier allows.
+- **One observation:** one side of one recorded fight that the card fits.
+- **The change:** a fresh copy of the card (base stats, not golden, nothing given) goes in the side's lowest free slot. On a full board it takes the slot of the side's weakest unit (lowest own Attack plus Health; the lower slot on a tie), which leaves the fight. Displacing is the usual case, not the exception: on `r1` a unit is displaced on 82%, 99%, 99% and 100% of boards by stage, because most sides are full from round 3 or 4. The row says which unit, and the table and the printed summary give the share of boards where a unit was displaced.
+- **Fights:** the changed board is fought twice on the same two seeds as text off: once with the copy's text on, once with it off (its own card's effects and printed keywords switched off, as text off does it). The recorded board is also fought, as for every fight measure, and a fight that does not replay is left out.
+- **Number:** mean score with the copy's text on minus mean score with it off, for the copy's side. Also the change in damage dealt, and the share of results that change.
+- **Sample, interval, too few:** as text off: at most 500 observations per card per stage, picked by a hash of card, game, round and side; 95% interval grouped by game; under 200, "too few".
+- **Worth a look:** the rule at the top of this file, inside each stage, against the fresh copies of every card at that stage (ten cards or more measured), with the text floor (5 fights in 100). A fresh copy is never read against held copies: a held copy carries the stats it gathered and reads higher (Sword-heir on `r1`, rounds 5–8: +0.154 fresh, +0.273 held).
+- **Reading per card**, over its stages: *too few boards* (no stage has 200); *no fight text* (every measured stage's interval includes zero); *fight text worth under 5 in 100* (every stage under the floor, some clear of zero); otherwise *has fight text worth*. The reading describes; it routes nothing. Every refused card goes on to the whole-game step whatever it reads. A refused card that has fight text worth is the closest case to the owner's "I am surprised they're not using" it; one whose fight text does nothing has its worth, if any, outside fights.
+- **Cannot see:** as text off, and more: the copy has none of the stats a held copy gathers over turns, nothing an effect that works when the card is bought or played would have done, and no say in how the board was built. The boards are ones the bots built without the card.
+- **Run with:** `league refight --fresh-copy all` (the card report does, with stat worth), or `--fresh-copy <id>[,<id>...]` for named cards; a new or changed card that no recorded board holds yet is the same case. A card is read against the fresh copies of the other cards, so the table needs every card: run `all`. Cost on `r1` (2,000 games, 4 threads): 121 seconds for all 104 cards, about one second a card; 31 seconds for the 17 refused cards alone.
+
 ## Keyword off
 
 - **The change:** one keyword's mechanic does nothing for one side of the fight, on every unit that has it, printed or given.
@@ -122,6 +138,7 @@ The owner's idea, 25 Nov: "stats generated per turn compared to the source of th
   - *seldom offered*: the bots that play its tribe saw it on under 100 offers each.
   - *refused*: a bot that plays its tribe saw it enough, and every bot that saw it enough bought it on under one offer in a hundred. This is the only one of the four that is a sign about the card, and the report lists these cards.
   - *bought*: otherwise.
+- **Fresh copy, for refused cards:** the fresh copy's value and board count per stage, its reading, and a mark when a stage is worth a look. The printed summary gives each refused card's line. Other cards' fresh copies are in `fresh_copy.csv`, where they serve as the table the refused cards are read against.
 - **Why a card has no fight data:** a card has fight data when it has enough observations for text off in at least one stage. Otherwise the reason is its shop reading: tribe not played, seldom offered, offered and refused, or bought but held too briefly.
 - **Keywords:** the report prints each keyword's value by stage, on all boards and against low- and high-Health boards. Worth a look: it turns at least 5 fights in 100 at a stage, the same floor as a card's text. With three keywords there is no table to take a spread from, so the line is fixed.
 - A match without records gets the shop readings only, and the report says so. So the report is run before a match's records are deleted.
@@ -168,3 +185,4 @@ The owner called replacing a unit with a made-up plain unit "pretty unrealistic"
 - 25 Nov, before any stat-worth number was read: "own" stats spelled out (auras and Renown are not multiplied), and no separate worth-a-look line for stat worth, for the reason in its section.
 - 26 Nov: the owner said yes to the proposals and to the open review questions ("I was happy with all of the proposals so proceed"; "I was pretty happy with all your ideas"). So these stand: the pick rate is read only above 100 offers; "refused" is reported for every card; "seldom offered" means seldom offered to the bots that play the tribe; stat worth has no worth-a-look line of its own; the plain refight keeps its `summary.tsv`.
 - 26 Nov: step 0 (the first-sight read) added to the ladder, from the approved proposals.
+- 26 Nov, AFTER the first fresh-copy numbers on `r1` were read: fresh copy added, the fight test on the approved route for a card no bot buys. Two parts of it were set after reading. The tier rule allows one tier above the player, because held Sword-heirs stand on tier 2 boards in rounds 3 and 4 (a board count, not a fresh-copy result). And a fresh copy is read against the fresh copies of every card, not against the text-off table as first proposed, because fresh copies read lower than held copies (Sword-heir is marked on text off in every stage but would not have been as a fresh copy against that table). Already seen before it was written: the blue team's 18 Nov fight table of fresh copies, noted at the top of this file.

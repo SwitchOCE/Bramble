@@ -55,6 +55,10 @@ pub(super) struct Setup {
     pub registry: Option<MechanicRegistryRef>,
     /// The game seed the fight seed is derived from; the recorded game seed when `None`.
     pub seed: Option<i64>,
+    /// Fresh copy: put a new copy of this card (base stats, not golden, nothing given) at
+    /// (pairing position, board slot), in place of whatever stands there. Done before `text_off`,
+    /// so `text_off` can name the copy's slot.
+    pub fresh: Option<(usize, usize, String)>,
     /// Strip the own text of the unit at (pairing position, board slot): see `text_off`.
     pub text_off: Option<(usize, usize)>,
     /// With `text_off`: that unit's own Attack and Health become this many hundredths of what
@@ -215,6 +219,23 @@ pub(super) fn fight_with(
                 harness::restore_payload(&mut session, payload);
                 owners.push(session.player(id));
             }
+        }
+        if let Some((side, slot, card)) = &setup.fresh {
+            let def = session
+                .library
+                .as_ref()
+                .expect("session library")
+                .borrow()
+                .get_card(card)
+                .ok_or_else(|| Skip::MissingCard(format!("fresh copy: missing card {card}")))?;
+            let board = owners[*side].borrow().board.clone();
+            if *slot >= board.len() {
+                return Err(Skip::Payload(format!("fresh copy: no slot {slot}")));
+            }
+            // New uids come after every restored one, so the copy shares no uid.
+            let unit = session.new_unit(&def, false);
+            unit.borrow_mut().slot = *slot as i64;
+            board.borrow_mut()[*slot] = Some(unit);
         }
         if let Some((side, slot)) = setup.text_off {
             let unit = owners[side].borrow().board.get(slot).flatten();

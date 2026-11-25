@@ -7,8 +7,12 @@ worth a look, never as too strong.
 With `league refight --stat-worth` the text table also gets the stat worth of each card's text:
 the multiplier on a plain unit's own Attack and Health at which it does as well as the card did.
 
+With `league refight --fresh-copy` it writes fresh_copy.csv: what a fresh copy's own fight text is
+worth on recorded boards it was added to. Each card is read against the fresh copies of the other
+cards at the same stage, so run it for every card. Also in-fight text worth, never card power.
+
 usage: fight_text.py <refight modes dir> --out <dir>
-Writes text_cards.csv, keywords.csv and overrun_swings.csv into --out.
+Writes text_cards.csv, keywords.csv, overrun_swings.csv and (with fresh copies) fresh_copy.csv into --out.
 """
 import argparse
 import csv
@@ -138,6 +142,64 @@ def text_table(rows):
     return out
 
 
+MIN_REFERENCE = 10  # fresh copies of at least this many cards at a stage before any is marked
+
+
+def fresh_table(rows):
+    """Per card and stage: the fresh copy's score with its text on minus with it off, and the share
+    of boards where it took the weakest unit's place. Worth a look by the text-off rule, inside the
+    stage's table of fresh copies. A fresh
+    copy is never compared with held copies: they carry the stats they gathered, and read higher."""
+    cells = defaultdict(list)
+    for row in rows:
+        cells[(row["card"], row["tier"], row["stage"])].append(row)
+    out = []
+    for (card, tier, stage), obs in sorted(cells.items(), key=lambda kv: (STAGES.index(kv[0][2]), kv[0][1], kv[0][0])):
+        value, low, high, n = clustered(obs, lambda r: r["score_on"] - r["score_off"])
+        enough = n >= MIN_OBSERVATIONS
+        out.append({"stage": stage, "card": card, "tier": tier, "boards": n, "status": "ok" if enough else "too few",
+                    "fresh_value": fmt(value) if enough else "", "low": fmt(low) if enough else "",
+                    "high": fmt(high) if enough else "",
+                    "damage_change": fmt(statistics.fmean(r["dealt_on"] - r["dealt_off"] for r in obs), 2) if enough else "",
+                    "results_changed": fmt(statistics.fmean(r["result_changed"] for r in obs)) if enough else "",
+                    "displaced": fmt(statistics.fmean(r["displaced"] is not None for r in obs)),
+                    "stage_middle": "", "spreads": "", "pointer": ""})
+    tables = defaultdict(list)
+    for r in out:
+        if r["status"] == "ok":
+            tables[r["stage"]].append(float(r["fresh_value"]))
+    for r in out:
+        if r["status"] != "ok" or len(tables[r["stage"]]) < MIN_REFERENCE:
+            continue
+        middle, spread = middle_and_spread(tables[r["stage"]])
+        r["stage_middle"] = fmt(middle)
+        if spread:
+            r["spreads"] = fmt((r["fresh_value"] - middle) / spread, 1)
+            if (r["spreads"] >= LOOK_SPREADS and r["low"] != "" and r["low"] > middle
+                    and r["fresh_value"] >= LOOK_FLOOR):
+                r["pointer"] = "worth a look"
+    readings = {card: fresh_reading([r for r in out if r["card"] == card]) for card in {r["card"] for r in out}}
+    for r in out:
+        r["reading"] = readings[r["card"]]
+    return out
+
+
+def fresh_reading(rows):
+    """One description per card over its stages: "too few boards" (no stage with enough), "no fight
+    text" (every measured stage's interval includes zero), "fight text worth under 5 in 100"
+    (every stage under LOOK_FLOOR, some clear of zero), or "has fight text worth". It routes
+    nothing: every refused card goes on to the whole-game step."""
+    measured = [r for r in rows if r["status"] == "ok"]
+    if not measured:
+        return "too few boards"
+    clear = [r for r in measured if r["low"] != "" and (r["low"] > 0 or r["high"] < 0)]
+    if not clear:
+        return "no fight text"
+    if all(r["fresh_value"] < LOOK_FLOOR for r in measured):
+        return "fight text worth under 5 in 100"
+    return "has fight text worth"
+
+
 def thirds(rows):
     """Cut points of the enemy board's median Health per stage, from one value per fight side."""
     seen = defaultdict(dict)
@@ -213,10 +275,13 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     text = read(source / "text_off.jsonl")
     keywords = read(source / "keyword_off.jsonl")
+    fresh = read(source / "fresh_copy.jsonl")
     write(out / "text_cards.csv", text_table(text))
     write(out / "keywords.csv", keyword_table(keywords, thirds(text + keywords)))
     write(out / "overrun_swings.csv", swing_table(read(source / "overrun_swings.jsonl")))
-    print(f"{len(text)} text-off and {len(keywords)} keyword-off observations -> {out}")
+    if fresh:
+        write(out / "fresh_copy.csv", fresh_table(fresh))
+    print(f"{len(text)} text-off, {len(keywords)} keyword-off and {len(fresh)} fresh-copy observations -> {out}")
 
 
 if __name__ == "__main__":

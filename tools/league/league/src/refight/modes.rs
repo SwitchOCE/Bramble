@@ -1,5 +1,5 @@
-//! Refight modes for card power: text off, stat worth, keyword off and the Overrun swing count
-//! (docs/workstreams/card-power/definitions.md). One JSON line per observation; nothing is
+//! Refight modes for card power: text off, stat worth, keyword off, the Overrun swing count and
+//! fresh copy (docs/workstreams/card-power/definitions.md). One JSON line per observation; nothing is
 //! aggregated here.
 use super::input::{self, Fight, Game};
 use super::restore::{self, Detail, Setup, Skip};
@@ -20,6 +20,9 @@ pub const RUNGS: [i64; 6] = [150, 200, 300, 400, 600, 800];
 /// The mechanic whose attacks the swing count follows.
 pub const OVERRUN: &str = "badger_overrun";
 
+/// Fresh copy: units of the card's tribe a side must hold for the copy to be tried there.
+pub const FRESH_TRIBE_UNITS: usize = 3;
+
 #[derive(Debug, Clone)]
 pub struct Modes {
     pub text_off: bool,
@@ -28,6 +31,8 @@ pub struct Modes {
     /// Mechanic ids to switch off, one at a time, for one side.
     pub keywords: Vec<String>,
     pub swings: bool,
+    /// Card ids to add as a fresh copy to recorded boards, text on against text off.
+    pub fresh: Vec<String>,
     /// Seeds per observation: the recorded one and `seeds - 1` derived from it.
     pub seeds: usize,
     /// Most observations kept per card (or keyword) per stage.
@@ -36,7 +41,7 @@ pub struct Modes {
 
 impl Modes {
     pub fn any(&self) -> bool {
-        self.text_off || !self.keywords.is_empty() || self.swings
+        self.text_off || !self.keywords.is_empty() || self.swings || !self.fresh.is_empty()
     }
 }
 
@@ -51,6 +56,7 @@ pub struct ModeReport {
     pub keyword_off: usize,
     pub swings: usize,
     pub swing_changed: usize,
+    pub fresh_copy: usize,
     verifying: bool,
 }
 
@@ -72,7 +78,7 @@ impl fmt::Display for ModeReport {
         write!(
             f,
             "refight modes: {} fights, {} refought, {} reproduced, {} not reproduced, {} skipped\n\
-             observations: {} text off, {} keyword off; {} Overrun swings",
+             observations: {} text off, {} keyword off, {} fresh copy; {} Overrun swings",
             self.fights,
             self.fought,
             self.reproduced,
@@ -80,6 +86,7 @@ impl fmt::Display for ModeReport {
             self.skipped,
             self.text_off,
             self.keyword_off,
+            self.fresh_copy,
             self.swings
         )?;
         if self.swing_changed > 0 {
@@ -121,6 +128,8 @@ enum Change {
     Text(usize, usize),
     /// (index into Modes::keywords, pairing position)
     Keyword(usize, usize),
+    /// (index into Modes::fresh, pairing position)
+    Fresh(usize, usize),
 }
 
 /// A candidate observation, found from the recorded payloads alone (no fight run).
@@ -191,6 +200,59 @@ fn keyword_units(content: &GameContentRef, payload: &Dictionary, keyword: &str) 
         .count()
 }
 
+/// The card's tier and tribes, from the content's card data.
+fn card_info(content: &GameContentRef, id: &str) -> Option<(i64, Vec<String>)> {
+    let card = content.borrow().library.borrow().get_card(id)?;
+    let card = card.borrow();
+    Some((card.tier, card.tribes.to_vec()))
+}
+
+/// Units of one recorded side whose card shares a tribe with `tribes`.
+fn tribe_units(content: &GameContentRef, payload: &Dictionary, tribes: &[String]) -> usize {
+    let Ok(board) = restore::units(payload, "board") else {
+        return 0;
+    };
+    board
+        .to_vec()
+        .into_iter()
+        .filter(|unit| {
+            let Variant::Dictionary(unit) = unit else {
+                return false;
+            };
+            restore::card_id(unit)
+                .ok()
+                .and_then(|id| card_info(content, &id))
+                .is_some_and(|(_, own)| own.iter().any(|t| tribes.contains(t)))
+        })
+        .count()
+}
+
+/// A side where a fresh copy of `card` could plausibly stand: the player's tavern tier is at
+/// least one below the card's (a triple's reward offers a card one tier up; on r1, 13% of board
+/// units sit one tier above their player and none two), and (for a card with a tribe) the side
+/// holds `FRESH_TRIBE_UNITS` or more units of that tribe. A card with no tribe fits any side its
+/// tier allows.
+fn fresh_fits(content: &GameContentRef, payload: &Dictionary, card: &str) -> bool {
+    let Some((tier, tribes)) = card_info(content, card) else {
+        return false;
+    };
+    let reached = input::integer(&payload.get("tier")).is_some_and(|t| t + 1 >= tier);
+    reached && (tribes.is_empty() || tribe_units(content, payload, &tribes) >= FRESH_TRIBE_UNITS)
+}
+
+/// Where the fresh copy goes: the lowest free slot, or else the slot of the side's weakest unit
+/// (lowest own Attack plus Health, the lower slot on a tie), whose card is returned.
+fn fresh_slot(standing: &[restore::Standing], slots: usize) -> (usize, Option<String>) {
+    if let Some(free) = (0..slots).find(|s| standing.iter().all(|u| u.slot != *s)) {
+        return (free, None);
+    }
+    let weakest = standing
+        .iter()
+        .min_by_key(|u| (u.own_attack + u.own_health, u.slot))
+        .expect("a full board has units");
+    (weakest.slot, Some(weakest.card.clone()))
+}
+
 fn candidates(
     dir: &Path,
     content: &GameContentRef,
@@ -230,6 +292,19 @@ fn candidates(
                                 game.index, round.number
                             );
                             out.push(place(Change::Text(position, slot), card, key));
+                        }
+                    }
+                    for (k, card) in modes.fresh.iter().enumerate() {
+                        if fresh_fits(content, &payload, card) {
+                            let key = format!(
+                                "fresh_copy|{card}|{}|{}|{position}",
+                                game.index, round.number
+                            );
+                            out.push(place(
+                                Change::Fresh(k, position),
+                                format!("fresh:{card}"),
+                                key,
+                            ));
                         }
                     }
                     for (k, keyword) in modes.keywords.iter().enumerate() {
@@ -310,6 +385,7 @@ fn median(values: &mut [i64]) -> Option<f64> {
 struct Lines {
     text: Vec<Value>,
     keyword: Vec<Value>,
+    fresh: Vec<Value>,
     swings: Vec<Value>,
     report: ModeReport,
 }
@@ -348,6 +424,7 @@ fn fight_modes(
     let mut lines = Lines {
         text: Vec::new(),
         keyword: Vec::new(),
+        fresh: Vec::new(),
         swings: Vec::new(),
         report: ModeReport::default(),
     };
@@ -460,6 +537,67 @@ fn fight_modes(
                     );
                 };
                 for change in changes {
+                    if let Change::Fresh(k, side) = change {
+                        let card = &modes.fresh[*k];
+                        let slots = restore::units(&payloads[*side], "board")
+                            .map(|b| b.len())
+                            .unwrap_or(0);
+                        let (slot, displaced) = fresh_slot(&baseline[0].boards[*side], slots);
+                        let arm = |off: bool| -> Result<Vec<Detail>, Skip> {
+                            (0..baseline.len())
+                                .map(|k| {
+                                    seeded(
+                                        k,
+                                        Setup {
+                                            fresh: Some((*side, slot, card.clone())),
+                                            text_off: off.then_some((*side, slot)),
+                                            ..Setup::default()
+                                        },
+                                    )
+                                })
+                                .collect()
+                        };
+                        let (on, off) = match arm(false).and_then(|on| Ok((on, arm(true)?))) {
+                            Ok(arms) => arms,
+                            Err(skip) => {
+                                eprintln!("{where_}: {change:?}: {}", skip.message());
+                                lines.report.skipped += 1;
+                                continue;
+                            }
+                        };
+                        let (tier, tribes) = card_info(&content, card).unwrap_or_default();
+                        let mut row = side_info(*side);
+                        let (recorded, with, without) = (
+                            means(&baseline, fight, *side),
+                            means(&on, fight, *side),
+                            means(&off, fight, *side),
+                        );
+                        let r = row.as_object_mut().unwrap();
+                        r.insert("mode".into(), json!("fresh_copy"));
+                        r.insert("card".into(), json!(card));
+                        r.insert("tier".into(), json!(tier));
+                        r.insert("slot".into(), json!(slot));
+                        r.insert("displaced".into(), json!(displaced));
+                        r.insert(
+                            "player_tier".into(),
+                            json!(input::integer(&payloads[*side].get("tier"))),
+                        );
+                        r.insert(
+                            "tribe_units".into(),
+                            json!(tribe_units(&content, &payloads[*side], &tribes)),
+                        );
+                        r.insert("score_recorded".into(), json!(recorded.score));
+                        r.insert("score_on".into(), json!(with.score));
+                        r.insert("score_off".into(), json!(without.score));
+                        r.insert("dealt_on".into(), json!(with.dealt));
+                        r.insert("dealt_off".into(), json!(without.dealt));
+                        r.insert(
+                            "result_changed".into(),
+                            json!(on[0].outcome.winner != off[0].outcome.winner),
+                        );
+                        lines.fresh.push(row);
+                        continue;
+                    }
                     let (setup, side): (Box<dyn Fn() -> Setup>, usize) = match change {
                         Change::Text(side, slot) => (
                             Box::new(move || Setup {
@@ -484,6 +622,7 @@ fn fight_modes(
                                 *side,
                             )
                         }
+                        Change::Fresh(..) => unreachable!("handled above"),
                     };
                     let changed: Result<Vec<Detail>, Skip> =
                         (0..baseline.len()).map(|k| seeded(k, setup())).collect();
@@ -547,6 +686,7 @@ fn fight_modes(
                             }
                             lines.text.push(row);
                         }
+                        Change::Fresh(..) => unreachable!("handled above"),
                         Change::Keyword(k, _) => {
                             let keyword = &modes.keywords[*k];
                             let count = |s: usize| {
@@ -615,6 +755,7 @@ fn fight_modes(
     }
     lines.report.text_off = lines.text.len();
     lines.report.keyword_off = lines.keyword.len();
+    lines.report.fresh_copy = lines.fresh.len();
     lines.report.swings = lines.swings.len();
     Ok(lines)
 }
@@ -692,9 +833,25 @@ pub fn run(
         return Err("usage: --seeds and --cap must be positive".into());
     }
     let input::Match { content, games } = input::read_match(dir, verify)?;
+    let mut modes = modes.clone();
     {
         let loaded = crate::load_content(root, Some(&content))?;
         let registry = loaded.borrow().registry.clone();
+        if modes.fresh == ["all"] {
+            // Every card the shop can offer: no spells, no tokens.
+            let library = loaded.borrow().library.clone();
+            let library = library.borrow();
+            modes.fresh = library
+                .ids()
+                .to_vec()
+                .into_iter()
+                .filter(|id| {
+                    let card = library.get_card(id).expect("listed card");
+                    let card = card.borrow();
+                    !card.is_spell() && !card.token
+                })
+                .collect();
+        }
         let mut seen = BTreeSet::new();
         for keyword in &modes.keywords {
             if !seen.insert(keyword) {
@@ -702,17 +859,31 @@ pub fn run(
             }
             switch::check_switchable(&registry, keyword)?;
         }
+        let mut fresh = BTreeSet::new();
+        for card in &modes.fresh {
+            if !fresh.insert(card) {
+                return Err(format!("usage: fresh copy {card:?} given twice"));
+            }
+            let def = loaded.borrow().library.borrow().get_card(card);
+            match def {
+                None => return Err(format!("usage: --fresh-copy: no card {card:?}")),
+                Some(def) if def.borrow().is_spell() => {
+                    return Err(format!("usage: --fresh-copy: {card:?} is a spell"));
+                }
+                Some(_) => {}
+            }
+        }
         if modes.swings && !registry.borrow().has(OVERRUN) {
             return Err(format!("content has no {OVERRUN} mechanic"));
         }
     }
     let found: Vec<Vec<Candidate>> = spread(&games, threads, |chunk: &[Game]| {
         let loaded = crate::load_content(root, Some(&content))?;
-        candidates(dir, &loaded, chunk, modes)
+        candidates(dir, &loaded, chunk, &modes)
     })?;
     let tasks = sample(found.into_iter().flatten().collect(), modes.cap);
     let done: Vec<Lines> = spread(&games, threads, |chunk: &[Game]| {
-        fight_modes(dir, root, &content, chunk, modes, &tasks, verify)
+        fight_modes(dir, root, &content, chunk, &modes, &tasks, verify)
     })?;
     fs::create_dir_all(out).map_err(|e| format!("{}: {e}", out.display()))?;
     let mut report = ModeReport {
@@ -720,6 +891,7 @@ pub fn run(
         ..ModeReport::default()
     };
     let (mut text, mut keyword, mut swings) = (Vec::new(), Vec::new(), Vec::new());
+    let mut fresh = Vec::new();
     for lines in done {
         let r = lines.report;
         report.fights += r.fights;
@@ -730,11 +902,16 @@ pub fn run(
         report.swing_changed += r.swing_changed;
         text.extend(lines.text);
         keyword.extend(lines.keyword);
+        fresh.extend(lines.fresh);
         swings.extend(lines.swings);
     }
     report.text_off = text.len();
     report.keyword_off = keyword.len();
     report.swings = swings.len();
+    report.fresh_copy = fresh.len();
+    if !modes.fresh.is_empty() {
+        write_lines(&out.join("fresh_copy.jsonl"), &fresh)?;
+    }
     if modes.text_off {
         write_lines(&out.join("text_off.jsonl"), &text)?;
     }
@@ -1144,6 +1321,120 @@ mod tests {
         );
         let games: Vec<usize> = kept.keys().map(|k| k.0).collect();
         assert_eq!(games, vec![1, 2, 3, 4]);
+    }
+
+    fn fresh(side: usize, slot: usize, card: &str, off: bool) -> Setup {
+        Setup {
+            fresh: Some((side, slot, card.to_owned())),
+            text_off: off.then_some((side, slot)),
+            keep_events: true,
+            ..Setup::default()
+        }
+    }
+
+    #[test]
+    fn a_fresh_copy_without_fight_text_reads_zero() {
+        let content = content();
+        let p = payloads(
+            &content,
+            [
+                &[("private", false), ("heath-adder", false)],
+                &[("prophet-of-the-dust", true), ("private", false)],
+            ],
+        );
+        for k in 0..4 {
+            // Sentry's text works at the end of a turn only: on and off fight the same.
+            let on = fought(&content, &p, k, fresh(0, 2, "sentry", false));
+            let off = fought(&content, &p, k, fresh(0, 2, "sentry", true));
+            assert_eq!(on.outcome.result, off.outcome.result);
+            assert_eq!(play(&on), play(&off));
+            let copy = on.boards[0].iter().find(|u| u.slot == 2).unwrap();
+            assert_eq!(
+                (
+                    copy.card.as_str(),
+                    copy.golden,
+                    copy.own_attack,
+                    copy.own_health
+                ),
+                ("sentry", false, 2, 5)
+            );
+            assert_eq!(on.boards[0].len(), 3);
+        }
+    }
+
+    #[test]
+    fn a_fresh_copy_s_text_shows_and_it_takes_the_slot_it_is_given() {
+        let content = content();
+        // A fresh Heath Adder (1/1 Venomous) in place of a Private, against a 2/5 Sentry:
+        // with its text it trades for a draw, without it the side loses.
+        let p = payloads(&content, [&[("private", false)], &[("sentry", false)]]);
+        let on: Vec<_> = (0..4)
+            .map(|k| fought(&content, &p, k, fresh(0, 0, "heath-adder", false)))
+            .collect();
+        let off: Vec<_> = (0..4)
+            .map(|k| fought(&content, &p, k, fresh(0, 0, "heath-adder", true)))
+            .collect();
+        assert_eq!(
+            (
+                means(&on, &fight(), 0).score,
+                means(&off, &fight(), 0).score
+            ),
+            (0.5, 0.0)
+        );
+        let copy = &on[0].boards[0];
+        assert_eq!(copy.len(), 1);
+        assert_eq!((copy[0].card.as_str(), copy[0].slot), ("heath-adder", 0));
+        assert_eq!(
+            (off[0].boards[0][0].own_attack, off[0].boards[0][0].health),
+            (1, 1)
+        );
+        assert!(off[0].boards[0][0].mechanics.is_empty());
+    }
+
+    #[test]
+    fn the_fresh_copy_takes_a_free_slot_or_the_weakest_unit_s() {
+        let unit = |slot: usize, card: &str, attack: i64, health: i64| restore::Standing {
+            slot,
+            card: card.to_owned(),
+            golden: false,
+            tier: 1,
+            health,
+            own_attack: attack,
+            own_health: health,
+            mechanics: Vec::new(),
+        };
+        let some = [unit(0, "a", 5, 5), unit(2, "b", 1, 1)];
+        assert_eq!(fresh_slot(&some, 7), (1, None));
+        let full: Vec<_> = (0..7)
+            .map(|s| unit(s, &format!("u{s}"), 3, if s == 4 || s == 6 { 1 } else { 9 }))
+            .collect();
+        assert_eq!(fresh_slot(&full, 7), (4, Some("u4".to_owned())));
+    }
+
+    #[test]
+    fn fresh_copies_go_where_their_tribe_and_tier_fit() {
+        let content = content();
+        let badgers = [
+            ("brock-cub", false),
+            ("brock-cub", false),
+            ("brock-cub", false),
+            ("private", false),
+        ];
+        let p = payloads(
+            &content,
+            [&badgers, &[("brock-cub", false), ("brock-cub", false)]],
+        );
+        // Player tier 1: a tier 2 card fits, a tier 3 card does not.
+        assert!(fresh_fits(&content, &p[0], "heath-adder"));
+        assert!(!fresh_fits(&content, &p[0], "sword-heir"));
+        p[0].insert("tier", Variant::from(2i64));
+        p[1].insert("tier", Variant::from(2i64));
+        assert!(fresh_fits(&content, &p[0], "sword-heir"));
+        // Two Badgers are too few; a card with no tribe fits any side.
+        assert!(!fresh_fits(&content, &p[1], "sword-heir"));
+        assert!(fresh_fits(&content, &p[1], "heath-adder"));
+        // A Pigeon card needs three Pigeons.
+        assert!(!fresh_fits(&content, &p[0], "sentry"));
     }
 
     #[test]
