@@ -179,12 +179,17 @@ func _big_loss(fight: Dictionary) -> bool:
 	return CoreUtil.to_int(killed[winner]) * 2 < CoreUtil.to_int(starting[winner])
 
 
+func _has_winner(fight: Dictionary) -> bool:
+	var result: Dictionary = fight["result"]
+	return CoreUtil.to_int(result.get("winner", -1)) >= 0
+
+
 ## A loss's parts for the fight screen's two landings on a big loss (FightStrike): {big, base,
 ## extra}, base being round + 1 up to 10 (10.1.1) and extra the big loss's 3 (10.1.3). Empty
 ## on a draw or when the loser is the ghost, as GameSession takes no damage then.
 func _loss_parts(fight: Dictionary) -> Dictionary:
 	var loser: int = CoreUtil.to_int(fight["loser"])
-	if CoreUtil.to_int(fight["result"].get("winner", -1)) < 0 or loser == Matchmaking.GHOST:
+	if not _has_winner(fight) or loser == Matchmaking.GHOST:
 		return {}
 	var big: bool = _big_loss(fight)
 	var config: GameConfig = session.config
