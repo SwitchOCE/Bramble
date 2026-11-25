@@ -2,6 +2,10 @@
 
 Written by the orchestrator of `ideation/ui-ux` on 25 Nov 2026, from a read-only survey of the working branch `ui/l1` at `0f967435` by a fresh agent, and git checks. The owner asked for this (L49). Nothing here is done yet unless it says so.
 
+## Coordination
+
+The fight animation rework (`ideation/fight-animation`, 101 commits ahead of `dev` on 25 Nov) will also merge into `dev`. The owner asked for a session across both (L50): "Merge coordinator: UI and fight animation", on branch `coord/ui-anim-merge`. It holds the plan for the order of the two merges and runs the checks on the two combined. A trial merge of `ui/l1` with the animation branch shows no textual conflict; the only file both change is `tests/screens/test_fight_screen.gd`. Nobody had run the checks on the combination when this was written.
+
 ## Where the branch stands
 
 - `ui/l1` is 14 commits ahead of `dev` and none behind. It merges into `dev` with no conflicts today (checked with `git merge-tree`).
