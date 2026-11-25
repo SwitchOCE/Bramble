@@ -9,7 +9,7 @@ Run these Python 3 commands from this directory. Report commands print Markdown 
 | `python3 tribes.py MATCH` | `tribes.md`, `tribes.json` |
 | `python3 behaviours.py MATCH` | `behaviours.md`, `behaviours.json` |
 | `python3 events.py MATCH` | `events.json` and Markdown on stdout |
-| `python3 combat.py MATCH` | `kills_by_card.tsv`, `summons_by_source.tsv`, `kill_shares.tsv` |
+| `python3 combat.py MATCH` | `kills_by_card.tsv`, `summons_by_source.tsv`, `kill_shares.tsv`, `joined_by_kind.tsv` |
 | `python3 agree.py MATCH` | `agree.md`, `agree.json` |
 | `python3 ladder.py MATCH [MATCH ...] [--trends]` | `ladder.md`, `ladder.json` beside the first match |
 | `python3 card_without_run.py BASELINE OUT_ROOT --field STORE --seeds FILE CARD ...` | one `ghost-match --without CARD` folder per card in `OUT_ROOT` (see `../league/README.md`, "Leaving cards out of the shop") |
@@ -23,10 +23,12 @@ files and byte counts.
 
 - **Climb or stopping test.** Run `league analyze MATCH` first and supply `--kind climb
   --verdict kept|rejected`. For a kept version, cut and verify its ghosts and supply
-  `--cut-verified`. The match keeps the manifest, analysis, timing and a one-line JSON
+  `--cut-verified`, and run `tools/league/card_report.sh MATCH` first: the prune refuses a
+  kept version without `card-report/cards.csv`, and keeps that folder. The match keeps the manifest, analysis, timing and a one-line JSON
   verdict with bot tags, seeds SHA, game count, placement gap and 95% interval bounds.
-- **Balance reading.** Run `league analyze MATCH` before pruning if the match will go
-  through `reading-done`. Use `--kind reading` to keep the gzip-compressed manifest,
+- **Balance reading.** Run `tools/league/card_report.sh MATCH` before the first prune (its
+  fight tests need plain records); `reading` keeps the `card-report/` folder. Run
+  `league analyze MATCH` before pruning if the match will go through `reading-done`. Use `--kind reading` to keep the gzip-compressed manifest,
   analysis (when present), library, games, shops, decisions, CPU data, records and
   any replayed event log. Decision rows
   retain the selected `action`, Discover offers and the remaining Gorger and Glutton
@@ -95,9 +97,13 @@ before kill origins were logged skip these tables.
   `total_kills` sums all their kills and `kills_per_fight` divides by `fights_present`.
   Purchase-turn breakdowns require linking individual purchases to units and tracking
   transformations. The decision and shop logs identify purchases by card.
-- `summons_by_source.tsv` groups by source card id and summoned card id. `total_summoned`
+- `summons_by_source.tsv` groups by source card id and summoned card id. It holds freshly
+  summoned units only, not returns or Reserve arrivals (the log's `joined` field has every body). `total_summoned`
   counts landed summons and `games` includes every game in the match, including games
   with zero summons for that pair. `summoned_per_game` divides those two columns.
+- `joined_by_kind.tsv` counts every body that joined a fight after its start, by kind (`summon`,
+  `return`, `reserve`), cause and card, from the log's `joined` field. `games` includes every
+  game in the match. It is not written for a log made before the field existed.
 - `kill_shares.tsv` has `overall` rows by origin and `source` rows for summon kills by
   their summoning card. `share` is the fraction of all credited kills across the match
   in either kind of row, and is blank when there are no credited kills. `(none)` in

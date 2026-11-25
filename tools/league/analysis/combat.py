@@ -1,4 +1,4 @@
-"""Kill and summon totals from the combat events summarized in games.jsonl."""
+"""Kill, summon and joined-body totals from the combat events summarized in games.jsonl."""
 import csv
 from collections import Counter
 import sys
@@ -14,6 +14,22 @@ def write_tsv(directory, name, header, rows):
         writer = csv.writer(output, delimiter="\t", lineterminator="\n")
         writer.writerow(header)
         writer.writerows(rows)
+
+
+def joined_totals(games):
+    """Every body that joined a fight after its start, by kind, cause and card.
+
+    None when the log predates the `joined` field."""
+    totals = Counter()
+    for game in games:
+        for round_data in game["fights"]:
+            for fight in round_data["fights"]:
+                if "joined" not in fight:
+                    return None
+                for side in fight["joined"]:
+                    for group in side:
+                        totals[group["kind"], group["source"] or NONE, group["card"]] += group["count"]
+    return totals
 
 
 def summarize(match, directory):
@@ -57,6 +73,11 @@ def summarize(match, directory):
               ("source", "card", "total_summoned", "games", "summoned_per_game"),
               ((source, card, count, games, count / games)
                for (source, card), count in sorted(summons.items())))
+    joined = joined_totals(match.games())
+    if joined is not None:
+        write_tsv(directory, "joined_by_kind",
+                  ("kind", "source", "card", "total_joined", "games", "joined_per_game"),
+                  ((*key, count, games, count / games) for key, count in sorted(joined.items())))
     total_kills = sum(origin_kills.values())
     shares = [("overall", origin, None, origin_kills[origin]) for origin in ORIGINS]
     shares.extend(("source", "summon", source, count)

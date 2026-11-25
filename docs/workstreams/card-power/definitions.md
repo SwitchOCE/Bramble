@@ -10,12 +10,27 @@ The owner, 25 Nov: "there should be some sort of escalation ladder ... if we ran
 
 | Step | What | Kind | Cost, measured 25 Nov | Run on |
 |---|---|---|---|---|
+| 0 | First-sight read: the owner, or a fresh agent, marks any card that looks too strong or too weak on sight | Judgement | Minutes | Every card, when it is designed or changed |
 | 1 | Pick rate, bought against passed, stat growth | Reading games already played | Under a minute for every card | Every card, after any match with records |
 | 2 | Abilities off, keyword on and off, Overrun swings, stat worth of the text | Experiment on recorded fights | About 12 minutes for every card (4 without stat worth) | Every card, after any match with records |
 | 3 | Left out of the shop | Experiment over whole games | About 10 minutes a card | Only cards marked worth a look in steps 1 and 2, cards the owner names, and cards that are new or just changed |
 | 4 | A read of the card, then a line of explanation or a proposal to the owner | Judgement | Minutes | Cards that step 3 puts over the line, or that stay unexplained |
 
 Steps 1 and 2 need one match with records kept (2,000 games, 10 to 20 minutes), which a balance pass plays anyway. Step 3 is the only costly one, and it is spent only where a cheaper step points.
+
+## Edge cases
+
+Cases the ladder does not handle on its own, each with its route (approved by the owner, 26 Nov, with the [proposals](proposals.md)).
+
+| Case | Sign | Route | Built? |
+|---|---|---|---|
+| A card no bot buys | "refused" in the report: bought on under 1 offer in 100 by every bot that sees it, with its tribe in play | A fight test that adds a fresh copy to recorded boards; then a whole-game test with the card forced in; then a design read. Unexplained after that: to the owner as "weak or unfound" | The report names the cards. The two tests are not built |
+| A card a bot is built around | Left out of the shop reads far above every other card | Treat the number as an upper bound. Compare with leaving out the card's whole tribe | Yes (`--without` takes a list) |
+| A card whose worth is outside fights | Bought a lot, little fight text | Left out of the shop is the only measure; run it | Yes |
+| A card that grows over turns | Marked on stat growth | Left out of the shop, alone and with the cards that share its mechanic | Yes |
+| A tier the bots rarely reach | "seldom offered" in the report: under 100 offers to every bot that plays the tribe | Say "not tested". Do not read it as weak or fine | The report says it |
+| Two stages disagree | A design estimate and a measurement point opposite ways | The measurement on a strong field wins; both are shown to the owner | A rule, no tool |
+| A balanced game | Nothing clears a worth-a-look line | Expected. The report says "nothing marked worth a look" and stops | Yes |
 
 ## Worth a look (every measure)
 
@@ -152,3 +167,4 @@ The owner called replacing a unit with a made-up plain unit "pretty unrealistic"
 - 25 Nov, AFTER the report was read, on a fresh reviewer's questions: the pick rate's 100-offer minimum is written into its definition (the code already had it); "refused" is reported for every card, not only for cards without fight data (29 refused cards on `r1` had fight data from opponents' boards and showed nothing); "seldom offered" now means seldom offered to the bots that play the tribe (tier 6 Locust cards had read "tribe not played" because only the Badger bot saw them 100 times); keyword off gets a fixed worth-a-look line.
 - 25 Nov, before any stat-worth number was read: "own" stats spelled out (auras and Renown are not multiplied), and no separate worth-a-look line for stat worth, for the reason in its section.
 - 26 Nov: the owner said yes to the proposals and to the open review questions ("I was happy with all of the proposals so proceed"; "I was pretty happy with all your ideas"). So these stand: the pick rate is read only above 100 offers; "refused" is reported for every card; "seldom offered" means seldom offered to the bots that play the tribe; stat worth has no worth-a-look line of its own; the plain refight keeps its `summary.tsv`.
+- 26 Nov: step 0 (the first-sight read) added to the ladder, from the approved proposals.

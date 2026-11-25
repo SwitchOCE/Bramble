@@ -856,6 +856,7 @@ fn fight_round(
         FightLog {
             kills,
             summons,
+            joined,
             renown,
         },
     ) in fights.borrow().iter().zip(stats)
@@ -876,7 +877,7 @@ fn fight_round(
         lines.push(json!({
             "a": a, "b": b, "winner": winner, "loser": fight.get("loser").as_i64(),
             "damage": fight.get("damage").as_i64(), "result": result_json,
-            "kills": kills, "summons": summons, "renown": renown,
+            "kills": kills, "summons": summons, "joined": joined, "renown": renown,
             "ghost_of": (b == Matchmaking::GHOST && ghost_of >= 0).then_some(ghost_of),
         }));
     }
@@ -894,6 +895,7 @@ fn fight_round(
 struct FightLog {
     kills: Value,
     summons: Value,
+    joined: Value,
     renown: Vec<Value>,
 }
 
@@ -928,6 +930,7 @@ fn combat_log(events: &Array<Dictionary>) -> FightLog {
     let mut starters = [Vec::new(), Vec::new()];
     let mut arrivals = Vec::new();
     let mut returns = BTreeMap::new();
+    let mut returned = Vec::new();
     let events = events.borrow();
     for event in events.iter() {
         let kind = event.get("type").as_text();
@@ -951,6 +954,7 @@ fn combat_log(events: &Array<Dictionary>) -> FightLog {
             "return" => {
                 let id = event.get("uid").as_i64();
                 returns.insert(id, event.get("from_uid").as_i64());
+                returned.push((id, event.get("mechanic").as_text()));
                 units.insert(id, FightLogUnit::from_event(event));
             }
             _ => {}
@@ -983,12 +987,23 @@ fn combat_log(events: &Array<Dictionary>) -> FightLog {
     });
     let mut arrival_kills = [BTreeMap::new(), BTreeMap::new()];
     let mut summons = [BTreeMap::new(), BTreeMap::new()];
+    // Every body that joins after the fight starts, by kind and by what brought it.
+    let mut joined = [BTreeMap::new(), BTreeMap::new()];
+    for (id, mechanic) in returned {
+        let unit = &units[&id];
+        *joined[unit.side]
+            .entry(("return".to_string(), Some(mechanic), &unit.card))
+            .or_insert(0) += 1;
+    }
     for (id, origin, source_uid) in arrivals {
         let unit = &units[&id];
+        let caller = units.get(&source_uid).map(|u| u.card.as_str());
+        *joined[unit.side]
+            .entry((origin.clone(), caller.map(str::to_string), &unit.card))
+            .or_insert(0) += 1;
         let source = if origin == "summon" {
-            let source = units.get(&source_uid).map(|u| u.card.as_str());
-            *summons[unit.side].entry((source, &unit.card)).or_insert(0) += 1;
-            source
+            *summons[unit.side].entry((caller, &unit.card)).or_insert(0) += 1;
+            caller
         } else {
             None
         };
@@ -1007,9 +1022,16 @@ fn combat_log(events: &Array<Dictionary>) -> FightLog {
             .map(|((source, card), count)| json!({"source": source, "card": card, "count": count}))
             .collect::<Vec<_>>()
     });
+    let joined = joined.map(|groups| {
+        groups
+            .into_iter()
+            .map(|((kind, source, card), count)| json!({"kind": kind, "source": source, "card": card, "count": count}))
+            .collect::<Vec<_>>()
+    });
     FightLog {
         kills: json!(kills),
         summons: json!(summons),
+        joined: json!(joined),
         renown: renown_events(&events),
     }
 }
@@ -1273,6 +1295,56 @@ mod tests {
         assert_eq!(
             log["fights"][0]["summons"],
             json!([[], [{"source": "crab-apple", "card": "pip", "count": 1}]])
+        );
+        assert_eq!(
+            log["fights"][0]["joined"],
+            json!([[], [{"kind": "summon", "source": "crab-apple", "card": "pip", "count": 1}]])
+        );
+    }
+
+    #[test]
+    fn fight_log_counts_every_body_that_joins_by_kind() {
+        let event = |kind: &str, uid: i64, card: &str, extra: &[(&str, Variant)]| {
+            let event = Dictionary::new();
+            for (key, value) in [
+                ("type", kind.into()),
+                ("uid", uid.into()),
+                ("id", card.into()),
+                ("side", 0i64.into()),
+            ] {
+                event.insert(key, value);
+            }
+            for (key, value) in extra {
+                event.insert(*key, value.clone());
+            }
+            event
+        };
+        let molt = |uid, from: i64| {
+            event(
+                "return",
+                uid,
+                "adder",
+                &[("from_uid", from.into()), ("mechanic", "molt".into())],
+            )
+        };
+        let events = Array::from(vec![
+            event("summon", 10, "pip", &[("source_uid", 99i64.into())]),
+            event("reserve", 11, "sentry", &[("source_uid", 10i64.into())]),
+            molt(12, 11),
+            molt(13, 12),
+        ]);
+        let log = combat_log(&events);
+        assert_eq!(
+            log.joined,
+            json!([[
+                {"kind": "reserve", "source": "pip", "card": "sentry", "count": 1},
+                {"kind": "return", "source": "molt", "card": "adder", "count": 2},
+                {"kind": "summon", "source": null, "card": "pip", "count": 1},
+            ], []])
+        );
+        assert_eq!(
+            log.summons,
+            json!([[{"source": null, "card": "pip", "count": 1}], []])
         );
     }
 
