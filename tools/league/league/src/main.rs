@@ -15,7 +15,7 @@ const USAGE: &str = "usage:
   league refight --match <dir> [--repo-root <dir>] [--select tribe:<name>[:<min>]]
                  --out <dir> [--threads N] [--verify]
   league refight --match <dir> --out <dir> [--text-off] [--keyword-off <id>[,<id>...]]
-                 [--overrun-swings] [--seeds 4] [--cap 1000] [--threads N] [--verify]
+                 [--overrun-swings] [--seeds 2] [--cap 500] [--threads N] [--verify]
   league bench [--content all|standin|<folders>] [--games N] [--fight-records <dir>] [--fights N]
   league bots";
 
@@ -254,8 +254,8 @@ fn run(args: &[String]) -> Result<(), String> {
                     .map(|list| list.split(',').map(str::to_owned).collect())
                     .unwrap_or_default(),
                 swings: o.has("overrun-swings"),
-                seeds: o.num("seeds", 4usize)?,
-                cap: o.num("cap", 1000usize)?,
+                seeds: o.num("seeds", 2usize)?,
+                cap: o.num("cap", 500usize)?,
             };
             if modes.keywords.iter().any(String::is_empty) {
                 return Err(USAGE.into());

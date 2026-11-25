@@ -117,7 +117,7 @@ skipped or differed and writes any result differences to `verify_mismatch`.
 
 ```
 league refight --match <dir> --out <dir> [--text-off] [--keyword-off <id>[,<id>...]]
-               [--overrun-swings] [--seeds 4] [--cap 1000] [--threads N] [--verify]
+               [--overrun-swings] [--seeds 2] [--cap 500] [--threads N] [--verify]
 ```
 
 These modes measure what one card's text, or one keyword, is worth in the fights a match

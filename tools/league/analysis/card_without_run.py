@@ -55,7 +55,7 @@ def main(argv=None):
     p.add_argument("--seeds", required=True)
     p.add_argument("--league", default=DEFAULT_LEAGUE, type=Path)
     p.add_argument("--threads", type=int, default=4)
-    p.add_argument("--timeout", type=float, default=7200, help="seconds per match")
+    p.add_argument("--timeout", type=float, default=1200, help="seconds per match")
     p.add_argument("--repo-root")
     a = p.parse_args(argv)
     try:
