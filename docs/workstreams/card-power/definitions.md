@@ -11,7 +11,7 @@ The owner, 25 Nov: "there should be some sort of escalation ladder ... if we ran
 | Step | What | Kind | Cost, measured 25 Nov | Run on |
 |---|---|---|---|---|
 | 1 | Pick rate, bought against passed, stat growth | Reading games already played | Under a minute for every card | Every card, after any match with records |
-| 2 | Abilities off, keyword on and off, Overrun swings, stat worth of the text | Experiment on recorded fights | About 5 minutes for every card | Every card, after any match with records |
+| 2 | Abilities off, keyword on and off, Overrun swings, stat worth of the text | Experiment on recorded fights | About 12 minutes for every card (4 without stat worth) | Every card, after any match with records |
 | 3 | Left out of the shop | Experiment over whole games | About 10 minutes a card | Only cards marked worth a look in steps 1 and 2, cards the owner names, and cards that are new or just changed |
 | 4 | A read of the card, then a line of explanation or a proposal to the owner | Judgement | Minutes | Cards that step 3 puts over the line, or that stay unexplained |
 
@@ -67,7 +67,8 @@ The owner, 25 Nov: "It doesn't tell you whether it's overpowered, but it does te
 The owner's idea, 25 Nov: "if I take away all of its abilities and keywords ... and replace it with a plain unit of stats, how much stats would I have to give that unit for the fight to have the same ... expected value ... it would give you a more precise measure of how powerful the [card's in-fight] effects are."
 
 - **The change:** as text off, and the unit's own Attack and Health as recorded are both multiplied by the same number, so it keeps its shape. "Own" is its printed stats plus what the unit holds itself; what auras and its slot's Renown add in the fight is left as it is. Rungs: ×1 (plain text off), ×1.5, ×2, ×3, ×4, ×6, ×8.
-- **Number:** per card per stage, the multiplier at which the mean score over the card's observations equals the mean score as recorded, read between the two nearest rungs. Reported as the multiplier and as the Attack and Health it adds to the card's average recorded stats at that stage.
+- **Number:** per card per stage, the multiplier at which the mean score over the card's observations equals the mean score as recorded, read between the first rung that reaches it and the rung before. Reported as the multiplier and as the Attack and Health it adds to the card's average recorded stats at that stage.
+- **Rounding:** each stat is rounded to the nearest whole number, so on a 1/1 the ×1.5 and ×2 rungs are the same fight. Read a number between ×1 and ×2 on a very small unit as rough.
 - **Solved over the sample, not per fight:** one fight is a win, a draw or a loss, so only the average over many fights can be matched. Draw rates are not matched, only the average score.
 - **Edges:** ×1 when the plain unit already does as well. "More than ×8" when no rung reaches the recorded score; that happens for a unit whose text helps other units, or that stands where plain stats do little.
 - **Sample, seeds, interval, cannot see:** as text off. The interval comes from resampling games and solving again.

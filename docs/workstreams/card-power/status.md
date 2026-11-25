@@ -46,7 +46,7 @@ Checks at last run: 46 Rust tests, 76 Python tests, clippy clean with `--no-deps
 
 **Before merge, two questions are with the owner:** keep or drop the plain refight's own statistics (`summary.tsv`; recommended keep), and whether this file goes to `dev` (recommended remove).
 
-Stat worth of the text is built (`league refight --stat-worth`, solved in `fight_text.py`, run by the card report: about 13 minutes with it on `r1`). Not yet scope-reviewed. Not built yet: the add-a-fresh-copy fight test for ignored cards.
+Stat worth of the text is built (`league refight --stat-worth`, solved in `fight_text.py`, run by the card report: about 13 minutes with it on `r1`). A fresh review found no cut items; its fixes are applied. Its one question is with the owner: stat worth has no worth-a-look line of its own (the mark stays on text off). Not built yet: the add-a-fresh-copy fight test for ignored cards.
 
 ## Data on `/data/card-power` (about 4 GB)
 
@@ -103,8 +103,8 @@ Raw matches are deleted once findings are written (storage rules: `docs/workstre
 
 Done: the tribes-missing match, the full results page, the one-command report (scope-reviewed), [trace.md](trace.md), [proposals.md](proposals.md) and its page.
 
-1. Wait for the owner on: the three decisions on the proposals page; the PR's questions (keep the refight tool's `summary.tsv` statistics; remove this file before merge; confirm the three definitions the card report review asked about). Then edit the process documents listed in proposals.md for each yes, in a separate pull request, and merge PR 257.
-2. A scope review of the stat-worth commit. An add-a-fresh-copy fight test (the blue team's `cardpower` does this) and a forced-in test for the refused cards; a cheaper whole-game step. Allowing records in a `--without` match would let the fight tests run on the tribes-missing boards.
+1. Wait for the owner on: the three decisions on the proposals page; the PR's questions (keep the refight tool's `summary.tsv` statistics; remove this file before merge; confirm the three definitions the card report review asked about; accept that stat worth has no mark of its own). Then edit the process documents listed in proposals.md for each yes, in a separate pull request, and merge PR 257.
+2. An add-a-fresh-copy fight test (the blue team's `cardpower` does this) and a forced-in test for the refused cards; a cheaper whole-game step. Allowing records in a `--without` match would let the fight tests run on the tribes-missing boards.
 3. Clean `/data/card-power` (keep `findings`, `pages`; `matches`, `ref-field`, `tree`, `target` go once nothing more is to be run); final disk report.
 4. Report the Hazel Coppicer with Blackthorn Sapling replay bug to whoever owns the fight record (37 fights on `m1`, 4 on `r1`).
 

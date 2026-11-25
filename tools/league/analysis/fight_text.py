@@ -26,7 +26,7 @@ LOOK_SPREADS = 3.0
 LOOK_FLOOR = 0.05  # the text must turn at least 5 fights in 100, however tight the table is
 # Stat worth: the plain unit's score with its own stats at each multiplier (x1 is plain text off).
 RUNGS = (1.0, 1.5, 2.0, 3.0, 4.0, 6.0, 8.0)
-RUNG_FIELDS = ("score_off", "score_x150", "score_x200", "score_x300", "score_x400", "score_x600", "score_x800")
+RUNG_FIELDS = ("score_off",) + tuple(f"score_x{round(100 * rung)}" for rung in RUNGS[1:])
 BEYOND = 9.0  # stands for "more than the top rung"
 WORTH_COLUMNS = ("stat_worth", "stat_worth_low", "stat_worth_high", "adds_attack", "adds_health")
 
@@ -69,8 +69,8 @@ def fmt(x, digits=3):
 
 def solve(target, scores):
     """The multiplier at which the plain unit's mean score reaches the card's mean score, read
-    between the two nearest rungs. 1 when plain text off already does as well; BEYOND when no
-    rung reaches it."""
+    between the first rung that reaches it and the rung before (so a later dip is ignored).
+    1 when plain text off already does as well; BEYOND when no rung reaches it."""
     if scores[0] >= target:
         return RUNGS[0]
     for i in range(1, len(RUNGS)):

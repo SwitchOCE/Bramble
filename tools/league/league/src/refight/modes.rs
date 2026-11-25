@@ -538,7 +538,10 @@ fn fight_modes(
                                     }
                                 }
                                 if let Some(skip) = failed {
+                                    // The row is left out, so the sample differs from text
+                                    // off alone: say so, and count it.
                                     eprintln!("{where_}: {change:?}: {}", skip.message());
+                                    lines.report.skipped += 1;
                                     continue;
                                 }
                             }

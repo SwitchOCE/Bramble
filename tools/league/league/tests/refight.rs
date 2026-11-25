@@ -132,7 +132,7 @@ fn refight_modes_reproduce_every_fight_and_write_one_line_per_observation() {
     })
     .unwrap();
     let modes = [
-        "--text-off",
+        "--stat-worth",
         "--keyword-off",
         "badger_overrun,cleave,badger_fury",
         "--overrun-swings",
@@ -189,6 +189,10 @@ fn refight_modes_reproduce_every_fight_and_write_one_line_per_observation() {
             "tier",
             "score_recorded",
             "score_off",
+            "own_attack",
+            "own_health",
+            "score_x150",
+            "score_x800",
             "dealt_recorded",
             "dealt_off",
             "result_changed",
