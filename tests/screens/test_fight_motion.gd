@@ -198,3 +198,59 @@ func test_motion_fits_inside_its_replay_holds() -> void:
 		),
 		FightReplay.HOLD_SPLASH
 	)
+	assert_lte(FightMotion.CONTACT_HOLD + FightMotion.TURN_UNWIND, FightReplay.HOLD_SPLASH)
+
+
+## The attack's rotation every 1/6 s from its start (a time both rates land on), its hit at 1/3 s,
+## run at `fps` frames a second.
+func _turn_every_sixth(fps: int) -> Array[float]:
+	_make()
+	_screen._process(FightReplay.HOLD_START)
+	var samples: Array[float] = []
+	for k: int in 6:
+		if k == 2:
+			_screen._process(FightReplay.HOLD_LUNGE)
+		# the hit rebuilds the card (its numbers change): the node of now
+		samples.append(_screen.node_for("board", 0).rotation_degrees)
+		for frame: int in roundi(fps / 6.0):
+			for value: Variant in _screen._keeper._tweens.values():
+				var tween: Tween = value
+				if tween.is_valid():
+					tween.custom_step(1.0 / fps)
+	return samples
+
+
+func test_every_attack_turns_toward_its_target_on_game_time() -> void:
+	var slow: Array[float] = _turn_every_sixth(30)
+	var home: Vector2 = _screen.unit_xy(0, 0)
+	var direction: Vector2 = (_screen.unit_xy(1, 6) - home).normalized()
+	var fast: Array[float] = _turn_every_sixth(144)
+	for k: int in slow.size():
+		assert_almost_eq(fast[k], slow[k], 0.01, "the same turn at %d/6 s at 30 and 144 fps" % k)
+	var lead: float = -1.0 if direction.y > 0.0 else 1.0
+	var aim: float = FightMotion.TURN_AIM * rad_to_deg(Vector2(0.0, -lead).angle_to(direction))
+	var cock: float = FightMotion.WINDUP_TURN * (-1.0 if direction.y < 0.0 else 1.0)
+	assert_gt(absf(aim), 10.0, "a diagonal attack: a real turn")
+	# 1/6 s: 10 frames in, 6 into the 8-frame strike (quad in), the lean going
+	var u: float = 6.0 / 8.0
+	var lean: float = FightMotion.TURN_LEAN * direction.x * lead * (1.0 - u)
+	var striking: float = lerpf(cock, -cock / 2.0, u * u) + aim * lerpf(1.0, 0.9, u) + lean
+	assert_almost_eq(slow[1], striking, 0.01, "mid-strike: the cock, the turn and the lean")
+	assert_almost_eq(slow[2], -cock / 2.0 + aim * 0.9, 0.01, "at contact: 90 % of the turn")
+	assert_true(signf(slow[2] + cock / 2.0) == signf(aim), "turned toward its target")
+	assert_almost_eq(slow[5], 0.0, 0.01, "straight 25 frames after the return starts")
+
+
+func test_skip_mid_attack_leaves_every_card_straight() -> void:
+	for wait: float in [FightMotion.ATTACK_TIME / 2.0, FightMotion.ATTACK_TIME + 0.05]:
+		_make()
+		_screen._process(FightReplay.HOLD_START)
+		_tick_motion(wait)
+		assert_ne(_screen.node_for("board", 0).rotation_degrees, 0.0, "turned before the skip")
+		_screen.skip()
+		for target: Dictionary in _screen.targets_of("board"):
+			var node: Control = target["node"]
+			assert_almost_eq(node.rotation_degrees, 0.0, 0.0001, "straight after a skip")
+			assert_eq(node.scale, Vector2.ONE, "full size after a skip")
+		var turns: Dictionary = _screen._keeper.get("_turns")
+		assert_true(turns.is_empty(), "no turn left after a skip")

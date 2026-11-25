@@ -712,7 +712,7 @@ func _rotation() -> Dictionary:
 	if options.has("CB9"):
 		return ROTATIONS[pick("CB9")]
 	if Rotate.on(options):
-		return Rotate.SET
+		return Rotate.set_of(options)
 	return ROTATIONS[pick("CB9")]
 
 

@@ -1,23 +1,26 @@
-extends FightMotion
-## Today's card motion (FightMotion) with the turn toward the target added on top, for the
+extends "res://tests/screens/feel/fight_compare/today_motion.gd"
+## Today's card motion (today_motion.gd) with the turn toward the target added on top, for the
 ## rotation switch (rotate.gd) on `today` and `pilot`. Everything today does stays as it is: the
 ## 4-frame lift with its 6 degree cock, the 8-frame quad strike, 2 frames at contact, the 11-frame
 ## return, and the attacker straightening while it waits at contact through a trigger. On top: the
 ## turn to rotate.gd's share of the path's angle, ramped from the lift's first frame (full as the
 ## lift ends: today's attack is too short for CB9's C-12), 90 % at contact and held there through a
 ## wait, unwound over 25 frames from the return's start; the lean (tip.gdshader's keystone and the
-## shortening along the card's length) with it. Off (turn_on false) it is FightMotion exactly.
+## shortening along the card's length) with it. With rotate.gd SET_LEAN ("ROTATE": "lean"), the
+## 4 degree in-plane lean in place of the tip: up with the lift, down to 0 over the strike. Off
+## (turn_on false) it is today_motion.gd exactly.
 ## Exploratory (ideation/fight-animation): nothing here reaches the game.
 
 const Rotate := preload("res://tests/screens/feel/fight_compare/rotate.gd")
 
-## The switch: off, every method is FightMotion's.
+## The switch: off, every method is today_motion.gd's.
 var turn_on: bool = false
-## The turn and lean (rotate.gd SET).
+## The turn and lean (rotate.gd SET, or SET_LEAN).
 var turn_set: Dictionary = Rotate.SET
 
-## key -> {turn, lead, phase ("in", "held", "back"), today_turn, today_scale, pose, j}: each card
-## turned now. today_turn and today_scale are today's own part of its pose; pose is the turn's.
+## key -> {turn, lead, lean, phase ("in", "held", "back"), today_turn, today_scale, pose, j,
+## lean_now}: each card turned now. today_turn and today_scale are today's own part of its pose;
+## pose is the turn's, lean_now the in-plane lean's (SET_LEAN).
 var _aims: Dictionary = {}
 ## The key of the card being placed (FightMotion's _attack and _hit are given only the node).
 var _key: String = ""
@@ -60,16 +63,18 @@ func _attack(node: Control, at: Vector2, direction: Vector2) -> void:
 		return
 	var tween: Tween = _run(node)
 	set_pivot(node, node.size / 2.0)
-	var lean: float = WINDUP_TURN * (-1.0 if direction.y < 0.0 else 1.0)
+	var lean: float = TODAY_WINDUP_TURN * (-1.0 if direction.y < 0.0 else 1.0)
 	var home: Vector2 = node.position
-	var pulled: Vector2 = home - direction * WINDUP_PX
+	var pulled: Vector2 = home - direction * TODAY_WINDUP_PX
 	var lift: float = windup_time * 60.0
-	var strike: float = (ATTACK_TIME - windup_time) * 60.0
+	var strike: float = (TODAY_ATTACK_TIME - windup_time) * 60.0
 	var ramp: float = Rotate.ramp_frames(lift, 0.0, strike)
 	var aim: Dictionary = Rotate.aim_of(direction, turn_set)
 	var aimed: Dictionary = {
 		"turn": aim["turn"],
 		"lead": aim["lead"],
+		"lean": Rotate.lean_of(direction, turn_set),
+		"lean_now": 0.0,
 		"phase": "in",
 		"today_turn": 0.0,
 		"today_scale": 1.0,
@@ -85,18 +90,21 @@ func _attack(node: Control, at: Vector2, direction: Vector2) -> void:
 			var e: float = Rotate._quad_out(n / lift)
 			pos = home.lerp(pulled, e)
 			own = lean * e
-			size = lerpf(1.0, LIFT_SCALE, e)
+			size = lerpf(1.0, TODAY_LIFT_SCALE, e)
 		else:
 			var e: float = pow((n - lift) / strike, 2.0)
 			pos = pulled.lerp(at, e)
 			own = lerpf(lean, -lean / 2.0, e)
-			size = LIFT_SCALE
+			size = TODAY_LIFT_SCALE
 		node.position = pos
 		aimed["today_turn"] = own
 		aimed["today_scale"] = size
 		aimed["pose"] = Rotate.approach(n, ramp, lift, strike, 2.0, turn_set)
+		aimed["lean_now"] = (
+			GlassPieces.as_float(aimed["lean"]) * Rotate.lean_share(n, lift, lift, strike)
+		)
 		_draw(node, aimed)
-	tween.tween_method(draw, 0.0, lift + strike, ATTACK_TIME / speed)
+	tween.tween_method(draw, 0.0, lift + strike, TODAY_ATTACK_TIME / speed)
 	tween.tween_callback(func() -> void: aimed["phase"] = "held")
 
 
@@ -110,7 +118,7 @@ func _hit(node: Control, at: Vector2, motion: Dictionary) -> void:
 		super(node, at, motion)
 		return
 	if motion.get("received", false):
-		node.modulate = BLOCK_LIGHT if motion.get("blocked", false) else HIT_LIGHT
+		node.modulate = TODAY_BLOCK_LIGHT if motion.get("blocked", false) else TODAY_HIT_LIGHT
 	_return(node, at, aimed, true)
 
 
@@ -125,14 +133,15 @@ func _return(node: Control, at: Vector2, aimed: Dictionary, fresh: bool) -> void
 	var from_turn: float = aimed["today_turn"]
 	var from_scale: float = aimed["today_scale"]
 	var from_light: Color = node.modulate
-	var back: float = RETURN_TIME * 60.0
+	var back: float = TODAY_RETURN_TIME * 60.0
 	var start: float = 0.0 if fresh else GlassPieces.as_float(aimed["j"])
 	var total: float = maxf(back, Rotate.leaving_frames())
 	aimed["phase"] = "back"
+	aimed["lean_now"] = 0.0
 	if fresh:
 		aimed["pose"] = Rotate.contact_pose(turn_set)
 		_draw(node, aimed)
-		tween.tween_interval(CONTACT_HOLD / speed)
+		tween.tween_interval(TODAY_CONTACT_HOLD / speed)
 	var draw: Callable = func(j: float) -> void:
 		aimed["j"] = j
 		var e: float = 1.0
@@ -163,6 +172,7 @@ func _settle_at_contact(node: Control, at: Vector2, aimed: Dictionary) -> void:
 	var from_scale: float = aimed["today_scale"]
 	aimed["phase"] = "held"
 	aimed["pose"] = Rotate.contact_pose(turn_set)
+	aimed["lean_now"] = 0.0
 	var draw: Callable = func(u: float) -> void:
 		var e: float = 1.0 - pow(1.0 - u, 3.0)
 		node.position = from_at.lerp(at, e)
@@ -181,6 +191,7 @@ func _draw(node: Control, aimed: Dictionary) -> void:
 	node.rotation_degrees = (
 		GlassPieces.as_float(aimed["today_turn"])
 		+ GlassPieces.as_float(aimed["turn"]) * GlassPieces.as_float(pose["share"])
+		+ GlassPieces.as_float(aimed.get("lean_now", 0.0))
 	)
 	node.scale = Vector2(size, size * GlassPieces.as_float(pose["length"]))
 	Rotate.apply_tip(

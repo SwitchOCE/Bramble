@@ -16,6 +16,11 @@ const OPTION: String = "ROTATE"
 ## edge's width, length 0.85, about 32 degrees). Change these three numbers and every treatment
 ## follows.
 const SET: Dictionary = {"aim": 0.95, "keystone": 0.94, "length": 0.85}
+## "ROTATE": "lean": the owner's pick of 25 Nov (CB17 "aim_lean", best_timeline.gd ROTATIONS), the
+## set the game plays (src/screens/fight/fight_motion.gd TURN_*): the same aim with the 4 degree
+## in-plane lean the same way as the turn (degrees times the path's sideways share, rising with the
+## lift, gone by contact), no tip and no shortening.
+const SET_LEAN: Dictionary = {"aim": 0.95, "keystone": 1.0, "length": 1.0, "lean": 4.0}
 
 ## CB9's timing (best_timeline.gd, from Galaxy): the turn is full this many frames before contact,
 ## 90 % of it is left at contact, and it is straight again this many frames after the return
@@ -29,9 +34,14 @@ const LENGTH_BACK: int = 8
 const TIP_SHADER: Shader = preload("res://tests/screens/feel/fight_compare/tip.gdshader")
 
 
-## Whether a scenario's options turn rotation on.
+## Whether a scenario's options turn rotation on ("on", or "lean").
 static func on(options: Dictionary) -> bool:
-	return str(options.get(OPTION, "")) == "on"
+	return ["on", "lean"].has(str(options.get(OPTION, "")))
+
+
+## The set a scenario's options turn on: SET_LEAN for "lean", else SET.
+static func set_of(options: Dictionary) -> Dictionary:
+	return SET_LEAN if str(options.get(OPTION, "")) == "lean" else SET
 
 
 ## The turn for an attack along `way`: {turn (degrees, clockwise +, the full turn), lead (1: the
@@ -69,6 +79,24 @@ static func approach(
 		if u >= 1.0:
 			return contact_pose(chosen)
 	return {"share": share, "keystone": _keystone(tip, chosen), "length": length}
+
+
+## The set's in-plane lean for an attack along `way` (degrees, clockwise +): tipping the leading
+## point toward the target, the same way as the turn (best_timeline.gd's lean). 0 without one.
+static func lean_of(way: Vector2, chosen: Dictionary = SET) -> float:
+	var lead: float = -1.0 if way.y > 0.0 else 1.0
+	return GlassPieces.as_float(chosen.get("lean", 0.0)) * way.x * lead
+
+
+## The lean's share on the way in, n frames after the lift starts (best_timeline.gd _windup_pose
+## and _move_pose): up with the lift (quad out), full through any hold, down to 0 over the strike
+## (linear), none from contact.
+static func lean_share(n: float, lift: float, launch: float, strike: float) -> float:
+	if n <= 0.0:
+		return 0.0
+	if n <= launch:
+		return 1.0 if lift <= 0.0 else _quad_out(minf(1.0, n / lift))
+	return maxf(0.0, 1.0 - (n - launch) / strike)
 
 
 ## At contact, and held there until the return starts.

@@ -10,6 +10,7 @@ const Treatments := preload("res://tests/screens/feel/fight_compare/treatments.g
 const Timeline := preload("res://tests/screens/feel/fight_compare/best_timeline.gd")
 const Rotate := preload("res://tests/screens/feel/fight_compare/rotate.gd")
 const RotateMotion := preload("res://tests/screens/feel/fight_compare/rotate_motion.gd")
+const TodayMotion := preload("res://tests/screens/feel/fight_compare/today_motion.gd")
 const PilotMotion := preload("res://tests/screens/feel/fight_compare/pilot_motion.gd")
 const HeroDamage := preload("res://tests/screens/feel/fight_compare/pilot_hero_damage.gd")
 const Recommended := preload("res://tests/screens/feel/fight_compare/recommended.gd")
@@ -28,6 +29,12 @@ func test_the_set_is_the_default_until_the_owner_picks() -> void:
 	assert_almost_eq(_f(Rotate.SET["length"]), 0.85, 0.0001, "medium lean: length 0.85")
 	assert_true(Rotate.on(ON), "on")
 	assert_false(Rotate.on({}), "off by default")
+	var lean: Dictionary = {"ROTATE": "lean"}
+	assert_true(Rotate.on(lean), "lean: on")
+	assert_eq(Rotate.set_of(lean), Rotate.SET_LEAN, "lean: the owner's pick of 25 Nov")
+	assert_eq(Rotate.set_of(ON), Rotate.SET, "on: the medium tip")
+	assert_almost_eq(_f(Rotate.SET_LEAN["aim"]), FightMotion.TURN_AIM, 0.0001, "the game's aim")
+	assert_almost_eq(_f(Rotate.SET_LEAN["lean"]), FightMotion.TURN_LEAN, 0.0001, "the game's lean")
 
 
 func test_the_timing_is_cb9s() -> void:
@@ -60,7 +67,7 @@ func test_off_every_treatment_plays_as_before() -> void:
 	add_child_autofree(layer)
 	var motion: FightMotion = today.call("make_motion", layer)
 	var script: Script = motion.get_script()
-	assert_eq(script, FightMotion, "today off: the game's FightMotion")
+	assert_eq(script, TodayMotion, "today off: today's motion (today_motion.gd)")
 	var pilot: RefCounted = Treatments.make("pilot")
 	pilot.call("configure", {"CB13": "c"})
 	var dying: FightMotion = pilot.call("make_motion", layer)
@@ -107,15 +114,15 @@ func test_on_today_turns_on_top_of_its_own_attack_and_unwinds() -> void:
 	motion.set("_key", "u1")
 	motion.call("_attack", card, at, way)
 	_step(motion, card, 12)
-	var lean: float = FightMotion.WINDUP_TURN * -1.0
+	var lean: float = TodayMotion.TODAY_WINDUP_TURN * -1.0
 	var aim: float = 0.95 * 45.0
 	assert_almost_eq(card.position.x, at.x, 0.01, "at contact, as today")
 	assert_almost_eq(
 		card.rotation_degrees, -lean / 2.0 + aim * 0.9, 0.01, "today's tilt + 90 % turn"
 	)
-	assert_almost_eq(card.scale.x, FightMotion.LIFT_SCALE, 0.0001, "today's lift scale across")
+	assert_almost_eq(card.scale.x, TodayMotion.TODAY_LIFT_SCALE, 0.0001, "today's lift scale")
 	assert_almost_eq(
-		card.scale.y, FightMotion.LIFT_SCALE * 0.85, 0.0001, "shorter along its length"
+		card.scale.y, TodayMotion.TODAY_LIFT_SCALE * 0.85, 0.0001, "shorter along its length"
 	)
 	assert_almost_eq(_keystone(card), 0.94, 0.0001, "tipped")
 	motion.call("_hit", card, home, {"returning": true, "direction": way})
@@ -126,6 +133,60 @@ func test_on_today_turns_on_top_of_its_own_attack_and_unwinds() -> void:
 	assert_almost_eq(card.rotation_degrees, 0.0, 0.01, "straight 25 f into the return")
 	assert_eq(card.scale, Vector2.ONE, "full size")
 	assert_null(card.material, "drawn flat again")
+
+
+func test_lean_is_the_games_turn_frame_for_frame() -> void:
+	# "ROTATE": "lean" on today's motion (rotate_motion.gd) against the game's FightMotion: the same
+	# attack, contact, wait and return, the same pose every 1/60 s
+	var layer: Control = Control.new()
+	add_child_autofree(layer)
+	var fixture: FightMotion = RotateMotion.new(layer)
+	fixture.set("turn_on", true)
+	fixture.set("turn_set", Rotate.SET_LEAN)
+	fixture.set("_key", "u1")
+	var game: FightMotion = FightMotion.new(layer)
+	game.set("_placing", "u1")
+	var home: Vector2 = Vector2(500.0, 600.0)
+	for way: Vector2 in [Vector2(1.0, -1.0).normalized(), Vector2(-0.4, 1.0).normalized()]:
+		var cards: Array[Control] = []
+		for motion: FightMotion in [fixture, game]:
+			var card: Control = Control.new()
+			card.size = Vector2(216.0, 250.0)
+			card.position = home
+			layer.add_child(card)
+			cards.append(card)
+			motion.call("_attack", card, home + way * 300.0, way)
+		for frame: int in 12:
+			_step(fixture, cards[0], 1)
+			_step(game, cards[1], 1)
+			_same_pose(cards, "attack frame %d" % (frame + 1))
+		assert_gt(absf(cards[1].rotation_degrees), 5.0, "turned at contact")
+		for i: int in 2:
+			var motion: FightMotion = [fixture, game][i]
+			motion.call("_hit", cards[i], home, {"returning": true, "direction": way})
+		for frame: int in 30:
+			_step(fixture, cards[0], 1)
+			_step(game, cards[1], 1)
+			_same_pose(cards, "return frame %d" % (frame + 1))
+		assert_almost_eq(cards[1].rotation_degrees, 0.0, 0.0001, "straight again")
+	var mid: Control = Control.new()
+	mid.size = Vector2(216.0, 250.0)
+	layer.add_child(mid)
+	fixture.call("_attack", mid, home + Vector2(300.0, -300.0), Vector2(1.0, -1.0).normalized())
+	_step(fixture, mid, 2)
+	var turns: Dictionary = fixture.get("_aims")
+	var aimed: Dictionary = turns["u1"]
+	assert_gt(_f(aimed["lean_now"]), 1.0, "the lean is there during the lift")
+	assert_null(mid.material, "no tip shader")
+
+
+func _same_pose(cards: Array[Control], moment: String) -> void:
+	var a: Control = cards[0]
+	var b: Control = cards[1]
+	assert_almost_eq(b.rotation_degrees, a.rotation_degrees, 0.001, "rotation, %s" % moment)
+	assert_almost_eq(b.position.distance_to(a.position), 0.0, 0.001, "place, %s" % moment)
+	assert_almost_eq(b.scale.x, a.scale.x, 0.0001, "scale across, %s" % moment)
+	assert_almost_eq(b.scale.y, a.scale.y, 0.0001, "scale along, %s" % moment)
 
 
 func test_on_best_uses_the_set_for_every_attack() -> void:
