@@ -20,6 +20,7 @@ static func build_slots(screen: RecruitScreen) -> void:
 	for i: int in count:
 		var slot: L1ShopArch = screen._slots.get_node("ShopSlot_%d" % i)
 		var unit: Dictionary = units[i] if i < units.size() and units[i] is Dictionary else {}
+		slot.place = i
 		slot.tier = 0 if unit.is_empty() else GlassPieces.as_int(unit.get("tier", 1))
 	var wall: L1ShopWall = L1ShopWall.new()
 	wall.tier = GlassPieces.as_int(screen.state.get("tier", 1))

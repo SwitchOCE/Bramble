@@ -7,6 +7,8 @@ const SWORDS: String = (
 )
 const RIM_DARK: Color = Color("15191a")
 const HEART_INK: Color = Color("fff4ea")
+## The actions that mean the player still has something to do (End turn's light).
+const END_TURN_ACTS: PackedStringArray = ["buy", "refresh", "upgrade", "play", "pick", "ability"]
 
 
 static func build_hero(screen: RecruitScreen) -> void:
@@ -135,7 +137,6 @@ static func build_end_turn(screen: RecruitScreen) -> void:
 	var rect: Rect2 = L1Layout.rect("right.end_turn")
 	var target: Control = L1ColumnArt.area(rect)
 	target.name = "EndTurn"
-	# STAND-IN: steady swords for all states until the light pass.
 	var shadow: GlassBox = GlassBox.new()
 	shadow.box_size = rect.size
 	shadow.radii = Vector4.ONE * rect.size.x / 2.0
@@ -148,6 +149,7 @@ static func build_end_turn(screen: RecruitScreen) -> void:
 	]
 	shadow.refresh()
 	target.add_child(shadow)
+	target.add_child(_end_turn_light(rect.size, nothing_left(screen.state)))
 	var face: TextureRect = L1ColumnArt.piece("l1h-end-swords", Rect2(Vector2.ZERO, rect.size))
 	face.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	target.add_child(face)
@@ -155,6 +157,69 @@ static func build_end_turn(screen: RecruitScreen) -> void:
 	_add_button(
 		screen, "end_turn", target, face, GlassParts.round_poly(target.size), "right.end_turn"
 	)
+
+
+## Whether the player has nothing left to do but end the turn: the state lists no buy, refresh,
+## tier up, play, pick or ability (buy-screen-l1.md §11 item 28, a proposal). Selling, moving and
+## freezing are always there, so they do not count. A state with no legal_actions never says so.
+static func nothing_left(state: Dictionary) -> bool:
+	if not state.has("legal_actions"):
+		return false
+	for type: String in END_TURN_ACTS:
+		if RecruitActions.allows(state, {"type": type}):
+			return false
+	return true
+
+
+## End turn's light (buy-screen-l1.md §9, E1): none while the player can still do something, a
+## slow glow when nothing is left to do, and a flash as the fight starts (flash_end_turn).
+static func _end_turn_light(box: Vector2, ready: bool) -> L1Light:
+	var light: L1Light = L1Light.make(
+		L1Light.Shape.CIRCLE,
+		Rect2(Vector2.ZERO, box),
+		L1Layout.colour("light.end_turn.ready_colour"),
+		"EndTurnLight"
+	)
+	light.glow(
+		Vector3(
+			L1Layout.number("light.end_turn.grow"),
+			L1Layout.number("light.end_turn.blur"),
+			L1Layout.number("light.end_turn.alpha") if ready else 0.0
+		)
+	)
+	light.blend(1.0).breathe(
+		L1Layout.number("light.end_turn.period"), L1Layout.number("light.end_turn.depth")
+	)
+	light.set_meta(&"ready", ready)
+	light.visible = ready
+	return light
+
+
+## The swords flash: End turn's light jumps up and fades, whatever its state.
+static func flash_end_turn(screen: RecruitScreen) -> void:
+	var light: L1Light = screen._front.get_node_or_null("EndTurn/EndTurnLight") as L1Light
+	if light == null:
+		return
+	if light.has_meta(&"flash"):
+		var old: Tween = light.get_meta(&"flash")
+		if old.is_valid():
+			old.kill()
+	light.visible = true
+	var flash: Tween = light.create_tween()
+	light.set_meta(&"flash", flash)
+	flash.tween_method(
+		func(u: float) -> void:
+			light.set_boost(
+				(
+					L1Layout.number("light.end_turn.flash_alpha")
+					* (1.0 - GlassMotion.bezier(GlassMotion.OUT, u))
+				)
+			),
+		0.0,
+		1.0,
+		L1Layout.number("light.end_turn.flash_time")
+	)
+	flash.tween_callback(func() -> void: light.visible = light.get_meta(&"ready", false) == true)
 
 
 static func _add_button(

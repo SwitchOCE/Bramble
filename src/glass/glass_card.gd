@@ -10,6 +10,7 @@ const HELD_SHADOWS: Array[Dictionary] = [
 	{"x": 0.0, "y": 0.0, "blur": 14.0, "colour": Color(1.0, 0.925, 0.745, 0.5)},
 	{"x": 0.0, "y": 22.0, "blur": 18.0, "colour": Color(0.0, 0.0, 0.0, 0.55)},
 ]
+const GLINT_SHADER: Shader = preload("res://src/glass/l1_glint.gdshader")
 static var _stat_settings: Dictionary[bool, Texture2D] = {}
 
 var art: Texture2D
@@ -29,12 +30,14 @@ var up_attack: bool = false
 var up_health: bool = false
 ## Attack below what the card prints, in the damaged red.
 var down_attack: bool = false
-## A golden unit uses gilt lead and stat rims.
+## A golden unit uses gilt lead and stat rims, with its light (buy-screen-l1.md §9, G1 to G3): a
+## warm halo behind it, light round its Attack and Health rims, and a glint along the gilt.
 var golden: bool = false:
 	set(value):
 		golden = value
 		if _face != null:
-			_face.set_gilt(golden)
+			_face.set_gilt(golden, _glint_phase())
+			_light_golden()
 		queue_redraw()
 ## How big Attack (x) and Health (y) are drawn against their size, for a number that just changed
 ## to pop (the screens tween it back to 1).
@@ -63,9 +66,10 @@ func _ready() -> void:
 	_face.name = "Face"
 	_face.show_behind_parent = true
 	_face.build(size, art)
-	_face.set_gilt(golden)
+	_face.set_gilt(golden, _glint_phase())
 	add_child(_face)
 	_make_shadows()
+	_light_golden()
 
 
 ## STAND-IN (stage.css .card.hot): brightness, warm glow and a deeper shadow.
@@ -169,6 +173,98 @@ func _make_shadows() -> void:
 		add_child(shadow)
 		move_child(shadow, _shadows.size())
 		_shadows.append(shadow)
+
+
+## Golden cards glint at different moments: a stable share of the period from this card.
+func _glint_phase() -> float:
+	return float(get_instance_id() % 997) / 997.0
+
+
+## Adds or removes the golden light: GoldenHalo behind the card, GoldenRims round the Attack and
+## Health discs (over the face, under the discs), GoldenGlint (the twinkle) over the card.
+func _light_golden() -> void:
+	for light_name: String in ["GoldenHalo", "GoldenRim_attack", "GoldenRim_health", "GoldenGlint"]:
+		var old: Node = get_node_or_null(light_name)
+		if old != null:
+			remove_child(old)
+			old.queue_free()
+	if not golden or _face == null:
+		return
+	var k: float = _k()
+	var box: Vector2 = size
+	var additive: float = L1Layout.number("light.golden.additive")
+	var halo: L1Light = L1Light.make(
+		L1Light.Shape.CARD,
+		Rect2(Vector2.ZERO, box),
+		L1Layout.colour("light.golden.halo_colour"),
+		"GoldenHalo"
+	)
+	halo.show_behind_parent = true
+	halo.glow(
+		Vector3(
+			L1Layout.number("light.golden.halo.grow") * k,
+			L1Layout.number("light.golden.halo.blur") * k,
+			L1Layout.number("light.golden.halo.alpha")
+		)
+	)
+	halo.blend(additive).breathe(
+		1.0, 0.0, _glint_phase(), L1Layout.number("light.golden.halo.flicker")
+	)
+	add_child(halo)
+	move_child(halo, _face.get_index())
+	for stat: String in ["attack", "health"]:
+		var disc: Vector3 = stat_disc(stat)
+		var outer: float = (
+			disc.z + L1Layout.number("card.stat.rim") + L1Layout.number("card.stat.outline")
+		)
+		var rim: L1Light = L1Light.make(
+			L1Light.Shape.CIRCLE,
+			Rect2(
+				(Vector2(disc.x, disc.y) - Vector2.ONE * outer) * k, Vector2.ONE * 2.0 * outer * k
+			),
+			L1Layout.colour("light.golden.rim_colour"),
+			"GoldenRim_" + stat
+		)
+		rim.show_behind_parent = true
+		rim.glow(
+			Vector3(
+				0.0,
+				L1Layout.number("light.golden.rim.blur") * k,
+				L1Layout.number("light.golden.rim.alpha")
+			)
+		)
+		rim.blend(additive)
+		add_child(rim)
+		move_child(rim, _face.get_index() + 1)
+	add_child(_glint(box, k))
+
+
+## The twinkle: a four-point star at the upper right shoulder, timed to the glint's passing.
+func _glint(box: Vector2, k: float) -> Control:
+	var star: Control = Control.new()
+	star.name = "GoldenGlint"
+	star.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var side: float = L1Layout.number("light.golden.star.size") * k * 2.0
+	var shoulder: Vector2 = Vector2(box.x, box.x * tan(L1CardFace.point_angle()) / 2.0)
+	star.position = shoulder - Vector2.ONE * side / 2.0
+	star.size = Vector2.ONE * side
+	var mat: ShaderMaterial = ShaderMaterial.new()
+	mat.shader = GLINT_SHADER
+	mat.set_shader_parameter("core", L1Layout.colour("light.golden.star_core_colour"))
+	mat.set_shader_parameter("glow", L1Layout.colour("light.golden.star_glow_colour"))
+	var timing: Vector4 = L1CardFace.glint_timing(_glint_phase())
+	mat.set_shader_parameter(
+		"timing",
+		Vector4(
+			timing.x,
+			timing.y * L1CardFace.way_round(shoulder, box),
+			L1Layout.number("light.golden.star.time"),
+			timing.w
+		)
+	)
+	star.material = mat
+	star.draw.connect(func() -> void: star.draw_rect(Rect2(Vector2.ZERO, star.size), Color.WHITE))
+	return star
 
 
 ## The card's size in pixels at a given height.

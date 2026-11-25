@@ -65,6 +65,17 @@ static func shop_opening_x(i: int) -> float:
 	return (stage_size().x - width) / 2.0 + i * (opening + gap)
 
 
+## How deep a shop light of this tier breathes, as a share of its strength (tier 6 the most).
+static func shop_breath(tier: int) -> float:
+	return number(
+		(
+			"light.shop.breathe.depth_tier6"
+			if tier == GlassPieces.TIERS
+			else "light.shop.breathe.depth"
+		)
+	)
+
+
 static func shop_tint(tier: int) -> Color:
 	var key: String = "shop.tint.%d." % clampi(tier, 1, GlassPieces.TIERS)
 	return Color(colour(key + "base_colour"), number(key + "strength"))
