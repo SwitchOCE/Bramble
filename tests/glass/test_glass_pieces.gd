@@ -7,14 +7,6 @@ const CardSheet: PackedScene = preload("res://src/glass/card_sheet.tscn")
 const KEYS_USED: Array[String] = [
 	"card.units.w",
 	"card.units.h",
-	"card.num.one_digit_scale",
-	"card.num.two_digit_scale",
-	"card.num.weight",
-	"card.num.colour",
-	"card.num.letter_spacing_em",
-	"card.num.padding_top_em",
-	"card.num.glow",
-	"card.num.glow_em",
 	"card.shadow.x",
 	"card.shadow.y",
 	"card.shadow.blur",
@@ -43,28 +35,34 @@ func test_unit_art_is_null_for_a_unit_with_none() -> void:
 	assert_null(GlassPieces.unit_art("locust", "no-such-unit"))
 
 
-func test_six_frames_load_at_card_size() -> void:
-	for tier: int in range(1, GlassPieces.TIERS + 1):
-		var tex: Texture2D = GlassPieces.frame(tier)
-		assert_not_null(tex, "tier %d frame loads" % tier)
-		assert_eq(tex.get_size(), GlassPieces.card_units(), "tier %d frame is 560 x 1000" % tier)
+func test_card_silhouette_is_the_l1_hexagon() -> void:
+	var box: Vector2 = GlassCard.card_size(250.0)
+	var points: PackedVector2Array = L1CardFace.unit_outline(box)
+	assert_eq(box, Vector2(140, 250))
+	assert_eq(points.size(), 6)
+	assert_eq(points[0], Vector2(70, 0))
+	assert_almost_eq(points[1], Vector2(140, 40.4), Vector2.ONE * 0.02)
+	assert_almost_eq(points[2], Vector2(140, 209.6), Vector2.ONE * 0.02)
+	assert_eq(points[3], Vector2(70, 250))
+	assert_almost_eq(points[4], Vector2(0, 209.6), Vector2.ONE * 0.02)
+	assert_almost_eq(points[5], Vector2(0, 40.4), Vector2.ONE * 0.02)
+	var mask: Image = L1CardFace.silhouette().get_image()
+	assert_eq(mask.get_pixel(0, 0).a, 0.0, "the corners stay outside the foil and shadow mask")
+	assert_eq(mask.get_pixel(mask.get_width() >> 1, mask.get_height() >> 1).a, 1.0)
 
 
-func test_card_data_has_each_tiers_discs() -> void:
-	for tier: int in range(1, GlassPieces.TIERS + 1):
-		for which: String in ["attack", "health"]:
-			var disc: Vector3 = GlassPieces.disc(tier, which)
-			assert_gt(disc.z, 40.0, "tier %d %s disc has a radius" % [tier, which])
-			assert_true(
-				Rect2(Vector2.ZERO, GlassPieces.card_units()).has_point(Vector2(disc.x, disc.y)),
-				"tier %d %s disc is on the card" % [tier, which]
-			)
-	var attack: Vector3 = GlassPieces.disc(1, "attack")
-	assert_lt(attack.x, GlassPieces.disc(1, "health").x, "Attack is on the left")
+func test_cards_share_fixed_stat_disc_positions() -> void:
+	var attack: Vector3 = GlassCard.stat_disc("attack")
+	var health: Vector3 = GlassCard.stat_disc("health")
+	assert_almost_eq(Vector2(attack.x, attack.y), Vector2(26.1, 205.5), Vector2.ONE * 0.01)
+	assert_almost_eq(Vector2(health.x, health.y), Vector2(113.9, 205.5), Vector2.ONE * 0.01)
+	assert_eq(attack.z, 17.0)
+	assert_eq(health.z, 17.0)
 
 
-func test_art_window_is_a_hexagon() -> void:
-	assert_eq(GlassPieces.art_polygon().size(), 6)
+func test_art_window_uses_the_l1_inset_and_crop() -> void:
+	assert_eq(L1Layout.number("card.lead.width"), 5.0)
+	assert_eq(L1Layout.rect("card.art"), Rect2(28, 52, 504, 900))
 
 
 func test_layout_has_every_key_used_and_says_where_each_came_from() -> void:
@@ -86,10 +84,10 @@ func test_l1_layout_numbers_name_their_spec_sections() -> void:
 		assert_not_null(source.search(str(entry.get("from", ""))), "%s names a spec section" % key)
 
 
-func test_layout_values_match_the_mockups_card_template() -> void:
-	assert_eq(GlassPieces.number("card.num.one_digit_scale"), 1.2)
-	assert_eq(GlassPieces.number("card.num.two_digit_scale"), 0.95)
-	assert_eq(GlassPieces.colour("card.num.colour"), Color.html("#150e08"))
+func test_layout_values_match_the_l1_stat_template() -> void:
+	assert_eq(L1Layout.number("card.stat.font_px"), 20.0)
+	assert_eq(L1Layout.number("card.stat.baseline_em"), 0.04)
+	assert_eq(L1Layout.number("card.stat.rim") + L1Layout.number("card.stat.outline"), 4.0)
 	assert_eq(GlassPieces.css_colour("0,0,0,.6"), Color(0, 0, 0, 0.6))
 
 
