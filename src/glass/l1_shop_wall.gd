@@ -1,6 +1,7 @@
 class_name L1ShopWall
 extends Control
-## The wall fittings behind the offers. Tier colour is a flat stand-in for the later light.
+## The wall fittings behind the offers: the spells' chain and the lanterns, with the lights behind
+## them (buy-screen-l1.md §9): each spell's tier light (S2) and each lit lantern's warm light (S3).
 
 var tier: int
 var spells: Array
@@ -10,24 +11,79 @@ func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
+func _ready() -> void:
+	_add_spell_lights()
+	_add_lantern_lights()
+
+
 func _draw() -> void:
 	_draw_hanger()
+	_draw_lanterns()
+
+
+## A spell's tier light, behind its disc: an inner and an outer circle, breathing as the arches do.
+func _add_spell_lights() -> void:
+	var additive: float = L1Layout.number("light.shop.additive")
+	var period: float = L1Layout.number("light.shop.breathe.period")
 	for i: int in spells.size():
 		if not spells[i] is Dictionary:
 			continue
 		var offer: Dictionary = spells[i]
+		var spell_tier: int = GlassPieces.as_int(offer.get("tier", 1))
+		var tint: Color = L1Layout.shop_tint(spell_tier)
 		var disc: Rect2 = L1Layout.rect("shop.spell")
 		disc.position.y += i * L1Layout.number("shop.spell.step")
-		var radius: float = (disc.size.x + L1Layout.number("shop.spell.tint_overhang")) / 2.0
-		draw_circle(
-			disc.get_center(),
-			radius,
-			L1Layout.shop_tint(GlassPieces.as_int(offer.get("tier", 1))),
-			true,
-			-1.0,
-			true
+		var light: L1Light = L1Light.make(
+			L1Light.Shape.CIRCLE, disc, Color(tint, 1.0), "SpellLight_%d" % i
 		)
-	_draw_lanterns()
+		light.show_behind_parent = true
+		light.glow(
+			Vector3(
+				L1Layout.number("light.spell.near.grow"),
+				L1Layout.number("light.spell.near.blur"),
+				L1Layout.number("light.spell.near.share") * tint.a
+			),
+			Vector3(
+				L1Layout.number("light.spell.far.grow"),
+				L1Layout.number("light.spell.far.blur"),
+				L1Layout.number("light.spell.far.share") * tint.a
+			)
+		)
+		var depth: float = L1Layout.number(
+			(
+				"light.shop.breathe.depth_tier6"
+				if spell_tier == GlassPieces.TIERS
+				else "light.shop.breathe.depth"
+			)
+		)
+		var phase: float = (i + 0.5) * L1Layout.number("light.shop.breathe.phase_step")
+		light.blend(additive).breathe(period, depth, phase)
+		add_child(light)
+
+
+## A small warm light round each lit lantern, flickering a little.
+func _add_lantern_lights() -> void:
+	var gap: float = L1Layout.number("shop.arch.gap")
+	var d: float = L1Layout.number("light.lantern.d")
+	for i: int in mini(tier, int(L1Layout.number("shop.arch.count")) + 1):
+		var x: float = L1Layout.shop_opening_x(i) - gap / 2.0
+		var centre: Vector2 = Vector2(x, L1Layout.number("light.lantern.y"))
+		var light: L1Light = L1Light.make(
+			L1Light.Shape.CIRCLE,
+			Rect2(centre - Vector2.ONE * d / 2.0, Vector2.ONE * d),
+			L1Layout.colour("light.lantern.light_colour"),
+			"LanternLight_%d" % i
+		)
+		light.show_behind_parent = true
+		light.glow(
+			Vector3(
+				0.0, L1Layout.number("light.lantern.blur"), L1Layout.number("light.lantern.alpha")
+			)
+		)
+		light.blend(L1Layout.number("light.lantern.additive")).breathe(
+			1.0, 0.0, i * 0.37, L1Layout.number("light.lantern.flicker")
+		)
+		add_child(light)
 
 
 func _draw_hanger() -> void:
