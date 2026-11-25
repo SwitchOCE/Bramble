@@ -1,6 +1,6 @@
 # Card power measures and the balance process review: plan
 
-**Proposal, not approved.** Written 25 Nov 2026 by the card power session (branch `balance/card-power`). Everything here is the session's proposal unless it is in quote marks. A fresh agent cross-examined the first draft the same day ([plan-interrogation.md](plan-interrogation.md)); this text is the plan after its cuts. The page shown to the owner: https://claude.ai/artifact/A38oUcVKdr9d7bJzFRuFRs.
+**Approved by the owner on 25 Nov 2026** ("I'm okay with that as a plan then and happy with you to proceed"), with the plain-unit swap dropped. Written 25 Nov 2026 by the card power session (branch `balance/card-power`). Everything here is the session's proposal unless it is in quote marks. A fresh agent cross-examined the first draft the same day ([plan-interrogation.md](plan-interrogation.md)); this text is the plan after its cuts. The page shown to the owner: https://claude.ai/artifact/A38oUcVKdr9d7bJzFRuFRs.
 
 ## The problem, in the owner's words
 
@@ -31,11 +31,9 @@ Out of scope: changing any card, keyword, rule or bot. The league is on hold and
 
 Write `definitions.md` in this folder and commit it before step 3's match is analysed. It holds the three definitions below, the flag line, the smallest sample a number needs, and the list of what each measure cannot see. One thing has already been seen and is stated there: the blue team's own table of 18 Nov (a fresh copy of each card added to recorded boards), in which Old Brock ranks first and Brock Cub near the bottom.
 
-**Swap test (fight value).** One observation is one unit on one side of one recorded fight. The fight is fought again with that unit swapped, on the same fight seeds as the unswapped board (the recorded seed and three more). Score for the unit's side: win 1, draw ½, loss 0. Two swaps, both reported:
-- *Whole unit:* replaced by a plain unit with no text and the average printed Attack and Health of its tier (double if golden). This counts everything the unit had gathered by then.
-- *Text only:* the unit keeps its recorded stats and loses its text and keywords. This counts what its text does inside the fight.
+**Text off.** One observation is one unit on one side of one recorded fight. The fight is fought again with that unit's own text and printed keywords switched off, on the same fight seeds as the board as recorded. The number is how much of the unit's fight power is in its text. It is never called card power (owner, 25 Nov: "It doesn't tell you whether it's overpowered").
 
-Swap value = mean score as recorded minus mean score swapped. Also reported: the change in damage dealt, and the share of fights whose recorded result changes, by stage of the game (rounds 1–4, 5–8, 9–12, 13 on), with a 95% interval grouped by game. At most 1,000 unit-fights per card per stage, picked by a fixed hash, never by outcome. Under 200, the cell reads "too few". Gains a unit got from other cards count for the unit that holds them, so the report marks a card whose whole-unit value is mostly gathered stats (whole-unit value far above text-only value).
+**Left out of the shop.** The same games are played again with one card never offered to the live seat; the number is how much worse the bot finishes. This replaces the first draft's swap for a made-up plain unit, which the owner called "pretty unrealistic" (25 Nov).
 
 **Keyword off.** The same tool removes one keyword from every unit on a side (own or granted) and refights. Run for Overrun and two other fight keywords for comparison (Cleave and Fury); the rest wait for the standing report. For each keyword the result is also split by the enemy board's typical Health (low, middle, high third), which tests "any low health board" directly.
 
@@ -43,13 +41,16 @@ Swap value = mean score as recorded minus mean score swapped. Also reported: the
 
 **Pick rate against power.** Pick rate is bought divided by offered-and-affordable. One chart with each card a dot: pick rate across, whole-unit swap value up, colour by tribe, tier marked. A second chart puts bought-against-passed on the upright axis.
 
-**The flag line.** Cards are compared inside one stage of the game, never across stages. A card is over the line when, at any stage with enough data, the low end of its whole-unit swap interval is above the typical (median) card two tiers up at that stage; for tiers 5 and 6, above the best quarter of tier 6. It is on watch when above the typical card one tier up. A card under the typical card one tier down is listed as weak. On bought against passed: flagged when buying goes with half a place or more better and the interval excludes zero. These lines are a first guess; the first report shows where they fall and the owner can move them.
+**The flag line.** A card is over the line when the bot finishes half a place or more worse without it (left out of the shop), or half a place or more better when it buys it (bought against passed), with the interval clear of zero. Text off gives a list of where to look, not a flag. These lines are a first guess; the first report shows where they fall and the owner can move them.
 
-### 2. Build the swap test
+The exact definitions are in [definitions.md](definitions.md).
 
-Extend `league refight` with a swap mode: a per-card selector, the two swaps, keyword off, several seeds, the sampling cap. Tests: every recorded fight still reproduces with no swap; swapping a plain unit for itself changes nothing; a planted card (one card's Attack raised a lot) comes out flagged.
+### 2. Build the two refight modes and the left-out test
 
-Why not only the blue team's tool: it adds a fresh card to a board, which is the right test for a card that does not exist yet (see step 6), but it cannot see a unit as it really stood in a game, with what it had gathered. The swap test can.
+- `league refight` gets text off and keyword off, and counts how many units one Overrun swing kills.
+- `league ghost-match` gets a way to leave one card out of the live seat's shop.
+
+Tests: every recorded fight still reproduces with nothing switched off; text off on a card with no fight text changes nothing; leaving out a card the bot never buys reads about zero; a planted over-strong card comes out over the line.
 
 ### 3. Play fresh matches with records kept, and give the first answer
 
@@ -57,7 +58,7 @@ Bots are built from their tags in a build tree of this session's own (`/data/car
 
 First: one match of 2,000 games, 1,000 with red-c14 in the live seat and 1,000 with blue-c17 (always Badger). About ten minutes. Fights between the field's ghosts are in the records too, so the swap test also sees boards from the 15,000 runs of earlier bots, of every tribe. More games are played only where a card reads "too few". Runs with a bot held to a tribe it plays badly are not planned: they measure the bot as much as the cards.
 
-The swap test and Overrun on and off are run on this match. **First report to the owner:** the four cases, and every card with enough data, as one table and one chart.
+Text off and Overrun on and off are run on this match. Left out of the shop is run for the Badger cards first (19 cards, 2,000 games each), then the rest. **First report to the owner:** the four cases, and every card with enough data, as one table and one chart.
 
 Raw files are deleted once the findings are written; the per-card tables and the report stay (under 2 MB).
 
@@ -90,7 +91,7 @@ Delete raw matches and build output, keep the findings, write the disk report.
 
 ## How the work is done
 
-- Step 2 goes to an Opus worker in its own worktree; steps 4 and 6's report are small enough to follow it. Workers get the owner's words quoted and this plan as a labelled proposal. Each code step passes the project's tests and a `scope-reviewer` before it merges to `dev` by pull request. Nothing goes to `main`.
+- Step 2 goes to two Opus workers in their own worktrees (one for the refight modes, one for the left-out test); steps 4 and 6's report are small enough to follow it. Workers get the owner's words quoted and this plan as a labelled proposal. Each code step passes the project's tests and a `scope-reviewer` before it merges to `dev` by pull request. Nothing goes to `main`.
 - Step 3's match can run while step 2 is built, because the file formats are fixed.
 - Checkpoints with the owner: this plan; the first report (step 3); the process proposals (step 6).
 

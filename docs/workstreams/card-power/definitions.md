@@ -22,7 +22,9 @@ Stages of the game, used everywhere: rounds 1–4, 5–8, 9–12, 13 on. Cards a
 
 Bought observations divided by all observations, as defined above, per bot and pooled.
 
-## Text off (fight value of a card's own text)
+## Text off (how much of a unit's fight power is in its own text)
+
+The owner, 25 Nov: "It doesn't tell you whether it's overpowered, but it does tell you how much of its power comes from its abilities ... this test will be specifically good at measuring one thing, and as long as it's used for that purpose and not overused or misunderstood, I'm okay with it existing." So this number is never called card power, in the report or anywhere else. It is the in-fight worth of the text.
 
 - **Data:** the `fight_boards` of every fight in the match records, live seat and ghosts.
 - **One observation:** one unit standing on one side at the start of one recorded fight.
@@ -31,7 +33,7 @@ Bought observations divided by all observations, as defined above, per bot and p
 - **Number:** mean score as recorded minus mean score with the text off. Also the change in damage dealt, and the share of recorded results that change.
 - **Sample:** at most 1,000 observations per card per stage, picked by a hash of game, round, side and slot. Under 200, "too few".
 - **Interval:** 95%, grouped by game.
-- **Flag:** over the line when the low end of the interval is above the median card two tiers up at that stage (for tiers 5 and 6: above the top quarter of tier 6). On watch when above the median card one tier up. A card under the median card one tier down is listed as weak.
+- **Pointer, not a verdict:** a card is listed as "text fights above its tier" when the low end of the interval is above the median card two tiers up at that stage (for tiers 5 and 6: above the top quarter of tier 6). The list says where to look; it does not say a card is too strong.
 - **Cannot see:** anything outside the fight (gold, shop effects, growth over turns, what a Recruit effect already gave other units). Boards are the ones bots built, and each was built around the card. A card with no fight text reads about zero.
 
 ## Keyword off
@@ -42,17 +44,27 @@ Bought observations divided by all observations, as defined above, per bot and p
 - **Split:** by the enemy board's median unit Health at the start of the fight, in thirds, with the cut points taken from all fights of that stage.
 - **Also counted, for Overrun:** for each attack by a unit with Overrun, how many enemy units it kills, the carried damage included: the share of attacks that kill two or more, three or more, and the whole enemy board.
 
-## Swapping the unit itself
+## Left out of the shop (what a card is worth over a whole game)
 
-Not settled. The first plan replaced the unit with a plain unit of its tier's average stats; the owner called that unrealistic (25 Nov) and the session agrees. The proposal with the owner: drop it, and add a whole-game test in which the card is never offered to the live seat. Its definition is written here before it is run.
+The owner called replacing a unit with a made-up plain unit "pretty unrealistic" (25 Nov), and that swap is dropped. This test takes its place.
+
+- **Data:** two ghost matches with the same bots, seeds, secret and field runs. In the second, the card is never offered to the live seat: it is taken out of the game's unit draw list, for the shop and for Discover. Everything else is the same, so the shop shows other cards in its place and the bot builds what it would.
+- **One observation:** one game index, played with the card and without it.
+- **Number:** the live seat's final place without the card minus its place with it, averaged, per bot. Positive means the bot finishes worse without the card.
+- **Interval:** 95%, on the paired differences, grouped by seed.
+- **Games:** 1,000 a bot for each card. The match with every card present is played once and serves every card.
+- **Too few:** the card was bought in under 100 of the bot's games with it present. Then the bot does not use the card and the number says little.
+- **Flag:** over the line when the bot finishes half a place or more worse without it, with the interval clear of zero. A first guess; the first report shows where it falls.
+- **Cannot see:** what a bot that had re-learned without the card would do. A bot tuned around a card loses more than the card's own worth. The number is the card's worth to that bot.
 
 ## Checks on the measures
 
 - Every recorded fight must replay to its recorded result before any change is applied.
 - Switching off the text of a card that has none must change nothing.
-- A card with its Attack raised a lot in a test copy of the card data must come out over the line.
+- A card with its Attack raised a lot in a test copy of the card data must come out over the line on left out of the shop.
+- Leaving out a card the bot never buys must read about zero.
 - The match split in two halves by game number must rank cards alike; a flag in one half only is reported as noise.
 
-## Changes after 25 Nov
+## Changes
 
-None.
+- 25 Nov, before any card result was read: the plain-unit swap is dropped and "left out of the shop" added, and text off is a pointer and no longer a flag, both on the owner's words quoted above.
