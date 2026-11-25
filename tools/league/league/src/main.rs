@@ -13,10 +13,10 @@ const USAGE: &str = "usage:
   league check-crate <path> --name <red|blue> [--keep]
   league analyze <dir>
   league refight --match <dir> [--repo-root <dir>] [--select tribe:<name>[:<min>]]
-                 --out <dir> [--threads N] [--verify]
+                 --out <dir> [--threads N] [--verify] [--field <dir>]
   league refight --match <dir> --out <dir> [--text-off] [--stat-worth] [--keyword-off <id>[,<id>...]]
                  [--overrun-swings] [--fresh-copy all|<card id>[,<card id>...]]
-                 [--seeds 2] [--cap 500] [--threads N] [--verify]
+                 [--seeds 2] [--cap 500] [--threads N] [--verify] [--field <dir>]
   league bench [--content all|standin|<folders>] [--games N] [--fight-records <dir>] [--fights N]
   league bots";
 
@@ -236,6 +236,7 @@ fn run(args: &[String]) -> Result<(), String> {
                         "seeds",
                         "cap",
                         "fresh-copy",
+                        "field",
                     ]
                     .contains(&name.as_str())
                         || value.is_empty()
@@ -252,6 +253,9 @@ fn run(args: &[String]) -> Result<(), String> {
                 return Err("usage: --threads must be positive".into());
             }
             let verify = o.has("verify");
+            if let Some(field) = o.get("field") {
+                refight::set_field(PathBuf::from(field));
+            }
             let modes = refight::Modes {
                 text_off: o.has("text-off") || o.has("stat-worth"),
                 stat_worth: o.has("stat-worth"),

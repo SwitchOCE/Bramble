@@ -5,6 +5,7 @@ mod restore;
 mod switch;
 
 pub use modes::{ModeReport, Modes, run as run_modes};
+pub use restore::set_field;
 
 use bramble_engine::{Dictionary, Variant};
 use serde_json::{Value, json};

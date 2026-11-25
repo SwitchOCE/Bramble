@@ -1,6 +1,7 @@
 //! Restore the two snapshots into a private session with the original fight's identity.
 use super::input::{Fight, integer};
 use bramble_engine::core::{
+    ghosts::{ghost_run::RunsBySeat, ghost_store::GhostStore},
     mechanics::mechanic_registry::MechanicRegistryRef,
     recruit::player_state::PlayerState,
     session::{game_session::GameSession, matchmaking::Matchmaking},
@@ -12,7 +13,66 @@ use bramble_engine::util::godot_json;
 use bramble_engine::{Array, Dictionary, Variant};
 use league_api::harness;
 use serde_json::Value;
+use std::cell::RefCell;
 use std::panic::{AssertUnwindSafe, catch_unwind};
+use std::path::{Path, PathBuf};
+use std::sync::OnceLock;
+
+/// The folder of recorded runs the match was played against (`league refight --field`).
+static FIELD: OnceLock<PathBuf> = OnceLock::new();
+
+thread_local! {
+    /// The recorded runs of the game now being refought, by seat. In a ghost match every seat but
+    /// the bot's plays a recorded run, and such a seat's fight writes nothing back to its recruit
+    /// board. A restored session has no runs of its own, so without these every seat would fight
+    /// as live, and an effect that reads the recruit board mid-fight (Root, after a permanent
+    /// buff) would see a different unit than the recorded fight did.
+    static RECORDED: RefCell<RunsBySeat> = RefCell::new(RunsBySeat::new());
+}
+
+pub fn set_field(dir: PathBuf) {
+    let _ = FIELD.set(dir);
+}
+
+/// Before a game's fights: its record header's runs, as (seat, run id). Returns false when the
+/// game has recorded seats and no field was given, so they will fight as live.
+pub(super) fn recorded_seats(runs: &[(i64, String)]) -> Result<bool, String> {
+    let by_seat = load_runs(FIELD.get().map(PathBuf::as_path), runs)?;
+    RECORDED.with(|recorded| *recorded.borrow_mut() = by_seat);
+    Ok(runs.is_empty() || FIELD.get().is_some())
+}
+
+fn load_runs(field: Option<&Path>, runs: &[(i64, String)]) -> Result<RunsBySeat, String> {
+    let mut by_seat = RunsBySeat::new();
+    if let Some(field) = field {
+        let store = GhostStore::new(field);
+        for (seat, id) in runs {
+            by_seat.insert(*seat, store.fetch(id, None, None)?);
+        }
+    }
+    Ok(by_seat)
+}
+
+/// Attach the current game's recorded runs for the seats in this fight, so the engine fights them
+/// as recorded. Runs attach only before the first round, and only after every unit is made: a
+/// session with runs keeps new unit ids below the run seats' range.
+fn attach_recorded(session: &mut GameSession, players: [i64; 2], round: i64) -> Result<(), Skip> {
+    let recorded: RunsBySeat = RECORDED.with(|runs| {
+        let runs = runs.borrow();
+        let seats = players.iter();
+        seats
+            .filter_map(|seat| Some((*seat, runs.get(seat)?.clone())))
+            .collect()
+    });
+    if !recorded.is_empty() {
+        session.round_number = 0;
+        session
+            .set_runs(recorded)
+            .map_err(|e| Skip::Payload(e.into()))?;
+        session.round_number = round;
+    }
+    Ok(())
+}
 
 #[derive(Debug)]
 pub(super) enum Skip {
@@ -249,6 +309,7 @@ pub(super) fn fight_with(
             let owner = owners[i].borrow();
             standing(&owner.board, &owner.slots)
         });
+        attach_recorded(&mut session, original.players, round)?;
         drop(session);
         // _fight derives the seed from the game seed, round and ordered ids (including -1).
         let fought = GameSession::_fight(&game, a, b);
@@ -452,5 +513,26 @@ mod tests {
             fight(&content, 11, 1, &original, &payloads, false),
             Err(Skip::Payload(reason)) if reason.contains("slots")
         ));
+    }
+
+    #[test]
+    fn a_recorded_seat_fights_as_recorded_and_the_bot_s_seat_as_live() {
+        let field = Path::new(env!("CARGO_MANIFEST_DIR")).join("../proof/fixtures/async-store");
+        let listed = [(
+            3,
+            "02f918a6e3c6876ddf88edee1b9a3a9753093adb5f56155348a29a28ac701789".to_string(),
+        )];
+        assert!(load_runs(None, &listed).unwrap().is_empty());
+        let runs = load_runs(Some(&field), &listed).unwrap();
+        RECORDED.with(|recorded| *recorded.borrow_mut() = runs);
+        let content = crate::load_content(&crate::default_root(), None).unwrap();
+        let game = content.borrow().new_session(11, &Array::new());
+        let mut session = game.borrow_mut();
+        session.round_number = 6;
+        // The engine fights a seat as live exactly when it is not a run seat.
+        attach_recorded(&mut session, [0, 3], 6).unwrap();
+        assert!(session.is_run_seat(3) && !session.is_run_seat(0));
+        assert_eq!(session.round_number, 6);
+        RECORDED.with(|recorded| recorded.borrow_mut().clear());
     }
 }
