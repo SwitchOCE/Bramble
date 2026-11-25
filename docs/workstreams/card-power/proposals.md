@@ -65,7 +65,7 @@ Drop:
 - `docs/workstreams/bot-league/brief.md`: section 9 (per-card numbers), and the hand-over of teams' card measurements.
 - `docs/workstreams/league-data/README.md`: the card report runs before a match is pruned.
 - `.claude/skills/bramble-design/SKILL.md`: the three costing additions.
-- `tools/league/LOGS.md` and the fight log: bodies that join a fight (the ghost orchestrator's code).
+- `tools/league/league/LOGS.md` and the fight log: bodies that join a fight (the ghost orchestrator's code).
 
 ## Would this have caught the four cards?
 
