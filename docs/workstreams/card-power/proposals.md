@@ -1,6 +1,6 @@
-# Proposals: the balance process and the league
+# The balance process and the league: what changes
 
-From the card power session, 25 Nov 2026. **Proposals only. Nothing here is decided, and no process document, skill or league rule has been changed.** Each needs the owner's yes. The evidence is in [trace.md](trace.md), [known-cases.md](known-cases.md) and the results page (https://claude.ai/artifact/EiM34sXPXawpkmDDHNocHr).
+From the card power session, 25 Nov 2026. **The owner said yes to all of it on 26 Nov: "I was happy with all of the proposals so proceed".** The documents named at the end are changed in the pull request that follows this one. The evidence is in [trace.md](trace.md), [known-cases.md](known-cases.md) and the results page (https://claude.ai/artifact/EiM34sXPXawpkmDDHNocHr).
 
 The owner: "there's missing pieces or there's waste or both", and "We need to build our processes to catch this kind of stuff."
 
@@ -58,7 +58,7 @@ Drop:
 4. **The league's nine per-card numbers** (section 9 of the league brief). None separates a strong card from a strong board, and none was run in the third run. The card report replaces them.
 5. **Bought against passed as a measure.** It stays in the report as a hint. It caught none of the three cards.
 
-## Documents that would change, on a yes
+## Documents that change
 
 - `docs/workstreams/balance/plan.md`: step 3 (when a card may change), and "What counts as balanced" (tribes taken away in place of locked to each tribe).
 - `docs/workstreams/third-run/ghost-plan.md` and `third-run-brief.md`: the climbing field's make-up and its strength check; the card report before records are deleted; what balance gets.
