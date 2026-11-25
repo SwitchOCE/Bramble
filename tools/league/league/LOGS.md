@@ -87,21 +87,24 @@ session round number. `players` is all seats, in seat order, **after** fights an
 The round's `renown` contains the game log's Renown events in order, including start-of-turn
 rewards such as Old Campaigner. Each carries `type`, `round`, `player`, `slot`, `amount`, `total` and `source_uid`.
 Each nested `fights[]` item has `a`, `b`, `winner`, `loser`, `damage`, `result`,
-`ghost_of`, `kills`, `summons` and `renown`.
+`ghost_of`, `kills`, `summons`, `joined` and `renown`.
+
+A field that leaves something out says what in its first sentence. Read that before reporting a number from it.
 
 | Field | Meaning and source |
 |---|---|
 | `a`, `b` | seat ids from the engine fight's `players`. In a live match `b == -1` identifies the copied ghost (`Matchmaking::GHOST`). Async opponents occupy seats 1–7 with run IDs in the game's `runs` list |
 | `winner` | result winner side mapped to `a` or `b`, so -1 when the ghost won; **null for a draw** |
 | `loser` | engine fight's `loser`: seat id, -1 for the ghost, -2 when there is no loser |
-| `damage` | engine fight's damage to the losing live player **before armour** (0 when no live loser); `players[].hp`/`armor` show what was lost |
+| `damage` | **Before armour.** The engine fight's damage to the losing live player (0 when no live loser); `players[].hp`/`armor` show what was lost |
 | `result` | engine combat result dictionary, unchanged, from `GameSession::finish_round`; combat events are read separately for the two counts |
 | `ghost_of` | seat copied when `b == -1`, otherwise null. The harness reads session `ghost_of` **before** `finish_round`, since elimination can replace the copy for the next round |
-| `kills` | Two arrays in `[a, b]` order, including zero counts. Every starting unit has a row `{card, golden, slot, origin: "start", source: null, kills}` in slot order. Arrivals follow, grouped by `{card, golden, origin, source}` with `kills` and no slot. A `"summon"` names the summoning unit's card id, or null when the event names no unit. A `"reserve"` has null source. Each enemy death credits the engine's `killer_uid`, the last recorded damaging or destroying source, including Cleave and other effects. Kills by returned copies credit the original unit and its origin. Deaths with no credited enemy unit add no kill |
-| `summons` | Two arrays in `[a, b]` order. Each groups successful `summon` events by `{source, card, count}`, sorted by source and summoned card id. `source` is the summoning unit's card id, or null when the event names no unit. Waiting summons count when they land. Failed summons, returns and Reserve arrivals are excluded |
+| `kills` | **Kills by units only: a death with no credited enemy unit adds no kill, and a returned copy's kills go to the original unit.** Two arrays in `[a, b]` order, including zero counts. Every starting unit has a row `{card, golden, slot, origin: "start", source: null, kills}` in slot order. Arrivals follow, grouped by `{card, golden, origin, source}` with `kills` and no slot. A `"summon"` names the summoning unit's card id, or null when the event names no unit. A `"reserve"` has null source. Each enemy death credits the engine's `killer_uid`, the last recorded damaging or destroying source, including Cleave and other effects. Kills by returned copies credit the original unit and its origin. Deaths with no credited enemy unit add no kill |
+| `summons` | **Freshly summoned units only: units that return (Molt, Root and the like) and Reserve arrivals are left out, as are failed summons. For every body that joins a fight, read `joined`.** Two arrays in `[a, b]` order. Each groups successful `summon` events by `{source, card, count}`, sorted by source and summoned card id. `source` is the summoning unit's card id, or null when the event names no unit. Waiting summons count when they land |
+| `joined` | Every body that joins a side after the fight starts; nothing is left out but failed summons. Two arrays in `[a, b]` order. Each groups arrivals by `{kind, source, card, count}`, sorted by kind, source and card id. `kind` is `summon`, `return` or `reserve`. `source` is what brought the body: for a summon or a Reserve arrival, the card id of the unit the event names, or null when it names none; for a return, the id of the mechanic that brought the unit back. A unit that returns twice counts twice. Bodies a side by kind, per fight: sum `count` |
 | `renown` | Combat Renown events in order, each with `type`, `side`, `slot`, `amount`, `next_fight`, `permanent` and `source_uid` |
 
-Arrays in `result`, `kills` and `summons` use combat side order `[a, b]`, including
+Arrays in `result`, `kills`, `summons` and `joined` use combat side order `[a, b]`, including
 the ghost's board and events when applicable. The engine writes these fields to `result`.
 
 | Field | Meaning |

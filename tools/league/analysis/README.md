@@ -95,7 +95,8 @@ before kill origins were logged skip these tables.
   `total_kills` sums all their kills and `kills_per_fight` divides by `fights_present`.
   Purchase-turn breakdowns require linking individual purchases to units and tracking
   transformations. The decision and shop logs identify purchases by card.
-- `summons_by_source.tsv` groups by source card id and summoned card id. `total_summoned`
+- `summons_by_source.tsv` groups by source card id and summoned card id. It holds freshly
+  summoned units only, not returns or Reserve arrivals (the log's `joined` field has every body). `total_summoned`
   counts landed summons and `games` includes every game in the match, including games
   with zero summons for that pair. `summoned_per_game` divides those two columns.
 - `kill_shares.tsv` has `overall` rows by origin and `source` rows for summon kills by
