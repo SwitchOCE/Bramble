@@ -1,6 +1,7 @@
 //! Restore the two snapshots into a private session with the original fight's identity.
 use super::input::{Fight, integer};
 use bramble_engine::core::{
+    ghosts::{ghost_run::RunsBySeat, ghost_store::GhostStore},
     mechanics::mechanic_registry::MechanicRegistryRef,
     recruit::player_state::PlayerState,
     session::{game_session::GameSession, matchmaking::Matchmaking},
@@ -12,7 +13,40 @@ use bramble_engine::util::godot_json;
 use bramble_engine::{Array, Dictionary, Variant};
 use league_api::harness;
 use serde_json::Value;
+use std::cell::RefCell;
 use std::panic::{AssertUnwindSafe, catch_unwind};
+use std::path::PathBuf;
+use std::sync::OnceLock;
+
+/// The folder of recorded runs the match was played against (`league refight --field`).
+static FIELD: OnceLock<PathBuf> = OnceLock::new();
+
+thread_local! {
+    /// The recorded runs of the game now being refought, by seat. In a ghost match every seat but
+    /// the bot's plays a recorded run, and such a seat's fight writes nothing back to its recruit
+    /// board. A restored session has no runs of its own, so without these every seat would fight
+    /// as live, and an effect that reads the recruit board mid-fight (Root, after a permanent
+    /// buff) would see a different unit than the recorded fight did.
+    static RECORDED: RefCell<RunsBySeat> = RefCell::new(RunsBySeat::new());
+}
+
+pub fn set_field(dir: PathBuf) {
+    let _ = FIELD.set(dir);
+}
+
+/// Before a game's fights: its record header's runs, as (seat, run id). Returns false when the
+/// game has recorded seats and no field was given, so they will fight as live.
+pub(super) fn recorded_seats(runs: &[(i64, String)]) -> Result<bool, String> {
+    let mut by_seat = RunsBySeat::new();
+    if let Some(field) = FIELD.get() {
+        let store = GhostStore::new(field);
+        for (seat, id) in runs {
+            by_seat.insert(*seat, store.fetch(id, None, None)?);
+        }
+    }
+    RECORDED.with(|recorded| *recorded.borrow_mut() = by_seat);
+    Ok(runs.is_empty() || FIELD.get().is_some())
+}
 
 #[derive(Debug)]
 pub(super) enum Skip {
@@ -249,6 +283,22 @@ pub(super) fn fight_with(
             let owner = owners[i].borrow();
             standing(&owner.board, &owner.slots)
         });
+        let recorded: RunsBySeat = RECORDED.with(|runs| {
+            let runs = runs.borrow();
+            let seats = original.players.iter();
+            seats
+                .filter_map(|seat| Some((*seat, runs.get(seat)?.clone())))
+                .collect()
+        });
+        if !recorded.is_empty() {
+            // Runs attach only before the first round, and only after every unit is made: a
+            // session with runs keeps new unit ids below the run seats' range.
+            session.round_number = 0;
+            session
+                .set_runs(recorded)
+                .map_err(|e| Skip::Payload(e.into()))?;
+            session.round_number = round;
+        }
         drop(session);
         // _fight derives the seed from the game seed, round and ordered ids (including -1).
         let fought = GameSession::_fight(&game, a, b);

@@ -9,6 +9,9 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, File};
 use std::io::{BufRead, BufReader};
 use std::path::Path;
+use std::sync::atomic::{AtomicBool, Ordering};
+
+static NO_FIELD_WARNED: AtomicBool = AtomicBool::new(false);
 
 pub(super) struct Match {
     pub content: String,
@@ -185,6 +188,27 @@ pub(super) fn read_boards(
             GameRecord::FORMAT,
             game.seed
         ));
+    }
+    let runs: Vec<(i64, String)> = if header.get("mode").as_text() == "async" {
+        let listed = header.get("runs").as_array();
+        let listed = listed.borrow();
+        listed
+            .iter()
+            .map(|run| {
+                let run = run.as_dict();
+                (run.get("seat").as_i64(), run.get("id").as_text())
+            })
+            .collect()
+    } else {
+        Vec::new()
+    };
+    let attached = super::restore::recorded_seats(&runs)
+        .map_err(|e| format!("{}: recorded run: {e}", path.display()))?;
+    if !attached && !NO_FIELD_WARNED.swap(true, Ordering::Relaxed) {
+        eprintln!(
+            "refight: this match was played against recorded runs. Pass --field <the match's field> so \
+             those seats fight as recorded; without it a few fights do not reproduce and are left out."
+        );
     }
     let mut snapshots = BTreeMap::new();
     let mut finished = Vec::new();

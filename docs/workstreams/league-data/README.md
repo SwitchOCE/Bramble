@@ -19,7 +19,7 @@ On what a match keeps (to the Ghost Build Orchestrator): "The match should only 
 
 Always: big output goes on `/data`, never `/`; no `reports.jsonl`; the referee deletes as it goes.
 
-**The card report runs before a match is pruned.** `tools/league/card_report.sh <match dir>` needs the match's `records/` for its fight tests, so it runs on every kept version's match and on every match balance reads before anything is deleted (about 13 minutes; it deletes its own working files). The owner's yes, 26 Nov 2026; why: [card-power/trace.md](../card-power/trace.md).
+**The card report runs before a match is pruned.** `tools/league/card_report.sh <match dir> --field <the field it was played on>` needs the match's `records/` for its fight tests, and the field so recorded seats fight as recorded, so it runs on every kept version's match and on every match balance reads before anything is deleted (about 13 minutes; it deletes its own working files). The owner's yes, 26 Nov 2026; why: [card-power/trace.md](../card-power/trace.md).
 
 ## How data is stored
 

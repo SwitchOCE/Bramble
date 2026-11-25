@@ -118,7 +118,7 @@ skipped or differed and writes any result differences to `verify_mismatch`.
 ```
 league refight --match <dir> --out <dir> [--text-off] [--stat-worth] [--keyword-off <id>[,<id>...]]
                [--overrun-swings] [--fresh-copy all|<card id>[,<card id>...]]
-               [--seeds 2] [--cap 500] [--threads N] [--verify]
+               [--seeds 2] [--cap 500] [--threads N] [--verify] [--field <dir>]
 ```
 
 These modes measure what one card's text, or one keyword, is worth in the fights a match
@@ -132,6 +132,14 @@ engine derives the fight seed from round and pairing as usual). The recorded see
 the recorded winner and damage (with `--verify`, the full combat result too). A fight that
 doesn't is left out, logged on stderr and counted as "not reproduced"; `--verify` then exits 1.
 The changed board is fought on the same seeds.
+
+**Give `--field` for a ghost match** (the folder of runs it was played against). In a ghost match
+every seat but the bot's plays a recorded run, and such a seat's fight writes nothing back to its
+recruit board. With `--field`, refight attaches each game's runs (named in its record header) so
+those seats fight the same way. Without it they fight as live seats, and a fight where an effect
+reads the recruit board after a permanent buff (a Rooted unit beside Hazel Coppicer) does not
+reproduce: a few fights in 100,000. Refight says so once on stderr. The plain refight takes
+`--field` too.
 
 **Text off** (`--text-off`, `text_off.jsonl`). One observation is one unit on a board at the
 start of one recorded fight. That unit keeps its stats, slot, counters and everything given to
