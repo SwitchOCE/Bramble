@@ -361,7 +361,7 @@ The scoreboard is always shown (plan choice 4); Tab and the hero click no longer
 
 **Counters (O, L36).** "Only your highest counters or most recently changed things could show up ... It's fine to have something and X more and you click on a button and it pops out a modal or a tooltip."
 
-- At most four medallions show: the most recently changed first, then the highest (look.md, after L36). Order: left to right, then the next row.
+- At most four medallions show. While all of a player's counters fit, each keeps its own place and they never swap. Only when there are more than four does the rule choose which four show: the most recently changed first, then the highest (L36); the four shown still sit in their fixed order (P, 25 Nov, after the step 4 review). Places fill left to right, then the next row.
 - The plate under them appears only when the player has more counters than the four shown, and then shows how many there are in all (section 11, item 25). It opens the auras panel, which is not designed: until it is, the plate opens nothing. Pressing a heap's medallion opens that heap's own panel, as today (Compost).
 - A heap (a counter with `entries`, pressed to open) is a pointy-topped hexagon; any other counter is round (M).
 - Medallion: a lead shape (gradient at 150°: #4d5356, #15191a at 40%, #0b0d0c), glass inset 5 px (radial at 40%, 30%, three colours per counter), a line icon 40 px (#fbf3dc, stroke 2), shadow (0, 4, blur 4, rgba(0,0,0,0.65)).
@@ -480,7 +480,7 @@ Until the owner decides, each keeps today's look and behaviour, as close to its 
 27. **Gold of two or three digits** in the 112 coin, and **health of three digits** in the heart. Not drawn.
 28. **End turn's states** (E1): the art director's words only. "Nothing left to do" has no flag in the state; reading it from `legal_actions` (no buy, refresh or upgrade listed) is a proposal (P). **Pick (P): until the light step, one steady look for every state, and today's pressed feedback. No words on or under the button.**
 29. **Settled: the scoreboard always shows on the buy screen.** Pressing your hero does nothing yet (it shows the pressed state only), and Tab does not hide the scoreboard here. The fight screen keeps today's Tab behaviour.
-30. **The player hover card** on the scoreboard (row 40): today's, placed beside the left column.
+30. **Pointing at a scoreboard portrait** shows that player's name, and nothing else, on a small plate beside the column (L47: "the name appears when you point at a portrait"). The game had no such card before; it is new and small. No tier, no Health (the heart shows it).
 31. **Level-up.** The art director's moment was written for the bosses (polish.md); none for the lanterns.
 
 **Other**
