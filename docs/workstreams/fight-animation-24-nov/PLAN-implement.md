@@ -1,4 +1,4 @@
-# Plan: the recommendations in the game (draft for the owner's approval)
+# Plan: the recommendations in the game (approved 25 Nov)
 
 The owner, 25 Nov (dictated): "Okay, I want all the recommendations implemented into the game."
 
@@ -71,3 +71,9 @@ Sound cues stay tied to the events they belong to (contact, death, trigger), so 
 - The late-fight speed-ups, turn amount and lean strength stay open in `DECISIONS-pending.md` until the owner picks.
 
 Reviewed by plan-interrogate (fresh agent, 25 Nov). Its fixes are in the steps and gates above. Its three questions for the owner: the lean default, the stand-ins, and the speed-ups.
+
+## The owner's answers (25 Nov)
+
+- **Lean:** the 4° in-plane tilt with the turn (CB17 "lean", `aim_lean`), no 3D tip, until the owner picks on the page. So step 1a needs no tip shader in `src/`.
+- **Stand-ins:** yes, in the game build: CB13 c, CB12 b (portraits travel, as a stand-in) and CB14 c (the recruit green pill in fights). They are replaced by the shatter, the bolt and a designed marker once the owner approves pictures.
+- **Late-fight speed-ups:** both, ×1.5 from the 5th attack and up to 3 triggers at once (median late fight 12.7 s).
