@@ -207,7 +207,7 @@ func _light_golden() -> void:
 			L1Layout.number("light.golden.halo.alpha")
 		)
 	)
-	halo.blend(additive).breathe(
+	halo.blend(additive).dim_over_backdrop().breathe(
 		1.0, 0.0, _glint_phase(), L1Layout.number("light.golden.halo.flicker")
 	)
 	add_child(halo)

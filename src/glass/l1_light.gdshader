@@ -19,6 +19,8 @@ uniform vec3 near = vec3(0.0, 8.0, 0.0);
 uniform vec3 far = vec3(0.0, 20.0, 0.0);
 // how much of the light adds to what is under it (1) rather than covering it (0)
 uniform float additive = 0.5;
+// A light over the room dims both its emission and its coverage with the card's tint.
+uniform bool dim_coverage = false;
 // inside the shape: a solid base colour (alpha 0 for none) grown by fill_grow px ...
 uniform vec4 base : source_color = vec4(0.0);
 uniform float fill_grow = 0.0;
@@ -107,5 +109,6 @@ void fragment() {
 	}
 	// COLOR comes in as the vertex colour times the node's (and its parents') modulate: keep it,
 	// so the light fades and tints with its card. Premultiplied, so alpha scales the colour too.
-	COLOR = light * vec4(COLOR.rgb * COLOR.a, COLOR.a);
+	float coverage = dim_coverage ? min(1.0, max(max(COLOR.r, COLOR.g), COLOR.b)) : 1.0;
+	COLOR = light * vec4(COLOR.rgb, coverage) * COLOR.a;
 }

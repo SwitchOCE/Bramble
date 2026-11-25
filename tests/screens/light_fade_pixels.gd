@@ -1,21 +1,20 @@
 extends Control
 ## Rendered regression: a light must fade and darken with its card (buy-screen-l1.md §9). Run with
 ## Compatibility under Xvfb, not the headless dummy renderer (scripts/check.sh, feel step).
-## For each card modulate (full, alpha 0.5, alpha 0, and the fight's dimmed Color(0.25, 0.25,
-## 0.25, 1)), it draws a golden card with all its lights hidden, then the same card with one light
-## shown, and reads what the light adds where it is drawn: the golden halo, the stat disc rim, the
-## glint along the gilt (face shader), the twinkle, and the tier light on hover. Each must add
-## about half at alpha 0.5, nothing at alpha 0, and under half when dimmed to a quarter (a light
-## that ignored the dimming would add as much as at full; at full a bright light clips at white,
-## so a correct one can add a little more than a quarter of that when dimmed).
+## Compare a golden card with and without each light at full strength, half and quarter RGB,
+## half alpha and zero alpha. The differences should follow the card's modulate.
 ## -- --out=/path saves the shot and the values.
 
 const MODULATES: Array[Color] = [
-	Color(1, 1, 1, 1), Color(1, 1, 1, 0.5), Color(1, 1, 1, 0), Color(0.25, 0.25, 0.25, 1)
+	Color.WHITE,
+	Color(0.5, 0.5, 0.5, 1),
+	Color(0.25, 0.25, 0.25, 1),
+	Color(1, 1, 1, 0.5),
+	Color(1, 1, 1, 0),
 ]
 const LIGHTS: Array[String] = ["halo", "rim", "glint", "twinkle", "tier"]
 const HEIGHT: float = 200.0
-const CELL: Vector2 = Vector2(160, 260)
+const CELL: Vector2 = Vector2(160, 210)
 const ORIGIN: Vector2 = Vector2(40, 20)
 
 
@@ -60,18 +59,23 @@ func _ready() -> void:
 				region.position + Vector2i(Vector2(0, row) * CELL), region.size
 			)
 			adds.append(_difference(shot, Rect2i(lit.position + offset, lit.size), lit))
+		var full: float = adds[0]
 		var ok: bool = (
-			adds[0] > 6.0
-			and adds[1] / adds[0] > 0.3
-			and adds[1] / adds[0] < 0.7
-			and adds[2] < 1.0
-			and adds[3] / adds[0] < 0.5
+			full > 6.0
+			and absf(adds[1] / full - 0.5) <= 0.06
+			and absf(adds[2] / full - 0.25) <= 0.04
+			and absf(adds[3] / full - 0.5) <= 0.06
+			and adds[4] <= 0.01
 		)
 		passed = passed and ok
 		report[light] = {
-			"full": adds[0], "half_alpha": adds[1], "zero_alpha": adds[2], "dim": adds[3]
+			"full": full,
+			"half_rgb": adds[1],
+			"quarter_rgb": adds[2],
+			"half_alpha": adds[3],
+			"zero_alpha": adds[4],
+			"ok": ok,
 		}
-		report[light]["ok"] = ok
 	var file: FileAccess = FileAccess.open(out.path_join("pixels.json"), FileAccess.WRITE)
 	file.store_string(JSON.stringify(report, " "))
 	file.close()
@@ -94,7 +98,8 @@ func _show_only(card: GlassCard, light: String) -> void:
 		face_mat.set_shader_parameter("glint_colour", Color(1, 1, 1, 0))
 	var star: Control = card.get_node("GoldenGlint")
 	var star_mat: ShaderMaterial = star.material
-	star_mat.set_shader_parameter("timing", Vector4(1.0e6, 0.0, 1.0e6, 0.0))
+	# A tiny period keeps both the star's brightness and rotation near their peak pose.
+	star_mat.set_shader_parameter("timing", Vector4(0.001, 0.0, 1.0, 0.0))
 	star.visible = light == "twinkle"
 	if light == "tier":
 		var hug: L1Light = RecruitTips.tier_hug(card, 4)

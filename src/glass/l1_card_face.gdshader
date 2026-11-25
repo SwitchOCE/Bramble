@@ -82,5 +82,7 @@ void fragment() {
 	vec3 slab = mix(mix(edge_top.rgb, edge_bottom.rgb, edge_y), edge_line.rgb, line * edge_line.a);
 	float behind = edge * (1.0 - face);
 	float alpha = face + behind;
-	COLOR = tint * vec4((front * face + slab * behind) / max(alpha, 0.001), alpha);
+	vec3 surface = (front * face + slab * behind) / max(alpha, 0.001);
+	// Limit the glint to the display range before multiplying by the card's tint.
+	COLOR = tint * vec4(min(surface, vec3(1.0)), alpha);
 }

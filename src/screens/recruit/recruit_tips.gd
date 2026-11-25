@@ -253,7 +253,7 @@ static func tier_hug(node: Control, tier: int) -> L1Light:
 			L1Layout.number("light.hover.share") * tint.a
 		)
 	)
-	light.blend(L1Layout.number("light.shop.additive"))
+	light.blend(L1Layout.number("light.shop.additive")).dim_over_backdrop()
 	return light
 
 
