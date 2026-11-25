@@ -94,6 +94,18 @@ The owner's idea, 25 Nov: "stats generated per turn compared to the source of th
 - **Cannot see:** where a gain came from. The record keeps one total of permanent gains per unit, so a gain another card gave only to this unit counts as its own. In-fight stats (this fight only) and stats lent or given by auras are not in it. Golden units are left out, because they double their numbers.
 - **Seen before this was defined:** one golden Brock Cub at round 9 holding +68/+83.
 
+## The card report (one row per card)
+
+`tools/league/card_report.sh <match dir>` runs steps 1 and 2 on one played match and writes `card-report/cards.csv`: every measure side by side, the marks, and two columns of context.
+
+- **Boards holding the card, by stage:** of the live seat's boards at the end of each round in the stage, the share with at least one copy, per bot. It shows when a bot keeps a card, which a pick rate cannot (red-c14 holds Gleaner on 87% of its boards from round 9, when the card's text has stopped paying).
+- **Why a card has no fight data:** a card has fight data when it has enough observations for text off in at least one stage. Otherwise one reason is given, and only the third is a sign about the card:
+  - *seldom offered*: no bot saw it on 100 offers.
+  - *tribe not played*: no bot that saw it enough ends on its tribe in one game in twenty or more.
+  - *offered and refused*: a bot that plays its tribe (or any bot, for a card with no tribe) saw it enough and bought it on under one offer in a hundred.
+  - *bought, held too briefly*: bought, but on too few boards to test.
+- A match without records gets the shop readings only, and the report says so. So the report is run before a match's records are deleted.
+
 ## Left out of the shop (what a card is worth over a whole game)
 
 The owner called replacing a unit with a made-up plain unit "pretty unrealistic" (25 Nov), and that swap is dropped. This test takes its place.
@@ -130,3 +142,4 @@ The owner called replacing a unit with a made-up plain unit "pretty unrealistic"
 - 25 Nov: the ladder written down, on the owner's words quoted in its section. It states what definitions.md already did (left out of the shop on a short list only).
 - 25 Nov: a fixed floor beside the worth-a-look rule, and no step may assume which bot buys a card, on the owner's words quoted in the rule's section.
 - 25 Nov: the owner answered the two review questions "Yes to both": the real-game checks on left out of the shop run before the full report, and the unused damage-taken fields are dropped from the refight output.
+- 25 Nov: the card report's two context columns added (boards holding the card by stage; why a card has no fight data), after the Gleaner result showed a bot holding a card long after its text stopped paying, and the owner's remark that a bot ignoring a card is itself a finding.
