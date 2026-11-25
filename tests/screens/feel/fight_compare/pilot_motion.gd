@@ -102,7 +102,7 @@ func advance() -> void:
 	for key: Variant in _dying.keys():
 		var held: Dictionary = _dying[key]
 		var age: float = (clock - GlassPieces.as_float(held["start"])) * 60.0
-		_draw_death(str(key), roundf(age) if whole_frames else age)
+		_draw_death(str(key), roundf(age) if whole_frames else snappedf(age, 0.0001))
 
 
 func _draw_death(key: String, age: float) -> void:

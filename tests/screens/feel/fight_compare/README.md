@@ -109,17 +109,20 @@ times at 60 frames a second):
 - **Summon** at the arrival, **result** as it shows (seed 22: 8.57 s; `r10-074`: 12.70 s).
 - **Skip** plays only the result.
 
+CB13 c and CB12 b moved no cue (seed 22, against the film before them: the same 34 cues at the
+same frames). The portrait strike is silent until the sound step.
+
 `turn_check.py` reads the logs: `same` (two films' `cards.csv` frame for frame, `--except` some
 columns), `turns` (every attacker turned toward its target by the game's numbers at contact, and
 the core check), `sounds` (the cues at the same frames) and `cut` (the picks page's whole-fight
 crop and scale):
 
 ```bash
-tools/feel/film tests/screens/feel/fight-compare-game.json /data/fight-anim-work/game-2/films/game.mp4
+tools/feel/film tests/screens/feel/fight-compare-game.json /data/fight-anim-work/game-3/films/game.mp4
 # recommended-picks.json: "treatment": "recommended", "options": {"ROTATE": "off",
 #   "CB9": "aim_lean", "FAST": "a5", "GROUP": 3}
-tools/feel/film recommended-picks.json /data/fight-anim-work/game-2/films/recommended-picks.mp4
-python3 tests/screens/feel/fight_compare/turn_check.py same /data/fight-anim-work/game-2/films/game /data/fight-anim-work/game-2/films/recommended-picks --except rotation
+tools/feel/film recommended-picks.json /data/fight-anim-work/game-3/films/recommended-picks.mp4
+python3 tests/screens/feel/fight_compare/turn_check.py same /data/fight-anim-work/game-3/films/game /data/fight-anim-work/game-3/films/recommended-picks --except rotation
 ```
 
 ## `best`: the best proposal, and its contested branches
