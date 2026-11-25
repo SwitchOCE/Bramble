@@ -9,6 +9,10 @@ use bramble_engine::core::{
         game_session::{GameSession, GameSessionRef},
         matchmaking::Matchmaking,
     },
+    units::{
+        shop_odds::{ShopOdds, ShopOddsRef},
+        unit_def::UnitDefRef,
+    },
     util::rng::Rng,
 };
 use bramble_engine::game::game_content::GameContentRef;
@@ -152,12 +156,51 @@ pub(crate) fn play_async(
     plan: GamePlan,
     watch: &Watch,
     runs: RunsBySeat,
+    without: &[String],
 ) -> Result<GameOut, String> {
     let game = engine
         .content
         .borrow()
         .new_async_session(plan.seed, runs, &Array::new())?;
+    if !without.is_empty() {
+        leave_out(&game, without);
+    }
     Ok(play_session(engine, plan, watch, game))
+}
+
+/// Tool-only (`ghost-match --without`): rebuild the session's unit draw list without these cards,
+/// the way `GameSession::create` builds it, before the first round fills a shop. The shop and
+/// Discover both draw from `unit_odds`, so the live seat is never offered them. Run seats never
+/// recruit; their boards are restored from the recorded runs through the unchanged library.
+/// The engine's rules code is untouched. `unit_odds` is left out of the state hash, so a record
+/// of such a game would not say what was left out: `ghost-match --without` writes no records.
+pub(crate) fn leave_out(game: &GameSessionRef, without: &[String]) {
+    let odds = unit_odds_without(game, without);
+    game.borrow_mut().unit_odds = Some(odds);
+}
+
+/// The unit draw list `GameSession::create` builds for a session with no lobby tribes, less
+/// `without`. With `without` empty it equals the session's own list (checked before a match).
+pub(crate) fn unit_odds_without(game: &GameSessionRef, without: &[String]) -> ShopOddsRef {
+    let g = game.borrow();
+    let cards: Array<UnitDefRef> = g
+        .library
+        .as_ref()
+        .expect("session library")
+        .borrow()
+        .drawable_cards(false)
+        .to_vec()
+        .into_iter()
+        .filter(|card| !without.contains(&card.borrow().id))
+        .collect();
+    let weights = g
+        .config
+        .as_ref()
+        .expect("session config")
+        .borrow()
+        .unit_weights_by_tier
+        .clone();
+    ShopOdds::create(&cards, &weights, &Array::new())
 }
 
 fn play_session(engine: &Engine, plan: GamePlan, watch: &Watch, game: GameSessionRef) -> GameOut {
@@ -1278,5 +1321,53 @@ mod tests {
             6,
             "Relic Seeker pays two plus one for each of four excess opponents"
         );
+    }
+
+    #[test]
+    fn a_left_out_card_is_never_in_the_shop_or_discover_and_the_rest_keep_their_weights() {
+        use bramble_engine::core::recruit::recruit::Recruit;
+        let content = crate::load_content(&crate::default_root(), None).unwrap();
+        let game = content.borrow().new_session(7, &Array::new());
+        game.borrow_mut().record_recipe.clear();
+        let all = game.borrow().unit_odds.clone().unwrap();
+        // With nothing left out the rebuilt list is the session's own.
+        assert_eq!(unit_odds_without(&game, &[]).to_state(), all.to_state());
+        let gone = ["green-recruit".to_owned(), "gate-warden".to_owned()];
+        assert!(gone.iter().all(|id| all.weight_of(id) > 0));
+        leave_out(&game, &gone);
+        let left = game.borrow().unit_odds.clone().unwrap();
+        let library = game.borrow().library.clone().unwrap();
+        for card in library.borrow().drawable_cards(false).to_vec() {
+            let id = card.borrow().id.clone();
+            let want = if gone.contains(&id) {
+                0
+            } else {
+                all.weight_of(&id)
+            };
+            assert_eq!(left.weight_of(&id), want, "{id}");
+        }
+        GameSession::start_round(&game);
+        let player = game.borrow().player(0);
+        let recruit = game.borrow().recruit.as_ref().unwrap().clone();
+        player.borrow_mut().tier = 3;
+        let refresh = Dictionary::new();
+        refresh.insert("type", "refresh".into());
+        let (mut shown, mut offered) = (0, 0);
+        for _ in 0..300 {
+            player.borrow_mut().gold = 1000;
+            assert_eq!(GameSession::act(&game, 0, &refresh), "");
+            for id in player.borrow().shop_units.to_vec() {
+                assert!(!gone.contains(&id), "shop offered {id}");
+                shown += 1;
+            }
+            // Green Recruit is tier 1, Gate Warden tier 3.
+            Recruit::offer_discover(&recruit, &player, 1, 3);
+            for id in player.borrow().discover_options.to_vec() {
+                assert!(!gone.contains(&id), "Discover offered {id}");
+                offered += 1;
+            }
+            player.borrow_mut().discover_options = Array::new();
+        }
+        assert!(shown > 500 && offered > 500, "{shown} {offered}");
     }
 }
