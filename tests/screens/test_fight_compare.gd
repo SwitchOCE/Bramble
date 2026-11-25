@@ -69,13 +69,16 @@ func test_today_plays_the_games_own_motion_and_replay() -> void:
 	assert_true(screen.is_playing(), "playing")
 
 
-func test_game_plays_the_games_own_motion_now() -> void:
+func test_game_plays_the_games_own_screen_and_schedule() -> void:
 	var scene: Control = SCENE.instantiate()
 	add_child_autofree(scene)
 	scene.call("start", "game")
 	var screen: FightScreen = scene.get("screen")
+	var plays: Script = screen.get_script()
+	assert_eq(plays, FightScreen, "the game's FightScreen, no subclass")
 	var motion: Script = screen._keeper.get_script()
 	assert_eq(motion, FightMotion, "the game's FightMotion, no subclass")
+	assert_not_null(screen._schedule, "playing the game's schedule (FightTimeline)")
 	assert_true(screen.is_playing(), "playing")
 
 

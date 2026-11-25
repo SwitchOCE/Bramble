@@ -1,6 +1,8 @@
 extends GutTest
-## Motion must fit its replay holds, reach the actual target, and leave a clean
-## table on skip/restart. Tests advance tweens directly, independently of wall-clock rendering.
+## The fight plays from its schedule (FightTimeline) on game time: an attack winds up, strikes
+## its actual target and comes home turned, at the same moments in seconds at any frame rate, and
+## skip and restart leave a clean table. Tests drive the screen's clock directly (_process with a
+## delta), independently of wall-clock rendering.
 
 const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
 
@@ -9,8 +11,9 @@ const SCREEN: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
 var _screen: FightScreen
 
 
-func _make(playback_speed: float = 1.0) -> FightReplay:
-	var base: Dictionary = GlassScreen.load_state("res://tests/screens/fixtures/fight_start.json")
+## One attack, yours (slot 0) on their back-row unit (slot 6): a diagonal strike. Its exchange
+## kills the target, unless `blocked`, where the target's shield takes the hit.
+func _events(blocked: bool = false) -> Array:
 	var events: Array = [
 		{
 			"type": "combat_start",
@@ -20,13 +23,71 @@ func _make(playback_speed: float = 1.0) -> FightReplay:
 				[{"id": "b", "uid": 2, "slot": 6, "attack": 2, "health": 1}],
 			],
 		},
-		{"type": "attack", "side": 0, "slot": 0, "target_side": 1, "target_slot": 6},
-		{"type": "damage", "uid": 1, "health": 1, "amount": 2, "source_uid": 2},
-		{"type": "damage", "uid": 2, "health": 0, "amount": 2, "source_uid": 1},
-		{"type": "death", "uid": 2},
-		{"type": "combat_end", "winner": 0},
+		{
+			"type": "attack",
+			"side": 0,
+			"slot": 0,
+			"uid": 1,
+			"target_side": 1,
+			"target_slot": 6,
+			"target_uid": 2,
+		},
 	]
-	var replay: FightReplay = FightReplay.build(base, events, {})
+	if blocked:
+		(
+			events
+			. append(
+				{
+					"type": "prevented",
+					"side": 1,
+					"slot": 6,
+					"uid": 2,
+					"amount": 2,
+					"reason": "absorbed",
+					"source_uid": 1,
+				}
+			)
+		)
+	else:
+		(
+			events
+			. append(
+				{
+					"type": "damage",
+					"side": 1,
+					"slot": 6,
+					"uid": 2,
+					"amount": 2,
+					"health": 0,
+					"source_uid": 1,
+					"from_attack": true,
+				}
+			)
+		)
+	(
+		events
+		. append(
+			{
+				"type": "damage",
+				"side": 0,
+				"slot": 0,
+				"uid": 1,
+				"amount": 2,
+				"health": 1,
+				"source_uid": 2,
+				"from_attack": true,
+			}
+		)
+	)
+	if not blocked:
+		events.append({"type": "death", "side": 1, "slot": 6, "uid": 2})
+	events.append({"type": "combat_end", "winner": 0})
+	return events
+
+
+func _make(playback_speed: float = 1.0, blocked: bool = false) -> FightReplay:
+	var base: Dictionary = GlassScreen.load_state("res://tests/screens/fixtures/fight_start.json")
+	var replay: FightReplay = FightReplay.build(base, _events(blocked), {})
 	_screen = SCREEN.instantiate()
 	_screen.speed = playback_speed
 	add_child_autofree(_screen)
@@ -36,68 +97,65 @@ func _make(playback_speed: float = 1.0) -> FightReplay:
 	return replay
 
 
-func _tick_motion(seconds: float) -> void:
+## Game time up to schedule frame `frame`, one 60 fps frame at a time.
+func _run_to(frame: float) -> void:
+	while _screen._clock < frame - 0.0001:
+		_screen._process(1.0 / 60.0)
+
+
+func _plan() -> Dictionary:
+	var attacks: Array[Dictionary] = _screen._schedule.attacks
+	return attacks[0]
+
+
+func _tick_tweens(seconds: float) -> void:
 	for value: Variant in _screen._keeper._tweens.values():
 		var tween: Tween = value
 		if tween.is_valid():
 			tween.custom_step(seconds)
-	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows during live motion")
 
 
-func test_diagonal_attack_winds_up_accelerates_and_contacts_the_target() -> void:
+func test_an_attack_winds_up_strikes_its_target_and_comes_home() -> void:
 	_make()
-	_screen._process(FightReplay.HOLD_START)
-	var card: Control = _screen.node_for("board", 0)
+	var plan: Dictionary = _plan()
 	var home: Vector2 = _screen.unit_xy(0, 0)
 	var target: Vector2 = _screen.unit_xy(1, 6)
 	var direction: Vector2 = (target - home).normalized()
-	_tick_motion(FightMotion.WINDUP_TIME)
-	assert_lt((card.position - home).dot(direction), 0.0, "pulls away before launching")
-	assert_gt(absf(card.rotation_degrees), 0.0, "attacker tilts for the wind-up")
-	_tick_motion(FightMotion.ATTACK_TIME - FightMotion.WINDUP_TIME + 0.001)
+	_run_to(GlassPieces.as_float(plan["lift"]) - 1.0)
+	var card: Control = _screen.node_for("board", 0)
+	assert_eq(card.position, home, "at rest before the lift")
+	_run_to(GlassPieces.as_float(plan["lift"]) + FightTimeline.LIFT)
+	assert_lt((card.position - home).dot(direction), 0.0, "pulls back before the strike")
+	assert_almost_eq(card.scale.x, FightTimeline.LIFT_SCALE, 0.001, "lifted")
+	_run_to(GlassPieces.as_float(plan["contact"]))
+	card = _screen.node_for("board", 0)
+	var gap: float = FightTimeline._stop_gap(home.distance_to(target) / FightTimeline.H)
 	assert_almost_eq(
-		card.position.distance_to(target), card.size.y * FightMotion.CONTACT_PER_H, 0.1
+		card.position.distance_to(target), gap * FightTimeline.H, 0.1, "stops short of the target"
 	)
-	assert_lt(FightMotion.ATTACK_TIME, FightReplay.HOLD_LUNGE, "contact within the old attack hold")
+	assert_almost_eq(card.scale.x, FightTimeline.POP, 0.001, "the contact pop")
+	_run_to(GlassPieces.as_float(plan["release"]) + FightTimeline.unwind_frames())
+	card = _screen.node_for("board", 0)
+	assert_almost_eq(card.position.distance_to(home), 0.0, 0.1, "home")
+	assert_almost_eq(card.rotation_degrees, 0.0, 0.0001, "straight once the turn unwinds")
+	assert_eq(card.scale, Vector2.ONE)
+	assert_eq(card.modulate, Color.WHITE)
 
 
-func test_hit_recoils_survivor_home_and_later_damage_starts_at_its_current_pose() -> void:
+func test_the_target_is_knocked_and_its_burst_shows_on_it() -> void:
 	_make()
-	_screen._process(FightReplay.HOLD_START)
-	_tick_motion(FightMotion.ATTACK_TIME)
-	_screen._process(FightReplay.HOLD_LUNGE)
-	var attacker: Control = _screen.node_for("board", 0)
-	var defender: Control = _screen.node_for("board", 13)
+	var plan: Dictionary = _plan()
 	var victim_home: Vector2 = _screen.unit_xy(1, 6)
-	_tick_motion(FightMotion.HIT_TIME)
-	assert_gt(defender.position.distance_to(victim_home), 0.0, "defender visibly takes the hit")
-	_tick_motion(FightMotion.RETURN_TIME + FightMotion.CONTACT_HOLD)
-	assert_almost_eq(attacker.position.distance_to(_screen.unit_xy(0, 0)), 0.0, 0.1)
-	assert_almost_eq(defender.position.distance_to(victim_home), 0.0, 0.1)
-	assert_eq(attacker.scale, Vector2.ONE)
-	assert_eq(attacker.modulate, Color.WHITE)
-	# A trigger after this hit retains the log's lunge but must not launch the attacker again.
-	var next: Dictionary = _screen.state.duplicate(true)
-	var moment: Dictionary = next["moment"]
-	moment.erase("splashes")
-	moment["trigger"] = {"side": 1, "slot": 6}
-	_screen.show_state(next)
-	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
-	_tick_motion(1.0)
+	_run_to(GlassPieces.as_float(plan["contact"]) + FightTimeline.KNOCK_IN)
+	var defender: Control = _screen.node_for("board", 13)
 	assert_almost_eq(
-		_screen.node_for("board", 0).position.distance_to(_screen.unit_xy(0, 0)), 0.0, 0.1
+		defender.position.distance_to(victim_home), FightTimeline.KNOCK_PX, 0.1, "knocked back"
 	)
-	# A later effect still belongs to the same logical attack; its recipient has returned.
-	moment.erase("trigger")
-	moment["splashes"] = [{"side": 0, "slot": 0, "amount": 4}]
-	_screen.show_state(next)
-	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
-	var later_hit: Control = _screen._front.get_node("Hit_0")
-	assert_lt(
-		later_hit.position.distance_to(_screen.unit_xy(0, 0)),
-		_screen.card_box().y,
-		"later damage starts on the returned card, not at the old collision"
-	)
+	_run_to(GlassPieces.as_float(plan["contact"]) + FightTimeline.NUMBERS_AT)
+	var hits: Array[Node] = _screen._front.find_children("Hit_*", "", false, false)
+	assert_eq(hits.size(), 2, "a burst on each card of the exchange")
+	for hit: Node in hits:
+		assert_eq((hit as Control).rotation_degrees, 0.0, "damage stays upright")
 
 
 func test_damage_burst_follows_its_recipient_and_stays_upright() -> void:
@@ -120,18 +178,17 @@ func test_damage_burst_follows_its_recipient_and_stays_upright() -> void:
 	assert_almost_eq(hit.modulate.a, 0.0, 0.001)
 
 
-func test_death_has_an_exit_and_skip_removes_it_even_at_double_speed() -> void:
+func test_death_falls_and_skip_removes_it_even_at_double_speed() -> void:
 	var replay: FightReplay = _make(2.0)
-	_screen._process(FightReplay.HOLD_START / 2.0)
-	_tick_motion(FightMotion.ATTACK_TIME / 2.0)
-	_screen._process(FightReplay.HOLD_LUNGE / 2.0)
-	_tick_motion(FightMotion.RETURN_TIME)
+	var fall: Dictionary = _screen._schedule.falls[0]
+	_run_to(GlassPieces.as_float(fall["frame"]) - 2.0)
+	# the card as it is now (the exchange rebuilt it with its new numbers)
 	var dying: Control = _screen.node_for("board", 13)
-	var was: Vector2 = dying.position
-	_screen._process(FightReplay.HOLD_SPLASH / 2.0)
+	_run_to(GlassPieces.as_float(fall["frame"]))
 	assert_null(_screen.node_for("board", 13), "dead unit is no longer a pointer target")
-	_tick_motion(FightMotion.DEATH_TIME / 4.0)
-	assert_gt(dying.position.distance_to(was), 0.0, "death moves away, distinct from taking a hit")
+	var was: Vector2 = dying.position
+	_tick_tweens(FightMotion.DEATH_TIME / 4.0)
+	assert_gt(dying.position.distance_to(was), 0.0, "death moves away, distinct from a knock")
 	assert_gt(absf(dying.rotation_degrees), 0.0)
 	assert_lt(dying.modulate.a, 1.0)
 	_screen.skip()
@@ -145,112 +202,161 @@ func test_death_has_an_exit_and_skip_removes_it_even_at_double_speed() -> void:
 		assert_eq(node.modulate, Color.WHITE)
 
 
-func test_redrawing_the_board_during_windup_preserves_the_attack_clock() -> void:
+func test_redrawing_the_board_mid_attack_keeps_its_pose() -> void:
 	_make()
-	_screen._process(FightReplay.HOLD_START)
-	_tick_motion(FightMotion.WINDUP_TIME / 2.0)
+	var plan: Dictionary = _plan()
+	_run_to(GlassPieces.as_float(plan["lift"]) + FightTimeline.LIFT / 2.0)
 	var card: Control = _screen.node_for("board", 0)
-	var original: Tween = _screen._keeper._tweens[card]
+	var was: Transform2D = card.get_transform()
 	_screen.toggle_leaderboard()
-	var current: Tween = _screen._keeper._tweens[card]
-	assert_same(current, original, "redraw keeps the running attack")
-	_tick_motion(FightMotion.ATTACK_TIME - FightMotion.WINDUP_TIME / 2.0 + 0.001)
-	assert_almost_eq(card.position.distance_to(_screen.lunge_xy(_screen._lunge())), 0.0, 0.1)
+	_screen._process(0.0)
+	assert_eq(_screen.node_for("board", 0).get_transform(), was, "the redraw keeps the pose")
+	_run_to(GlassPieces.as_float(plan["contact"]))
+	assert_almost_eq(_screen.node_for("board", 0).scale.x, FightTimeline.POP, 0.001)
 
 
-func test_prevented_hit_uses_cool_light_small_recoil_and_zero() -> void:
-	_make()
-	_screen._process(FightReplay.HOLD_START)
-	_tick_motion(FightMotion.ATTACK_TIME)
-	var blocked: Dictionary = _screen.state.duplicate(true)
-	var moment: Dictionary = blocked["moment"]
-	moment["splashes"] = [{"side": 1, "slot": 6, "amount": 0, "blocked": true}]
-	_screen.show_state(blocked)
-	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
+func test_prevented_hit_uses_cool_light_small_knock_and_zero() -> void:
+	_make(1.0, true)
+	var plan: Dictionary = _plan()
+	_run_to(GlassPieces.as_float(plan["contact"]))
 	var victim: Control = _screen.node_for("board", 13)
-	assert_eq(victim.modulate, FightMotion.BLOCK_LIGHT)
-	_tick_motion(FightMotion.HIT_TIME)
+	assert_eq(victim.modulate, FightTimeline.BLOCK_LIGHT)
+	_run_to(GlassPieces.as_float(plan["contact"]) + FightTimeline.KNOCK_IN)
 	assert_almost_eq(
 		victim.position.distance_to(_screen.unit_xy(1, 6)),
-		FightMotion.HIT_PX * FightMotion.BLOCK_SHARE,
+		FightTimeline.KNOCK_PX * FightTimeline.BLOCK_SHARE,
 		0.1
 	)
-	var hit: Node = _screen._front.get_node("Hit_0")
+	_run_to(GlassPieces.as_float(plan["contact"]) + FightTimeline.NUMBERS_AT)
 	var words: Array[String] = []
-	for node: Node in hit.find_children("*", "GlassText", true, false):
-		words.append((node as GlassText).words)
-	assert_eq(words, ["0"] as Array[String])
+	for hit: Node in _screen._front.find_children("Hit_*", "", false, false):
+		for node: Node in hit.find_children("*", "GlassText", true, false):
+			words.append((node as GlassText).words)
+	words.sort()
+	assert_eq(words, ["-2", "0"] as Array[String], "the shield's 0 beside the strike back")
 
 
-func test_motion_fits_inside_its_replay_holds() -> void:
-	# The holds themselves may change (owner, 18 Nov:
-	# docs/design/owner-notes/2026-11-18b-fight-timing-and-grouping.md); motion must fit them.
-	assert_lte(FightMotion.ATTACK_TIME, FightReplay.HOLD_LUNGE)
-	assert_lte(FightMotion.CONTACT_HOLD + FightMotion.RETURN_TIME, FightReplay.HOLD_SPLASH)
-	assert_lte(FightMotion.HIT_TIME + FightMotion.RETURN_TIME, FightReplay.HOLD_SPLASH)
-	assert_lte(FightMotion.DEATH_TIME, FightReplay.HOLD_DEATH)
-	assert_lte(
-		(
-			FightMotion.BURST_IN
-			+ FightMotion.BURST_SETTLE
-			+ FightMotion.BURST_READ
-			+ FightMotion.BURST_FADE
-		),
-		FightReplay.HOLD_SPLASH
-	)
-	assert_lte(FightMotion.CONTACT_HOLD + FightMotion.TURN_UNWIND, FightReplay.HOLD_SPLASH)
+func test_an_attack_whose_hits_all_do_nothing_still_strikes_and_comes_home() -> void:
+	var base: Dictionary = GlassScreen.load_state("res://tests/screens/fixtures/fight_start.json")
+	var events: Array = _events(true)
+	# the strike back blocked too: no attack damage in the log at all
+	events[3] = {
+		"type": "prevented",
+		"side": 0,
+		"slot": 0,
+		"uid": 1,
+		"amount": 2,
+		"reason": "absorbed",
+		"source_uid": 2,
+	}
+	var replay: FightReplay = FightReplay.build(base, events, {})
+	FightScreen.schedule(replay)
+	var plan: Dictionary = replay.plan.attacks[0]
+	assert_gt(GlassPieces.as_int(plan["contact"]), 0, "it strikes")
+	assert_lt(GlassPieces.as_int(plan["home"]), FightTimeline.FOREVER, "and comes home")
+	assert_eq(replay.plan.bursts.size(), 2, "both blocks show")
 
 
-## The attack's rotation every 1/6 s from its start (a time both rates land on), its hit at 1/3 s,
-## run at `fps` frames a second.
-func _turn_every_sixth(fps: int) -> Array[float]:
+## The attacker's rotation and centre every 1/6 s of game time, the seconds each step first
+## shows, and when the result shows, run at `fps` frames a second.
+func _run_at(fps: int) -> Dictionary:
 	_make()
-	_screen._process(FightReplay.HOLD_START)
-	var samples: Array[float] = []
-	for k: int in 6:
-		if k == 2:
-			_screen._process(FightReplay.HOLD_LUNGE)
-		# the hit rebuilds the card (its numbers change): the node of now
-		samples.append(_screen.node_for("board", 0).rotation_degrees)
-		for frame: int in roundi(fps / 6.0):
-			for value: Variant in _screen._keeper._tweens.values():
-				var tween: Tween = value
-				if tween.is_valid():
-					tween.custom_step(1.0 / fps)
-	return samples
+	var times: Array[float] = []
+	var turns: Array[float] = []
+	var places: Array[Vector2] = []
+	var shown: Dictionary = {}
+	var result: Array[float] = [-1.0]
+	_screen.result_shown.connect(func() -> void: result[0] = _screen._clock / 60.0)
+	var per_sixth: int = roundi(fps / 6.0)
+	for k: int in 24:
+		var card: Control = _screen.node_for("board", 0)
+		times.append(_screen._clock / 60.0)
+		turns.append(card.rotation_degrees if card != null else 0.0)
+		places.append(card.position if card != null else Vector2.ZERO)
+		for frame: int in per_sixth:
+			_screen._process(1.0 / fps)
+			if not shown.has(_screen._step):
+				shown[_screen._step] = _screen._clock / 60.0
+	return {"times": times, "turns": turns, "places": places, "shown": shown, "result": result[0]}
 
 
-func test_every_attack_turns_toward_its_target_on_game_time() -> void:
-	var slow: Array[float] = _turn_every_sixth(30)
+func test_the_same_fight_at_30_and_144_frames_a_second() -> void:
+	var slow: Dictionary = _run_at(30)
+	var plan: Dictionary = _plan()
+	var fast: Dictionary = _run_at(144)
+	var slow_times: Array[float] = slow["times"]
+	var fast_times: Array[float] = fast["times"]
+	var slow_turns: Array[float] = slow["turns"]
+	var fast_turns: Array[float] = fast["turns"]
+	var slow_places: Array[Vector2] = slow["places"]
+	var fast_places: Array[Vector2] = fast["places"]
+	var end_s: float = _screen._schedule.end_frame / 60.0
+	for k: int in slow_times.size():
+		if slow_times[k] >= end_s:
+			# the fight is over: its clock stops
+			break
+		assert_almost_eq(fast_times[k], slow_times[k], 0.0001, "the clock at %d/6 s" % k)
+		assert_almost_eq(fast_turns[k], slow_turns[k], 0.01, "the same turn at %d/6 s" % k)
+		assert_almost_eq(
+			fast_places[k].distance_to(slow_places[k]), 0.0, 0.01, "the same place at %d/6 s" % k
+		)
+	var slow_shown: Dictionary = slow["shown"]
+	var fast_shown: Dictionary = fast["shown"]
+	assert_eq(fast_shown.keys(), slow_shown.keys(), "every step shows at both rates")
+	for step: Variant in slow_shown:
+		assert_almost_eq(
+			GlassPieces.as_float(fast_shown[step]),
+			GlassPieces.as_float(slow_shown[step]),
+			1.0 / 30.0,
+			"step %s shows within a frame" % step
+		)
+	assert_gt(GlassPieces.as_float(slow["result"]), 0.0, "the result showed")
+	assert_almost_eq(
+		GlassPieces.as_float(fast["result"]), GlassPieces.as_float(slow["result"]), 1.0 / 30.0
+	)
+	# and the turn is the game's one set: 90 % of TURN_AIM of the path's angle at contact
+	var turns: Array[float] = slow["turns"]
+	var moving: bool = false
+	for turn: float in turns:
+		moving = moving or absf(turn) > 1.0
+	assert_true(moving, "the diagonal attack turns")
 	var home: Vector2 = _screen.unit_xy(0, 0)
-	var direction: Vector2 = (_screen.unit_xy(1, 6) - home).normalized()
-	var fast: Array[float] = _turn_every_sixth(144)
-	for k: int in slow.size():
-		assert_almost_eq(fast[k], slow[k], 0.01, "the same turn at %d/6 s at 30 and 144 fps" % k)
-	var lead: float = -1.0 if direction.y > 0.0 else 1.0
-	var aim: float = FightMotion.TURN_AIM * rad_to_deg(Vector2(0.0, -lead).angle_to(direction))
-	var cock: float = FightMotion.WINDUP_TURN * (-1.0 if direction.y < 0.0 else 1.0)
-	assert_gt(absf(aim), 10.0, "a diagonal attack: a real turn")
-	# 1/6 s: 10 frames in, 6 into the 8-frame strike (quad in), the lean going
-	var u: float = 6.0 / 8.0
-	var lean: float = FightMotion.TURN_LEAN * direction.x * lead * (1.0 - u)
-	var striking: float = lerpf(cock, -cock / 2.0, u * u) + aim * lerpf(1.0, 0.9, u) + lean
-	assert_almost_eq(slow[1], striking, 0.01, "mid-strike: the cock, the turn and the lean")
-	assert_almost_eq(slow[2], -cock / 2.0 + aim * 0.9, 0.01, "at contact: 90 % of the turn")
-	assert_true(signf(slow[2] + cock / 2.0) == signf(aim), "turned toward its target")
-	assert_almost_eq(slow[5], 0.0, 0.01, "straight 25 frames after the return starts")
+	var way: Vector2 = (_screen.unit_xy(1, 6) - home).normalized()
+	# yours attacks upward: its top edge leads
+	var aim: float = FightMotion.TURN_AIM * rad_to_deg(Vector2(0.0, -1.0).angle_to(way))
+	var contact: Dictionary = _screen._schedule.pose("u1", GlassPieces.as_float(plan["contact"]))
+	assert_almost_eq(
+		GlassPieces.as_float(contact["turn"]),
+		aim * FightMotion.TURN_AT_CONTACT,
+		0.001,
+		"at contact: 90 % of the turn, the lean gone"
+	)
 
 
-func test_skip_mid_attack_leaves_every_card_straight() -> void:
-	for wait: float in [FightMotion.ATTACK_TIME / 2.0, FightMotion.ATTACK_TIME + 0.05]:
+func test_skip_mid_attack_leaves_every_card_straight_and_home() -> void:
+	for into: float in [
+		FightTimeline.LIFT + 4.0, FightTimeline.LIFT + FightTimeline.HOLD_LEAST + 6.0
+	]:
 		_make()
-		_screen._process(FightReplay.HOLD_START)
-		_tick_motion(wait)
+		var plan: Dictionary = _plan()
+		_run_to(GlassPieces.as_float(plan["lift"]) + into)
 		assert_ne(_screen.node_for("board", 0).rotation_degrees, 0.0, "turned before the skip")
 		_screen.skip()
 		for target: Dictionary in _screen.targets_of("board"):
 			var node: Control = target["node"]
 			assert_almost_eq(node.rotation_degrees, 0.0, 0.0001, "straight after a skip")
 			assert_eq(node.scale, Vector2.ONE, "full size after a skip")
-		var turns: Dictionary = _screen._keeper.get("_turns")
-		assert_true(turns.is_empty(), "no turn left after a skip")
+			var index: int = target["index"]
+			assert_almost_eq(
+				node.position.distance_to(_screen.unit_xy(floori(index / 7.0), index % 7)),
+				0.0,
+				0.1,
+				"home after a skip"
+			)
+		assert_true(
+			(
+				_screen._front.find_children("Hit_*", "", false, false).is_empty()
+				or _screen._bursts_on.is_empty()
+			),
+			"no burst left over"
+		)

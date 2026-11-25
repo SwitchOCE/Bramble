@@ -205,7 +205,9 @@ func test_fight_keeps_playing_and_panel_refreshes_when_compost_changes() -> void
 	assert_null(game.fight._compost, "clicking outside dismisses Compost")
 	assert_eq(game.fight._step, step_before, "the dismissing click did not also skip")
 	_click(_chip(game.fight))
-	game.fight._process(game.fight._wait + 0.01)
+	# game time up to the schedule's next step
+	var next: Dictionary = game.fight._schedule.steps[game.fight._step_due]
+	game.fight._process((GlassPieces.as_float(next["frame"]) - game.fight._clock) / 60.0 + 0.01)
 	assert_gt(game.fight._step, step_before, "replay progresses with panel open")
 	var replay: FightReplay = game.fight._replay
 	var catalog: Dictionary = ViewAdapter.catalog(game.flow.content)

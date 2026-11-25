@@ -44,14 +44,14 @@ func test_skip_keys_work_at_the_start_middle_and_end() -> void:
 	for input: InputEvent in [_space()]:
 		for at: String in ["start", "middle", "end"]:
 			var game := _game_in_fight()
-			var steps: int = game.fight._replay.steps.size()
+			var steps: Array[Dictionary] = game.fight._replay.steps
 			if at == "middle":
-				game.fight._step = floori(steps / 2.0)
-				game.fight._wait = 1.0
+				# the schedule's clock halfway through its steps
+				game.fight._clock = GlassPieces.as_float(steps[floori(steps.size() / 2.0)]["frame"])
+				game.fight._process(0.0)
 			elif at == "end":
 				# the fight reached its result on its own a moment ago
-				game.fight._step = steps - 2
-				game.fight._wait = 0.0
+				game.fight._clock = GlassPieces.as_float(steps[steps.size() - 1]["frame"])
 				game.fight._process(0.0)
 				assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "%s: result on screen" % at)
 				game._input(input)

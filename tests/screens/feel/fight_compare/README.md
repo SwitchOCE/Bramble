@@ -71,8 +71,13 @@ the game's `FightMotion` turns every attacker toward its target (plan step 1a,
 `docs/workstreams/fight-animation-24-nov/PLAN-implement.md`), so `today_motion.gd` keeps the
 game's motion from before that, a full copy that later changes to `src/` don't reach: `today`,
 `pilot` and the rotation switch film what they filmed before the port. Refilmed on seed 22 after
-the port, `today`'s `cards.csv` equals the one filmed before it, frame for frame. `game`
-(`game.gd`, scenario `fight-compare-game.json`) is the game's own motion now, on the same fight.
+the port, `today`'s `cards.csv` equals the one filmed before it, frame for frame.
+
+`game` (`game.gd`, scenario `fight-compare-game.json`) is the game's own fight screen on the same
+fight: since plan step 1b it plays the schedule (`src/screens/fight/fight_timeline.gd`), which is
+`best` with the owner's picks (`{"CB2": "b", "CB3": "mild", "CB9": "aim_lean"}`), frame for frame
+(`tests/screens/test_fight_timeline.gd`). `compare_screen.gd` keeps the game's step playback from
+before that (b94a8021), so every other treatment plays as it did.
 
 `turn_check.py` reads the logs: `same` (two films' `cards.csv` frame for frame, `--except` some
 columns), `turns` (every attacker turned toward its target by the game's numbers at contact, and
@@ -80,10 +85,10 @@ the core check), `sounds` (the cues at the same frames) and `cut` (the picks pag
 crop and scale):
 
 ```bash
-tools/feel/film tests/screens/feel/fight-compare-game.json /data/fight-anim-work/game-1a/films/game.mp4
-tools/feel/film tests/screens/feel/fight-compare-today-lean.json /data/fight-anim-work/game-1a/films/today-lean.mp4
-python3 tests/screens/feel/fight_compare/turn_check.py turns /data/fight-anim-work/game-1a/films/game
-python3 tests/screens/feel/fight_compare/turn_check.py same /data/fight-anim-work/game-1a/films/game /data/fight-anim-work/game-1a/films/today-lean
+tools/feel/film tests/screens/feel/fight-compare-game.json /data/fight-anim-work/game-1b/films/game.mp4
+# best-picks.json: "treatment": "best", "options": {"CB2": "b", "CB3": "mild", "CB9": "aim_lean"}
+tools/feel/film best-picks.json /data/fight-anim-work/game-1b/films/best-picks.mp4
+python3 tests/screens/feel/fight_compare/turn_check.py same /data/fight-anim-work/game-1b/films/game /data/fight-anim-work/game-1b/films/best-picks
 ```
 
 ## `best`: the best proposal, and its contested branches
@@ -377,8 +382,9 @@ modified as if it had rotation." `"options": {"ROTATE": "on"}` turns it on in an
   95 % of the path, a medium lean (keystone 0.94, length 0.85). Change them there.
 - `"ROTATE": "lean"` plays `rotate.gd` `SET_LEAN` instead: the owner's answer of 25 Nov (CB17
   `aim_lean`), the same aim with the 4-degree in-plane lean the same way as the turn (up with the
-  lift, gone by contact), no tip, no shortening. It is what the game plays (`fight_motion.gd`
-  `TURN_*`): `today` with it matches the `game` film's rotation frame for frame.
+  lift, gone by contact), no tip, no shortening, from the numbers the game plays
+  (`fight_motion.gd` `TURN_*`). Its test compares it with `FightMotion`'s own attack, which the
+  game no longer plays in a fight since step 1b (the schedule turns the cards).
 - `best`, `buffs`: `best_timeline.gd` `_rotation()` plays `SET` in place of CB9's option (CB9's
   timing, as before).
 - `today`, `pilot`: `rotate_motion.gd`, today's motion exactly (its 6-degree cock, 12-frame
