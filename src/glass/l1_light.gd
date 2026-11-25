@@ -81,7 +81,7 @@ func arch(radius: float, spring: float) -> L1Light:
 	return self
 
 
-## Extra opacity over the whole light, for a flash.
+## Extra opacity in the near glow's shape, for a flash.
 func set_boost(value: float) -> void:
 	_mat.set_shader_parameter("boost", value)
 

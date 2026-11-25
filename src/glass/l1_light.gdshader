@@ -30,7 +30,7 @@ uniform vec4 fill = vec4(0.0, 0.0, 0.0, 0.5);
 uniform vec4 motion = vec4(6.0, 0.0, 0.0, 0.0);
 // 1: the glow only outside the shape (light on what surrounds it, never in it)
 uniform float hollow = 0.0;
-// extra opacity on top of everything, for a flash (0 none)
+// extra opacity in the near glow's shape, for a flash (0 none)
 uniform float boost = 0.0;
 
 varying vec2 local;
@@ -89,7 +89,7 @@ void fragment() {
 		pulse += motion.w * (0.6 * sin(TIME * 7.3 + seed) + 0.4 * sin(TIME * 12.9 + seed * 1.7));
 	}
 	float glow = near.z * soft(d - near.x, near.y) + far.z * soft(d - far.x, far.y);
-	glow = clamp(glow * pulse + boost, 0.0, 1.0);
+	glow = clamp(glow * pulse + boost * soft(d - near.x, near.y), 0.0, 1.0);
 	glow *= mix(1.0, smoothstep(-0.5, 0.5, d), hollow);
 	vec4 light = vec4(colour.rgb * glow, glow * (1.0 - additive));
 	if (base.a > 0.0 || fill.x > 0.0) {
