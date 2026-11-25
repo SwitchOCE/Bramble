@@ -462,7 +462,7 @@ func test_hover_shows_the_cards_name_and_rules() -> void:
 	assert_has(words, "TIER 6 · UNIT")
 
 
-func test_a_hovered_hand_card_rises_and_its_words_stay_in_the_left_column() -> void:
+func test_a_hovered_hand_card_stands_up_whole_with_its_detail_beside_it() -> void:
 	_make(_mockup())
 	var card: Control = _find("Card_h2")
 	var rest: Vector2 = card.position
@@ -476,12 +476,10 @@ func test_a_hovered_hand_card_rises_and_its_words_stay_in_the_left_column() -> v
 	assert_gt(card.z_index, rest_z, "raised above its usual drawing order")
 	var tip: Control = _find("Tip")
 	assert_true(tip.visible)
-	assert_null(tip.get_node_or_null("Card"), "no enlarged copy: the words alone")
-	assert_eq(tip.position, Vector2(12, 82), "over the scoreboard")
-	var text: GlassBox = tip.get_child(tip.get_child_count() - 1)
-	assert_lte(
-		tip.position.y + text.position.y + text.box_size.y * text.scale.y, 1080.0, "on the screen"
-	)
+	assert_not_null(tip.get_node_or_null("Card"), "the raised hand card gets the enlarged detail")
+	assert_gt(tip.position.x, card.position.x + card.size.x, "beside it")
+	var text: GlassBox = tip.get_node("Words")
+	assert_lte(tip.position.y + text.position.y + text.box_size.y, 1080.0, "on the screen")
 	_move(Vector2(960, 300))
 	assert_eq(card.position, rest, "back to its rest")
 	assert_eq(card.rotation, turn)
