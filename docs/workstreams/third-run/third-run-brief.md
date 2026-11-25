@@ -122,7 +122,7 @@ So:
 6. **Disk:** a match keeps only what balance decisions need. Once those decisions are made and the match's build is old, only a high-level findings report stays, a couple of megabytes at most. The League Data and Storage session sets what that means file by file.
 
 **Amended on 26 Nov 2026.** The owner, on the card power session's [proposals](../card-power/proposals.md): "I was happy with all of the proposals so proceed".
-- Answer 1 is replaced. No bot is made to stay in a tribe; the stopping test plays each bot with its most-played tribes left out of the shop and reports how far it falls and what it ends on. The owner, 25 Nov: "I don't think a bot held to each tribe is necessarily a good thing."
+- In answer 1, the per-tribe report is replaced; balance still tunes from overall placement. No bot is made to stay in a tribe; the stopping test plays each bot with its most-played tribes left out of the shop and reports how far it falls and what it ends on. The owner, 25 Nov: "I don't think a bot held to each tribe is necessarily a good thing."
 - Answer 5 gains a rule: each team's lead changes model family with each new run. The owner, 25 Nov: "I would cycle out the agent family on the bots each new run ... different models will spot different things".
 
 The plan check (a fresh agent, `/plan-interrogate`, 21 Nov) raised these questions and the fixes marked Proposed above; it reproduced the measured numbers in section 9.

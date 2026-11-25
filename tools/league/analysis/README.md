@@ -23,10 +23,12 @@ files and byte counts.
 
 - **Climb or stopping test.** Run `league analyze MATCH` first and supply `--kind climb
   --verdict kept|rejected`. For a kept version, cut and verify its ghosts and supply
-  `--cut-verified`. The match keeps the manifest, analysis, timing and a one-line JSON
+  `--cut-verified`, and run `tools/league/card_report.sh MATCH` first: the prune refuses a
+  kept version without `card-report/cards.csv`, and keeps that folder. The match keeps the manifest, analysis, timing and a one-line JSON
   verdict with bot tags, seeds SHA, game count, placement gap and 95% interval bounds.
-- **Balance reading.** Run `league analyze MATCH` before pruning if the match will go
-  through `reading-done`. Use `--kind reading` to keep the gzip-compressed manifest,
+- **Balance reading.** Run `tools/league/card_report.sh MATCH` before the first prune (its
+  fight tests need plain records); `reading` keeps the `card-report/` folder. Run
+  `league analyze MATCH` before pruning if the match will go through `reading-done`. Use `--kind reading` to keep the gzip-compressed manifest,
   analysis (when present), library, games, shops, decisions, CPU data, records and
   any replayed event log. Decision rows
   retain the selected `action`, Discover offers and the remaining Gorger and Glutton
