@@ -463,7 +463,7 @@ Until the owner decides, each keeps today's look and behaviour, as close to its 
 
 **The hover detail**
 
-19. **Settled (L45): the hover detail and the fixed keyword boxes stay in the left column** (row 71), drawn over the scoreboard as an overlay while a card is pointed at. Not anchored to the card. Keep today's panel and boxes; fit them to the column's 244 px.
+19. **Settled (L52, which corrects the reading of L45): the card's hover detail is the card's enlarged copy and its words beside the pointed-at card, at the size it has on `dev`, never shrunk into a column. Keyword reminders are a separate thing in their own fixed, out-of-the-way place (a side column is allowed), visibly not part of the card's detail.** The first build stacked both in the left column; that was this spec's mistake.
 
 **The hand**
 
