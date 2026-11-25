@@ -45,10 +45,17 @@ case "${1:-}" in
     echo "  expected ($EXPECTED_FILE): ${expected:-<missing>}"
     echo "  now:                       $hash"
     since="$(git log -1 --format=%H -- "$EXPECTED_FILE" 2>/dev/null)"
+    changed=""
     if [ -n "$since" ]; then
+      # Only .gd and .json files count toward the hash (RecordBuild._collect).
+      changed="$({ git diff --name-only "$since" -- "${RULES_PATHS[@]}"
+        git ls-files --others --exclude-standard -- "${RULES_PATHS[@]}"; } | grep -E '\.(gd|json)$' | sort -u)"
+    fi
+    if [ -n "$changed" ]; then
       echo "Rules files changed since $EXPECTED_FILE was last set (${since:0:8}), committed or not:"
-      { git diff --name-only "$since" -- "${RULES_PATHS[@]}"
-        git ls-files --others --exclude-standard -- "${RULES_PATHS[@]}"; } | sort -u | sed 's/^/  /'
+      while IFS= read -r file; do echo "  $file"; done <<<"$changed"
+    elif [ "$(git rev-parse --is-shallow-repository 2>/dev/null)" = true ]; then
+      echo "This is a shallow clone, so the changed files can't be listed; run this check locally."
     fi
     echo "If this is an accident, undo those changes. If the rules change on purpose, run"
     echo "./scripts/rules_hash.sh --update and commit $EXPECTED_FILE with the change: ghost fields"
