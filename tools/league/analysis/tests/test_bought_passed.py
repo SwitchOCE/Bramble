@@ -43,8 +43,18 @@ class BoughtPassed(unittest.TestCase):
         self.assertEqual(row["pick_rate"], 0.5)
         self.assertAlmostEqual(row["difference"], -2.0)
         self.assertEqual(row["groups"], 2)
-        self.assertEqual(row["flag"], "better when bought")
+        self.assertEqual(row["flag"], "")  # one card alone has no typical card to be read against
         self.assertEqual(row["place_bought"] - row["place_passed"], 2.75 - 6.25)
+
+    def test_worth_a_look_is_read_against_the_typical_card(self):
+        rows = [{"bot": "all", "status": "ok", "difference": 0.2 + 0.01 * i, "low": 0.1, "high": 0.3,
+                 "typical": "", "spreads": "", "flag": ""} for i in range(9)]
+        rows.append({"bot": "all", "status": "ok", "difference": -0.6, "low": -0.8, "high": -0.4,
+                     "typical": "", "spreads": "", "flag": ""})
+        bought_passed.mark(rows)
+        self.assertEqual(rows[-1]["flag"], "worth a look: better when bought")
+        self.assertEqual([r["flag"] for r in rows[:9]], [""] * 9)
+        self.assertEqual(rows[0]["typical"], 0.245)
 
     def test_too_few_passed_turns_gives_no_number(self):
         games = [(2, {"Badger": 4}, True)] * 300 + [(6, {"Badger": 4}, False)] * 20

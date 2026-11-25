@@ -5,6 +5,7 @@ seat in which a unit card was in a shop view with `buyable` true. It counts as b
 card is in the `bought` list of any shop view that turn. The number is mean final place when
 bought minus when passed, taken inside groups of (bot, round, card's tribe is the seat's main
 tribe when the turn began) and averaged with weight n_bought * n_passed / (n_bought + n_passed).
+It is a hint, read against the typical card of the same table: buying leans towards worse finishes.
 
 usage: bought_passed.py <match dir>... --out <cards.csv> [--resamples 1000] [--seed 1]
 """
@@ -19,7 +20,8 @@ import numpy as np
 
 MIN_GROUP = 5        # bought and passed turns a group needs before it is compared
 MIN_CARD = 100       # bought and passed turns a card needs before its number is shown
-FLAG_PLACES = -0.5   # half a place or more better when bought
+LOOK_SPREADS = 3.0   # worth a look: this many spreads from the typical card of the same table
+LOOK_FLOOR = 0.3     # and at least this many places from it
 MAIN_TRIBE_UNITS = 3
 
 
@@ -118,7 +120,8 @@ def card_row(card, info, bot, observations, resamples, rng):
            "pick_rate": round(len(bought) / len(observations), 4) if observations else "",
            "place_bought": round(sum(o[4] for o in bought) / len(bought), 3) if bought else "",
            "place_passed": round(sum(o[4] for o in passed) / len(passed), 3) if passed else "",
-           "difference": "", "low": "", "high": "", "groups": 0, "status": "too few", "flag": ""}
+           "difference": "", "low": "", "high": "", "typical": "", "spreads": "", "groups": 0,
+           "status": "too few", "flag": ""}
     if len(bought) < MIN_CARD or len(passed) < MIN_CARD:
         return row
     game, group, took, place, n_games, n_groups = arrays(observations)
@@ -130,9 +133,26 @@ def card_row(card, info, bot, observations, resamples, rng):
     row.update(difference=round(value, 3), status="ok")
     if low is not None:
         row.update(low=round(low, 3), high=round(high, 3))
-        if value <= FLAG_PLACES and high < 0:
-            row["flag"] = "better when bought"
     return row
+
+
+def mark(rows):
+    """Read each card against the typical card of the same bot's table (definitions: a hint)."""
+    for bot in {r["bot"] for r in rows}:
+        table = [r for r in rows if r["bot"] == bot and r["status"] == "ok" and r["difference"] != ""]
+        if len(table) < 4:
+            continue
+        values = [r["difference"] for r in table]
+        typical = float(np.median(values))
+        spread = 1.4826 * float(np.median([abs(v - typical) for v in values]))
+        for r in table:
+            r["typical"] = round(typical, 3)
+            if not spread:
+                continue
+            r["spreads"] = round((r["difference"] - typical) / spread, 1)
+            clear = r["low"] != "" and (r["high"] < typical or r["low"] > typical)
+            if abs(r["spreads"]) >= LOOK_SPREADS and abs(r["difference"] - typical) >= LOOK_FLOOR and clear:
+                r["flag"] = "worth a look: " + ("better" if r["difference"] < typical else "worse") + " when bought"
 
 
 def report(directories, resamples=1000, seed=1):
@@ -145,6 +165,7 @@ def report(directories, resamples=1000, seed=1):
         for bot in sorted({o[1] for o in observations}):
             mine = [o for o in observations if o[1] == bot]
             out.append(card_row(card, library[card], bot, mine, resamples, rng))
+    mark(out)
     return out
 
 
@@ -161,7 +182,7 @@ def main():
         writer.writeheader()
         writer.writerows(rows)
     print(f"{len(rows)} rows, {sum(r['status'] == 'ok' for r in rows)} with a number, "
-          f"{sum(bool(r['flag']) for r in rows)} flagged -> {args.out}")
+          f"{sum(bool(r['flag']) for r in rows)} worth a look -> {args.out}")
 
 
 if __name__ == "__main__":

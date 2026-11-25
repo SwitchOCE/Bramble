@@ -96,14 +96,14 @@ def table(rows, tiers):
         n = len(obs)
         enough = n >= MIN_OBSERVATIONS
         gain, low, high = clustered(obs, lambda r: r["attack"] + r["health"])
-        above = statistics.fmean(r["attack"] + r["health"] - r["mates"] for r in obs)
+        above, above_low, _ = clustered(obs, lambda r: r["attack"] + r["health"] - r["mates"])
         show = lambda x, d=2: round(x, d) if enough and x is not None else ""
         out.append({"stage": stage_name, "card": card, "tier": tiers.get(card, ""), "n": n,
                     "status": "ok" if enough else "too few",
                     "attack_per_turn": show(statistics.fmean(r["attack"] for r in obs)),
                     "health_per_turn": show(statistics.fmean(r["health"] for r in obs)),
                     "stats_per_turn": show(gain), "low": show(low), "high": show(high),
-                    "above_mates": show(above), "share_growing": show(sum(r["attack"] + r["health"] > 0 for r in obs) / n),
+                    "above_mates": show(above), "above_low": show(above_low), "share_growing": show(sum(r["attack"] + r["health"] > 0 for r in obs) / n),
                     "perm_stats_held": show(statistics.fmean(r["held"] for r in obs), 1),
                     "spreads": "", "tier_spreads": "", "look": ""})
     for stage_name in STAGES:
@@ -114,7 +114,8 @@ def table(rows, tiers):
         for r in here:
             if spread:
                 r["spreads"] = round((r["above_mates"] - middle) / spread, 1)
-                if r["spreads"] >= LOOK_SPREADS and r["low"] != "" and r["low"] > 0 and r["stats_per_turn"] >= LOOK_FLOOR:
+                if (r["spreads"] >= LOOK_SPREADS and r["above_low"] != "" and r["above_low"] > middle
+                        and r["stats_per_turn"] >= LOOK_FLOOR):
                     r["look"] = "worth a look"
         # Against its own tier (the owner's framing): raw growth, among cards of the same tier.
         by_tier = defaultdict(list)

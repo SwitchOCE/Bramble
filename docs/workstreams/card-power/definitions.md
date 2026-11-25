@@ -42,7 +42,6 @@ Stages of the game, used everywhere: rounds 1–4, 5–8, 9–12, 13 on. Cards a
 - **Number:** mean final place when bought minus mean final place when passed, taken inside each group that has at least five of each, then averaged over groups with weight n_bought × n_passed / (n_bought + n_passed). Negative means buying goes with better finishes.
 - **Interval:** 95%, by resampling whole games 1,000 times.
 - **Too few:** under 100 bought or under 100 passed turns in all.
-- **Flag:** half a place or more better when bought, with the interval clear of zero.
 - **Cannot see:** cause. A bot buys a card when it suits the board, so the number mixes the card's power with the boards that wanted it. A card a bot nearly always buys has few passed turns. Each row of the report shows both counts.
 
 ## Pick rate
@@ -130,3 +129,4 @@ The owner called replacing a unit with a made-up plain unit "pretty unrealistic"
 - 25 Nov, AFTER the growth table was read: a second worth-a-look line for stat growth, against cards of the same tier. Reason: "above its board-mates" cannot mark a card on a board where everything grows (Brock Cub on a Badger board), and the owner asked for the comparison with "the average unit of that tier".
 - 25 Nov: the ladder written down, on the owner's words quoted in its section. It states what definitions.md already did (left out of the shop on a short list only).
 - 25 Nov: a fixed floor beside the worth-a-look rule, and no step may assume which bot buys a card, on the owner's words quoted in the rule's section.
+- 25 Nov: the owner answered the two review questions "Yes to both": the real-game checks on left out of the shop run before the full report, and the unused damage-taken fields are dropped from the refight output.
