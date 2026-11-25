@@ -2,6 +2,12 @@
 
 Written by the orchestrator of `ideation/ui-ux` on 25 Nov 2026. **Status:** the owner gave the go-ahead to build (L44) and, shown this plan with a recommendation to go ahead, said "if you don't need to ask more questions, you can just pick an option" (L46). The orchestrator took its own recommendation and started step 1 on 25 Nov. The owner's summary page: https://claude.ai/artifact/HYmx3oTXHNkn2UbTJcZ1Gp
 
+## Progress
+
+- 25 Nov: steps 1 to 4 (room, card, shop, columns) are built on `ui/l1`, each after the project's checks run twice (the worker's run and the orchestrator's) and a scope review by a fresh agent, with one small fix round each for steps 1, 2 and 4. Screenshots: `/data/ui-ideation/build/step1` to `step4`.
+- 25 Nov: the first Windows build, `Bramble-windows-d8ad1534e-1125-1720-l1-first`, was sent to the owner's PC. Light is flat stand-ins in it.
+- Next: the owner plays it; a fix round on what they find; then light (step 6), the fight screen fixes (step 7) and the final build.
+
 ## What the owner asked for
 
 > "Everything else is basically perfect. I really like this. I think this is almost ready to become a spec and start real work." (25 Nov, of the buy screen mock-up)
