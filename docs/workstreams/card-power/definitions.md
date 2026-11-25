@@ -8,6 +8,8 @@ Stages of the game, used everywhere: rounds 1–4, 5–8, 9–12, 13 on. Cards a
 
 ## Bought against passed
 
+**A hint, not a measure of power** (found 25 Nov, on the first match). The typical card reads 0.12 to 0.20 places worse when bought, whatever is controlled for (a full board, board strength, Health left, how many units were bought that turn): a bot that is buying is mostly a bot that needs to. The owner, 25 Nov: it "would only be a particularly good measure of strength if the bots were perfect players ... we can still find hints in the data." So each card's number is read against the typical card's number in the same table, the table shows that typical value, and no flag is raised from this measure alone.
+
 - **Data:** the live seat's `shops.jsonl.gz` and `games.jsonl` of a ghost match.
 - **One observation:** one turn of the live seat in which the card was in at least one shop view with `buyable` true.
 - **Bought:** the card is in the `bought` list of any shop view that turn. Otherwise passed.
@@ -84,3 +86,4 @@ The owner called replacing a unit with a made-up plain unit "pretty unrealistic"
 - 25 Nov, before any card result was read: smaller samples (500 observations and two seeds a fight test; 500 games a bot and a short list for left out of the shop), on the owner's budget quoted under text off.
 - 25 Nov, before any card result was read: keyword off samples 3,000 per keyword per stage, because 500 leaves each Health third under the 200 a number needs.
 - 25 Nov, AFTER the first fight tables were read: the text-off pointer also needs a card to be above the top quarter of its own tier. Reason: in rounds 1–4 the median tier 1 text (+0.07) is worth more than the median tier 3 text (+0.05), so a tier 1 card below its own tier's median (Brock Cub) was being pointed at.
+- 25 Nov, AFTER the first table was read: bought against passed is a hint read against the typical card, and raises no flag alone. Reason and the owner's words are at the top of its section.
