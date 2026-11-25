@@ -1,0 +1,844 @@
+game,clip_id,frame_rel_contact,inplane_deg,tilt_measure,note
+battlegrounds,A1,-45,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2006
+battlegrounds,A1,-44,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2007
+battlegrounds,A1,-43,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2008
+battlegrounds,A1,-42,+0.0,hw=0.999;lr=0.996;tb=1.002;edges_h=+0.1;edges_v=-0.1;scale_w=1.01,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2009
+battlegrounds,A1,-41,-0.1,hw=1.000;lr=0.998;tb=1.004;edges_h=-0.0;edges_v=-0.1;scale_w=1.02,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2010
+battlegrounds,A1,-40,-0.1,hw=0.996;lr=0.997;tb=0.991;edges_h=+0.1;edges_v=-0.2;scale_w=1.03,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2011
+battlegrounds,A1,-39,-0.1,hw=0.999;lr=0.995;tb=0.989;edges_h=+0.0;edges_v=-0.2;scale_w=1.04,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2012
+battlegrounds,A1,-38,-0.2,hw=0.998;lr=0.995;tb=0.990;edges_h=-0.1;edges_v=-0.3;scale_w=1.05,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2013
+battlegrounds,A1,-37,-0.2,hw=0.999;lr=0.996;tb=0.994;edges_h=-0.1;edges_v=-0.2;scale_w=1.06,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2014
+battlegrounds,A1,-36,-0.2,hw=0.998;lr=0.993;tb=0.992;edges_h=-0.1;edges_v=-0.3;scale_w=1.07,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2015
+battlegrounds,A1,-35,-0.1,hw=0.996;lr=0.996;tb=0.999;edges_h=-0.0;edges_v=-0.2;scale_w=1.08,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2016
+battlegrounds,A1,-34,-0.1,hw=0.998;lr=0.996;tb=0.996;edges_h=-0.1;edges_v=-0.2;scale_w=1.09,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2017
+battlegrounds,A1,-33,-0.1,hw=0.996;lr=0.998;tb=0.994;edges_h=+0.0;edges_v=-0.2;scale_w=1.10,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2018
+battlegrounds,A1,-32,-0.1,hw=0.996;lr=0.996;tb=0.997;edges_h=+0.0;edges_v=-0.2;scale_w=1.11,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2019
+battlegrounds,A1,-31,-0.0,hw=0.995;lr=0.995;tb=0.993;edges_h=+0.1;edges_v=-0.2;scale_w=1.12,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2020
+battlegrounds,A1,-30,-0.0,hw=0.995;lr=0.997;tb=0.994;edges_h=+0.1;edges_v=-0.1;scale_w=1.14,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2021
+battlegrounds,A1,-29,+0.0,hw=0.996;lr=0.996;tb=0.992;edges_h=+0.2;edges_v=-0.1;scale_w=1.15,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2022
+battlegrounds,A1,-28,-0.0,hw=0.997;lr=0.998;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2023
+battlegrounds,A1,-27,-0.0,hw=0.997;lr=0.998;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2024
+battlegrounds,A1,-26,-0.0,hw=0.997;lr=0.998;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2025
+battlegrounds,A1,-25,-0.0,hw=0.997;lr=0.998;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2026
+battlegrounds,A1,-24,-0.0,hw=0.997;lr=0.998;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2027
+battlegrounds,A1,-23,-0.0,hw=0.997;lr=0.998;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2028
+battlegrounds,A1,-22,-0.0,hw=0.997;lr=0.998;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2029
+battlegrounds,A1,-21,-0.0,hw=0.997;lr=0.997;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2030
+battlegrounds,A1,-20,-0.0,hw=0.997;lr=0.997;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2031
+battlegrounds,A1,-19,-0.0,hw=0.997;lr=0.997;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2032
+battlegrounds,A1,-18,+0.0,hw=0.997;lr=0.998;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2033
+battlegrounds,A1,-17,+0.0,hw=0.997;lr=0.998;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2034
+battlegrounds,A1,-16,+0.0,hw=0.997;lr=0.998;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2035
+battlegrounds,A1,-15,+0.0,hw=0.997;lr=0.998;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2036
+battlegrounds,A1,-14,+0.0,hw=0.997;lr=0.998;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2037
+battlegrounds,A1,-13,+0.0,hw=0.997;lr=0.997;tb=0.993;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2038
+battlegrounds,A1,-12,+0.0,hw=0.997;lr=0.998;tb=0.993;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2039
+battlegrounds,A1,-11,+0.0,hw=0.997;lr=0.998;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2040
+battlegrounds,A1,-10,+0.0,hw=0.996;lr=0.998;tb=0.997;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 0.99; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2041
+battlegrounds,A1,-9,+0.0,hw=0.996;lr=0.998;tb=0.996;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 0.99; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2042
+battlegrounds,A1,-8,+0.0,hw=0.996;lr=0.998;tb=0.996;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,hold; match 0.99; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2043
+battlegrounds,A1,-7,+0.0,hw=0.995;lr=0.998;tb=0.993;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2044
+battlegrounds,A1,-6,-0.1,hw=0.994;lr=0.998;tb=0.996;edges_h=+0.0;edges_v=-0.2;scale_w=1.16,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2045
+battlegrounds,A1,-5,-0.1,hw=0.995;lr=0.999;tb=0.990;edges_h=-0.0;edges_v=-0.2;scale_w=1.16,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2046
+battlegrounds,A1,-4,-0.2,hw=0.993;lr=1.000;tb=0.995;edges_h=-0.1;edges_v=-0.2;scale_w=1.16,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2047
+battlegrounds,A1,-3,-0.0,hw=0.995;lr=0.999;tb=0.991;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2048
+battlegrounds,A1,-2,-0.1,hw=0.992;lr=0.999;tb=0.995;edges_h=-0.1;edges_v=-0.2;scale_w=1.16,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2049
+battlegrounds,A1,-1,-0.1,hw=0.997;lr=0.990;tb=1.001;edges_h=+0.0;edges_v=-0.2;scale_w=1.15,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2050
+battlegrounds,A1,0,-0.3,hw=0.992;lr=0.997;tb=1.024;edges_h=-0.1;edges_v=-0.6;scale_w=1.32,contact; match 1.00; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2051
+battlegrounds,A1,1,-1.9,hw=1.003;lr=1.014;tb=1.013;edges_h=-1.9;edges_v=-1.9;scale_w=1.28,return; match 0.98; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2052
+battlegrounds,A1,2,-2.9,hw=1.015;lr=1.036;tb=0.531;edges_h=+1.1;edges_v=-7.0;scale_w=1.24,return; match 0.83; https://youtu.be/sOiaEv25Fgc?t=33 src frame 2053
+battlegrounds,A1,3,,,"return; not measured (card covered by flash, damage star or effect; match 0.67); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2054"
+battlegrounds,A1,4,,,"return; not measured (card covered by flash, damage star or effect; match 0.71); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2055"
+battlegrounds,A1,5,,,"return; not measured (card covered by flash, damage star or effect; match 0.65); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2056"
+battlegrounds,A1,6,,,"return; not measured (card covered by flash, damage star or effect; match 0.65); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2057"
+battlegrounds,A1,7,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2058"
+battlegrounds,A1,8,,,"return; not measured (card covered by flash, damage star or effect; match 0.60); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2059"
+battlegrounds,A1,9,,,"return; not measured (card covered by flash, damage star or effect; match 0.60); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2060"
+battlegrounds,A1,10,,,"return; not measured (card covered by flash, damage star or effect; match 0.64); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2061"
+battlegrounds,A1,11,,,"return; not measured (card covered by flash, damage star or effect; match 0.64); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2062"
+battlegrounds,A1,12,,,"return; not measured (card covered by flash, damage star or effect; match 0.66); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2063"
+battlegrounds,A1,13,,,"return; not measured (card covered by flash, damage star or effect; match 0.65); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2064"
+battlegrounds,A1,14,,,"return; not measured (card covered by flash, damage star or effect; match 0.65); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2065"
+battlegrounds,A1,15,,,"return; not measured (card covered by flash, damage star or effect; match 0.67); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2066"
+battlegrounds,A1,16,,,"return; not measured (card covered by flash, damage star or effect; match 0.60); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2067"
+battlegrounds,A1,17,,,"return; not measured (card covered by flash, damage star or effect; match 0.62); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2068"
+battlegrounds,A1,18,,,"return; not measured (card covered by flash, damage star or effect; match 0.66); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2069"
+battlegrounds,A1,19,,,"return; not measured (card covered by flash, damage star or effect; match 0.66); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2070"
+battlegrounds,A1,20,,,"return; not measured (card covered by flash, damage star or effect; match 0.65); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2071"
+battlegrounds,A1,21,,,"return; not measured (card covered by flash, damage star or effect; match 0.64); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2072"
+battlegrounds,A1,22,,,"return; not measured (card covered by flash, damage star or effect; match 0.62); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2073"
+battlegrounds,A1,23,,,"return; not measured (card covered by flash, damage star or effect; match 0.65); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2074"
+battlegrounds,A1,24,,,"return; not measured (card covered by flash, damage star or effect; match 0.65); https://youtu.be/sOiaEv25Fgc?t=33 src frame 2075"
+battlegrounds,A2,-43,+0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=+0.0;edges_v=+0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4494
+battlegrounds,A2,-42,-0.1,hw=1.000;lr=1.003;tb=1.000;edges_h=-0.0;edges_v=-0.1;scale_w=1.01,rest; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4495
+battlegrounds,A2,-41,-0.1,hw=1.000;lr=1.001;tb=0.998;edges_h=-0.1;edges_v=-0.1;scale_w=1.02,rest; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4496
+battlegrounds,A2,-40,-0.1,hw=1.001;lr=0.995;tb=0.999;edges_h=-0.0;edges_v=-0.2;scale_w=1.03,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4497
+battlegrounds,A2,-39,-0.1,hw=1.001;lr=0.996;tb=0.994;edges_h=+0.0;edges_v=-0.2;scale_w=1.04,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4498
+battlegrounds,A2,-38,-0.1,hw=1.002;lr=1.000;tb=0.994;edges_h=+0.1;edges_v=-0.3;scale_w=1.05,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4499
+battlegrounds,A2,-37,-0.2,hw=0.999;lr=0.996;tb=0.992;edges_h=-0.0;edges_v=-0.4;scale_w=1.06,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4500
+battlegrounds,A2,-36,-0.1,hw=1.000;lr=0.994;tb=0.996;edges_h=+0.1;edges_v=-0.4;scale_w=1.07,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4501
+battlegrounds,A2,-35,-0.2,hw=1.001;lr=0.994;tb=0.996;edges_h=+0.1;edges_v=-0.4;scale_w=1.08,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4502
+battlegrounds,A2,-34,-0.1,hw=1.001;lr=0.995;tb=0.994;edges_h=+0.0;edges_v=-0.3;scale_w=1.09,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4503
+battlegrounds,A2,-33,-0.2,hw=1.002;lr=0.993;tb=0.994;edges_h=-0.1;edges_v=-0.3;scale_w=1.10,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4504
+battlegrounds,A2,-32,-0.2,hw=1.002;lr=0.993;tb=0.997;edges_h=-0.0;edges_v=-0.3;scale_w=1.11,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4505
+battlegrounds,A2,-31,-0.1,hw=1.000;lr=0.990;tb=0.994;edges_h=-0.0;edges_v=-0.2;scale_w=1.12,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4506
+battlegrounds,A2,-30,-0.0,hw=0.998;lr=0.994;tb=0.994;edges_h=-0.0;edges_v=-0.1;scale_w=1.13,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4507
+battlegrounds,A2,-29,-0.1,hw=1.000;lr=0.992;tb=1.000;edges_h=-0.1;edges_v=-0.1;scale_w=1.14,lift; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4508
+battlegrounds,A2,-28,+0.0,hw=0.999;lr=0.996;tb=0.996;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4509
+battlegrounds,A2,-27,+0.0,hw=0.999;lr=0.996;tb=0.995;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4510
+battlegrounds,A2,-26,+0.0,hw=0.999;lr=0.997;tb=0.995;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4511
+battlegrounds,A2,-25,+0.0,hw=0.999;lr=0.996;tb=0.995;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4512
+battlegrounds,A2,-24,+0.0,hw=0.999;lr=0.996;tb=0.995;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4513
+battlegrounds,A2,-23,+0.0,hw=0.999;lr=0.996;tb=0.995;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4514
+battlegrounds,A2,-22,+0.0,hw=0.999;lr=0.997;tb=0.995;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4515
+battlegrounds,A2,-21,+0.0,hw=0.999;lr=0.997;tb=0.995;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4516
+battlegrounds,A2,-20,+0.0,hw=0.999;lr=0.997;tb=0.994;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4517
+battlegrounds,A2,-19,+0.0,hw=0.999;lr=0.997;tb=0.994;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4518
+battlegrounds,A2,-18,+0.0,hw=0.999;lr=0.997;tb=0.994;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4519
+battlegrounds,A2,-17,+0.0,hw=0.999;lr=0.997;tb=0.994;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4520
+battlegrounds,A2,-16,+0.0,hw=0.999;lr=0.997;tb=0.994;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4521
+battlegrounds,A2,-15,+0.0,hw=0.999;lr=0.997;tb=0.994;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4522
+battlegrounds,A2,-14,+0.0,hw=0.999;lr=0.997;tb=0.994;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4523
+battlegrounds,A2,-13,+0.0,hw=1.000;lr=0.997;tb=0.994;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4524
+battlegrounds,A2,-12,+0.0,hw=1.000;lr=0.997;tb=0.994;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4525
+battlegrounds,A2,-11,+0.0,hw=1.000;lr=0.997;tb=0.994;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4526
+battlegrounds,A2,-10,+0.0,hw=1.000;lr=0.997;tb=0.994;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4527
+battlegrounds,A2,-9,+0.0,hw=1.000;lr=0.997;tb=0.994;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4528
+battlegrounds,A2,-8,+0.0,hw=1.000;lr=0.997;tb=0.994;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4529
+battlegrounds,A2,-7,-0.0,hw=0.999;lr=0.998;tb=0.993;edges_h=+0.0;edges_v=-0.1;scale_w=1.16,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4530
+battlegrounds,A2,-6,-0.1,hw=0.999;lr=0.999;tb=0.991;edges_h=+0.0;edges_v=-0.2;scale_w=1.16,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4531
+battlegrounds,A2,-5,-0.2,hw=0.996;lr=0.999;tb=0.990;edges_h=-0.0;edges_v=-0.3;scale_w=1.16,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4532
+battlegrounds,A2,-4,-0.1,hw=0.995;lr=0.998;tb=0.990;edges_h=+0.0;edges_v=-0.3;scale_w=1.16,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4533
+battlegrounds,A2,-3,-0.2,hw=0.995;lr=0.997;tb=0.985;edges_h=-0.2;edges_v=-0.3;scale_w=1.16,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4534
+battlegrounds,A2,-2,-0.2,hw=0.993;lr=1.003;tb=0.985;edges_h=-0.0;edges_v=-0.3;scale_w=1.16,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4535
+battlegrounds,A2,-1,-0.3,hw=0.993;lr=1.003;tb=0.981;edges_h=-0.1;edges_v=-0.5;scale_w=1.16,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4536
+battlegrounds,A2,0,-0.6,hw=0.997;lr=0.998;tb=1.021;edges_h=+0.1;edges_v=-1.2;scale_w=1.32,contact; match 1.00; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4537
+battlegrounds,A2,1,-2.0,hw=0.997;lr=1.074;tb=1.075;edges_h=-2.2;edges_v=-1.9;scale_w=1.27,return; match 0.97; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4538
+battlegrounds,A2,2,-2.6,hw=1.010;lr=1.130;tb=1.076;edges_h=-2.4;edges_v=-2.8;scale_w=1.21,return; match 0.95; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4539
+battlegrounds,A2,3,-2.4,hw=1.014;lr=1.165;tb=1.069;edges_h=-0.9;edges_v=-4.0;scale_w=1.15,return; match 0.88; https://youtu.be/sOiaEv25Fgc?t=75 src frame 4540
+battlegrounds,A2,4,,,"return; not measured (card covered by flash, damage star or effect; match 0.75); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4541"
+battlegrounds,A2,5,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4542
+battlegrounds,A2,6,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4543
+battlegrounds,A2,7,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4544
+battlegrounds,A2,8,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4545
+battlegrounds,A2,9,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4546
+battlegrounds,A2,10,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4547
+battlegrounds,A2,11,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4548
+battlegrounds,A2,12,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4549
+battlegrounds,A2,13,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4550
+battlegrounds,A2,14,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4551
+battlegrounds,A2,15,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4552
+battlegrounds,A2,16,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4553
+battlegrounds,A2,17,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4554
+battlegrounds,A2,18,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4555
+battlegrounds,A2,19,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4556
+battlegrounds,A2,20,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=75 src frame 4557
+battlegrounds,A3,-17,+0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=+0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4600
+battlegrounds,A3,-16,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4601
+battlegrounds,A3,-15,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4602
+battlegrounds,A3,-14,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4603
+battlegrounds,A3,-13,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4604
+battlegrounds,A3,-12,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4605
+battlegrounds,A3,-11,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4606
+battlegrounds,A3,-10,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4607
+battlegrounds,A3,-9,-0.0,hw=1.000;lr=1.000;tb=1.001;edges_h=-0.0;edges_v=-0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4608
+battlegrounds,A3,-8,-0.0,hw=1.000;lr=0.999;tb=1.001;edges_h=-0.0;edges_v=-0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4609
+battlegrounds,A3,-7,+0.0,hw=1.002;lr=1.001;tb=1.005;edges_h=+0.0;edges_v=-0.0;scale_w=1.00,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4610
+battlegrounds,A3,-6,-0.0,hw=1.002;lr=1.004;tb=1.003;edges_h=-0.0;edges_v=-0.1;scale_w=1.00,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4611
+battlegrounds,A3,-5,-0.0,hw=1.003;lr=1.006;tb=1.006;edges_h=+0.0;edges_v=-0.0;scale_w=1.00,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4612
+battlegrounds,A3,-4,-0.1,hw=1.002;lr=1.009;tb=1.014;edges_h=+0.0;edges_v=-0.2;scale_w=1.00,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4613
+battlegrounds,A3,-3,-0.1,hw=1.002;lr=1.006;tb=1.012;edges_h=+0.0;edges_v=-0.2;scale_w=1.01,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4614
+battlegrounds,A3,-2,-0.1,hw=1.001;lr=1.008;tb=1.026;edges_h=-0.0;edges_v=-0.2;scale_w=1.01,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4615
+battlegrounds,A3,-1,-0.1,hw=1.002;lr=1.009;tb=1.029;edges_h=+0.1;edges_v=-0.3;scale_w=1.01,strike; match 1.00; https://youtu.be/sOiaEv25Fgc?t=76 src frame 4616
+battlegrounds,A3,0,,,contact; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4617
+battlegrounds,A3,1,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4618
+battlegrounds,A3,2,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4619
+battlegrounds,A3,3,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4620
+battlegrounds,A3,4,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4621
+battlegrounds,A3,5,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4622
+battlegrounds,A3,6,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4623
+battlegrounds,A3,7,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4624
+battlegrounds,A3,8,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4625
+battlegrounds,A3,9,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4626
+battlegrounds,A3,10,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4627
+battlegrounds,A3,11,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4628
+battlegrounds,A3,12,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4629
+battlegrounds,A3,13,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4630
+battlegrounds,A3,14,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4631
+battlegrounds,A3,15,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4632
+battlegrounds,A3,16,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4633
+battlegrounds,A3,17,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4634
+battlegrounds,A3,18,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4635
+battlegrounds,A3,19,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4636
+battlegrounds,A3,20,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/sOiaEv25Fgc?t=76 src frame 4637
+battlegrounds,A4,-44,-0.0,hw=0.991;lr=0.993;tb=0.981;edges_h=-0.3;edges_v=+0.3;scale_w=1.00,rest; match 0.96; https://youtu.be/M11gKHV4whs?t=894 src frame 53064
+battlegrounds,A4,-43,-0.2,hw=0.989;lr=0.980;tb=0.978;edges_h=-0.5;edges_v=+0.2;scale_w=1.00,rest; match 0.95; https://youtu.be/M11gKHV4whs?t=894 src frame 53065
+battlegrounds,A4,-42,-0.3,hw=0.992;lr=0.969;tb=0.976;edges_h=-0.8;edges_v=+0.2;scale_w=1.00,rest; match 0.94; https://youtu.be/M11gKHV4whs?t=894 src frame 53066
+battlegrounds,A4,-41,-0.5,hw=0.991;lr=0.963;tb=0.987;edges_h=-0.9;edges_v=+0.0;scale_w=1.01,lift; match 0.93; https://youtu.be/M11gKHV4whs?t=894 src frame 53067
+battlegrounds,A4,-40,-0.7,hw=0.997;lr=0.957;tb=0.975;edges_h=-1.2;edges_v=-0.2;scale_w=1.02,lift; match 0.92; https://youtu.be/M11gKHV4whs?t=894 src frame 53068
+battlegrounds,A4,-39,-0.7,hw=0.996;lr=0.949;tb=0.959;edges_h=-1.3;edges_v=-0.0;scale_w=1.03,lift; match 0.92; https://youtu.be/M11gKHV4whs?t=894 src frame 53069
+battlegrounds,A4,-38,-0.6,hw=0.996;lr=0.948;tb=0.949;edges_h=-1.2;edges_v=-0.1;scale_w=1.04,lift; match 0.92; https://youtu.be/M11gKHV4whs?t=894 src frame 53070
+battlegrounds,A4,-37,-0.8,hw=0.996;lr=0.947;tb=0.939;edges_h=-1.5;edges_v=-0.1;scale_w=1.04,lift; match 0.90; https://youtu.be/M11gKHV4whs?t=894 src frame 53071
+battlegrounds,A4,-36,-0.8,hw=0.996;lr=0.938;tb=0.931;edges_h=-1.5;edges_v=-0.0;scale_w=1.06,lift; match 0.88; https://youtu.be/M11gKHV4whs?t=894 src frame 53072
+battlegrounds,A4,-35,-0.9,hw=0.992;lr=0.938;tb=0.935;edges_h=-1.6;edges_v=-0.1;scale_w=1.07,lift; match 0.87; https://youtu.be/M11gKHV4whs?t=894 src frame 53073
+battlegrounds,A4,-34,-0.8,hw=0.994;lr=0.942;tb=0.932;edges_h=-1.6;edges_v=-0.0;scale_w=1.08,lift; match 0.86; https://youtu.be/M11gKHV4whs?t=894 src frame 53074
+battlegrounds,A4,-33,-0.7,hw=0.995;lr=0.959;tb=0.944;edges_h=-1.3;edges_v=-0.1;scale_w=1.10,lift; match 0.85; https://youtu.be/M11gKHV4whs?t=894 src frame 53075
+battlegrounds,A4,-32,-0.7,hw=0.999;lr=0.970;tb=0.954;edges_h=-1.1;edges_v=-0.3;scale_w=1.11,lift; match 0.85; https://youtu.be/M11gKHV4whs?t=894 src frame 53076
+battlegrounds,A4,-31,-0.5,hw=1.004;lr=0.993;tb=0.961;edges_h=-0.8;edges_v=-0.2;scale_w=1.12,lift; match 0.86; https://youtu.be/M11gKHV4whs?t=894 src frame 53077
+battlegrounds,A4,-30,-0.3,hw=1.001;lr=0.995;tb=0.954;edges_h=-0.5;edges_v=-0.0;scale_w=1.13,lift; match 0.87; https://youtu.be/M11gKHV4whs?t=894 src frame 53078
+battlegrounds,A4,-29,-0.4,hw=0.997;lr=0.957;tb=0.966;edges_h=-0.8;edges_v=-0.1;scale_w=1.15,lift; match 0.94; https://youtu.be/M11gKHV4whs?t=894 src frame 53079
+battlegrounds,A4,-28,-0.3,hw=1.000;lr=0.979;tb=0.959;edges_h=-0.6;edges_v=-0.0;scale_w=1.15,hold; match 0.94; https://youtu.be/M11gKHV4whs?t=894 src frame 53080
+battlegrounds,A4,-27,-0.3,hw=1.000;lr=0.978;tb=0.956;edges_h=-0.6;edges_v=-0.0;scale_w=1.15,hold; match 0.94; https://youtu.be/M11gKHV4whs?t=894 src frame 53081
+battlegrounds,A4,-26,-0.3,hw=0.997;lr=0.983;tb=0.955;edges_h=-0.5;edges_v=-0.0;scale_w=1.15,hold; match 0.94; https://youtu.be/M11gKHV4whs?t=894 src frame 53082
+battlegrounds,A4,-25,-0.3,hw=0.998;lr=0.984;tb=0.958;edges_h=-0.5;edges_v=-0.1;scale_w=1.15,hold; match 0.94; https://youtu.be/M11gKHV4whs?t=894 src frame 53083
+battlegrounds,A4,-24,-0.3,hw=0.998;lr=0.985;tb=0.956;edges_h=-0.5;edges_v=-0.0;scale_w=1.15,hold; match 0.94; https://youtu.be/M11gKHV4whs?t=894 src frame 53084
+battlegrounds,A4,-23,-0.3,hw=0.997;lr=0.981;tb=0.960;edges_h=-0.6;edges_v=-0.0;scale_w=1.16,hold; match 0.94; https://youtu.be/M11gKHV4whs?t=894 src frame 53085
+battlegrounds,A4,-22,-0.3,hw=0.997;lr=0.981;tb=0.958;edges_h=-0.6;edges_v=-0.0;scale_w=1.15,hold; match 0.94; https://youtu.be/M11gKHV4whs?t=894 src frame 53086
+battlegrounds,A4,-21,-0.3,hw=0.998;lr=0.981;tb=0.959;edges_h=-0.6;edges_v=-0.0;scale_w=1.15,hold; match 0.94; https://youtu.be/M11gKHV4whs?t=894 src frame 53087
+battlegrounds,A4,-20,-0.3,hw=0.996;lr=0.982;tb=0.961;edges_h=-0.5;edges_v=-0.1;scale_w=1.16,hold; match 0.93; https://youtu.be/M11gKHV4whs?t=894 src frame 53088
+battlegrounds,A4,-19,-0.3,hw=0.997;lr=0.981;tb=0.962;edges_h=-0.6;edges_v=-0.1;scale_w=1.15,hold; match 0.93; https://youtu.be/M11gKHV4whs?t=894 src frame 53089
+battlegrounds,A4,-18,-0.4,hw=0.998;lr=0.978;tb=0.965;edges_h=-0.6;edges_v=-0.2;scale_w=1.16,hold; match 0.93; https://youtu.be/M11gKHV4whs?t=894 src frame 53090
+battlegrounds,A4,-17,-0.4,hw=1.000;lr=0.973;tb=0.971;edges_h=-0.7;edges_v=-0.2;scale_w=1.16,hold; match 0.92; https://youtu.be/M11gKHV4whs?t=894 src frame 53091
+battlegrounds,A4,-16,-0.5,hw=1.000;lr=0.971;tb=0.972;edges_h=-0.7;edges_v=-0.2;scale_w=1.15,hold; match 0.92; https://youtu.be/M11gKHV4whs?t=894 src frame 53092
+battlegrounds,A4,-15,-0.5,hw=1.002;lr=0.969;tb=0.975;edges_h=-0.8;edges_v=-0.3;scale_w=1.15,hold; match 0.92; https://youtu.be/M11gKHV4whs?t=894 src frame 53093
+battlegrounds,A4,-14,-0.6,hw=1.003;lr=0.964;tb=0.981;edges_h=-0.8;edges_v=-0.3;scale_w=1.15,hold; match 0.92; https://youtu.be/M11gKHV4whs?t=894 src frame 53094
+battlegrounds,A4,-13,-0.6,hw=1.004;lr=0.960;tb=0.985;edges_h=-0.9;edges_v=-0.3;scale_w=1.16,hold; match 0.92; https://youtu.be/M11gKHV4whs?t=894 src frame 53095
+battlegrounds,A4,-12,-0.6,hw=1.005;lr=0.960;tb=0.986;edges_h=-0.9;edges_v=-0.3;scale_w=1.16,hold; match 0.92; https://youtu.be/M11gKHV4whs?t=894 src frame 53096
+battlegrounds,A4,-11,-0.6,hw=1.005;lr=0.959;tb=0.987;edges_h=-0.9;edges_v=-0.3;scale_w=1.16,hold; match 0.92; https://youtu.be/M11gKHV4whs?t=894 src frame 53097
+battlegrounds,A4,-10,-0.6,hw=1.008;lr=0.965;tb=0.983;edges_h=-0.8;edges_v=-0.3;scale_w=1.15,hold; match 0.90; https://youtu.be/M11gKHV4whs?t=894 src frame 53098
+battlegrounds,A4,-9,-0.6,hw=1.009;lr=0.964;tb=0.984;edges_h=-0.8;edges_v=-0.3;scale_w=1.15,hold; match 0.90; https://youtu.be/M11gKHV4whs?t=894 src frame 53099
+battlegrounds,A4,-8,-0.6,hw=1.009;lr=0.966;tb=0.987;edges_h=-0.8;edges_v=-0.4;scale_w=1.15,hold; match 0.90; https://youtu.be/M11gKHV4whs?t=894 src frame 53100
+battlegrounds,A4,-7,-1.0,hw=1.012;lr=0.960;tb=1.008;edges_h=-1.1;edges_v=-0.9;scale_w=1.16,strike; match 0.89; https://youtu.be/M11gKHV4whs?t=894 src frame 53101
+battlegrounds,A4,-6,-1.2,hw=1.005;lr=0.975;tb=1.000;edges_h=-0.9;edges_v=-1.5;scale_w=1.16,strike; match 0.87; https://youtu.be/M11gKHV4whs?t=894 src frame 53102
+battlegrounds,A4,-5,-1.3,hw=1.003;lr=0.983;tb=0.999;edges_h=-0.7;edges_v=-1.9;scale_w=1.16,strike; match 0.85; https://youtu.be/M11gKHV4whs?t=894 src frame 53103
+battlegrounds,A4,-4,-1.6,hw=1.002;lr=0.978;tb=1.001;edges_h=-0.7;edges_v=-2.4;scale_w=1.16,strike; match 0.83; https://youtu.be/M11gKHV4whs?t=894 src frame 53104
+battlegrounds,A4,-3,-1.8,hw=1.001;lr=0.973;tb=1.006;edges_h=-0.7;edges_v=-2.9;scale_w=1.16,strike; match 0.82; https://youtu.be/M11gKHV4whs?t=894 src frame 53105
+battlegrounds,A4,-2,-2.0,hw=1.001;lr=0.976;tb=1.020;edges_h=-0.7;edges_v=-3.3;scale_w=1.16,strike; match 0.81; https://youtu.be/M11gKHV4whs?t=894 src frame 53106
+battlegrounds,A4,-1,-2.0,hw=0.995;lr=0.982;tb=1.002;edges_h=-0.5;edges_v=-3.5;scale_w=1.16,strike; match 0.83; https://youtu.be/M11gKHV4whs?t=894 src frame 53107
+battlegrounds,A4,0,-0.3,hw=1.018;lr=1.021;tb=0.974;edges_h=-0.1;edges_v=-0.5;scale_w=1.31,contact; match 0.83; https://youtu.be/M11gKHV4whs?t=894 src frame 53108
+battlegrounds,A4,1,,,"return; not measured (card covered by flash, damage star or effect; match 0.45); https://youtu.be/M11gKHV4whs?t=894 src frame 53109"
+battlegrounds,A4,2,,,"return; not measured (card covered by flash, damage star or effect; match 0.51); https://youtu.be/M11gKHV4whs?t=894 src frame 53110"
+battlegrounds,A4,3,,,"return; not measured (card covered by flash, damage star or effect; match 0.51); https://youtu.be/M11gKHV4whs?t=894 src frame 53111"
+battlegrounds,A4,4,,,"return; not measured (card covered by flash, damage star or effect; match 0.54); https://youtu.be/M11gKHV4whs?t=894 src frame 53112"
+battlegrounds,A4,5,,,"return; not measured (card covered by flash, damage star or effect; match 0.53); https://youtu.be/M11gKHV4whs?t=894 src frame 53113"
+battlegrounds,A4,6,,,"return; not measured (card covered by flash, damage star or effect; match 0.55); https://youtu.be/M11gKHV4whs?t=894 src frame 53114"
+battlegrounds,A4,7,,,"return; not measured (card covered by flash, damage star or effect; match 0.56); https://youtu.be/M11gKHV4whs?t=894 src frame 53115"
+battlegrounds,A4,8,,,"return; not measured (card covered by flash, damage star or effect; match 0.50); https://youtu.be/M11gKHV4whs?t=894 src frame 53116"
+battlegrounds,A4,9,,,"return; not measured (card covered by flash, damage star or effect; match 0.48); https://youtu.be/M11gKHV4whs?t=894 src frame 53117"
+battlegrounds,A4,10,,,"return; not measured (card covered by flash, damage star or effect; match 0.60); https://youtu.be/M11gKHV4whs?t=894 src frame 53118"
+battlegrounds,A4,11,,,"return; not measured (card covered by flash, damage star or effect; match 0.50); https://youtu.be/M11gKHV4whs?t=894 src frame 53119"
+battlegrounds,A4,12,,,"return; not measured (card covered by flash, damage star or effect; match 0.47); https://youtu.be/M11gKHV4whs?t=894 src frame 53120"
+battlegrounds,A4,13,,,"return; not measured (card covered by flash, damage star or effect; match 0.50); https://youtu.be/M11gKHV4whs?t=894 src frame 53121"
+battlegrounds,A4,14,,,"return; not measured (card covered by flash, damage star or effect; match 0.49); https://youtu.be/M11gKHV4whs?t=894 src frame 53122"
+battlegrounds,A4,15,,,"return; not measured (card covered by flash, damage star or effect; match 0.47); https://youtu.be/M11gKHV4whs?t=894 src frame 53123"
+battlegrounds,A4,16,,,"return; not measured (card covered by flash, damage star or effect; match 0.50); https://youtu.be/M11gKHV4whs?t=894 src frame 53124"
+battlegrounds,A4,17,,,"return; not measured (card covered by flash, damage star or effect; match 0.49); https://youtu.be/M11gKHV4whs?t=894 src frame 53125"
+battlegrounds,A4,18,,,"return; not measured (card covered by flash, damage star or effect; match 0.56); https://youtu.be/M11gKHV4whs?t=894 src frame 53126"
+battlegrounds,A4,19,,,"return; not measured (card covered by flash, damage star or effect; match 0.52); https://youtu.be/M11gKHV4whs?t=894 src frame 53127"
+battlegrounds,A4,20,,,"return; not measured (card covered by flash, damage star or effect; match 0.48); https://youtu.be/M11gKHV4whs?t=894 src frame 53128"
+battlegrounds,A4,21,,,"return; not measured (card covered by flash, damage star or effect; match 0.57); https://youtu.be/M11gKHV4whs?t=894 src frame 53129"
+battlegrounds,A4,22,,,"return; not measured (card covered by flash, damage star or effect; match 0.57); https://youtu.be/M11gKHV4whs?t=894 src frame 53130"
+battlegrounds,A4,23,,,"return; not measured (card covered by flash, damage star or effect; match 0.56); https://youtu.be/M11gKHV4whs?t=894 src frame 53131"
+battlegrounds,A4,24,,,"return; not measured (card covered by flash, damage star or effect; match 0.56); https://youtu.be/M11gKHV4whs?t=894 src frame 53132"
+battlegrounds,A5,-44,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53509
+battlegrounds,A5,-43,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53510
+battlegrounds,A5,-42,+0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=+0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53511
+battlegrounds,A5,-41,+0.1,hw=0.999;lr=0.996;tb=0.995;edges_h=+0.1;edges_v=+0.0;scale_w=1.01,lift; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53512
+battlegrounds,A5,-40,-0.1,hw=0.999;lr=0.994;tb=0.989;edges_h=-0.2;edges_v=-0.1;scale_w=1.02,lift; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53513
+battlegrounds,A5,-39,-0.0,hw=1.003;lr=1.002;tb=0.994;edges_h=-0.0;edges_v=-0.1;scale_w=1.03,lift; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53514
+battlegrounds,A5,-38,-0.1,hw=1.002;lr=1.002;tb=0.995;edges_h=-0.1;edges_v=-0.1;scale_w=1.04,lift; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53515
+battlegrounds,A5,-37,-0.1,hw=1.001;lr=1.000;tb=1.003;edges_h=-0.1;edges_v=-0.2;scale_w=1.06,lift; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53516
+battlegrounds,A5,-36,-0.1,hw=1.001;lr=0.998;tb=0.998;edges_h=+0.0;edges_v=-0.2;scale_w=1.07,lift; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53517
+battlegrounds,A5,-35,-0.1,hw=1.002;lr=0.998;tb=1.001;edges_h=-0.1;edges_v=-0.2;scale_w=1.08,lift; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53518
+battlegrounds,A5,-34,-0.1,hw=1.003;lr=0.999;tb=0.999;edges_h=+0.0;edges_v=-0.2;scale_w=1.09,lift; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53519
+battlegrounds,A5,-33,-0.1,hw=1.003;lr=1.005;tb=1.001;edges_h=-0.1;edges_v=-0.1;scale_w=1.10,lift; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53520
+battlegrounds,A5,-32,-0.1,hw=1.003;lr=1.001;tb=0.997;edges_h=+0.0;edges_v=-0.1;scale_w=1.11,lift; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53521
+battlegrounds,A5,-31,-0.1,hw=1.002;lr=1.000;tb=1.002;edges_h=-0.1;edges_v=-0.2;scale_w=1.12,lift; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53522
+battlegrounds,A5,-30,-0.1,hw=1.001;lr=1.007;tb=1.001;edges_h=-0.1;edges_v=-0.0;scale_w=1.13,lift; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53523
+battlegrounds,A5,-29,-0.1,hw=1.003;lr=0.999;tb=0.997;edges_h=-0.1;edges_v=-0.1;scale_w=1.14,lift; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53524
+battlegrounds,A5,-28,+0.0,hw=1.001;lr=0.999;tb=0.995;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,lift; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53525
+battlegrounds,A5,-27,+0.0,hw=1.001;lr=1.000;tb=0.995;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53526
+battlegrounds,A5,-26,+0.0,hw=1.001;lr=0.999;tb=0.995;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53527
+battlegrounds,A5,-25,+0.0,hw=1.001;lr=0.999;tb=0.995;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53528
+battlegrounds,A5,-24,+0.0,hw=1.001;lr=0.999;tb=0.995;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53529
+battlegrounds,A5,-23,+0.0,hw=1.001;lr=0.999;tb=0.995;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53530
+battlegrounds,A5,-22,+0.0,hw=1.001;lr=0.999;tb=0.995;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53531
+battlegrounds,A5,-21,+0.0,hw=1.001;lr=0.999;tb=0.995;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53532
+battlegrounds,A5,-20,+0.0,hw=1.001;lr=1.000;tb=0.996;edges_h=+0.0;edges_v=-0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53533
+battlegrounds,A5,-19,+0.0,hw=1.001;lr=1.000;tb=0.996;edges_h=+0.0;edges_v=-0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53534
+battlegrounds,A5,-18,+0.0,hw=1.001;lr=1.000;tb=0.996;edges_h=+0.0;edges_v=-0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53535
+battlegrounds,A5,-17,+0.0,hw=1.001;lr=1.000;tb=0.996;edges_h=+0.0;edges_v=-0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53536
+battlegrounds,A5,-16,+0.0,hw=1.001;lr=1.000;tb=0.996;edges_h=+0.0;edges_v=-0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53537
+battlegrounds,A5,-15,+0.0,hw=1.001;lr=1.000;tb=0.996;edges_h=+0.0;edges_v=-0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53538
+battlegrounds,A5,-14,+0.0,hw=1.001;lr=1.000;tb=0.996;edges_h=+0.0;edges_v=-0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53539
+battlegrounds,A5,-13,-0.0,hw=1.002;lr=1.001;tb=0.994;edges_h=-0.0;edges_v=-0.0;scale_w=1.15,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53540
+battlegrounds,A5,-12,-0.0,hw=1.002;lr=1.001;tb=0.994;edges_h=-0.0;edges_v=-0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53541
+battlegrounds,A5,-11,-0.0,hw=1.002;lr=1.001;tb=0.995;edges_h=-0.0;edges_v=-0.0;scale_w=1.15,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53542
+battlegrounds,A5,-10,-0.0,hw=1.002;lr=1.001;tb=0.994;edges_h=-0.0;edges_v=-0.0;scale_w=1.15,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53543
+battlegrounds,A5,-9,-0.0,hw=1.002;lr=1.001;tb=0.994;edges_h=-0.0;edges_v=-0.0;scale_w=1.15,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53544
+battlegrounds,A5,-8,-0.0,hw=1.002;lr=1.001;tb=0.994;edges_h=-0.0;edges_v=-0.0;scale_w=1.15,hold; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53545
+battlegrounds,A5,-7,-0.0,hw=1.001;lr=1.002;tb=0.995;edges_h=-0.1;edges_v=-0.0;scale_w=1.15,strike; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53546
+battlegrounds,A5,-6,-0.0,hw=1.002;lr=0.997;tb=0.987;edges_h=-0.0;edges_v=-0.1;scale_w=1.15,strike; match 0.99; https://youtu.be/M11gKHV4whs?t=902 src frame 53547
+battlegrounds,A5,-5,-0.0,hw=1.001;lr=1.004;tb=0.994;edges_h=-0.0;edges_v=-0.0;scale_w=1.15,strike; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53548
+battlegrounds,A5,-4,-0.0,hw=1.001;lr=1.001;tb=0.997;edges_h=-0.0;edges_v=-0.0;scale_w=1.15,strike; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53549
+battlegrounds,A5,-3,+0.0,hw=0.999;lr=0.997;tb=0.993;edges_h=+0.1;edges_v=-0.0;scale_w=1.15,strike; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53550
+battlegrounds,A5,-2,+0.1,hw=1.002;lr=1.003;tb=1.003;edges_h=+0.0;edges_v=+0.1;scale_w=1.15,strike; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53551
+battlegrounds,A5,-1,-0.0,hw=0.997;lr=0.999;tb=1.002;edges_h=-0.1;edges_v=-0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/M11gKHV4whs?t=902 src frame 53552
+battlegrounds,A5,0,-0.9,hw=0.993;lr=0.992;tb=1.022;edges_h=-0.1;edges_v=-1.7;scale_w=1.32,contact; match 0.99; https://youtu.be/M11gKHV4whs?t=902 src frame 53553
+battlegrounds,A5,1,-2.5,hw=0.997;lr=1.063;tb=1.050;edges_h=-2.7;edges_v=-2.3;scale_w=1.28,return; match 0.88; https://youtu.be/M11gKHV4whs?t=902 src frame 53554
+battlegrounds,A5,2,,,"return; not measured (card covered by flash, damage star or effect; match 0.68); https://youtu.be/M11gKHV4whs?t=902 src frame 53555"
+battlegrounds,A5,3,,,"return; not measured (card covered by flash, damage star or effect; match 0.67); https://youtu.be/M11gKHV4whs?t=902 src frame 53556"
+battlegrounds,A5,4,,,"return; not measured (card covered by flash, damage star or effect; match 0.60); https://youtu.be/M11gKHV4whs?t=902 src frame 53557"
+battlegrounds,A5,5,,,"return; not measured (card covered by flash, damage star or effect; match 0.67); https://youtu.be/M11gKHV4whs?t=902 src frame 53558"
+battlegrounds,A5,6,,,"return; not measured (card covered by flash, damage star or effect; match 0.67); https://youtu.be/M11gKHV4whs?t=902 src frame 53559"
+battlegrounds,A5,7,,,"return; not measured (card covered by flash, damage star or effect; match 0.65); https://youtu.be/M11gKHV4whs?t=902 src frame 53560"
+battlegrounds,A5,8,,,"return; not measured (card covered by flash, damage star or effect; match 0.60); https://youtu.be/M11gKHV4whs?t=902 src frame 53561"
+battlegrounds,A5,9,,,"return; not measured (card covered by flash, damage star or effect; match 0.64); https://youtu.be/M11gKHV4whs?t=902 src frame 53562"
+battlegrounds,A5,10,,,"return; not measured (card covered by flash, damage star or effect; match 0.64); https://youtu.be/M11gKHV4whs?t=902 src frame 53563"
+battlegrounds,A5,11,,,"return; not measured (card covered by flash, damage star or effect; match 0.52); https://youtu.be/M11gKHV4whs?t=902 src frame 53564"
+battlegrounds,A5,12,,,"return; not measured (card covered by flash, damage star or effect; match 0.55); https://youtu.be/M11gKHV4whs?t=902 src frame 53565"
+battlegrounds,A5,13,,,"return; not measured (card covered by flash, damage star or effect; match 0.62); https://youtu.be/M11gKHV4whs?t=902 src frame 53566"
+battlegrounds,A5,14,,,"return; not measured (card covered by flash, damage star or effect; match 0.63); https://youtu.be/M11gKHV4whs?t=902 src frame 53567"
+battlegrounds,A5,15,,,"return; not measured (card covered by flash, damage star or effect; match -1.00); https://youtu.be/M11gKHV4whs?t=902 src frame 53568"
+battlegrounds,A5,16,,,"return; not measured (card covered by flash, damage star or effect; match -1.00); https://youtu.be/M11gKHV4whs?t=902 src frame 53569"
+battlegrounds,A5,17,,,"return; not measured (card covered by flash, damage star or effect; match -1.00); https://youtu.be/M11gKHV4whs?t=902 src frame 53570"
+battlegrounds,A6,-32,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47148
+battlegrounds,A6,-31,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47149
+battlegrounds,A6,-30,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47150
+battlegrounds,A6,-29,-0.0,hw=0.999;lr=1.003;tb=0.996;edges_h=-0.1;edges_v=+0.0;scale_w=1.01,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47151
+battlegrounds,A6,-28,-0.0,hw=1.001;lr=0.998;tb=0.995;edges_h=-0.0;edges_v=-0.1;scale_w=1.02,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47152
+battlegrounds,A6,-27,-0.0,hw=1.002;lr=0.996;tb=0.998;edges_h=-0.0;edges_v=-0.1;scale_w=1.03,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47153
+battlegrounds,A6,-26,-0.1,hw=1.004;lr=0.997;tb=1.003;edges_h=+0.0;edges_v=-0.2;scale_w=1.05,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47154
+battlegrounds,A6,-25,-0.1,hw=1.004;lr=0.997;tb=1.000;edges_h=+0.0;edges_v=-0.1;scale_w=1.06,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47155
+battlegrounds,A6,-24,-0.1,hw=1.003;lr=0.999;tb=1.001;edges_h=-0.0;edges_v=-0.1;scale_w=1.07,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47156
+battlegrounds,A6,-23,-0.1,hw=1.002;lr=1.001;tb=1.001;edges_h=-0.0;edges_v=-0.2;scale_w=1.09,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47157
+battlegrounds,A6,-22,-0.0,hw=1.002;lr=0.999;tb=0.998;edges_h=+0.0;edges_v=-0.1;scale_w=1.10,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47158
+battlegrounds,A6,-21,-0.0,hw=1.005;lr=0.997;tb=1.001;edges_h=+0.0;edges_v=-0.1;scale_w=1.12,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47159
+battlegrounds,A6,-20,-0.0,hw=1.003;lr=0.995;tb=1.002;edges_h=+0.0;edges_v=-0.1;scale_w=1.13,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47160
+battlegrounds,A6,-19,+0.0,hw=1.001;lr=0.993;tb=1.005;edges_h=+0.1;edges_v=-0.0;scale_w=1.15,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47161
+battlegrounds,A6,-18,+0.0,hw=1.000;lr=0.999;tb=0.999;edges_h=+0.1;edges_v=-0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47162
+battlegrounds,A6,-17,+0.0,hw=1.000;lr=0.998;tb=0.999;edges_h=+0.1;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47163
+battlegrounds,A6,-16,+0.0,hw=1.000;lr=0.998;tb=0.999;edges_h=+0.1;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47164
+battlegrounds,A6,-15,+0.0,hw=1.000;lr=0.998;tb=0.999;edges_h=+0.1;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47165
+battlegrounds,A6,-14,+0.0,hw=1.000;lr=0.999;tb=0.998;edges_h=+0.1;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47166
+battlegrounds,A6,-13,+0.0,hw=1.000;lr=0.999;tb=0.998;edges_h=+0.1;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47167
+battlegrounds,A6,-12,+0.0,hw=1.000;lr=0.999;tb=0.998;edges_h=+0.1;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47168
+battlegrounds,A6,-11,+0.0,hw=1.000;lr=0.998;tb=0.998;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47169
+battlegrounds,A6,-10,+0.0,hw=1.000;lr=0.998;tb=0.998;edges_h=+0.1;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47170
+battlegrounds,A6,-9,+0.0,hw=1.000;lr=0.998;tb=0.998;edges_h=+0.1;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47171
+battlegrounds,A6,-8,+0.0,hw=1.000;lr=0.998;tb=0.998;edges_h=+0.1;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47172
+battlegrounds,A6,-7,+0.0,hw=1.000;lr=0.998;tb=0.998;edges_h=+0.1;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47173
+battlegrounds,A6,-6,+0.0,hw=1.001;lr=0.999;tb=0.993;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47174
+battlegrounds,A6,-5,+0.0,hw=1.002;lr=0.998;tb=0.991;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47175
+battlegrounds,A6,-4,+0.0,hw=1.001;lr=0.997;tb=0.991;edges_h=+0.0;edges_v=-0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47176
+battlegrounds,A6,-3,-0.0,hw=0.999;lr=0.997;tb=0.992;edges_h=+0.1;edges_v=-0.1;scale_w=1.16,strike; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47177
+battlegrounds,A6,-2,+0.0,hw=1.001;lr=0.997;tb=0.994;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47178
+battlegrounds,A6,-1,+0.0,hw=1.003;lr=0.998;tb=0.989;edges_h=+0.1;edges_v=-0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47179
+battlegrounds,A6,0,-0.5,hw=0.999;lr=0.998;tb=1.025;edges_h=-0.1;edges_v=-0.8;scale_w=1.33,contact; match 0.99; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47180
+battlegrounds,A6,1,-2.3,hw=0.997;lr=0.899;tb=0.930;edges_h=-1.0;edges_v=-3.6;scale_w=1.26,return; match 0.82; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47181
+battlegrounds,A6,2,-1.8,hw=1.013;lr=1.051;tb=1.036;edges_h=+0.3;edges_v=-3.8;scale_w=1.15,return; match 0.89; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47182
+battlegrounds,A6,3,-0.2,hw=1.030;lr=1.063;tb=0.967;edges_h=+5.7;edges_v=-6.1;scale_w=1.03,return; match 0.94; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47183
+battlegrounds,A6,4,+0.8,hw=1.009;lr=1.062;tb=0.960;edges_h=+7.8;edges_v=-6.2;scale_w=0.99,return; match 0.94; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47184
+battlegrounds,A6,5,+1.4,hw=0.977;lr=1.050;tb=0.956;edges_h=+8.5;edges_v=-5.8;scale_w=0.95,return; match 0.94; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47185
+battlegrounds,A6,6,+1.0,hw=0.948;lr=1.052;tb=0.931;edges_h=+7.2;edges_v=-5.1;scale_w=0.96,return; match 0.94; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47186
+battlegrounds,A6,7,+0.8,hw=0.936;lr=1.047;tb=0.925;edges_h=+5.8;edges_v=-4.3;scale_w=0.98,return; match 0.94; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47187
+battlegrounds,A6,8,+0.3,hw=0.940;lr=1.016;tb=0.950;edges_h=+2.7;edges_v=-2.2;scale_w=1.00,return; match 0.97; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47188
+battlegrounds,A6,9,-0.2,hw=0.970;lr=1.002;tb=0.966;edges_h=+0.8;edges_v=-1.2;scale_w=1.01,return; match 0.99; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47189
+battlegrounds,A6,10,-0.4,hw=1.008;lr=0.985;tb=0.987;edges_h=-0.1;edges_v=-0.7;scale_w=1.01,return; match 0.99; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47190
+battlegrounds,A6,11,-0.2,hw=1.012;lr=0.986;tb=0.986;edges_h=+0.2;edges_v=-0.6;scale_w=1.00,return; match 0.99; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47191
+battlegrounds,A6,12,-0.0,hw=1.012;lr=0.995;tb=1.003;edges_h=+0.2;edges_v=-0.2;scale_w=1.00,return; match 0.98; https://youtu.be/X3cr8nyi_-s?t=785 src frame 47192
+battlegrounds,A6,13,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/X3cr8nyi_-s?t=785 src frame 47193
+battlegrounds,A6,14,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/X3cr8nyi_-s?t=785 src frame 47194
+battlegrounds,A6,15,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/X3cr8nyi_-s?t=785 src frame 47195
+battlegrounds,A6,16,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/X3cr8nyi_-s?t=785 src frame 47196
+battlegrounds,A6,17,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/X3cr8nyi_-s?t=785 src frame 47197
+battlegrounds,A6,18,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/X3cr8nyi_-s?t=785 src frame 47198
+battlegrounds,A6,19,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/X3cr8nyi_-s?t=785 src frame 47199
+battlegrounds,A6,20,,,return; not measured (tracker lost the card: locked on a neighbour or an overlay); https://youtu.be/X3cr8nyi_-s?t=785 src frame 47200
+battlegrounds,A7,-35,+0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=+0.0;edges_v=+0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46950
+battlegrounds,A7,-34,+0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=+0.0;edges_v=+0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46951
+battlegrounds,A7,-33,+0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=+0.0;edges_v=+0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46952
+battlegrounds,A7,-32,-0.0,hw=1.001;lr=0.998;tb=1.000;edges_h=+0.0;edges_v=-0.1;scale_w=1.01,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46953
+battlegrounds,A7,-31,-0.0,hw=1.002;lr=0.999;tb=0.999;edges_h=+0.0;edges_v=-0.1;scale_w=1.02,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46954
+battlegrounds,A7,-30,-0.1,hw=1.004;lr=1.000;tb=0.997;edges_h=-0.0;edges_v=-0.2;scale_w=1.03,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46955
+battlegrounds,A7,-29,-0.2,hw=1.005;lr=1.001;tb=0.994;edges_h=-0.1;edges_v=-0.3;scale_w=1.05,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46956
+battlegrounds,A7,-28,-0.2,hw=1.005;lr=0.997;tb=0.994;edges_h=-0.1;edges_v=-0.3;scale_w=1.06,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46957
+battlegrounds,A7,-27,-0.1,hw=1.006;lr=0.999;tb=0.996;edges_h=+0.0;edges_v=-0.3;scale_w=1.07,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46958
+battlegrounds,A7,-26,-0.2,hw=1.006;lr=1.002;tb=0.991;edges_h=+0.0;edges_v=-0.3;scale_w=1.08,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46959
+battlegrounds,A7,-25,-0.1,hw=1.007;lr=1.003;tb=0.997;edges_h=-0.0;edges_v=-0.3;scale_w=1.10,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46960
+battlegrounds,A7,-24,-0.1,hw=1.005;lr=1.000;tb=0.995;edges_h=+0.0;edges_v=-0.2;scale_w=1.11,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46961
+battlegrounds,A7,-23,-0.1,hw=1.005;lr=0.994;tb=0.992;edges_h=-0.0;edges_v=-0.2;scale_w=1.13,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46962
+battlegrounds,A7,-22,-0.0,hw=1.000;lr=1.000;tb=0.993;edges_h=+0.0;edges_v=-0.1;scale_w=1.14,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46963
+battlegrounds,A7,-21,-0.0,hw=1.000;lr=0.997;tb=0.999;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,lift; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46964
+battlegrounds,A7,-20,+0.0,hw=0.999;lr=1.002;tb=0.999;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46965
+battlegrounds,A7,-19,+0.0,hw=0.999;lr=1.002;tb=0.999;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46966
+battlegrounds,A7,-18,+0.0,hw=0.999;lr=1.002;tb=0.999;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46967
+battlegrounds,A7,-17,+0.0,hw=0.999;lr=1.002;tb=0.998;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46968
+battlegrounds,A7,-16,+0.0,hw=0.999;lr=1.002;tb=0.998;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46969
+battlegrounds,A7,-15,+0.0,hw=0.999;lr=1.002;tb=0.997;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46970
+battlegrounds,A7,-14,+0.0,hw=0.999;lr=1.002;tb=0.997;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46971
+battlegrounds,A7,-13,+0.0,hw=0.999;lr=1.002;tb=0.997;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46972
+battlegrounds,A7,-12,+0.0,hw=0.999;lr=1.002;tb=0.997;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46973
+battlegrounds,A7,-11,+0.0,hw=0.999;lr=1.002;tb=0.997;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46974
+battlegrounds,A7,-10,+0.0,hw=0.999;lr=1.002;tb=0.997;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46975
+battlegrounds,A7,-9,+0.0,hw=0.999;lr=1.002;tb=0.997;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46976
+battlegrounds,A7,-8,+0.0,hw=0.999;lr=1.002;tb=0.997;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46977
+battlegrounds,A7,-7,+0.0,hw=0.999;lr=1.002;tb=0.997;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46978
+battlegrounds,A7,-6,+0.0,hw=0.999;lr=1.001;tb=0.999;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46979
+battlegrounds,A7,-5,+0.0,hw=1.001;lr=1.001;tb=0.997;edges_h=+0.0;edges_v=-0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46980
+battlegrounds,A7,-4,+0.0,hw=1.001;lr=1.002;tb=0.992;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46981
+battlegrounds,A7,-3,-0.0,hw=1.001;lr=1.001;tb=0.994;edges_h=-0.0;edges_v=-0.1;scale_w=1.16,strike; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46982
+battlegrounds,A7,-2,+0.0,hw=1.001;lr=1.004;tb=0.989;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46983
+battlegrounds,A7,-1,+0.0,hw=1.001;lr=0.997;tb=0.988;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/X3cr8nyi_-s?t=782 src frame 46984
+battlegrounds,A7,0,,,"contact; not measured (card covered by flash, damage star or effect; match 0.69); https://youtu.be/X3cr8nyi_-s?t=782 src frame 46985"
+battlegrounds,A7,1,,,"return; not measured (card covered by flash, damage star or effect; match 0.79); https://youtu.be/X3cr8nyi_-s?t=782 src frame 46986"
+battlegrounds,A7,2,,,"return; not measured (card covered by flash, damage star or effect; match 0.77); https://youtu.be/X3cr8nyi_-s?t=782 src frame 46987"
+battlegrounds,A7,3,,,"return; not measured (card covered by flash, damage star or effect; match 0.77); https://youtu.be/X3cr8nyi_-s?t=782 src frame 46988"
+battlegrounds,A7,4,,,"return; not measured (card covered by flash, damage star or effect; match 0.69); https://youtu.be/X3cr8nyi_-s?t=782 src frame 46989"
+battlegrounds,A7,5,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/X3cr8nyi_-s?t=782 src frame 46990"
+battlegrounds,A7,6,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/X3cr8nyi_-s?t=782 src frame 46991"
+battlegrounds,A7,7,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/X3cr8nyi_-s?t=782 src frame 46992"
+battlegrounds,A7,8,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/X3cr8nyi_-s?t=782 src frame 46993"
+battlegrounds,A7,9,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/X3cr8nyi_-s?t=782 src frame 46994"
+battlegrounds,A7,10,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/X3cr8nyi_-s?t=782 src frame 46995"
+battlegrounds,A7,11,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/X3cr8nyi_-s?t=782 src frame 46996"
+battlegrounds,A7,12,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/X3cr8nyi_-s?t=782 src frame 46997"
+battlegrounds,A7,13,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/X3cr8nyi_-s?t=782 src frame 46998"
+battlegrounds,A7,14,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/X3cr8nyi_-s?t=782 src frame 46999"
+battlegrounds,A7,15,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/X3cr8nyi_-s?t=782 src frame 47000"
+battlegrounds,A8,-45,-0.0,hw=1.000;lr=1.002;tb=1.000;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13556
+battlegrounds,A8,-44,-0.0,hw=1.000;lr=1.002;tb=1.000;edges_h=-0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13557
+battlegrounds,A8,-43,+0.0,hw=0.999;lr=1.003;tb=1.002;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13558
+battlegrounds,A8,-42,-0.1,hw=0.999;lr=1.004;tb=1.002;edges_h=-0.1;edges_v=+0.0;scale_w=1.01,lift; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13559
+battlegrounds,A8,-41,-0.1,hw=0.999;lr=1.004;tb=1.002;edges_h=-0.1;edges_v=+0.0;scale_w=1.01,lift; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13560
+battlegrounds,A8,-40,-0.0,hw=1.001;lr=1.001;tb=0.996;edges_h=-0.1;edges_v=+0.0;scale_w=1.03,lift; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13561
+battlegrounds,A8,-39,-0.1,hw=1.004;lr=1.001;tb=0.998;edges_h=-0.1;edges_v=-0.0;scale_w=1.04,lift; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13562
+battlegrounds,A8,-38,-0.1,hw=1.003;lr=0.999;tb=0.999;edges_h=-0.1;edges_v=-0.0;scale_w=1.04,lift; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13563
+battlegrounds,A8,-37,+0.1,hw=1.002;lr=0.996;tb=0.992;edges_h=+0.1;edges_v=+0.0;scale_w=1.06,lift; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13564
+battlegrounds,A8,-36,+0.0,hw=1.003;lr=0.997;tb=0.997;edges_h=+0.0;edges_v=+0.0;scale_w=1.07,lift; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13565
+battlegrounds,A8,-35,+0.0,hw=1.004;lr=0.997;tb=0.996;edges_h=+0.0;edges_v=+0.0;scale_w=1.07,lift; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13566
+battlegrounds,A8,-34,-0.0,hw=1.006;lr=1.000;tb=0.995;edges_h=-0.1;edges_v=+0.0;scale_w=1.09,lift; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13567
+battlegrounds,A8,-33,+0.0,hw=1.006;lr=1.005;tb=0.995;edges_h=-0.0;edges_v=+0.0;scale_w=1.10,lift; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13568
+battlegrounds,A8,-32,+0.0,hw=1.006;lr=1.005;tb=0.995;edges_h=-0.0;edges_v=+0.0;scale_w=1.10,lift; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13569
+battlegrounds,A8,-31,-0.0,hw=1.003;lr=1.001;tb=0.998;edges_h=-0.0;edges_v=-0.0;scale_w=1.12,lift; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13570
+battlegrounds,A8,-30,-0.0,hw=1.002;lr=1.000;tb=0.997;edges_h=-0.1;edges_v=+0.0;scale_w=1.13,lift; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13571
+battlegrounds,A8,-29,-0.0,hw=1.002;lr=1.000;tb=0.997;edges_h=-0.1;edges_v=+0.0;scale_w=1.13,lift; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13572
+battlegrounds,A8,-28,+0.1,hw=1.000;lr=1.001;tb=0.999;edges_h=+0.0;edges_v=+0.1;scale_w=1.16,lift; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13573
+battlegrounds,A8,-27,+0.0,hw=1.000;lr=1.000;tb=0.999;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13574
+battlegrounds,A8,-26,+0.0,hw=1.000;lr=1.000;tb=0.999;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13575
+battlegrounds,A8,-25,+0.1,hw=0.998;lr=0.998;tb=1.000;edges_h=+0.1;edges_v=+0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13576
+battlegrounds,A8,-24,+0.1,hw=0.998;lr=0.997;tb=1.000;edges_h=+0.1;edges_v=+0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13577
+battlegrounds,A8,-23,+0.1,hw=0.998;lr=0.997;tb=1.000;edges_h=+0.1;edges_v=+0.1;scale_w=1.16,hold; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13578
+battlegrounds,A8,-22,+0.1,hw=0.998;lr=0.996;tb=1.000;edges_h=+0.1;edges_v=+0.1;scale_w=1.16,hold; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13579
+battlegrounds,A8,-21,+0.1,hw=0.999;lr=0.997;tb=1.000;edges_h=+0.1;edges_v=+0.1;scale_w=1.16,hold; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13580
+battlegrounds,A8,-20,+0.1,hw=0.999;lr=0.998;tb=1.000;edges_h=+0.1;edges_v=+0.1;scale_w=1.16,hold; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13581
+battlegrounds,A8,-19,+0.1,hw=1.002;lr=1.004;tb=0.998;edges_h=+0.1;edges_v=+0.1;scale_w=1.15,hold; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13582
+battlegrounds,A8,-18,+0.1,hw=1.002;lr=1.005;tb=0.998;edges_h=+0.0;edges_v=+0.1;scale_w=1.15,hold; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13583
+battlegrounds,A8,-17,+0.1,hw=1.002;lr=1.006;tb=0.998;edges_h=+0.0;edges_v=+0.1;scale_w=1.15,hold; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13584
+battlegrounds,A8,-16,+0.1,hw=1.001;lr=1.003;tb=0.999;edges_h=+0.0;edges_v=+0.1;scale_w=1.16,hold; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13585
+battlegrounds,A8,-15,+0.1,hw=1.000;lr=1.002;tb=0.999;edges_h=+0.1;edges_v=+0.0;scale_w=1.16,hold; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13586
+battlegrounds,A8,-14,+0.1,hw=1.000;lr=1.002;tb=0.999;edges_h=+0.1;edges_v=+0.0;scale_w=1.16,hold; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13587
+battlegrounds,A8,-13,+0.0,hw=0.999;lr=1.000;tb=1.001;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13588
+battlegrounds,A8,-12,+0.0,hw=0.999;lr=1.002;tb=1.000;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13589
+battlegrounds,A8,-11,+0.0,hw=1.001;lr=1.002;tb=0.999;edges_h=+0.0;edges_v=-0.0;scale_w=1.16,hold; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13590
+battlegrounds,A8,-10,+0.0,hw=1.001;lr=1.001;tb=0.999;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13591
+battlegrounds,A8,-9,+0.0,hw=1.001;lr=1.000;tb=1.000;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13592
+battlegrounds,A8,-8,+0.0,hw=1.001;lr=1.000;tb=1.000;edges_h=+0.0;edges_v=+0.0;scale_w=1.16,hold; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13593
+battlegrounds,A8,-7,-0.0,hw=1.000;lr=0.997;tb=1.005;edges_h=+0.0;edges_v=-0.1;scale_w=1.16,strike; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13594
+battlegrounds,A8,-6,-0.0,hw=1.003;lr=0.999;tb=0.998;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13595
+battlegrounds,A8,-5,-0.0,hw=1.003;lr=0.999;tb=0.998;edges_h=-0.0;edges_v=+0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13596
+battlegrounds,A8,-4,-0.0,hw=1.003;lr=0.997;tb=0.997;edges_h=+0.0;edges_v=-0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13597
+battlegrounds,A8,-3,-0.0,hw=1.004;lr=0.999;tb=0.998;edges_h=-0.0;edges_v=-0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13598
+battlegrounds,A8,-2,-0.0,hw=1.004;lr=0.999;tb=0.998;edges_h=-0.0;edges_v=-0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13599
+battlegrounds,A8,-1,-0.0,hw=1.003;lr=0.998;tb=0.999;edges_h=+0.0;edges_v=-0.0;scale_w=1.16,strike; match 1.00; https://youtu.be/HxC68n9hcUU?t=226 src frame 13600
+battlegrounds,A8,0,+0.0,hw=1.003;lr=0.998;tb=1.019;edges_h=+0.0;edges_v=+0.0;scale_w=1.32,contact; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13601
+battlegrounds,A8,1,+0.0,hw=1.003;lr=0.998;tb=1.019;edges_h=+0.0;edges_v=+0.0;scale_w=1.32,return; match 0.99; https://youtu.be/HxC68n9hcUU?t=226 src frame 13602
+battlegrounds,A8,2,,,"return; not measured (card covered by flash, damage star or effect; match 0.71); https://youtu.be/HxC68n9hcUU?t=226 src frame 13603"
+battlegrounds,A8,3,,,"return; not measured (card covered by flash, damage star or effect; match 0.59); https://youtu.be/HxC68n9hcUU?t=226 src frame 13604"
+battlegrounds,A8,4,,,"return; not measured (card covered by flash, damage star or effect; match 0.59); https://youtu.be/HxC68n9hcUU?t=226 src frame 13605"
+battlegrounds,A8,5,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/HxC68n9hcUU?t=226 src frame 13606"
+battlegrounds,A8,6,,,"return; not measured (card covered by flash, damage star or effect; match 0.52); https://youtu.be/HxC68n9hcUU?t=226 src frame 13607"
+battlegrounds,A8,7,,,"return; not measured (card covered by flash, damage star or effect; match 0.52); https://youtu.be/HxC68n9hcUU?t=226 src frame 13608"
+battlegrounds,A8,8,,,"return; not measured (card covered by flash, damage star or effect; match 0.54); https://youtu.be/HxC68n9hcUU?t=226 src frame 13609"
+battlegrounds,A8,9,,,"return; not measured (card covered by flash, damage star or effect; match 0.52); https://youtu.be/HxC68n9hcUU?t=226 src frame 13610"
+battlegrounds,A8,10,,,"return; not measured (card covered by flash, damage star or effect; match 0.53); https://youtu.be/HxC68n9hcUU?t=226 src frame 13611"
+battlegrounds,A8,11,,,"return; not measured (card covered by flash, damage star or effect; match 0.54); https://youtu.be/HxC68n9hcUU?t=226 src frame 13612"
+battlegrounds,A8,12,,,"return; not measured (card covered by flash, damage star or effect; match 0.54); https://youtu.be/HxC68n9hcUU?t=226 src frame 13613"
+battlegrounds,A8,13,,,"return; not measured (card covered by flash, damage star or effect; match 0.54); https://youtu.be/HxC68n9hcUU?t=226 src frame 13614"
+battlegrounds,A8,14,,,"return; not measured (card covered by flash, damage star or effect; match 0.52); https://youtu.be/HxC68n9hcUU?t=226 src frame 13615"
+battlegrounds,A8,15,,,"return; not measured (card covered by flash, damage star or effect; match 0.53); https://youtu.be/HxC68n9hcUU?t=226 src frame 13616"
+battlegrounds,A8,16,,,"return; not measured (card covered by flash, damage star or effect; match 0.53); https://youtu.be/HxC68n9hcUU?t=226 src frame 13617"
+battlegrounds,A8,17,,,"return; not measured (card covered by flash, damage star or effect; match 0.53); https://youtu.be/HxC68n9hcUU?t=226 src frame 13618"
+battlegrounds,A8,18,,,"return; not measured (card covered by flash, damage star or effect; match 0.55); https://youtu.be/HxC68n9hcUU?t=226 src frame 13619"
+battlegrounds,A8,19,,,"return; not measured (card covered by flash, damage star or effect; match 0.55); https://youtu.be/HxC68n9hcUU?t=226 src frame 13620"
+battlegrounds,A8,20,,,"return; not measured (card covered by flash, damage star or effect; match 0.65); https://youtu.be/HxC68n9hcUU?t=226 src frame 13621"
+battlegrounds,A8,21,,,"return; not measured (card covered by flash, damage star or effect; match 0.67); https://youtu.be/HxC68n9hcUU?t=226 src frame 13622"
+battlegrounds,A8,22,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/HxC68n9hcUU?t=226 src frame 13623"
+battlegrounds,A8,23,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/HxC68n9hcUU?t=226 src frame 13624"
+battlegrounds,A8,24,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/HxC68n9hcUU?t=226 src frame 13625"
+battlegrounds,A11,-17,+0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=+0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7650
+battlegrounds,A11,-16,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7651
+battlegrounds,A11,-15,-0.0,hw=1.000;lr=1.001;tb=1.000;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7652
+battlegrounds,A11,-14,-0.0,hw=1.000;lr=1.002;tb=0.999;edges_h=-0.0;edges_v=-0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7653
+battlegrounds,A11,-13,-0.0,hw=1.000;lr=1.002;tb=0.999;edges_h=-0.0;edges_v=-0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7654
+battlegrounds,A11,-12,-0.0,hw=1.000;lr=1.002;tb=0.999;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7655
+battlegrounds,A11,-11,-0.0,hw=1.000;lr=1.002;tb=0.999;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7656
+battlegrounds,A11,-10,+0.0,hw=1.000;lr=1.002;tb=0.998;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7657
+battlegrounds,A11,-9,+0.0,hw=1.001;lr=1.001;tb=0.998;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7658
+battlegrounds,A11,-8,+0.0,hw=1.001;lr=1.001;tb=0.998;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,hold; match 1.00; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7659
+battlegrounds,A11,-7,+0.0,hw=1.001;lr=1.002;tb=0.996;edges_h=-0.0;edges_v=+0.0;scale_w=1.00,strike; match 1.00; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7660
+battlegrounds,A11,-6,-0.0,hw=1.004;lr=1.027;tb=1.016;edges_h=+0.2;edges_v=-0.2;scale_w=1.01,strike; match 0.99; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7661
+battlegrounds,A11,-5,-0.1,hw=1.005;lr=1.037;tb=1.024;edges_h=+0.3;edges_v=-0.5;scale_w=1.01,strike; match 0.99; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7662
+battlegrounds,A11,-4,-0.1,hw=1.005;lr=1.053;tb=1.033;edges_h=+0.5;edges_v=-0.6;scale_w=1.01,strike; match 0.99; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7663
+battlegrounds,A11,-3,-0.0,hw=1.004;lr=1.075;tb=1.048;edges_h=+0.6;edges_v=-0.7;scale_w=1.02,strike; match 0.98; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7664
+battlegrounds,A11,-2,-0.1,hw=1.008;lr=1.079;tb=1.061;edges_h=+0.6;edges_v=-0.8;scale_w=1.02,strike; match 0.98; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7665
+battlegrounds,A11,-1,-0.1,hw=1.008;lr=1.103;tb=1.070;edges_h=+0.9;edges_v=-1.0;scale_w=1.03,strike; match 0.97; https://youtu.be/X3cr8nyi_-s?t=127 src frame 7666
+battlegrounds,A11,0,,,"contact; not measured (card covered by flash, damage star or effect; match 0.50); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7667"
+battlegrounds,A11,1,,,"return; not measured (card covered by flash, damage star or effect; match 0.64); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7668"
+battlegrounds,A11,2,,,"return; not measured (card covered by flash, damage star or effect; match 0.56); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7669"
+battlegrounds,A11,3,,,"return; not measured (card covered by flash, damage star or effect; match 0.56); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7670"
+battlegrounds,A11,4,,,"return; not measured (card covered by flash, damage star or effect; match 0.56); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7671"
+battlegrounds,A11,5,,,"return; not measured (card covered by flash, damage star or effect; match 0.56); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7672"
+battlegrounds,A11,6,,,"return; not measured (card covered by flash, damage star or effect; match 0.59); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7673"
+battlegrounds,A11,7,,,"return; not measured (card covered by flash, damage star or effect; match 0.70); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7674"
+battlegrounds,A11,8,,,"return; not measured (card covered by flash, damage star or effect; match 0.53); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7675"
+battlegrounds,A11,9,,,"return; not measured (card covered by flash, damage star or effect; match 0.53); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7676"
+battlegrounds,A11,10,,,"return; not measured (card covered by flash, damage star or effect; match 0.53); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7677"
+battlegrounds,A11,11,,,"return; not measured (card covered by flash, damage star or effect; match 0.53); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7678"
+battlegrounds,A11,12,,,"return; not measured (card covered by flash, damage star or effect; match 0.53); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7679"
+battlegrounds,A11,13,,,"return; not measured (card covered by flash, damage star or effect; match 0.46); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7680"
+battlegrounds,A11,14,,,"return; not measured (card covered by flash, damage star or effect; match 0.46); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7681"
+battlegrounds,A11,15,,,"return; not measured (card covered by flash, damage star or effect; match 0.46); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7682"
+battlegrounds,A11,16,,,"return; not measured (card covered by flash, damage star or effect; match 0.46); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7683"
+battlegrounds,A11,17,,,"return; not measured (card covered by flash, damage star or effect; match 0.46); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7684"
+battlegrounds,A11,18,,,"return; not measured (card covered by flash, damage star or effect; match 0.46); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7685"
+battlegrounds,A11,19,,,"return; not measured (card covered by flash, damage star or effect; match 0.46); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7686"
+battlegrounds,A11,20,,,"return; not measured (card covered by flash, damage star or effect; match 0.46); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7687"
+battlegrounds,A11,21,,,"return; not measured (card covered by flash, damage star or effect; match 0.46); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7688"
+battlegrounds,A11,22,,,"return; not measured (card covered by flash, damage star or effect; match 0.46); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7689"
+battlegrounds,A11,23,,,"return; not measured (card covered by flash, damage star or effect; match 0.46); https://youtu.be/X3cr8nyi_-s?t=127 src frame 7690"
+galaxy,G-A1,-32,+0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=+0.0;edges_v=+0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19623
+galaxy,G-A1,-31,+0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=+0.0;edges_v=+0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19624
+galaxy,G-A1,-30,+0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=+0.0;edges_v=+0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19625
+galaxy,G-A1,-29,-0.2,hw=1.005;lr=1.003;tb=1.005;edges_h=-0.0;edges_v=-0.3;scale_w=1.04,windup; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19626
+galaxy,G-A1,-28,-0.3,hw=1.010;lr=1.004;tb=1.014;edges_h=+0.0;edges_v=-0.6;scale_w=1.08,windup; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19627
+galaxy,G-A1,-27,-0.5,hw=1.014;lr=1.002;tb=1.018;edges_h=+0.0;edges_v=-1.0;scale_w=1.11,windup; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19628
+galaxy,G-A1,-26,-0.7,hw=1.019;lr=1.001;tb=1.027;edges_h=+0.1;edges_v=-1.4;scale_w=1.15,windup; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19629
+galaxy,G-A1,-25,-0.9,hw=1.023;lr=1.003;tb=1.036;edges_h=+0.0;edges_v=-1.8;scale_w=1.18,windup; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19630
+galaxy,G-A1,-24,-1.1,hw=1.025;lr=1.002;tb=1.041;edges_h=+0.0;edges_v=-2.2;scale_w=1.21,windup; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19631
+galaxy,G-A1,-23,-1.3,hw=1.029;lr=1.003;tb=1.051;edges_h=+0.1;edges_v=-2.6;scale_w=1.24,windup; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19632
+galaxy,G-A1,-22,-1.5,hw=1.031;lr=1.004;tb=1.060;edges_h=+0.1;edges_v=-3.0;scale_w=1.27,windup; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19633
+galaxy,G-A1,-21,-1.7,hw=1.032;lr=1.005;tb=1.070;edges_h=+0.0;edges_v=-3.4;scale_w=1.29,windup; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19634
+galaxy,G-A1,-20,-1.9,hw=1.034;lr=1.004;tb=1.074;edges_h=+0.0;edges_v=-3.8;scale_w=1.31,windup; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19635
+galaxy,G-A1,-19,-2.1,hw=1.034;lr=1.006;tb=1.084;edges_h=+0.1;edges_v=-4.3;scale_w=1.33,windup; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19636
+galaxy,G-A1,-18,-2.4,hw=1.032;lr=1.007;tb=1.093;edges_h=+0.0;edges_v=-4.7;scale_w=1.34,windup; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19637
+galaxy,G-A1,-17,-2.6,hw=1.028;lr=1.008;tb=1.098;edges_h=+0.0;edges_v=-5.2;scale_w=1.36,windup; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19638
+galaxy,G-A1,-16,-2.8,hw=1.022;lr=1.012;tb=1.108;edges_h=+0.0;edges_v=-5.6;scale_w=1.37,windup; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19639
+galaxy,G-A1,-15,-3.0,hw=1.014;lr=1.010;tb=1.120;edges_h=+0.1;edges_v=-6.1;scale_w=1.37,travel; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19640
+galaxy,G-A1,-14,-3.3,hw=1.003;lr=1.013;tb=1.127;edges_h=+0.0;edges_v=-6.6;scale_w=1.38,travel; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19641
+galaxy,G-A1,-13,-3.5,hw=0.989;lr=1.013;tb=1.133;edges_h=+0.0;edges_v=-7.1;scale_w=1.38,travel; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19642
+galaxy,G-A1,-12,-3.8,hw=0.972;lr=1.016;tb=1.142;edges_h=+0.1;edges_v=-7.6;scale_w=1.38,travel; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19643
+galaxy,G-A1,-11,-3.8,hw=0.965;lr=1.014;tb=1.142;edges_h=+0.0;edges_v=-7.6;scale_w=1.38,travel; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19644
+galaxy,G-A1,-10,-3.9,hw=0.952;lr=1.013;tb=1.137;edges_h=-0.0;edges_v=-7.8;scale_w=1.38,travel; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19645
+galaxy,G-A1,-9,-3.9,hw=0.937;lr=1.014;tb=1.138;edges_h=-0.0;edges_v=-7.8;scale_w=1.37,travel; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19646
+galaxy,G-A1,-8,-3.9,hw=0.921;lr=1.017;tb=1.138;edges_h=+0.0;edges_v=-7.9;scale_w=1.37,travel; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19647
+galaxy,G-A1,-7,-4.0,hw=0.904;lr=1.016;tb=1.140;edges_h=+0.0;edges_v=-8.0;scale_w=1.36,travel; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19648
+galaxy,G-A1,-6,-4.1,hw=0.885;lr=1.017;tb=1.139;edges_h=+0.0;edges_v=-8.2;scale_w=1.35,travel; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19649
+galaxy,G-A1,-5,-4.2,hw=0.860;lr=1.020;tb=1.138;edges_h=+0.0;edges_v=-8.4;scale_w=1.35,travel; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19650
+galaxy,G-A1,-4,-4.3,hw=0.835;lr=1.018;tb=1.135;edges_h=+0.0;edges_v=-8.6;scale_w=1.34,travel; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19651
+galaxy,G-A1,-3,-4.4,hw=0.807;lr=1.020;tb=1.131;edges_h=+0.0;edges_v=-8.9;scale_w=1.34,travel; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19652
+galaxy,G-A1,-2,-4.6,hw=0.775;lr=1.022;tb=1.131;edges_h=+0.0;edges_v=-9.3;scale_w=1.34,travel; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19653
+galaxy,G-A1,-1,-4.8,hw=0.740;lr=1.026;tb=1.129;edges_h=+0.0;edges_v=-9.7;scale_w=1.34,travel; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19654
+galaxy,G-A1,0,-5.1,hw=0.701;lr=1.023;tb=1.125;edges_h=-0.1;edges_v=-10.2;scale_w=1.34,contact; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19655
+galaxy,G-A1,1,-4.2,hw=0.770;lr=1.015;tb=1.119;edges_h=-0.0;edges_v=-8.4;scale_w=1.25,return; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19656
+galaxy,G-A1,2,-3.6,hw=0.820;lr=1.012;tb=1.104;edges_h=+0.0;edges_v=-7.3;scale_w=1.19,return; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19657
+galaxy,G-A1,3,-3.3,hw=0.860;lr=1.009;tb=1.099;edges_h=+0.0;edges_v=-6.6;scale_w=1.15,return; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19658
+galaxy,G-A1,4,-2.9,hw=0.888;lr=1.014;tb=1.099;edges_h=+0.1;edges_v=-5.9;scale_w=1.12,return; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19659
+galaxy,G-A1,5,-2.7,hw=0.913;lr=1.009;tb=1.089;edges_h=+0.0;edges_v=-5.4;scale_w=1.09,return; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19660
+galaxy,G-A1,6,-2.5,hw=0.932;lr=1.010;tb=1.088;edges_h=+0.1;edges_v=-5.0;scale_w=1.07,return; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19661
+galaxy,G-A1,7,-2.3,hw=0.946;lr=1.006;tb=1.076;edges_h=+0.0;edges_v=-4.6;scale_w=1.06,return; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19662
+galaxy,G-A1,8,-2.0,hw=0.955;lr=1.009;tb=1.083;edges_h=+0.3;edges_v=-4.3;scale_w=1.05,return; match 0.97; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19663
+galaxy,G-A1,9,-1.7,hw=0.957;lr=0.990;tb=1.115;edges_h=+0.8;edges_v=-4.3;scale_w=1.04,return; match 0.89; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19664
+galaxy,G-A1,10,-1.5,hw=0.956;lr=1.028;tb=1.070;edges_h=+1.0;edges_v=-3.9;scale_w=1.05,return; match 0.81; https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19665
+galaxy,G-A1,11,,,"return; not measured (card covered by flash, damage star or effect; match 0.69); https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19666"
+galaxy,G-A1,12,,,"return; not measured (card covered by flash, damage star or effect; match 0.68); https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19667"
+galaxy,G-A1,13,,,"return; not measured (card covered by flash, damage star or effect; match 0.68); https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19668"
+galaxy,G-A1,14,,,"return; not measured (card covered by flash, damage star or effect; match 0.69); https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19669"
+galaxy,G-A1,15,,,"return; not measured (card covered by flash, damage star or effect; match 0.69); https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19670"
+galaxy,G-A1,16,,,"return; not measured (card covered by flash, damage star or effect; match 0.70); https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19671"
+galaxy,G-A1,17,,,"return; not measured (card covered by flash, damage star or effect; match 0.70); https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19672"
+galaxy,G-A1,18,,,"return; not measured (card covered by flash, damage star or effect; match 0.70); https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19673"
+galaxy,G-A1,19,,,"return; not measured (card covered by flash, damage star or effect; match 0.69); https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19674"
+galaxy,G-A1,20,,,"return; not measured (card covered by flash, damage star or effect; match 0.69); https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19675"
+galaxy,G-A1,21,,,"return; not measured (card covered by flash, damage star or effect; match 0.69); https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19676"
+galaxy,G-A1,22,,,"return; not measured (card covered by flash, damage star or effect; match 0.69); https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19677"
+galaxy,G-A1,23,,,"return; not measured (card covered by flash, damage star or effect; match 0.69); https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19678"
+galaxy,G-A1,24,,,"return; not measured (card covered by flash, damage star or effect; match 0.69); https://youtu.be/4_uOk8CZu0Y?t=327 src frame 19679"
+galaxy,G-A2,-32,+0.1,hw=0.998;lr=1.015;tb=1.003;edges_h=+0.0;edges_v=+0.2;scale_w=1.00,rest; match 0.98; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19731
+galaxy,G-A2,-31,+0.1,hw=0.998;lr=1.015;tb=1.003;edges_h=+0.0;edges_v=+0.2;scale_w=1.00,rest; match 0.98; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19732
+galaxy,G-A2,-30,+0.2,hw=0.997;lr=1.016;tb=1.005;edges_h=+0.0;edges_v=+0.3;scale_w=1.00,rest; match 0.98; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19733
+galaxy,G-A2,-28,+2.8,hw=1.011;lr=1.003;tb=0.986;edges_h=+2.6;edges_v=+2.9;scale_w=1.08,windup; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19735
+galaxy,G-A2,-27,+4.1,hw=1.019;lr=1.000;tb=0.982;edges_h=+3.8;edges_v=+4.4;scale_w=1.11,windup; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19736
+galaxy,G-A2,-26,+5.5,hw=1.031;lr=0.998;tb=0.976;edges_h=+5.0;edges_v=+6.1;scale_w=1.15,windup; match 0.90; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19737
+galaxy,G-A2,-25,+7.0,hw=1.035;lr=0.994;tb=0.978;edges_h=+6.3;edges_v=+7.6;scale_w=1.19,windup; match 0.90; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19738
+galaxy,G-A2,-24,+8.4,hw=1.042;lr=0.999;tb=0.968;edges_h=+7.6;edges_v=+9.1;scale_w=1.22,windup; match 0.90; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19739
+galaxy,G-A2,-23,+9.8,hw=1.051;lr=1.001;tb=0.959;edges_h=+8.9;edges_v=+10.6;scale_w=1.24,windup; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19740
+galaxy,G-A2,-22,+11.3,hw=1.058;lr=1.000;tb=0.958;edges_h=+10.2;edges_v=+12.3;scale_w=1.27,windup; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19741
+galaxy,G-A2,-21,+12.7,hw=1.066;lr=0.997;tb=0.954;edges_h=+11.6;edges_v=+13.9;scale_w=1.30,windup; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19742
+galaxy,G-A2,-20,+14.2,hw=1.071;lr=0.997;tb=0.952;edges_h=+12.9;edges_v=+15.5;scale_w=1.32,windup; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19743
+galaxy,G-A2,-19,+15.7,hw=1.080;lr=0.998;tb=0.947;edges_h=+14.3;edges_v=+17.1;scale_w=1.34,windup; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19744
+galaxy,G-A2,-18,+17.2,hw=1.086;lr=0.995;tb=0.942;edges_h=+15.7;edges_v=+18.7;scale_w=1.35,windup; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19745
+galaxy,G-A2,-17,+18.7,hw=1.091;lr=0.993;tb=0.937;edges_h=+17.1;edges_v=+20.3;scale_w=1.36,windup; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19746
+galaxy,G-A2,-16,+20.3,hw=1.093;lr=0.990;tb=0.936;edges_h=+18.6;edges_v=+22.0;scale_w=1.37,windup; match 0.90; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19747
+galaxy,G-A2,-15,+21.8,hw=1.092;lr=0.989;tb=0.932;edges_h=+20.0;edges_v=+23.6;scale_w=1.38,travel; match 0.90; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19748
+galaxy,G-A2,-14,+23.3,hw=1.089;lr=0.988;tb=0.929;edges_h=+21.5;edges_v=+25.2;scale_w=1.39,travel; match 0.90; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19749
+galaxy,G-A2,-13,+24.9,hw=1.086;lr=0.987;tb=0.925;edges_h=+22.9;edges_v=+26.9;scale_w=1.39,travel; match 0.90; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19750
+galaxy,G-A2,-12,+26.5,hw=1.077;lr=0.990;tb=0.918;edges_h=+24.3;edges_v=+28.8;scale_w=1.39,travel; match 0.90; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19751
+galaxy,G-A2,-11,+26.4,hw=1.067;lr=0.988;tb=0.917;edges_h=+24.2;edges_v=+28.7;scale_w=1.39,travel; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19752
+galaxy,G-A2,-10,+26.4,hw=1.054;lr=0.994;tb=0.915;edges_h=+24.1;edges_v=+28.7;scale_w=1.38,travel; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19753
+galaxy,G-A2,-9,+26.4,hw=1.039;lr=0.985;tb=0.921;edges_h=+23.9;edges_v=+28.8;scale_w=1.38,travel; match 0.89; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19754
+galaxy,G-A2,-8,+26.2,hw=1.019;lr=0.984;tb=0.921;edges_h=+23.6;edges_v=+28.8;scale_w=1.38,travel; match 0.90; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19755
+galaxy,G-A2,-7,+26.1,hw=1.001;lr=0.990;tb=0.917;edges_h=+23.4;edges_v=+28.8;scale_w=1.37,travel; match 0.90; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19756
+galaxy,G-A2,-6,+26.0,hw=0.978;lr=0.994;tb=0.919;edges_h=+23.1;edges_v=+28.9;scale_w=1.37,travel; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19757
+galaxy,G-A2,-5,+25.9,hw=0.951;lr=0.998;tb=0.916;edges_h=+22.8;edges_v=+29.1;scale_w=1.36,travel; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19758
+galaxy,G-A2,-4,+25.8,hw=0.922;lr=0.993;tb=0.919;edges_h=+22.5;edges_v=+29.0;scale_w=1.36,travel; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19759
+galaxy,G-A2,-3,+25.7,hw=0.889;lr=0.996;tb=0.917;edges_h=+22.1;edges_v=+29.2;scale_w=1.35,travel; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19760
+galaxy,G-A2,-2,+25.5,hw=0.853;lr=0.999;tb=0.917;edges_h=+21.7;edges_v=+29.2;scale_w=1.35,travel; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19761
+galaxy,G-A2,-1,+25.3,hw=0.816;lr=1.007;tb=0.911;edges_h=+21.3;edges_v=+29.2;scale_w=1.34,travel; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19762
+galaxy,G-A2,0,+25.2,hw=0.770;lr=1.014;tb=0.915;edges_h=+20.8;edges_v=+29.6;scale_w=1.34,contact; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19763
+galaxy,G-A2,1,,,"return; not measured (card covered by flash, damage star or effect; match 0.71); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19764"
+galaxy,G-A2,2,,,"return; not measured (card covered by flash, damage star or effect; match 0.71); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19765"
+galaxy,G-A2,3,+22.2,hw=0.913;lr=1.006;tb=0.929;edges_h=+19.7;edges_v=+24.8;scale_w=1.15,return; match 0.85; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19766
+galaxy,G-A2,4,+21.4,hw=0.941;lr=1.009;tb=0.932;edges_h=+19.2;edges_v=+23.5;scale_w=1.12,return; match 0.85; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19767
+galaxy,G-A2,5,+20.6,hw=0.960;lr=1.011;tb=0.938;edges_h=+18.6;edges_v=+22.5;scale_w=1.10,return; match 0.86; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19768
+galaxy,G-A2,6,+19.7,hw=0.978;lr=1.005;tb=0.939;edges_h=+17.9;edges_v=+21.5;scale_w=1.08,return; match 0.86; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19769
+galaxy,G-A2,7,+18.9,hw=0.985;lr=1.003;tb=0.947;edges_h=+17.2;edges_v=+20.6;scale_w=1.06,return; match 0.86; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19770
+galaxy,G-A2,8,+18.0,hw=0.997;lr=1.007;tb=0.945;edges_h=+16.4;edges_v=+19.5;scale_w=1.05,return; match 0.85; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19771
+galaxy,G-A2,9,+17.1,hw=1.000;lr=1.012;tb=0.949;edges_h=+15.5;edges_v=+18.6;scale_w=1.04,return; match 0.86; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19772
+galaxy,G-A2,10,+16.3,hw=1.010;lr=1.004;tb=0.949;edges_h=+14.9;edges_v=+17.6;scale_w=1.03,return; match 0.85; https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19773
+galaxy,G-A2,11,,,"return; not measured (card covered by flash, damage star or effect; match 0.79); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19774"
+galaxy,G-A2,12,,,"return; not measured (card covered by flash, damage star or effect; match 0.79); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19775"
+galaxy,G-A2,13,,,"return; not measured (card covered by flash, damage star or effect; match 0.75); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19776"
+galaxy,G-A2,14,,,"return; not measured (card covered by flash, damage star or effect; match 0.69); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19777"
+galaxy,G-A2,15,,,"return; not measured (card covered by flash, damage star or effect; match 0.66); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19778"
+galaxy,G-A2,16,,,"return; not measured (card covered by flash, damage star or effect; match 0.66); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19779"
+galaxy,G-A2,17,,,"return; not measured (card covered by flash, damage star or effect; match 0.66); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19780"
+galaxy,G-A2,18,,,"return; not measured (card covered by flash, damage star or effect; match 0.66); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19781"
+galaxy,G-A2,19,,,"return; not measured (card covered by flash, damage star or effect; match 0.66); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19782"
+galaxy,G-A2,20,,,"return; not measured (card covered by flash, damage star or effect; match 0.66); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19783"
+galaxy,G-A2,21,,,"return; not measured (card covered by flash, damage star or effect; match 0.66); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19784"
+galaxy,G-A2,22,,,"return; not measured (card covered by flash, damage star or effect; match 0.66); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19785"
+galaxy,G-A2,23,,,"return; not measured (card covered by flash, damage star or effect; match 0.66); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19786"
+galaxy,G-A2,24,,,"return; not measured (card covered by flash, damage star or effect; match 0.66); https://youtu.be/4_uOk8CZu0Y?t=328 src frame 19787"
+galaxy,G-A3,-33,+0.0,hw=1.005;lr=0.995;tb=1.008;edges_h=+0.1;edges_v=-0.0;scale_w=1.00,rest; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19870
+galaxy,G-A3,-32,+0.1,hw=1.007;lr=0.994;tb=1.012;edges_h=+0.3;edges_v=-0.1;scale_w=1.00,rest; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19871
+galaxy,G-A3,-31,+0.0,hw=1.004;lr=0.991;tb=1.008;edges_h=+0.3;edges_v=-0.2;scale_w=1.00,rest; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19872
+galaxy,G-A3,-30,-0.1,hw=0.989;lr=1.004;tb=1.072;edges_h=-0.2;edges_v=-0.1;scale_w=0.99,windup; match 0.92; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19873
+galaxy,G-A3,-29,-0.2,hw=0.996;lr=1.009;tb=1.016;edges_h=-0.1;edges_v=-0.2;scale_w=1.04,windup; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19874
+galaxy,G-A3,-28,-0.2,hw=1.006;lr=1.001;tb=0.988;edges_h=-0.1;edges_v=-0.3;scale_w=1.09,windup; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19875
+galaxy,G-A3,-27,-0.1,hw=1.012;lr=1.003;tb=0.989;edges_h=+0.0;edges_v=-0.2;scale_w=1.12,windup; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19876
+galaxy,G-A3,-26,-0.1,hw=1.015;lr=1.006;tb=1.002;edges_h=-0.0;edges_v=-0.1;scale_w=1.15,windup; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19877
+galaxy,G-A3,-25,-0.1,hw=1.016;lr=1.006;tb=1.022;edges_h=-0.1;edges_v=-0.2;scale_w=1.18,windup; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19878
+galaxy,G-A3,-24,-0.1,hw=1.015;lr=1.008;tb=1.044;edges_h=-0.1;edges_v=-0.1;scale_w=1.21,windup; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19879
+galaxy,G-A3,-23,-0.1,hw=1.016;lr=1.007;tb=1.064;edges_h=-0.2;edges_v=-0.0;scale_w=1.24,windup; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19880
+galaxy,G-A3,-22,-0.1,hw=1.017;lr=1.009;tb=1.075;edges_h=-0.1;edges_v=-0.0;scale_w=1.27,windup; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19881
+galaxy,G-A3,-21,-0.1,hw=1.017;lr=1.008;tb=1.079;edges_h=-0.1;edges_v=-0.0;scale_w=1.29,windup; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19882
+galaxy,G-A3,-20,-0.1,hw=1.018;lr=1.008;tb=1.079;edges_h=-0.1;edges_v=-0.0;scale_w=1.31,windup; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19883
+galaxy,G-A3,-19,-0.1,hw=1.018;lr=1.009;tb=1.086;edges_h=-0.2;edges_v=-0.0;scale_w=1.33,windup; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19884
+galaxy,G-A3,-18,-0.1,hw=1.013;lr=1.008;tb=1.091;edges_h=-0.1;edges_v=-0.0;scale_w=1.34,windup; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19885
+galaxy,G-A3,-17,-0.1,hw=1.009;lr=1.008;tb=1.100;edges_h=-0.1;edges_v=-0.0;scale_w=1.35,windup; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19886
+galaxy,G-A3,-16,-0.1,hw=1.002;lr=1.008;tb=1.110;edges_h=-0.1;edges_v=-0.0;scale_w=1.36,windup; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19887
+galaxy,G-A3,-15,-0.1,hw=0.992;lr=1.007;tb=1.125;edges_h=-0.1;edges_v=-0.0;scale_w=1.37,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19888
+galaxy,G-A3,-14,-0.0,hw=0.981;lr=1.008;tb=1.132;edges_h=-0.1;edges_v=+0.0;scale_w=1.37,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19889
+galaxy,G-A3,-13,-0.1,hw=0.964;lr=1.007;tb=1.138;edges_h=-0.1;edges_v=+0.0;scale_w=1.37,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19890
+galaxy,G-A3,-12,-0.0,hw=0.947;lr=1.008;tb=1.145;edges_h=-0.1;edges_v=+0.0;scale_w=1.37,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19891
+galaxy,G-A3,-11,-0.0,hw=0.938;lr=1.006;tb=1.146;edges_h=-0.1;edges_v=+0.0;scale_w=1.37,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19892
+galaxy,G-A3,-10,-0.0,hw=0.927;lr=1.008;tb=1.147;edges_h=-0.1;edges_v=+0.0;scale_w=1.37,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19893
+galaxy,G-A3,-9,-0.0,hw=0.914;lr=1.008;tb=1.144;edges_h=-0.1;edges_v=-0.0;scale_w=1.36,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19894
+galaxy,G-A3,-8,-0.1,hw=0.898;lr=1.009;tb=1.139;edges_h=-0.1;edges_v=-0.0;scale_w=1.36,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19895
+galaxy,G-A3,-7,-0.0,hw=0.880;lr=1.008;tb=1.141;edges_h=-0.1;edges_v=+0.0;scale_w=1.35,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19896
+galaxy,G-A3,-6,-0.0,hw=0.859;lr=1.009;tb=1.136;edges_h=-0.0;edges_v=-0.1;scale_w=1.35,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19897
+galaxy,G-A3,-5,-0.1,hw=0.836;lr=1.008;tb=1.135;edges_h=-0.0;edges_v=-0.1;scale_w=1.34,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19898
+galaxy,G-A3,-4,-0.1,hw=0.810;lr=1.006;tb=1.135;edges_h=-0.0;edges_v=-0.1;scale_w=1.34,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19899
+galaxy,G-A3,-3,-0.1,hw=0.782;lr=1.006;tb=1.133;edges_h=+0.0;edges_v=-0.2;scale_w=1.34,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19900
+galaxy,G-A3,-2,-0.1,hw=0.749;lr=1.007;tb=1.128;edges_h=-0.1;edges_v=-0.1;scale_w=1.33,travel; match 0.93; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19901
+galaxy,G-A3,-1,-0.1,hw=0.715;lr=1.006;tb=1.131;edges_h=-0.0;edges_v=-0.2;scale_w=1.33,travel; match 0.93; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19902
+galaxy,G-A3,0,-0.1,hw=0.677;lr=1.006;tb=1.132;edges_h=+0.0;edges_v=-0.2;scale_w=1.33,contact; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19903
+galaxy,G-A3,1,+0.1,hw=0.752;lr=1.005;tb=1.116;edges_h=+0.2;edges_v=+0.1;scale_w=1.24,return; match 0.93; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19904
+galaxy,G-A3,2,+0.1,hw=0.805;lr=1.002;tb=1.111;edges_h=+0.2;edges_v=+0.0;scale_w=1.18,return; match 0.95; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19905
+galaxy,G-A3,3,+0.1,hw=0.844;lr=1.002;tb=1.105;edges_h=+0.2;edges_v=+0.0;scale_w=1.14,return; match 0.95; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19906
+galaxy,G-A3,4,+0.1,hw=0.876;lr=1.001;tb=1.098;edges_h=+0.1;edges_v=+0.1;scale_w=1.11,return; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19907
+galaxy,G-A3,5,+0.1,hw=0.900;lr=1.002;tb=1.092;edges_h=+0.1;edges_v=+0.0;scale_w=1.09,return; match 0.95; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19908
+galaxy,G-A3,6,+0.0,hw=0.920;lr=1.001;tb=1.087;edges_h=+0.1;edges_v=-0.0;scale_w=1.07,return; match 0.95; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19909
+galaxy,G-A3,7,+0.1,hw=0.934;lr=1.000;tb=1.082;edges_h=+0.2;edges_v=-0.0;scale_w=1.05,return; match 0.92; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19910
+galaxy,G-A3,8,+0.5,hw=0.939;lr=0.957;tb=1.141;edges_h=+1.2;edges_v=-0.2;scale_w=1.04,return; match 0.81; https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19911
+galaxy,G-A3,9,,,"return; not measured (card covered by flash, damage star or effect; match 0.69); https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19912"
+galaxy,G-A3,10,,,"return; not measured (card covered by flash, damage star or effect; match 0.63); https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19913"
+galaxy,G-A3,11,,,"return; not measured (card covered by flash, damage star or effect; match 0.51); https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19914"
+galaxy,G-A3,12,,,"return; not measured (card covered by flash, damage star or effect; match 0.51); https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19915"
+galaxy,G-A3,13,,,"return; not measured (card covered by flash, damage star or effect; match 0.49); https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19916"
+galaxy,G-A3,14,,,"return; not measured (card covered by flash, damage star or effect; match 0.49); https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19917"
+galaxy,G-A3,15,,,"return; not measured (card covered by flash, damage star or effect; match 0.49); https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19918"
+galaxy,G-A3,16,,,"return; not measured (card covered by flash, damage star or effect; match 0.49); https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19919"
+galaxy,G-A3,17,,,"return; not measured (card covered by flash, damage star or effect; match 0.49); https://youtu.be/4_uOk8CZu0Y?t=331 src frame 19920"
+galaxy,G-A4,-29,+1.4,hw=1.005;lr=1.003;tb=1.007;edges_h=+1.3;edges_v=+1.5;scale_w=1.03,windup; match 0.88; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20027
+galaxy,G-A4,-28,+2.6,hw=1.011;lr=1.003;tb=0.998;edges_h=+2.6;edges_v=+2.5;scale_w=1.07,windup; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20028
+galaxy,G-A4,-27,+3.8,hw=1.015;lr=1.000;tb=0.989;edges_h=+3.8;edges_v=+3.7;scale_w=1.11,windup; match 0.93; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20029
+galaxy,G-A4,-26,+5.0,hw=1.018;lr=1.002;tb=0.984;edges_h=+5.1;edges_v=+4.9;scale_w=1.14,windup; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20030
+galaxy,G-A4,-25,+6.2,hw=1.021;lr=1.003;tb=0.974;edges_h=+6.3;edges_v=+6.1;scale_w=1.17,windup; match 0.95; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20031
+galaxy,G-A4,-24,+7.5,hw=1.025;lr=1.003;tb=0.970;edges_h=+7.6;edges_v=+7.3;scale_w=1.20,windup; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20032
+galaxy,G-A4,-23,+8.7,hw=1.026;lr=1.002;tb=0.958;edges_h=+8.9;edges_v=+8.5;scale_w=1.23,windup; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20033
+galaxy,G-A4,-22,+9.9,hw=1.028;lr=0.999;tb=0.955;edges_h=+10.1;edges_v=+9.7;scale_w=1.25,windup; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20034
+galaxy,G-A4,-21,+11.1,hw=1.027;lr=0.999;tb=0.946;edges_h=+11.4;edges_v=+10.9;scale_w=1.27,windup; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20035
+galaxy,G-A4,-20,+12.4,hw=1.026;lr=0.994;tb=0.940;edges_h=+12.7;edges_v=+12.1;scale_w=1.29,windup; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20036
+galaxy,G-A4,-19,+13.7,hw=1.024;lr=0.993;tb=0.933;edges_h=+14.1;edges_v=+13.4;scale_w=1.31,windup; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20037
+galaxy,G-A4,-18,+15.0,hw=1.022;lr=0.993;tb=0.928;edges_h=+15.4;edges_v=+14.6;scale_w=1.32,windup; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20038
+galaxy,G-A4,-17,+16.3,hw=1.016;lr=0.991;tb=0.922;edges_h=+16.8;edges_v=+15.9;scale_w=1.33,windup; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20039
+galaxy,G-A4,-16,+17.6,hw=1.011;lr=0.989;tb=0.915;edges_h=+18.0;edges_v=+17.2;scale_w=1.34,windup; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20040
+galaxy,G-A4,-15,+18.9,hw=1.000;lr=0.986;tb=0.909;edges_h=+19.3;edges_v=+18.4;scale_w=1.35,travel; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20041
+galaxy,G-A4,-14,+20.2,hw=0.987;lr=0.985;tb=0.903;edges_h=+20.6;edges_v=+19.8;scale_w=1.35,travel; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20042
+galaxy,G-A4,-13,+21.6,hw=0.972;lr=0.983;tb=0.896;edges_h=+21.9;edges_v=+21.2;scale_w=1.36,travel; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20043
+galaxy,G-A4,-12,+22.9,hw=0.953;lr=0.984;tb=0.891;edges_h=+23.3;edges_v=+22.6;scale_w=1.36,travel; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20044
+galaxy,G-A4,-11,+22.8,hw=0.946;lr=0.985;tb=0.889;edges_h=+23.2;edges_v=+22.5;scale_w=1.35,travel; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20045
+galaxy,G-A4,-10,+22.8,hw=0.934;lr=0.995;tb=0.884;edges_h=+23.1;edges_v=+22.4;scale_w=1.35,travel; match 0.95; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20046
+galaxy,G-A4,-9,+22.7,hw=0.918;lr=0.999;tb=0.880;edges_h=+23.0;edges_v=+22.5;scale_w=1.35,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20047
+galaxy,G-A4,-8,+22.5,hw=0.904;lr=0.991;tb=0.888;edges_h=+22.7;edges_v=+22.4;scale_w=1.34,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20048
+galaxy,G-A4,-7,+22.4,hw=0.883;lr=0.980;tb=0.894;edges_h=+22.4;edges_v=+22.4;scale_w=1.34,travel; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20049
+galaxy,G-A4,-6,+22.2,hw=0.863;lr=0.984;tb=0.894;edges_h=+22.1;edges_v=+22.4;scale_w=1.33,travel; match 0.95; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20050
+galaxy,G-A4,-5,+22.0,hw=0.838;lr=0.987;tb=0.896;edges_h=+21.8;edges_v=+22.2;scale_w=1.33,travel; match 0.95; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20051
+galaxy,G-A4,-4,+21.9,hw=0.811;lr=0.987;tb=0.900;edges_h=+21.6;edges_v=+22.1;scale_w=1.33,travel; match 0.94; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20052
+galaxy,G-A4,-3,+21.6,hw=0.781;lr=0.983;tb=0.894;edges_h=+21.2;edges_v=+22.1;scale_w=1.32,travel; match 0.95; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20053
+galaxy,G-A4,-2,+21.3,hw=0.749;lr=0.987;tb=0.897;edges_h=+20.8;edges_v=+21.9;scale_w=1.32,travel; match 0.95; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20054
+galaxy,G-A4,-1,,,"travel; not measured (card covered by flash, damage star or effect; match 0.76); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20055"
+galaxy,G-A4,0,,,"contact; not measured (card covered by flash, damage star or effect; match 0.77); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20056"
+galaxy,G-A4,1,,,"return; not measured (card covered by flash, damage star or effect; match 0.78); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20057"
+galaxy,G-A4,2,+20.2,hw=0.805;lr=0.991;tb=0.911;edges_h=+19.8;edges_v=+20.6;scale_w=1.17,return; match 0.95; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20058
+galaxy,G-A4,3,+19.6,hw=0.846;lr=0.992;tb=0.919;edges_h=+19.5;edges_v=+19.7;scale_w=1.13,return; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20059
+galaxy,G-A4,4,+19.0,hw=0.878;lr=0.992;tb=0.926;edges_h=+19.0;edges_v=+19.0;scale_w=1.10,return; match 0.97; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20060
+galaxy,G-A4,5,+18.4,hw=0.906;lr=1.001;tb=0.935;edges_h=+18.4;edges_v=+18.4;scale_w=1.07,return; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20061
+galaxy,G-A4,6,+17.6,hw=0.923;lr=0.992;tb=0.933;edges_h=+17.8;edges_v=+17.5;scale_w=1.06,return; match 0.97; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20062
+galaxy,G-A4,7,+16.9,hw=0.939;lr=0.996;tb=0.937;edges_h=+17.1;edges_v=+16.8;scale_w=1.04,return; match 0.97; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20063
+galaxy,G-A4,8,+16.3,hw=0.953;lr=1.001;tb=0.927;edges_h=+16.4;edges_v=+16.2;scale_w=1.03,return; match 0.95; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20064
+galaxy,G-A4,9,+15.7,hw=0.963;lr=1.061;tb=0.905;edges_h=+16.5;edges_v=+14.8;scale_w=1.01,return; match 0.84; https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20065
+galaxy,G-A4,10,,,"return; not measured (card covered by flash, damage star or effect; match 0.76); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20066"
+galaxy,G-A4,11,,,"return; not measured (card covered by flash, damage star or effect; match 0.54); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20067"
+galaxy,G-A4,12,,,"return; not measured (card covered by flash, damage star or effect; match 0.42); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20068"
+galaxy,G-A4,13,,,"return; not measured (card covered by flash, damage star or effect; match 0.37); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20069"
+galaxy,G-A4,14,,,"return; not measured (card covered by flash, damage star or effect; match 0.38); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20070"
+galaxy,G-A4,15,,,"return; not measured (card covered by flash, damage star or effect; match 0.46); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20071"
+galaxy,G-A4,16,,,"return; not measured (card covered by flash, damage star or effect; match 0.50); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20072"
+galaxy,G-A4,17,,,"return; not measured (card covered by flash, damage star or effect; match 0.49); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20073"
+galaxy,G-A4,18,,,"return; not measured (card covered by flash, damage star or effect; match 0.49); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20074"
+galaxy,G-A4,19,,,"return; not measured (card covered by flash, damage star or effect; match 0.50); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20075"
+galaxy,G-A4,20,,,"return; not measured (card covered by flash, damage star or effect; match 0.49); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20076"
+galaxy,G-A4,21,,,"return; not measured (card covered by flash, damage star or effect; match 0.49); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20077"
+galaxy,G-A4,22,,,"return; not measured (card covered by flash, damage star or effect; match 0.43); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20078"
+galaxy,G-A4,23,,,"return; not measured (card covered by flash, damage star or effect; match 0.44); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20079"
+galaxy,G-A4,24,,,"return; not measured (card covered by flash, damage star or effect; match 0.38); https://youtu.be/4_uOk8CZu0Y?t=334 src frame 20080"
+galaxy,G-A5,-33,+0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=+0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22116
+galaxy,G-A5,-32,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22117
+galaxy,G-A5,-31,-0.0,hw=1.000;lr=1.000;tb=1.000;edges_h=-0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22118
+galaxy,G-A5,-30,+0.2,hw=0.994;lr=0.986;tb=1.006;edges_h=+0.3;edges_v=+0.1;scale_w=1.00,windup; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22119
+galaxy,G-A5,-29,+1.4,hw=1.001;lr=0.997;tb=1.006;edges_h=+1.3;edges_v=+1.4;scale_w=1.04,windup; match 1.00; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22120
+galaxy,G-A5,-28,+2.6,hw=1.007;lr=1.002;tb=1.010;edges_h=+2.5;edges_v=+2.6;scale_w=1.08,windup; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22121
+galaxy,G-A5,-27,+3.7,hw=1.013;lr=1.005;tb=1.015;edges_h=+3.7;edges_v=+3.7;scale_w=1.11,windup; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22122
+galaxy,G-A5,-26,+5.1,hw=1.014;lr=1.005;tb=1.013;edges_h=+5.0;edges_v=+5.2;scale_w=1.15,windup; match 0.93; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22123
+galaxy,G-A5,-25,+6.4,hw=1.017;lr=1.001;tb=1.029;edges_h=+6.3;edges_v=+6.4;scale_w=1.18,windup; match 0.98; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22124
+galaxy,G-A5,-24,+7.5,hw=1.017;lr=0.997;tb=1.030;edges_h=+7.7;edges_v=+7.4;scale_w=1.21,windup; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22125
+galaxy,G-A5,-23,+8.8,hw=1.018;lr=0.996;tb=1.042;edges_h=+8.9;edges_v=+8.7;scale_w=1.24,windup; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22126
+galaxy,G-A5,-22,+10.0,hw=1.017;lr=1.002;tb=1.062;edges_h=+10.2;edges_v=+9.9;scale_w=1.26,windup; match 0.97; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22127
+galaxy,G-A5,-21,+11.3,hw=1.018;lr=1.005;tb=1.071;edges_h=+11.5;edges_v=+11.1;scale_w=1.28,windup; match 0.98; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22128
+galaxy,G-A5,-20,+12.6,hw=1.018;lr=1.007;tb=1.074;edges_h=+12.8;edges_v=+12.4;scale_w=1.30,windup; match 0.97; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22129
+galaxy,G-A5,-19,+13.8,hw=1.017;lr=1.005;tb=1.080;edges_h=+14.1;edges_v=+13.6;scale_w=1.32,windup; match 0.98; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22130
+galaxy,G-A5,-18,+15.1,hw=1.017;lr=1.013;tb=1.078;edges_h=+15.3;edges_v=+14.9;scale_w=1.34,windup; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22131
+galaxy,G-A5,-17,+16.5,hw=1.013;lr=1.017;tb=1.085;edges_h=+16.7;edges_v=+16.3;scale_w=1.35,windup; match 0.97; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22132
+galaxy,G-A5,-16,+17.8,hw=1.007;lr=1.019;tb=1.089;edges_h=+18.0;edges_v=+17.6;scale_w=1.36,windup; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22133
+galaxy,G-A5,-15,+19.1,hw=0.997;lr=1.021;tb=1.094;edges_h=+19.3;edges_v=+18.9;scale_w=1.36,travel; match 0.96; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22134
+galaxy,G-A5,-14,+20.4,hw=0.987;lr=1.015;tb=1.090;edges_h=+20.6;edges_v=+20.2;scale_w=1.37,travel; match 0.93; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22135
+galaxy,G-A5,-13,+23.3,hw=0.954;lr=1.005;tb=1.096;edges_h=+23.4;edges_v=+23.2;scale_w=1.37,travel; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22136
+galaxy,G-A5,-12,+23.3,hw=0.954;lr=1.004;tb=1.096;edges_h=+23.4;edges_v=+23.2;scale_w=1.37,travel; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22137
+galaxy,G-A5,-11,+23.0,hw=0.935;lr=1.016;tb=1.084;edges_h=+23.0;edges_v=+22.9;scale_w=1.37,travel; match 0.89; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22138
+galaxy,G-A5,-10,+23.0,hw=0.934;lr=1.015;tb=1.084;edges_h=+23.0;edges_v=+22.9;scale_w=1.37,travel; match 0.89; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22139
+galaxy,G-A5,-9,+22.7,hw=0.917;lr=1.029;tb=1.097;edges_h=+22.8;edges_v=+22.7;scale_w=1.37,travel; match 0.89; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22140
+galaxy,G-A5,-8,+22.5,hw=0.896;lr=1.040;tb=1.145;edges_h=+22.6;edges_v=+22.4;scale_w=1.36,travel; match 0.92; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22141
+galaxy,G-A5,-7,+22.3,hw=0.865;lr=1.032;tb=1.118;edges_h=+22.1;edges_v=+22.6;scale_w=1.35,travel; match 0.95; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22142
+galaxy,G-A5,-6,+22.3,hw=0.865;lr=1.032;tb=1.118;edges_h=+22.1;edges_v=+22.6;scale_w=1.35,travel; match 0.95; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22143
+galaxy,G-A5,-5,+22.0,hw=0.813;lr=1.030;tb=1.137;edges_h=+21.5;edges_v=+22.4;scale_w=1.33,travel; match 0.93; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22144
+galaxy,G-A5,-4,+22.0,hw=0.812;lr=1.029;tb=1.137;edges_h=+21.5;edges_v=+22.4;scale_w=1.33,travel; match 0.93; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22145
+galaxy,G-A5,-3,+21.7,hw=0.756;lr=0.983;tb=1.076;edges_h=+21.0;edges_v=+22.3;scale_w=1.34,travel; match 0.92; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22146
+galaxy,G-A5,-2,+21.7,hw=0.756;lr=0.983;tb=1.076;edges_h=+21.0;edges_v=+22.3;scale_w=1.34,travel; match 0.92; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22147
+galaxy,G-A5,-1,+20.8,hw=0.674;lr=1.013;tb=1.116;edges_h=+19.8;edges_v=+21.8;scale_w=1.33,travel; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22148
+galaxy,G-A5,0,+20.8,hw=0.674;lr=1.013;tb=1.116;edges_h=+19.8;edges_v=+21.8;scale_w=1.33,contact; match 0.99; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22149
+galaxy,G-A5,1,+20.8,hw=0.756;lr=0.983;tb=1.069;edges_h=+20.2;edges_v=+21.3;scale_w=1.25,return; match 0.91; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22150
+galaxy,G-A5,2,+20.3,hw=0.805;lr=1.012;tb=1.100;edges_h=+19.8;edges_v=+20.7;scale_w=1.18,return; match 0.92; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22151
+galaxy,G-A5,3,+19.9,hw=0.892;lr=1.004;tb=1.055;edges_h=+19.8;edges_v=+19.9;scale_w=1.10,return; match 0.84; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22152
+galaxy,G-A5,4,+19.9,hw=0.892;lr=1.003;tb=1.056;edges_h=+19.8;edges_v=+19.9;scale_w=1.10,return; match 0.84; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22153
+galaxy,G-A5,5,+20.0,hw=0.937;lr=1.005;tb=1.082;edges_h=+20.1;edges_v=+19.9;scale_w=1.03,return; match 0.82; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22154
+galaxy,G-A5,6,+20.0,hw=0.938;lr=1.007;tb=1.084;edges_h=+20.1;edges_v=+20.0;scale_w=1.03,return; match 0.82; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22155
+galaxy,G-A5,7,+20.7,hw=0.960;lr=1.021;tb=1.085;edges_h=+20.7;edges_v=+20.6;scale_w=1.00,return; match 0.81; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22156
+galaxy,G-A5,8,+20.7,hw=0.960;lr=1.021;tb=1.085;edges_h=+20.7;edges_v=+20.6;scale_w=1.00,return; match 0.81; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22157
+galaxy,G-A5,9,+21.2,hw=0.970;lr=1.027;tb=1.082;edges_h=+21.4;edges_v=+21.1;scale_w=0.98,return; match 0.82; https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22158
+galaxy,G-A5,10,,,"return; not measured (card covered by flash, damage star or effect; match 0.78); https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22159"
+galaxy,G-A5,11,,,"return; not measured (card covered by flash, damage star or effect; match 0.73); https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22160"
+galaxy,G-A5,12,,,"return; not measured (card covered by flash, damage star or effect; match 0.63); https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22161"
+galaxy,G-A5,13,,,"return; not measured (card covered by flash, damage star or effect; match 0.60); https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22162"
+galaxy,G-A5,14,,,"return; not measured (card covered by flash, damage star or effect; match 0.55); https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22163"
+galaxy,G-A5,15,,,"return; not measured (card covered by flash, damage star or effect; match 0.55); https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22164"
+galaxy,G-A5,16,,,"return; not measured (card covered by flash, damage star or effect; match 0.59); https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22165"
+galaxy,G-A5,17,,,"return; not measured (card covered by flash, damage star or effect; match 0.58); https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22166"
+galaxy,G-A5,18,,,"return; not measured (card covered by flash, damage star or effect; match 0.59); https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22167"
+galaxy,G-A5,19,,,"return; not measured (card covered by flash, damage star or effect; match 0.65); https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22168"
+galaxy,G-A5,20,,,"return; not measured (card covered by flash, damage star or effect; match 0.65); https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22169"
+galaxy,G-A5,21,,,"return; not measured (card covered by flash, damage star or effect; match 0.65); https://youtu.be/4_uOk8CZu0Y?t=368 src frame 22170"
+galaxy,G-A7,-33,+0.0,hw=0.999;lr=1.001;tb=1.000;edges_h=+0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2379
+galaxy,G-A7,-32,+0.0,hw=0.999;lr=1.001;tb=1.000;edges_h=+0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2380
+galaxy,G-A7,-31,+0.0,hw=0.999;lr=1.001;tb=1.000;edges_h=+0.0;edges_v=-0.0;scale_w=1.00,rest; match 1.00; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2381
+galaxy,G-A7,-30,-0.1,hw=1.012;lr=0.994;tb=0.997;edges_h=-0.2;edges_v=+0.0;scale_w=1.00,windup; match 0.96; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2382
+galaxy,G-A7,-29,-2.4,hw=1.012;lr=1.000;tb=1.004;edges_h=-2.3;edges_v=-2.4;scale_w=1.03,windup; match 0.95; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2383
+galaxy,G-A7,-28,-4.7,hw=1.016;lr=0.999;tb=1.005;edges_h=-4.5;edges_v=-4.8;scale_w=1.07,windup; match 0.94; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2384
+galaxy,G-A7,-27,-6.9,hw=1.019;lr=1.001;tb=1.008;edges_h=-6.6;edges_v=-7.2;scale_w=1.10,windup; match 0.94; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2385
+galaxy,G-A7,-26,-9.2,hw=1.023;lr=1.001;tb=1.011;edges_h=-8.8;edges_v=-9.7;scale_w=1.14,windup; match 0.94; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2386
+galaxy,G-A7,-25,-11.5,hw=1.027;lr=1.004;tb=1.017;edges_h=-10.9;edges_v=-12.0;scale_w=1.17,windup; match 0.94; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2387
+galaxy,G-A7,-24,-13.8,hw=1.034;lr=1.002;tb=1.024;edges_h=-13.2;edges_v=-14.4;scale_w=1.20,windup; match 0.93; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2388
+galaxy,G-A7,-23,-16.1,hw=1.041;lr=1.001;tb=1.031;edges_h=-15.4;edges_v=-16.8;scale_w=1.22,windup; match 0.93; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2389
+galaxy,G-A7,-22,-18.4,hw=1.048;lr=1.001;tb=1.040;edges_h=-17.7;edges_v=-19.2;scale_w=1.25,windup; match 0.93; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2390
+galaxy,G-A7,-21,-20.8,hw=1.055;lr=1.000;tb=1.046;edges_h=-20.0;edges_v=-21.6;scale_w=1.27,windup; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2391
+galaxy,G-A7,-20,-23.1,hw=1.062;lr=0.996;tb=1.053;edges_h=-22.3;edges_v=-24.0;scale_w=1.28,windup; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2392
+galaxy,G-A7,-19,-25.5,hw=1.068;lr=0.996;tb=1.059;edges_h=-24.7;edges_v=-26.4;scale_w=1.30,windup; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2393
+galaxy,G-A7,-18,-28.0,hw=1.073;lr=0.992;tb=1.065;edges_h=-27.2;edges_v=-28.8;scale_w=1.31,windup; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2394
+galaxy,G-A7,-17,-30.5,hw=1.078;lr=0.989;tb=1.073;edges_h=-29.7;edges_v=-31.2;scale_w=1.32,windup; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2395
+galaxy,G-A7,-16,-32.9,hw=1.080;lr=0.987;tb=1.079;edges_h=-32.2;edges_v=-33.7;scale_w=1.32,windup; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2396
+galaxy,G-A7,-15,-35.5,hw=1.079;lr=0.985;tb=1.085;edges_h=-34.7;edges_v=-36.2;scale_w=1.33,travel; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2397
+galaxy,G-A7,-14,-38.0,hw=1.077;lr=0.981;tb=1.093;edges_h=-37.3;edges_v=-38.7;scale_w=1.33,travel; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2398
+galaxy,G-A7,-13,-40.6,hw=1.072;lr=0.979;tb=1.097;edges_h=-39.9;edges_v=-41.3;scale_w=1.33,travel; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2399
+galaxy,G-A7,-12,-43.2,hw=1.063;lr=0.976;tb=1.104;edges_h=-42.4;edges_v=-44.0;scale_w=1.34,travel; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2400
+galaxy,G-A7,-11,-43.1,hw=1.052;lr=0.975;tb=1.104;edges_h=-42.2;edges_v=-44.0;scale_w=1.33,travel; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2401
+galaxy,G-A7,-10,-43.0,hw=1.040;lr=0.976;tb=1.103;edges_h=-42.0;edges_v=-44.0;scale_w=1.33,travel; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2402
+galaxy,G-A7,-9,-42.8,hw=1.025;lr=0.976;tb=1.104;edges_h=-41.6;edges_v=-44.0;scale_w=1.33,travel; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2403
+galaxy,G-A7,-8,-42.6,hw=1.007;lr=0.978;tb=1.104;edges_h=-41.3;edges_v=-44.0;scale_w=1.32,travel; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2404
+galaxy,G-A7,-7,-42.4,hw=0.987;lr=0.979;tb=1.104;edges_h=-40.8;edges_v=-44.0;scale_w=1.32,travel; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2405
+galaxy,G-A7,-6,-42.2,hw=0.963;lr=0.981;tb=1.104;edges_h=-40.3;edges_v=-44.0;scale_w=1.32,travel; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2406
+galaxy,G-A7,-5,-41.9,hw=0.937;lr=0.982;tb=1.105;edges_h=-39.8;edges_v=-43.9;scale_w=1.31,travel; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2407
+galaxy,G-A7,-4,-41.5,hw=0.907;lr=0.984;tb=1.103;edges_h=-39.2;edges_v=-43.9;scale_w=1.31,travel; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2408
+galaxy,G-A7,-3,-41.2,hw=0.873;lr=0.985;tb=1.099;edges_h=-38.4;edges_v=-44.0;scale_w=1.30,travel; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2409
+galaxy,G-A7,-2,-40.8,hw=0.837;lr=0.988;tb=1.103;edges_h=-37.7;edges_v=-43.9;scale_w=1.30,travel; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2410
+galaxy,G-A7,-1,-40.4,hw=0.798;lr=0.990;tb=1.096;edges_h=-36.8;edges_v=-44.0;scale_w=1.30,travel; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2411
+galaxy,G-A7,0,-39.9,hw=0.753;lr=0.993;tb=1.101;edges_h=-35.9;edges_v=-43.9;scale_w=1.31,contact; match 0.90; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2412
+galaxy,G-A7,1,-38.9,hw=0.825;lr=0.993;tb=1.095;edges_h=-36.0;edges_v=-41.8;scale_w=1.22,return; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2413
+galaxy,G-A7,2,-37.8,hw=0.876;lr=0.990;tb=1.086;edges_h=-35.6;edges_v=-40.1;scale_w=1.16,return; match 0.93; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2414
+galaxy,G-A7,3,-36.7,hw=0.914;lr=0.991;tb=1.081;edges_h=-34.9;edges_v=-38.4;scale_w=1.12,return; match 0.93; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2415
+galaxy,G-A7,4,-35.4,hw=0.941;lr=0.994;tb=1.076;edges_h=-33.9;edges_v=-36.9;scale_w=1.09,return; match 0.93; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2416
+galaxy,G-A7,5,-34.1,hw=0.963;lr=0.994;tb=1.072;edges_h=-32.8;edges_v=-35.3;scale_w=1.06,return; match 0.93; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2417
+galaxy,G-A7,6,-32.7,hw=0.979;lr=0.997;tb=1.067;edges_h=-31.6;edges_v=-33.8;scale_w=1.05,return; match 0.93; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2418
+galaxy,G-A7,7,-31.3,hw=0.990;lr=0.996;tb=1.062;edges_h=-30.4;edges_v=-32.3;scale_w=1.03,return; match 0.93; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2419
+galaxy,G-A7,8,-29.9,hw=0.998;lr=0.999;tb=1.062;edges_h=-29.0;edges_v=-30.8;scale_w=1.02,return; match 0.92; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2420
+galaxy,G-A7,9,-28.6,hw=1.002;lr=1.008;tb=1.060;edges_h=-27.8;edges_v=-29.5;scale_w=1.02,return; match 0.87; https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2421
+galaxy,G-A7,10,,,"return; not measured (card covered by flash, damage star or effect; match 0.75); https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2422"
+galaxy,G-A7,11,,,"return; not measured (card covered by flash, damage star or effect; match 0.54); https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2423"
+galaxy,G-A7,12,,,"return; not measured (card covered by flash, damage star or effect; match 0.49); https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2424"
+galaxy,G-A7,13,,,"return; not measured (card covered by flash, damage star or effect; match 0.49); https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2425"
+galaxy,G-A7,14,,,"return; not measured (card covered by flash, damage star or effect; match 0.49); https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2426"
+galaxy,G-A7,15,,,"return; not measured (card covered by flash, damage star or effect; match 0.49); https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2427"
+galaxy,G-A7,16,,,"return; not measured (card covered by flash, damage star or effect; match 0.54); https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2428"
+galaxy,G-A7,17,,,"return; not measured (card covered by flash, damage star or effect; match 0.54); https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2429"
+galaxy,G-A7,18,,,"return; not measured (card covered by flash, damage star or effect; match 0.56); https://youtu.be/KpKgQAe_Jsg?t=39 src frame 2430"

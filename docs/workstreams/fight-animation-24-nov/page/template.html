@@ -1,0 +1,529 @@
+<title>Bramble Fight Motion</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/*BASECSS*/
+/* Page additions: wide clip figures break out of the 900px column so five panes stay legible. */
+body{padding-left:max(0px,env(safe-area-inset-left,0px));padding-right:max(0px,env(safe-area-inset-right,0px))}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wide{width:min(1400px,calc(100vw - 48px));position:relative;left:50%;transform:translateX(-50%);}
+.clip{margin:14px 0 8px;background:#111;border-radius:8px;overflow:hidden;border:1px solid var(--rule)}
+.clip video{display:block;width:100%;height:auto;max-width:100%}
+.speedbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 0}
+.speedbar button{font-family:var(--mono);font-size:12px;letter-spacing:.04em;padding:6px 12px;border-radius:6px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer}
+.speedbar button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.speedbar button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sticky-speed{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--rule);padding-block:8px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.decision{border-top:1px solid var(--rule);padding-top:26px;margin-top:40px}
+.decision h3{margin:0 0 4px;font-family:var(--display);font-size:24px;font-weight:600}
+.decision .q{color:var(--ink-soft);margin:0 0 10px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:12px 0}
+.opt{background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:10px 12px;font-size:14px;line-height:1.45;min-width:0}
+.opt b{display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:3px}
+.opt.pick{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.opt.pick b{color:var(--accent)}
+.opt .n{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.rec{font-size:15px;margin:6px 0 0}
+.rec strong{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-right:6px}
+.tag{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;padding:1px 6px;border-radius:4px;border:1px solid var(--rule);color:var(--ink-soft);background:var(--bg);white-space:nowrap}
+.tag.art{border-color:var(--neg);color:var(--neg);background:var(--neg-soft)}
+.tag.cb{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.verdict{font-family:var(--mono);font-size:12px;font-weight:600;white-space:nowrap}
+.verdict.yes{color:var(--pos)} .verdict.part{color:var(--ink-soft)} .verdict.no{color:var(--neg)}
+.charts{display:grid;grid-template-columns:1fr;gap:14px}
+.charts figure{margin:0;background:#fff;border:1px solid var(--rule);border-radius:8px;padding:6px}
+.charts figcaption{font-family:var(--mono);font-size:11.5px;color:#5f584a;padding:4px 4px 0}
+.tree{font-size:14.5px;line-height:1.45}
+.tree details{margin:0 0 0 16px;border-left:1px solid var(--rule);padding-left:12px}
+.tree > details{margin-left:0}
+.tree summary{cursor:pointer;padding:5px 0;list-style-position:outside}
+.tree summary .cond{font-weight:600}
+.tree .leaf{margin:0 0 0 16px;border-left:1px solid var(--rule);padding:5px 0 5px 12px}
+.tree .meta{display:grid;grid-template-columns:110px 1fr;gap:2px 12px;font-size:13.5px;color:var(--ink-soft);margin:4px 0 8px}
+.tree .meta dt{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-faint);padding-top:2px}
+.tree .meta dd{margin:0;min-width:0}
+.treebar{display:flex;gap:8px;margin:8px 0 14px}
+ol.rules{padding-left:22px} ol.rules li{margin-bottom:8px}
+td.hl, th.hl{background:var(--accent-soft)}
+.cmp{padding:16px}
+.cmp:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cmp-pick{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:12px}
+.cmp-pick label{display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft)}
+.cmp-pick select{font-family:var(--sans);font-size:15px;text-transform:none;letter-spacing:0;padding:6px 8px;border-radius:6px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);min-width:0}
+.cmp-panes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cmp-panes figure{margin:0;min-width:0}
+.cmp-panes video{display:block;width:100%;height:auto;background:#111;border-radius:6px;border:1px solid var(--rule)}
+.cmp-panes figcaption{font-size:14px;margin-top:4px;min-width:0}
+.cmp-ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.cmp-ctl input[type=range]{flex:1 1 220px;min-width:0;accent-color:var(--accent)}
+.cmp-frame{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:14px;min-width:15ch}
+.cmp-frame b{color:var(--neg);font-weight:600}
+.cmp-seg{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.cmp-meas{margin-top:12px}
+.cmp-meas table{font-size:13.5px}
+@media (max-width:560px){.tree .meta{grid-template-columns:1fr}.wide{width:calc(100vw - 32px)}}
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Bramble · fight animation phase · 24 Nov 2026</div>
+    <h1>Fight Motion</h1>
+    <p class="lede">How the attack and its knock-on effects should move: measured, planned three ways, and filmed in the game.</p>
+    <div class="byline"><span>Branch ideation/fight-animation</span><span>Nothing here changes the game you play</span><span>Nobody has watched these clips move except you</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section>
+  <div class="sec-head"><span class="n">01</span><h2>Watch first</h2></div>
+  <div class="reading">
+    <p>The same fixed fight on real tribe cards, filmed in the game at 60 frames a second. Left: today's build. Right: the proposal the agents stand behind. Use quarter speed to see the frames.</p>
+  </div>
+  <div class="sticky-speed"><div class="speedbar" role="group" aria-label="Playback speed for every clip">
+    <span class="eyebrow" style="font-size:11px">All clips</span>
+    <button type="button" data-rate="1" aria-pressed="true">Normal speed</button>
+    <button type="button" data-rate="0.5" aria-pressed="false">½ speed</button>
+    <button type="button" data-rate="0.25" aria-pressed="false">¼ speed</button>
+  </div></div>
+  <div class="wide clip"><video src="clips/today-vs-best.mp4" controls loop muted playsinline preload="metadata"></video></div>
+  <p class="small muted">The moments, in order (times as today plays them; the proposal reaches each a little later at first, then sooner): a plain attack straight across (0.8 s), one to the far corner (1.7 s), an attack into Thorns (2.8 s), a Thorns kill whose death summons a Hopper (5.0 s), and a death that damages all seven cards, after which Old Brock triggers six times (7.5–9.5 s). Today's Victory shows at 11.5 s, the proposal's at 10.6 s. No sound in any clip.</p>
+
+  <div class="card">
+    <h3 style="margin-top:0">The proposal in five lines</h3>
+    <ol class="rules" style="margin-bottom:0">
+      <li><b>A wind-up you can see.</b> The attacker lifts toward you (×1.14 over 10 frames, with today's small pull-back), then holds dead still for 16 frames. All waiting happens in that raised hold.</li>
+      <li><b>One straight strike</b> at constant speed, 7–9 frames at any distance, so far attacks fly fast. It overlaps the target, pops ×1.24 on contact, stays 0 frames, and returns fast then slow.</li>
+      <li><b>A moving card never pauses.</b> What happens before the hit (Thorns, Fury, Rally, pile-ons) plays in the raised hold; this is a guess, as no reference game showed an attacker's own trigger before its hit. The exchange lands at contact. Everything after waits until the attacker is home.</li>
+      <li><b>After the hit, one beat at a time,</b> each overlapping the last one's tail. A dead card falls 30 frames after the hit, so its number reads first. The next attacker lifts under the aftermath.</li>
+      <li><b>Repeats become a combo that speeds up,</b> so one repeat group stays under about 1.6 s (a whole aftermath with several groups can run longer). A plain attack takes 61 frames, against today's 57.</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">02</span><h2>Compare any two</h2></div>
+  <div class="reading">
+    <p>Pick a decision and two of its options. Both play in step, lined up on the moment that matters; the red counter is frames from it (S start, C contact, T Thorns, P first pulse). As in the next section, every choice not being compared is held at the proposal's pick. With the viewer selected, the arrow keys step one frame and the space bar plays or pauses.</p>
+  </div>
+  <div class="wide"><div class="card cmp" id="cmp" tabindex="0" aria-label="Side-by-side clip comparison">
+    <div class="cmp-pick">
+      <label>Decision<select id="cmp-branch"></select></label>
+      <label>Left<select id="cmp-a"></select></label>
+      <label>Right<select id="cmp-b"></select></label>
+    </div>
+    <div class="cmp-panes">
+      <figure><video class="cmp-v" id="cmp-va" muted playsinline preload="auto"></video><figcaption id="cmp-la"></figcaption></figure>
+      <figure><video class="cmp-v" id="cmp-vb" muted playsinline preload="auto"></video><figcaption id="cmp-lb"></figcaption></figure>
+    </div>
+    <div class="cmp-ctl speedbar" style="margin-top:12px">
+      <button type="button" id="cmp-play">Play</button>
+      <button type="button" id="cmp-prev" aria-label="Back one frame">&#9664; 1 frame</button>
+      <button type="button" id="cmp-next" aria-label="Forward one frame">1 frame &#9654;</button>
+      <span class="cmp-rates" role="group" aria-label="Comparison speed" style="display:contents">
+        <button type="button" data-crate="1" aria-pressed="false">1&times;</button>
+        <button type="button" data-crate="0.5" aria-pressed="true">&frac12;</button>
+        <button type="button" data-crate="0.25" aria-pressed="false">&frac14;</button>
+        <button type="button" data-crate="0.1" aria-pressed="false">1/10</button>
+      </span>
+      <input type="range" id="cmp-scrub" min="0" max="1" value="0" step="1" aria-label="Frame">
+      <span class="cmp-frame" id="cmp-frame"></span>
+    </div>
+    <div class="cmp-seg speedbar" id="cmp-seg"></div>
+    <div class="cmp-meas" id="cmp-meas"></div>
+  </div></div>
+  <p class="small muted">The clips are small (360 pixels wide) to keep the page light, so the numbers on the cards are hard to read; larger versions can be cut if you want them. The whole-fight pair isn't lined up on any moment: the two fights differ in length (today 817 frames, the proposal 847).</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">03</span><h2>Seven decisions</h2></div>
+  <div class="reading">
+    <p>The places where the three plans really disagree. Each clip shows the options side by side, left to right as listed, lined up on the moment that matters; the red counter under each label counts frames from it (S start, C contact, T Thorns, P first pulse). Every other choice is held at the proposal's pick, so a pane labelled "Today" shows today's value for that one choice on top of the proposal, not today's build. The highlighted option is the recommendation.</p>
+  </div>
+
+  <div class="decision">
+    <h3>1 · The wind-up</h3>
+    <p class="q">How long and how big is the lift before the strike?</p>
+    <div class="wide clip"><video src="clips/CB1.mp4" controls loop muted playsinline preload="metadata"></video></div>
+    <div class="opts">
+      <div class="opt"><b>Today</b>4-frame lift to ×1.04, no hold. <span class="n">11</span> frames from first motion to contact.</div>
+      <div class="opt"><b>A · Battlegrounds</b>10-frame lift to ×1.15, no pull-back, hold 18. <span class="n">35</span> frames.</div>
+      <div class="opt"><b>B · fastest</b>8-frame lift to ×1.14, 15 px pull, hold 14. <span class="n">29</span> frames.</div>
+      <div class="opt"><b>C · weight</b>10-frame lift to ×1.18, 20 px pull, hold 14. <span class="n">31</span> frames.</div>
+      <div class="opt pick"><b>Proposal</b>10-frame lift to ×1.14, 12 px pull, hold 16. <span class="n">33</span> frames.</div>
+    </div>
+    <p class="rec"><strong>Pick</strong>The proposal. Lift length and size are Battlegrounds' measured ones; keeping today's small pull-back still reads as drawing back.</p>
+  </div>
+
+  <div class="decision">
+    <h3>2 · Where the attacker stops</h3>
+    <p class="q">How deep into the target does it go? Centre-to-centre gap at contact, in card heights, straight across / far corner.</p>
+    <div class="wide clip"><video src="clips/CB2.mp4" controls loop muted playsinline preload="metadata"></video></div>
+    <div class="opts">
+      <div class="opt"><b>A · shallow</b>Battlegrounds' edge overlap. <span class="n">0.78 / 0.46</span></div>
+      <div class="opt"><b>B · medium</b><span class="n">0.70 / 0.60</span></div>
+      <div class="opt pick"><b>Proposal</b>Today's depth near, deeper far; back row 0.40. <span class="n">0.62 / 0.49</span></div>
+      <div class="opt"><b>C · deep</b><span class="n">0.50 / 0.45</span></div>
+      <div class="opt"><b>Galaxy · past centre</b>Stops 0.3 card heights beyond the target's centre. <span class="n">−0.30 / −0.30</span></div>
+    </div>
+    <p class="rec"><strong>Pick</strong>The proposal. Today's stop is already deeper than Battlegrounds' (their centres end 0.8–1.0 apart straight across), so the "doesn't go all the way" feeling more likely comes from the 4-frame wind-up and the speed-up into contact. C's deeper stop covers the target's Health just as it changes, and Galaxy's past-centre stop hides the target entirely at the moment its number changes.</p>
+  </div>
+
+  <div class="decision">
+    <h3>3 · Speed along the strike</h3>
+    <p class="q">Constant speed, or speeding up into contact? Far-corner attack, 8 frames.</p>
+    <div class="wide clip"><video src="clips/CB3.mp4" controls loop muted playsinline preload="metadata"></video></div>
+    <div class="wide clip"><video src="clips/CB3-slow.mp4" controls loop muted playsinline preload="metadata"></video></div>
+    <div class="opts">
+      <div class="opt pick"><b>Constant</b>54 px every frame. A, B and the proposal; measured in Battlegrounds.</div>
+      <div class="opt"><b>Mild speed-up</b>15 → 83 px a frame. Plan C.</div>
+      <div class="opt"><b>Strong speed-up</b>7 → 101 px a frame. Today.</div>
+    </div>
+    <p class="rec"><strong>Pick</strong>Constant. Battlegrounds' strike is constant; its speed changes come between phases (slow lift, still hold, fast strike, stop, slowing return). The second clip is at quarter speed with a dot for each frame's position.</p>
+  </div>
+
+  <div class="decision">
+    <h3>4 · Something triggers before the hit</h3>
+    <p class="q">An attack into Thorns: when does the Thorns damage show?</p>
+    <div class="wide clip"><video src="clips/CB4.mp4" controls loop muted playsinline preload="metadata"></video></div>
+    <div class="opts">
+      <div class="opt"><b>Freeze · today's order</b>The attacker reaches the target and waits there 20 frames; Thorns and the hit show together at C+22, as the build does today. Home at C+31.</div>
+      <div class="opt pick"><b>In the hold</b>Thorns plays while the attacker is raised (Health 5 → 3); the strike follows (3 → 1). Home at C+11.</div>
+      <div class="opt"><b>After</b>The strike first (5 → 3 at C+2), Thorns once the attacker is home (3 → 1 at C+26). Can't be used when Thorns kills: that attacker never strikes.</div>
+    </div>
+    <p class="rec"><strong>Pick</strong>In the hold. Nothing pauses mid-swing, and cause still comes before effect: when Thorns kills the attacker, it falls from its raised pose and never strikes, which is what the rules do. <b>This pick is a guess.</b> Battlegrounds plays triggered animations after the attacker is home, and no reference clip shows an attacker's own trigger firing before its hit. Your words were "Then the other animation goes off"; if that means after the hit, the third option is the one that matches.</p>
+  </div>
+
+  <div class="decision">
+    <h3>5 · When a dead card falls</h3>
+    <p class="q">A card killed in the exchange: how long after contact does it fall? Here the Orchard Stripper; its own death effect then damages every card.</p>
+    <div class="wide clip"><video src="clips/CB5.mp4" controls loop muted playsinline preload="metadata"></video></div>
+    <div class="opts">
+      <div class="opt"><b>B · early</b>C+14.</div>
+      <div class="opt"><b>C · glass shatter</b>C+24. Today's fall stands in. <span class="tag art">needs art pass and your yes</span></div>
+      <div class="opt pick"><b>Proposal</b>C+30, once its number has been read.</div>
+      <div class="opt"><b>Battlegrounds 2020–25</b>C+60.</div>
+    </div>
+    <p class="rec"><strong>Pick</strong>C+30. B drops the card while its own damage number is still showing.</p>
+  </div>
+
+  <div class="decision">
+    <h3>6 · When the next attacker lifts</h3>
+    <p class="q">During the previous attack's aftermath, or after it? Three moments: two plain attacks, a Thorns kill with a summon, and the long chain.</p>
+    <div class="wide clip"><video src="clips/CB6.mp4" controls loop muted playsinline preload="metadata"></video></div>
+    <div class="opts">
+      <div class="opt"><b>B · very early</b>C+8 to C+12. Sits raised 154 frames through the chain.</div>
+      <div class="opt pick"><b>Proposal</b>C+28, or when 16 frames of the chain are left. Raised 26 frames after the chain.</div>
+      <div class="opt"><b>A · early, capped</b>C+36. Raised 60 frames.</div>
+      <div class="opt"><b>Battlegrounds</b>C+40, waits raised. 126 frames.</div>
+    </div>
+    <p class="rec"><strong>Pick</strong>The proposal. Lifting under the aftermath saves time, but it waits for long chains instead of hovering for seconds. Under B, A and Battlegrounds, Old Brock drifts a few pixels while raised because its own combo is still pulsing; that is real behaviour of those options.</p>
+  </div>
+
+  <div class="decision">
+    <h3>7 · One trigger many times</h3>
+    <p class="q">Two Gleaners hit King Speck ten times in a row. How fast should the repeats run, and how are they counted? Gaps between hits, in frames.</p>
+    <div class="wide clip"><video src="clips/CB7.mp4" controls loop muted playsinline preload="metadata"></video></div>
+    <div class="opts">
+      <div class="opt"><b>Battlegrounds</b>One at a time, slowly speeding up. <span class="n">64 59 55 51 47 44 40 37 35</span>. A new −5 each hit.</div>
+      <div class="opt"><b>A · gentle</b><span class="n">18 18 13 8 8 8 8 8 8</span>. A new −5 each hit.</div>
+      <div class="opt"><b>B · steep</b><span class="n">14 11 7 6 5 4 4 4</span>, then the last two together. One burst counting up.</div>
+      <div class="opt"><b>C · tempo</b><span class="n">18 14 10 9 6 5 5 5 6</span>. A new −5 each hit.</div>
+      <div class="opt pick"><b>Proposal</b><span class="n">18 14 10 7 6 5 5 5</span>, then the 9th and 10th together. One burst counting up: −5, −10 … −40, −50.</div>
+      <div class="opt"><b>Proposal + ×N</b>Same, with a plain-text "×N" placeholder. <span class="tag art">×N needs art pass and your yes</span></div>
+      <div class="opt"><b>Proposal + speed-up</b>Adds rule 7, the general speed-up for long aftermaths: <span class="n">15 10 7 5 5 5 5 5</span>.</div>
+    </div>
+    <p class="rec"><strong>Pick</strong>The proposal, as you asked on 18 Nov: repeats rise at increasing pace and are grouped into one counting burst. Rule 7 is off in every pane but the last, so the panes differ only in the repeat rule. This moment is its own short test fight; to get ten repeats, the test sets two cards' Health (Orchard Stripper 1, King Speck 60).</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">04</span><h2>Your claims against the footage</h2></div>
+  <div class="reading"><p>Measured frame by frame from public videos (Battlegrounds 2020–2026, six videos; Once Upon a Galaxy, two). Footage stayed in scratch space and is not shown here; each row in the research cites its link and timestamp.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Your claim</th><th>Battlegrounds</th><th>Galaxy</th><th>What the footage shows</th></tr></thead>
+    <tbody>
+      <tr><td>Cards travel all the way to the card they hit</td><td><span class="verdict yes">holds</span></td><td><span class="verdict yes">holds</span></td><td>Battlegrounds overlaps the target's edge by 0.15–0.3 card heights; Galaxy goes past its centre. Ours already stops deeper than Battlegrounds straight across.</td></tr>
+      <tr><td>They don't move at a consistent speed</td><td><span class="verdict part">partly</span></td><td><span class="verdict yes">holds</span></td><td>Battlegrounds' strike itself is constant speed. The changes are between phases: slow lift, still hold, fast strike, a one-frame stop, a slowing return. The strike takes 5–8 frames at any distance, so far attacks are much faster. Galaxy speeds up into contact.</td></tr>
+      <tr><td>No pause mid-attack; the triggered animation goes off after</td><td><span class="verdict yes">holds</span></td><td><span class="verdict yes">holds</span></td><td>Effects start once the attacker is home. In Battlegrounds the waiting goes into the next attacker, which holds its raised pose (220 frames in one clip).</td></tr>
+      <tr><td>The wind-up is very clearly visible</td><td><span class="verdict yes">holds</span></td><td><span class="verdict yes">holds</span></td><td>Battlegrounds: grows ~15% over 10 frames with a red ring, then holds still ~21 frames. A lift, not a pull-back. Galaxy: 13–14 frames, pulls back 0.6 card heights, grows to 1.4×.</td></tr>
+      <tr><td>(18 Nov) Fixed speeds, faster when many are queued</td><td><span class="verdict part">partly</span></td><td>not found</td><td>Fixed durations, unchanged 2020–2026. Long 2026 fights run about twice as fast (attacks every 34–38 frames instead of 76–83); the footage can't tell whether queue length or fight length causes it.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">05</span><h2>Measured, side by side</h2></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Frames at 60 fps</th><th>Battlegrounds</th><th>Galaxy</th><th>Super Auto Pets (Fast)</th><th>Runeterra</th><th>Ours today</th><th class="hl">Proposal</th></tr></thead>
+    <tbody>
+      <tr><td>Wind-up</td><td>lift 10, hold ~21</td><td>13–14, pull 0.6 h, ×1.4</td><td>barely visible</td><td>lift ~12 with glow</td><td>4, 12 px pull</td><td class="hl">lift 10, hold 16</td></tr>
+      <tr><td>Strike</td><td>5–8, constant</td><td>16–17, speeding up</td><td>2–3</td><td>~6 slam</td><td>8, speeding up</td><td class="hl">7–9, constant</td></tr>
+      <tr><td>Stop (centres apart, card heights)</td><td>0.8–1.0 straight, 0.4–0.65 far</td><td>past centre</td><td>meet in the middle</td><td>at the blocker</td><td>0.62 always</td><td class="hl">0.62 → 0.45; back row 0.40</td></tr>
+      <tr><td>Held at contact</td><td>0, ×1.26 pop</td><td>0</td><td>16–20 pressed</td><td>flash line</td><td>2, hit shows at C+3 (Thorns ~20, Rally 41)</td><td class="hl">0, ×1.24 pop</td></tr>
+      <tr><td>Return</td><td>9–16, slowing</td><td>~15</td><td>snap back</td><td>—</td><td>11</td><td class="hl">12–16, slowing</td></tr>
+      <tr><td>Triggers</td><td>after it's home; next attacker waits raised</td><td>after it's home, one by one</td><td>projectiles from cause to target</td><td>next waits for deaths</td><td>before the hit: waits at contact; after: when home</td><td class="hl">before: in the hold; after: from C+14</td></tr>
+      <tr><td>Many of one trigger</td><td>one effect hits all at once; repeats ~2× faster over a chain; no counter</td><td>no clip found</td><td>no clip found</td><td>no clip found</td><td>one source: one step</td><td class="hl">combo, speeds up, ≤1.6 s</td></tr>
+      <tr><td>Contact to next contact</td><td class="num">73–83</td><td>—</td><td>—</td><td>—</td><td class="num">57</td><td class="num hl">61–63</td></tr>
+    </tbody>
+    <caption>Battlegrounds: 11 attacks, 6 trigger clips, 5 whole videos. Galaxy: 7 attacks, 6 trigger clips. Super Auto Pets was only found in Fast mode. Runeterra sampled at 20 fps (±3 frames).</caption>
+  </table></div>
+
+  <h3>The attacker's speed, frame by frame</h3>
+  <div class="charts">
+    <figure><img src="charts/today.png" alt="Speed of each attacker in today's build: rises to a peak at contact, drops to zero, then a sharp peak on the return." loading="lazy"><figcaption>Today: speeds up into contact, stops dead, flies home. Into Thorns it sits still at contact ~22 frames.</figcaption></figure>
+    <figure><img src="charts/best.png" alt="Speed of each attacker under the proposal: a small lift bump, a long flat zero hold, a flat-topped strike, then a falling return." loading="lazy"><figcaption>Proposal: small lift, a still hold, a flat-topped strike (constant speed), a falling return.</figcaption></figure>
+  </div>
+  <p class="small muted">Both charts share one axis, 0–7000 px a second, from the films' per-frame log of each card's position.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">06</span><h2>The decision tree</h2></div>
+  <div class="reading"><p>Every kind of event our fights produce (29 types), what is shown, when it starts, what waits for it, how repeats group, and its cost in frames. Events our game can't produce today (<code>instead_of_attack</code>, an in-fight <code>counter</code>) are left out. <span class="tag cb">CB</span> marks a branch decided above.</p></div>
+  <div class="treebar"><button type="button" class="speedbar-btn" id="tree-open">Open all</button><button type="button" class="speedbar-btn" id="tree-close">Close all</button></div>
+  <div class="tree card" id="tree"></div>
+
+  <h3>Ordering rules behind the tree</h3>
+  <ol class="rules reading">
+    <li><b>Nothing pauses once it moves.</b> A strike, return, fall or arrival always runs to its end.</li>
+    <li><b>Each attack splits into three windows,</b> keyed on the attack itself, not on its first damage. Before the hit plays in the raised hold, which stretches to fit any effect, arrival or nested attack (a guess; see decision 4). At the hit: the exchange, strike back, Cleave, shield, Venomous, all at C+2; Overrun hops from C+8. After the hit starts when the attacker is home (C+14, or C+16 for the longest attacks).</li>
+    <li><b>A beat</b> is one trigger and its effect: the source pulses, jabs toward its target (standing in for a drawn link, which needs art), and the effect lands 12 frames in. The next beat starts 6 frames after. One source on many cards is one beat. Different mechanics play one at a time, in the rules' order.</li>
+    <li><b>Deaths</b> fall together: C+30 when killed in the exchange, 20 frames after the killing effect otherwise. A lender's aura leaves at the killing hit, when the rules remove it.</li>
+    <li><b>Combo:</b> 3 or more of the same mechanic back to back. Each gap is 0.75 of the last, down to 5 frames; from the 9th, the rest land together.</li>
+    <li><b>The next attacker</b> lifts at C+28 or when 16 frames of the queue are left, whichever is later.</li>
+    <li><b>Speed-up:</b> if one moment's aftermath would pass 2 s, beats after the first second play up to 1.5× faster. Strikes keep their frames. A guess, untested.</li>
+    <li><b>Extra attacks</b> (Windfury, Oakfeller, Tourney Champion) wait for the death round before them: a short re-lift when 14 frames of that queue are left, the strike after it ends. Oakfeller always waits for its kill's fall. Another unit out of turn gets a full lift once its cause lands.</li>
+  </ol>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">07</span><h2>The three plans, and the time they cost</h2></div>
+  <div class="reading"><p>Three agents planned independently, each from a stance; a fourth read all three and the research and wrote the proposal.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th></th><th>Today</th><th>A · Battlegrounds</th><th>B · fastest that reads</th><th>C · weight for glass</th><th class="hl">Proposal</th></tr></thead>
+    <tbody>
+      <tr><td>Wind-up</td><td>4 f</td><td>10 f lift, hold ≥18</td><td>8 f lift, hold 14</td><td>10 f lift + glow, hold 14</td><td class="hl">10 f lift, hold 16</td></tr>
+      <tr><td>Strike</td><td>8 f, speeding up</td><td>7–8 f, constant</td><td>6–9 f, constant</td><td>7–10 f, mild speed-up</td><td class="hl">7–9 f, constant</td></tr>
+      <tr><td>Plain attack, contact to contact</td><td class="num">57</td><td class="num">71</td><td class="num">36–39</td><td class="num">59–62</td><td class="num hl">61–63</td></tr>
+      <tr><td>Trigger before the hit (Rally)</td><td class="num">124–139</td><td class="num">71</td><td class="num">38–45</td><td class="num">75</td><td class="num hl">65</td></tr>
+      <tr><td>One trigger ×10</td><td class="num">530</td><td class="num">~128</td><td class="num">~75</td><td class="num">~137</td><td class="num hl">~98</td></tr>
+      <tr><td>8-attack fight</td><td class="num">~650 (10.9 s)</td><td class="num">~690</td><td class="num">~417</td><td class="num">~620</td><td class="num hl">~613 (10.2 s)</td></tr>
+      <tr><td>New art needed</td><td>—</td><td>none</td><td>none</td><td>cracks, shatter, rim glow, husk</td><td class="hl">none (×N and a cause line later, if you want them)</td></tr>
+    </tbody>
+    <caption>Frames at 60 fps. Today's numbers are filmed; the plans' are worked out from their rules. The proposal's whole fight was filmed: Victory at 10.6 s against today's 11.5 s.</caption>
+  </table></div>
+  <p class="small muted">The proposal also caught two errors in plan B: an attacker killed by Thorns still striking (the rules say it never attacks), and a dead card dropped while its number is still showing.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">08</span><h2>Council review</h2></div>
+  <div class="reading" id="council">
+    <p>One round, as you asked: Claude Opus, GPT Sol and Gemini Neon each reviewed the tree, the proposal, the page and the clips on their own, reading the clips frame by frame against the logs. All three asked for changes. Their findings overlapped and none contradicted another, so every finding was fixed and nobody re-checked the fixes.</p>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Member</th><th>Verdict</th><th class="num">Score</th></tr></thead>
+    <tbody>
+      <tr><td>Claude Opus</td><td>changes needed</td><td class="num">7/10</td></tr>
+      <tr><td>GPT Sol</td><td>changes needed</td><td class="num">6/10</td></tr>
+      <tr><td>Gemini Neon</td><td>changes needed</td><td class="num">6/10</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>What they found</th><th>Raised by</th><th>Fixed how</th></tr></thead>
+    <tbody>
+      <tr><td>Extra attacks (Windfury, Oakfeller, Tourney Champion) started before the deaths that cause them</td><td>all three</td><td>They now wait for the death round (rule 8)</td></tr>
+      <tr><td>Clip 4: "today" pane split Thorns from the hit; "after" pane showed Health falling by the wrong amount</td><td>all three</td><td>Re-filmed to match the real build and keep every number true</td></tr>
+      <tr><td>Clip 7: only the proposal had the speed-up; six buffs couldn't show the 9th-hit merge or a counting burst; B was missing</td><td>all three</td><td>Its own ten-hit test fight, B added, speed-up in one labelled pane only</td></tr>
+      <tr><td>"Before the hit plays in the hold" is a guess the footage doesn't support</td><td>Opus</td><td>Marked as a guess in decision 4 and the rules</td></tr>
+      <tr><td>Some cases missing: a fully blocked exchange, War-drummer's death effects mid-attack, Captain's summon before the hit, a return to another slot</td><td>Sol, Neon</td><td>Tree keyed on the attack itself; the hold can hold any of these</td></tr>
+      <tr><td>Aftermath began before a far attacker was home; aura loss shown late</td><td>Sol</td><td>Aftermath waits for home; aura leaves at the killing hit</td></tr>
+      <tr><td>The proposal held 1 frame at contact, not 0</td><td>Neon</td><td>Fixed and every clip re-filmed</td></tr>
+      <tr><td>No past-centre option for "all the way"</td><td>Opus</td><td>Galaxy pane added to decision 2</td></tr>
+      <tr><td>Small label and number mismatches; strobe risk of the fast return</td><td>Opus, Neon</td><td>Corrected on this page</td></tr>
+    </tbody>
+    <caption>Full list with evidence: docs/workstreams/fight-animation-24-nov/council-review.md.</caption>
+  </table></div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">09</span><h2>What was checked, and what wasn't</h2></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Checked</th><th>How</th></tr></thead>
+    <tbody>
+      <tr><td>Each option does what its label says</td><td>Per-frame position log of every card in every film, against each option's numbers: wind-ups, stop gaps (within 0.01 card heights), strike speeds, fall frames, lift frames, combo gaps (within 1 frame). One still per clip looked at.</td></tr>
+      <tr><td>The proposal's fight ends the same as the rules</td><td>The end board on screen equals the rules core's result in every film.</td></tr>
+      <tr><td>Today's treatment is the real build</td><td>A test checks it uses the game's own motion and replay unchanged; the project's full check passed (1075 tests).</td></tr>
+      <tr><td>Scope</td><td>A reviewer that didn't write the work checked each build step against your words and the plan.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout warn"><b>Not checked by anyone yet:</b> whether any of it feels right. The films are rendered in software, without sound, and no agent sees motion at speed. Also unseen: whether fast motion strobes on a real screen. The longest strike moves 77 px a frame (0.31 card heights; Battlegrounds' longest is about 0.6), and the first frame of a far return moves 108 px (158 in the Galaxy option). And how any of it plays with sound. A yes from you to a clip is provisional until you have felt it in a build.</div>
+
+  <h3>Stand-ins in the clips</h3>
+  <p class="reading">The cause-to-target line is today's small jab. The ×N counter is the burst re-popping (plus a plain-text placeholder in one pane). C's crack and shatter are today's fall; C's rim glow is today's lunge glow. Any new visual element waits for an art pass and your yes on a picture.</p>
+
+  <h3>Sound cues that a new timing would move</h3>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Cue</th><th>Today</th><th>Under the proposal</th></tr></thead>
+    <tbody>
+      <tr><td><code>fight.hit.*</code></td><td>C+3 (C+22 / C+41 after a shield / Rally)</td><td>at contact, fired from the motion; 33–35 frames after first motion instead of 15</td></tr>
+      <tr><td><code>fight.destroy</code></td><td>C+37 or later</td><td>C+2</td></tr>
+      <tr><td><code>fight.death</code></td><td>C+37</td><td>C+30; chain kills 20 frames after the killing effect</td></tr>
+      <tr><td><code>fight.summon</code></td><td>after the death step</td><td>when the fall ends (C+45); waves 4 frames apart</td></tr>
+      <tr><td><code>fight.trigger</code></td><td>each 0.3 s step</td><td>each pulse, also inside the hold; combo gaps down to 5 frames</td></tr>
+      <tr><td><code>fight.win / lose / tie</code></td><td>after the last step</td><td>24 frames after the queue ends</td></tr>
+    </tbody>
+    <caption>Not retimed in this phase. No cue exists today for the lift, the launch or a combo's final count.</caption>
+  </table></div>
+
+  <h3>Proposed next, not built</h3>
+  <p class="reading">Put today, the proposal and any option you want to feel behind a switch in a Windows build, so you can play them at full frame rate with sound on your own screen.</p>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <b>Provenance</b>
+    <div class="files">
+      docs/workstreams/fight-animation-24-nov/PLAN.md · research/battlegrounds.md · research/galaxy-and-others.md · research/our-events.md · research/our-attack-measured.md<br>
+      plans/plan-a.md · plan-b.md · plan-c.md · best.md · tree.json · council-video-test.md<br>
+      Film fixture: tests/screens/feel/fight_compare/ (fight seed 22) · filmed with tools/feel/film at 60 fps
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var TREE = /*TREE*/null;
+  var vids = function(){ return Array.prototype.slice.call(document.querySelectorAll('video:not(.cmp-v)')); };
+  var btns = Array.prototype.slice.call(document.querySelectorAll('.sticky-speed .speedbar button'));
+  function setRate(r){
+    vids().forEach(function(v){ v.playbackRate = r; v.defaultPlaybackRate = r; });
+    btns.forEach(function(b){ b.setAttribute('aria-pressed', String(Number(b.dataset.rate) === r)); });
+  }
+  btns.forEach(function(b){ b.addEventListener('click', function(){ setRate(Number(b.dataset.rate)); }); });
+  vids().forEach(function(v){ v.addEventListener('play', function(){ var on = btns.filter(function(b){return b.getAttribute('aria-pressed')==='true';})[0]; if(on) v.playbackRate = Number(on.dataset.rate); }); });
+
+  if(!TREE) return;
+  var kids = {};
+  TREE.nodes.forEach(function(n){ (kids[n.parent || '_root'] = kids[n.parent || '_root'] || []).push(n); });
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function meta(n){
+    var rows = [['Shows', n.shows], ['Starts', n.starts], ['Waits for it', n.waits_for], ['Repeats', n.repeats], ['Cost', (n.cost_frames || n.cost_frames === 0) ? n.cost_frames + ' f' : '']];
+    return '<dl class="meta">' + rows.filter(function(r){ return r[1] && r[1] !== '—'; }).map(function(r){ return '<dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd>'; }).join('') + '</dl>';
+  }
+  function head(n){
+    var cb = n.contested_branch_id ? ' <span class="tag cb">' + esc(n.contested_branch_id) + '</span>' : '';
+    return '<span class="cond">' + esc(n.condition) + '</span>' + cb;
+  }
+  function render(n, depth){
+    var ch = kids[n.id] || [];
+    if(!ch.length) return '<div class="leaf">' + head(n) + meta(n) + '</div>';
+    return '<details' + (depth < 1 ? ' open' : '') + '><summary>' + head(n) + '</summary>' + meta(n) + ch.map(function(c){ return render(c, depth + 1); }).join('') + '</details>';
+  }
+  var el = document.getElementById('tree');
+  el.innerHTML = (kids._root || []).map(function(n){ return render(n, 0); }).join('');
+  document.getElementById('tree-open').addEventListener('click', function(){ el.querySelectorAll('details').forEach(function(d){ d.open = true; }); });
+  document.getElementById('tree-close').addEventListener('click', function(){ el.querySelectorAll('details').forEach(function(d, i){ d.open = false; }); });
+})();
+</script>
+<script>
+(function(){
+  var CMP = /*COMPARE*/null;
+  if(!CMP) return;
+  var FPS = CMP.fps || 60;
+  var B = CMP.branches;
+  B.whole = B.whole || CMP.whole || {title:'Whole fight: today against the proposal', frames:847, segments:[], options:[
+    {option:'today', file:'whole/today.mp4', label:'Today, whole fight (817 frames)'},
+    {option:'best', file:'whole/best.mp4', label:'Proposal, whole fight (847 frames)'}]};
+  var $ = function(id){ return document.getElementById(id); };
+  var selB = $('cmp-branch'), selA = $('cmp-a'), selR = $('cmp-b');
+  var va = $('cmp-va'), vb = $('cmp-vb'), scrub = $('cmp-scrub'), out = $('cmp-frame');
+  var playBtn = $('cmp-play'), rate = 0.5, playing = false, br = null;
+  function esc(x){ return String(x == null ? '' : x).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  Object.keys(B).forEach(function(k){ var o = document.createElement('option'); o.value = k; o.textContent = B[k].title; selB.appendChild(o); });
+  function opt(k){ return br.options.filter(function(o){ return o.option === k; })[0]; }
+  function fill(sel, def){ sel.innerHTML = ''; br.options.forEach(function(o){ var e = document.createElement('option'); e.value = o.option; e.textContent = o.label; sel.appendChild(e); }); sel.value = def; }
+  function frames(){ return br.frames; }
+  function frameOf(){ return Math.min(frames() - 1, Math.max(0, Math.floor(va.currentTime * FPS + 1e-3))); }
+  function seek(f){ f = Math.max(0, Math.min(frames() - 1, f)); var t = (f + 0.5) / FPS; va.currentTime = Math.min(t, (va.duration || t) - 0.25 / FPS); vb.currentTime = Math.min(t, (vb.duration || t) - 0.25 / FPS); show(f); }
+  function seg(f){ var s = null; (br.segments || []).forEach(function(x){ if(f >= x.start) s = x; }); return s; }
+  function show(f){
+    if(f == null) f = frameOf();
+    scrub.value = f;
+    var s = seg(f), rel = '';
+    if(s && s.reference_index != null){ var d = f - s.reference_index; rel = ' <b>' + esc(s.reference) + (d >= 0 ? '+' : '−') + Math.abs(d) + '</b>'; }
+    out.innerHTML = 'frame ' + f + ' / ' + (frames() - 1) + rel;
+  }
+  function meas(){
+    var a = opt(selA.value), b = opt(selR.value), ma = (a && a.measured) || {}, mb = (b && b.measured) || {};
+    var keys = Object.keys(ma).concat(Object.keys(mb).filter(function(k){ return !(k in ma); }));
+    if(!keys.length){ $('cmp-meas').innerHTML = ''; return; }
+    $('cmp-meas').innerHTML = '<div class="tbl-wrap"><table><thead><tr><th>Measured on the film</th><th class="num">Left</th><th class="num">Right</th></tr></thead><tbody>' +
+      keys.map(function(k){ return '<tr><td>' + esc(k.replace(/_/g, ' ')) + '</td><td class="num">' + esc(ma[k]) + '</td><td class="num">' + esc(mb[k]) + '</td></tr>'; }).join('') + '</tbody></table></div>';
+  }
+  function load(){
+    var f = frameOf();
+    pause();
+    var a = opt(selA.value), b = opt(selR.value);
+    va.src = 'compare/' + a.file; vb.src = 'compare/' + b.file;
+    $('cmp-la').textContent = a.label; $('cmp-lb').textContent = b.label;
+    va.playbackRate = vb.playbackRate = rate;
+    var go = function(){ seek(Math.min(f, frames() - 1)); };
+    va.addEventListener('loadedmetadata', go, {once:true});
+    meas();
+  }
+  function setBranch(k){
+    br = B[k];
+    var ks = br.options.map(function(o){ return o.option; });
+    var left = ks.indexOf('today') >= 0 ? 'today' : ks[0];
+    var right = ks.indexOf('best') >= 0 && left !== 'best' ? 'best' : ks.filter(function(x){ return x !== left; })[0];
+    fill(selA, left); fill(selR, right);
+    scrub.max = br.frames - 1;
+    var sg = $('cmp-seg'); sg.innerHTML = '';
+    (br.segments || []).forEach(function(s){
+      if((br.segments || []).length < 2 && s.reference_index == null) return;
+      var e = document.createElement('button'); e.type = 'button';
+      e.textContent = s.what + (s.reference_index == null ? '' : ' · ' + s.reference);
+      e.addEventListener('click', function(){ pause(); seek(s.reference_index != null ? s.reference_index : s.start); });
+      sg.appendChild(e);
+    });
+    va.removeAttribute('src'); va.currentTime = 0;
+    load();
+    seek(0);
+  }
+  function pause(){ playing = false; va.pause(); vb.pause(); playBtn.textContent = 'Play'; }
+  function play(){
+    if(frameOf() >= frames() - 2) seek(0);
+    playing = true; va.playbackRate = vb.playbackRate = rate;
+    va.play(); if(vb.currentTime < (vb.duration || 1e9) - 1 / FPS) vb.play();
+    playBtn.textContent = 'Pause'; tick();
+  }
+  function tick(){
+    if(!playing) return;
+    var f = frameOf();
+    var tb = Math.min(va.currentTime, (vb.duration || 1e9) - 0.25 / FPS);
+    if(Math.abs(vb.currentTime - tb) > 2 / FPS) vb.currentTime = tb;
+    if(va.ended || f >= frames() - 1){ seek(0); va.play(); vb.play(); }
+    show(f);
+    requestAnimationFrame(tick);
+  }
+  playBtn.addEventListener('click', function(){ playing ? pause() : play(); });
+  $('cmp-prev').addEventListener('click', function(){ pause(); seek(frameOf() - 1); });
+  $('cmp-next').addEventListener('click', function(){ pause(); seek(frameOf() + 1); });
+  scrub.addEventListener('input', function(){ pause(); seek(Number(scrub.value)); });
+  Array.prototype.slice.call(document.querySelectorAll('[data-crate]')).forEach(function(b, i, all){
+    b.addEventListener('click', function(){ rate = Number(b.dataset.crate); va.playbackRate = vb.playbackRate = rate; all.forEach(function(x){ x.setAttribute('aria-pressed', String(x === b)); }); });
+  });
+  selB.addEventListener('change', function(){ setBranch(selB.value); });
+  selA.addEventListener('change', load); selR.addEventListener('change', load);
+  $('cmp').addEventListener('keydown', function(e){
+    if(e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT') return;
+    if(e.key === 'ArrowLeft'){ e.preventDefault(); pause(); seek(frameOf() - 1); }
+    else if(e.key === 'ArrowRight'){ e.preventDefault(); pause(); seek(frameOf() + 1); }
+    else if(e.key === ' '){ e.preventDefault(); playing ? pause() : play(); }
+  });
+  setBranch(Object.keys(B)[0]);
+})();
+</script>

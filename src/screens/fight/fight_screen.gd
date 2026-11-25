@@ -21,9 +21,14 @@ extends GlassScreen
 ##     trigger: {side, slot} (the unit whose effect is acting),
 ##     result: {winner, damage}}: what is happening right now; all of it optional
 ##
-## Attack, impact and death motion follow the reference beats in fight-beats.md. Replay grouping
-## and holds are unchanged; FightMotion owns the motion numbers. Red Health and the result
-## banner retain the glass mock-up's drawing.
+## A fight plays from its schedule (FightTimeline, made from the replay): on a game clock, each
+## step's view state shows from its frame, and every frame each card is posed from the schedule
+## (where it stands plus its offset, scale, turn and light), the damage bursts, glows and stat
+## gains (FightGains) are drawn, and the sound cues play (SoundCues.for_fight_cue). Late in a fight
+## the clock runs faster (FightTimeline.advance, FAST). The keeper still draws the boards, the
+## numbers, the deaths (FightMotion's fall) and the result. Shown on its own, a moment's lunge,
+## splashes and trigger are drawn at rest, and a change of moment moves with FightMotion. Red
+## Health and the result banner retain the glass mock-up's drawing.
 
 ## The fight is over and its result is showing.
 signal playback_finished
@@ -43,6 +48,12 @@ const JOIN_SHARE: float = 0.6
 ## STAND-IN: the hover line of a unit whose terms count being outnumbered, while its side is.
 const OUTNUMBERED_WORDS: String = "Outnumbered by %d."
 
+## The burst: pop in, settle, read, fade (frames); best.md: readable to C+30, gone by C+40.
+const BURST_POP_F: int = 3
+const BURST_SETTLE_F: int = 5
+const BURST_READ_F: int = 20
+const BURST_FADE_F: int = 8
+
 ## Playback speed: 2 plays twice as fast.
 @export var speed: float = 1.0
 ## The live controller shows Skip during playback. A comparison scene can also show it.
@@ -50,8 +61,25 @@ const OUTNUMBERED_WORDS: String = "Outnumbered by %d."
 
 var _skip_button: Button
 var _replay: FightReplay
+## The step of the replay showing now.
 var _step: int = -1
-var _wait: float = 0.0
+## The schedule being played, from play() until the result's hold ends.
+var _schedule: FightTimeline
+## Game time since play(), in schedule frames (1/60 s at speed 1).
+var _clock: float = 0.0
+var _running: bool = false
+## The next step, burst and sound cue of the schedule to show.
+var _step_due: int = 0
+var _burst_due: int = 0
+var _cue_due: int = 0
+## key -> where the card stands (its slot), from the state shown
+var _rest_at: Dictionary = {}
+## [{node, key, recipient, offset, from, merge}]: the bursts showing
+var _bursts_on: Array[Dictionary] = []
+## card instance id -> whether it is drawn glowing
+var _glow_on: Dictionary = {}
+## The stat gains' pieces (CB14 c), drawn from the schedule.
+var _gains: FightGains
 ## Last visual beats: state refreshes must not replay an attack or recoil.
 var _shown_lunge: Dictionary = {}
 var _shown_splashes: Array = []
@@ -106,59 +134,334 @@ func _on_new_state() -> void:
 # ---- playback ----
 
 
-## Plays a fight: each step of the replay is shown for its hold time, then the next.
+## Plays a fight from its schedule (FightTimeline; made here when the replay has none yet).
 func play(replay: FightReplay) -> void:
 	# a new fight starts from a clean table: no card of the last fight is left fading or popping
 	if _keeper != null:
 		_keeper.clear()
+	_drop_bursts()
+	_gain_pieces().clear()
+	if replay.plan == null:
+		schedule(replay)
 	_replay = replay
+	_schedule = replay.plan
 	_shown_lunge = {}
 	_shown_splashes = []
 	_recoiled = false
 	_step = -1
-	_wait = 0.0
-	_next_step()
+	_clock = 0.0
+	_step_due = 0
+	_burst_due = 0
+	_cue_due = 0
+	_glow_on.clear()
+	_running = true
+	_show_due()
+	_pose_all()
+	_gain_pieces().draw(_schedule, _clock)
 
 
-## Jumps to the end of the fight being played. Once there, a second skip does nothing: the
-## result keeps its hold and then finishes.
+## Makes a replay's schedule with the fight screen's own layout, from a screen never shown.
+static func schedule(replay: FightReplay) -> void:
+	var probe: FightScreen = FightScreen.new()
+	var first: Dictionary = replay.steps[0]["state"] if not replay.steps.is_empty() else {}
+	probe.state = {"you_side": _i(first.get("you_side", 0))}
+	probe._g = GlassPieces.fight_geom()
+	replay.schedule(probe.unit_xy)
+	probe.free()
+
+
+## Jumps to the end of the fight being played: the result shows at once, every card at rest.
+## Once there, a second skip does nothing: the result keeps its hold and then finishes.
 func skip() -> void:
-	if _replay == null or _step >= _replay.steps.size() - 1:
+	if not _running or _step_due >= _schedule.steps.size():
 		return
-	_step = _replay.steps.size() - 2
-	_wait = 0.0
-	_next_step()
+	var last: int = _schedule.steps.size() - 1
+	_clock = _f(_schedule.steps[last]["frame"])
+	_step_due = last
+	_drop_bursts()
+	_gain_pieces().clear()
+	_burst_due = _schedule.bursts.size()
+	_shown_splashes = []
+	# what was still to sound is skipped; the result's cue plays
+	while _cue_due < _schedule.cues.size() and _i(_schedule.cues[_cue_due]["frame"]) < _clock:
+		_cue_due += 1
+	_show_due()
+	_pose_all()
+	_glow_cards()
+	_play_cues()
 
 
 func is_playing() -> bool:
-	return _replay != null
+	return _running
 
 
 func _process(delta: float) -> void:
 	super(delta)
-	if _replay == null:
+	if not _running:
 		return
-	_wait -= delta * speed
-	if _wait <= 0.0:
-		_next_step()
+	# game time, not drawn frames: the same fight at any frame rate; FAST moves the schedule
+	# faster late in the fight (FightTimeline.advance)
+	var frames: float = delta * 60.0 * speed
+	if absf(frames - roundf(frames)) < 1e-6:
+		frames = roundf(frames)
+	_clock = _schedule.advance(_clock, frames)
+	_schedule.clock_step = maxf(1.0, frames * _schedule.speed_at(_clock))
+	_show_due()
+	_pose_all()
+	_show_bursts()
+	_age_bursts()
+	_glow_cards()
+	_gain_pieces().draw(_schedule, _clock)
+	_play_cues()
 
 
-func _next_step() -> void:
-	_step += 1
-	if _step >= _replay.steps.size():
-		_replay = null
+## Shows every step whose frame has come; the last is the result, which then holds to the end.
+func _show_due() -> void:
+	var plan: Array[Dictionary] = _schedule.steps
+	while _step_due < plan.size() and _i(plan[_step_due]["frame"]) <= _clock:
+		var step: Dictionary = plan[_step_due]
+		_step = _step_due
+		_step_due += 1
+		_keeper.speed = maxf(_f(step.get("speed", 1.0)) * speed, 0.01)
+		var view: Dictionary = step["state"]
+		show_state(view)
+		_keeper.speed = maxf(speed, 0.01)
+		if _step_due == plan.size():
+			# the result: no dead unit still fading over its slot
+			settle()
+			result_shown.emit()
+	if _running and _step_due >= plan.size() and _clock >= _schedule.end_frame:
+		_running = false
 		playback_finished.emit()
+
+
+func show_state(new_state: Dictionary) -> void:
+	if _running and _step >= 0 and _step < _schedule.steps.size():
+		# a gain's card shows its numbers through the disc's count: no pop as it lands
+		var frame: int = _i(_schedule.steps[_step]["frame"])
+		for gain: Dictionary in _schedule.gains:
+			if _i(gain["land"]) == frame:
+				_keeper.quiet_numbers[str(gain["key"])] = true
+	super(new_state)
+	if _running:
+		_hand_over()
+
+
+## After a state shows: the keeper's own moves stop (the schedule poses every card), and where
+## each card stands is read from the state. Deaths keep their fall.
+func _hand_over() -> void:
+	_rest_at.clear()
+	for target: Dictionary in _targets:
+		if str(target["kind"]) != "board":
+			continue
+		var index: int = target["index"]
+		var side: int = floori(index / float(BOARD_SLOTS))
+		var data: Dictionary = target["card"]
+		var key: String = card_key("f%d_" % side, index % BOARD_SLOTS, data)
+		_rest_at[key] = unit_xy(side, index % BOARD_SLOTS)
+	for key: Variant in _keeper._kept:
+		var entry: Dictionary = _keeper._kept[key]
+		var node: Control = entry["node"]
+		_keeper.stop(node)
+
+
+func _pose_all() -> void:
+	for key: Variant in _keeper._kept:
+		var name_of: String = str(key)
+		if not _rest_at.has(name_of):
+			continue
+		var entry: Dictionary = _keeper._kept[key]
+		var node: Control = entry["node"]
+		var pose: Dictionary = _schedule.pose(name_of, _clock)
+		var home: Vector2 = _rest_at[name_of]
+		var offset: Vector2 = pose["offset"]
+		node.pivot_offset = node.size / 2.0
+		node.position = home + offset
+		var grown: float = _f(pose["scale"])
+		node.scale = Vector2(grown, grown)
+		node.rotation_degrees = _f(pose["turn"])
+		var light: Color = pose["light"]
+		node.modulate = light
+
+
+## The schedule's bursts whose frame has come, each on its recipient.
+func _show_bursts() -> void:
+	var spawned: Array = []
+	var all: Array[Dictionary] = _schedule.bursts
+	while _burst_due < all.size():
+		var burst: Dictionary = all[_burst_due]
+		if _i(burst["frame"]) > _clock:
+			break
+		_burst_due += 1
+		var key: String = burst["key"]
+		var taken: bool = burst["taken"]
+		var down_key: String = "taken_down_per_h" if taken else "dealt_down_per_h"
+		var down: float = GlassPieces.number("stage.fight.hit." + down_key)
+		var r: float = GlassPieces.number("stage.fight.hit." + ("taken_r" if taken else "dealt_r"))
+		var blocked: bool = burst["blocked"]
+		var merge: bool = burst.get("merge", false)
+		if merge:
+			_merge_burst(key)
+		var hit: Control = hit_splash(_i(burst["amount"]), r, blocked)
+		hit.name = "Hit_%d" % _burst_due
+		hit.pivot_offset = hit.size / 2.0
+		var recipient: Control = _kept_node(key)
+		var offset: Vector2 = Vector2(_w() / 2.0 - r, _h() * down - r)
+		var at: Vector2 = recipient.position if recipient != null else Vector2.ZERO
+		hit.position = at + offset
+		_front.add_child(hit)
+		(
+			_bursts_on
+			. append(
+				{
+					"node": hit,
+					"key": key,
+					"recipient": recipient,
+					"offset": offset,
+					"from": _clock,
+					"merge": merge,
+				}
+			)
+		)
+		(
+			spawned
+			. append(
+				{
+					"side": burst["side"],
+					"slot": burst["slot"],
+					"amount": burst["amount"],
+					"blocked": blocked,
+				}
+			)
+		)
+	# the splashes that appeared this frame (a comparison film logs them)
+	_shown_splashes = spawned
+
+
+## Rule 5: a card hit again in a combo keeps one burst; the old one goes as the new one pops with
+## the running total.
+func _merge_burst(key: String) -> void:
+	var still: Array[Dictionary] = []
+	for live: Dictionary in _bursts_on:
+		if str(live["key"]) == key and live.get("merge", false):
+			var node: Control = live["node"]
+			if is_instance_valid(node):
+				node.queue_free()
+			continue
+		still.append(live)
+	_bursts_on = still
+
+
+## Each burst pops in, settles, is read and fades, following its recipient upright.
+func _age_bursts() -> void:
+	var still: Array[Dictionary] = []
+	var life: int = BURST_POP_F + BURST_SETTLE_F + BURST_READ_F + BURST_FADE_F
+	for live: Dictionary in _bursts_on:
+		var hit: Control = live["node"]
+		var age: float = _clock - _f(live["from"])
+		if age >= life or not is_instance_valid(hit):
+			if is_instance_valid(hit):
+				hit.queue_free()
+			continue
+		var swell: float = 1.0
+		if age < BURST_POP_F:
+			swell = lerpf(
+				FightMotion.BURST_START, FightMotion.BURST_SCALE, float(age) / BURST_POP_F
+			)
+		elif age < BURST_POP_F + BURST_SETTLE_F:
+			swell = lerpf(FightMotion.BURST_SCALE, 1.0, float(age - BURST_POP_F) / BURST_SETTLE_F)
+		var fade: float = clampf(float(age - life + BURST_FADE_F) / BURST_FADE_F, 0.0, 1.0)
+		var recipient: Control = _kept_node(str(live["key"]))
+		if recipient == null:
+			var was: Variant = live["recipient"]
+			if is_instance_valid(was):
+				recipient = was
+		else:
+			live["recipient"] = recipient
+		if recipient != null:
+			var offset: Vector2 = live["offset"]
+			hit.position = recipient.position + offset + Vector2.UP * FightMotion.BURST_RISE * fade
+		hit.scale = Vector2.ONE * swell
+		hit.modulate.a = 1.0 - fade
+		still.append(live)
+	_bursts_on = still
+
+
+func _drop_bursts() -> void:
+	for live: Dictionary in _bursts_on:
+		var node: Control = live["node"]
+		if is_instance_valid(node):
+			node.queue_free()
+	_bursts_on.clear()
+
+
+func _kept_node(key: String) -> Control:
+	if not _keeper._kept.has(key):
+		return null
+	var entry: Dictionary = _keeper._kept[key]
+	var node: Control = entry["node"]
+	return node
+
+
+## The attacker's (and a trigger source's) glow (fight.html .card.lunge), drawn above the rest.
+func _glow_cards() -> void:
+	if _schedule == null:
 		return
-	var step: Dictionary = _replay.steps[_step]
-	_keeper.speed = maxf(speed, 0.01)
-	var view: Dictionary = step["state"]
-	show_state(view)
-	Sound.fight_step(step, _replay.steps[_step - 1] if _step > 0 else {})
-	_wait = _f(step["hold"])
-	if _step == _replay.steps.size() - 1:
-		# the result: no dead unit still fading over its slot
-		settle()
-		result_shown.emit()
+	var glowing: Dictionary = _schedule.glowing(maxf(_clock, 0.0))
+	var z: int = _i(GlassPieces.rule("fight", ".card.lunge", "z-index"))
+	for target: Dictionary in _targets:
+		var node: Variant = target.get("node")
+		if not node is GlassCard or str(target["kind"]) != "board":
+			continue
+		var card: GlassCard = node
+		var data: Dictionary = target["card"]
+		var key: String = card_key("", 0, data)
+		var on: bool = glowing.has(key)
+		if _glow_on.get(card.get_instance_id(), not on) == on:
+			continue
+		_glow_on[card.get_instance_id()] = on
+		if on:
+			card.set_glow("fight", ".card.lunge")
+			card.z_index = z
+		else:
+			card.set_glow("", "")
+			card.z_index = 0
+
+
+## The sound cues whose frame has come, each on the moment it belongs to (FightTimeline cues).
+func _play_cues() -> void:
+	var cues: Array[Dictionary] = _schedule.cues
+	while _cue_due < cues.size() and _i(cues[_cue_due]["frame"]) <= _clock:
+		Sound.fight_cue(cues[_cue_due])
+		_cue_due += 1
+
+
+## The stat gains' pieces, made on first use.
+func _gain_pieces() -> FightGains:
+	if _gains == null:
+		_gains = FightGains.new(self)
+	return _gains
+
+
+## Keeps the bursts and the gains' pieces over a redraw of the front layer.
+func _layout() -> void:
+	var kept: Array[Node] = []
+	for live: Dictionary in _bursts_on:
+		var node: Control = live["node"]
+		if is_instance_valid(node) and node.get_parent() == _front:
+			_front.remove_child(node)
+			kept.append(node)
+	var pieces: Array[Node] = []
+	if _gains != null:
+		pieces = _gains.nodes()
+	for node: Node in pieces:
+		if node.get_parent() == _front:
+			_front.remove_child(node)
+	super()
+	for node: Node in kept:
+		_front.add_child(node)
+	for node: Node in pieces:
+		_front.add_child(node)
 
 
 # ---- building ----
@@ -323,7 +626,10 @@ func join_xy(side: int, slot: int, lunge: Dictionary) -> Vector2:
 	return from + (lunge_xy(lunge) - unit_xy(_i(lunge["side"]), _i(lunge["slot"]))) * JOIN_SHARE
 
 
+## The lunge the state shows; none while a schedule plays (it poses the attacker itself).
 func _lunge() -> Dictionary:
+	if _running:
+		return {}
 	var moment: Dictionary = state.get("moment", {})
 	var lunge: Dictionary = moment.get("lunge", {})
 	return lunge
@@ -356,6 +662,9 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 
 ## The attacker glows above the rest (fight.html .card.lunge); every other card has its own look.
 func _light_lunge() -> void:
+	if _running:
+		_glow_cards()
+		return
 	var lunge: Dictionary = _lunge()
 	for target: Dictionary in _targets:
 		var node: Variant = target.get("node")
@@ -377,8 +686,11 @@ func _light_lunge() -> void:
 			card.z_index = 0
 
 
-## Each splash starts at its recipient's current pose and follows its recoil upright.
+## Each splash starts at its recipient's current pose and follows its recoil upright. While a
+## schedule plays, its own bursts are drawn instead (_show_bursts).
 func _build_moment() -> void:
+	if _running:
+		return
 	var moment: Dictionary = state.get("moment", {})
 	var lunge: Dictionary = moment.get("lunge", {})
 	var splashes: Array = moment.get("splashes", [])

@@ -2,14 +2,15 @@ class_name FightReplay
 extends RefCounted
 ## Turns the rules core's fight log (src/core/README.md, "Fight log") into the fight screen's
 ## steps: each a whole view state with its moment, and how long it is held. It reads only the
-## log; it decides nothing. Steps, at speed 1 (STAND-IN timing, fight animation is not designed):
+## log; it decides nothing. The game plays the schedule (schedule(), FightTimeline): when each
+## step shows and how every card moves. The steps and holds below are the board views that
+## schedule is made from (and the fixture's `today` playback, tests/screens/feel/fight_compare):
 ##   combat_start: both boards whole
 ##   trigger: the unit that acts glows and lifts in place; what it does follows, still glowing
-##   attack: the attacker winds up and lunges into its target, then goes home during the damage
-##     hold (FightMotion, src/screens/fight/fight_motion.gd); the damage events of one hit share
-##     a step, each splashing on its unit. An attack that friends pile on (mark_pile_ons) waits:
-##     the attacker winds up at home, each piler jabs out as its hit shows and holds there, then
-##     the attacker lunges for the exchange (one more lunge step)
+##   attack: the attacker winds up and lunges into its target (FightTimeline in the game); the
+##     damage events of one hit share a step, each splashing on its unit. An attack that friends
+##     pile on (mark_pile_ons) waits: the attacker winds up at home, each piler jabs out as its hit
+##     shows and holds there, then the attacker lunges for the exchange (one more lunge step)
 ##   destroy: a splash with no number on the unit
 ##   death: the units of one pass leave their slots together, which stay empty (8.3.4)
 ##   summon, reserve, return: the unit appears in its slot, with the changes that follow it at
@@ -55,13 +56,24 @@ const CHANGES: Array[String] = [
 	"heap_remove",
 ]
 
-## [{state, hold, kind}], in order.
+## [{state, hold, kind}], in order. Once schedule() has run, the schedule's steps
+## ({state, hold, kind, frame, speed}; FightTimeline) in their place.
 var steps: Array[Dictionary] = []
 ## The boards after the last event: [side 0, side 1], 7 entries each.
 var boards: Array = [[], []]
+## The log as applied, and the view state after each event of it (views[i]: the board once event
+## i has happened, as the last step shows it), for the schedule.
+var played: Array = []
+var views: Array = []
+## The fight's schedule (FightTimeline), once schedule() has made it.
+var plan: FightTimeline
 
 var _base: Dictionary
+## The base as given, before the log changed it (schedule() replays a reordered log from it).
+var _given: Dictionary = {}
 var _catalog: Dictionary
+## What the loser takes, as apply was given it.
+var _damage: int = -1
 var _moment: Dictionary = {}
 ## uid -> [side, slot]
 var _where: Dictionary = {}
@@ -120,6 +132,7 @@ static func _piled(events: Array, at: int) -> bool:
 static func start(base: Dictionary, catalog: Dictionary) -> FightReplay:
 	var replay: FightReplay = FightReplay.new()
 	replay._base = base
+	replay._given = base.duplicate(true)
 	replay._catalog = catalog
 	for i: int in 2:
 		var row: Array = []
@@ -150,8 +163,44 @@ func summary(side: int) -> Array[Dictionary]:
 	return out
 
 
+## The fight's schedule from the log: frame by frame, what shows and how every card moves
+## (FightTimeline). Its steps replace the replay's. place: (side, slot) -> where a unit stands
+## (FightScreen.unit_xy; FightScreen.schedule makes one). Deaths at once are shown one after
+## another (FightOrder, CB8 c): the log is played again in that order first, so every view is
+## true to the order it shows; the boards at the end are the same.
+func schedule(place: Callable) -> void:
+	var ordered: Array = FightOrder.staggered(played)
+	if FightOrder.has_stagger(ordered):
+		var again: FightReplay = FightReplay.start(_given.duplicate(true), _catalog)
+		for value: Variant in ordered:
+			var event: Dictionary = value
+			again.apply(event, _damage)
+		played = again.played
+		views = again.views
+		boards = again.boards
+		_base = again._base
+		_moment = again._moment
+		_where = again._where
+		_gone = again._gone
+	plan = FightTimeline.new()
+	plan.build(played, views, place)
+	steps.assign(plan.steps)
+
+
 ## Takes one event of the log: updates the boards and makes the step it shows, if any.
 func apply(event: Dictionary, damage: int = -1) -> void:
+	_damage = damage
+	_apply(event, damage)
+	played.append(event)
+	var view: Dictionary = {}
+	if not steps.is_empty():
+		var last: Dictionary = steps[steps.size() - 1]
+		var shown: Dictionary = last["state"]
+		view = shown.duplicate(true)
+	views.append(view)
+
+
+func _apply(event: Dictionary, damage: int) -> void:
 	var kind: String = str(event.get("type", ""))
 	if kind != "damage" and kind != "destroy":
 		_moment.erase("splashes")

@@ -235,7 +235,8 @@ func test_one_attack_keeps_its_lunge_through_triggers_and_destroy() -> void:
 					"slot": 0,
 					"uid": 1,
 					"target_side": 1,
-					"target_slot": 0
+					"target_slot": 0,
+					"target_uid": 2
 				},
 				{"type": "damage", "uid": 2, "amount": 2, "health": 1, "source_uid": 1},
 				{"type": "trigger", "side": 0, "slot": 0, "uid": 1, "mechanic": "venomous"},
@@ -259,7 +260,7 @@ func test_a_pile_on_lands_before_the_attacker_reaches_its_target() -> void:
 	var piler: Dictionary = {"uid": 3, "id": "p", "side": 0, "slot": 1, "attack": 4, "health": 3}
 	(events[0]["boards"][0] as Array).append(piler)
 	var attack: Dictionary = {"type": "attack", "side": 0, "slot": 0, "uid": 1}
-	attack.merge({"target_side": 1, "target_slot": 0})
+	attack.merge({"target_side": 1, "target_slot": 0, "target_uid": 2})
 	var hit: Dictionary = {"type": "hit", "side": 0, "slot": 1, "uid": 3}
 	hit.merge({"target_side": 1, "target_slot": 0, "target_uid": 2})
 	var pile: Dictionary = {"type": "damage", "uid": 2, "amount": 4, "health": 1}
@@ -291,9 +292,9 @@ func test_a_pile_on_lands_before_the_attacker_reaches_its_target() -> void:
 func test_a_new_lunge_starts_from_rest_and_unchanging_events_make_no_step() -> void:
 	var events: Array = _two_units()
 	var hit: Dictionary = {"type": "attack", "side": 0, "slot": 0, "uid": 1}
-	hit.merge({"target_side": 1, "target_slot": 0})
+	hit.merge({"target_side": 1, "target_slot": 0, "target_uid": 2})
 	var back: Dictionary = {"type": "attack", "side": 1, "slot": 0, "uid": 2}
-	back.merge({"target_side": 0, "target_slot": 0})
+	back.merge({"target_side": 0, "target_slot": 0, "target_uid": 1})
 	events.append_array([hit, {"type": "pass", "side": 0}, {"type": "gold", "side": 0}, back])
 	var moments: Array[Dictionary] = _moments(FightReplay.build({}, events, {}))
 	# start, lunge, home, lunge: the pass and gold change nothing shown
