@@ -77,3 +77,38 @@ Reviewed by plan-interrogate (fresh agent, 25 Nov). Its fixes are in the steps a
 - **Lean:** the 4° in-plane tilt with the turn (CB17 "lean", `aim_lean`), no 3D tip, until the owner picks on the page. So step 1a needs no tip shader in `src/`.
 - **Stand-ins:** yes, in the game build: CB13 c, CB12 b (portraits travel, as a stand-in) and CB14 c (the recruit green pill in fights). They are replaced by the shatter, the bolt and a designed marker once the owner approves pictures.
 - **Late-fight speed-ups:** both, ×1.5 from the 5th attack and up to 3 triggers at once (median late fight 12.7 s).
+
+## Balatro learnings (owner, 25 Nov)
+
+> "I think there's a lot we can learn and a lot that doesn't apply to us as well… I'd like you to have a go at implementing what you think is reasonable and throwing out, of course, all the stuff that is probably not suited to us. I would like the sound stuff, yeah."
+
+The orchestrator's sort of `research/balatro.md`'s eight points:
+
+| # | Balatro | Verdict | What changes in the game |
+|---|---|---|---|
+| 1 | Smooth speed-up with the count | **Take** | FAST becomes a smooth ramp by attack number (×1 up to attack 3, rising to about ×1.6 by attack 12, then flat) in place of the ×1.5 step at attack 5. Median late fight about the same length. |
+| 2 | Never plays triggers at once | **Leave** | GROUP stays: "not slow" outweighs it at our trigger counts. |
+| 3 | Cause and number land together, nothing flies | **Take in part** | The +N flight (CB14 c) gets shorter, and the number lands on the frame the gain arrives. The flight stays, because our stats sit on moving cards. |
+| 4 | The spring pop | **Take** | Contact and trigger pops overshoot, dip and settle within about 15 f (×1.25, ×0.9, ×1.05). The card scales and tilts, never bends: rigid glass. |
+| 5 | Numbers slam at each step; only the final total rolls | **Take** | A card's stats slam to each new value with a short shake. The player's Health rolls down once (CB12 b step). |
+| 6 | No ×N combo count | **Leave for now** | The combo look is waiting on the owner's picture pick. Noted there. |
+| 7 | Spectacle hides the number late on | **Leave** | Clashes with "fights clear" and with lead and glass. Only the structure is kept: the result shows alone. |
+| 8 | Gentler shrinking gaps | **Take** | CB8 c's death stagger keeps its shape but floors at 6 f instead of 4 (10/8/7/6/6, cap 30). |
+
+**Sound:** a separate study measures Balatro's sound and motion pairing from the same videos (audio only, kept under `/data`). What to take from it is decided after that study, and the owner or a sound-capable reviewer judges anything that changes how the game sounds.
+
+**After the plan review (25 Nov):**
+- **Point 1, the ramp.** It replaces the owner's ×1.5 step, under his "have a go at implementing what you think is reasonable". It is tuned so the median late fight (r10-074) lasts as long as with the step, to within 0.3 s, and is measured, not assumed. The step stays one constant away.
+- **Point 8, the 6 f floor.** Filmed against 4 f, so the owner can judge both. The game takes 6 f until he does.
+- **Point 5, shrunk.** The number jitters on the card only, with no card or screen shake. GUIDELINES' "count over 8 f" is updated to match, and it is shown on film.
+- **Point 4.** GUIDELINES' contact-pop rule (back within 5 f, no dip) is updated in the same step.
+- **Point 3, deferred.** CB14 c is a stand-in.
+- **Point 7.** "The result shows alone" is dropped, since it changes nothing.
+
+**When:** step B comes after the deaths, gains and speed-ups step and the single-death and portrait step have merged. One builder does it, with points 1, 4, 5 and 8 in `src/`. Each change is a constant or a small curve.
+
+It has the same gates as every step, plus its own reference film: the game before and after B on seed 22 and r10-074, and the 4 f and 6 f death stagger side by side.
+
+**Sound, step S:** after the sound study. The builder wires only what the study supports, for example pitch steps across a repeated trigger, as cues tied to events. An agent can't judge sound, so the owner listens on his PC before it counts as done.
+
+The owner plays the build from steps 0–6 first, then a second build with B and S.

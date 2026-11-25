@@ -23,11 +23,23 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-# src/screens/fight/fight_motion.gd
-TURN_AIM = 0.95
-TURN_AT_CONTACT = 0.9
-TURN_LEAN = 4.0
-WINDUP_TURN = 6.0
+import re
+
+# read from src/screens/fight/fight_motion.gd, so a pick changed there is checked here too
+_MOTION = (Path(__file__).resolve().parents[4] / "src/screens/fight/fight_motion.gd").read_text()
+
+
+def _const(name: str) -> float:
+    m = re.search(rf"const {name}: float = ([0-9.]+)", _MOTION)
+    if m is None:
+        raise SystemExit(f"{name} not found in fight_motion.gd")
+    return float(m.group(1))
+
+
+TURN_AIM = _const("TURN_AIM")
+TURN_AT_CONTACT = _const("TURN_AT_CONTACT")
+TURN_LEAN = _const("TURN_LEAN")
+WINDUP_TURN = _const("WINDUP_TURN")
 # the log writes rotation and places to 2 decimals
 ROUNDING = 0.011
 
