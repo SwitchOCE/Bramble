@@ -314,15 +314,15 @@ The shop's buttons on its right (O, L13; L23), on a slate tablet (M), on its cen
 | Tablet | `l1z-board.png` stretched to (1501, 8, 161, 326); shadow (0, 4, blur 5, rgba(0,0,0,0.6)) | M |
 | Buttons | `l1p-roundel-slate.png`, 88; centred on x 1582; gaps of 15.5 above, between and below: tops at y 24, 127, 231 | O (L37), M |
 | Button shadow | (0, 4, blur 5, rgba(0,0,0,0.65)) | M |
-| Cost coin | 46, its centre on the button's rim at the lower right: (1590.1, 76.1) for tier up, (1590.1, 179.1) for refresh. Costs hang off the circle without moving it | O (L26, L37) |
+| Cost coin | 46, its centre on the button's rim at the lower right; top-left (1590.1, 76.1) for tier up, (1590.1, 179.1) for refresh. Costs hang off the circle without moving it | O (L26, L37) |
 | Tier up | top to bottom: the market-stall icon the owner chose on 18 Nov (row 47; `GlassPieces.STAND_IN_ICONS["shop_up"]`), 40 px, #fbf3dc line, its centre 6 px above the button's centre; the shop's level as a numeral, 22 px, #fbf3dc, centred, its centre 63 px below the button's top | M |
 | Refresh | refresh icon 42 px, centred | M |
 | Refreshes left | beads on an arc over the refresh button (below) | O (L37: no text; centred on the circle), M |
 | Freeze | snowflake icon 42 px, centred | M |
 
-**Refresh beads (M).** One bead per paid refresh left at this price. Centre of the arc: the button's centre (1582, 171). Radius 53 (button radius + 9). Ten beads of 11 px (the rules give ten refreshes at the first price), evenly spread from 180° to 360° (0° = right, angles clockwise on screen, so 270° is straight up). Lit beads first, from the left. Lit: radial #fff6d8, #f0c468 at 55%, #a9741f, with a light (section 9, S4). Spent: radial #4a5258 to #1c2124 at 70%. Each has a 2 px #15191a ring. The mock-up draws 8 beads, 7 lit; the game's real counts are in section 11.
+**Refresh beads (M).** One bead per paid refresh left at this price. Centre of the arc: the button's centre (1582, 171). Radius 53 (button radius + 9). Ten beads of 11 px (the rules give ten refreshes at the first price), evenly spread from 180° to 360° (0° = right, angles clockwise on screen, so 270° is straight up). Lit beads first, from the left. Lit: radial #fff6d8, #f0c468 at 55%, #a9741f, with a light (section 9, S4). Spent: radial #4a5258 to #1c2124 at 70%. Each has a 2 px #15191a ring. The picture draws ten beads, seven lit. Later price steps give five beads on the same arc (section 11).
 
-**Can't afford (M).** A price above your gold is a pewter coin: the coin greyscale, brightness 0.62, contrast 0.9; numeral #1d1f20 with no shadow. The art is untouched. In the picture only the 5-cost spell is pewter; see section 11 for what conflicts.
+**Can't afford (M).** A price above your gold is a pewter coin: the coin greyscale, brightness 0.62, contrast 0.9; numeral #1d1f20 with no shadow. The art is untouched. In the picture, with 4 gold, the 5-cost spell and the 9-cost tier up are pewter (settled: L47).
 
 ### Coins
 

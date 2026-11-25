@@ -45,6 +45,10 @@ Standing rules of the owner's: the main screen assumes a player who knows the ru
 5. States the spec lists as not designed keep today's behaviour on the new shapes, marked `STAND-IN`. Follow a "Pick (P)" or "Settled" line where the spec gives one.
 6. New numbers go in the hand-kept layout file. Rewrite only tests pinned to the old look; tests of behaviour pass unchanged. Say which tests you changed and why.
 
+## One small carry-over from step 3's review
+
+`RecruitShop.refresh_step` has a fallback branch that works out the refresh step size from the price and `GameConfig` defaults when the state has no `refresh_step_size`. That copies a core rule into the screen, and only the test fixture `tests/screens/fixtures/shop_review.json` needs it. Add `refresh_step_size` to that fixture and delete the fallback. Do this first, as its own commit.
+
 ## What not to do
 
 - No light of any kind: no glow, pulse or flash on End turn, the heart, the coin or the medallions. Light is a later step.
