@@ -6,7 +6,10 @@ Written by the orchestrator of `ideation/ui-ux` on 25 Nov 2026. **Status:** the 
 
 - 25 Nov: steps 1 to 4 (room, card, shop, columns) are built on `ui/l1`, each after the project's checks run twice (the worker's run and the orchestrator's) and a scope review by a fresh agent, with one small fix round each for steps 1, 2 and 4. Screenshots: `/data/ui-ideation/build/step1` to `step4`.
 - 25 Nov: the first Windows build, `Bramble-windows-d8ad1534e-1125-1720-l1-first`, was sent to the owner's PC. Light is flat stand-ins in it.
-- Next: the owner plays it; a fix round on what they find; then light (step 6), the fight screen fixes (step 7) and the final build.
+- 25 Nov: the owner asked not to be waited on (L49). Light (step 6) is built and on `ui/l1` at `4342f8e1`, after the checks twice, a scope review and one fix round (lights now follow their card's `modulate`, proven by a rendered test; tier order holds at every moment). Films: `/data/ui-ideation/build/step6/`. A second Windows build with light is being cut.
+- 25 Nov: the owner approved the art director's auras and heap panels (L48); they are being built as an added step (`briefs/46-build-panels.md`).
+- 25 Nov: a merge coordinator session is across this rework and the fight animation rework (L50); see `merge-readiness-l1.md` for what this rework owes it. Order approved by the owner through the coordinator: this rework into `dev` first.
+- Next: the panels; a merge-prep step; the coordinator's recheck of the two reworks combined; the pull request into `dev`, merged on the owner's say-so. The owner's findings from playing become a fix round whenever they come.
 
 ## What the owner asked for
 
