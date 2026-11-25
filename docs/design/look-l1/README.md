@@ -7,7 +7,7 @@ The design record of the game's buy screen and card. The owner chose the look, L
 | [buy-screen-l1.md](buy-screen-l1.md) | The build spec: every place, size, colour and light of the buy screen and the card, each tagged as the owner's decision, the approved mock-up's, or a proposal. `assets/glass/l1/layout.json` cites it by section, and its test requires every entry to. |
 | [decisions-l1.md](decisions-l1.md) | The owner's decisions L1 to L51, with their words, and the earlier rows they cite. |
 | [buy-screen-l1.jpg](buy-screen-l1.jpg) | The approved mock-up the spec was read from. |
-| [buy-screen-l1.rects.json](buy-screen-l1.rects.json), [make-rects.mjs](make-rects.mjs) | Every element the mock-up draws, as rectangles on the 1920 x 1080 stage, and the script that read them out of the mock-up page. |
+| [buy-screen-l1.rects.json](buy-screen-l1.rects.json), [make-rects.mjs](make-rects.mjs) | Every element the mock-up draws, as rectangles on the 1920 x 1080 stage, and the script that read them out of the mock-up page. A record: nothing in the game or its tests reads the rects, and the script needs the mock-up page, which lives on `ideation/ui-ux`, so it cannot be rerun from here. |
 
 The mock-up page itself, the look's working notes and the build plan are on the branch `ideation/ui-ux`, under `docs/workstreams/ui-ideation/` (`looks/L1/`, `build-plan-l1.md`).
 
