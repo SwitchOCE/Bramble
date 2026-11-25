@@ -50,7 +50,8 @@ The owner's idea, 25 Nov: "if I take away all of its abilities and keywords ... 
 
 - **The change:** one keyword's mechanic does nothing for one side of the fight, on every unit that has it, printed or given.
 - **Run for:** Overrun, with Cleave and Fury for comparison. Observations are sides that hold at least one unit with the keyword.
-- **Fights, score, sample, interval:** as text off, per keyword per stage.
+- **Fights, score, interval:** as text off, per keyword per stage.
+- **Sample:** at most 3,000 observations per keyword per stage, so each Health third can reach the 200 it needs. Three keywords, so this stays cheap.
 - **Split:** by the enemy board's median unit Health at the start of the fight, in thirds, with the cut points taken from all fights of that stage.
 - **Also counted, for Overrun:** for each attack by a unit with Overrun, how many enemy units it kills, the carried damage included: the share of attacks that kill two or more, three or more, and the whole enemy board.
 
@@ -81,3 +82,4 @@ The owner called replacing a unit with a made-up plain unit "pretty unrealistic"
 - 25 Nov, before any card result was read: the plain-unit swap is dropped and "left out of the shop" added, and text off is a pointer and no longer a flag, both on the owner's words quoted above.
 - 25 Nov, before any card result was read: stat worth of the text added, on the owner's idea quoted in its section.
 - 25 Nov, before any card result was read: smaller samples (500 observations and two seeds a fight test; 500 games a bot and a short list for left out of the shop), on the owner's budget quoted under text off.
+- 25 Nov, before any card result was read: keyword off samples 3,000 per keyword per stage, because 500 leaves each Health third under the 200 a number needs.
