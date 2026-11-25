@@ -230,7 +230,7 @@ func _want_card(
 	_keeper.want(key, str(data.get("id", "")), look, numbers, at, turn, make, time)
 	var outline: PackedVector2Array
 	if kind == "spell" or _is_spell(data):
-		outline = GlassBox.hexagon(Rect2(Vector2.ZERO, _spell_size()), _f(_g["SS"]))
+		outline = GlassBox.hexagon(Rect2(Vector2.ZERO, _card_spell_size(kind)), _f(_g["SS"]))
 	else:
 		outline = GlassBox.hexagon(Rect2(Vector2.ZERO, Vector2(_w(), _h())), _slot_shoulder())
 	_targets.append(
@@ -242,7 +242,7 @@ func _want_card(
 func _make_card(kind: String, data: Dictionary, _extra: Dictionary) -> Control:
 	var node: Control
 	if kind == "spell" or _is_spell(data):
-		node = _spell_card(data, _spell_size())
+		node = _spell_card(data, _card_spell_size(kind))
 	else:
 		node = _unit_card(data, _h())
 	node.name = "Card_" + str(data.get("id", ""))
@@ -258,6 +258,10 @@ static func card_key(kind: String, index: int, data: Dictionary) -> String:
 
 static func _is_spell(data: Dictionary) -> bool:
 	return _b(data.get("spell", false))
+
+
+func _card_spell_size(_kind: String) -> Vector2:
+	return _spell_size()
 
 
 func _spell_size() -> Vector2:
@@ -474,6 +478,11 @@ func _build_hero() -> void:
 	_counters.build(_shown_counters())
 
 
+## Where this screen puts a player's counter plate.
+func _layout_counter(plate: GlassBox, i: int) -> void:
+	plate.position = GlassCounters.plate_xy(i, _stage.size.y)
+
+
 ## The counters drawn now: the state's (a screen may hold the last ones a moment).
 func _shown_counters() -> Array:
 	return state.get("counters", [])
@@ -555,12 +564,13 @@ func _build_message(words: String) -> void:
 	label.refresh()
 	label.z_index = 7
 	label.position = (
-		Vector2(
-			960.0 - label.size.x / 2.0, (_f(_g["T0"]) + _f(_g["T1"])) / 2.0 - label.size.y / 2.0
-		)
-		. round()
+		Vector2(960.0 - label.size.x / 2.0, _message_y() - label.size.y / 2.0).round()
 	)
 	_front.add_child(label)
+
+
+func _message_y() -> float:
+	return (_f(_g["T0"]) + _f(_g["T1"])) / 2.0
 
 
 # ---- input: hover and the leaderboard ----

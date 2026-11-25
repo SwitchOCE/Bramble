@@ -22,44 +22,42 @@ func build_shop_buttons() -> void:
 	RecruitShop.build_buttons(_screen)
 
 
-## The right light's sill: the next opponent's portrait, which ends the turn, under its words.
+## The current end-turn portrait and its readouts in the right column.
 func build_end_turn() -> void:
-	var height: float = _screen._stage.size.y
-	var x: float = (
-		1904.0
-		- GlassPieces.number("stage.recruit.end.margin")
-		- GlassPieces.number("stage.recruit.end.port_room")
-		- GlassPieces.number("stage.recruit.end.inset")
-	)
+	var next: Dictionary = _screen.state.get("next_opponent", {})
+	var side: float = GlassPieces.number("stage.recruit.end.port")
+	var port: GlassBox = GlassParts.make_portrait(str(next.get("portrait", "")), side, [".endturn"])
+	port.name = "EndTurn"
+	port.position = L1Layout.centre("right.end_turn", port.box_size)
+
 	var words: GlassText = GlassText.from_rule("stage", ".lbl", "End turn")
 	words.name = "EndTurnWords"
 	words.font_px = GlassPieces.number("stage.recruit.end.label_size")
 	words.colour = GlassPieces.rule_colour("stage", ".endlbl", "color")
 	words.refresh()
-	words.position = Vector2(
-		x - GlassPieces.number("stage.recruit.end.label_left"),
-		height - GlassPieces.number("stage.recruit.end.label_up")
+	# STAND-IN: the two existing captions clear each other above and below the fight portrait.
+	words.position = (
+		port.position + Vector2((port.box_size.x - words.size.x) / 2.0, port.box_size.y + 4.0)
 	)
 	_screen._front.add_child(words)
-	var next: Dictionary = _screen.state.get("next_opponent", {})
-	var side: float = GlassPieces.number("stage.recruit.end.port")
-	var port: GlassBox = GlassParts.make_portrait(str(next.get("portrait", "")), side, [".endturn"])
-	port.name = "EndTurn"
-	port.position = Vector2(x, height - GlassPieces.number("stage.recruit.end.port_up"))
 	_screen._front.add_child(port)
+
 	var hp: GlassBox = GlassParts.health_badge(GlassPieces.as_int(next.get("health", 0)), [".hp"])
-	hp.position = Vector2(
-		x - GlassPieces.number("stage.recruit.end.hp_left"),
-		height - GlassPieces.number("stage.recruit.end.hp_up")
+	hp.position = (
+		port.position
+		+ Vector2(
+			-GlassPieces.number("stage.recruit.end.hp_left"),
+			(
+				GlassPieces.number("stage.recruit.end.port_up")
+				- GlassPieces.number("stage.recruit.end.hp_up")
+			)
+		)
 	)
 	_screen._front.add_child(hp)
 	if _screen.state.has("next_turn_income"):
 		var income: int = GlassPieces.as_int(_screen.state["next_turn_income"])
-		# A2 in after.js: (1846, 900), relative to the portrait at (1734, 930).
-		var at: Vector2 = port.position + Vector2(112.0, -30.0)
-		var right: float = _screen._stage.size.x
 		var badge: GlassBox = _income_badge(income)
-		badge.position = Vector2(minf(at.x, right - badge.box_size.x), at.y)
+		badge.position = L1Layout.centre("right.income", badge.box_size)
 		_screen._front.add_child(badge)
 	_screen._targets.append(
 		{

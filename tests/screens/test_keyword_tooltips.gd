@@ -113,6 +113,16 @@ func _assert_clear_geometry(source: Control, context: String, screen: GlassScree
 func _assert_left_column(context: String, screen: GlassScreen = null) -> void:
 	if screen == null:
 		screen = _screen
+	if screen is RecruitScreen:
+		var column: Rect2 = Rect2(12, 82, 220, 818)
+		assert_eq(screen._tips.tip.position, column.position, context)
+		var foot: float = column.position.y
+		for pane: Node in screen._tips.tip.get_children():
+			var rect: Rect2 = _stage_rect(pane as Control, screen)
+			assert_true(column.grow(0.01).encloses(rect), context + ": " + str(pane.name))
+			assert_gte(rect.position.y + 0.01, foot, context + ": panes stack vertically")
+			foot = rect.end.y
+		return
 	var details: Array[GlassBox] = screen._tips.details
 	var y: float = KeywordStyle.DETAIL_ORIGIN.y
 	for detail: GlassBox in details:
@@ -378,7 +388,11 @@ func test_hand_bottom_mark_opens_its_keyword_without_the_card_pane() -> void:
 	assert_not_null(mark)
 	if mark == null:
 		return
-	_screen._tips.hover(_point(mark))
+	_screen._tips.hover(card.position + Vector2(card.size.x / 2.0, 45.0))
+	assert_eq((_screen._tips as RecruitTips).standing, card)
+	var pointer: Vector2 = _point(mark)
+	pointer.y = minf(pointer.y, 1078.0)
+	_screen._tips.hover(pointer)
 	assert_true(_screen._tips.tip.visible)
 	assert_null(_screen._tips.tip.get_node_or_null("Words"))
 	assert_null(_screen._tips.tip.get_node_or_null("Card"))
@@ -488,7 +502,7 @@ func test_catalog_keyword_details_are_unique_bounded_and_clear_of_the_card_panes
 		var occupied: Array[Rect2] = [Rect2(card_node.position, card_node.size)]
 		for child_name: String in ["Card", "Words"]:
 			var primary: Control = tips.tip.get_node(child_name)
-			occupied.append(Rect2(tips.tip.position + primary.position, primary.size))
+			occupied.append(_stage_rect(primary))
 		_assert_clear_geometry(card_node, str(card["id"]))
 		_assert_left_column(str(card["id"]))
 		var seen: Dictionary = {}

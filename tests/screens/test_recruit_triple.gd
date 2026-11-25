@@ -249,7 +249,7 @@ func test_keyboard_press_finishes_animation_and_keeps_its_normal_action() -> voi
 	event.pressed = true
 	_screen._unhandled_key_input(event)
 	assert_false(_screen._triple.active())
-	assert_true(_screen.show_leaderboard, "Tab still toggles the leaderboard")
+	assert_false(_screen.show_leaderboard, "Tab still toggles the displayed leaderboard")
 
 
 func test_hover_during_merge_ignores_hidden_golden_and_keeps_other_cards_live() -> void:

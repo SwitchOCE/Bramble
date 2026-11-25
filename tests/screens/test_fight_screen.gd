@@ -379,7 +379,7 @@ func test_only_the_visible_screen_takes_keys() -> void:
 	_screen._unhandled_key_input(tab)
 	recruit._unhandled_key_input(tab)
 	assert_false(_screen.show_leaderboard, "the hidden fight screen ignores Tab")
-	assert_true(recruit.show_leaderboard, "the recruit screen showing takes it")
+	assert_false(recruit.show_leaderboard, "the visible recruit screen toggles its displayed board")
 
 
 func test_a_second_skip_does_nothing() -> void:

@@ -1,15 +1,8 @@
 class_name RecruitTips
 extends GlassTips
-## The recruit screen's hover detail: GlassTips' card detail, plus its own kinds. STAND-IN
-## (polish.html, m=recruit): a hovered hand card stands up, unturned, wholly on the screen, and its
-## detail is the words alone, beside it (the card is already big enough to read). An ability
-## button's detail is its words beside its card; a Discover option's is its words over its own
-## text pane. No detail shows on a card still on its way somewhere until it is still.
+## The recruit screen's hover detail in the left column. Discover keeps its own preview beside
+## its options, and a hand card rises in place.
 
-## STAND-IN (polish.html): a hovered hand card stands up unturned, its foot this far above the
-## stage's bottom, its words beside it this far to its right.
-const HAND_LIFT_FOOT: float = 8.0
-const HAND_TIP_GAP: float = 16.0
 const PREVIEW_FIELDS: PackedStringArray = [
 	"golden", "attack", "health", "base_attack", "base_health", "max_health"
 ]
@@ -120,17 +113,10 @@ func show(target: Dictionary, at: Vector2) -> void:
 		var text: GlassBox = GlassParts.tip_text(
 			card, GlassScreen._is_spell(card), _recruit._reminders(card), _recruit._display_table()
 		)
-		text.position = Vector2(0, GlassPieces.rule_number("stage", "#tip .txt", "margin-top"))
 		tip.add_child(text)
 	var card_node: Control = node
 	set_hot(card_node)
 	stand(card_node)
-	# kept on the screen: a long list of reminders rises above the card's top
-	var text_box: GlassBox = last_box()
-	var bottom: float = 1080.0 - HAND_LIFT_FOOT - text_box.position.y - text_box.box_size.y
-	tip.position = Vector2(
-		card_node.position.x + card_node.size.x + HAND_TIP_GAP, minf(card_node.position.y, bottom)
-	)
 	tip.visible = true
 	open_details(target)
 
@@ -148,7 +134,7 @@ func set_hot(node: Control) -> void:
 		set_down()
 
 
-## A hovered hand card stands up, unturned, its foot HAND_LIFT_FOOT above the stage's bottom.
+## A hovered hand card stands up, unturned, at the L1 height for its kind.
 func stand(node: Control) -> void:
 	if standing == node:
 		return
@@ -158,7 +144,9 @@ func stand(node: Control) -> void:
 	standing = node
 	rest = Vector3(node.position.x, node.position.y, node.rotation)
 	node.rotation = 0.0
-	node.position.y = 1080.0 - node.size.y - HAND_LIFT_FOOT
+	node.position.y = L1Layout.number(
+		"hand.spell_hover_y" if node is GlassSpell else "hand.unit_hover_y"
+	)
 
 
 ## The standing hand card back to its rest.
@@ -175,8 +163,35 @@ func forget_standing() -> void:
 	standing = null
 
 
-## STAND-IN (recruit-play.html ?abil=2): an ability button's hover is the words alone (its name,
-## its cost, what it does), beside its card on the right, clear of every button on that card.
+## STAND-IN: fit the existing hover artwork and text together above the scoreboard.
+func _layout_details(target: Dictionary) -> void:
+	if str(target["kind"]) in ["discover", "waiting_preview"]:
+		super(target)
+		return
+	var column: Rect2 = L1Layout.rect("left.hover")
+	var parts: Array[Control] = []
+	for child: Node in tip.get_children():
+		if child is Control and not child.is_queued_for_deletion():
+			parts.append(child)
+	var height: float = KeywordStyle.GAP * maxi(0, parts.size() - 1)
+	for part: Control in parts:
+		height += part.size.y * minf(1.0, column.size.x / part.size.x)
+	var fit: float = minf(1.0, column.size.y / maxf(1.0, height))
+	tip.position = column.position
+	var y: float = 0.0
+	for part: Control in parts:
+		var scale_to_fit: float = fit * minf(1.0, column.size.x / part.size.x)
+		part.scale = Vector2.ONE * scale_to_fit
+		part.position = Vector2((column.size.x - part.size.x * scale_to_fit) / 2.0, y)
+		y += (part.size.y * scale_to_fit + KeywordStyle.GAP * fit)
+
+
+func show_words(target: Dictionary, at: Vector2) -> void:
+	super(target, at)
+	open_details(target)
+
+
+## An ability's existing name, cost and reminder take the same column as unit details.
 func _show_ability(target: Dictionary) -> void:
 	var node: Control = target["node"]
 	if hot != node or _icon_mark != null:
@@ -185,12 +200,6 @@ func _show_ability(target: Dictionary) -> void:
 		tip.add_child(
 			GlassParts.tip_text(words, false, PackedStringArray(), _screen._display_table())
 		)
-	var card: Control = node.get_parent()
-	var box: GlassBox = last_box()
-	var x: float = card.position.x + card.size.x + HAND_TIP_GAP
-	if x + box.box_size.x > GlassPieces.number("stage.tip.flip_edge"):
-		x = card.position.x - HAND_TIP_GAP - box.box_size.x
-	tip.position = Vector2(x, card.position.y + node.position.y)
 	tip.visible = true
 	open_details(target)
 	set_hot(node)

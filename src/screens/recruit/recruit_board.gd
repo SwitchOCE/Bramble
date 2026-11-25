@@ -41,6 +41,7 @@ func want() -> void:
 		places.append(_screen.slot_xy(i))
 		var raw: Dictionary = slots[i] if i < slots.size() and slots[i] is Dictionary else {}
 		bonuses.append(_screen.slot_info(raw))
+	# STAND-IN: keep the empty slot art, including its slot bonuses and drop targets.
 	_screen._slots.set_row("Slot_", places, _screen.card_box(), bonuses)
 	for i: int in GlassScreen.BOARD_SLOTS:
 		var unit: Variant = board[i] if i < board.size() else null

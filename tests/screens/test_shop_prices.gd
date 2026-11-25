@@ -101,7 +101,7 @@ func test_a_bought_spell_changes_from_shop_coin_to_the_original_hand_cost_disc()
 	assert_eq(number.words, "3", "the printed spell cost is retained")
 
 
-func test_counter_and_cost_update_together_and_top_tier_has_no_upgrade_button() -> void:
+func test_counter_and_cost_update_together_and_top_tier_has_no_upgrade_cost() -> void:
 	var flow: GameFlow = _flow()
 	flow.human().refreshes_paid = 9
 	flow.human().gold = 10
@@ -116,7 +116,9 @@ func test_counter_and_cost_update_together_and_top_tier_has_no_upgrade_button() 
 	assert_eq(_coin(_screen.find_child("Button_refresh", true, false)).amount, 2)
 	flow.human().tier = 6
 	_screen.show_state(ViewAdapter.recruit_state(flow))
-	assert_null(_screen.find_child("Button_tier*", true, false))
+	var readout: Control = _screen.find_child("Button_tier", true, false)
+	assert_not_null(readout, "the top tier keeps a readout")
+	assert_null(_coin(readout), "no cost at maximum tier")
 
 
 func test_sell_cue_shows_copy_value_and_clears_on_release_or_focus_loss() -> void:

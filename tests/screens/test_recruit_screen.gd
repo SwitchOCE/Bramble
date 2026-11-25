@@ -61,25 +61,22 @@ func test_builds_the_mockup_state() -> void:
 	assert_eq(renown, ["Renown 4"] as Array[String], "the empty slot shows its Renown")
 
 
-func test_places_follow_the_mockups_geometry() -> void:
+func test_places_follow_the_l1_geometry() -> void:
 	_make(_mockup())
-	var g: Dictionary = RecruitShop.geometry()
 	var shop: Control = _find("Card_s0")
-	var shop_at: Vector2 = Vector2(
-		GlassPieces.as_float(g["shopL"]), GlassPieces.as_float(g["shopTop"])
-	)
-	assert_eq(shop.position, shop_at, "the shop starts at geom()'s shopL")
+	assert_eq(shop.position, Vector2(478, 52))
+	var spell: Control = _find("Card_s5")
+	assert_eq(_screen.spell_xy(0), Vector2(283, 46))
+	assert_almost_eq(spell.position + spell.size / 2.0, Vector2(341, 104), Vector2.ONE * 0.01)
 	var front: Control = _find("Card_b0")
-	assert_almost_eq(front.position.y, GlassPieces.as_float(g["boardTop"]), 0.001)
+	assert_eq(front.position, Vector2(650, 386))
 	var second: Control = _find("Card_b1")
+	assert_eq(second.position.x - front.position.x, 160.0)
 	var back: Control = _find("Card_b4")
-	var pitch: float = second.position.x - front.position.x
-	assert_almost_eq(
-		back.position.x - front.position.x, pitch / 2.0, 0.001, "back row half a slot in"
-	)
+	assert_almost_eq(back.position, Vector2(730, 612.9), Vector2.ONE * 0.01)
 
 
-func test_hand_of_seven_fans_evenly() -> void:
+func test_hand_of_seven_is_flat_and_centred() -> void:
 	var state: Dictionary = _mockup()
 	var hand: Array = []
 	for i: int in 7:
@@ -91,7 +88,10 @@ func test_hand_of_seven_fans_evenly() -> void:
 	var middle: Control = _find("Card_h3")
 	var last: Control = _find("Card_h6")
 	assert_almost_eq(middle.rotation_degrees, 0.0, 0.001, "the middle card stands straight")
-	assert_almost_eq(first.rotation_degrees, -last.rotation_degrees, 0.001, "the fan is symmetric")
+	assert_eq(first.rotation_degrees, 0.0, "the first card stands straight")
+	assert_eq(last.rotation_degrees, 0.0, "the last card stands straight")
+	assert_eq(first.position, Vector2(410, 955))
+	assert_eq(last.position, Vector2(1370, 955))
 	assert_almost_eq(
 		first.position.x + last.position.x, 2.0 * middle.position.x, 0.01, "centred on the middle"
 	)
@@ -254,15 +254,21 @@ func test_bought_cards_leave_holes_and_frozen_shows() -> void:
 	assert_not_null(_find("Button_freeze").get_node_or_null("Frost"), "and the button")
 
 
-func test_top_tier_has_no_upgrade_button_and_short_gold_dims() -> void:
+func test_top_tier_displays_no_upgrade_action_and_short_gold_dims() -> void:
 	var state: Dictionary = _mockup()
 	state.erase("upgrade_cost")
+	state["tier"] = 6
 	state["legal_actions"] = [{"type": "freeze"}, {"type": "end_turn"}]
 	_make(state)
-	assert_null(_find("Button_tier"))
+	var cap: Control = _find("Button_tier")
+	assert_not_null(cap, "the top tier still has a readout")
+	assert_eq(_texts(cap), ["6"] as Array[String])
+	assert_null(cap.get_node_or_null("Cost"))
+	assert_eq(_screen.target_at(cap.position + cap.size / 2.0, false), {}, "the readout is inert")
 	assert_not_null(_find("Button_refresh_short"), "refresh is not a legal action")
 	assert_not_null(_find("Button_freeze"), "freeze is")
 	state["upgrade_cost"] = 1
+	state["tier"] = 5
 	state["gold"] = 0
 	state["legal_actions"] = [{"type": "upgrade"}, {"type": "refresh"}]
 	_screen.show_state(state)
@@ -296,15 +302,15 @@ func test_counters_message_golden_and_renown() -> void:
 
 func test_tab_and_the_portrait_toggle_the_leaderboard() -> void:
 	_make(_mockup())
-	assert_null(_find("Leaderboard"), "hidden at first, as in the mock-up")
+	assert_not_null(_find("Leaderboard"), "visible on entering the screen")
 	var tab: InputEventKey = InputEventKey.new()
 	tab.keycode = KEY_TAB
 	tab.pressed = true
 	_screen._unhandled_key_input(tab)
-	assert_not_null(_find("Leaderboard"))
+	assert_null(_find("Leaderboard"))
 	var hero: Control = _find("Hero")
 	_click(hero.position + hero.size / 2.0)
-	assert_null(_find("Leaderboard"))
+	assert_not_null(_find("Leaderboard"))
 
 
 func test_the_stage_is_letterboxed_in_other_window_shapes() -> void:
@@ -332,7 +338,7 @@ func test_dragging_from_hand_to_a_slot_plays_it() -> void:
 	watch_signals(_screen)
 	var card: Control = _find("Card_h2")
 	var place: Vector3 = _screen.hand_place(2, 6)
-	var grip: Vector2 = Vector2(place.x, place.y) + Vector2(card.size.x / 2.0, card.size.y * 0.8)
+	var grip: Vector2 = Vector2(place.x, place.y) + Vector2(card.size.x / 2.0, card.size.y / 4.0)
 	_drag(grip, _centre(5, "slot"))
 	assert_signal_emitted_with_parameters(
 		_screen, "action_requested", [{"type": "play", "hand": 2, "slot": 5, "target": -1}]
@@ -358,11 +364,11 @@ func test_buttons_and_end_turn() -> void:
 	_make(state)
 	watch_signals(_screen)
 	var positions: Dictionary = {
-		"Button_gold": Vector2(390, 185.5),
-		"Button_tier": Vector2(390, 269.5),
-		"Button_refresh": Vector2(1354, 185.5),
-		"Button_freeze": Vector2(1354, 269.5),
-		"EndTurn": Vector2(1734, 930),
+		"Button_gold": Vector2(1710, 56),
+		"Button_tier": Vector2(1510, 34),
+		"Button_refresh": Vector2(1510, 137),
+		"Button_freeze": Vector2(1510, 241),
+		"EndTurn": Vector2(1734, 902),
 	}
 	for node_name: String in positions:
 		var button: Control = _find(node_name)
@@ -371,12 +377,12 @@ func test_buttons_and_end_turn() -> void:
 		_click(button.position + button.size / 2.0)
 	var drop: GlassText = _find("TierUpDrop")
 	assert_eq(drop.words, "−3 next turn")
-	assert_eq(drop.position + Vector2(drop.size.x / 2.0, 0.0), Vector2(478, 343.5))
+	assert_eq(drop.position + Vector2(drop.size.x / 2.0, 0.0), Vector2(1582, 102))
 	var counter: GlassText = _find("RefreshCounter")
 	assert_eq(counter.words, "7 left at this price")
-	assert_eq(counter.position + Vector2(counter.size.x / 2.0, 0.0), Vector2(1442, 155.5))
+	assert_eq(counter.position + Vector2(counter.size.x / 2.0, 0.0), Vector2(1582, 205))
 	var income: GlassBox = _find("NextTurnIncome")
-	assert_eq(income.position, Vector2(1846, 900))
+	assert_eq(income.get_rect().get_center(), Vector2(1798, 169))
 	assert_eq(income.size.y, 30.0)
 	assert_lte(income.get_rect().end.x, _stage().size.x)
 	assert_eq((income.get_node("Value") as GlassText).words, "+13")
@@ -427,21 +433,23 @@ func test_hover_shows_the_cards_name_and_rules() -> void:
 	assert_has(words, "TIER 6 · UNIT")
 
 
-func test_a_hovered_hand_card_stands_up_whole_with_its_words_beside_it() -> void:
+func test_a_hovered_hand_card_rises_and_its_words_stay_in_the_left_column() -> void:
 	_make(_mockup())
 	var card: Control = _find("Card_h2")
 	var rest: Vector2 = card.position
 	var turn: float = card.rotation
 	assert_gt(rest.y + card.size.y, 1080.0, "at rest a hand card is cut by the bottom")
 	_move(Vector2(rest.x + card.size.x / 2.0, 1060.0))
-	assert_almost_eq(card.position.y + card.size.y, 1072.0, 0.5, "its foot 8 px above the bottom")
+	assert_almost_eq(card.position.y, 854.0, 0.5, "the hand card lifts in place")
 	assert_eq(card.rotation, 0.0, "unturned")
 	var tip: Control = _find("Tip")
 	assert_true(tip.visible)
 	assert_null(tip.get_node_or_null("Card"), "no enlarged copy: the words alone")
-	assert_gt(tip.position.x, card.position.x + card.size.x, "beside it")
+	assert_eq(tip.position, Vector2(12, 82), "over the scoreboard")
 	var text: GlassBox = tip.get_child(tip.get_child_count() - 1)
-	assert_lte(tip.position.y + text.position.y + text.box_size.y, 1080.0, "on the screen")
+	assert_lte(
+		tip.position.y + text.position.y + text.box_size.y * text.scale.y, 1080.0, "on the screen"
+	)
 	_move(Vector2(960, 300))
 	assert_eq(card.position, rest, "back to its rest")
 	assert_eq(card.rotation, turn)

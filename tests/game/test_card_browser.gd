@@ -96,6 +96,7 @@ func test_recruit_entry_pauses_and_close_preserves_the_live_game_exactly() -> vo
 	game.request({"type": "buy", "spell": false, "index": 0})
 	game.recruit.settle()
 	game.recruit.toggle_leaderboard()
+	var leaderboard: bool = game.recruit.show_leaderboard
 	var before: String = JSON.stringify(game.flow.session.view_for(GameFlow.HUMAN))
 	var events_before: int = game.flow.session.events.size()
 	var state_before: Dictionary = game.recruit.state.duplicate(true)
@@ -120,7 +121,7 @@ func test_recruit_entry_pauses_and_close_preserves_the_live_game_exactly() -> vo
 	assert_eq(game.flow.session.events.size(), events_before)
 	assert_eq(game.recruit.state, state_before)
 	assert_eq(game.recruit.shown_count(), shown, "the recruit UI was never redrawn")
-	assert_true(game.recruit.show_leaderboard)
+	assert_eq(game.recruit.show_leaderboard, leaderboard)
 	assert_eq(game.phase, GameController.Phase.RECRUIT)
 	await wait_process_frames(2)
 

@@ -1,16 +1,10 @@
 class_name RecruitShop
 extends RefCounted
-## Briefs 1 and 3: Tags layout from docs/design/mockups/kit/screen.js.
-## Taste constants live here; the coin's own drawing lives in GoldCoin.
+## The shop's existing buttons, tags and slot art, laid out in the L1 shop wall.
+## The coin's drawing lives in GoldCoin.
 
-const PRICE_ROOM: float = 54.0
 const BUTTON_SIZE: Vector2 = Vector2(176, 68)
-const BUTTON_GAP: float = 20.0
-const BUTTON_UP: float = 78.0
-const BUTTON_STEP: float = 84.0
 const BUTTON_COIN: float = 46.0
-const TAG_COIN: float = 44.0
-const TAG_DROP: float = 10.0
 const SHOP_READOUT_TINT: Color = Color("d9cfbb")
 const SELL_COIN: float = 58.0
 const SELL_CAPTION_WIDTH: float = 250.0
@@ -19,48 +13,61 @@ const SELL_SIDE_MARGIN: float = 20.0
 const SELL_CORNER: float = 22.0
 
 
-## The view arrays retain bought positions as null until refill. Every position gets a backing,
-## including spells, regardless of its contents; the rules already supply the shop's size.
+## STAND-IN: today's unit slot art in the arch openings. Spell places have no backing.
 static func build_slots(screen: RecruitScreen) -> void:
 	var units: Array = screen.state.get("shop_units", [])
-	var spells: Array = screen.state.get("shop_spells", [])
 	var places: Array[Vector2] = []
 	for i: int in units.size():
 		places.append(screen.shop_xy(i))
 	screen._slots.set_row("ShopSlot_", places, screen.card_box())
-	places = []
-	for i: int in spells.size():
-		places.append(screen.spell_xy(i))
-	screen._slots.set_row("SpellSlot_", places, screen._spell_size())
+
+
+## The centred row of arch openings, with each card inset in its opening.
+static func unit_xy(i: int) -> Vector2:
+	var opening: float = L1Layout.number("shop.arch.w")
+	var gap: float = L1Layout.number("shop.arch.gap")
+	var count: float = L1Layout.number("shop.arch.count")
+	var width: float = count * opening + (count - 1.0) * gap
+	return Vector2(
+		(
+			(L1Layout.stage_size().x - width) / 2.0
+			+ i * (opening + gap)
+			+ L1Layout.number("shop.unit.inset")
+		),
+		L1Layout.number("shop.arch.y") + L1Layout.number("shop.unit.down")
+	)
 
 
 static func geometry() -> Dictionary:
 	var g: Dictionary = GlassPieces.recruit_geom().duplicate()
-	# geom(54): the 40% minimum hand reveal is reached with hanging tags.
-	var hand_top: float = minf(
-		1080.0 - GlassPieces.as_float(g["H"]) * 0.4, GlassPieces.as_float(g["handTop"]) + PRICE_ROOM
+	g["W"] = L1Layout.number("card.w")
+	g["H"] = L1Layout.number("card.h")
+	g["g"] = L1Layout.number("card.gap")
+	var shop: Vector2 = unit_xy(0)
+	g["shopL"] = shop.x
+	g["shopTop"] = shop.y
+	g["shopW"] = (
+		unit_xy(int(L1Layout.number("shop.arch.count")) - 1).x - shop.x + L1Layout.number("card.w")
 	)
-	var down: float = hand_top - GlassPieces.as_float(g["handTop"])
-	for key: String in ["handTop", "sill", "boardTop", "boardBot", "T0", "T1"]:
-		g[key] = GlassPieces.as_float(g[key]) + down
-	for key: String in ["shopTop", "shopBot"]:
-		g[key] = GlassPieces.as_float(g[key]) + down - PRICE_ROOM
-	g["ys"] = maxf(GlassPieces.as_float(g["shopTop"]) + 30.0, 90.0)
+	var wall: float = L1Layout.number("room.wall.h")
+	g["shopBot"] = wall
+	g["T0"] = wall
+	g["sill"] = wall + L1Layout.number("room.table.h") + L1Layout.number("room.edge.h")
 	return g
 
 
 static func build_buttons(screen: RecruitScreen) -> void:
-	var left: float = screen.geom("shopL") - BUTTON_GAP - BUTTON_SIZE.x
-	var right: float = screen.geom("shopL") + screen.geom("shopW") + BUTTON_GAP
-	var top: float = screen.geom("shopTop") + screen.card_box().y / 2.0 - BUTTON_UP
-	var gold: GlassBox = _button(screen, "gold", Vector2(left, top), true)
+	var gold: GlassBox = _button(screen, "gold", "right.gold", BUTTON_SIZE)
 	var amount: GlassText = _text(str(screen._counts.gold()), 34, true)
 	amount.name = "GoldValue"
 	_row(gold, [GoldCoin.make(-1, 40.0), amount])
+
+	# STAND-IN: fit the current rectangular buttons inside the tablet.
+	var box: Vector2 = Vector2(L1Layout.number("shop.button.stand_in_w"), BUTTON_SIZE.y)
+	var tier: int = GlassPieces.as_int(screen.state.get("tier", 1))
 	if screen.state.get("upgrade_cost") != null:
-		var tier: int = GlassPieces.as_int(screen.state.get("tier", 1))
+		var upgrade: GlassBox = _button(screen, "tier", "shop.tier", box)
 		var value: int = GlassPieces.as_int(screen.state["upgrade_cost"])
-		var upgrade: GlassBox = _button(screen, "tier", Vector2(left, top + BUTTON_STEP))
 		var words: Control = Control.new()
 		words.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var title: TextureRect = _icon("shop_up", 18, Color("c9bda6"))
@@ -82,10 +89,15 @@ static func build_buttons(screen: RecruitScreen) -> void:
 				"TierUpDrop",
 				"−%d next turn" % drop,
 				18.0,
-				upgrade.position + Vector2(0.0, BUTTON_SIZE.y + 6.0)
+				upgrade.get_rect().get_center().x,
+				upgrade.get_rect().end.y
 			)
+	elif tier == GlassPieces.TIERS:
+		# STAND-IN: at maximum level, show the level without a cost or an upgrade target.
+		var upgrade: GlassBox = _button(screen, "tier", "shop.tier", box)
+		_row(upgrade, [_icon("shop_up", 18, Color("c9bda6")), _text(str(tier), 27, true)])
 	var cost: int = GlassPieces.as_int(screen.state.get("refresh_cost", 0))
-	var refresh: GlassBox = _button(screen, "refresh", Vector2(right, top))
+	var refresh: GlassBox = _button(screen, "refresh", "shop.refresh", box)
 	_row(
 		refresh,
 		[_icon("refresh", 30), GoldCoin.make(cost, BUTTON_COIN, cost > screen._counts.gold())]
@@ -97,50 +109,47 @@ static func build_buttons(screen: RecruitScreen) -> void:
 			"RefreshCounter",
 			"%d left at this price" % left_count,
 			17.0,
-			refresh.position - Vector2(0.0, 30.0)
+			refresh.get_rect().get_center().x,
+			refresh.get_rect().end.y
 		)
-	var freeze: GlassBox = _button(screen, "freeze", Vector2(right, top + BUTTON_STEP))
+	var freeze: GlassBox = _button(screen, "freeze", "shop.freeze", box)
 	_row(freeze, [_icon("freeze", 36)])
 	if GlassPieces.as_bool(screen.state.get("frozen", false)):
 		GlassParts.add_frost(freeze, GlassParts.round_poly(freeze.box_size))
 
 
-## A2 in after.js: the readout's line box is centred across the button.
+## STAND-IN: keep the discount and refresh readouts in the gaps below their buttons.
 static func _shop_readout(
-	screen: RecruitScreen, node_name: String, words: String, px: float, at: Vector2
+	screen: RecruitScreen, node_name: String, words: String, px: float, x: float, y: float
 ) -> void:
 	var label: GlassText = _text(words, px, false, SHOP_READOUT_TINT)
 	label.name = node_name
 	label.z_index = 1
-	label.position = at + Vector2((BUTTON_SIZE.x - label.size.x) / 2.0, 0.0)
+	label.position = Vector2(x - label.size.x / 2.0, y)
 	screen._back.add_child(label)
 
 
-static func _button(
-	screen: RecruitScreen, id: String, at: Vector2, balance: bool = false
-) -> GlassBox:
+static func _button(screen: RecruitScreen, id: String, place: String, size: Vector2) -> GlassBox:
 	var box: GlassBox = GlassBox.new()
 	box.name = "Button_" + id
-	box.box_size = BUTTON_SIZE
-	box.position = at
+	box.box_size = size
+	box.position = L1Layout.centre(place, size)
+	var balance: bool = id == "gold"
 	box.use_css("stage", ".btn")
 	if balance:
 		box.use_css("stage", ".btn.gold")
-	box.radii = GlassBox.css_radii(GlassPieces.rule("stage", ".btn", "border-radius"), BUTTON_SIZE)
+	box.radii = GlassBox.css_radii(GlassPieces.rule("stage", ".btn", "border-radius"), size)
 	box.refresh()
 	var action: String = "upgrade" if id == "tier" else id
-	if not balance and screen.is_barred(action):
+	var max_tier: bool = id == "tier" and screen.state.get("upgrade_cost") == null
+	if not balance and not max_tier and screen.is_barred(action):
 		box.name += "_short"
 		box.self_modulate = RecruitScreen.SHORT_DIM
 	screen._back.add_child(box)
+	if max_tier:
+		return box
 	screen._targets.append(
-		{
-			"kind": "button",
-			"index": 0,
-			"id": id,
-			"node": box,
-			"poly": GlassParts.rect_poly(BUTTON_SIZE)
-		}
+		{"kind": "button", "index": 0, "id": id, "node": box, "poly": GlassParts.rect_poly(size)}
 	)
 	return box
 
@@ -184,10 +193,11 @@ static func dress_card(node: Control, data: Dictionary, poor: bool) -> void:
 		node.remove_child(disc)
 		disc.free()
 		var price_coin: GoldCoin = GoldCoin.make(
-			GlassPieces.as_int(data.get("cost", 0)), TAG_COIN, poor
+			GlassPieces.as_int(data.get("cost", 0)), L1Layout.number("shop.spell.price.w"), poor
 		)
 		price_coin.name = "Cost"
-		price_coin.position = Vector2(-16.0, node.size.y * 0.16)
+		var inset: Vector2 = (L1Layout.rect("shop.spell").size - node.size) / 2.0
+		price_coin.position = L1Layout.point("shop.spell.price") - inset
 		node.add_child(price_coin)
 		return
 	var tag: Control = price_tag(GlassPieces.as_int(data.get("price", 0)), poor)
@@ -206,9 +216,11 @@ static func price_tag(price: int, poor: bool) -> Control:
 			tag.draw_circle(Vector2(0, 0), 3, Color("16120e"))
 			tag.draw_line(Vector2(0, -1), Vector2(0, 14), Color("16120e"), 3, true)
 	)
-	var coin: GoldCoin = GoldCoin.make(price, TAG_COIN, poor)
+	var diameter: float = L1Layout.number("shop.price.d")
+	var coin: GoldCoin = GoldCoin.make(price, diameter, poor)
 	coin.name = "Price"
-	coin.position = Vector2(-TAG_COIN / 2.0, TAG_DROP)
+	var drop: float = L1Layout.number("shop.price.y") - unit_xy(0).y - L1Layout.number("card.h")
+	coin.position = Vector2(-diameter / 2.0, drop)
 	tag.add_child(coin)
 	return tag
 

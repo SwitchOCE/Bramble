@@ -24,9 +24,6 @@ static func check(screen: GlassScreen) -> PackedStringArray:
 		var units: Array = screen.state.get("shop_units", [])
 		for i: int in units.size():
 			expected["ShopSlot_%d" % i] = [recruit.shop_xy(i), screen.card_box()]
-		var spells: Array = screen.state.get("shop_spells", [])
-		for i: int in spells.size():
-			expected["SpellSlot_%d" % i] = [recruit.spell_xy(i), screen._spell_size()]
 	elif screen is FightScreen:
 		var fight: FightScreen = screen as FightScreen
 		for side: int in 2:

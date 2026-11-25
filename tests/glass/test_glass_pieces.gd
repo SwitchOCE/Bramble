@@ -76,6 +76,16 @@ func test_layout_has_every_key_used_and_says_where_each_came_from() -> void:
 		assert_ne(str(entry.get("source", "")), "", "%s quotes its source" % key)
 
 
+func test_l1_layout_numbers_name_their_spec_sections() -> void:
+	var entries: Dictionary = L1Layout.entries()
+	var source: RegEx = RegEx.create_from_string("^buy-screen-l1\\.md §[0-9]+")
+	assert_false(entries.is_empty())
+	for key: String in entries:
+		var entry: Dictionary = entries[key]
+		assert_true(entry.get("value") is float, "%s is numeric" % key)
+		assert_not_null(source.search(str(entry.get("from", ""))), "%s names a spec section" % key)
+
+
 func test_layout_values_match_the_mockups_card_template() -> void:
 	assert_eq(GlassPieces.number("card.num.one_digit_scale"), 1.2)
 	assert_eq(GlassPieces.number("card.num.two_digit_scale"), 0.95)

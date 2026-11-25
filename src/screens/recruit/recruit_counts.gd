@@ -81,15 +81,12 @@ func show_gold(amount: int) -> void:
 		label.refresh()
 
 
-## The hand's count, left of the hand: "Hand 2/7".
+## STAND-IN: the hand count sits at the right end of the ledge.
 func build_hand_count() -> void:
 	var hand: Array = _screen.state.get("hand", [])
 	var n: int = hand.size()
 	# a card on its way to the hand counts once it is there
 	var shown: int = _hand_held if _hand_held >= 0 else n
-	var w: float = _screen.card_box().x
-	var step: float = w * GlassPieces.number("stage.recruit.hand.step_per_w")
-	var hw: float = step * (n - 1) + w
 	var label: GlassText = GlassText.from_rule(
 		"stage",
 		".lbl",
@@ -99,10 +96,7 @@ func build_hand_count() -> void:
 	label.font_px = GlassPieces.number("stage.recruit.hand_label.size")
 	label.colour = GlassPieces.colour("stage.recruit.hand_label.colour")
 	label.refresh()
-	label.position = Vector2(
-		960.0 - hw / 2.0 - GlassPieces.number("stage.recruit.hand_label.left"),
-		_screen.geom("handTop") + GlassPieces.number("stage.recruit.hand_label.down")
-	)
+	label.position = L1Layout.point("hand.count")
 	_screen._front.add_child(label)
 
 

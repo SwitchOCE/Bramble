@@ -1,12 +1,8 @@
 class_name RecruitScreen
 extends GlassScreen
-## The recruit screen in lead and stained glass, rebuilt from the chosen mock-up (recruit.html at
-## its defaults: 250 px cards, spells above the shop). It draws one plain view-state Dictionary
-## (show_state) and reports what the player asks for as action_requested; it holds no rules.
-## Every place, size and colour comes from the mock-up through GlassPieces: recruit.html's geom()
-## for the geometry, stage.css's rules for the look, stage.js's numbers for the rest. The view
-## state is described in docs/ideation-track-2/SCREEN-CONTRACT.md;
-## tests/screens/fixtures/recruit_mockup.json is a full example.
+## The recruit screen in lead and stained glass. L1Layout supplies the room and placements;
+## GlassPieces still supplies the control and card art. The screen draws a plain view-state
+## Dictionary and emits actions without owning game rules.
 ##
 ## This file lays the screen out, holds the state and wires its parts: RecruitInput (press, drag,
 ## drop, click, target choice), RecruitBoard (slots, pills, lit targets), RecruitButtons,
@@ -42,6 +38,7 @@ var _turn_start: RecruitTurnStart
 var _waiting: RecruitWaitingPile
 var _motion: RecruitMotion
 var _last_turn: int = -1
+var _room: L1Room
 
 
 func _ready() -> void:
@@ -244,58 +241,87 @@ func is_discovering() -> bool:
 	return state.get("discover") is Dictionary and not state.has("recruit_choice")
 
 
-# ---- geometry (recruit.html render()) ----
+# ---- L1 geometry ----
 
 
 func _geom() -> Dictionary:
 	return RecruitShop.geometry()
 
 
-## Where shop unit i goes: the row of geom()'s width, centred, from shopL.
 func shop_xy(i: int) -> Vector2:
-	return Vector2(_f(_g["shopL"]) + i * (_w() + _gap()), _f(_g["shopTop"]))
+	return RecruitShop.unit_xy(i)
 
 
-## Where shop spell k goes: over the gap beside the middle unit, its lower point in the notch.
+## The top left of the spell's L1 place. The current hexagonal art is contained in it.
 func spell_xy(k: int) -> Vector2:
-	var gx: float = (
-		_f(_g["shopL"])
-		+ (k + GlassPieces.number("stage.recruit.spell.first_gap")) * (_w() + _gap())
-		- _gap() / 2.0
-	)
-	var bottom: float = (
-		_f(_g["shopTop"])
-		+ GlassPieces.number("stage.recruit.spell.drop_per_h") * _h()
-		- GlassPieces.number("stage.recruit.spell.lift")
-	)
-	return Vector2(gx - _f(_g["SW"]) / 2.0, bottom - _f(_g["SH"]))
+	return L1Layout.point("shop.spell") + Vector2(0, k * L1Layout.number("shop.spell.step"))
 
 
-## Board slot i (0-3 the front row F1-F4, 4-6 the back row B1-B3, offset half a slot).
+func _card_spell_size(kind: String) -> Vector2:
+	var original: Vector2 = _spell_size()
+	if kind != "spell":
+		return original
+	var box: Vector2 = L1Layout.rect("shop.spell").size
+	return original * minf(box.x / original.x, box.y / original.y)
+
+
+## Four in front and three behind, with the back points nestled between the front cards.
 func slot_xy(i: int) -> Vector2:
-	var fw: float = FRONT_SLOTS * _w() + (FRONT_SLOTS - 1) * _gap()
-	var fx: float = 960.0 - fw / 2.0
-	var by: float = _f(_g["boardTop"])
+	var step: float = _w() + _gap()
+	var front_width: float = FRONT_SLOTS * step - _gap()
+	var left: float = (L1Layout.stage_size().x - front_width) / 2.0
+	var angle: float = deg_to_rad(L1Layout.number("board.point_angle"))
+	var point_rise: float = _w() * tan(angle) / 2.0
+	var nesting_gap: float = _gap() * (1.0 - sin(angle) / 2.0) / cos(angle)
+	var row_step: float = snappedf(_h() - point_rise + nesting_gap, 0.1)
+	var wall: float = L1Layout.number("room.wall.h")
+	var table: float = L1Layout.number("room.table.h")
+	var top: float = roundf(wall + (table - row_step - _h()) / 2.0)
 	if i < FRONT_SLOTS:
-		return Vector2(fx + i * (_w() + _gap()), by)
-	var back_y: float = (
-		by
-		+ GlassPieces.number("stage.recruit.board.back_drop_per_h") * _h()
-		+ GlassPieces.number("stage.recruit.board.back_gap")
-	)
-	return Vector2(fx + (_w() + _gap()) / 2.0 + (i - FRONT_SLOTS) * (_w() + _gap()), back_y)
+		return Vector2(left + i * step, top)
+	return Vector2(left + (i - FRONT_SLOTS + 0.5) * step, top + row_step)
 
 
-## Hand card i of n: its unturned top left, and its turn in degrees about its bottom middle.
+## The hand rests in a centred, flat row. STAND-IN for a hand wider than the ledge: close the gaps.
 func hand_place(i: int, n: int) -> Vector3:
-	var step: float = _w() * GlassPieces.number("stage.recruit.hand.step_per_w")
-	var k: float = i - (n - 1) / 2.0
-	var x: float = 960.0 - _w() / 2.0 + k * step
-	var y: float = _f(_g["handTop"]) + k * k * GlassPieces.number("stage.recruit.hand.drop_per_k2")
-	return Vector3(x, y, k * GlassPieces.number("stage.recruit.hand.turn_deg_per_k"))
+	var middle: Rect2 = L1Layout.middle()
+	var step: float = _w() + _gap()
+	if n > 1:
+		step = minf(step, (middle.size.x - _w()) / (n - 1))
+	var x: float = middle.get_center().x - _w() / 2.0 + (i - (n - 1) / 2.0) * step
+	return Vector3(x, L1Layout.number("hand.y"), 0.0)
 
 
 # ---- building ----
+
+
+func _add_window() -> void:
+	if _room == null:
+		_room = L1Room.new()
+		_room.name = "Room"
+		_stage.add_child(_room)
+		_stage.move_child(_room, 0)
+
+
+func _build_hero() -> void:
+	RecruitColumns.build_hero(self)
+
+
+func _build_leaderboard() -> void:
+	RecruitColumns.build_leaderboard(self)
+
+
+func _message_y() -> float:
+	# STAND-IN: messages sit on the table's front edge.
+	return geom("sill") - L1Layout.number("room.edge.h") / 2.0
+
+
+func _layout_counter(plate: GlassBox, i: int) -> void:
+	var area: Rect2 = RecruitColumns.counter_area(i)
+	var step: float = L1Layout.number("right.counter.step")
+	var fit: float = minf(1.0, (step - 8.0) / plate.box_size.x)
+	plate.position = area.get_center() - plate.box_size * fit / 2.0
+	plate.scale = Vector2.ONE * fit
 
 
 func _build() -> void:
@@ -318,12 +344,12 @@ func _build() -> void:
 	_buttons.build_end_turn()
 	var cards_button: CardsButton = CardsButton.new()
 	cards_button.name = "CardsEntry"
+	cards_button.at = L1Layout.centre("right.library", Vector2.ONE * BrowserLook.BUTTON_SIDE)
 	cards_button.held = is_holding
 	cards_button.pressed.connect(cards_requested.emit)
 	_front.add_child(cards_button)
 	if show_leaderboard:
 		_build_leaderboard()
-	_add_vignette()
 	_build_message(AIM_PROMPT if is_aiming() else str(state.get("message", "")))
 	if is_discovering():
 		var discover: Dictionary = state["discover"]
@@ -351,7 +377,7 @@ func _leaving_places() -> Dictionary:
 				if counter_entry(counter).is_empty():
 					continue
 				if str(counter.get("id", "")) == str(where.get("id", "")):
-					out[card_id] = GlassCounters.plate_xy(shown, 1080.0) + Vector2(60.0, 22.0)
+					out[card_id] = RecruitColumns.counter_area(shown).get_center()
 				shown += 1
 	return out
 
@@ -385,7 +411,7 @@ func _want_shop() -> void:
 				"spell",
 				k,
 				spell,
-				spell_xy(k),
+				spell_xy(k) + (L1Layout.rect("shop.spell").size - _card_spell_size("spell")) / 2.0,
 				0.0,
 				{
 					"frost": frozen,
@@ -402,7 +428,7 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 		node.modulate = Color(tint, tint, tint)
 	if _b(extra.get("shop_price", false)):
 		# Unit controls size themselves in _ready; tags also need the size before entering the tree.
-		node.size = _spell_size() if node is GlassSpell else card_box()
+		node.size = _card_spell_size(kind) if node is GlassSpell else card_box()
 		RecruitShop.dress_card(node, data, _b(extra["poor"]))
 	if _b(extra.get("frost", false)):
 		var shoulder: float = _f(_g["SS"]) if node is GlassSpell else _slot_shoulder()
@@ -410,7 +436,8 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 			node,
 			GlassBox.hexagon(
 				Rect2(
-					Vector2.ZERO, _spell_size() if node is GlassSpell else GlassCard.card_size(_h())
+					Vector2.ZERO,
+					_card_spell_size(kind) if node is GlassSpell else GlassCard.card_size(_h())
 				),
 				shoulder
 			)

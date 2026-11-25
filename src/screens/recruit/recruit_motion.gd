@@ -528,7 +528,7 @@ func _join(before: Dictionary) -> void:
 		_tl().fly(
 			node, from, GlassMotion.pose(Vector2(place.x, place.y), place.z), 0.2, 0.22, "out"
 		)
-	var top: Vector2 = RecruitWaitingPile.TOP
+	var top: Vector2 = RecruitWaitingPile.top()
 	for j: int in joining.size():
 		var target: Dictionary = joining[j]
 		var node: Control = target["node"]
@@ -580,7 +580,7 @@ func _join(before: Dictionary) -> void:
 func _count_goes(at: float, was: int) -> void:
 	var chip: Control = RecruitWaitingPile.count_chip(was)
 	chip.name = "WaitingCountGone"
-	chip.position = RecruitWaitingPile.TOP + RecruitWaitingPile.COUNT_OFFSET
+	chip.position = RecruitWaitingPile.top() + RecruitWaitingPile.COUNT_OFFSET
 	chip.pivot_offset = chip.size / 2.0
 	_screen._front.add_child(chip)
 	_tl().frames(

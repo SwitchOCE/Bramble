@@ -1,6 +1,6 @@
 extends Control
 ## The game: the start screen, then one game against ghosts (GameController), then the result
-## screen. Escape, or the cog at the top left of the recruit and fight screens (SettingsCog),
+## screen. Escape, or the settings cog on the recruit and fight screens,
 ## opens the pause panel (Resume, Quit to start, Quit, and the setting for where a carried card
 ## drops); F11 toggles fullscreen.
 ## The stage is 1920 x 1080, letterboxed to the window (project settings: stretch canvas_items,
@@ -132,6 +132,8 @@ func start_game(autoplay: bool = false) -> void:
 	game.cards_requested.connect(open_browser)
 	_swap(game)
 	game.start(flow)
+	game.recruit.visibility_changed.connect(_place_cog.bind(game.recruit))
+	_place_cog(game.recruit)
 
 
 func show_result(standings: Array[Dictionary], round_number: int) -> void:
@@ -175,6 +177,14 @@ func _make_cog() -> void:
 	cog.pressed.connect(toggle_pause)
 	cog.visible = false
 	stage.add_child(cog)
+
+
+func _place_cog(recruit: RecruitScreen) -> void:
+	cog.position = (
+		L1Layout.centre("right.settings", cog.size)
+		if recruit.is_visible_in_tree()
+		else SettingsCog.AT
+	)
 
 
 ## Whether a card is held on the recruit screen now (the cog then does nothing).

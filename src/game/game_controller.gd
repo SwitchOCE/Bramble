@@ -79,7 +79,10 @@ func start(matched: GameFlow) -> void:
 	fight.skip_requested.connect(_skip_fight)
 	var tools: Control = GlassUi.stage(self)
 	tools.z_index = 8
-	_past_button = GlassUi.button(tools, "Past boards", Vector2(38, 218), 170, _open_past_boards)
+	# STAND-IN: the scoreboard takes the old Past boards position.
+	_past_button = GlassUi.button(
+		tools, "Past boards", L1Layout.point("room.past_boards"), 170, _open_past_boards
+	)
 	_show_only(recruit)
 	_next_round()
 
