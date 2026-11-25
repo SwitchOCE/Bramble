@@ -83,6 +83,24 @@ The game's stat gains are logged to `<stem>.buffs.csv` as `buffs` logs them. `co
 keeps the game's step playback from before 1b (b94a8021), so every other treatment plays as it did.
 `buff_screen.gd` draws the gains from the schedule's clock (`_t`), which is the drawn frame except
 under FAST.
+Beyond the fixture, the game turns every jab toward its target (the turn's numbers, over the
+jab's frames), so on film the two `cards.csv` differ only in `rotation`, on the jabs' frames;
+`test_fight_timeline.gd` checks the rest pose for pose. The game also plays three best.md rules
+the fixture leaves out: Start of Combat as beats after the 30 f rest, an attacker whose target
+died before the hit settling back unstruck (8 f), and pilers jabbing 5 f apart.
+
+Sound cues that moved with the schedule (nothing retimed by hand; seed 22 and `r10-074`):
+
+- **Hit**: at its burst (contact + 2), not when the splash step showed: the first at 1.08 s
+  (today 0.93 s). Thorns sounds at its own landing (3.03 s) instead of sharing the exchange's
+  splash (3.32 s). Seed 22 has 6 light hits against today's 8.
+- **Trigger**: at each source's pulse. Old Brock's six gains sound six times (8.15 to 8.95 s;
+  today once, as identical steps were dropped): seed 22 has 10 against today's 5.
+- **Start of Combat**: each trigger at its beat after the rest (`r10-074`: 0.5, 0.8, 1.1 s;
+  today 0.7, 1.3, 2.0 s).
+- **Death** at the fall's start (an exchange kill at contact + 30), **summon** at the arrival,
+  **result** as it shows (seed 22: 10.57 s, today 11.48 s; `r10-074`: 18.1 s, today 30.7 s).
+- **Skip** plays only the result.
 
 `turn_check.py` reads the logs: `same` (two films' `cards.csv` frame for frame, `--except` some
 columns), `turns` (every attacker turned toward its target by the game's numbers at contact, and
@@ -94,7 +112,7 @@ tools/feel/film tests/screens/feel/fight-compare-game.json /data/fight-anim-work
 # recommended-picks.json: "treatment": "recommended", "options": {"ROTATE": "off",
 #   "CB9": "aim_lean", "CB13": "none", "FAST": "a5", "GROUP": 3}
 tools/feel/film recommended-picks.json /data/fight-anim-work/game-2/films/recommended-picks.mp4
-python3 tests/screens/feel/fight_compare/turn_check.py same /data/fight-anim-work/game-2/films/game /data/fight-anim-work/game-2/films/recommended-picks
+python3 tests/screens/feel/fight_compare/turn_check.py same /data/fight-anim-work/game-2/films/game /data/fight-anim-work/game-2/films/recommended-picks --except rotation
 ```
 
 ## `best`: the best proposal, and its contested branches

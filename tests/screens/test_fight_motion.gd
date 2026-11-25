@@ -5,6 +5,7 @@ extends GutTest
 ## delta), independently of wall-clock rendering.
 
 const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
+const Compare := preload("res://tests/screens/feel/fight_compare/fight_compare.gd")
 
 const SCREEN: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
 
@@ -331,6 +332,78 @@ func test_the_same_fight_at_30_and_144_frames_a_second() -> void:
 		0.001,
 		"at contact: 90 % of the turn, the lean gone"
 	)
+
+
+## The comparison fight (seven attacks, Thorns, a summon, Old Brock's six triggers) at 30 and 144
+## frames a second: every card's turn and place every 1/6 s while it plays (FAST included), and
+## each step's first showing, agree.
+func test_a_whole_fight_at_30_and_144_frames_a_second() -> void:
+	var content: GameContent = GameContent.load_default()
+	var combat: Combat = Compare.fight(content)
+	var catalog: Dictionary = {}
+	ViewAdapter.add_fight_cards(content, combat.events, catalog)
+	var runs: Array[Dictionary] = []
+	for fps: int in [30, 144]:
+		var base: Dictionary = GlassScreen.load_state(Compare.BASE_PATH)
+		base.erase("boards")
+		base["slots"] = [[], []]
+		var replay: FightReplay = FightReplay.build(base, combat.events, catalog, Compare.DAMAGE)
+		_screen = SCREEN.instantiate()
+		add_child_autofree(_screen)
+		_screen.set_process(false)
+		_screen.play(replay)
+		var cards: Dictionary = {}
+		var shown: Dictionary = {}
+		var per_sixth: int = roundi(fps / 6.0)
+		# as many samples at both rates: the fight's length in seconds, FAST's part at x1.5
+		var plan: FightTimeline = _screen._schedule
+		var end_s: float = plan.end_frame / 60.0
+		if plan.fast_from >= 0:
+			end_s -= (plan.fast_to - plan.fast_from) / 60.0 * (1.0 - 1.0 / plan.FAST_SPEED)
+		var samples: int = floori((end_s - 0.2) * 6.0)
+		var k: int = 0
+		while k < samples:
+			for key: Variant in _screen._keeper._kept:
+				var node: Control = _screen._kept_node(str(key))
+				cards["%s@%d" % [key, k]] = [node.rotation_degrees, node.position]
+			for frame: int in per_sixth:
+				_screen._process(1.0 / fps)
+				if not shown.has(_screen._step):
+					shown[_screen._step] = _screen._clock / 60.0
+			k += 1
+		runs.append({"cards": cards, "shown": shown, "samples": k})
+		_screen.queue_free()
+	var slow: Dictionary = runs[0]["cards"]
+	var fast: Dictionary = runs[1]["cards"]
+	assert_gt(_i(runs[0]["samples"]), 54, "over 9 s of fight")
+	assert_eq(fast.keys(), slow.keys(), "the same cards at every sample")
+	var turned: int = 0
+	for at: Variant in slow:
+		var a: Array = slow[at]
+		var b: Array = fast[at]
+		var turn_a: float = a[0]
+		var turn_b: float = b[0]
+		var place_a: Vector2 = a[1]
+		var place_b: Vector2 = b[1]
+		assert_almost_eq(turn_b, turn_a, 0.01, "%s's turn" % at)
+		assert_almost_eq(place_b.distance_to(place_a), 0.0, 0.01, "%s's place" % at)
+		if absf(turn_a) > 1.0:
+			turned += 1
+	assert_gt(turned, 10, "cards turn during it")
+	var slow_shown: Dictionary = runs[0]["shown"]
+	var fast_shown: Dictionary = runs[1]["shown"]
+	assert_eq(fast_shown.keys(), slow_shown.keys(), "every step shows at both rates")
+	for step: Variant in slow_shown:
+		assert_almost_eq(
+			GlassPieces.as_float(fast_shown[step]),
+			GlassPieces.as_float(slow_shown[step]),
+			1.0 / 30.0,
+			"step %s shows within a frame" % step
+		)
+
+
+static func _i(v: Variant) -> int:
+	return GlassPieces.as_int(v)
 
 
 func test_skip_mid_attack_leaves_every_card_straight_and_home() -> void:
