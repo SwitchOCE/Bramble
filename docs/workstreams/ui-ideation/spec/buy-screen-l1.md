@@ -435,8 +435,8 @@ Until the owner decides, each keeps today's look and behaviour, as close to its 
 **The shop**
 
 1. **Frozen shop.** Today: frost over each shop card (`GlassParts.add_frost`) and on the freeze button. Not drawn.
-2. **An empty arch** after a buy (the state's `null` place), and an empty spell place. Lit or dark, coin or not: not drawn.
-3. **Tier up at level 6.** The state then has no `upgrade_cost` and today the button goes. What the tablet's top place shows: not drawn.
+2. **An empty arch** after a buy (the state's `null` place), and an empty spell place. Lit or dark, coin or not: not drawn. **Pick (P, orchestrator, 25 Nov): an empty arch stays dark, with no tier light and no coin; an empty spell place shows the bare chain.**
+3. **Tier up at level 6.** The state then has no `upgrade_cost` and today the button goes. What the tablet's top place shows: not drawn. **Pick (P): the button stays, shows 6 and carries no coin; all six lanterns are lit.**
 4. **Ask: the tier-up discount.** Today "−n next turn" under the button (`TierUpDrop`). Row 47 (18 Nov): "shown as a discount, with the market-stall icon". L37 dropped the struck old price and nothing replaced it.
 5. **Settled: the tier-up icon** is the owner-selected market-stall icon (row 47), as the game draws it today. The mock-up's chevron was a stand-in and is gone.
 6. **The refresh beads after the first price step.** Ten beads are drawn for the first step (10 paid refreshes, `GameConfig.refresh_first_step_after`). Later steps give 5 (`refresh_step_length`): show five beads on the same arc (P). A free refresh (cost 0) and a refresh cost of two digits are not drawn.
@@ -458,12 +458,12 @@ Until the owner decides, each keeps today's look and behaviour, as close to its 
 
 **The hover detail**
 
-19. **Ask: where the hover detail and the fixed keyword boxes go.** Row 71 (21 Nov): keyword boxes "go in a fixed place, the left light (option 1)". The left column now holds the scoreboard.
+19. **Settled (L45): the hover detail and the fixed keyword boxes stay in the left column** (row 71), drawn over the scoreboard as an overlay while a card is pointed at. Not anchored to the card. Keep today's panel and boxes; fit them to the column's 244 px.
 
 **The hand**
 
-20. **The hand's count, Reserve marks and the waiting pile** (row 56). No place in the mock-up.
-21. **A hand card while its target is chosen,** and the message area ("Choose a target" and the game's messages; today on the old window's transom, which is gone).
+20. **The hand's count, Reserve marks and the waiting pile** (row 56). No place in the mock-up. **Pick (P): today's count and marks at the right-hand end of the hand ledge (about x 1560 to 1660, y 940), the waiting pile beside them.**
+21. **A hand card while its target is chosen,** and the message area ("Choose a target" and the game's messages; today on the old window's transom, which is gone). **Pick (P): messages are a toast centred on the table's front edge (y 898 to 924), above the hand; the owner named toasts as a way to handle overflow (L35).**
 22. **A full hand.** Seven cards are drawn (six units and a spell); nothing marks the hand as full, and a card gained then goes to the waiting pile (item 20). **More than 7 cards in the hand** (a modifier could raise the limit; up to 9 fit inside the middle, 10 do not).
 
 **The columns**
@@ -474,7 +474,7 @@ Until the owner decides, each keeps today's look and behaviour, as close to its 
 26. **Ask: place numerals and the hero's name.** Both are drawn today; the mock-up has neither.
 27. **Gold of two or three digits** in the 112 coin, and **health of three digits** in the heart. Not drawn.
 28. **End turn's states** (E1): the art director's words only. "Nothing left to do" has no flag in the state; reading it from `legal_actions` (no buy, refresh or upgrade listed) is a proposal (P).
-29. **What pressing your hero does** while hero powers are off (today it toggles the leaderboard, which is now always shown).
+29. **What pressing your hero does** while hero powers are off (today it toggles the leaderboard, which is now always shown). **Pick (P): nothing yet; it shows the pressed state only.**
 30. **The player hover card** on the scoreboard (row 40): today's, placed beside the left column.
 31. **Level-up.** The art director's moment was written for the bosses (polish.md); none for the lanterns.
 

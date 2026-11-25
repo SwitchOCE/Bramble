@@ -720,7 +720,7 @@ function polish() {
   const unitRow = 5 * (w + 2 * NICHE) + 4 * G;
   const ux0 = W / 2 - unitRow / 2;
   const spells = [{ ...shopSpells[0], cost: 1 }, { ...shopSpells[1], cost: 5 }];
-  const GOLD = 4;
+  const GOLD = +(Q.get("gold") ?? 4);
   const items = [
     ...(LAYOUT === "a" ? [{ kind: "spell", s: spells[0], nx: ux0 - G - nwS }] : []),
     ...shopUnits.map((u, i) => ({ kind: "unit", u, nx: ux0 + i * (w + 2 * NICHE + G) })),

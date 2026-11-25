@@ -1,6 +1,6 @@
 # Plan: build the L1 buy screen in the game
 
-Written by the orchestrator of `ideation/ui-ux` on 25 Nov 2026. **A proposal: not approved by the owner yet.**
+Written by the orchestrator of `ideation/ui-ux` on 25 Nov 2026. **Status:** the owner gave the go-ahead to build (L44) and, shown this plan with a recommendation to go ahead, said "if you don't need to ask more questions, you can just pick an option" (L46). The orchestrator took its own recommendation and started step 1 on 25 Nov. The owner's summary page: https://claude.ai/artifact/HYmx3oTXHNkn2UbTJcZ1Gp
 
 ## What the owner asked for
 
