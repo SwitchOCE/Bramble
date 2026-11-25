@@ -141,17 +141,22 @@ func build(shown_counters: Array) -> void:
 		var id: String = row["id"]
 		var value: String = _values[id]
 		_build_medallion(row, i, str(before.get(id, value)) != value)
-	# Give a slot effect a medallion when there is room, including in a slots-only lobby.
-	var room: int = int(L1Layout.number("right.counter.limit")) - shown.size()
-	for i: int in mini(room, slots.size()):
-		_build_medallion(slots[i], shown.size() + i, false)
 	_recent = recent
 	_revision += 1
-	var hidden: int = rows.size() - shown.size() - mini(room, slots.size())
-	if hidden > 0:
-		_build_auras_plate(hidden)
+	if counters.size() > shown.size():
+		_build_auras_plate(rows.size() - shown.size())
+	elif not slots.is_empty() and not shown.any(_opens_list):
+		# A slots-only state (or a column of heaps) still needs a way into the list.
+		if shown.size() < int(L1Layout.number("right.counter.limit")):
+			_build_medallion(slots[0], shown.size(), false)
+		else:
+			_build_auras_plate(slots.size())
 	if _recruit._auras != null:
 		_recruit._auras.refresh(rows)
+
+
+static func _opens_list(counter: Dictionary) -> bool:
+	return not counter.has("entries")
 
 
 func _counter_row(counter: Dictionary) -> Dictionary:
@@ -213,7 +218,7 @@ func _slot_rows() -> Array[Dictionary]:
 							"Units that start here and reservists that step in gain %+d/%+d."
 							% [renown, renown]
 						),
-						"effect": "Fight start or Reserve: %+d/%+d" % [renown, renown],
+						"effect": "%+d/%+d on entry" % [renown, renown],
 					}
 				)
 			)

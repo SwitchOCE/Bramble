@@ -766,7 +766,19 @@ func test_counter_overflow_appears_at_five_and_counts_the_hidden_counters() -> v
 	state["counters"] = shown
 	_screen.show_state(state)
 	assert_eq(_count("Chip_"), 4)
-	assert_eq(_texts(_find("AurasPlate")), ["+1"] as Array[String])
+	var plate: Control = _find("AurasPlate")
+	assert_eq(_texts(plate), ["+2"] as Array[String], "one hidden counter and one slot effect")
+	var at: Vector2 = plate.get_global_transform_with_canvas() * (plate.size / 2.0)
+	for opening: bool in [true, false]:
+		for down: bool in [true, false]:
+			var click := InputEventMouseButton.new()
+			click.position = at
+			click.button_index = MOUSE_BUTTON_LEFT
+			click.pressed = down
+			get_viewport().push_input(click, true)
+		assert_eq(is_instance_valid(_screen._auras), opening)
+		if opening:
+			assert_eq(_screen._auras.rows.size(), 6)
 	assert_eq(_counter_values(), ["2", "3", "4", "5"] as Array[String], "highest four in order")
 	state = state.duplicate(true)
 	state["counters"][0]["value"] = 0

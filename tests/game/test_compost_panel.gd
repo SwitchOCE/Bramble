@@ -194,8 +194,9 @@ func test_auras_show_player_and_slot_effects_and_navigate_to_heap_and_back() -> 
 	assert_eq(counters.rows[4]["name"], "Renown")
 	assert_eq(counters.rows[4]["slot"], 5)
 
-	var plate: Control = game.recruit._front.get_node("AurasPlate")
-	_click(plate)
+	assert_null(game.recruit._front.get_node_or_null("AurasPlate"), "only three player counters")
+	var tide: Control = game.recruit._front.get_node("Chip_1")
+	_click(tide)
 	var panel: RecruitAuraPanel = game.recruit._auras
 	assert_eq((panel.get_node("Surface/Title") as GlassText).words, "Auras")
 	assert_eq((panel.get_node("Surface/Count") as GlassText).words, "5")
@@ -212,7 +213,7 @@ func test_auras_show_player_and_slot_effects_and_navigate_to_heap_and_back() -> 
 	_activate(panel.get_node("Surface/Back"))
 	assert_eq(panel.heap_id, "")
 	assert_eq((panel.get_node("Surface/Title") as GlassText).words, "Auras")
-	_click(plate)
+	_click(tide)
 	assert_null(game.recruit._auras)
 	await wait_process_frames(2)
 
@@ -230,6 +231,23 @@ func test_round_medallion_opens_the_list_with_its_row_marked() -> void:
 	assert_gt(row.border_width, 0.0)
 	_click(chip)
 	assert_null(game.recruit._auras)
+	await wait_process_frames(2)
+
+
+func test_a_slot_medallion_opens_auras_when_there_is_no_player_counter() -> void:
+	var game: GameController = _game(0)
+	var player: PlayerState = game.flow.human()
+	player.heaps.erase(&"thorn_compost")
+	player.slots[5].renown = 2
+	game.recruit.show_state(ViewAdapter.recruit_state(game.flow))
+	game.recruit.settle()
+	assert_null(game.recruit._front.get_node_or_null("AurasPlate"))
+	_click(game.recruit._front.get_node("Chip_0"))
+	var panel: RecruitAuraPanel = game.recruit._auras
+	assert_eq(panel.rows.size(), 1)
+	assert_eq(panel.rows[0]["id"], "renown:5")
+	assert_not_null(panel.find_child("Slot_5", true, false))
+	game.recruit._close_auras()
 	await wait_process_frames(2)
 
 
