@@ -243,6 +243,8 @@ func test_bought_cards_leave_holes_and_frozen_shows() -> void:
 	assert_eq(last.position, _screen.shop_xy(4), "the others keep their places")
 	assert_not_null(last.get_node_or_null("Frost"), "STAND-IN frozen look on shop cards")
 	assert_not_null(_find("Button_freeze").get_node_or_null("Frost"), "and the button")
+	var empty: L1ShopArch = _find("ShopSlot_1")
+	assert_eq(empty.tier, 0, "a bought offer leaves its arch dark")
 
 
 func test_top_tier_displays_no_upgrade_action_and_short_gold_dims() -> void:
@@ -360,9 +362,9 @@ func test_buttons_and_end_turn() -> void:
 	watch_signals(_screen)
 	var positions: Dictionary = {
 		"Button_gold": Vector2(1710, 56),
-		"Button_tier": Vector2(1510, 34),
-		"Button_refresh": Vector2(1510, 137),
-		"Button_freeze": Vector2(1510, 241),
+		"Button_tier": Vector2(1538, 24),
+		"Button_refresh": Vector2(1538, 127),
+		"Button_freeze": Vector2(1538, 231),
 		"EndTurn": Vector2(1734, 902),
 	}
 	for node_name: String in positions:
@@ -370,12 +372,16 @@ func test_buttons_and_end_turn() -> void:
 		var expected: Vector2 = positions[node_name]
 		assert_eq(button.position, expected, node_name)
 		_click(button.position + button.size / 2.0)
-	var drop: GlassText = _find("TierUpDrop")
-	assert_eq(drop.words, "−3 next turn")
-	assert_eq(drop.position + Vector2(drop.size.x / 2.0, 0.0), Vector2(1582, 102))
-	var counter: GlassText = _find("RefreshCounter")
-	assert_eq(counter.words, "7 left at this price")
-	assert_eq(counter.position + Vector2(counter.size.x / 2.0, 0.0), Vector2(1582, 205))
+	var tip: Control = _find("Tip")
+	assert_false(tip.visible, "the discount only appears on hover")
+	_move(Vector2(1582, 68))
+	assert_true(tip.visible)
+	assert_eq((tip.get_node("TierUpDrop/Value") as GlassText).words, "−3 next turn")
+	_move(Vector2(1582, 171))
+	assert_false(tip.visible)
+	var beads: L1RefreshBeads = _find("RefreshBeads")
+	assert_eq(beads.step, Vector2i(10, 7))
+	assert_eq(beads.position, Vector2(1582, 171))
 	var income: GlassBox = _find("NextTurnIncome")
 	assert_eq(income.get_rect().get_center(), Vector2(1798, 169))
 	assert_eq(income.size.y, 30.0)
@@ -397,11 +403,12 @@ func test_upgrade_caption_is_the_shared_shop_up_icon_with_tiers_and_cost_retaine
 	var button: Control = _find("Button_tier")
 	var icon: TextureRect = button.find_child("ShopUp", true, false)
 	assert_not_null(icon)
-	assert_eq(icon.size, Vector2(18, 18), "caption-sized icon")
-	assert_same(icon.texture, GlassPieces.icon("shop_up", Color("c9bda6"), 18, 2.4))
+	assert_eq(button.size, Vector2(88, 88))
+	assert_eq(icon.size, Vector2(40, 40))
+	assert_same(icon.texture, GlassPieces.icon("shop_up", Color("fbf3dc"), 40, 2.4))
 	assert_eq(icon.mouse_filter, Control.MOUSE_FILTER_IGNORE, "the button keeps its hit area")
 	var tier: int = GlassPieces.as_int(state["tier"])
-	assert_eq(_texts(button), ["%d → %d" % [tier, tier + 1]] as Array[String])
+	assert_eq(_texts(button), [str(tier)] as Array[String])
 	var coins: Array[Node] = button.find_children("*", "GoldCoin", true, false)
 	assert_eq(coins.size(), 1)
 	assert_eq((coins[0] as GoldCoin).amount, GlassPieces.as_int(state["upgrade_cost"]))
