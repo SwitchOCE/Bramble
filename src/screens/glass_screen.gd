@@ -300,12 +300,6 @@ func _gap() -> float:
 	return _f(_g["g"])
 
 
-func _slot_shoulder() -> float:
-	var clip: Array = GlassPieces.rule("stage", ".slot", "clip-path")
-	var shoulder: Array = clip[1]
-	return _f(shoulder[1]) / 100.0
-
-
 # ---- pieces ----
 
 

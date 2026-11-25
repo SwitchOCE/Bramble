@@ -110,6 +110,18 @@ func test_empty_board_shows_seven_slots() -> void:
 	assert_eq(_count("Card_h"), 0)
 
 
+func test_buy_slot_outline_and_targets_follow_the_card_shoulder() -> void:
+	_make(_mockup())
+	var slot: GlassBox = _find("Slot_5") as GlassBox
+	var outline: PackedVector2Array = L1CardFace.unit_outline(_screen.card_box())
+	assert_eq(slot.polygon_outer, outline)
+	var at: Vector2 = slot.position + outline[1] + Vector2(-0.25, 0.5)
+	assert_eq(_screen._board.slot_at(at), 5, "drop just inside the card's shoulder")
+	assert_eq(
+		str(_screen.target_at(at, false).get("kind", "")), "slot", "point at the same shoulder"
+	)
+
+
 func test_leaderboard_lists_every_player() -> void:
 	var state: Dictionary = _mockup()
 	_make(state)
