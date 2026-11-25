@@ -159,6 +159,7 @@ func finish_round() -> Dictionary:
 			"opponent_seat": opponent_seat,
 			"damage": CoreUtil.to_int(fight["damage"]),
 			"big": fight.get("big", false) == true,
+			"loss": fight.get("loss", {}),
 			"loser": CoreUtil.to_int(fight["loser"]),
 			"result": fight["result"],
 			"before": before,

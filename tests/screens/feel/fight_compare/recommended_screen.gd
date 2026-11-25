@@ -199,7 +199,7 @@ func _draw_damage() -> void:
 
 
 func _draw_badge(health: int, swell: float) -> void:
-	if _badge_number(_badge) != health:
+	if FightStrikeDrawer.badge_number(_badge) != health:
 		var fresh: GlassBox = GlassParts.health_badge(health, [".hp"])
 		var kept_name: StringName = _badge.name
 		fresh.position = _badge.position

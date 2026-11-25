@@ -461,9 +461,9 @@ func _run_at(fps: int) -> Dictionary:
 		var card: GlassCard = _screen._kept_node("u4") as GlassCard
 		brock.append(Vector2i(card.attack, card.health) if card != null else Vector2i(-1, -1))
 		pieces.append(_screen._gains.drawn.size() if _screen._gains != null else 0)
-		ages.append(_screen._strike_age)
+		ages.append(_screen._strike.age)
 		var badge: Control = _screen._front.get_node_or_null("OpponentHealth")
-		health.append(FightScreen._badge_number(badge) if badge != null else -1)
+		health.append(FightStrikeDrawer.badge_number(badge) if badge != null else -1)
 		# the darkest card dying on its own (1 when none)
 		var least: float = 1.0
 		var motion: FightMotion = _screen._keeper as FightMotion
@@ -471,7 +471,7 @@ func _run_at(fps: int) -> Dictionary:
 			var node: Control = motion.dying[key]["node"]
 			least = minf(least, node.modulate.r)
 		dark.append(least)
-		if _screen._strike_mode == "playing" and not _drawn_as_posed(_screen):
+		if _screen._strike.mode == "playing" and not _drawn_as_posed(_screen):
 			off_pose[0] += 1
 		for frame: int in per_sixth:
 			_screen._process(1.0 / fps)
@@ -492,7 +492,7 @@ func _run_at(fps: int) -> Dictionary:
 ## at the screen's strike age.
 static func _drawn_as_posed(screen: FightScreen) -> bool:
 	var strike: FightStrike = screen._schedule.hero_strike
-	var pose: Dictionary = strike.pose(minf(screen._strike_age, float(strike.end())))
+	var pose: Dictionary = strike.pose(minf(screen._strike.age, float(strike.end())))
 	var striker: Dictionary = pose["striker"]
 	var hero: Control = screen._front.get_node("Hero")
 	var home: Vector2 = hero.get_meta("strike_home")
@@ -1103,7 +1103,9 @@ func test_skip_during_the_portrait_strike_lands_it_at_once() -> void:
 			assert_eq(opponent.position, opponent_home, "%s: the loser" % when)
 			assert_eq(_screen._stage.position, Vector2.ZERO, "%s: no shake" % when)
 			var badge: Control = _screen._front.get_node("OpponentHealth")
-			assert_eq(FightScreen._badge_number(badge), strike.new_health(), "%s: Health" % when)
+			assert_eq(
+				FightStrikeDrawer.badge_number(badge), strike.new_health(), "%s: Health" % when
+			)
 			var shown_state: Dictionary = _screen.state
 			var shown: Dictionary = shown_state["opponent"]
 			assert_eq(_i(shown["health"]), strike.new_health(), "%s: and in the state" % when)

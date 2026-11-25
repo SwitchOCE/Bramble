@@ -177,7 +177,15 @@ func triple_reward_tier(player: PlayerState) -> int:
 
 ## 10.1.1-10.1.3: round + 1 up to 10; a big loss deals 3 more. Asked for the loser.
 func loss_damage(loser: PlayerState, round_number: int, big: bool) -> int:
-	var amount: int = mini(round_number + config.loss_round_offset, config.loss_cap)
-	if big:
-		amount += config.big_loss_extra
-	return ask(LOSS_DAMAGE, amount, loser, null)
+	return ask(LOSS_DAMAGE, loss_base(round_number) + loss_extra(big), loser, null)
+
+
+## 10.1.1-10.1.2: a loss's damage before a big loss's extra and before any effect: round + 1, up
+## to 10.
+func loss_base(round_number: int) -> int:
+	return mini(round_number + config.loss_round_offset, config.loss_cap)
+
+
+## 10.1.3: what a big loss adds (3); 0 for any other.
+func loss_extra(big: bool) -> int:
+	return config.big_loss_extra if big else 0

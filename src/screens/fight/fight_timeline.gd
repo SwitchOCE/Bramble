@@ -1551,8 +1551,9 @@ func _hold_old_health(view: Dictionary, before: Dictionary, result: Dictionary) 
 	hero_strike.old_health = _i(view["health"]) if loser_is_you else _i(opponent["health"])
 	hero_strike.big = result.get("big", false) == true
 	hero_strike.total = damage
-	var extra: int = GameConfig.new().big_loss_extra
-	hero_strike.base = maxi(0, damage - extra) if hero_strike.big else damage
+	# a big loss lands its base first, then the rest (GameSession's parts: Rules.loss_base)
+	var base: int = _i(result.get("base", -1))
+	hero_strike.base = clampi(base, 0, damage) if hero_strike.big and base >= 0 else damage
 
 
 ## A cue at a frame: one of each kind per frame (a death cue counts every fall starting then).

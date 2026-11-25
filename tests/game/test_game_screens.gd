@@ -382,3 +382,116 @@ func _check_game_slots(game: GameController) -> void:
 		assert_eq(SlotChecks.check(game.recruit), PackedStringArray(), "controller recruit slots")
 	if game.fight.visible:
 		assert_eq(SlotChecks.check(game.fight), PackedStringArray(), "controller fight slots")
+
+
+## CB12 b through the controller: the leaderboard shows at the result with the loser's old Health
+## while the portrait strike counts, and its numbers follow when the count lands.
+func test_the_leaderboard_shows_at_the_result_and_follows_the_strikes_count() -> void:
+	var game := _game_at_strike(false)
+	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "the result, reached on its own")
+	assert_true(game.fight.show_leaderboard, "the leaderboard at once")
+	var held: Dictionary = game.fight.held_health()
+	assert_false(held.is_empty(), "the strike counting")
+	assert_true(held.get("you", false) == true, "your empty board lost")
+	var old: int = CoreUtil.to_int(held.get("health", -1))
+	var final: int = maxi(0, game.flow.human().health)
+	assert_gt(old, final, "the loss still to land")
+	assert_eq(_your_row(game), old, "the leaderboard: your old Health")
+	assert_eq(CoreUtil.to_int(game.fight.state["health"]), old, "and your badge")
+	var counted: Array[int] = [0]
+	game.fight.health_counted.connect(func() -> void: counted[0] += 1)
+	for _frame: int in 300:
+		if game.fight.health_landed():
+			break
+		game.fight._process(1.0 / 60.0)
+	assert_eq(counted[0], 1, "the count landed")
+	assert_eq(_your_row(game), final, "the leaderboard follows")
+	assert_eq(CoreUtil.to_int(game.fight.state["health"]), final, "your Health with it")
+	assert_eq(_badge(game), final, "and your badge")
+	remove_child(game)
+	game.free()
+
+
+## Space during the portrait strike lands it at once (the final Health, the strike settled), then
+## does what Space does: moves on, unless the result has only just shown.
+func test_space_during_the_strike_lands_it_at_once_and_moves_on() -> void:
+	for guarded: bool in [true, false]:
+		var game := _game_at_strike(false)
+		var counted: Array[int] = [0]
+		game.fight.health_counted.connect(func() -> void: counted[0] += 1)
+		if not guarded:
+			game._process(GameController.RESULT_GUARD)
+		assert_false(game.fight.health_landed(), "%s: mid-strike" % guarded)
+		game._input(_space())
+		assert_true(game.fight.health_landed(), "%s: landed at once" % guarded)
+		assert_eq(counted[0], 1, "%s: health_counted once" % guarded)
+		assert_eq(game.fight._strike.mode, "skipped", "%s: the strike settled" % guarded)
+		var final: int = maxi(0, game.flow.human().health)
+		assert_eq(CoreUtil.to_int(game.fight.state["health"]), final, "%s: Health" % guarded)
+		var next: GameController.Phase = (
+			GameController.Phase.AFTER_FIGHT if guarded else GameController.Phase.RECRUIT
+		)
+		assert_eq(game.phase, next, "%s: then as Space does" % guarded)
+		remove_child(game)
+		game.free()
+
+
+## A knocked-out player moving on before the strike's count has landed (Space, or the result's
+## time running out) sees the round's final Health on the play-out screen.
+func test_moving_on_mid_strike_carries_the_final_health() -> void:
+	for how: String in ["space", "time"]:
+		var game := _game_at_strike(true)
+		assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "%s: the result" % how)
+		assert_false(game.fight.health_landed(), "%s: mid-strike" % how)
+		if how == "space":
+			game._process(GameController.RESULT_GUARD)
+			game._input(_space())
+		else:
+			game._process(GameController.AFTER_FIGHT)
+		assert_eq(game.phase, GameController.Phase.PLAY_OUT, "%s: you are out" % how)
+		assert_eq(CoreUtil.to_int(game.fight.state["health"]), 0, "%s: your final Health" % how)
+		assert_eq(_your_row(game), 0, "%s: on the leaderboard" % how)
+		assert_eq(_badge(game), 0, "%s: and your badge" % how)
+		remove_child(game)
+		game.free()
+
+
+## A game whose fight hurts you, at the result as the fight reaches it on its own (the portrait
+## strike counting); out: the fight that knocks you out. Your board is empty, so you lose.
+func _game_at_strike(out: bool) -> GameController:
+	var game := GameController.new()
+	add_child(game)
+	game.start(FlowFixture.live(GameContent.load_default(), 4))
+	for _round: int in 60:
+		if game.phase != GameController.Phase.RECRUIT:
+			break
+		game.request({"type": "end_turn"})
+		if game.phase != GameController.Phase.FIGHT:
+			continue
+		var strike: FightStrike = game.fight._schedule.hero_strike
+		var knocked: bool = game.flow.human().health <= 0
+		if strike != null and strike.loser_is_you and knocked == out:
+			var steps: Array[Dictionary] = game.fight._schedule.steps
+			game.fight._clock = GlassPieces.as_float(steps[steps.size() - 1]["frame"])
+			game.fight._process(0.0)
+			return game
+		game._fight_age = GameController.RESULT_GUARD
+		game._input(_space())
+		game._result_age = GameController.RESULT_GUARD
+		game._input(_space())
+	assert_true(false, "no fight that hurts you (out: %s)" % out)
+	return game
+
+
+static func _your_row(game: GameController) -> int:
+	var rows: Array = game.fight.state["players"]
+	for value: Variant in rows:
+		var row: Dictionary = value
+		if row.get("you", false) == true:
+			return CoreUtil.to_int(row["health"])
+	return -1
+
+
+static func _badge(game: GameController) -> int:
+	var badge: Node = game.fight._front.get_node_or_null("HeroHealth")
+	return FightStrikeDrawer.badge_number(badge) if badge != null else -1

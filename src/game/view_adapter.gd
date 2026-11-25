@@ -408,8 +408,14 @@ static func mechanic_ids(content: GameContent, card_id: String, view: Dictionary
 	return CardTerms.unit_terms(content.mechanics_of(card_id), view)["mechanics"]
 
 
-## The leaderboard: living players by Health, then the eliminated by place.
-static func players(flow: GameFlow) -> Array:
+## A player's Health as the leaderboard shows it (players' held).
+static func _shown_health(each: PlayerState, held: Dictionary) -> int:
+	return CoreUtil.to_int(held.get(each.id, each.health))
+
+
+## The leaderboard: living players by Health, then the eliminated by place. held: seat -> the
+## Health to show for it instead (a loser's old Health while the fight screen's strike counts).
+static func players(flow: GameFlow, held: Dictionary = {}) -> Array:
 	var session: GameSession = flow.session
 	var rows: Array[PlayerState] = session.players.duplicate()
 	rows.sort_custom(
@@ -418,8 +424,8 @@ static func players(flow: GameFlow) -> Array:
 				return x.alive
 			if not x.alive:
 				return x.placement < y.placement
-			if x.health != y.health:
-				return x.health > y.health
+			if _shown_health(x, held) != _shown_health(y, held):
+				return _shown_health(x, held) > _shown_health(y, held)
 			return x.id < y.id
 	)
 	var next: int = session.opponent_of(GameFlow.HUMAN)
@@ -431,7 +437,7 @@ static func players(flow: GameFlow) -> Array:
 				{
 					"name": flow.name_of(each.id),
 					"portrait": flow.portrait_of(each.id),
-					"health": maxi(0, each.health),
+					"health": maxi(0, _shown_health(each, held)),
 					"tier": each.tier,
 					"you": each.id == GameFlow.HUMAN,
 					"next": each.id == next,
