@@ -12,7 +12,8 @@ Written by the orchestrator of `ideation/ui-ux` on 25 Nov 2026. **Status:** the 
 - 25 Nov: the owner played the first build and said the hover detail went backwards (L52). Fixed on `ui/l1-fix-hover`: the card's detail is back beside its card at full size, keyword reminders a separate fixed overlay.
 - 25 Nov: the panels, the documents part of merge prep and the hover fix are joined on `ui/l1` at `5d82cb31`; the full checks pass on the three together. Nothing in the rework touches `src/content/` or `src/core/`; the rules hash is unchanged.
 - Running: the code part of merge prep (`briefs/48-merge-prep-code.md`); a Windows build of `5d82cb31` for the owner.
-- Next: the coordinator's recheck of the two reworks combined on the merge-prep head; the pull request into `dev`, merged on the owner's say-so.
+- 25 Nov: merge prep is done (the old tier frames and their data removed; documents true for the look). The coordinator's recheck passed: `dev` + the fight animation branch + `ui/l1` merges with no conflict and passes all of `check.sh` (1,167 tests). The pull request into `dev` is open from `ui/l1` at `2867e1b6`: https://github.com/SwitchOCE/Bramble/pull/258. A second Windows build (light, panels, the hover fix; cut at `5d82cb31`) is in R2; the owner's PC was offline for Taildrop.
+- Waiting on: the owner's say-so for the merge of that pull request. After it merges, tell the coordinator.
 
 ## What the owner asked for
 
