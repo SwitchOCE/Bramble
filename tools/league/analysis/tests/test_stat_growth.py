@@ -9,11 +9,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import stat_growth
 
 
+def unit(u):
+    if u is None:
+        return None
+    uid, card, golden, attack, health = u
+    return {"uid": uid, "def": card, "golden": golden,
+            "stats": {"perm_attack": attack, "perm_health": health} if attack or health else {}}
+
+
 def board(turn, units):
-    return json.dumps({"op": "fight_boards", "turn": turn, "players": [{"id": 0, "board": [
-        None if u is None else {"uid": uid, "def": card, "golden": golden,
-                                "stats": {"perm_attack": a, "perm_health": h} if a or h else {}}
-        for u in units for uid, card, golden, a, h in [u]]}]}) + "\n"
+    return json.dumps({"op": "fight_boards", "turn": turn,
+                       "players": [{"id": 0, "board": [unit(u) for u in units]}]}) + "\n"
 
 
 class StatGrowth(unittest.TestCase):
