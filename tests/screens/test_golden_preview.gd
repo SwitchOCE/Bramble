@@ -75,7 +75,6 @@ func _assert_golden(id: String) -> void:
 
 
 func _assert_in_place(id: String, node: GlassCard) -> void:
-	assert_null(_shown(), "hand and Discover never add an enlarged card pane")
 	assert_same(_screen._tips.hot, node)
 	assert_true(node.golden)
 	var definition: UnitDef = _content.library.get_card(StringName(id))
@@ -145,10 +144,14 @@ func test_alt_held_before_hover_and_hand_preview_use_own_golden_text() -> void:
 	_move(_screen.node_for("hand", 0), Vector2(0.5, 0.1))
 	var hand: GlassCard = _screen.node_for("hand", 0) as GlassCard
 	_assert_in_place("widow-thimble", hand)
+	_assert_golden("widow-thimble")
 	assert_same((_screen._tips as RecruitTips).standing, hand)
 	var standing_at: Vector2 = hand.position
 	_alt(false)
-	assert_null(_shown(), "normal hand hover returns to its standing card and words")
+	assert_not_null(_shown(), "normal hand hover keeps its enlarged detail")
+	assert_false(_shown().golden)
+	assert_eq(_shown().attack, 5)
+	assert_eq(_shown().health, 28)
 	assert_false(hand.golden)
 	assert_eq(hand.attack, 5)
 	assert_eq(hand.health, 28)
@@ -178,6 +181,7 @@ func test_discover_previews_in_place_and_compost_keeps_its_enlarged_hover() -> v
 	var original_at: Vector2 = option.position
 	_alt(true)
 	_assert_in_place("widow-thimble", option)
+	assert_null(_shown(), "Discover previews the card in place")
 	assert_eq(option.position, original_at)
 	assert_string_contains(_words(), "3 nearest")
 	_alt(false)
@@ -351,9 +355,8 @@ func test_pressing_a_previewed_hand_card_restores_its_drawing_before_carry() -> 
 	get_viewport().push_input(click, true)
 
 
-## Baseline: origin/dev at 5ce43c28 uses a 340px pane, leaves captions visible,
-## and joins Hand-me-down's reminder directly below Words at the option's preferred position.
-func test_normal_discover_hover_matches_dev_pane_caption_and_reminder_layout() -> void:
+## Keep dev's 340px words pane over the visible caption and use the fixed reminder overlay.
+func test_normal_discover_hover_preserves_dev_pane_and_caption() -> void:
 	var flow: GameFlow = _recruit()
 	var options: Array = []
 	for id: String in ["hedge-knight", "widow-thimble", "nettle-skirmisher"]:
@@ -407,6 +410,7 @@ func test_discover_alt_uses_normal_hover_layout_on_left_middle_and_right() -> vo
 		var normal_text: String = _words()
 		_alt(true)
 		_assert_in_place(ids[index], node)
+		assert_null(_shown(), "Discover previews the card in place")
 		assert_eq(node.position, original_at)
 		assert_eq(node.size, original_size)
 		var words: GlassBox = _screen._tips.last_box()
@@ -459,11 +463,14 @@ func test_discover_hover_keeps_current_and_previous_options_above_the_veil() -> 
 
 
 func _assert_left_discover_reminders() -> void:
-	var tips: GlassTips = _screen._tips
-	var at: Vector2 = KeywordStyle.DETAIL_ORIGIN
-	for detail: GlassBox in tips.details:
-		assert_true((tips.tip.position + detail.position).is_equal_approx(at))
-		at.y += (detail.size.y + KeywordStyle.GAP) * detail.scale.y
+	var overlay: Control = _screen._front.get_node("KeywordReminders")
+	assert_eq(overlay.position, Vector2(12, 82))
+	var y: float = 0.0
+	for detail: GlassBox in _screen._tips.details:
+		assert_same(detail.get_parent(), overlay)
+		assert_eq(detail.scale, Vector2.ONE)
+		assert_eq(detail.position, Vector2(0.0, y))
+		y += detail.size.y + KeywordStyle.GAP
 
 
 func _escape() -> void:
