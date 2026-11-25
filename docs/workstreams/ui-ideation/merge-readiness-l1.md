@@ -12,6 +12,7 @@ The fight animation rework (`ideation/fight-animation`, 101 commits ahead of `de
 - The coordinator's pick, put to the owner: the UI rework goes into `dev` first; the fight session then takes `ui/l1` plus the port. The port stays with the fight session.
 - Owed by this rework: halos dim with the card's `modulate`; `GlassCard.stat_disc(stat)` and `_draw_stat(value, disc, red, pop, green)` stay as they are; `GlassPieces.disc` and `frame` and the six frame pictures stay until the coordinator says the fight branch has the port (so merge prep must not remove them before that); warn the coordinator before touching `fight_screen.gd`; tell it when light joins `ui/l1` (with how the halos are parented) and before opening the `dev` pull request, so it can rerun the combination.
 - The coordinator's plan: `docs/workstreams/merge-ui-anim/PLAN.md` on `coord/ui-anim-merge`.
+- Reported by the coordinator on 25 Nov, not said to this session: the owner approved its plan ("You have my yes on decision one. I agree with the plan that both go into dev first ... we merge dev [into] main after I've played the dev build."). So the UI rework's pull request goes into `dev` first, and `dev` goes to `main` after the owner has played a `dev` build. The merge of that pull request still needs the owner's say-so when it is ready.
 
 ## Where the branch stands
 
