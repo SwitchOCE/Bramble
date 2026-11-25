@@ -6,6 +6,13 @@ Written by the orchestrator of `ideation/ui-ux` on 25 Nov 2026, from a read-only
 
 The fight animation rework (`ideation/fight-animation`, 101 commits ahead of `dev` on 25 Nov) will also merge into `dev`. The owner asked for a session across both (L50): "Merge coordinator: UI and fight animation", on branch `coord/ui-anim-merge`. It holds the plan for the order of the two merges and runs the checks on the two combined. A trial merge of `ui/l1` with the animation branch shows no textual conflict; the only file both change is `tests/screens/test_fight_screen.gd`. Nobody had run the checks on the combination when this was written.
 
+### What the coordinator found and what this rework owes it (25 Nov)
+
+- `dev` + `ui/l1` + the fight branch merges as text but did not compile: the fight branch's gain discs were built on the old card. With the coordinator's four-file port (`coord/port-gain-discs`, `9c6a7ff1`) the combination passes all of `check.sh` (1,139 tests).
+- The coordinator's pick, put to the owner: the UI rework goes into `dev` first; the fight session then takes `ui/l1` plus the port. The port stays with the fight session.
+- Owed by this rework: halos dim with the card's `modulate`; `GlassCard.stat_disc(stat)` and `_draw_stat(value, disc, red, pop, green)` stay as they are; `GlassPieces.disc` and `frame` and the six frame pictures stay until the coordinator says the fight branch has the port (so merge prep must not remove them before that); warn the coordinator before touching `fight_screen.gd`; tell it when light joins `ui/l1` (with how the halos are parented) and before opening the `dev` pull request, so it can rerun the combination.
+- The coordinator's plan: `docs/workstreams/merge-ui-anim/PLAN.md` on `coord/ui-anim-merge`.
+
 ## Where the branch stands
 
 - `ui/l1` is 14 commits ahead of `dev` and none behind. It merges into `dev` with no conflicts today (checked with `git merge-tree`).
