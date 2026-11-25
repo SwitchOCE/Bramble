@@ -11,7 +11,10 @@ const HOPPER: String = '<path d="M6 16l5-8 3 5 4-2M11 8l-1-4M14 13l2 6M6 16l-2 3
 const GUARD: String = '<path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/>'
 const SLOT: String = '<path d="M12 3l7 4v10l-7 4-7-4V7zM12 9v6M9 12h6"/>'
 
+const AURA_LINES: String = "res://assets/glass/l1/aura_lines.json"
+
 static var _lead: GradientTexture2D
+static var _aura_lines: Dictionary
 
 var rows: Array[Dictionary] = []
 
@@ -155,13 +158,16 @@ func _counter_row(counter: Dictionary) -> Dictionary:
 	row["reminder"] = shown["reminder"]
 	var value: String = GlassScreen.number_words(counter.get("value", ""))
 	row["value"] = value
-	var entry: Dictionary = CardTerms.table_entry(str(row["id"]), _screen._display_table())
-	row["effect"] = _aura_line(entry, value)
+	row["effect"] = _aura_line(str(row["id"]), value)
 	return row
 
 
-static func _aura_line(entry: Dictionary, value: String = "") -> String:
-	var line: String = str(entry.get("aura_line", ""))
+static func _aura_line(id: String, value: String = "") -> String:
+	if _aura_lines.is_empty():
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(AURA_LINES))
+		assert(parsed is Dictionary, "%s is not a JSON object" % AURA_LINES)
+		_aura_lines = parsed
+	var line: String = str(_aura_lines.get(id, ""))
 	if value.begins_with("-"):
 		line = line.replace("+N", "N")
 	return CardTerms.fill(line, value)
@@ -175,14 +181,13 @@ func _slot_rows() -> Array[Dictionary]:
 		var slot: Dictionary = slots[i] if slots[i] is Dictionary else {}
 		for keyword: Dictionary in slot.get("keywords", []):
 			var id: String = str(keyword.get("id", ""))
-			var entry: Dictionary = CardTerms.table_entry(id, display)
-			var shown: Dictionary = CardTerms.shown(entry)
+			var shown: Dictionary = _screen.display_entry(id)
 			if not shown.is_empty():
-				rows_on_board.append(_slot_row(i, id, shown, _aura_line(entry)))
+				rows_on_board.append(_slot_row(i, id, shown, _aura_line(id)))
 		var renown: int = GlassPieces.as_int(slot.get("renown", 0))
 		if renown != 0:
 			var entry: Dictionary = display.get("renown", ContentSet.CORE_DISPLAY["renown"])
-			rows_on_board.append(_slot_row(i, "renown", entry, _aura_line(entry, str(renown))))
+			rows_on_board.append(_slot_row(i, "renown", entry, _aura_line("renown", str(renown))))
 	return rows_on_board
 
 

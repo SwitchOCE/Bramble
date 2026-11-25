@@ -2,7 +2,6 @@
  "thorn_compost": {
   "name": "Compost",
   "reminder": "Your heap. Units you bought go here when you sell them.",
-  "aura_line": "Units for Briar effects",
   "icon": "compost",
   "hidden": false
  },

@@ -8,7 +8,6 @@ extends RefCounted
 ##                 "badger_fury")
 ##   units.json    {"cards": [...]}, as UnitLibrary reads it
 ##   display.json  {"id": {"name", "reminder", "icon", "hidden"}} for keywords and counters
-##                 optional "aura_line": a short effect for the Auras list (N is its value)
 ## Every problem (a duplicate id, a card naming an unknown mechanic) is collected in `errors`.
 
 ## Where the game's own content lives: shared keywords and one folder per tribe.
@@ -22,7 +21,6 @@ const CORE_DISPLAY: Dictionary = {
 		"name": "Renown",
 		"reminder":
 		"The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each.",
-		"aura_line": "+N/+N on entry",
 		"icon": "renown",
 		"hidden": false,
 	},
