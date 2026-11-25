@@ -4,6 +4,7 @@ extends RefCounted
 
 const ALL: Dictionary = {
 	"today": preload("res://tests/screens/feel/fight_compare/fight_treatment.gd"),
+	"game": preload("res://tests/screens/feel/fight_compare/game.gd"),
 	"best": preload("res://tests/screens/feel/fight_compare/best.gd"),
 	"pilot": preload("res://tests/screens/feel/fight_compare/pilot.gd"),
 	"buffs": preload("res://tests/screens/feel/fight_compare/buffs.gd"),

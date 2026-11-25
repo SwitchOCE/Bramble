@@ -12,6 +12,7 @@ extends "res://tests/screens/feel/fight_compare/compare_screen.gd"
 const HeroDamage := preload("res://tests/screens/feel/fight_compare/pilot_hero_damage.gd")
 const PilotMotion := preload("res://tests/screens/feel/fight_compare/pilot_motion.gd")
 const Rotate := preload("res://tests/screens/feel/fight_compare/rotate.gd")
+const TodayMotion := preload("res://tests/screens/feel/fight_compare/today_motion.gd")
 ## Drawn above the board and the banner while a portrait strikes; the Health and the "-N" above
 ## the striker, so it never hides them (E6).
 const STRIKER_Z: int = 20
@@ -97,7 +98,7 @@ func _build_result() -> void:
 	damage.set("total", _i(pilot["total"]))
 	damage.set("loser_is_you", loser_is_you)
 	if treatment != null and treatment.get("rotate") == true:
-		damage.set("rotation_set", Rotate.SET)
+		damage.set("rotation_set", treatment.get("rotate_set"))
 	damage.set("winner_at", _striker.position + _striker.size / 2.0)
 	damage.set("loser_at", _loser.position + _loser.size / 2.0)
 	damage.set("winner_r", _striker.size.x / 2.0)
@@ -298,12 +299,14 @@ func _draw_kills() -> void:
 		var hit: Control = node
 		var age: int = roundi((clock - _f(held["born"])) * 60.0)
 		var swell: float = 1.0
-		var pop_in: int = roundi(FightMotion.BURST_IN * 60.0)
-		var settle_in: int = roundi(FightMotion.BURST_SETTLE * 60.0)
+		var pop_in: int = roundi(TodayMotion.TODAY_BURST_IN * 60.0)
+		var settle_in: int = roundi(TodayMotion.TODAY_BURST_SETTLE * 60.0)
 		if age < pop_in:
-			swell = lerpf(FightMotion.BURST_START, FightMotion.BURST_SCALE, float(age) / pop_in)
+			swell = lerpf(
+				TodayMotion.TODAY_BURST_START, TodayMotion.TODAY_BURST_SCALE, float(age) / pop_in
+			)
 		elif age < pop_in + settle_in:
-			swell = lerpf(FightMotion.BURST_SCALE, 1.0, float(age - pop_in) / settle_in)
+			swell = lerpf(TodayMotion.TODAY_BURST_SCALE, 1.0, float(age - pop_in) / settle_in)
 		hit.pivot_offset = hit.size / 2.0
 		hit.scale = Vector2.ONE * swell
 		var died: float = _f(held["died"])

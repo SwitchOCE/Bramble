@@ -6,6 +6,7 @@ extends GutTest
 const Compare := preload("res://tests/screens/feel/fight_compare/fight_compare.gd")
 const Treatments := preload("res://tests/screens/feel/fight_compare/treatments.gd")
 const Treatment := preload("res://tests/screens/feel/fight_compare/fight_treatment.gd")
+const TodayMotion := preload("res://tests/screens/feel/fight_compare/today_motion.gd")
 const SCENE: PackedScene = preload("res://tests/screens/feel/fight_compare/fight_compare.tscn")
 
 var _content: GameContent
@@ -62,6 +63,16 @@ func test_today_plays_the_games_own_motion_and_replay() -> void:
 	var scene: Control = SCENE.instantiate()
 	add_child_autofree(scene)
 	scene.call("start", "today")
+	var screen: FightScreen = scene.get("screen")
+	var motion: Script = screen._keeper.get_script()
+	assert_eq(motion, TodayMotion, "today's motion, kept from before the turn (today_motion.gd)")
+	assert_true(screen.is_playing(), "playing")
+
+
+func test_game_plays_the_games_own_motion_now() -> void:
+	var scene: Control = SCENE.instantiate()
+	add_child_autofree(scene)
+	scene.call("start", "game")
 	var screen: FightScreen = scene.get("screen")
 	var motion: Script = screen._keeper.get_script()
 	assert_eq(motion, FightMotion, "the game's FightMotion, no subclass")

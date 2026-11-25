@@ -66,8 +66,25 @@ not. Thorns' damage to the attacker lands in the same burst step as the exchange
 3. A scenario beside `fight-compare-today.json` with `"treatment": "overlap"` and a `wait` long
    enough for the treatment's fight (the film ends 0.5 s after it).
 
-`today` is `fight_treatment.gd` itself: `FightMotion` and `FightReplay.build`, exactly as the
-game plays them (the test checks both).
+`today` is `fight_treatment.gd` itself: `today_motion.gd` and `FightReplay.build`. Since 25 Nov
+the game's `FightMotion` turns every attacker toward its target (plan step 1a,
+`docs/workstreams/fight-animation-24-nov/PLAN-implement.md`), so `today_motion.gd` keeps the
+game's motion from before that, a full copy that later changes to `src/` don't reach: `today`,
+`pilot` and the rotation switch film what they filmed before the port. Refilmed on seed 22 after
+the port, `today`'s `cards.csv` equals the one filmed before it, frame for frame. `game`
+(`game.gd`, scenario `fight-compare-game.json`) is the game's own motion now, on the same fight.
+
+`turn_check.py` reads the logs: `same` (two films' `cards.csv` frame for frame, `--except` some
+columns), `turns` (every attacker turned toward its target by the game's numbers at contact, and
+the core check), `sounds` (the cues at the same frames) and `cut` (the picks page's whole-fight
+crop and scale):
+
+```bash
+tools/feel/film tests/screens/feel/fight-compare-game.json /data/fight-anim-work/game-1a/films/game.mp4
+tools/feel/film tests/screens/feel/fight-compare-today-lean.json /data/fight-anim-work/game-1a/films/today-lean.mp4
+python3 tests/screens/feel/fight_compare/turn_check.py turns /data/fight-anim-work/game-1a/films/game
+python3 tests/screens/feel/fight_compare/turn_check.py same /data/fight-anim-work/game-1a/films/game /data/fight-anim-work/game-1a/films/today-lean
+```
 
 ## `best`: the best proposal, and its contested branches
 
@@ -358,6 +375,10 @@ modified as if it had rotation." `"options": {"ROTATE": "on"}` turns it on in an
 
 - `rotate.gd` `SET` holds the numbers every film uses until the owner picks CB15 and CB17: aim at
   95 % of the path, a medium lean (keystone 0.94, length 0.85). Change them there.
+- `"ROTATE": "lean"` plays `rotate.gd` `SET_LEAN` instead: the owner's answer of 25 Nov (CB17
+  `aim_lean`), the same aim with the 4-degree in-plane lean the same way as the turn (up with the
+  lift, gone by contact), no tip, no shortening. It is what the game plays (`fight_motion.gd`
+  `TURN_*`): `today` with it matches the `game` film's rotation frame for frame.
 - `best`, `buffs`: `best_timeline.gd` `_rotation()` plays `SET` in place of CB9's option (CB9's
   timing, as before).
 - `today`, `pilot`: `rotate_motion.gd`, today's motion exactly (its 6-degree cock, 12-frame
@@ -370,7 +391,7 @@ modified as if it had rotation." `"options": {"ROTATE": "on"}` turns it on in an
   `_aim`: full at C-12, held between a big loss's two strikes) and shortens along that line. It
   has no keystone: the portrait is a `GlassBox`, drawn by its own shader material, which
   `tip.gdshader` would replace (filmed, it drew a white square). B's own 8-degree lift lean stays.
-- Off, every treatment is as it was (the tests check `today` is still `FightMotion`).
+- Off, every treatment is as it was (the tests check `today` is still `today_motion.gd`).
 
 `recommended.gd` plays every pick on the picks page in one fight: `buffs` with `ROTATE` on, CB11
 "mild" (CB2 "b", CB3 "mild"), CB8 "c", CB14 "c", and CB13 "c"'s death (the light goes out and it
