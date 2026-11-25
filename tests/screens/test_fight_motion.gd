@@ -335,8 +335,8 @@ func test_the_same_fight_at_30_and_144_frames_a_second() -> void:
 
 
 ## The comparison fight (seven attacks, Thorns, a summon, Old Brock's six triggers) at 30 and 144
-## frames a second: every card's turn and place every 1/6 s while it plays, and each step's
-## first showing, agree.
+## frames a second: every card's turn and place every 1/6 s while it plays (FAST included), and
+## each step's first showing, agree.
 func test_a_whole_fight_at_30_and_144_frames_a_second() -> void:
 	var content: GameContent = GameContent.load_default()
 	var combat: Combat = Compare.fight(content)
@@ -355,9 +355,14 @@ func test_a_whole_fight_at_30_and_144_frames_a_second() -> void:
 		var cards: Dictionary = {}
 		var shown: Dictionary = {}
 		var per_sixth: int = roundi(fps / 6.0)
-		var end_s: float = _screen._schedule.end_frame / 60.0
+		# as many samples at both rates: the fight's length in seconds, FAST's part at x1.5
+		var plan: FightTimeline = _screen._schedule
+		var end_s: float = plan.end_frame / 60.0
+		if plan.fast_from >= 0:
+			end_s -= (plan.fast_to - plan.fast_from) / 60.0 * (1.0 - 1.0 / plan.FAST_SPEED)
+		var samples: int = floori((end_s - 0.2) * 6.0)
 		var k: int = 0
-		while _screen._clock / 60.0 < end_s - 0.2:
+		while k < samples:
 			for key: Variant in _screen._keeper._kept:
 				var node: Control = _screen._kept_node(str(key))
 				cards["%s@%d" % [key, k]] = [node.rotation_degrees, node.position]
@@ -370,7 +375,7 @@ func test_a_whole_fight_at_30_and_144_frames_a_second() -> void:
 		_screen.queue_free()
 	var slow: Dictionary = runs[0]["cards"]
 	var fast: Dictionary = runs[1]["cards"]
-	assert_gt(_i(runs[0]["samples"]), 60, "over 10 s of fight")
+	assert_gt(_i(runs[0]["samples"]), 54, "over 9 s of fight")
 	assert_eq(fast.keys(), slow.keys(), "the same cards at every sample")
 	var turned: int = 0
 	for at: Variant in slow:

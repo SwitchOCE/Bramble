@@ -40,8 +40,18 @@ static func for_fight_step(
 ## The cues of one moment of a fight's schedule (FightTimeline cues), by the same rules as the
 ## steps': {kind: "hit", splashes} (the bursts showing on one frame), {kind: "death", count} (the
 ## units starting to fall on one frame), {kind: "summon"}, {kind: "trigger"} (a source pulses),
-## {kind: "result", winner, you_side}.
+## {kind: "result", winner, you_side}. A cue's speed (FightTimeline's FAST, 1 when absent) speeds
+## up its own staggers with the fight.
 static func for_fight_cue(cue: Dictionary, table: Dictionary) -> Array[Dictionary]:
+	var asked: Array[Dictionary] = _cue_of(cue, table)
+	var speed: float = maxf(_num(cue.get("speed", 1.0)), 0.01)
+	if not is_equal_approx(speed, 1.0):
+		for each: Dictionary in asked:
+			each["delay_s"] = _num(each["delay_s"]) / speed
+	return asked
+
+
+static func _cue_of(cue: Dictionary, table: Dictionary) -> Array[Dictionary]:
 	match str(cue.get("kind", "")):
 		"hit":
 			return _hits({"splashes": cue.get("splashes", [])}, table)

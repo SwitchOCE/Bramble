@@ -69,7 +69,11 @@ var views: Array = []
 var plan: FightTimeline
 
 var _base: Dictionary
+## The base as given, before the log changed it (schedule() replays a reordered log from it).
+var _given: Dictionary = {}
 var _catalog: Dictionary
+## What the loser takes, as apply was given it.
+var _damage: int = -1
 var _moment: Dictionary = {}
 ## uid -> [side, slot]
 var _where: Dictionary = {}
@@ -128,6 +132,7 @@ static func _piled(events: Array, at: int) -> bool:
 static func start(base: Dictionary, catalog: Dictionary) -> FightReplay:
 	var replay: FightReplay = FightReplay.new()
 	replay._base = base
+	replay._given = base.duplicate(true)
 	replay._catalog = catalog
 	for i: int in 2:
 		var row: Array = []
@@ -160,8 +165,23 @@ func summary(side: int) -> Array[Dictionary]:
 
 ## The fight's schedule from the log: frame by frame, what shows and how every card moves
 ## (FightTimeline). Its steps replace the replay's. place: (side, slot) -> where a unit stands
-## (FightScreen.unit_xy; FightScreen.schedule makes one).
+## (FightScreen.unit_xy; FightScreen.schedule makes one). Deaths at once are shown one after
+## another (FightOrder, CB8 c): the log is played again in that order first, so every view is
+## true to the order it shows; the boards at the end are the same.
 func schedule(place: Callable) -> void:
+	var ordered: Array = FightOrder.staggered(played)
+	if FightOrder.has_stagger(ordered):
+		var again: FightReplay = FightReplay.start(_given.duplicate(true), _catalog)
+		for value: Variant in ordered:
+			var event: Dictionary = value
+			again.apply(event, _damage)
+		played = again.played
+		views = again.views
+		boards = again.boards
+		_base = again._base
+		_moment = again._moment
+		_where = again._where
+		_gone = again._gone
 	plan = FightTimeline.new()
 	plan.build(played, views, place)
 	steps.assign(plan.steps)
@@ -169,6 +189,7 @@ func schedule(place: Callable) -> void:
 
 ## Takes one event of the log: updates the boards and makes the step it shows, if any.
 func apply(event: Dictionary, damage: int = -1) -> void:
+	_damage = damage
 	_apply(event, damage)
 	played.append(event)
 	var view: Dictionary = {}

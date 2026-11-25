@@ -18,7 +18,7 @@ const TIP_SHADER: Shader = preload("res://tests/screens/feel/fight_compare/tip.g
 
 var _timeline: RefCounted
 var _plan: Array[Dictionary] = []
-## Drawn frames since play(); buffs.gd's screen reads it as the schedule's frame (no FAST there).
+## Drawn frames since play().
 var _n: int = 0
 ## The schedule's frame: _n, except under FAST, where it moves faster (best_timeline.gd advance()).
 var _t: float = 0.0

@@ -74,27 +74,37 @@ game's motion from before that, a full copy that later changes to `src/` don't r
 the port, `today`'s `cards.csv` equals the one filmed before it, frame for frame.
 
 `game` (`game.gd`, scenario `fight-compare-game.json`) is the game's own fight screen on the same
-fight: since plan step 1b it plays the schedule (`src/screens/fight/fight_timeline.gd`), which is
-`best` with the owner's picks (`{"CB2": "b", "CB3": "mild", "CB9": "aim_lean"}`), frame for frame
-(`tests/screens/test_fight_timeline.gd`). `compare_screen.gd` keeps the game's step playback from
-before that (b94a8021), so every other treatment plays as it did. Beyond `best`, the game turns
-every jab toward its target (the turn's numbers, over the jab's frames), so on film the two
-`cards.csv` differ only in `rotation`, on the jabs' frames; `test_fight_timeline.gd` checks the
-rest pose for pose. The game also plays three best.md rules `best` leaves out: Start of Combat as
-beats after the 30 f rest, an attacker whose target died before the hit settling back unstruck
-(8 f), and pilers jabbing 5 f apart.
+fight: it plays the schedule (`src/screens/fight/fight_timeline.gd`), which is `recommended`
+with the owner's picks and both late-fight speed-ups, minus CB13 c (plan steps 1b, 3 to 5;
+`{"ROTATE": "off", "CB9": "aim_lean", "CB13": "none", "FAST": "a5", "GROUP": 3}`; recommended
+adds CB2 b, CB3 mild, CB8 c and CB14 c itself), frame for frame
+(`tests/screens/test_fight_timeline.gd`). `"CB13": "none"` leaves recommended's single death out.
+The game's stat gains are logged to `<stem>.buffs.csv` as `buffs` logs them. `compare_screen.gd`
+keeps the game's step playback from before 1b (b94a8021), so every other treatment plays as it did.
+`buff_screen.gd` draws the gains from the schedule's clock (`_t`), which is the drawn frame except
+under FAST.
+Beyond the fixture, the game turns every jab toward its target (the turn's numbers, over the
+jab's frames), so on film the two `cards.csv` differ only in `rotation`, on the jabs' frames;
+`test_fight_timeline.gd` checks the rest pose for pose. The game also plays three best.md rules
+the fixture leaves out: Start of Combat as beats after the 30 f rest, an attacker whose target
+died before the hit settling back unstruck (8 f), and pilers jabbing 5 f apart.
 
-Sound cues that moved with the schedule (nothing retimed by hand; seed 22 and `r10-074`):
+Sound cues that moved with the schedule (nothing retimed by hand; seed 22 and `r10-074`, film
+times at 60 frames a second):
 
-- **Hit**: at its burst (contact + 2), not when the splash step showed: the first at 1.08 s
-  (today 0.93 s). Thorns sounds at its own landing (3.03 s) instead of sharing the exchange's
-  splash (3.32 s). Seed 22 has 6 light hits against today's 8.
-- **Trigger**: at each source's pulse. Old Brock's six gains sound six times (8.15 to 8.95 s;
-  today once, as identical steps were dropped): seed 22 has 10 against today's 5.
-- **Start of Combat**: each trigger at its beat after the rest (`r10-074`: 0.5, 0.8, 1.1 s;
-  today 0.7, 1.3, 2.0 s).
-- **Death** at the fall's start (an exchange kill at contact + 30), **summon** at the arrival,
-  **result** as it shows (seed 22: 10.57 s, today 11.48 s; `r10-074`: 18.1 s, today 30.7 s).
+- **FAST**: every cue from the 5th attack's lift to the result comes x1.5 sooner, and the
+  staggers inside a cue (cleave, deaths) shrink by 1/1.5.
+- **Hit**: at its burst (contact + 2), not when the splash step showed: the first at 1.13 s.
+  Thorns sounds at its own landing instead of sharing the exchange's splash.
+- **Death**: each death at its own fall's start (an exchange kill at contact + 30); several at
+  once (CB8 c) sound one by one as they fall, seed 22's six from 6.77 to 7.10 s, of which the
+  sound player drops three for too many voices.
+- **Trigger**: at each source's pulse. Old Brock's six gains sound at each gain beat's start
+  (6.87 to 7.48 s, three dropped for voices); GROUP starts his first with the Hopper's arrival
+  (5.45 s, beside the summon).
+- **Start of Combat**: its triggers as beats after the rest; with GROUP up to three start
+  together (`r10-074`: all three at 0.5 s, as the first attacker lifts; 1b alone 0.5, 0.8, 1.1 s).
+- **Summon** at the arrival, **result** as it shows (seed 22: 8.57 s; `r10-074`: 12.70 s).
 - **Skip** plays only the result.
 
 `turn_check.py` reads the logs: `same` (two films' `cards.csv` frame for frame, `--except` some
@@ -103,10 +113,11 @@ the core check), `sounds` (the cues at the same frames) and `cut` (the picks pag
 crop and scale):
 
 ```bash
-tools/feel/film tests/screens/feel/fight-compare-game.json /data/fight-anim-work/game-1b/films/game.mp4
-# best-picks.json: "treatment": "best", "options": {"CB2": "b", "CB3": "mild", "CB9": "aim_lean"}
-tools/feel/film best-picks.json /data/fight-anim-work/game-1b/films/best-picks.mp4
-python3 tests/screens/feel/fight_compare/turn_check.py same /data/fight-anim-work/game-1b/films/game /data/fight-anim-work/game-1b/films/best-picks --except rotation
+tools/feel/film tests/screens/feel/fight-compare-game.json /data/fight-anim-work/game-2/films/game.mp4
+# recommended-picks.json: "treatment": "recommended", "options": {"ROTATE": "off",
+#   "CB9": "aim_lean", "CB13": "none", "FAST": "a5", "GROUP": 3}
+tools/feel/film recommended-picks.json /data/fight-anim-work/game-2/films/recommended-picks.mp4
+python3 tests/screens/feel/fight_compare/turn_check.py same /data/fight-anim-work/game-2/films/game /data/fight-anim-work/game-2/films/recommended-picks --except rotation
 ```
 
 ## `best`: the best proposal, and its contested branches
