@@ -205,6 +205,8 @@ The card is drawn in code (plan choice 3), the same everywhere: shop, board, han
 | Face | radial gradient centred at 40%, 35%: #fbf3df, #e6d6b4 at 60%, #c9b48d | M |
 | Rim | 3 px #1c201f, then 1 px #555b58 | M |
 | Numeral | 20 px, colour #2a2118, nudged down 0.04 em | M |
+| Numeral above its printed value | #1f6b34 (dark green) | P (25 Nov: the game's pale green can't be read on the cream disc; same meaning, darker tone) |
+| Numeral below its printed value, or hurt | #b02a1c (dark red) | P (same reason) |
 
 The discs are the same on every card, at every tier (the game's per-tier disc places in `card_data.json` stop applying).
 
@@ -239,6 +241,7 @@ A disc as wide as a card (140), its top level with the cards' tops (y 955) (M; L
 | Part | Value |
 |---|---|
 | Disc | 140 circle, lead ring 6 px (max(3, round(0.04 d))), same lead gradient as a card |
+| Hit area | the disc itself (a 140 circle), for pointing and dragging |
 | Art | the spell's art in a 128 circle; the window shows source x 90 to 470, y 320 to 700 of the 560 x 1000 file |
 | Slab | as a card's, with circles: shadow (1, 7) 0.7 blur 5; edge (0, 5) |
 | Raised | top at y 900 (whole disc in view); shadow (1, 22) 0.5 blur 16 |
@@ -453,7 +456,7 @@ Until the owner decides, each keeps today's look and behaviour, as close to its 
 12. **Lit drop targets and the drop preview** (`RecruitBoard`), and **the sell area** while a board card is carried (`RecruitShop.show_sell`).
 13. **The card face's extras:** keyword pills (row 22), Charge and Supply pips (`CardPips`), the Worked mark, ability buttons (`RecruitButtons.add_ability_buttons`), numbers above or below the printed ones drawn green or red. Keep them on the new frame as today; any change needs the owner's picture-and-yes.
 14. **Three-digit Attack or Health** in a 34 px disc. Not drawn.
-15. **How tier shows on hover** for a board or hand card (L3 says it does; nothing is drawn).
+15. **How tier shows on hover** for a board or hand card (L3). Until the light step: the hover detail's words name the tier, as today. **Pick (P): in the light step, a card pointed at gets its tier's halo, the same light that hugs a shop card (S1's halo), and nothing is drawn on the card.**
 16. **Golden in the hand, in Discover or on the fight board.** Only the board is drawn. Whether the halo shows there: not drawn.
 17. **Duplicate glow and triple foil** on the new frame (rows 28 to 31).
 18. **A carried card** (today `CardCarry`'s tilt and float). Its shadow: not drawn.
