@@ -19,7 +19,7 @@ The mock-up page itself, the look's working notes and the build plan are on the 
 
 ## What is still two-sided
 
-The fight screen keeps the earlier look's room (the stone window, its hero and leaderboard), and it, the shared overlays and the buy screen's stand-ins read the generated `assets/glass/layout.json`, which `tools/glass/pull_mockups.py` pulls from the old mock-ups branch (`design/glass-mockups`). The fight screen draws the new card. Until it has its own design in this look, both layout files are live: don't delete the old pull or the files it writes (`assets/glass/layout.json`, `card_data.json`, `frames/`), and don't take the buy screen's numbers from them. `tools/glass/compare.py` compares scenes with the old mock-ups, so it no longer applies to the buy screen.
+The fight screen keeps the earlier look's room (the stone window, its hero and leaderboard), and it, the shared overlays and the buy screen's stand-ins read the generated `assets/glass/layout.json`, which `tools/glass/pull_mockups.py` pulls from the old mock-ups branch (`design/glass-mockups`). The fight screen draws the new card. Until it has its own design in this look, both layout files are live: don't delete the old pull or the file it writes (`assets/glass/layout.json`), and don't take the buy screen's numbers from it. The six tier frame pictures and the per-tier disc data (`assets/glass/frames/`, `assets/glass/card_data.json`) are gone: nothing drew or read them, and the pull no longer writes them. `tools/glass/compare.py` compares scenes with the old mock-ups, so it no longer applies to the buy screen.
 
 ## Open
 

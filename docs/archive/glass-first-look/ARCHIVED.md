@@ -12,7 +12,7 @@ What this was: the work of 15 to 17 Nov 2026 that gave the first glass build its
 
 The owner rejected every card frame on 24 Nov 2026 ("All of these frames feel bad") and chose the L1 look ([decisions-l1.md](../../design/look-l1/decisions-l1.md)). Paths inside these files are as they were before the move, except links, which point to the files here.
 
-The six frame pictures the first build drew are still in `assets/glass/frames/`, with their disc places in `assets/glass/card_data.json`: `tools/glass/pull_mockups.py` writes them, and a branch not yet merged still reads them. Their removal is a separate step.
+The six frame pictures the first build drew (`assets/glass/frames/`) and their disc places (`assets/glass/card_data.json`) are no longer in the repository: nothing drew or read them once the card was drawn by code, and `tools/glass/pull_mockups.py` no longer writes them. The first look's HTML mock-up pages under `docs/ideation-track-2/mockups/` and `docs/design/mockups/fix-round-20-nov/keywords/` read those files, so they no longer draw their cards. Git history keeps the files.
 
 ## The first mock-up
 
