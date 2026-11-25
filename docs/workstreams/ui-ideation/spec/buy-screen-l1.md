@@ -362,7 +362,7 @@ The scoreboard is always shown (plan choice 4); Tab and the hero click no longer
 **Counters (O, L36).** "Only your highest counters or most recently changed things could show up ... It's fine to have something and X more and you click on a button and it pops out a modal or a tooltip."
 
 - At most four medallions show: the most recently changed first, then the highest (look.md, after L36). Order: left to right, then the next row.
-- The plate under them shows how many there are and opens a panel. The panel is not designed: until it is, the plate opens today's Compost panel (plan).
+- The plate under them appears only when the player has more counters than the four shown, and then shows how many there are in all (section 11, item 25). It opens the auras panel, which is not designed: until it is, the plate opens nothing. Pressing a heap's medallion opens that heap's own panel, as today (Compost).
 - A heap (a counter with `entries`, pressed to open) is a pointy-topped hexagon; any other counter is round (M).
 - Medallion: a lead shape (gradient at 150°: #4d5356, #15191a at 40%, #0b0d0c), glass inset 5 px (radial at 40%, 30%, three colours per counter), a line icon 40 px (#fbf3dc, stroke 2), shadow (0, 4, blur 4, rgba(0,0,0,0.65)).
 - Number: a cream badge, its centre on the medallion's rim at the lower right. 34 x 34 round; 52 x 34 for three digits, nudged 2.7 left. Radial #fffaf0 to #e9dcbb at 70%; rings 3 px #15191a and 1 px #6a6f70; numeral 20 px #2a2016.
@@ -473,12 +473,12 @@ Until the owner decides, each keeps today's look and behaviour, as close to its 
 
 **The columns**
 
-23. **Counters: none, and one to three.** Where they sit and what the plate shows with none.
-24. **Each counter's medallion colour and icon.** The game's display table names only an emblem picture (`icon`, `assets/glass/ui/tr-<icon>.png`). Where the glass colour and line icon come from: not designed.
-25. **What the auras plate counts,** and the panel it opens (out of scope; today's Compost panel stands in).
+23. **Counters: none, and one to three.** Where they sit and what the plate shows with none. **Pick (P, orchestrator, 25 Nov): medallions fill the four places in order (upper left, upper right, lower left, lower right); with none, nothing is drawn there.**
+24. **Each counter's medallion colour and icon.** The game's display table names only an emblem picture (`icon`, `assets/glass/ui/tr-<icon>.png`). Where the glass colour and line icon come from: not designed. **Pick (P): Compost is the green heap with the leaf and Tide the blue round one with the waves, as the mock-up draws them (section 8). Any other counter is a slate-glass medallion (#6f8597, #3a4f5e, #1a2731) carrying today's emblem picture at 40 px, marked `STAND-IN`.**
+25. **What the auras plate counts,** and the panel it opens (out of scope; today's Compost panel stands in). **Pick (P): the plate shows only when the player has more counters than the four shown, and then counts all of them. The game has at most two counters today, so the plate does not appear in this build; build it, hidden, with a test that it appears at five. It opens nothing until the auras panel is designed.**
 26. **Settled (L47): no place numerals and no hero names on the scoreboard.** The order shows the place; the name is on today's player hover card.
 27. **Gold of two or three digits** in the 112 coin, and **health of three digits** in the heart. Not drawn.
-28. **End turn's states** (E1): the art director's words only. "Nothing left to do" has no flag in the state; reading it from `legal_actions` (no buy, refresh or upgrade listed) is a proposal (P).
+28. **End turn's states** (E1): the art director's words only. "Nothing left to do" has no flag in the state; reading it from `legal_actions` (no buy, refresh or upgrade listed) is a proposal (P). **Pick (P): until the light step, one steady look for every state, and today's pressed feedback. No words on or under the button.**
 29. **Settled: the scoreboard always shows on the buy screen.** Pressing your hero does nothing yet (it shows the pressed state only), and Tab does not hide the scoreboard here. The fight screen keeps today's Tab behaviour.
 30. **The player hover card** on the scoreboard (row 40): today's, placed beside the left column.
 31. **Level-up.** The art director's moment was written for the bosses (polish.md); none for the lanterns.
