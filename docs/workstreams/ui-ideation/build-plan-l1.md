@@ -9,7 +9,10 @@ Written by the orchestrator of `ideation/ui-ux` on 25 Nov 2026. **Status:** the 
 - 25 Nov: the owner asked not to be waited on (L49). Light (step 6) is built and on `ui/l1` at `4342f8e1`, after the checks twice, a scope review and one fix round (lights now follow their card's `modulate`, proven by a rendered test; tier order holds at every moment). Films: `/data/ui-ideation/build/step6/`. A second Windows build with light is being cut.
 - 25 Nov: the owner approved the art director's auras and heap panels (L48); they are being built as an added step (`briefs/46-build-panels.md`).
 - 25 Nov: a merge coordinator session is across this rework and the fight animation rework (L50); see `merge-readiness-l1.md` for what this rework owes it. Order approved by the owner through the coordinator: this rework into `dev` first.
-- Next: the panels; a merge-prep step; the coordinator's recheck of the two reworks combined; the pull request into `dev`, merged on the owner's say-so. The owner's findings from playing become a fix round whenever they come.
+- 25 Nov: the owner played the first build and said the hover detail went backwards (L52). Fixed on `ui/l1-fix-hover`: the card's detail is back beside its card at full size, keyword reminders a separate fixed overlay.
+- 25 Nov: the panels, the documents part of merge prep and the hover fix are joined on `ui/l1` at `5d82cb31`; the full checks pass on the three together. Nothing in the rework touches `src/content/` or `src/core/`; the rules hash is unchanged.
+- Running: the code part of merge prep (`briefs/48-merge-prep-code.md`); a Windows build of `5d82cb31` for the owner.
+- Next: the coordinator's recheck of the two reworks combined on the merge-prep head; the pull request into `dev`, merged on the owner's say-so.
 
 ## What the owner asked for
 
