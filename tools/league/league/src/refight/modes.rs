@@ -280,7 +280,6 @@ fn score(detail: &Detail, original: &Fight, side: usize) -> f64 {
 struct Means {
     score: f64,
     dealt: f64,
-    taken: f64,
 }
 
 fn means(details: &[Detail], original: &Fight, side: usize) -> Means {
@@ -289,7 +288,6 @@ fn means(details: &[Detail], original: &Fight, side: usize) -> Means {
     for d in details {
         m.score += score(d, original, side) / n;
         m.dealt += d.damage_to[1 - side] as f64 / n;
-        m.taken += d.damage_to[side] as f64 / n;
     }
     m
 }
@@ -451,8 +449,6 @@ fn fight_modes(
                     row.insert("score_off".into(), json!(after.score));
                     row.insert("dealt_recorded".into(), json!(before.dealt));
                     row.insert("dealt_off".into(), json!(after.dealt));
-                    row.insert("taken_recorded".into(), json!(before.taken));
-                    row.insert("taken_off".into(), json!(after.taken));
                     row.insert(
                         "result_changed".into(),
                         json!(changed[0].outcome.winner != baseline[0].outcome.winner),
@@ -849,7 +845,6 @@ mod tests {
             .collect();
         let (before, after) = (means(&base, &fight(), 0), means(&off, &fight(), 0));
         assert_eq!((before.score, after.score), (0.5, 0.0));
-        assert!(after.taken > 0.0 && before.taken == 0.0);
         // The unit keeps its stats.
         assert_eq!(off[0].boards[0][0].health, base[0].boards[0][0].health);
         assert!(off[0].boards[0][0].mechanics.is_empty());

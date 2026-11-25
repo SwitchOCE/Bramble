@@ -191,8 +191,6 @@ fn refight_modes_reproduce_every_fight_and_write_one_line_per_observation() {
             "score_off",
             "dealt_recorded",
             "dealt_off",
-            "taken_recorded",
-            "taken_off",
             "result_changed",
             "own_units",
             "enemy_units",

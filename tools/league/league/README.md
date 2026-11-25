@@ -165,7 +165,6 @@ Fields of both files:
 | `keyword`, `keyword_units`, `enemy_keyword_units` | keyword off only: the mechanic id, and how many units hold it on the observed side and on the enemy's |
 | `score_recorded`, `score_off` | the observed side's mean score, win 1, draw ½, loss 0: board as recorded, and with the change |
 | `dealt_recorded`, `dealt_off` | mean damage the observed side's win deals to the enemy player (0 on a draw or loss) |
-| `taken_recorded`, `taken_off` | mean damage the observed side's player takes |
 | `result_changed` | the change gave a different winner (or a draw) on the recorded seed |
 | `own_units`, `enemy_units` | units on each board at the start of the fight |
 | `enemy_median_health` | median Health of the enemy's units at the start of the fight, as the recruit board shows it (auras included); null for an empty board |
