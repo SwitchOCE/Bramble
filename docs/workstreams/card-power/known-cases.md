@@ -33,24 +33,29 @@ The owner: "A lot of those are far more gut reaction, I'm far less certain on ..
 
 ## What the measures said on 25 Nov
 
-Matches: `m1` (2,000 games on the climbing field) for the fight tests and stat growth, `r1` (2,000 games on the top-two field) for pick rate and left out of the shop.
+Matches, each 2,000 games: `m1` on the league's climbing field (too weak, as it turned out), `r1` on a field made of the two best bots' games, the left-out matches paired with `r1`, and `r1-no-badger-locust` (every Badger and Locust unit left out of both bots' shops). The fight numbers below are from `r1`; `m1` ranks the cards alike (correlation 0.83 to 0.97 by stage).
 
 | Card | Call | What the data says | Agrees? |
 |---|---|---|---|
-| Sword-heir | Overpowered | Text first or second of all cards at every stage. Left out, red finishes 1.11 places worse and blue 1.53 | Yes |
-| Old Brock | Overpowered | Text first of all cards from round 13. Left out, blue finishes 0.07 worse: he arrives in about one game in eight | Yes in a fight; small over whole games |
-| Brock Cub | Scales too well | Fastest-growing tier 1 from round 5; golden ones hold a median +58/+81 from round 13. Left out, the bots lose nothing | Yes on growth; not as a single card |
-| Overrun | Too good into low-Health boards | About three times as strong into low-Health boards as high; empties a board of three or more in about 3% of swings | Partly |
-| Skin-shedder | Strong side | Text worth a look in rounds 5 to 12; red buys it on 55% of offers | Yes |
-| Gleaner | Strong side | Text second, second and third of all cards in rounds 1 to 12; red buys it on 69% of offers | Yes |
-| Wheat Raider | A stronger tier 2 | Text worth a look in rounds 1 to 12; gains 6.6 stats a turn early | Yes |
-| Padre | Weak | No fight text, no growth, bought once in 5,175 offers | Yes, as far as bots that ignore it can show |
-| Colour Ensign | Weak for tier 5 | Text ordinary; bought on 4% of offers | Yes |
-| Twice-shed Veteran | Poor for tier 5 | Text ordinary; bought on 1% to 2% of offers | Yes |
-| The Eighth Plague | Pretty bad; worse than Gleaner | Text seventh of 63 cards in rounds 9 to 12, and red's most-bought card (67% of offers). Gleaner's text is worth more at the same stage, as the owner said | No on "bad"; yes on "worse than Gleaner" |
-| Shrew Harrier | Pretty bad | Never bought in 5,147 offers; too few boards to test | Cannot say: no bot uses it |
-| Lone Hawthorn | Not great | Never bought in 887 offers; too few boards | Cannot say: no bot uses it |
-| Briar King | Poor for tier 6 | Never bought; too few boards | Cannot say: no bot uses it |
-| Regimental Sergeant Major | Pretty strong | Never bought by either bot; no fight text, so the fight test reads zero | Cannot say: no bot plays Pigeons |
+| Sword-heir | Overpowered | Marked by pick rate (blue buys it on 98% of offers) and by text at every stage (37, 27, 23, 15 fights in 100). Left out, red finishes 1.11 places worse and blue 1.53 | Yes |
+| Old Brock | Overpowered | Text first of all cards from round 13 (20 fights in 100); blue buys him on every offer. Left out, blue finishes 0.07 worse: blue reaches tier 6 in 38% of games | Yes in a fight; small over whole games |
+| Brock Cub | Scales too well | Marked for growth in rounds 1 to 8 (+1.8/+2.8 a turn). Left out alone, the bots lose nothing; with the other three Grudge cards, blue finishes 0.74 worse | Yes on growth; the strength is the Grudge cards together |
+| Overrun | Too good into low-Health boards | Rounds 5 to 8: 14 fights in 100 against low-Health boards, 4 against high. From round 9: 7 against low, nothing measurable against high | Yes |
+| Skin-shedder | Strong side | Text fourth or fifth of all cards from round 5; marked on `m1`, under the line on `r1`; red buys it on 55% of offers | Yes |
+| Gleaner | Strong side; a tempo card | Text first, second and third of all cards in rounds 1 to 12, then eighth. Red holds it to the end and finishes 0.32 places better without it | Yes, and it falls off |
+| Wheat Raider | A stronger tier 2 | Text fifth of all cards in rounds 1 to 4, ordinary from round 9 | Yes, early |
+| Padre | Weak | Bought on 0% and 1% of offers even when the bots play Pigeons | Yes |
+| Colour Ensign | Weak for tier 5 | Red buys it on 38% of offers when playing Pigeons but holds it on 9% of late boards; text ordinary | Yes |
+| Twice-shed Veteran | Poor for tier 5 | Text ordinary; bought on 2% of offers | Yes |
+| The Eighth Plague | Pretty bad; worse than Gleaner | On `r1` its text is ordinary (6 then 2 fights in 100; Gleaner 10 then 5). Red still buys it on 67% of offers. On `m1` it had read seventh of 63 | Yes on the card; red over-buys it |
+| Shrew Harrier | Pretty bad | Never bought in 11,111 offers, by either bot, in either match | Yes |
+| Lone Hawthorn | Not great | Bought on 0% and 1% of offers with the bots playing Briars | Yes |
+| Briar King | Poor for tier 6 | Blue buys it on 11% of 63 offers | Leans yes; too few offers |
+| Regimental Sergeant Major | Pretty strong | Blue buys it on 83% of 52 offers when playing Pigeons; its effect is outside fights | Leans yes; too few offers |
 
-The four "cannot say" rows are the bots' blind spot, not the cards': neither kept bot plays Pigeons, Briars or Mice. They are the first candidates for the make-it-work test (a fresh agent forks the best bot and tries to make the card pay).
+No call is contradicted. The two "leans" are tier 6 cards: red reaches tier 6 in 2% of its games and blue in 38%, so tier 6 is barely tested.
+
+What the list has taught about the measures:
+- Test on a strong field. The weak field over-read The Eighth Plague and made Overrun look four times as deadly (a board of three or more emptied 1 swing in 30, against 1 in 150).
+- Left out of the shop overstates for a card a bot is built around: both bots finish better with two whole tribes gone (red 4.65, blue 5.57) than with only Sword-heir gone (4.97, 6.24).
+- A card no bot buys is a finding. With two tribes gone, 16 cards of the other tribes are still bought on under 1 offer in 100, and red passes 8 Locust cards while playing Locusts.

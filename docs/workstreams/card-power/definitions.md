@@ -118,7 +118,7 @@ The owner called replacing a unit with a made-up plain unit "pretty unrealistic"
 - **Which cards:** a whole game cannot be made cheap (about ten minutes a card), so this test is run on a short list, not on every card: the cards the owner named, and any card the cheaper measures point at (text fights above its tier, better when bought, or bought nearly every time it is offered).
 - **Too few:** the card was bought in under 100 of the bot's games with it present. Then the bot does not use the card and the number says little.
 - **Flag:** over the line when the bot finishes half a place or more worse without it, with the interval clear of zero. A first guess; the first report shows where it falls.
-- **Cannot see:** what a bot that had re-learned without the card would do. A bot tuned around a card loses more than the card's own worth. The number is the card's worth to that bot.
+- **Cannot see:** what a bot that had re-learned without the card would do. A bot tuned around a card loses more than the card's own worth. The number is the card's worth to that bot. Measured 25 Nov: both bots finish better with every Badger and Locust unit left out (red 4.65, blue 5.57) than with only Sword-heir left out (4.97, 6.24), so for a card a bot is built around the number is an upper bound.
 
 ## Checks on the measures
 
@@ -143,3 +143,4 @@ The owner called replacing a unit with a made-up plain unit "pretty unrealistic"
 - 25 Nov: a fixed floor beside the worth-a-look rule, and no step may assume which bot buys a card, on the owner's words quoted in the rule's section.
 - 25 Nov: the owner answered the two review questions "Yes to both": the real-game checks on left out of the shop run before the full report, and the unused damage-taken fields are dropped from the refight output.
 - 25 Nov: the card report's two context columns added (boards holding the card by stage; why a card has no fight data), after the Gleaner result showed a bot holding a card long after its text stopped paying, and the owner's remark that a bot ignoring a card is itself a finding.
+- 25 Nov, AFTER the tribes-missing match was read: left out of the shop is stated as an upper bound for a card a bot is built around. Reason: the comparison quoted in its section.
