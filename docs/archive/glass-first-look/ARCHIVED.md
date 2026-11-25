@@ -16,7 +16,7 @@ The six frame pictures the first build drew are still in `assets/glass/frames/`,
 
 ## The first mock-up
 
-The pictures in `examples/` (`glass-mockup*.jpg`, `glass-cards.jpg`) are of the first full-screen mock-up (15 Nov 2026): one window of three lights in dark stone, the cards the bright panels, with a woodland-backdrop variant. Its working files are on the Optiplex at `/data/bramble-art/stained-glass/glass/`. What the agent who built it found weak (from its notes):
+The pictures in `examples/` (`glass-mockup-*.jpg`, `glass-cards.jpg`) and `docs/design/art-direction/examples/glass-mockup.jpg` (left there because the owner note of 15 Nov links it) are of the first full-screen mock-up (15 Nov 2026): one window of three lights in dark stone, the cards the bright panels, with a woodland-backdrop variant. Its working files are on the Optiplex at `/data/bramble-art/stained-glass/glass/`. What the agent who built it found weak (from its notes):
 
 - The centre arch is wide and flat; it reads as a vault more than a pointed window head.
 - With the leaderboard hidden, the side lights are empty quarries; the top right is the quietest corner.

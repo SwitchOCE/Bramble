@@ -57,6 +57,6 @@ To give a worker a style reference, put its full path in the worker's task, as s
 
 ## Files
 
-- `examples/`: the chosen concept, the L1 buy screen in the game, and the card art recipe's pictures.
+- `examples/`: the chosen concept, the L1 buy screen in the game, and the card art recipe's pictures. `glass-mockup.jpg` is the first full-screen mock-up, which the owner note of 15 November links; its other pictures are archived ([../../archive/glass-first-look/](../../archive/glass-first-look/ARCHIVED.md)).
 - `tools/art/prompts/glass-*.txt`: the prompts above.
 - The full working files of the concept and the first mock-up (every raw Codex PNG, the frame concepts at full size, and the briefs the agents worked from) are on the Optiplex at `/data/bramble-art/stained-glass/`. The L1 look's working files are on the Optiplex at `/data/ui-ideation/looks/L1/`.
