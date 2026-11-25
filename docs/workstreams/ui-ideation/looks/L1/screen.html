@@ -828,7 +828,7 @@ function polish() {
     PART = "hand-" + i;
     const xx = hx + i * (w + G);
     const raised = i === HOVER;
-    const yy = raised ? H - h + 24 : handTop;
+    const yy = raised ? H - h - 8 : handTop;   // a card pointed at stands wholly on the screen, its foot 8 px above the edge, as in the game today
     slab(xx, yy, g, u, raised);
     const c = pCard(xx, yy, g, u);
     if (raised) c.style.zIndex = 8;
@@ -979,10 +979,14 @@ function polish() {
       PART = "counter-" + i;
       plate(RX + 16 + (i % 2) * 112, heroY + HD + 28 + Math.floor(i / 2) * 56, 100, 46, `${cIcon[i]}<span style="font-size:24px">${v}</span>`);
     });
+    // three small buttons that each open another screen: card library, past boards (in the game today; the first mock-ups left it out), settings
+    const SB = 62, sbx = k => RC - 104 + k * (SB + 11);
     PART = "library";
-    const lib = roundel(RC - 84, 786, 72); lib.innerHTML = ICON.book.replace("<svg", "<svg width='40' height='40'");
+    const lib = roundel(sbx(0), 790, SB); lib.innerHTML = ICON.book.replace("<svg", "<svg width='34' height='34'");
+    PART = "pastboards";
+    const past = roundel(sbx(1), 790, SB); past.innerHTML = `<svg width='32' height='32' viewBox="0 0 24 24" fill="none" stroke="#fbf3dc" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12a7.5 7.5 0 1 0 2.4-5.5"/><path d="M4 4.5v4h4"/><path d="M12 8v4.2l2.8 1.8"/></svg>`;
     PART = "cog";
-    const cog = roundel(RC + 20, 790, 64); cog.innerHTML = ICON.cog.replace("<svg", "<svg width='32' height='32'");
+    const cog = roundel(sbx(2), 790, SB); cog.innerHTML = ICON.cog.replace("<svg", "<svg width='32' height='32'");
     PART = "endturn";
     const ED = 144, ex = RC - ED / 2, ey = H - 186;
     if (END === "arrow") { const et = roundel(ex, ey, ED, "amber"); et.innerHTML = ICON.arrow.replace("<svg", "<svg width='66' height='66'"); }

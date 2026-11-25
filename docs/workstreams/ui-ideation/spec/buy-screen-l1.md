@@ -148,8 +148,9 @@ Today's element, where it goes, and the section that draws it. Nothing new is ad
 | Your hero | `GlassScreen._build_hero` (`Hero`, `HeroHealth`, hero name) | frame (10, 920, 224, 154) | 8 |
 | Your health | `GlassScreen._build_hero` (`HeroHealth`) | heart (1732, 232, 132, 132) | 8 |
 | Counters | `GlassCounters.build`, `plate_xy` | medallions in the right column | 8 |
-| Card library | `CardsButton` (`src/screens/browser/cards_button.gd`, at `BrowserLook.BUTTON_AT` (1763, 64)) | roundel 72 at (1714, 786) | 8 |
-| Settings | `SettingsCog` (`src/game/ui/settings_cog.gd`, `AT` (94, 72), made in `src/main/main.gd`) | roundel 64 at (1818, 790), on the buy screen only | 8 |
+| Card library | `CardsButton` (`src/screens/browser/cards_button.gd`, at `BrowserLook.BUTTON_AT` (1763, 64)) | roundel 62 at (1694, 790) | 8 |
+| Settings | `SettingsCog` (`src/game/ui/settings_cog.gd`, `AT` (94, 72), made in `src/main/main.gd`) | roundel 62 at (1840, 790), on the buy screen only | 8 |
+| Past boards | the game's Past boards button (`src/game/game_controller.gd`) | roundel 62 at (1767, 790), between the library and settings; until step 4 it may stay where step 1 put it | 8 |
 | End turn | `RecruitButtons.build_end_turn` (next opponent's portrait, its health, "End turn" words) | (1726, 894, 144, 144) | 8 |
 
 Kept as they are today, in a place to be decided (section 11): the hand's count and Reserve marks (`RecruitCounts.build_hand_count`, `build_reserve_limit`), the waiting pile (`RecruitWaitingPile`), the message area (`GlassScreen._build_message`), the tier-up discount readout (`TierUpDrop`).
@@ -249,7 +250,7 @@ Full size, half below the screen's edge (O, L10). Cards 20 apart in a flat row, 
 | State | Top of card | Shown |
 |---|---|---|
 | Resting | y 955 | top 125 of 250 |
-| Pointed at (unit) | y 854 | top 226; the foot (24 px) still below the edge |
+| Pointed at (unit) | y 822 | the whole card, its foot 8 px above the screen's edge, as the game does today (`RecruitTips.HAND_LIFT_FOOT`) |
 | Pointed at (spell disc) | y 900 | the whole disc |
 
 A raised card draws above everything else on the screen. In the mock-up the 7 places hold 6 units and a spell (x 410 to 1510).
@@ -350,8 +351,9 @@ The scoreboard is always shown (plan choice 4); Tab and the hero click no longer
 | Your health | (1732, 232, 132, 132) | `l1h-heart.png` contained (132 x 126, centred); numeral 52 px, #fff4ea, shadow (0, 2, blur 3, #5a120a), raised 0.06 em | O (L31) |
 | Counters | 4 medallions, 80 each, at (1701, 398), (1803, 398), (1701, 500), (1803, 500) | below | O (L36) |
 | Auras plate | (1736, 610, 124, 44) | `l1p-plate.png`; a row, gap 8: four-point star 24 px (#f0d68a, outline #4a3608), the count 24 px #efe6d0, a small right-pointing triangle 14 px #cfc6b0 | O (L36), M |
-| Card library | roundel 72 at (1714, 786) | book icon 40 px | O (L15), M |
-| Settings | roundel 64 at (1818, 790) | cog icon 32 px | M |
+| Card library | roundel 62 at (1694, 790) | book icon 34 px | O (L15), M |
+| Past boards | roundel 62 at (1767, 790) | a clock with a turning-back arrow, 32 px, #fbf3dc line 2.2: `M4.5 12a7.5 7.5 0 1 0 2.4-5.5`, `M4 4.5v4h4`, `M12 8v4.2l2.8 1.8` | P (in the game today; the mock-up had left it out) |
+| Settings | roundel 62 at (1840, 790) | cog icon 32 px | M |
 | End turn | (1726, 894, 144, 144) | `l1h-end-swords.png` contained; shadow (0, 4, blur 5, rgba(0,0,0,0.65)) | O (L33, L42), M |
 
 **Counters (O, L36).** "Only your highest counters or most recently changed things could show up ... It's fine to have something and X more and you click on a button and it pops out a modal or a tooltip."
@@ -421,7 +423,7 @@ Each light below uses a share of a (opacity = share x a, capped at 1).
 | Shop level | 1 to 6 | n leftmost lanterns lit; the numeral on tier up | O (L43) |
 | Any price | above your gold | pewter coin | M |
 | Board unit | golden | gilt lead and rims, halo, twinkle | O (look), M |
-| Hand card | pointed at | raised to y 854 (spell 900), larger shadow, above all | O (L10), M |
+| Hand card | pointed at | raised to y 822 (spell 900), wholly on the screen, larger shadow, above all | O (L10), M |
 | Scoreboard row | you / next opponent / knocked out / other | ring #e8d49a / ring #c4553c and swords / grey, no health / ring #4d5356 | M |
 | Counters | four or more | four shown (most recent first, then highest), the plate gives the count and opens the rest | O (L36) |
 | Counter number | one, two, three digits | badge 34 round, or 52 x 34 | M |
@@ -474,7 +476,7 @@ Until the owner decides, each keeps today's look and behaviour, as close to its 
 26. **Settled (L47): no place numerals and no hero names on the scoreboard.** The order shows the place; the name is on today's player hover card.
 27. **Gold of two or three digits** in the 112 coin, and **health of three digits** in the heart. Not drawn.
 28. **End turn's states** (E1): the art director's words only. "Nothing left to do" has no flag in the state; reading it from `legal_actions` (no buy, refresh or upgrade listed) is a proposal (P).
-29. **What pressing your hero does** while hero powers are off (today it toggles the leaderboard, which is now always shown). **Pick (P): nothing yet; it shows the pressed state only.**
+29. **Settled: the scoreboard always shows on the buy screen.** Pressing your hero does nothing yet (it shows the pressed state only), and Tab does not hide the scoreboard here. The fight screen keeps today's Tab behaviour.
 30. **The player hover card** on the scoreboard (row 40): today's, placed beside the left column.
 31. **Level-up.** The art director's moment was written for the bosses (polish.md); none for the lanterns.
 
