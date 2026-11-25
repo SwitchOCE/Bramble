@@ -857,6 +857,7 @@ func _pulse(item: Dictionary, start: int, land: int) -> void:
 		# the jab turns as a strike does (CB9 aim_lean), over the jab's few frames
 		var lead: float = -1.0 if way.y > 0.0 else 1.0
 		aim = FightMotion.TURN_AIM * rad_to_deg(Vector2(0.0, -lead).angle_to(way))
+		aim = clampf(aim, -FightMotion.JAB_TURN_CAP, FightMotion.JAB_TURN_CAP)
 		lean = FightMotion.TURN_LEAN * way.x * lead
 	_add(
 		key,

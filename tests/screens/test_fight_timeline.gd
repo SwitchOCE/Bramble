@@ -452,6 +452,13 @@ func test_late_fights_end_true_and_at_rest() -> void:
 		for key: Variant in plan.segments:
 			var pose: Dictionary = plan.pose(str(key), float(plan.end_frame))
 			assert_true(_at_rest(pose), "%s: %s at rest at the end (%s)" % [fight_name, key, pose])
+			for value: Variant in plan.segments[key]:
+				var seg: Dictionary = value
+				if str(seg["kind"]) == "pulse":
+					assert_true(
+						absf(_f(seg.get("aim", 0.0))) <= FightMotion.JAB_TURN_CAP + 0.001,
+						"%s: %s jab turn within the cap" % [fight_name, key]
+					)
 		var zero: Dictionary = game.steps[0]
 		var zero_view: Dictionary = zero["state"]
 		assert_eq(_i(zero["frame"]), 0)
