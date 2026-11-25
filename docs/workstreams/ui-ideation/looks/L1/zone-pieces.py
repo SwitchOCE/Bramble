@@ -127,7 +127,11 @@ if __name__ == "__main__":
                   ("l1h-end-swords.png", lambda: on_black("l1h-end-swords.png", 340)),
                   ("l1h-end-ring.png", lambda: frame("l1h-end-ring.png", 340)),
                   ("l1h-end-shield.png", lambda: on_black("l1h-end-shield.png", 340)),
-                  ("l1h-end-bell.png", lambda: on_black("l1h-end-bell.png", 340, thresh=16))]:
+                  ("l1h-end-bell.png", lambda: on_black("l1h-end-bell.png", 340, thresh=16)),
+                  ("l1s-rosette-stone.png", lambda: on_black("l1s-rosette-stone.png", 184, thresh=20)),
+                  ("l1s-rosette-gilt.png", lambda: on_black("l1s-rosette-gilt.png", 184, thresh=20)),
+                  ("l1s-lantern-dark.png", lambda: on_black("l1s-lantern-dark.png", 176, thresh=10)),
+                  ("l1s-lantern-lit.png", lambda: on_black("l1s-lantern-lit.png", 176, thresh=10))]:
         if os.path.exists(SRC + f):
             fn()
         else:

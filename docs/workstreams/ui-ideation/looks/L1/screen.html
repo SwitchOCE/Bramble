@@ -569,6 +569,7 @@ const PIECE_HEART = ZONES && Q.get("heart") !== "code";
 // c: red glass shield with swords; d: a bronze bell; arrow: the earlier amber roundel)
 const END = ZONES ? (Q.get("end") || "a") : "arrow";
 // counters=medallion|plate: how the player's counters are drawn (medallion: brief 37, the design two of three designers arrived at)
+const LVL = Q.get("lvl") || "off", LEVEL = +(Q.get("level") || 5);   // the shop's level shown on the wall (brief 38)
 const COUNTERS = Q.get("counters") || (ZONES ? "medallion" : "plate");
 // where the picture opening sits inside the painted hero frame, as shares of the piece (measured by zone-pieces.py)
 const HERO_PIECE = { l: 0.055, t: 0.088, w: 0.892, h: 0.826 };
@@ -757,6 +758,17 @@ function polish() {
       scr.appendChild(pCard(cx, cy, g, u));
       coin(nx + aw / 2 - 21, nicheFoot + SILL / 2 - 21 + 2, 42, 3, { pewter: GOLD < 3 });
     });
+    // the shop's level on the wall (brief 38): six marks in the gaps between the arch heads, one more of them gilded (or lit)
+    // for each level. lvl=boss|lantern|off, level=1..6
+    if (LVL !== "off") for (let i = 0; i < 6; i++) {
+      PART = "level-" + i;
+      const mx = ax0 + i * (aw + ARCH_GAP) - ARCH_GAP / 2, on = i < LEVEL;
+      if (LVL === "boss") el("", mx - 23, 10, 46, 46, scr, `background:url("${PIECES}l1s-rosette-${on ? "gilt" : "stone"}.png") center/contain no-repeat;filter:drop-shadow(0 3px 3px rgba(0,0,0,0.75))`);
+      else {
+        if (on) blurShape(mx - 26, 14, 52, 52, "circle(50%)", "rgba(255,206,120,0.5)", 10);
+        el("", mx - 22, 0, 44, 66, scr, `background:url("${PIECES}l1s-lantern-${on ? "lit" : "dark"}.png") top center/contain no-repeat;filter:drop-shadow(0 3px 3px rgba(0,0,0,0.75))`);
+      }
+    }
   }
   for (const it of C ? [] : items) {
     PART = "shop-" + items.indexOf(it);
@@ -862,7 +874,7 @@ function polish() {
     }
     PART = "tierup";
     const tu = roundel(bx0, by(0), BD); tu.innerHTML = ICON.up.replace("<svg", "<svg width='40' height='40' style='margin-top:-10px'");
-    el("", bx0, by(0) + 50, BD, 26, scr, "text-align:center;font-weight:700;font-size:22px;color:#fbf3dc;text-shadow:0 1px 3px #0b1a2a").textContent = "5";
+    el("", bx0, by(0) + 50, BD, 26, scr, "text-align:center;font-weight:700;font-size:22px;color:#fbf3dc;text-shadow:0 1px 3px #0b1a2a").textContent = LEVEL;
     coin(...lowerRight(bx0, by(0), BD, CD), CD, 9);
     if (!ZONES) note(bx0 + BD - 6, by(0) - 2, "10", true);   // the price before the discount: dropped with the tablet, the coin is the price
     PART = "refresh";
