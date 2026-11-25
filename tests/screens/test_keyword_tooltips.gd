@@ -175,17 +175,107 @@ func test_recruit_card_detail_is_full_size_and_adjacent_in_each_area() -> void:
 		var gap: float = GlassPieces.number("stage.tip.gap")
 		assert_gt(words_rect.position.x, art_rect.end.x, kind + ": words sit next to artwork")
 		if kind == "shop":
-			assert_almost_eq(art_rect.get_center().x, source_rect.get_center().x, 0.01, kind)
-			assert_almost_eq(art_rect.position.y, 362.0, 0.01, kind + ": below the shop wall")
+			assert_almost_eq(words_rect.end.x, source_rect.position.x - gap, 0.01, kind)
 		else:
 			assert_almost_eq(art_rect.position.x, source_rect.end.x + gap, 0.01, kind)
-			assert_true(
-				art_rect.position.y < source_rect.end.y and art_rect.end.y > source_rect.position.y,
-				kind + ": beside the source"
-			)
+		assert_true(
+			art_rect.position.y < source_rect.end.y and art_rect.end.y > source_rect.position.y,
+			kind + ": beside the source"
+		)
 		assert_gt(_screen._tips.details.size(), 1, kind)
 		_assert_left_column(kind)
 		_assert_clear_geometry(source, kind)
+
+
+func test_shop_detail_stays_beside_every_card_and_leaves_the_board_clear() -> void:
+	var units: Array = _screen.state["shop_units"]
+	var spells: Array = _screen.state["shop_spells"]
+	for i: int in units.size():
+		_assert_shop_detail("shop", i, i >= 2)
+	for i: int in spells.size():
+		_assert_shop_detail("spell", i, false)
+
+
+func test_longest_printed_rules_fit_at_the_rightmost_shop_card() -> void:
+	var state: Dictionary = _screen.state.duplicate(true)
+	var longest: Dictionary = ViewAdapter.printed_unit(
+		GameContent.load_default(), "the-eighth-plague", true
+	)
+	state["shop_units"][4] = longest
+	_screen.show_state(state)
+	_screen.settle()
+	_assert_shop_detail("shop", 4, true)
+	var words: GlassBox = _screen._tips.last_box()
+	var bounds: Rect2 = _stage_rect(words).grow(0.01)
+	var text: String = ""
+	for label: Node in words.get_node("Rules").get_children():
+		var line: GlassText = label as GlassText
+		assert_true(bounds.encloses(_stage_rect(line)), line.words)
+		text += line.words
+	assert_eq(text, str(longest["text"]))
+
+
+func _assert_shop_detail(kind: String, index: int, flips_left: bool) -> void:
+	var source: Control = _screen.node_for(kind, index)
+	_screen._tips.hover(source.position + source.size / 2.0)
+	var note: String = "%s %d" % [kind, index]
+	assert_same(_screen._tips.hot, source, note)
+	var art: Control = _screen._tips.tip.get_node("Card")
+	var art_rect: Rect2 = _stage_rect(art)
+	var words: Rect2 = _stage_rect(_screen._tips.last_box())
+	var source_rect: Rect2 = _stage_rect(source)
+	var gap: float = GlassPieces.number("stage.tip.gap")
+	if flips_left:
+		assert_almost_eq(words.end.x, source_rect.position.x - gap, 0.01, note)
+	else:
+		assert_almost_eq(art_rect.position.x, source_rect.end.x + gap, 0.01, note)
+	assert_lte(words.end.x, L1Layout.number("shop.tablet.x"), note + ": clear of right controls")
+	assert_lte(words.end.y, _screen.slot_xy(0).y, note + ": rules clear the board")
+	if art is GlassCard:
+		var outline: PackedVector2Array = _card_outline(art_rect)
+		for target: Dictionary in _screen.targets_of("board"):
+			var board: Control = target["node"]
+			assert_true(
+				(
+					Geometry2D
+					. intersect_polygons(outline, _card_outline(_stage_rect(board)))
+					. is_empty()
+				),
+				note + ": card art leaves " + str(board.name) + " visible"
+			)
+	else:
+		assert_lte(art_rect.end.y, _screen.slot_xy(0).y, note + ": spell art clears the board")
+	_assert_clear_geometry(source, note)
+
+
+static func _card_outline(rect: Rect2) -> PackedVector2Array:
+	return Transform2D(0.0, rect.position) * L1CardFace.unit_outline(rect.size)
+
+
+func test_enlarged_hand_units_stay_on_screen_at_both_ends_of_a_full_hand() -> void:
+	var state: Dictionary = _screen.state.duplicate(true)
+	var hand: Array = state["hand"]
+	hand.append_array([state["board"][2], state["board"][6]])
+	_screen.show_state(state)
+	_screen.settle()
+	for index: int in [0, 6]:
+		var source: Control = _screen.node_for("hand", index)
+		_screen._tips.hover(source.position + Vector2(source.size.x / 2.0, 60.0))
+		var note: String = "hand index %d" % index
+		assert_eq((_screen._tips as RecruitTips).standing, source, note)
+		var art: GlassCard = _screen._tips.tip.get_node("Card")
+		var art_rect: Rect2 = _stage_rect(art)
+		var words: Rect2 = _stage_rect(_screen._tips.last_box())
+		var source_rect: Rect2 = _stage_rect(source)
+		var gap: float = GlassPieces.number("stage.tip.gap")
+		if index == 0:
+			assert_almost_eq(art_rect.position.x, source_rect.end.x + gap, 0.01, note)
+		else:
+			assert_almost_eq(words.end.x, source_rect.position.x - gap, 0.01, note)
+		assert_almost_eq(source_rect.end.y, 1072.0, 0.01, note)
+		assert_eq(art_rect.size, Vector2(224, 400), note)
+		assert_lte(art_rect.end.y, L1Layout.stage_size().y, note + ": art bottom")
+		_assert_clear_geometry(source, note)
 
 
 func test_card_hover_opens_every_keyword_and_one_nested_level_once() -> void:

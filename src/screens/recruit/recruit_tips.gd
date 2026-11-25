@@ -323,32 +323,54 @@ func _layout_details(target: Dictionary) -> void:
 	var middle: Rect2 = L1Layout.middle()
 	var gap: float = GlassPieces.number("stage.tip.gap")
 	var wall: float = L1Layout.number("room.wall.h")
-	var width: float = words.get_rect().end.x
-	if kind == "shop" and source.end.y <= wall:
-		# Below the arch and its price, so the rest of the shop stays visible.
-		preferred = Vector2(source.get_center().x - art.size.x / 2.0, wall + KeywordStyle.GAP)
-	elif kind != "discover":
+	var in_shop: bool = kind in ["shop", "spell"] and source.position.y < wall
+	var right_edge: float = L1Layout.number("shop.tablet.x") if in_shop else middle.end.x
+	var text_rect: Rect2 = words.get_rect()
+	if kind != "discover":
 		if kind in ["ability", "ability_off"]:
 			source = _source_rect(node.get_parent() as Control)
 		preferred.x = source.end.x + gap
-		if preferred.x + width > middle.end.x - KeywordStyle.GAP:
-			preferred.x = source.position.x - gap - width
+		if preferred.x + text_rect.end.x > right_edge - KeywordStyle.GAP:
+			preferred.x = source.position.x - gap - text_rect.end.x
 		if kind == "hand":
-			preferred.y = source.end.y - maxf(art.end.y, words.get_rect().end.y)
+			preferred.y = source.end.y - maxf(art.end.y, text_rect.end.y)
 		elif kind == "board":
 			preferred.y = maxf(preferred.y, wall + KeywordStyle.GAP)
 	# The repeated words must still lie over their Discover option's text pane.
-	var column_size: Vector2 = Vector2(middle.position.x, middle.size.y)
 	var columns: Array[Rect2] = [
-		Rect2(Vector2.ZERO, column_size),
-		Rect2(Vector2(middle.end.x, 0.0), column_size),
+		Rect2(Vector2.ZERO, Vector2(middle.position.x, middle.size.y)),
+		Rect2(
+			Vector2(right_edge, 0.0), Vector2(L1Layout.stage_size().x - right_edge, middle.size.y)
+		),
 	]
 	var places: Array[Vector2] = KeywordLayout.arrange(
-		art, words.get_rect(), preferred, source, [], columns
+		art, text_rect, preferred, source, [], columns
 	)
 	assert(not places.is_empty(), "Recruit card detail must fit clear of its source and columns")
 	if not places.is_empty():
 		tip.position = places[0]
+		var beside: bool = (
+			tip.position.x >= source.end.x or tip.position.x + text_rect.end.x <= source.position.x
+		)
+		if in_shop and beside:
+			_raise_shop_detail(art, text_rect, card is GlassCard)
+
+
+## Keep the rules above the board. A unit's bottom point can nest between the front row's top
+## points when its full-height copy is taller than the space above them.
+func _raise_shop_detail(art: Rect2, words: Rect2, is_unit: bool) -> void:
+	var board_top: float = _recruit.slot_xy(0).y
+	var art_foot: float = board_top
+	if is_unit:
+		var art_center: float = tip.position.x + art.get_center().x
+		var half_card: float = _recruit.card_box().x / 2.0
+		var clearance: float = art.size.x / 2.0
+		for slot: int in GlassScreen.FRONT_SLOTS:
+			var center: float = _recruit.slot_xy(slot).x + half_card
+			clearance = minf(clearance, absf(center - art_center))
+		art_foot += clearance * tan(L1CardFace.point_angle())
+	var max_top: float = minf(art_foot - art.end.y, board_top - words.end.y)
+	tip.position.y = minf(tip.position.y, maxf(0.0, floorf(max_top - 2.0)))
 
 
 func show_words(target: Dictionary, at: Vector2) -> void:
