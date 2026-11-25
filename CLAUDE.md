@@ -52,7 +52,7 @@ tools/checks/                    The quality gate's own checks (version drift, c
 tools/look/                      Run any scene on a virtual display: screenshots, clicks, keys and the game's errors; compare a scene with an HTML mock-up, region by region
 tools/feel/                      Film any scene with a scripted pointer at a true 60 frames a second, to judge motion and feel
 tools/glass/                     pull_mockups.py pulls the earlier glass mock-ups' pieces into assets/glass (the fight screen still reads them); compare.py compares a scene with those mock-ups
-scripts/                         Cloud setup, session hook, quality gate (check.sh), export smoke test, the Windows build (build_windows.sh), the macOS build (build_macos.sh; the owner: "to be triggered only when I request it, explicitly only"), the bot soak (soak.sh)
+scripts/                         Cloud setup, session hook, quality gate (check.sh), export smoke test, the Windows build (build_windows.sh), the macOS build (build_macos.sh; the owner: "to be triggered only when I request it, explicitly only"), sharing a build by public link (share_build.sh), the bot soak (soak.sh)
 project.godot, src/, tests/      The Godot project, the playable build: rules core (src/core), ghost store and matchmaker (src/ghosts), tribes and cards as data (src/content), screens (src/screens, src/glass), game flow and bots (src/game)
 assets/glass/l1/                 The L1 buy screen's painted pieces and its hand-kept layout numbers (layout.json)
 assets/glass/                    The rest is pulled from the earlier glass mock-ups by tools/glass/pull_mockups.py: portraits, fonts, emblems, and that look's frames, card data and layout numbers, which the fight screen and the buy screen's stand-ins still read
@@ -66,6 +66,7 @@ docs/archive/                    Finished or outdated docs kept as history; its 
 .claude/skills/game-design-process/  A general game design process (routes, checks, briefing designers); used only when asked for
 .claude/skills/bramble-design/       Design work on Bramble's units, tribes and mechanics: what to read, costing, pitching to the owner, acting on the owner's reactions
 .claude/skills/bramble-art/          Art for Bramble: the card art recipe to follow, and how a picture batch is run
+.claude/skills/share-build/          Put the latest build at the fixed public download links the owner gives to friends (scripts/share_build.sh)
 ```
 
 ## Working rules
