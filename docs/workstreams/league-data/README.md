@@ -12,12 +12,14 @@ On what a match keeps (to the Ghost Build Orchestrator): "The match should only 
 
 | Match | Keep | Delete |
 |---|---|---|
-| Climb and stopping-test matches, once decided | `summary.json`, `analysis.json`, a one-line verdict (bot versions, seeds sha, games, mean-place gap, 95% interval, kept or not) | Everything else, at once. If the new version is kept, cut and verify its ghosts first |
+| Climb and stopping-test matches, once decided | `summary.json`, `analysis.json`, a one-line verdict (bot versions, seeds sha, games, mean-place gap, 95% interval, kept or not). For a kept version, also the card report's `card-report/` folder (under 1 MB) | Everything else, at once. If the new version is kept, cut and verify its ghosts first |
 | Matches balance reads (named by the balance session), and matches the per-tribe report or rework checks read | Raw files gzipped, with the decision log trimmed to the chosen moves, until the tuning change merges or the report is written; then only the findings | The legal-move lists at once; the raw files after that |
 | Matches that make a ghost field | `summary.json` | `records/` and raw logs, once `bramble-ghosts cut` and `verify` pass |
 | Any match whose build is old (rules hash no longer on dev) | One folder per build, at most 2 MB: findings report, per-card × round × tribe and per-tribe tables as CSV, stopping-test verdicts | Everything else |
 
 Always: big output goes on `/data`, never `/`; no `reports.jsonl`; the referee deletes as it goes.
+
+**The card report runs before a match is pruned.** `tools/league/card_report.sh <match dir>` needs the match's `records/` for its fight tests, so it runs on every kept version's match and on every match balance reads before anything is deleted (about 13 minutes; it deletes its own working files). The owner's yes, 26 Nov 2026; why: [card-power/trace.md](../card-power/trace.md).
 
 ## How data is stored
 

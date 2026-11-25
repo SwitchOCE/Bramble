@@ -1,6 +1,6 @@
 # The balance process and the league: what changes
 
-From the card power session, 25 Nov 2026. **The owner said yes to all of it on 26 Nov: "I was happy with all of the proposals so proceed".** The documents named at the end are changed in the pull request that follows this one. The evidence is in [trace.md](trace.md), [known-cases.md](known-cases.md) and the results page (https://claude.ai/artifact/EiM34sXPXawpkmDDHNocHr).
+From the card power session, 25 Nov 2026. **The owner said yes to all of it on 26 Nov: "I was happy with all of the proposals so proceed".** The documents named at the end are changed to match. The evidence is in [trace.md](trace.md), [known-cases.md](known-cases.md) and the results page (https://claude.ai/artifact/EiM34sXPXawpkmDDHNocHr).
 
 The owner: "there's missing pieces or there's waste or both", and "We need to build our processes to catch this kind of stuff."
 
@@ -65,7 +65,7 @@ Drop:
 - `docs/workstreams/bot-league/brief.md`: section 9 (per-card numbers), and the hand-over of teams' card measurements.
 - `docs/workstreams/league-data/README.md`: the card report runs before a match is pruned.
 - `.claude/skills/bramble-design/SKILL.md`: the three costing additions.
-- `tools/league/league/LOGS.md` and the fight log: bodies that join a fight (the ghost orchestrator's code).
+- `tools/league/league/LOGS.md` and the fight log: a `joined` field holds every body that joins a fight, by kind and cause.
 
 ## Would this have caught the four cards?
 
