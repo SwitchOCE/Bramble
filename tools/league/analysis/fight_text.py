@@ -18,6 +18,7 @@ from pathlib import Path
 STAGES = ("1-4", "5-8", "9-12", "13+")
 MIN_OBSERVATIONS = 200
 LOOK_SPREADS = 3.0
+LOOK_FLOOR = 0.05  # the text must turn at least 5 fights in 100, however tight the table is
 
 
 def read(path):
@@ -83,7 +84,8 @@ def text_table(rows):
         for r in here:
             r["tier_median"] = fmt(statistics.median(by_tier[r["tier"]]))
             r["spreads"] = fmt((r["text_value"] - middle) / spread, 1) if spread else ""
-            if spread and r["spreads"] >= LOOK_SPREADS and r["low"] != "" and r["low"] > middle:
+            if (spread and r["spreads"] >= LOOK_SPREADS and r["low"] != "" and r["low"] > middle
+                    and r["text_value"] >= LOOK_FLOOR):
                 r["pointer"] = "worth a look"
     return out
 

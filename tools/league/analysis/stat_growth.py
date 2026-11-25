@@ -20,6 +20,7 @@ from pathlib import Path
 STAGES = ("1-4", "5-8", "9-12", "13+")
 MIN_OBSERVATIONS = 200
 LOOK_SPREADS = 3.0
+LOOK_FLOOR = 3.0  # at least three permanent stats a turn, however tight the table is
 MIN_TIER_CARDS = 5
 
 
@@ -113,7 +114,7 @@ def table(rows, tiers):
         for r in here:
             if spread:
                 r["spreads"] = round((r["above_mates"] - middle) / spread, 1)
-                if r["spreads"] >= LOOK_SPREADS and r["low"] != "" and r["low"] > 0:
+                if r["spreads"] >= LOOK_SPREADS and r["low"] != "" and r["low"] > 0 and r["stats_per_turn"] >= LOOK_FLOOR:
                     r["look"] = "worth a look"
         # Against its own tier (the owner's framing): raw growth, among cards of the same tier.
         by_tier = defaultdict(list)
@@ -126,7 +127,7 @@ def table(rows, tiers):
             for r in cards:
                 if spread:
                     r["tier_spreads"] = round((r["stats_per_turn"] - middle) / spread, 1)
-                    if r["tier_spreads"] >= LOOK_SPREADS and r["low"] > middle:
+                    if r["tier_spreads"] >= LOOK_SPREADS and r["low"] > middle and r["stats_per_turn"] >= LOOK_FLOOR:
                         r["look"] = "worth a look"
     return out
 
