@@ -32,8 +32,8 @@ fn refight_verifies_a_match_including_ghosts_and_rejects_a_changed_result() {
     let seeds = dir.join("seeds.txt");
     fs::write(&seeds, "11\n13\n").unwrap();
     matchrun::run(&MatchArgs {
-        red: "tribe-badger".into(),
-        blue: "tribe-mouse".into(),
+        red: "flow".into(),
+        blue: "random".into(),
         red_label: None,
         blue_label: None,
         games: 4,
@@ -74,7 +74,7 @@ fn refight_verifies_a_match_including_ghosts_and_rejects_a_changed_result() {
     let selected = run(
         &dir,
         "badger",
-        &["--threads", "2", "--verify", "--select", "tribe:badger"],
+        &["--threads", "2", "--verify", "--select", "tribe:badger:2"],
     );
     assert!(
         selected.status.success(),

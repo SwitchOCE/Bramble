@@ -181,9 +181,6 @@ fn validate_payload(game: &GameSession, payload: &Dictionary, slot_count: i64) -
     }
     for raw in slots.to_vec() {
         let slot = raw.as_dict();
-        if integer(&slot.get("attack")).is_none() || integer(&slot.get("health")).is_none() {
-            return Err(invalid("invalid slot state"));
-        }
         for keyword in units(&slot, "keywords").map_err(|e| invalid(&e))?.to_vec() {
             if !registry.has(&keyword.as_text()) {
                 return Err(invalid(&format!(
