@@ -16,7 +16,7 @@ static func groups(entries: Array) -> Array[Dictionary]:
 	return grouped
 
 
-static func fill(spread: Control, grouped: Array[Dictionary]) -> void:
+static func fill(spread: Control, grouped: Array[Dictionary]) -> Array[Dictionary]:
 	var view: Rect2 = L1Layout.rect("panel.heap.view")
 	var card: Rect2 = L1Layout.rect("panel.heap.card")
 	var cols: int = int(L1Layout.number("panel.heap.columns"))
@@ -26,6 +26,8 @@ static func fill(spread: Control, grouped: Array[Dictionary]) -> void:
 	var left: float = (view.size.x - (cols * step.x - gap.x)) / 2.0
 	left -= L1Layout.number("panel.heap.nudge")
 	spread.custom_minimum_size.y = (rows - 1) * step.y + card.end.y + card.position.y
+	var targets: Array[Dictionary] = []
+	var outline: PackedVector2Array = L1CardFace.unit_outline(card.size)
 	for i: int in grouped.size():
 		var at: Vector2 = Vector2(left + (i % cols) * step.x, card.position.y)
 		at.y += floorf(float(i) / cols) * step.y
@@ -33,6 +35,8 @@ static func fill(spread: Control, grouped: Array[Dictionary]) -> void:
 		made.name = "HeapCard_%d" % i
 		made.position = at
 		spread.add_child(made)
+		targets.append({"kind": "heap", "node": made, "card": grouped[i]["card"], "poly": outline})
+	return targets
 
 
 static func _card(group: Dictionary, box: Vector2) -> Control:

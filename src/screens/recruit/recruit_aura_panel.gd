@@ -21,7 +21,10 @@ var heap_id: String = ""
 
 var _contents: Control
 var _surface: Control
+var _screen: RecruitScreen
 var _counters: RecruitCounters
+var _heap_targets: Array[Dictionary] = []
+var _mouse: Vector2 = Vector2(-1, -1)
 var _opener: String
 var _anchor_y: float
 var _from_list: bool = false
@@ -29,8 +32,9 @@ var _outside_button: MouseButton = MOUSE_BUTTON_NONE
 var _list_offset: int = 0
 
 
-func _init(counters: RecruitCounters, opener: String, anchor_y: float) -> void:
-	_counters = counters
+func _init(screen: RecruitScreen, opener: String, anchor_y: float) -> void:
+	_screen = screen
+	_counters = screen._counters as RecruitCounters
 	_opener = opener
 	_anchor_y = anchor_y
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -98,6 +102,9 @@ func _back_to_list() -> void:
 
 
 func _render(offset: int = 0) -> void:
+	if not _heap_targets.is_empty():
+		_screen._tips.hide()
+		_heap_targets.clear()
 	if _surface != null:
 		remove_child(_surface)
 		_surface.queue_free()
@@ -144,7 +151,7 @@ func _render(offset: int = 0) -> void:
 		var view: Rect2 = L1Layout.rect("panel.heap.view")
 		view.size.x += L1Layout.number("panel.heap.rail_overhang")
 		_open_scroll(view)
-		RecruitHeapCards.fill(_contents, groups)
+		_heap_targets = RecruitHeapCards.fill(_contents, groups)
 	if scroll != null and offset > 0:
 		scroll.set_deferred("scroll_vertical", offset)
 
@@ -273,16 +280,11 @@ func _aura_row(data: Dictionary, y: float) -> void:
 	)
 	title.position = L1Layout.point("panel.row.name")
 	row.add_child(title)
-	var effect: Label = Label.new()
-	effect.text = str(data["effect"])
-	effect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	effect.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	effect.add_theme_font_override("font", GlassPieces.body_font(400))
-	effect.add_theme_font_size_override("font_size", int(L1Layout.number("panel.row.effect_font")))
-	effect.add_theme_color_override("font_color", DIM)
-	effect.position = L1Layout.point("panel.row.effect")
-	effect.size.x = rect.size.x - effect.position.x - L1Layout.number("panel.row.effect_right")
-	row.add_child(effect)
+	var effect: String = str(data["effect"])
+	if not effect.is_empty():
+		_add_effect(row, effect)
+	else:
+		title.position.y = (row.size.y - title.size.y) / 2.0
 	if data.has("slot"):
 		_slot_map(row, GlassPieces.as_int(data["slot"]))
 	else:
@@ -300,6 +302,19 @@ func _aura_row(data: Dictionary, y: float) -> void:
 		row.mouse_filter = Control.MOUSE_FILTER_PASS
 		row.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		row.gui_input.connect(_heap_click.bind(str(data["id"])))
+
+
+func _add_effect(row: Control, words: String) -> void:
+	var effect: Label = Label.new()
+	effect.text = words
+	effect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	effect.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	effect.add_theme_font_override("font", GlassPieces.body_font(400))
+	effect.add_theme_font_size_override("font_size", int(L1Layout.number("panel.row.effect_font")))
+	effect.add_theme_color_override("font_color", DIM)
+	effect.position = L1Layout.point("panel.row.effect")
+	effect.size.x = row.size.x - effect.position.x - L1Layout.number("panel.row.effect_right")
+	row.add_child(effect)
 
 
 func _heap_click(event: InputEvent, id: String) -> void:
@@ -411,7 +426,37 @@ static func _box(rect: Rect2, radius: float, fill: String) -> GlassBox:
 	return box
 
 
+## Only the portion of a miniature inside the scroll window can open its detail.
+func heap_target_at(at: Vector2) -> Dictionary:
+	if _heap_targets.is_empty():
+		return {}
+	var canvas: Vector2 = _screen._stage.get_global_transform_with_canvas() * at
+	if not Rect2(Vector2.ZERO, scroll.size).has_point(scroll.make_canvas_position_local(canvas)):
+		return {}
+	for target: Dictionary in _heap_targets:
+		var node: Control = target["node"]
+		var poly: PackedVector2Array = target["poly"]
+		if Geometry2D.is_point_in_polygon(node.make_canvas_position_local(canvas), poly):
+			return target
+	return {}
+
+
+func _process(_delta: float) -> void:
+	# Scrolling can change the card under a stationary pointer.
+	if not _heap_targets.is_empty() and _mouse.x >= 0.0:
+		_screen._tips.hover(_screen._stage.make_canvas_position_local(_mouse))
+
+
+func _notification(what: int) -> void:
+	if what in [NOTIFICATION_WM_MOUSE_EXIT, NOTIFICATION_APPLICATION_FOCUS_OUT]:
+		_mouse = Vector2(-1, -1)
+
+
 func _input(event: InputEvent) -> void:
+	var motion: InputEventMouseMotion = event as InputEventMouseMotion
+	if motion != null:
+		_mouse = motion.position
+		return
 	var key: InputEventKey = event as InputEventKey
 	if key != null and key.keycode == KEY_ESCAPE and key.pressed and not key.echo:
 		get_viewport().set_input_as_handled()

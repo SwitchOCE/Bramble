@@ -26,10 +26,14 @@ func _chip(screen: GlassScreen) -> Control:
 	return null
 
 
-func _click_at(at: Vector2) -> void:
+func _move_at(at: Vector2) -> void:
 	var motion := InputEventMouseMotion.new()
 	motion.position = at
 	get_viewport().push_input(motion, true)
+
+
+func _click_at(at: Vector2) -> void:
+	_move_at(at)
 	for down: bool in [true, false]:
 		var click := InputEventMouseButton.new()
 		click.button_index = MOUSE_BUTTON_LEFT
@@ -110,6 +114,38 @@ func test_heap_groups_copies_at_the_newest_copy_and_keeps_golden_separate() -> v
 	await wait_process_frames(2)
 
 
+func test_scroll_reaches_the_oldest_heap_card_with_shared_hover() -> void:
+	var game: GameController = _game(0)
+	var heap: CardHeap = game.flow.human().heap(&"thorn_compost")
+	var cards: Array[UnitDef] = game.flow.content.library.drawable_cards(false)
+	for i: int in 13:
+		heap.add(cards[i].id, cards[i].tier)
+	game.recruit.show_state(ViewAdapter.recruit_state(game.flow))
+	game.recruit.settle()
+	_click(_chip(game.recruit))
+	var panel: RecruitAuraPanel = game.recruit._auras
+	await wait_process_frames(2)
+	var oldest: Control = panel.find_child("HeapCard_12", true, false)
+	var tips: GlassTips = game.recruit._tips
+	_move_at(oldest.get_global_transform_with_canvas() * (oldest.size / 2.0))
+	await wait_process_frames(2)
+	assert_false(tips.tip.visible, "the clipped oldest card cannot open a detail")
+	panel.scroll.scroll_vertical = 100000
+	await wait_process_frames(2)
+	assert_gt(panel.scroll.scroll_vertical, 0)
+	_move_at(oldest.get_global_transform_with_canvas() * (oldest.size / 2.0))
+	await wait_process_frames(2)
+	assert_same(tips.hot, oldest)
+	assert_true(tips.tip.visible, "the oldest card can be reached and read")
+	var detail: GlassCard = tips.tip.get_node("Card")
+	assert_eq(detail.attack, cards[0].attack)
+	assert_eq(detail.health, cards[0].health)
+	assert_not_null(tips.tip.get_node_or_null("Words"))
+	game.recruit._close_auras()
+	assert_false(tips.tip.visible, "closing the heap takes its detail away")
+	await wait_process_frames(2)
+
+
 func test_empty_message_and_no_chip_in_a_game_without_briars() -> void:
 	var game: GameController = _game(0)
 	assert_true(game.flow.human().heaps.has(&"thorn_compost"), "an existing empty core heap")
@@ -186,13 +222,17 @@ func test_auras_show_player_and_slot_effects_and_navigate_to_heap_and_back() -> 
 	var counters: RecruitCounters = game.recruit._counters as RecruitCounters
 	assert_eq(counters.rows.size(), 5)
 	assert_eq(counters.rows[0]["id"], "thorn_compost")
+	assert_eq(counters.rows[0]["effect"], "Units for Briar effects")
 	assert_eq(counters.rows[1]["id"], "locust_tide")
 	assert_eq(counters.rows[1]["effect"], "Locusts +3 Attack")
 	assert_eq(counters.rows[2]["id"], "locust_hopper_bonus")
+	assert_eq(counters.rows[2]["effect"], "Hoppers +2/+2")
 	assert_eq(counters.rows[3]["name"], "Guard post")
 	assert_eq(counters.rows[3]["slot"], 2)
+	assert_eq(counters.rows[3]["effect"], "Its unit has Guard")
 	assert_eq(counters.rows[4]["name"], "Renown")
 	assert_eq(counters.rows[4]["slot"], 5)
+	assert_eq(counters.rows[4]["effect"], "+4/+4 on entry")
 
 	assert_null(game.recruit._front.get_node_or_null("AurasPlate"), "only three player counters")
 	var tide: Control = game.recruit._front.get_node("Chip_1")
@@ -234,20 +274,23 @@ func test_round_medallion_opens_the_list_with_its_row_marked() -> void:
 	await wait_process_frames(2)
 
 
-func test_a_slot_medallion_opens_auras_when_there_is_no_player_counter() -> void:
+func test_slots_do_not_add_a_medallion_or_trigger_overflow() -> void:
 	var game: GameController = _game(0)
 	var player: PlayerState = game.flow.human()
 	player.heaps.erase(&"thorn_compost")
 	player.slots[5].renown = 2
-	game.recruit.show_state(ViewAdapter.recruit_state(game.flow))
-	game.recruit.settle()
+	var state: Dictionary = ViewAdapter.recruit_state(game.flow)
+	game.recruit.show_state(state)
+	assert_eq(game.recruit.targets_of("counter").size(), 0)
 	assert_null(game.recruit._front.get_node_or_null("AurasPlate"))
-	_click(game.recruit._front.get_node("Chip_0"))
-	var panel: RecruitAuraPanel = game.recruit._auras
-	assert_eq(panel.rows.size(), 1)
-	assert_eq(panel.rows[0]["id"], "renown:5")
-	assert_not_null(panel.find_child("Slot_5", true, false))
-	game.recruit._close_auras()
+	var heaps: Array = state["counters"]
+	for i: int in 4:
+		var id: String = "heap_%d" % i
+		state["display"][id] = {"name": id}
+		heaps.append({"id": id, "value": 0, "entries": []})
+	game.recruit.show_state(state)
+	assert_eq(game.recruit.targets_of("counter").size(), 4)
+	assert_null(game.recruit._front.get_node_or_null("AurasPlate"))
 	await wait_process_frames(2)
 
 

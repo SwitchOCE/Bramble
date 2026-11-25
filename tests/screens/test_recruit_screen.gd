@@ -757,7 +757,7 @@ func test_counter_overflow_appears_at_five_and_counts_the_hidden_counters() -> v
 	var shown: Array = []
 	for i: int in 5:
 		var id: String = "counter_%d" % i
-		state["display"][id] = {"name": id, "reminder": ""}
+		state["display"][id] = {"name": id, "reminder": "Full rules go in the hover detail."}
 		shown.append({"id": id, "value": i + 1})
 	state["counters"] = shown.slice(0, 4)
 	_make(state)
@@ -779,6 +779,9 @@ func test_counter_overflow_appears_at_five_and_counts_the_hidden_counters() -> v
 		assert_eq(is_instance_valid(_screen._auras), opening)
 		if opening:
 			assert_eq(_screen._auras.rows.size(), 6)
+			var row: Control = _screen._auras.find_child("Row_counter_0", true, false)
+			assert_not_null(row)
+			assert_true(row.find_children("*", "Label", false, false).is_empty())
 	assert_eq(_counter_values(), ["2", "3", "4", "5"] as Array[String], "highest four in order")
 	state = state.duplicate(true)
 	state["counters"][0]["value"] = 0

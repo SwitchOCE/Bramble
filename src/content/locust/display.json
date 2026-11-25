@@ -2,12 +2,14 @@
  "locust_tide": {
   "name": "Tide",
   "reminder": "Your Locusts have this much extra Attack for the rest of the game.",
+  "aura_line": "Locusts +N Attack",
   "icon": "tide",
   "hidden": false
  },
  "locust_hopper_bonus": {
   "name": "Hopper bonus",
   "reminder": "Your Hoppers have this much extra Attack and Health for the rest of the game.",
+  "aura_line": "Hoppers +N/+N",
   "icon": "hopper",
   "hidden": false
  },

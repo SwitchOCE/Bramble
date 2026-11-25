@@ -123,8 +123,7 @@ func build(shown_counters: Array) -> void:
 	var counters: Array[Dictionary] = _fixed_order(shown_counters)
 	var shown: Array[Dictionary] = _select_visible(counters)
 	rows.assign(counters.map(_counter_row))
-	var slots: Array[Dictionary] = _slot_rows()
-	rows.append_array(slots)
+	rows.append_array(_slot_rows())
 	var before: Dictionary = _values
 	var recent: Dictionary = {}
 	_values = {}
@@ -145,18 +144,8 @@ func build(shown_counters: Array) -> void:
 	_revision += 1
 	if counters.size() > shown.size():
 		_build_auras_plate(rows.size() - shown.size())
-	elif not slots.is_empty() and not shown.any(_opens_list):
-		# A slots-only state (or a column of heaps) still needs a way into the list.
-		if shown.size() < int(L1Layout.number("right.counter.limit")):
-			_build_medallion(slots[0], shown.size(), false)
-		else:
-			_build_auras_plate(slots.size())
 	if _recruit._auras != null:
 		_recruit._auras.refresh(rows)
-
-
-static func _opens_list(counter: Dictionary) -> bool:
-	return not counter.has("entries")
 
 
 func _counter_row(counter: Dictionary) -> Dictionary:
@@ -166,63 +155,45 @@ func _counter_row(counter: Dictionary) -> Dictionary:
 	row["reminder"] = shown["reminder"]
 	var value: String = GlassScreen.number_words(counter.get("value", ""))
 	row["value"] = value
-	var effect: String = str(shown["reminder"])
-	match str(row["id"]):
-		"locust_tide", "tide":
-			effect = "Locusts %+d Attack" % value.to_int()
-		"locust_hopper_bonus":
-			effect = "Hoppers %+d/%+d" % [value.to_int(), value.to_int()]
-		"thorn_compost", "compost":
-			effect = "Units for Briar effects"
-	row["effect"] = effect
+	var entry: Dictionary = CardTerms.table_entry(str(row["id"]), _screen._display_table())
+	row["effect"] = _aura_line(entry, value)
 	return row
+
+
+static func _aura_line(entry: Dictionary, value: String = "") -> String:
+	var line: String = str(entry.get("aura_line", ""))
+	if value.begins_with("-"):
+		line = line.replace("+N", "N")
+	return CardTerms.fill(line, value)
 
 
 func _slot_rows() -> Array[Dictionary]:
 	var rows_on_board: Array[Dictionary] = []
 	var slots: Array = _screen.state.get("slots", [])
+	var display: Dictionary = _screen._display_table()
 	for i: int in mini(slots.size(), GlassScreen.BOARD_SLOTS):
 		var slot: Dictionary = slots[i] if slots[i] is Dictionary else {}
 		for keyword: Dictionary in slot.get("keywords", []):
 			var id: String = str(keyword.get("id", ""))
-			var shown: Dictionary = _screen.display_entry(id)
-			if shown.is_empty():
-				continue
-			(
-				rows_on_board
-				. append(
-					{
-						"id": "%s:%d" % [id, i],
-						"icon_id": id,
-						"slot": i,
-						"name": shown["name"],
-						"reminder": shown["reminder"],
-						"effect":
-						"Its unit has Guard" if id == "pigeon_guard_post" else shown["reminder"],
-					}
-				)
-			)
+			var entry: Dictionary = CardTerms.table_entry(id, display)
+			var shown: Dictionary = CardTerms.shown(entry)
+			if not shown.is_empty():
+				rows_on_board.append(_slot_row(i, id, shown, _aura_line(entry)))
 		var renown: int = GlassPieces.as_int(slot.get("renown", 0))
 		if renown != 0:
-			(
-				rows_on_board
-				. append(
-					{
-						"id": "renown:%d" % i,
-						"icon_id": "renown",
-						"slot": i,
-						"name": "Renown",
-						"value": str(renown),
-						"reminder":
-						(
-							"Units that start here and reservists that step in gain %+d/%+d."
-							% [renown, renown]
-						),
-						"effect": "%+d/%+d on entry" % [renown, renown],
-					}
-				)
-			)
+			var entry: Dictionary = display.get("renown", ContentSet.CORE_DISPLAY["renown"])
+			rows_on_board.append(_slot_row(i, "renown", entry, _aura_line(entry, str(renown))))
 	return rows_on_board
+
+
+static func _slot_row(index: int, id: String, entry: Dictionary, effect: String) -> Dictionary:
+	return {
+		"id": "%s:%d" % [id, index],
+		"icon_id": id,
+		"slot": index,
+		"name": entry["name"],
+		"effect": effect,
+	}
 
 
 func clear() -> void:

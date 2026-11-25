@@ -98,6 +98,8 @@ func _hover_allowed() -> bool:
 ## A hovered hand card stands up off its place in the fan: the pointer still over that place is
 ## still over it (no flicker between the two).
 func _target_at(at: Vector2, cards_only: bool) -> Dictionary:
+	if _auras != null:
+		return _auras.heap_target_at(at) if cards_only else {}
 	var found: Dictionary = super(at, cards_only)
 	var node: Control = found.get("node")
 	if node != null and not node.visible:
@@ -522,7 +524,7 @@ func _open_auras(opener: String, anchor_y: float) -> void:
 	if _auras != null:
 		return
 	_tips.hide()
-	_auras = RecruitAuraPanel.new(_counters as RecruitCounters, opener, anchor_y)
+	_auras = RecruitAuraPanel.new(self, opener, anchor_y)
 	_auras.name = "AuraPanel"
 	_auras.close_requested.connect(_close_auras)
 	# Outside presses must reach the pane before any underlying shortcut or the settings cog.
@@ -536,6 +538,7 @@ func _open_auras(opener: String, anchor_y: float) -> void:
 func _close_auras() -> void:
 	if _auras_layer == null:
 		return
+	_tips.hide()
 	_auras_layer.get_parent().remove_child(_auras_layer)
 	_auras_layer.queue_free()
 	_auras_layer = null
@@ -569,7 +572,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if _frame == null:
+	if _frame == null or _auras != null:
 		return
 	if event.is_pressed() and _triple != null and _triple.active():
 		_triple.finish()
