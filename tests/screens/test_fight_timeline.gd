@@ -187,7 +187,7 @@ func test_late_fights_end_true_and_at_rest() -> void:
 				var seg: Dictionary = value
 				if str(seg["kind"]) == "pulse":
 					assert_true(
-						absf(float(seg.get("aim", 0.0))) <= FightMotion.JAB_TURN_CAP + 0.001,
+						absf(_f(seg.get("aim", 0.0))) <= FightMotion.JAB_TURN_CAP + 0.001,
 						"%s: %s jab turn within the cap" % [fight_name, key]
 					)
 		var zero: Dictionary = game.steps[0]
