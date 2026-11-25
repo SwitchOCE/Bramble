@@ -41,8 +41,10 @@ func want() -> void:
 		places.append(_screen.slot_xy(i))
 		var raw: Dictionary = slots[i] if i < slots.size() and slots[i] is Dictionary else {}
 		bonuses.append(_screen.slot_info(raw))
-	# STAND-IN: keep the empty slot art, including its slot bonuses and drop targets.
-	_screen._slots.set_row("Slot_", places, _screen.card_box(), bonuses)
+	# Use the unit's silhouette for the slot's glass and its targets.
+	_screen._slots.set_row(
+		"Slot_", places, _screen.card_box(), bonuses, GlassSlot.make.bind(L1CardFace.unit_outline)
+	)
 	for i: int in GlassScreen.BOARD_SLOTS:
 		var unit: Variant = board[i] if i < board.size() else null
 		var info: Dictionary = bonuses[i]
@@ -75,8 +77,7 @@ func want() -> void:
 					"kind": "slot",
 					"index": i,
 					"node": slot,
-					"poly":
-					GlassBox.hexagon(Rect2(Vector2.ZERO, slot.box_size), _screen._slot_shoulder()),
+					"poly": slot.polygon_outer,
 				}
 			)
 		)
@@ -106,9 +107,7 @@ func _add_renown(i: int, renown: int) -> void:
 
 ## The board slot (0-6) whose outline holds a point, or -1.
 func slot_at(at: Vector2) -> int:
-	var outline: PackedVector2Array = GlassBox.hexagon(
-		Rect2(Vector2.ZERO, _screen.card_box()), _screen._slot_shoulder()
-	)
+	var outline: PackedVector2Array = L1CardFace.unit_outline(_screen.card_box())
 	for i: int in GlassScreen.BOARD_SLOTS:
 		if Geometry2D.is_point_in_polygon(at - _screen.slot_xy(i), outline):
 			return i
@@ -140,9 +139,7 @@ func has_unit(slot: int) -> bool:
 
 ## Light every empty destination, and the slot a carried board unit left.
 func light_drop(kind: String, from: int) -> void:
-	var outline: PackedVector2Array = GlassBox.hexagon(
-		Rect2(Vector2.ZERO, _screen.card_box()), _screen._slot_shoulder()
-	)
+	var outline: PackedVector2Array = L1CardFace.unit_outline(_screen.card_box())
 	for i: int in GlassScreen.BOARD_SLOTS:
 		var slot: Control = _screen._slots.get_node_or_null("Slot_%d" % i)
 		var empty: bool = not has_unit(i)
@@ -180,10 +177,8 @@ func preview_drop(kind: String, from: int, slot: int) -> void:
 	_drop_preview.name = "DropPreview"
 	_drop_preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_screen._front.add_child(_drop_preview)
-	var at: Vector2 = _screen.slot_xy(slot)
-	var outline: PackedVector2Array = GlassBox.hexagon(
-		Rect2(at, _screen.card_box()), _screen._slot_shoulder()
-	)
+	var offset: Transform2D = Transform2D(0.0, _screen.slot_xy(slot))
+	var outline: PackedVector2Array = offset * L1CardFace.unit_outline(_screen.card_box())
 	var edge: Color = SWAP_BLUE if occupied else DROP_AMBER
 	_drop_preview.set_meta(&"edge", edge)
 	_drop_preview.draw.connect(

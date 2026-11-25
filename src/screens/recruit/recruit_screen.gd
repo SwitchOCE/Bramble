@@ -39,6 +39,8 @@ var _waiting: RecruitWaitingPile
 var _motion: RecruitMotion
 var _last_turn: int = -1
 var _room: L1Room
+var _auras: RecruitAuraPanel
+var _auras_layer: CanvasLayer
 
 
 func _ready() -> void:
@@ -67,6 +69,7 @@ func _ensure_stage() -> void:
 		_stage.add_child(_motion)
 		_keeper.flown_out.connect(func(_node: Control) -> void: _counts.arrived())
 		_keeper.flown.connect(func(_node: Control) -> void: _counts.flight_over())
+		tree_exiting.connect(_close_auras)
 
 
 func _make_tips() -> GlassTips:
@@ -84,14 +87,19 @@ func _ready_line() -> String:
 ## No hover detail while the button is held on a card or a card is carried.
 func _hover_allowed() -> bool:
 	return (
-		_input == null
-		or (not _input.is_busy() and not _turn_start.active() and not _motion.moving_cards())
+		_auras == null
+		and (
+			_input == null
+			or (not _input.is_busy() and not _turn_start.active() and not _motion.moving_cards())
+		)
 	)
 
 
 ## A hovered hand card stands up off its place in the fan: the pointer still over that place is
 ## still over it (no flicker between the two).
 func _target_at(at: Vector2, cards_only: bool) -> Dictionary:
+	if _auras != null:
+		return _auras.heap_target_at(at) if cards_only else {}
 	var found: Dictionary = super(at, cards_only)
 	var node: Control = found.get("node")
 	if node != null and not node.visible:
@@ -112,6 +120,8 @@ func _target_at(at: Vector2, cards_only: bool) -> Dictionary:
 ## The window lost (Alt+Tab mid-drag, say): a carried card goes back where the state has it.
 func _notification(what: int) -> void:
 	super(what)
+	if what == NOTIFICATION_VISIBILITY_CHANGED and not is_visible_in_tree():
+		_close_auras()
 	if what in [NOTIFICATION_WM_WINDOW_FOCUS_OUT, NOTIFICATION_APPLICATION_FOCUS_OUT]:
 		if _input != null:
 			_input.focus_lost()
@@ -504,6 +514,38 @@ func _place_cards() -> void:
 # ---- input: action_requested only (RecruitInput); the controller owns the rules ----
 
 
+func _fit() -> void:
+	super()
+	if _auras_layer != null:
+		_auras_layer.transform = _stage.get_global_transform()
+
+
+func _open_auras(opener: String, anchor_y: float) -> void:
+	if _auras != null:
+		return
+	_tips.hide()
+	_auras = RecruitAuraPanel.new(self, opener, anchor_y)
+	_auras.name = "AuraPanel"
+	_auras.close_requested.connect(_close_auras)
+	# Outside presses must reach the pane before any underlying shortcut or the settings cog.
+	_auras_layer = CanvasLayer.new()
+	_auras_layer.layer = 10
+	get_viewport().add_child(_auras_layer)
+	_auras_layer.transform = _stage.get_global_transform()
+	_auras_layer.add_child(_auras)
+
+
+func _close_auras() -> void:
+	if _auras_layer == null:
+		return
+	_tips.hide()
+	_auras_layer.get_parent().remove_child(_auras_layer)
+	_auras_layer.queue_free()
+	_auras_layer = null
+	_auras = null
+	forget_pointer()
+
+
 ## Whether the screen is waiting for the player to choose a target.
 func is_aiming() -> bool:
 	return _input != null and _input.is_aiming()
@@ -530,7 +572,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if _frame == null:
+	if _frame == null or _auras != null:
 		return
 	if event.is_pressed() and _triple != null and _triple.active():
 		_triple.finish()

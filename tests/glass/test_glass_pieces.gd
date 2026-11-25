@@ -133,6 +133,11 @@ func test_files_match_the_hashes_the_pull_recorded() -> void:
 		assert_eq(FileAccess.get_sha256(path), str(files[rel]), "%s is as pulled" % rel)
 
 
+func test_pull_does_not_ship_the_retired_card_assets() -> void:
+	assert_false(FileAccess.file_exists(GlassPieces.ROOT + "card_data.json"))
+	assert_false(DirAccess.dir_exists_absolute(GlassPieces.ROOT + "frames"))
+
+
 func test_fonts_load() -> void:
 	var display: Font = GlassPieces.display_font(900, true)
 	var body: Font = GlassPieces.body_font()

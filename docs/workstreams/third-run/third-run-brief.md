@@ -6,7 +6,7 @@
 
 The owner, 19 Nov: "do a third bot run after we've removed the minion pool, built out the ghost system, etc." The owner, 20 Nov: "We need strong bots for balance." "They have to hill climb and at least reach a local maximum. Even if it's not the actual maximum, we need to at least reach local. And I prefer not to get stuck at a local maximum."
 
-So the run makes the strong bots that balance is measured with (owner note `2026-11-20a`). It plays the game as it will be played: async, against recorded runs, with no shared pool. Its kept bots go to the balance orchestrator; balance tunes only from bots that passed the stopping test (owner: "Only passed bots").
+So the run makes the strong bots that balance is measured with (owner note `2026-11-20a`). It plays the game as it will be played: async, against recorded runs, with no shared pool. Its kept bots go to the balance orchestrator. Balance tunes from bots that passed the stopping test (owner: "Only passed bots"), and may change a card the card report marks before that (section 8).
 
 ## 2. What carries over from the league, and what changes
 
@@ -19,14 +19,14 @@ The league brief, `docs/workstreams/bot-league/brief.md`, still holds where this
 | Ends | after 3 matches | when **both bots pass the stopping test** after their restarts, or the owner stops it |
 | Teams | red and blue sessions | the **same two sessions carry on** with their notes (decision 6d A) |
 | Referee | the league's referee session | the same (decision 6e) |
-| Rules | frozen engine `league-engine-v1` | frozen per climb: **no card numbers change while the bots climb** (owner: "Freeze per climb") |
+| Rules | frozen engine `league-engine-v1` | frozen per climb: **no card numbers change while the bots climb** (owner: "Freeze per climb"). The referee can stop a climb for a card the card report marks (section 8) |
 
 ## 3. Before it starts (the referee)
 
 1. **The engine tag.** Tag `dev` as `third-run-engine-v1` at the merge of the Rust ports of PRs 232, 241 and 242. It holds the batch-1 cards (PR 222), step E's proof (PR 225), ghost matches for the teams' tools (PR 226), and the waiting pile, board buys, swaps and merge-aura fix from the fix round. Rules hash `fa1d51ecc796…`.
 2. **The clones.** Merge `third-run-engine-v1` into `league/red` and `league/blue` in `/home/alex/league/red` and `/home/alex/league/blue`. Each team's tools crate moves from `league::matchrun::run_factories` (live) to `league::ghostmatch::run_factories(&args, new, old, field)`. A team's diff is then checked against `third-run-engine-v1`, not `league-engine-v1`.
 3. **The fields.** Two folders of ghost runs, each made with `tools/league/proof/make_field.sh` (1,000 live games of the final league bots, cut and verified):
-   - **The climbing field**, which grows. It starts as `/data/third-run/field-fa1d51ec`: 8,000 runs from red-m2 and blue-m2 at rules hash `fa1d51ecc796…`, made 21 Nov. Every kept version's runs are added (decision 6b), and the field keeps the newest **[Proposed: 4,000]** runs per bot version, so old versions age out.
+   - **The climbing field**, which grows. It starts as `/data/third-run/field-fa1d51ec`: 8,000 runs from red-m2 and blue-m2 at rules hash `fa1d51ecc796…`, made 21 Nov. Every kept version's runs are added (decision 6b), and the field keeps the newest **[Proposed: 4,000]** runs per bot version, so old versions age out. **Once kept versions can fill the field, the starting bots' runs are removed** (the owner's yes, 26 Nov). Before each scored match the referee checks that the candidate's average place on the field is worse than about 3.5; if not, the field is too weak and is rebuilt from the newest kept versions.
    - **The reference field** for the stopping test: **[Proposed: a 1,500-game field, about 12,000 runs, cut fresh from the current kept versions at the start of each stopping test (about 45 minutes) and frozen for that test]**, so every neighbour in one test meets the same opponents, and the opponents are as strong as the bots being tested. It must be that big: a stopping-test match needs about 1,510 seed pairs, each pair uses 7 runs, and no run is used twice in a match (section 9).
 4. **The teams' practice field.** Each team gets read access to the climbing field only, never the reference field.
 
@@ -44,15 +44,15 @@ The final league bots time their search by CPU, so the same game at a different 
 
 ## 6. The stopping test: a local maximum
 
-On the reference field, each match sized to see 0.1 in mean placement: **about 2,900 games (1,450 pairs)**, about 19 minutes each on 4 threads (section 9). That size gives a ±0.1 interval, so a neighbour that is really 0.1 better is caught only about half the time; catching it 4 times in 5 takes about 2,900 pairs, double the time (owner's choice, section 11). Up to 10 numbers with a step each way is up to 20 matches, so **a full stopping test takes about 6–8 hours per bot**, plus one match per tribe for the per-tribe report:
+On the reference field, each match sized to see 0.1 in mean placement: **about 2,900 games (1,450 pairs)**, about 19 minutes each on 4 threads (section 9). That size gives a ±0.1 interval, so a neighbour that is really 0.1 better is caught only about half the time; catching it 4 times in 5 takes about 2,900 pairs, double the time (owner's choice, section 11). Up to 10 numbers with a step each way is up to 20 matches, so **a full stopping test takes about 6–8 hours per bot**, plus one match with the bot's most-played tribes left out of the shop:
 - **Numbers.** For each of up to 10 numbers the team names up front, one step up and one step down (the steps named up front) don't beat the current version.
 - **Ideas.** The team's last 8 ideas, covering economy, tribe choice, board order and each reworked mechanic, were all rejected.
-- **Both bots** pass, on overall placement. The test also plays each bot made to stay in each tribe and reports its placement per tribe (owner: "Overall + per-tribe report"). Caution: in the measured games red-m2 played Locust in 441 of 500 games, Mouse in 7 and Badger in none, so a bot forced into a tribe it never climbed in measures its own play there as much as the tribe (section 11).
+- **Both bots** pass, on overall placement. The test also plays each bot with its most-played tribes left out of the shop (`league ghost-match --without <every unit of those tribes>`, paired with the same games with nothing left out; about 9 minutes), and reports how far it falls and what it ends on. No bot is made to stay in a tribe (section 11).
 - **Chance fails.** About 20 comparisons at 95% each means a bot that really is at a local maximum fails about 2 times in 5 by luck. **[Proposed:** a neighbour that beats the current version is replayed once on fresh seeds; it counts only if it beats it again.**]**
 - **Saving time. [Proposed:]** a neighbour's match stops at 500 pairs when it is already clearly worse (its interval's best end below zero); only close calls go to full size.
 - **The ideas.** Climbing matches see about 0.17, so ideas worth less are rejected there by noise, and "the last 8 ideas were rejected" can be met by noise. **[Proposed:** the 8 ideas are replayed at stopping-test size inside the test, 8 more matches.**]**
 
-**Not getting stuck.** At a bot's first local maximum its team climbs again from 2 different strategies it names; the best of the three is kept. The teams use different model families, and each team's best plays the other's. **Open, for the owner:** in the league both teams were Opus orchestrators, and decision 6d keeps the same sessions, so they are one family today. **[Proposed:** red's session carries on in Opus; blue's continues from its own notes in a new session on a different family (Codex `gpt-6.2-astra` as the orchestrator, or Fable)**.]** The run ends when both bots have passed the stopping test after their restarts, or the owner stops it.
+**Not getting stuck.** At a bot's first local maximum its team climbs again from 2 different strategies it names; the best of the three is kept, and a bot does not count as passed before these restarts. The teams use different model families, and each team's best plays the other's. Each team's lead changes model family with each new run (section 11). The run ends when both bots have passed the stopping test after their restarts, or the owner stops it.
 
 ## 7. The reworked mechanics
 
@@ -62,9 +62,9 @@ For each reworked mechanic (holding reservists, Actives, Mouse pilers, Hand-me-d
 
 ## 8. What goes to whom
 
-- **Balance orchestrator:** every kept version, labelled interim, with what it picks and how it places per tribe, and its rework checks. Balance tunes only from bots that passed the stopping test. Card numbers change only between climbs; then the bots climb again on the new numbers, from where they were, on a new field cut at the new rules.
+- **Balance orchestrator:** every kept version, labelled interim, with what it picks and how it places per tribe, its rework checks, and its card report: the referee runs `tools/league/card_report.sh <match dir>` on the kept version's match **before the match is pruned** (the fight tests need `records/`; about 13 minutes) and passes on the `card-report/` folder. Each team's own per-card measurements go to balance too, with each kept version. Balance tunes from bots that passed the stopping test; a card the card report marks may be changed before that. Card numbers change only between climbs, or after the referee stops a climb for such a card; then the bots climb again on the new numbers, from where they were, on a new field cut at the new rules.
 - **The owner:** a short report each day: versions kept, the gap between the teams, and where each bot stands on the stopping test. Stop and ask only for a confirmed cheat, a harness bug that changes a result, a busy machine, a Codex limit on both models, or the stopping test passed.
-- **The teams:** each other's method summaries after each kept version, as in the league (section 7b), never code or numbers.
+- **The teams:** each other's method summaries after each kept version, as in the league (section 7b), never code or numbers. A team's card measurements go to balance, not to the other team.
 
 ## 9. Size, time and disk
 
@@ -90,8 +90,8 @@ The League Data and Storage session's keep list, which the owner approved ("Okay
 
 After each match, run [`tools/league/analysis/prune_match.py`](../../../tools/league/analysis/README.md#referee-retention) once the reports, decision and any required cut are complete. Use the kind below.
 
-- **Climbing and stopping-test matches** decide only whether a change is kept. Run the decision first (`league analyze`, `check_ghost_match.py`), then keep `summary.json`, `analysis.json`, `timing.json` and a one-line verdict (bot versions, seeds sha, games, mean-place gap, 95% interval, kept or not). Delete the rest at once. **A kept version's match is cut into the climbing field and verified first**, then its raw files go.
-- **Balance-reading matches** (a match the balance orchestrator names as the data for a tuning decision, and the stopping test's per-tribe and rework matches until their report is written): keep the raw files gzipped with `--kind reading` until that tuning PR merges or the report is written. Then use `--kind reading-done` to keep the findings, summary, analysis and tables while the build is current.
+- **Climbing and stopping-test matches** decide only whether a change is kept. Run the decision first (`league analyze`, `check_ghost_match.py`), then keep `summary.json`, `analysis.json`, `timing.json` and a one-line verdict (bot versions, seeds sha, games, mean-place gap, 95% interval, kept or not). Delete the rest at once. **For a kept version, run the card report before deleting, and keep its `card-report/` folder (under 1 MB).** **A kept version's match is cut into the climbing field and verified first**, then its raw files go.
+- **Balance-reading matches** (a match the balance orchestrator names as the data for a tuning decision, and the stopping test's tribes-left-out and rework matches until their report is written): keep the raw files gzipped with `--kind reading` until that tuning PR merges or the report is written. Run the card report on it first. Then use `--kind reading-done` to keep the findings, summary, analysis and tables while the build is current.
 - **Field-cut matches:** after `bramble-ghosts cut` and `verify` pass, delete `records/` and the raw logs; keep `summary.json`.
 - **When a build is old** (its rules hash is no longer on `dev`): one folder per build, at most 2 MB: the findings reports, each reading match's `summary.json`, the per-card, round and tribe tables as CSV, and the stopping-test verdict lines. Everything else for that build goes.
 
@@ -105,7 +105,8 @@ After each match, run [`tools/league/analysis/prune_match.py`](../../../tools/le
 - Name up front, before your first stopping test: up to 10 numbers and their steps, and your 2 restart strategies.
 - Practise with `league::ghostmatch::run_factories` against the climbing field on your one core. Never read the reference field.
 - Support a per-mechanic off switch (section 7).
-- Card numbers don't change during a climb. Report a port bug at once, with a seed and the actions.
+- Card numbers don't change during a climb. The referee may stop a climb for a card change; you then climb on from where you were. Report a port bug at once, with a seed and the actions.
+- With each kept version, give the referee your own per-card measurements for balance (any table your tools make of how strong each card is). Your code and your bot's value tables stay yours, and the other team never sees the measurements.
 - Workers never run `rm -rf`; each lists the files it made that should go.
 
 ## 11. The owner's answers (21 Nov 2026)
@@ -119,5 +120,9 @@ So:
 4. **After a balance change:** the bots climb on from where they were and pass one stopping test each, without full restarts.
 5. **Model families:** each team's lead is one family: red's lead stays on Opus, blue's lead moves to Codex (`gpt-6.2-astra`), continuing from blue's notes. Either lead may call on the other family's helpers.
 6. **Disk:** a match keeps only what balance decisions need. Once those decisions are made and the match's build is old, only a high-level findings report stays, a couple of megabytes at most. The League Data and Storage session sets what that means file by file.
+
+**Amended on 26 Nov 2026.** The owner, on the card power session's [proposals](../card-power/proposals.md): "I was happy with all of the proposals so proceed".
+- In answer 1, the per-tribe report is replaced; balance still tunes from overall placement. No bot is made to stay in a tribe; the stopping test plays each bot with its most-played tribes left out of the shop and reports how far it falls and what it ends on. The owner, 25 Nov: "I don't think a bot held to each tribe is necessarily a good thing."
+- Answer 5 gains a rule: each team's lead changes model family with each new run. The owner, 25 Nov: "I would cycle out the agent family on the bots each new run ... different models will spot different things".
 
 The plan check (a fresh agent, `/plan-interrogate`, 21 Nov) raised these questions and the fixes marked Proposed above; it reproduced the measured numbers in section 9.

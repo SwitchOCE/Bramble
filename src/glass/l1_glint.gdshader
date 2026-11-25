@@ -22,5 +22,6 @@ void fragment() {
 	vec3 light = core.rgb * (centre + rays * 0.8) + glow.rgb * halo;
 	// COLOR comes in as the vertex colour times the inherited modulate: keep it, so the twinkle
 	// fades with its card (blend_add scales the colour by alpha).
-	COLOR = vec4(light * shown * COLOR.rgb, COLOR.a);
+	// Limit the peak before tint, so dimming also scales the bright centre.
+	COLOR = vec4(min(light * shown, vec3(1.0)) * COLOR.rgb, COLOR.a);
 }

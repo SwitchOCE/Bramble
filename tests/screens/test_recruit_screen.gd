@@ -110,6 +110,18 @@ func test_empty_board_shows_seven_slots() -> void:
 	assert_eq(_count("Card_h"), 0)
 
 
+func test_buy_slot_outline_and_targets_follow_the_card_shoulder() -> void:
+	_make(_mockup())
+	var slot: GlassBox = _find("Slot_5") as GlassBox
+	var outline: PackedVector2Array = L1CardFace.unit_outline(_screen.card_box())
+	assert_eq(slot.polygon_outer, outline)
+	var at: Vector2 = slot.position + outline[1] + Vector2(-0.25, 0.5)
+	assert_eq(_screen._board.slot_at(at), 5, "drop just inside the card's shoulder")
+	assert_eq(
+		str(_screen.target_at(at, false).get("kind", "")), "slot", "point at the same shoulder"
+	)
+
+
 func test_leaderboard_lists_every_player() -> void:
 	var state: Dictionary = _mockup()
 	_make(state)
@@ -462,7 +474,7 @@ func test_hover_shows_the_cards_name_and_rules() -> void:
 	assert_has(words, "TIER 6 · UNIT")
 
 
-func test_a_hovered_hand_card_rises_and_its_words_stay_in_the_left_column() -> void:
+func test_a_hovered_hand_card_stands_up_whole_with_its_detail_beside_it() -> void:
 	_make(_mockup())
 	var card: Control = _find("Card_h2")
 	var rest: Vector2 = card.position
@@ -476,12 +488,10 @@ func test_a_hovered_hand_card_rises_and_its_words_stay_in_the_left_column() -> v
 	assert_gt(card.z_index, rest_z, "raised above its usual drawing order")
 	var tip: Control = _find("Tip")
 	assert_true(tip.visible)
-	assert_null(tip.get_node_or_null("Card"), "no enlarged copy: the words alone")
-	assert_eq(tip.position, Vector2(12, 82), "over the scoreboard")
-	var text: GlassBox = tip.get_child(tip.get_child_count() - 1)
-	assert_lte(
-		tip.position.y + text.position.y + text.box_size.y * text.scale.y, 1080.0, "on the screen"
-	)
+	assert_not_null(tip.get_node_or_null("Card"), "the raised hand card gets the enlarged detail")
+	assert_gt(tip.position.x, card.position.x + card.size.x, "beside it")
+	var text: GlassBox = tip.get_node("Words")
+	assert_lte(tip.position.y + text.position.y + text.box_size.y, 1080.0, "on the screen")
 	_move(Vector2(960, 300))
 	assert_eq(card.position, rest, "back to its rest")
 	assert_eq(card.rotation, turn)
@@ -752,12 +762,12 @@ func _counter_values() -> Array[String]:
 	return values
 
 
-func test_counter_overflow_appears_at_five_and_counts_all_visible_counters() -> void:
+func test_counter_overflow_appears_at_five_and_counts_the_hidden_counters() -> void:
 	var state: Dictionary = _display_state()
 	var shown: Array = []
 	for i: int in 5:
 		var id: String = "counter_%d" % i
-		state["display"][id] = {"name": id, "reminder": ""}
+		state["display"][id] = {"name": id, "reminder": "Full rules go in the hover detail."}
 		shown.append({"id": id, "value": i + 1})
 	state["counters"] = shown.slice(0, 4)
 	_make(state)
@@ -766,7 +776,22 @@ func test_counter_overflow_appears_at_five_and_counts_all_visible_counters() -> 
 	state["counters"] = shown
 	_screen.show_state(state)
 	assert_eq(_count("Chip_"), 4)
-	assert_eq(_texts(_find("AurasPlate")), ["5"] as Array[String])
+	var plate: Control = _find("AurasPlate")
+	assert_eq(_texts(plate), ["+2"] as Array[String], "one hidden counter and one slot effect")
+	var at: Vector2 = plate.get_global_transform_with_canvas() * (plate.size / 2.0)
+	for opening: bool in [true, false]:
+		for down: bool in [true, false]:
+			var click := InputEventMouseButton.new()
+			click.position = at
+			click.button_index = MOUSE_BUTTON_LEFT
+			click.pressed = down
+			get_viewport().push_input(click, true)
+		assert_eq(is_instance_valid(_screen._auras), opening)
+		if opening:
+			assert_eq(_screen._auras.rows.size(), 6)
+			var row: Control = _screen._auras.find_child("Row_counter_0", true, false)
+			assert_not_null(row)
+			assert_true(row.find_children("*", "Label", false, false).is_empty())
 	assert_eq(_counter_values(), ["2", "3", "4", "5"] as Array[String], "highest four in order")
 	state = state.duplicate(true)
 	state["counters"][0]["value"] = 0

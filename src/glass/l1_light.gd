@@ -55,6 +55,12 @@ func blend(additive: float) -> L1Light:
 	return self
 
 
+## For lights over the room, dim their coverage of the backdrop along with their colour.
+func dim_over_backdrop() -> L1Light:
+	_mat.set_shader_parameter("dim_coverage", true)
+	return self
+
+
 ## The inside of the shape: a solid base, grown by grow px, lit by a radial ellipse
 ## (centre and radii as shares of the shape's box) at opacities centre, mid (at mid_stop) and rim.
 func fill_inside(base: Color, grow: float, ellipse: Rect2, opacities: Vector4) -> L1Light:

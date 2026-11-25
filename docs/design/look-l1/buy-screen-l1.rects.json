@@ -1,0 +1,2234 @@
+{
+ "about": "Every element the L1 mock-up page screen.html?view=polish&room=zones (on ideation/ui-ux) draws, as the browser laid it out: [x, y, width, height] on the 1920 x 1080 stage, in drawing order (later is on top). Made by make-rects.mjs beside this file. The page's default render is pixel-identical to the mock-up's picture c7-chosen.png (checked 25 Nov). 'part' is the name the page tags each element with as it draws it. 'role': piece = a painted piece (the spec's section 3); light = a stand-in glow (an engine effect in the game: see the spec's Light section); shadow = a stand-in shadow; card, spell disc, picture, text, drawn = drawn in code. A blurred element's rect is its shape plus two blur radii on every side.",
+ "query": "view=polish&room=zones",
+ "defaults": {
+  "layout": "c",
+  "room": "zones",
+  "end": "a",
+  "lvl": "lantern",
+  "level": 5,
+  "counters": "medallion",
+  "refresh": "pips",
+  "hover": -1,
+  "gold": 4
+ },
+ "elements": [
+  {
+   "part": "bg-wall",
+   "role": "piece",
+   "rect": [
+    244,
+    0,
+    1432,
+    350
+   ],
+   "piece": "l1r-wall.jpg"
+  },
+  {
+   "part": "bg-wall",
+   "role": "drawn",
+   "rect": [
+    244,
+    0,
+    1432,
+    350
+   ]
+  },
+  {
+   "part": "bg-table",
+   "role": "piece",
+   "rect": [
+    244,
+    350,
+    1432,
+    548
+   ],
+   "piece": "l1p-oak-top.jpg"
+  },
+  {
+   "part": "bg-table",
+   "role": "drawn",
+   "rect": [
+    244,
+    350,
+    1432,
+    548
+   ]
+  },
+  {
+   "part": "bg-table",
+   "role": "drawn",
+   "rect": [
+    244,
+    350,
+    1432,
+    40
+   ]
+  },
+  {
+   "part": "bg-wall",
+   "role": "drawn",
+   "rect": [
+    244,
+    340,
+    1432,
+    10
+   ]
+  },
+  {
+   "part": "bg-ledge",
+   "role": "piece",
+   "rect": [
+    244,
+    924,
+    1432,
+    156
+   ],
+   "piece": "l1r-leather.jpg"
+  },
+  {
+   "part": "bg-edge",
+   "role": "piece",
+   "rect": [
+    244,
+    898,
+    1432,
+    26
+   ],
+   "piece": "l1p-table-edge.jpg"
+  },
+  {
+   "part": "bg-pier-l",
+   "role": "piece",
+   "rect": [
+    0,
+    0,
+    244,
+    1080
+   ],
+   "piece": "l1z-quarry-slate.jpg"
+  },
+  {
+   "part": "bg-pier-l",
+   "role": "drawn",
+   "rect": [
+    0,
+    239,
+    244,
+    10
+   ]
+  },
+  {
+   "part": "bg-pier-l",
+   "role": "drawn",
+   "rect": [
+    0,
+    605,
+    244,
+    10
+   ]
+  },
+  {
+   "part": "bg-pier-l",
+   "role": "drawn",
+   "rect": [
+    0,
+    971,
+    244,
+    10
+   ]
+  },
+  {
+   "part": "bg-pier-l",
+   "role": "piece",
+   "rect": [
+    0,
+    0,
+    244,
+    244
+   ],
+   "piece": "l1p-pier.jpg"
+  },
+  {
+   "part": "bg-pier-l",
+   "role": "piece",
+   "rect": [
+    0,
+    0,
+    244,
+    244
+   ],
+   "piece": "l1z-headglass-slate.png"
+  },
+  {
+   "part": "bg-pier-l",
+   "role": "piece",
+   "rect": [
+    0,
+    244,
+    12,
+    836
+   ],
+   "piece": "l1p-pier.jpg"
+  },
+  {
+   "part": "bg-pier-l",
+   "role": "piece",
+   "rect": [
+    232,
+    244,
+    12,
+    836
+   ],
+   "piece": "l1p-pier.jpg"
+  },
+  {
+   "part": "bg-pier-l",
+   "role": "drawn",
+   "rect": [
+    0,
+    0,
+    244,
+    1080
+   ]
+  },
+  {
+   "part": "bg-pier-r",
+   "role": "piece",
+   "rect": [
+    1676,
+    0,
+    244,
+    1080
+   ],
+   "piece": "l1z-quarry-moss.jpg"
+  },
+  {
+   "part": "bg-pier-r",
+   "role": "drawn",
+   "rect": [
+    1676,
+    239,
+    244,
+    10
+   ]
+  },
+  {
+   "part": "bg-pier-r",
+   "role": "drawn",
+   "rect": [
+    1676,
+    605,
+    244,
+    10
+   ]
+  },
+  {
+   "part": "bg-pier-r",
+   "role": "drawn",
+   "rect": [
+    1676,
+    971,
+    244,
+    10
+   ]
+  },
+  {
+   "part": "bg-pier-r",
+   "role": "piece",
+   "rect": [
+    1676,
+    0,
+    244,
+    244
+   ],
+   "piece": "l1p-pier.jpg"
+  },
+  {
+   "part": "bg-pier-r",
+   "role": "piece",
+   "rect": [
+    1676,
+    0,
+    244,
+    244
+   ],
+   "piece": "l1z-headglass-moss.png"
+  },
+  {
+   "part": "bg-pier-r",
+   "role": "piece",
+   "rect": [
+    1676,
+    244,
+    12,
+    836
+   ],
+   "piece": "l1p-pier.jpg"
+  },
+  {
+   "part": "bg-pier-r",
+   "role": "piece",
+   "rect": [
+    1908,
+    244,
+    12,
+    836
+   ],
+   "piece": "l1p-pier.jpg"
+  },
+  {
+   "part": "bg-pier-r",
+   "role": "drawn",
+   "rect": [
+    1676,
+    0,
+    244,
+    1080
+   ]
+  },
+  {
+   "part": "shop-0",
+   "role": "light",
+   "rect": [
+    417,
+    -15,
+    262,
+    359
+   ],
+   "blur": 14
+  },
+  {
+   "part": "shop-0",
+   "role": "drawn",
+   "rect": [
+    450,
+    18,
+    196,
+    298
+   ]
+  },
+  {
+   "part": "shop-0",
+   "role": "piece",
+   "rect": [
+    436.1,
+    1.4,
+    224.1,
+    326.7
+   ],
+   "piece": "l1z-arch.png"
+  },
+  {
+   "part": "shop-0",
+   "role": "drawn",
+   "rect": [
+    436.1,
+    1.4,
+    224.1,
+    326.7
+   ]
+  },
+  {
+   "part": "shop-0",
+   "role": "light",
+   "rect": [
+    452,
+    26,
+    192,
+    302
+   ],
+   "blur": 9
+  },
+  {
+   "part": "shop-0",
+   "role": "light",
+   "rect": [
+    454,
+    312,
+    188,
+    20
+   ],
+   "blur": 3
+  },
+  {
+   "part": "shop-0",
+   "role": "card",
+   "rect": [
+    478,
+    52,
+    140,
+    250
+   ],
+   "art": "mouse/needle-page.jpg",
+   "text": "2 / 1"
+  },
+  {
+   "part": "shop-0",
+   "role": "piece",
+   "rect": [
+    527,
+    307,
+    42,
+    42
+   ],
+   "piece": "l1p-coin.png",
+   "text": "3"
+  },
+  {
+   "part": "shop-1",
+   "role": "light",
+   "rect": [
+    623,
+    -15,
+    262,
+    359
+   ],
+   "blur": 14
+  },
+  {
+   "part": "shop-1",
+   "role": "drawn",
+   "rect": [
+    656,
+    18,
+    196,
+    298
+   ]
+  },
+  {
+   "part": "shop-1",
+   "role": "piece",
+   "rect": [
+    642.1,
+    1.4,
+    224.1,
+    326.7
+   ],
+   "piece": "l1z-arch.png"
+  },
+  {
+   "part": "shop-1",
+   "role": "drawn",
+   "rect": [
+    642.1,
+    1.4,
+    224.1,
+    326.7
+   ]
+  },
+  {
+   "part": "shop-1",
+   "role": "light",
+   "rect": [
+    658,
+    26,
+    192,
+    302
+   ],
+   "blur": 9
+  },
+  {
+   "part": "shop-1",
+   "role": "light",
+   "rect": [
+    660,
+    312,
+    188,
+    20
+   ],
+   "blur": 3
+  },
+  {
+   "part": "shop-1",
+   "role": "card",
+   "rect": [
+    684,
+    52,
+    140,
+    250
+   ],
+   "art": "pigeon/bugler.jpg",
+   "text": "4 / 5"
+  },
+  {
+   "part": "shop-1",
+   "role": "piece",
+   "rect": [
+    733,
+    307,
+    42,
+    42
+   ],
+   "piece": "l1p-coin.png",
+   "text": "3"
+  },
+  {
+   "part": "shop-2",
+   "role": "light",
+   "rect": [
+    829,
+    -15,
+    262,
+    359
+   ],
+   "blur": 14
+  },
+  {
+   "part": "shop-2",
+   "role": "drawn",
+   "rect": [
+    862,
+    18,
+    196,
+    298
+   ]
+  },
+  {
+   "part": "shop-2",
+   "role": "piece",
+   "rect": [
+    848.1,
+    1.4,
+    224.1,
+    326.7
+   ],
+   "piece": "l1z-arch.png"
+  },
+  {
+   "part": "shop-2",
+   "role": "drawn",
+   "rect": [
+    848.1,
+    1.4,
+    224.1,
+    326.7
+   ]
+  },
+  {
+   "part": "shop-2",
+   "role": "light",
+   "rect": [
+    864,
+    26,
+    192,
+    302
+   ],
+   "blur": 9
+  },
+  {
+   "part": "shop-2",
+   "role": "light",
+   "rect": [
+    866,
+    312,
+    188,
+    20
+   ],
+   "blur": 3
+  },
+  {
+   "part": "shop-2",
+   "role": "card",
+   "rect": [
+    890,
+    52,
+    140,
+    250
+   ],
+   "art": "thorn/holly-knight.jpg",
+   "text": "5 / 7"
+  },
+  {
+   "part": "shop-2",
+   "role": "piece",
+   "rect": [
+    939,
+    307,
+    42,
+    42
+   ],
+   "piece": "l1p-coin.png",
+   "text": "3"
+  },
+  {
+   "part": "shop-3",
+   "role": "light",
+   "rect": [
+    1035,
+    -15,
+    262,
+    359
+   ],
+   "blur": 14
+  },
+  {
+   "part": "shop-3",
+   "role": "drawn",
+   "rect": [
+    1068,
+    18,
+    196,
+    298
+   ]
+  },
+  {
+   "part": "shop-3",
+   "role": "piece",
+   "rect": [
+    1054.1,
+    1.4,
+    224.1,
+    326.7
+   ],
+   "piece": "l1z-arch.png"
+  },
+  {
+   "part": "shop-3",
+   "role": "drawn",
+   "rect": [
+    1054.1,
+    1.4,
+    224.1,
+    326.7
+   ]
+  },
+  {
+   "part": "shop-3",
+   "role": "light",
+   "rect": [
+    1070,
+    26,
+    192,
+    302
+   ],
+   "blur": 9
+  },
+  {
+   "part": "shop-3",
+   "role": "light",
+   "rect": [
+    1072,
+    312,
+    188,
+    20
+   ],
+   "blur": 3
+  },
+  {
+   "part": "shop-3",
+   "role": "card",
+   "rect": [
+    1096,
+    52,
+    140,
+    250
+   ],
+   "art": "badger/marshal-of-the-red-mist.jpg",
+   "text": "9 / 9"
+  },
+  {
+   "part": "shop-3",
+   "role": "piece",
+   "rect": [
+    1145,
+    307,
+    42,
+    42
+   ],
+   "piece": "l1p-coin.png",
+   "text": "3"
+  },
+  {
+   "part": "shop-4",
+   "role": "light",
+   "rect": [
+    1241,
+    -15,
+    262,
+    359
+   ],
+   "blur": 14
+  },
+  {
+   "part": "shop-4",
+   "role": "drawn",
+   "rect": [
+    1274,
+    18,
+    196,
+    298
+   ]
+  },
+  {
+   "part": "shop-4",
+   "role": "piece",
+   "rect": [
+    1260.1,
+    1.4,
+    224.1,
+    326.7
+   ],
+   "piece": "l1z-arch.png"
+  },
+  {
+   "part": "shop-4",
+   "role": "drawn",
+   "rect": [
+    1260.1,
+    1.4,
+    224.1,
+    326.7
+   ]
+  },
+  {
+   "part": "shop-4",
+   "role": "light",
+   "rect": [
+    1276,
+    26,
+    192,
+    302
+   ],
+   "blur": 9
+  },
+  {
+   "part": "shop-4",
+   "role": "light",
+   "rect": [
+    1278,
+    312,
+    188,
+    20
+   ],
+   "blur": 3
+  },
+  {
+   "part": "shop-4",
+   "role": "card",
+   "rect": [
+    1302,
+    52,
+    140,
+    250
+   ],
+   "art": "locust/brood-mother.jpg",
+   "text": "8 / 14"
+  },
+  {
+   "part": "shop-4",
+   "role": "piece",
+   "rect": [
+    1351,
+    307,
+    42,
+    42
+   ],
+   "piece": "l1p-coin.png",
+   "text": "3"
+  },
+  {
+   "part": "level-0",
+   "role": "light",
+   "rect": [
+    399,
+    -6,
+    92,
+    92
+   ],
+   "blur": 10
+  },
+  {
+   "part": "level-0",
+   "role": "piece",
+   "rect": [
+    423,
+    0,
+    44,
+    66
+   ],
+   "piece": "l1s-lantern-lit.png"
+  },
+  {
+   "part": "level-1",
+   "role": "light",
+   "rect": [
+    605,
+    -6,
+    92,
+    92
+   ],
+   "blur": 10
+  },
+  {
+   "part": "level-1",
+   "role": "piece",
+   "rect": [
+    629,
+    0,
+    44,
+    66
+   ],
+   "piece": "l1s-lantern-lit.png"
+  },
+  {
+   "part": "level-2",
+   "role": "light",
+   "rect": [
+    811,
+    -6,
+    92,
+    92
+   ],
+   "blur": 10
+  },
+  {
+   "part": "level-2",
+   "role": "piece",
+   "rect": [
+    835,
+    0,
+    44,
+    66
+   ],
+   "piece": "l1s-lantern-lit.png"
+  },
+  {
+   "part": "level-3",
+   "role": "light",
+   "rect": [
+    1017,
+    -6,
+    92,
+    92
+   ],
+   "blur": 10
+  },
+  {
+   "part": "level-3",
+   "role": "piece",
+   "rect": [
+    1041,
+    0,
+    44,
+    66
+   ],
+   "piece": "l1s-lantern-lit.png"
+  },
+  {
+   "part": "level-4",
+   "role": "light",
+   "rect": [
+    1223,
+    -6,
+    92,
+    92
+   ],
+   "blur": 10
+  },
+  {
+   "part": "level-4",
+   "role": "piece",
+   "rect": [
+    1247,
+    0,
+    44,
+    66
+   ],
+   "piece": "l1s-lantern-lit.png"
+  },
+  {
+   "part": "level-5",
+   "role": "piece",
+   "rect": [
+    1453,
+    0,
+    44,
+    66
+   ],
+   "piece": "l1s-lantern-dark.png"
+  },
+  {
+   "part": "board-0",
+   "role": "shadow",
+   "rect": [
+    641,
+    383,
+    160,
+    270
+   ],
+   "blur": 5
+  },
+  {
+   "part": "board-0",
+   "role": "drawn",
+   "rect": [
+    650,
+    391,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "board-0",
+   "role": "drawn",
+   "rect": [
+    650,
+    389,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "board-1",
+   "role": "shadow",
+   "rect": [
+    801,
+    383,
+    160,
+    270
+   ],
+   "blur": 5
+  },
+  {
+   "part": "board-1",
+   "role": "drawn",
+   "rect": [
+    810,
+    391,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "board-1",
+   "role": "drawn",
+   "rect": [
+    810,
+    389,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "board-2",
+   "role": "shadow",
+   "rect": [
+    961,
+    383,
+    160,
+    270
+   ],
+   "blur": 5
+  },
+  {
+   "part": "board-2",
+   "role": "drawn",
+   "rect": [
+    970,
+    391,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "board-2",
+   "role": "drawn",
+   "rect": [
+    970,
+    389,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "board-3",
+   "role": "shadow",
+   "rect": [
+    1121,
+    383,
+    160,
+    270
+   ],
+   "blur": 5
+  },
+  {
+   "part": "board-3",
+   "role": "drawn",
+   "rect": [
+    1130,
+    391,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "board-3",
+   "role": "drawn",
+   "rect": [
+    1130,
+    389,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "board-4",
+   "role": "shadow",
+   "rect": [
+    721,
+    609.9,
+    160,
+    270
+   ],
+   "blur": 5
+  },
+  {
+   "part": "board-4",
+   "role": "drawn",
+   "rect": [
+    730,
+    617.9,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "board-4",
+   "role": "drawn",
+   "rect": [
+    730,
+    615.9,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "board-5",
+   "role": "shadow",
+   "rect": [
+    881,
+    609.9,
+    160,
+    270
+   ],
+   "blur": 5
+  },
+  {
+   "part": "board-5",
+   "role": "drawn",
+   "rect": [
+    890,
+    617.9,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "board-5",
+   "role": "drawn",
+   "rect": [
+    890,
+    615.9,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "board-6",
+   "role": "shadow",
+   "rect": [
+    1041,
+    609.9,
+    160,
+    270
+   ],
+   "blur": 5
+  },
+  {
+   "part": "board-6",
+   "role": "drawn",
+   "rect": [
+    1050,
+    617.9,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "board-6",
+   "role": "drawn",
+   "rect": [
+    1050,
+    615.9,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "board-1",
+   "role": "light",
+   "rect": [
+    787,
+    363,
+    186,
+    296
+   ],
+   "blur": 8
+  },
+  {
+   "part": "board-6",
+   "role": "light",
+   "rect": [
+    1027,
+    589.9,
+    186,
+    296
+   ],
+   "blur": 8
+  },
+  {
+   "part": "board-0",
+   "role": "card",
+   "rect": [
+    650,
+    386,
+    140,
+    250
+   ],
+   "art": "badger/hedge-knight.jpg",
+   "text": "12 / 15"
+  },
+  {
+   "part": "board-1",
+   "role": "card",
+   "rect": [
+    810,
+    386,
+    140,
+    250
+   ],
+   "art": "mouse/fencing-master.jpg",
+   "text": "18 / 11"
+  },
+  {
+   "part": "board-2",
+   "role": "card",
+   "rect": [
+    970,
+    386,
+    140,
+    250
+   ],
+   "art": "pigeon/grenadier-guard.jpg",
+   "text": "9 / 22"
+  },
+  {
+   "part": "board-3",
+   "role": "card",
+   "rect": [
+    1130,
+    386,
+    140,
+    250
+   ],
+   "art": "thorn/hawthorn-warden.jpg",
+   "text": "7 / 26"
+  },
+  {
+   "part": "board-4",
+   "role": "card",
+   "rect": [
+    730,
+    612.9,
+    140,
+    250
+   ],
+   "art": "shared/stag-beetle.jpg",
+   "text": "14 / 12"
+  },
+  {
+   "part": "board-5",
+   "role": "card",
+   "rect": [
+    890,
+    612.9,
+    140,
+    250
+   ],
+   "art": "mouse/thimble-captain.jpg",
+   "text": "10 / 10"
+  },
+  {
+   "part": "board-6",
+   "role": "card",
+   "rect": [
+    1050,
+    612.9,
+    140,
+    250
+   ],
+   "art": "badger/greatsword-bearer.jpg",
+   "text": "24 / 19"
+  },
+  {
+   "part": "hand-spell",
+   "role": "shadow",
+   "rect": [
+    1361,
+    952,
+    160,
+    160
+   ],
+   "blur": 5
+  },
+  {
+   "part": "hand-spell",
+   "role": "drawn",
+   "rect": [
+    1370,
+    960,
+    140,
+    140
+   ]
+  },
+  {
+   "part": "hand-spell",
+   "role": "spell disc",
+   "rect": [
+    1370,
+    955,
+    140,
+    140
+   ],
+   "art": "art/spell-sharpen.jpg"
+  },
+  {
+   "part": "hand-0",
+   "role": "shadow",
+   "rect": [
+    401,
+    952,
+    160,
+    270
+   ],
+   "blur": 5
+  },
+  {
+   "part": "hand-0",
+   "role": "drawn",
+   "rect": [
+    410,
+    960,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "hand-0",
+   "role": "drawn",
+   "rect": [
+    410,
+    958,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "hand-0",
+   "role": "card",
+   "rect": [
+    410,
+    955,
+    140,
+    250
+   ],
+   "art": "pigeon/private.jpg",
+   "text": "2 / 3"
+  },
+  {
+   "part": "hand-1",
+   "role": "shadow",
+   "rect": [
+    561,
+    952,
+    160,
+    270
+   ],
+   "blur": 5
+  },
+  {
+   "part": "hand-1",
+   "role": "drawn",
+   "rect": [
+    570,
+    960,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "hand-1",
+   "role": "drawn",
+   "rect": [
+    570,
+    958,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "hand-1",
+   "role": "card",
+   "rect": [
+    570,
+    955,
+    140,
+    250
+   ],
+   "art": "thorn/nettle-sprout.jpg",
+   "text": "1 / 4"
+  },
+  {
+   "part": "hand-2",
+   "role": "shadow",
+   "rect": [
+    721,
+    952,
+    160,
+    270
+   ],
+   "blur": 5
+  },
+  {
+   "part": "hand-2",
+   "role": "drawn",
+   "rect": [
+    730,
+    960,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "hand-2",
+   "role": "drawn",
+   "rect": [
+    730,
+    958,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "hand-2",
+   "role": "card",
+   "rect": [
+    730,
+    955,
+    140,
+    250
+   ],
+   "art": "mouse/cousin.jpg",
+   "text": "3 / 2"
+  },
+  {
+   "part": "hand-3",
+   "role": "shadow",
+   "rect": [
+    881,
+    952,
+    160,
+    270
+   ],
+   "blur": 5
+  },
+  {
+   "part": "hand-3",
+   "role": "drawn",
+   "rect": [
+    890,
+    960,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "hand-3",
+   "role": "drawn",
+   "rect": [
+    890,
+    958,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "hand-3",
+   "role": "card",
+   "rect": [
+    890,
+    955,
+    140,
+    250
+   ],
+   "art": "shared/weasel.jpg",
+   "text": "4 / 3"
+  },
+  {
+   "part": "hand-4",
+   "role": "shadow",
+   "rect": [
+    1041,
+    952,
+    160,
+    270
+   ],
+   "blur": 5
+  },
+  {
+   "part": "hand-4",
+   "role": "drawn",
+   "rect": [
+    1050,
+    960,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "hand-4",
+   "role": "drawn",
+   "rect": [
+    1050,
+    958,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "hand-4",
+   "role": "card",
+   "rect": [
+    1050,
+    955,
+    140,
+    250
+   ],
+   "art": "badger/brock-cub.jpg",
+   "text": "3 / 4"
+  },
+  {
+   "part": "hand-5",
+   "role": "shadow",
+   "rect": [
+    1201,
+    952,
+    160,
+    270
+   ],
+   "blur": 5
+  },
+  {
+   "part": "hand-5",
+   "role": "drawn",
+   "rect": [
+    1210,
+    960,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "hand-5",
+   "role": "drawn",
+   "rect": [
+    1210,
+    958,
+    140,
+    250
+   ]
+  },
+  {
+   "part": "hand-5",
+   "role": "card",
+   "rect": [
+    1210,
+    955,
+    140,
+    250
+   ],
+   "art": "locust/gleaner.jpg",
+   "text": "2 / 2"
+  },
+  {
+   "part": "hanger",
+   "role": "piece",
+   "rect": [
+    318.7,
+    2,
+    36,
+    104
+   ],
+   "piece": "l1z-hanger.png"
+  },
+  {
+   "part": "hanger",
+   "role": "piece",
+   "rect": [
+    318.7,
+    104,
+    36,
+    156
+   ],
+   "piece": "l1z-hanger.png"
+  },
+  {
+   "part": "spell-0",
+   "role": "light",
+   "rect": [
+    233,
+    -4,
+    216,
+    216
+   ],
+   "blur": 20
+  },
+  {
+   "part": "spell-0",
+   "role": "light",
+   "rect": [
+    264,
+    27,
+    154,
+    154
+   ],
+   "blur": 7
+  },
+  {
+   "part": "spell-0",
+   "role": "spell disc",
+   "rect": [
+    283,
+    46,
+    116,
+    116
+   ],
+   "art": "art/spell-forage.jpg"
+  },
+  {
+   "part": "spell-0",
+   "role": "piece",
+   "rect": [
+    360.1,
+    123.1,
+    44,
+    44
+   ],
+   "piece": "l1p-coin.png",
+   "text": "1"
+  },
+  {
+   "part": "spell-1",
+   "role": "light",
+   "rect": [
+    233,
+    152,
+    216,
+    216
+   ],
+   "blur": 20
+  },
+  {
+   "part": "spell-1",
+   "role": "light",
+   "rect": [
+    264,
+    183,
+    154,
+    154
+   ],
+   "blur": 7
+  },
+  {
+   "part": "spell-1",
+   "role": "spell disc",
+   "rect": [
+    283,
+    202,
+    116,
+    116
+   ],
+   "art": "art/spell-sharpen.jpg"
+  },
+  {
+   "part": "spell-1",
+   "role": "piece",
+   "rect": [
+    360.1,
+    279.1,
+    44,
+    44
+   ],
+   "piece": "l1p-coin.png",
+   "text": "5"
+  },
+  {
+   "part": "tablet",
+   "role": "piece",
+   "rect": [
+    1501,
+    8,
+    161,
+    326
+   ],
+   "piece": "l1z-board.png"
+  },
+  {
+   "part": "tierup",
+   "role": "piece",
+   "rect": [
+    1538,
+    24,
+    88,
+    88
+   ],
+   "piece": "l1p-roundel-slate.png"
+  },
+  {
+   "part": "tierup",
+   "role": "text",
+   "rect": [
+    1538,
+    74,
+    88,
+    26
+   ],
+   "text": "5"
+  },
+  {
+   "part": "tierup",
+   "role": "piece",
+   "rect": [
+    1590.1,
+    76.1,
+    46,
+    46
+   ],
+   "piece": "l1p-coin.png",
+   "text": "9"
+  },
+  {
+   "part": "refresh",
+   "role": "piece",
+   "rect": [
+    1538,
+    127,
+    88,
+    88
+   ],
+   "piece": "l1p-roundel-slate.png"
+  },
+  {
+   "part": "refresh",
+   "role": "piece",
+   "rect": [
+    1590.1,
+    179.1,
+    46,
+    46
+   ],
+   "piece": "l1p-coin.png",
+   "text": "1"
+  },
+  {
+   "part": "refresh",
+   "role": "drawn",
+   "rect": [
+    1523.5,
+    165.5,
+    11,
+    11
+   ]
+  },
+  {
+   "part": "refresh",
+   "role": "drawn",
+   "rect": [
+    1526.7,
+    147.4,
+    11,
+    11
+   ]
+  },
+  {
+   "part": "refresh",
+   "role": "drawn",
+   "rect": [
+    1535.9,
+    131.4,
+    11,
+    11
+   ]
+  },
+  {
+   "part": "refresh",
+   "role": "drawn",
+   "rect": [
+    1550,
+    119.6,
+    11,
+    11
+   ]
+  },
+  {
+   "part": "refresh",
+   "role": "drawn",
+   "rect": [
+    1567.3,
+    113.3,
+    11,
+    11
+   ]
+  },
+  {
+   "part": "refresh",
+   "role": "drawn",
+   "rect": [
+    1585.7,
+    113.3,
+    11,
+    11
+   ]
+  },
+  {
+   "part": "refresh",
+   "role": "drawn",
+   "rect": [
+    1603,
+    119.6,
+    11,
+    11
+   ]
+  },
+  {
+   "part": "refresh",
+   "role": "drawn",
+   "rect": [
+    1617.1,
+    131.4,
+    11,
+    11
+   ]
+  },
+  {
+   "part": "refresh",
+   "role": "drawn",
+   "rect": [
+    1626.3,
+    147.4,
+    11,
+    11
+   ]
+  },
+  {
+   "part": "refresh",
+   "role": "drawn",
+   "rect": [
+    1629.5,
+    165.5,
+    11,
+    11
+   ]
+  },
+  {
+   "part": "freeze",
+   "role": "piece",
+   "rect": [
+    1538,
+    231,
+    88,
+    88
+   ],
+   "piece": "l1p-roundel-slate.png"
+  },
+  {
+   "part": "turn",
+   "role": "piece",
+   "rect": [
+    30,
+    16,
+    184,
+    50
+   ],
+   "piece": "l1p-plate.png",
+   "text": "Turn 9"
+  },
+  {
+   "part": "scoreboard",
+   "role": "picture",
+   "rect": [
+    72,
+    82,
+    84,
+    84
+   ],
+   "art": "portraits/pipkin.jpg"
+  },
+  {
+   "part": "scoreboard",
+   "role": "text",
+   "rect": [
+    118.7,
+    130.7,
+    50,
+    50
+   ],
+   "text": "31"
+  },
+  {
+   "part": "scoreboard",
+   "role": "picture",
+   "rect": [
+    72,
+    185,
+    84,
+    84
+   ],
+   "art": "portraits/old_mother_mousewife.jpg"
+  },
+  {
+   "part": "scoreboard",
+   "role": "text",
+   "rect": [
+    118.7,
+    233.7,
+    50,
+    50
+   ],
+   "text": "28"
+  },
+  {
+   "part": "scoreboard",
+   "role": "picture",
+   "rect": [
+    72,
+    288,
+    84,
+    84
+   ],
+   "art": "portraits/dame_hoolet.jpg"
+  },
+  {
+   "part": "scoreboard",
+   "role": "text",
+   "rect": [
+    118.7,
+    336.7,
+    50,
+    50
+   ],
+   "text": "23"
+  },
+  {
+   "part": "scoreboard",
+   "role": "picture",
+   "rect": [
+    72,
+    391,
+    84,
+    84
+   ],
+   "art": "portraits/little_king_wren.jpg"
+  },
+  {
+   "part": "scoreboard",
+   "role": "text",
+   "rect": [
+    118.7,
+    439.7,
+    50,
+    50
+   ],
+   "text": "18"
+  },
+  {
+   "part": "scoreboard",
+   "role": "picture",
+   "rect": [
+    72,
+    494,
+    84,
+    84
+   ],
+   "art": "portraits/march_hare.jpg"
+  },
+  {
+   "part": "scoreboard",
+   "role": "text",
+   "rect": [
+    118.7,
+    542.7,
+    50,
+    50
+   ],
+   "text": "16"
+  },
+  {
+   "part": "scoreboard",
+   "role": "drawn",
+   "rect": [
+    168,
+    498,
+    32,
+    32
+   ]
+  },
+  {
+   "part": "scoreboard",
+   "role": "picture",
+   "rect": [
+    72,
+    597,
+    84,
+    84
+   ],
+   "art": "portraits/hob_mumblecrust.jpg"
+  },
+  {
+   "part": "scoreboard",
+   "role": "text",
+   "rect": [
+    118.7,
+    645.7,
+    50,
+    50
+   ],
+   "text": "16"
+  },
+  {
+   "part": "scoreboard",
+   "role": "picture",
+   "rect": [
+    72,
+    700,
+    84,
+    84
+   ],
+   "art": "portraits/dame_farthing.jpg"
+  },
+  {
+   "part": "scoreboard",
+   "role": "text",
+   "rect": [
+    118.7,
+    748.7,
+    50,
+    50
+   ],
+   "text": "11"
+  },
+  {
+   "part": "scoreboard",
+   "role": "picture",
+   "rect": [
+    72,
+    803,
+    84,
+    84
+   ],
+   "art": "portraits/brother_bracken.jpg"
+  },
+  {
+   "part": "hero",
+   "role": "picture",
+   "rect": [
+    22.3,
+    933.5,
+    199.8,
+    127.2
+   ],
+   "art": "portraits/dame_farthing.jpg"
+  },
+  {
+   "part": "hero",
+   "role": "piece",
+   "rect": [
+    10,
+    920,
+    224,
+    154
+   ],
+   "piece": "l1h-hero-frame.png"
+  },
+  {
+   "part": "gold",
+   "role": "piece",
+   "rect": [
+    1742,
+    34,
+    112,
+    112
+   ],
+   "piece": "l1p-coin.png",
+   "text": "4"
+  },
+  {
+   "part": "gold",
+   "role": "text",
+   "rect": [
+    1738,
+    152,
+    120,
+    34
+   ],
+   "text": "+12"
+  },
+  {
+   "part": "health",
+   "role": "text",
+   "rect": [
+    1732,
+    232,
+    132,
+    132
+   ],
+   "text": "11"
+  },
+  {
+   "part": "counter-0",
+   "role": "drawn",
+   "rect": [
+    1701,
+    398,
+    80,
+    80
+   ]
+  },
+  {
+   "part": "counter-0",
+   "role": "text",
+   "rect": [
+    1752.3,
+    449.3,
+    34,
+    34
+   ],
+   "text": "3"
+  },
+  {
+   "part": "counter-1",
+   "role": "drawn",
+   "rect": [
+    1803,
+    398,
+    80,
+    80
+   ]
+  },
+  {
+   "part": "counter-1",
+   "role": "text",
+   "rect": [
+    1854.3,
+    449.3,
+    34,
+    34
+   ],
+   "text": "2"
+  },
+  {
+   "part": "counter-2",
+   "role": "drawn",
+   "rect": [
+    1701,
+    500,
+    80,
+    80
+   ]
+  },
+  {
+   "part": "counter-2",
+   "role": "text",
+   "rect": [
+    1740.6,
+    551.3,
+    52,
+    34
+   ],
+   "text": "148"
+  },
+  {
+   "part": "counter-3",
+   "role": "drawn",
+   "rect": [
+    1803,
+    500,
+    80,
+    80
+   ]
+  },
+  {
+   "part": "counter-3",
+   "role": "text",
+   "rect": [
+    1854.3,
+    551.3,
+    34,
+    34
+   ],
+   "text": "1"
+  },
+  {
+   "part": "auras",
+   "role": "piece",
+   "rect": [
+    1736,
+    610,
+    124,
+    44
+   ],
+   "piece": "l1p-plate.png",
+   "text": "6"
+  },
+  {
+   "part": "library",
+   "role": "piece",
+   "rect": [
+    1694,
+    790,
+    62,
+    62
+   ],
+   "piece": "l1p-roundel-slate.png"
+  },
+  {
+   "part": "pastboards",
+   "role": "piece",
+   "rect": [
+    1767,
+    790,
+    62,
+    62
+   ],
+   "piece": "l1p-roundel-slate.png"
+  },
+  {
+   "part": "cog",
+   "role": "piece",
+   "rect": [
+    1840,
+    790,
+    62,
+    62
+   ],
+   "piece": "l1p-roundel-slate.png"
+  },
+  {
+   "part": "endturn",
+   "role": "piece",
+   "rect": [
+    1726,
+    894,
+    144,
+    144
+   ],
+   "piece": "l1h-end-swords.png"
+  }
+ ],
+ "hover": {
+  "about": "What changes when a hand card is pointed at: hover=2 (a unit), hover=6 (the spell). Only that card's elements.",
+  "hover=2": [
+   {
+    "part": "hand-2",
+    "role": "shadow",
+    "rect": [
+     700,
+     812,
+     212,
+     322
+    ],
+    "blur": 18
+   },
+   {
+    "part": "hand-2",
+    "role": "drawn",
+    "rect": [
+     730,
+     827,
+     140,
+     250
+    ]
+   },
+   {
+    "part": "hand-2",
+    "role": "drawn",
+    "rect": [
+     730,
+     825,
+     140,
+     250
+    ]
+   },
+   {
+    "part": "hand-2",
+    "role": "card",
+    "rect": [
+     730,
+     822,
+     140,
+     250
+    ],
+    "art": "mouse/cousin.jpg",
+    "text": "3 / 2",
+    "z": 8
+   },
+   {
+    "part": "hand-2",
+    "role": "drawn",
+    "rect": [
+     816.8,
+     952,
+     40,
+     40
+    ],
+    "z": 9
+   }
+  ],
+  "hover=6": [
+   {
+    "part": "hand-spell",
+    "role": "shadow",
+    "rect": [
+     1339,
+     890,
+     204,
+     204
+    ],
+    "blur": 16
+   },
+   {
+    "part": "hand-spell",
+    "role": "drawn",
+    "rect": [
+     1370,
+     905,
+     140,
+     140
+    ]
+   },
+   {
+    "part": "hand-spell",
+    "role": "spell disc",
+    "rect": [
+     1370,
+     900,
+     140,
+     140
+    ],
+    "art": "art/spell-sharpen.jpg",
+    "z": 8
+   }
+  ]
+ }
+}
