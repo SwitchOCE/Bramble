@@ -14,18 +14,19 @@ def obs(card, tier, stage, value, n=250, health=10):
 
 
 class FightText(unittest.TestCase):
-    def test_pointer_compares_with_the_median_two_tiers_up_in_the_same_stage(self):
-        rows = (obs("strong-3", 3, "9-12", 0.30) + obs("plain-3", 3, "9-12", 0.02)
-                + obs("a-5", 5, "9-12", 0.10) + obs("b-5", 5, "9-12", 0.12) + obs("few-5", 5, "9-12", 0.9, n=50)
+    def test_worth_a_look_is_three_spreads_above_the_middle_of_the_same_stage(self):
+        ordinary = [v for i in range(9) for v in obs(f"plain-{i}", 3, "9-12", 0.02 + 0.005 * i)]
+        rows = (ordinary + obs("strong-3", 3, "9-12", 0.30) + obs("few-5", 5, "9-12", 0.9, n=50)
                 + obs("late-5", 5, "13+", 0.50))
         table = {(r["stage"], r["card"]): r for r in fight_text.text_table(rows)}
         strong = table[("9-12", "strong-3")]
         self.assertEqual((strong["text_value"], strong["damage_change"], strong["n"]), (0.3, 2.0, 250))
-        self.assertEqual(strong["pointer"], "text fights above its tier")
-        self.assertEqual(table[("9-12", "plain-3")]["pointer"], "")
+        self.assertEqual(strong["pointer"], "worth a look")
+        self.assertGreaterEqual(strong["spreads"], 3)
+        self.assertEqual([table[("9-12", f"plain-{i}")]["pointer"] for i in range(9)], [""] * 9)
         self.assertEqual(table[("9-12", "few-5")]["status"], "too few")
         self.assertEqual(table[("9-12", "few-5")]["text_value"], "")
-        self.assertEqual(table[("9-12", "a-5")]["tier_median"], 0.11)
+        self.assertEqual(table[("13+", "late-5")]["pointer"], "")  # alone in its stage: nothing to compare with
 
     def test_interval_is_grouped_by_game(self):
         rows = [{"game": g, "v": v} for g, v in ((0, 1.0), (0, 1.0), (1, 0.0), (1, 0.0))]

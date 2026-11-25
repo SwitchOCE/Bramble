@@ -4,11 +4,21 @@ Fixed on 25 Nov 2026, before any of this session's match data was read for card 
 
 Already seen when these were written: the blue team's fight table of 18 Nov (a fresh copy of each card added to recorded boards), in which Old Brock ranks first, Sword-heir eighth and Brock Cub 93rd of 95 at rounds 7 to 9; and the league's 22 Nov final-board shares (Sword-heir 96%, Brock Cub 88%, Old Brock 51% of the Badger bot's boards).
 
+## Worth a look (every measure)
+
+The owner, 25 Nov: "there's going to be a statistically significant threshold where it's worth looking into for every measure we develop ... we might get some false positives, but we should figure out when we make a measure what exactly a threshold is where that single measure would be worth a look".
+
+- **The rule:** a card is worth a look on a measure when it sits three or more spreads from the middle card of the same table (same stage, same bot), and its own interval is clear of the middle. The spread is 1.4826 times the median distance from the middle, which is about one standard deviation and is not pulled by the outliers themselves. One measure is enough.
+- **Pick rate** has no useful spread (most cards are almost never bought), so its line is fixed: bought on nine offers in ten or more by any bot.
+- **What a look is:** the left-out-of-the-shop test for that card (about ten minutes), and a read of the card by a person or a fresh agent. The card is then either explained in a line or brought to the owner. A look is cheap, so false alarms are accepted: in a table of 60 cards about one false alarm is expected every few tables.
+- **"Over the line"** is kept for the whole-game test. Worth a look says where to look; it does not say a card is too strong.
+- Every new measure states its worth-a-look line when it is defined.
+
 Stages of the game, used everywhere: rounds 1–4, 5–8, 9–12, 13 on. Cards are compared inside one stage, never across stages.
 
 ## Bought against passed
 
-**A hint, not a measure of power** (found 25 Nov, on the first match). The typical card reads 0.12 to 0.20 places worse when bought, whatever is controlled for (a full board, board strength, Health left, how many units were bought that turn): a bot that is buying is mostly a bot that needs to. The owner, 25 Nov: it "would only be a particularly good measure of strength if the bots were perfect players ... we can still find hints in the data." So each card's number is read against the typical card's number in the same table, the table shows that typical value, and no flag is raised from this measure alone.
+**A hint, not a measure of power** (found 25 Nov, on the first match). The typical card reads 0.12 to 0.20 places worse when bought, whatever is controlled for (a full board, board strength, Health left, how many units were bought that turn): a bot that is buying is mostly a bot that needs to. The owner, 25 Nov: it "would only be a particularly good measure of strength if the bots were perfect players ... we can still find hints in the data." So each card's number is read against the typical card's number in the same table, and the table shows that typical value. Worth a look: the rule at the top of this file, in either direction.
 
 - **Data:** the live seat's `shops.jsonl.gz` and `games.jsonl` of a ghost match.
 - **One observation:** one turn of the live seat in which the card was in at least one shop view with `buyable` true.
@@ -35,7 +45,7 @@ The owner, 25 Nov: "It doesn't tell you whether it's overpowered, but it does te
 - **Number:** mean score as recorded minus mean score with the text off. Also the change in damage dealt, and the share of recorded results that change.
 - **Sample:** at most 500 observations per card per stage, picked by a hash of game, round, side and slot. Under 200, "too few". The owner's budget (25 Nov): about 20 seconds of machine time a card, and "two or three percent margin of error" is enough. The first run measures the spread; the cap is then set to the smallest number that gives about ±3 points, and written here.
 - **Interval:** 95%, grouped by game.
-- **Pointer, not a verdict:** a card is listed as "text fights above its tier" when the low end of the interval is above the median card two tiers up at that stage (for tiers 5 and 6: above the top quarter of tier 6), and also above the top quarter of its own tier. The list says where to look; it does not say a card is too strong.
+- **Worth a look:** the rule at the top of this file, inside each stage across all tiers.
 - **Cannot see:** anything outside the fight (gold, shop effects, growth over turns, what a Recruit effect already gave other units). Boards are the ones bots built, and each was built around the card. A card with no fight text reads about zero.
 
 ## Stat worth of the text
@@ -87,3 +97,4 @@ The owner called replacing a unit with a made-up plain unit "pretty unrealistic"
 - 25 Nov, before any card result was read: keyword off samples 3,000 per keyword per stage, because 500 leaves each Health third under the 200 a number needs.
 - 25 Nov, AFTER the first fight tables were read: the text-off pointer also needs a card to be above the top quarter of its own tier. Reason: in rounds 1–4 the median tier 1 text (+0.07) is worth more than the median tier 3 text (+0.05), so a tier 1 card below its own tier's median (Brock Cub) was being pointed at.
 - 25 Nov, AFTER the first table was read: bought against passed is a hint read against the typical card, and raises no flag alone. Reason and the owner's words are at the top of its section.
+- 25 Nov, AFTER the first tables were read: one worth-a-look rule for every measure (three spreads from the middle), on the owner's words quoted in its section. It replaces the text-off pointer (median two tiers up), which missed Sword-heir in rounds 1 to 8 because no tier 5 card was on a board that early.

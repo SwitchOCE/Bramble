@@ -1,8 +1,8 @@
 """Per-card and per-keyword tables from `league refight --text-off --keyword-off --overrun-swings`.
 
 Definitions: docs/workstreams/card-power/definitions.md. The text-off number is how much of a
-unit's fight power is in its own text. It is not the card's power, and this script raises no flag
-from it: `pointer` only says where to look.
+unit's fight power is in its own text. It is not the card's power: `pointer` marks a card as
+worth a look, never as too strong.
 
 usage: fight_text.py <refight modes dir> --out <dir>
 Writes text_cards.csv, keywords.csv and overrun_swings.csv into --out.
@@ -17,6 +17,7 @@ from pathlib import Path
 
 STAGES = ("1-4", "5-8", "9-12", "13+")
 MIN_OBSERVATIONS = 200
+LOOK_SPREADS = 3.0
 
 
 def read(path):
@@ -24,6 +25,12 @@ def read(path):
         return []
     with open(path) as stream:
         return [json.loads(line) for line in stream if line.strip()]
+
+
+def middle_and_spread(values):
+    """The median, and 1.4826 x the median distance from it (about one standard deviation)."""
+    middle = statistics.median(values)
+    return middle, 1.4826 * statistics.median(abs(v - middle) for v in values)
 
 
 def clustered(rows, value):
@@ -62,22 +69,22 @@ def text_table(rows):
                     "text_value": fmt(value) if enough else "", "low": fmt(low) if enough else "",
                     "high": fmt(high) if enough else "", "damage_change": fmt(dealt, 2) if enough else "",
                     "results_changed": fmt(statistics.fmean(r["result_changed"] for r in obs)) if enough else "",
-                    "tier_median": "", "pointer": ""})
-    # Compare inside one stage: the median card of each tier, then the pointer.
+                    "tier_median": "", "spreads": "", "pointer": ""})
+    # Compare inside one stage. Worth a look: three or more spreads above the middle card of the
+    # stage (spread = 1.4826 x the median distance from the middle), with the interval clear of it.
     for stage in STAGES:
         here = [r for r in out if r["stage"] == stage and r["status"] == "ok"]
+        if not here:
+            continue
+        middle, spread = middle_and_spread([r["text_value"] for r in here])
         by_tier = defaultdict(list)
         for r in here:
             by_tier[r["tier"]].append(r["text_value"])
-        median = {tier: statistics.median(values) for tier, values in by_tier.items()}
-        top6 = statistics.quantiles(by_tier[6], n=4)[2] if len(by_tier.get(6, [])) >= 4 else None
         for r in here:
-            tier = r["tier"]
-            r["tier_median"] = fmt(median[tier])
-            bar = top6 if tier >= 5 else median.get(tier + 2)
-            own = statistics.quantiles(by_tier[tier], n=4)[2] if len(by_tier[tier]) >= 4 else median[tier]
-            if bar is not None and r["low"] != "" and r["low"] > max(bar, own):
-                r["pointer"] = "text fights above its tier"
+            r["tier_median"] = fmt(statistics.median(by_tier[r["tier"]]))
+            r["spreads"] = fmt((r["text_value"] - middle) / spread, 1) if spread else ""
+            if spread and r["spreads"] >= LOOK_SPREADS and r["low"] != "" and r["low"] > middle:
+                r["pointer"] = "worth a look"
     return out
 
 
