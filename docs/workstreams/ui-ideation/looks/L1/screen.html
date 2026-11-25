@@ -910,7 +910,14 @@ function polish() {
       const y = rowY + i * rowH;
       const ring = i === 6 ? "#e8d49a" : i === 4 ? "#c4553c" : "#4d5356";
       portrait(px, y, pd, nme, ring, i === 7);
-      if (i < 7) healthGem(...lowerRight(px, y, pd, 44), 44, hp8[i]);
+      // health on the scoreboard: a small heart at the portrait's lower right (owner, 25 Nov, L47); sb=gem is the earlier red circle
+      if (i < 7) {
+        if (ZONES && Q.get("sb") !== "gem") {
+          const hd = 50, [hx, hy] = lowerRight(px, y, pd, hd);
+          const hb = el("", hx, hy + 2, hd, hd, scr, `display:grid;place-items:center;font-weight:700;font-size:21px;color:#fff4ea;text-shadow:0 1px 2px #5a120a, 0 0 3px #5a120a;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.7))`);
+          hb.innerHTML = `<div class="abs" style="inset:0;background:url('${PIECES}l1h-heart.png') center/contain no-repeat"></div><span style="position:relative;top:-0.08em">${hp8[i]}</span>`;
+        } else healthGem(...lowerRight(px, y, pd, 44), 44, hp8[i]);
+      }
       if (i === 4) el("", px + pd + 12, y + 4, 32, 32, scr, "").innerHTML =
         `<svg viewBox="0 0 24 24"><g stroke="#e0866e" stroke-width="2.2" stroke-linecap="round" fill="none"><path d="M5 4l12 12M19 4L7 16"/><path d="M14 18l4-4M10 18l-4-4"/><path d="M17.5 17.5l2 2M6.5 17.5l-2 2"/></g></svg>`;
     });

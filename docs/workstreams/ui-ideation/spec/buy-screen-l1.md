@@ -332,9 +332,9 @@ The shop's buttons on its right (O, L13; L23), on a slate tablet (M), on its cen
 |---|---|---|---|
 | Turn | (30, 16, 184, 50) | `l1p-plate.png`; "Turn 9", 24 px, #efe6d0, letter-spacing 0.02 em; shadow (0, 3, blur 4, rgba(0,0,0,0.6)) | M |
 | Scoreboard rows | portrait 84 at (72, 82 + 103 i), i = 0 to 7 | the player's portrait, round; 4 px #15191a ring, then a 3 px ring: #4d5356 normal, **#e8d49a you**, **#c4553c your next opponent** | O (L14, L19, L23), M |
-| Health on each | 44 circle, its centre on the portrait's rim at the lower right: (121.7, 131.7 + 103 i) | red glass: radial at 40%, 32%: #f7a596, #c2402f at 58%, #7c1f16; 3 px #15191a ring, 1 px #6a6f70; numeral 22 px #fff4ea | O (L26) |
+| Health on each | a heart 50 x 50, its centre on the portrait's rim at the lower right and 2 px down: top-left (96.7, 138.7 + 103 i) | `l1h-heart.png` (the same piece as your own health), drawn to fit; numeral 21 px #fff4ea with a dark red shadow, its centre 2 px above the heart's | O (L26, L47: "I would like the circles on the portraits changed to heart symbols") |
 | Next opponent mark | crossed swords, 32 px, at (portrait x + 96, portrait y + 4) | line icon, #e0866e, stroke 2.2 | M (plan choice 5) |
-| Knocked out | the portrait greyscale at brightness 0.45; no health circle | | M |
+| Knocked out | the portrait greyscale at brightness 0.45; no health heart | | M |
 | Your hero | frame (10, 920, 224, 154): `l1h-hero-frame.png` | its top level with the hand ledge (O, L31) | O (L31), M |
 | Hero portrait | in the frame's opening: (22.3, 933.5, 199.8, 127.2) (the opening is 5.5% in from the left, 8.8% from the top, 89.2% wide, 82.6% tall) | the portrait covers the opening, focused at 50% across, 28% down; corners 4; a faint inner light line (2 px, rgba(255,236,190,0.25)) and shade at the foot (rgba(0,0,0,0.35), 18 px up, blur 22) | M |
 | Hero pressed | drops 2 px (polish.md, not drawn) | | M (text only) |
@@ -437,10 +437,10 @@ Until the owner decides, each keeps today's look and behaviour, as close to its 
 1. **Frozen shop.** Today: frost over each shop card (`GlassParts.add_frost`) and on the freeze button. Not drawn.
 2. **An empty arch** after a buy (the state's `null` place), and an empty spell place. Lit or dark, coin or not: not drawn. **Pick (P, orchestrator, 25 Nov): an empty arch stays dark, with no tier light and no coin; an empty spell place shows the bare chain.**
 3. **Tier up at level 6.** The state then has no `upgrade_cost` and today the button goes. What the tablet's top place shows: not drawn. **Pick (P): the button stays, shows 6 and carries no coin; all six lanterns are lit.**
-4. **Ask: the tier-up discount.** Today "−n next turn" under the button (`TierUpDrop`). Row 47 (18 Nov): "shown as a discount, with the market-stall icon". L37 dropped the struck old price and nothing replaced it.
+4. **Settled (L47): the tier-up discount shows only when the button is pointed at** (in its hover tip: today's "−n next turn" words). Nothing marks it on the tablet.
 5. **Settled: the tier-up icon** is the owner-selected market-stall icon (row 47), as the game draws it today. The mock-up's chevron was a stand-in and is gone.
 6. **The refresh beads after the first price step.** Ten beads are drawn for the first step (10 paid refreshes, `GameConfig.refresh_first_step_after`). Later steps give 5 (`refresh_step_length`): show five beads on the same arc (P). A free refresh (cost 0) and a refresh cost of two digits are not drawn.
-7. **Ask: can't afford.** Row 27: "Cards you can't afford grey out". The mock-up greys only the coin (look.md: "The art is untouched"). Every price above your gold, on a card, a spell or a button, is a pewter coin (M).
+7. **Settled (L47): can't afford greys only the coin.** Every price above your gold, on a card, a spell or a button, is a pewter coin; the art is untouched. This replaces row 27.
 8. **A button whose action isn't legal** (freeze limit reached, no gold to refresh and so on). Today it is dimmed (`RecruitScreen.SHORT_DIM`). Not drawn.
 9. **Two-digit costs** on tier up (12 to 26 before discounts). Not drawn.
 10. **A shop card pointed at or carried away from its arch.** Not drawn.
@@ -471,7 +471,7 @@ Until the owner decides, each keeps today's look and behaviour, as close to its 
 23. **Counters: none, and one to three.** Where they sit and what the plate shows with none.
 24. **Each counter's medallion colour and icon.** The game's display table names only an emblem picture (`icon`, `assets/glass/ui/tr-<icon>.png`). Where the glass colour and line icon come from: not designed.
 25. **What the auras plate counts,** and the panel it opens (out of scope; today's Compost panel stands in).
-26. **Ask: place numerals and the hero's name.** Both are drawn today; the mock-up has neither.
+26. **Settled (L47): no place numerals and no hero names on the scoreboard.** The order shows the place; the name is on today's player hover card.
 27. **Gold of two or three digits** in the 112 coin, and **health of three digits** in the heart. Not drawn.
 28. **End turn's states** (E1): the art director's words only. "Nothing left to do" has no flag in the state; reading it from `legal_actions` (no buy, refresh or upgrade listed) is a proposal (P).
 29. **What pressing your hero does** while hero powers are off (today it toggles the leaderboard, which is now always shown). **Pick (P): nothing yet; it shows the pressed state only.**
