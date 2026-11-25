@@ -873,19 +873,21 @@ function polish() {
       el("", tabX, tabY, tabW, tabH, scr, `background:url("${PIECES}l1z-board.png") center/100% 100% no-repeat;filter:drop-shadow(0 4px 5px rgba(0,0,0,0.6))`);
     }
     PART = "tierup";
-    const tu = roundel(bx0, by(0), BD); tu.innerHTML = ICON.up.replace("<svg", "<svg width='40' height='40' style='margin-top:-10px'");
+    const STALL = `<svg width='40' height='40' style='margin-top:-12px' viewBox="0 0 24 24" fill="none" stroke="#fbf3dc" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h12l-1.5-4h-9z"/><path d="M3 9a2 2 0 0 0 4 0a2 2 0 0 0 4 0a2 2 0 0 0 4 0"/><path d="M4.5 11v8M13.5 11v8M3 19h12"/><path d="M20.5 19V7M18 9.5l2.5-2.5 2.5 2.5"/></svg>`;
+    // the tier-up icon is the market stall the owner chose on 18 Nov (row 47); up=chevron is the earlier stand-in
+    const tu = roundel(bx0, by(0), BD); tu.innerHTML = Q.get("up") === "chevron" ? ICON.up.replace("<svg", "<svg width='40' height='40' style='margin-top:-10px'") : STALL;
     el("", bx0, by(0) + 50, BD, 26, scr, "text-align:center;font-weight:700;font-size:22px;color:#fbf3dc;text-shadow:0 1px 3px #0b1a2a").textContent = LEVEL;
-    coin(...lowerRight(bx0, by(0), BD, CD), CD, 9);
+    coin(...lowerRight(bx0, by(0), BD, CD), CD, 9, { pewter: GOLD < 9 });
     if (!ZONES) note(bx0 + BD - 6, by(0) - 2, "10", true);   // the price before the discount: dropped with the tablet, the coin is the price
     PART = "refresh";
     const rf = roundel(bx0, by(1), BD); rf.innerHTML = ICON.refresh.replace("<svg", "<svg width='42' height='42'");
-    coin(...lowerRight(bx0, by(1), BD, CD), CD, 1);
+    coin(...lowerRight(bx0, by(1), BD, CD), CD, 1, { pewter: GOLD < 1 });
     // refreshes left at this price (brief 37; owner 25 Nov: no text, and centred on the big circle).
     // refresh=pips (default): a bead for each one round the button's rim, lit while it is left; refresh=top: the number on a
     // slate badge at twelve o'clock; refresh=diamond: the first try, a slate diamond at the upper right.
-    { const RF = Q.get("refresh") || "pips", cx = bx0 + BD / 2, cy = by(1) + BD / 2, LEFT = 7, OF = 8;
+    { const RF = Q.get("refresh") || "pips", cx = bx0 + BD / 2, cy = by(1) + BD / 2, LEFT = 7, OF = 10;   // the rules give ten refreshes at the first price
       if (RF === "pips") {
-        const r = BD / 2 + 9, bd = 11, a0 = 195, a1 = 345;   // an arc over the top, centred on the button, clear of the coin
+        const r = BD / 2 + 9, bd = 11, a0 = 180, a1 = 360;   // the upper half of the rim, centred on the button, clear of the coin
         for (let i = 0; i < OF; i++) {
           const a = (a0 + (a1 - a0) * i / (OF - 1)) * Math.PI / 180, on = i < LEFT;
           el("", cx + r * Math.cos(a) - bd / 2, cy + r * Math.sin(a) - bd / 2, bd, bd, scr, `border-radius:50%;background:${on
