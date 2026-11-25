@@ -1,6 +1,6 @@
 # Plan: getting the UI rework and the fight animation into `dev` and `main`
 
-Merge coordinator, 25 Nov 2026. Proposal; nothing in it is approved yet.
+Merge coordinator, 25 Nov 2026. Approved by the owner on 25 Nov (dictated): "You have my yes on decision one. I agree with the plan that both go into dev first. And yeah, I agree that we merge dev [into] main after I've played the dev build. So yeah, I agree on both decisions." Each merge into `dev` and `main` still needs the owner's say-so when it comes.
 
 ## The owner's words (25 Nov, dictated; filler removed)
 
