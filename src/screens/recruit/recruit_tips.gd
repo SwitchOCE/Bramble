@@ -1,7 +1,7 @@
 class_name RecruitTips
 extends GlassTips
-## The recruit screen's hover detail in the left column. Discover keeps its own preview beside
-## its options, and a hand card rises in place.
+## The recruit screen's card hover follows its source. Keyword reminders have their own
+## fixed overlay above the scoreboard.
 
 const PREVIEW_FIELDS: PackedStringArray = [
 	"golden", "attack", "health", "base_attack", "base_health", "max_health"
@@ -16,6 +16,7 @@ var put_back: Control
 var _hot_rest_z: int
 var _standing_rest_z: int
 var _recruit: RecruitScreen
+var _keywords: Control
 var _preview_node: GlassCard
 var _original: Dictionary = {}
 var _original_marks: Array[KeywordMark] = []
@@ -24,8 +25,26 @@ var _original_marks: Array[KeywordMark] = []
 func _init(screen: GlassScreen) -> void:
 	super(screen)
 	fixed_keywords = true
+	# Wrap reminders to the column at their usual font sizes.
+	keyword_width = L1Layout.number("column.w") - L1Layout.point("left.hover").x
 	_recruit = screen as RecruitScreen
 	screen.tree_exiting.connect(_reset_golden)
+
+
+func make_tip() -> void:
+	super()
+	if is_instance_valid(_keywords) and _keywords.get_parent() == _screen._front:
+		return
+	_keywords = Control.new()
+	_keywords.name = "KeywordReminders"
+	_keywords.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_keywords.position = L1Layout.point("left.hover")
+	_keywords.z_index = tip.z_index
+	_screen._front.add_child(_keywords)
+
+
+func _keyword_parent() -> Control:
+	return _keywords
 
 
 ## The owner's choice: "Golden in place" for a hand card and a Discover option.
@@ -120,6 +139,7 @@ func _show_discount(button: Control, drop: int) -> void:
 
 func fade() -> void:
 	_recruit._waiting.close()
+	_drop_details()
 	super()
 
 
@@ -141,21 +161,7 @@ func show(target: Dictionary, at: Vector2) -> void:
 	if str(target["kind"]) in ["ability", "ability_off"]:
 		_show_ability(target)
 		return
-	if str(target["kind"]) != "hand" or _recruit.is_aiming():
-		super(target, at)
-		return
-	if hot != node or _icon_mark != null or not tip.visible:
-		clear()
-		var card: Dictionary = target["card"]
-		var text: GlassBox = GlassParts.tip_text(
-			card, GlassScreen._is_spell(card), _recruit._reminders(card), _recruit._display_table()
-		)
-		tip.add_child(text)
-	var card_node: Control = node
-	set_hot(card_node)
-	stand(card_node)
-	tip.visible = true
-	open_details(target)
+	super(target, at)
 
 
 ## The portrait's player name sits beside the scoreboard.
@@ -297,43 +303,75 @@ func _set_raised(on: bool) -> void:
 		(standing as GlassSpell).set_raised(on)
 
 
-## STAND-IN: fit the existing hover artwork and text together above the scoreboard.
+## Keep the card and its words together near their source, clear of the side columns.
 func _layout_details(target: Dictionary) -> void:
-	if str(target["kind"]) in ["discover", "waiting_preview"]:
-		super(target)
-		return
-	var column: Rect2 = L1Layout.rect("left.hover")
-	var parts: Array[Control] = []
-	for child: Node in tip.get_children():
-		if child is Control and not child.is_queued_for_deletion():
-			parts.append(child)
-	var height: float = KeywordStyle.GAP * maxi(0, parts.size() - 1)
-	for part: Control in parts:
-		height += part.size.y * minf(1.0, column.size.x / part.size.x)
-	var fit: float = minf(1.0, column.size.y / maxf(1.0, height))
-	tip.position = column.position
 	var y: float = 0.0
-	for part: Control in parts:
-		var scale_to_fit: float = fit * minf(1.0, column.size.x / part.size.x)
-		part.scale = Vector2.ONE * scale_to_fit
-		part.position = Vector2((column.size.x - part.size.x * scale_to_fit) / 2.0, y)
-		y += (part.size.y * scale_to_fit + KeywordStyle.GAP * fit)
+	for box: GlassBox in details:
+		box.position.y = y
+		y += box.size.y + KeywordStyle.GAP
+	var words: GlassBox = tip.get_node_or_null("Words")
+	if words == null:
+		return
+	var kind: String = str(target["kind"])
+	var node: Control = target["node"]
+	if kind == "hand" and not _recruit.is_aiming():
+		stand(node)
+	var card: Control = tip.get_node_or_null("Card")
+	var art: Rect2 = card.get_rect() if card != null else Rect2()
+	var source: Rect2 = _source_rect(node)
+	var preferred: Vector2 = tip.position
+	var middle: Rect2 = L1Layout.middle()
+	var gap: float = GlassPieces.number("stage.tip.gap")
+	var wall: float = L1Layout.number("room.wall.h")
+	var width: float = words.get_rect().end.x
+	if kind == "shop" and source.end.y <= wall:
+		# Below the arch and its price, so the rest of the shop stays visible.
+		preferred = Vector2(source.get_center().x - art.size.x / 2.0, wall + KeywordStyle.GAP)
+	elif kind != "discover":
+		if kind in ["ability", "ability_off"]:
+			source = _source_rect(node.get_parent() as Control)
+		preferred.x = source.end.x + gap
+		if preferred.x + width > middle.end.x - KeywordStyle.GAP:
+			preferred.x = source.position.x - gap - width
+		if kind == "hand":
+			preferred.y = source.end.y - maxf(art.end.y, words.get_rect().end.y)
+		elif kind == "board":
+			preferred.y = maxf(preferred.y, wall + KeywordStyle.GAP)
+	# The repeated words must still lie over their Discover option's text pane.
+	var column_size: Vector2 = Vector2(middle.position.x, middle.size.y)
+	var columns: Array[Rect2] = [
+		Rect2(Vector2.ZERO, column_size),
+		Rect2(Vector2(middle.end.x, 0.0), column_size),
+	]
+	var places: Array[Vector2] = KeywordLayout.arrange(
+		art, words.get_rect(), preferred, source, [], columns
+	)
+	assert(not places.is_empty(), "Recruit card detail must fit clear of its source and columns")
+	if not places.is_empty():
+		tip.position = places[0]
 
 
 func show_words(target: Dictionary, at: Vector2) -> void:
 	super(target, at)
-	_layout_details(target)
+	# Counter readouts keep their existing pane in the left column.
+	var column: Rect2 = L1Layout.rect("left.hover")
+	var words: GlassBox = last_box()
+	var fit: float = minf(1.0, minf(column.size.x / words.size.x, column.size.y / words.size.y))
+	tip.position = column.position
+	words.position = Vector2((column.size.x - words.size.x * fit) / 2.0, 0.0)
+	words.scale = Vector2.ONE * fit
 
 
-## An ability's existing name, cost and reminder take the same column as unit details.
+## An ability's name, cost and rules sit beside its card.
 func _show_ability(target: Dictionary) -> void:
 	var node: Control = target["node"]
-	if hot != node or _icon_mark != null:
+	if hot != node or _icon_mark != null or not tip.visible:
 		clear()
 		var words: Dictionary = target["card"]
 		tip.add_child(
 			GlassParts.tip_text(words, false, PackedStringArray(), _screen._display_table())
 		)
+	tip.position.y = _source_rect(node).position.y
 	tip.visible = true
 	open_details(target)
 	set_hot(node)
