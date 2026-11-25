@@ -60,6 +60,16 @@ Whole-game tests are **not usable yet**:
 
 Trace (job 1), early findings: the process flagged these cards four times (16, 18, 20, 22 Nov) and changed nothing. Details and quotes are on the first page. League findings given to the owner on 25 Nov: weak field; card knowledge kept private to teams; records deleted before any card reading; one-tribe bots can count as strong; rotate model families; the gate on card changes.
 
+## Update, 25 Nov late evening
+
+- Both worker commits are now on `balance/card-power` (cherry-picked), with the reviews' small fixes (refight defaults 2 seeds and 500; runner timeout 1200 s). 45 Rust and 68 Python tests pass. The two ask items are still unanswered by the owner, so nothing goes to `dev`.
+- New measures since the first write-up, all defined in definitions.md: one worth-a-look rule for every measure (three spreads from the middle); stat growth per turn held (`analysis/stat_growth.py`, the owner's idea; Brock Cub is the fastest-growing tier 1 from round 5, golden Cubs hold a median +58/+81 from round 13); bought against passed kept as a hint read against the typical card (it leans +0.12 to +0.27 against buying whatever is controlled for).
+- The stronger field is made: `/data/card-power/ref-field` (12,000 runs). Baseline on it: `matches/r1` (2,000 games, seeds `seeds-r1.txt`, secret `secret-r1.txt`): red-c14 averages 3.86, blue-c17 4.71, places spread over 1 to 8. So the field is strong enough.
+- Running: left out of the shop on r1 for sword-heir, old-brock, brock-cub and a never-bought control (needle-sister), into `matches/r1-without`; results to `findings/r1/left_out.csv`. Log `matches/r1-without.log`.
+- Known rough edge: stat growth's same-tier line over-marks tiers 4 to 6, where most cards do not grow at all and the spread is tiny. A floor (say three stats a turn) would fix it.
+- The planted-strong-card check cannot be run against a recorded field as planned, if changing a card changes the rules hash (to verify). Substitute to propose: leave out a whole set the bot depends on (every Badger unit for blue-c17) and confirm it finishes far worse.
+- Still to do from the earlier list: fight tests on r1's boards; stat worth of the text; full report page; process and league proposals; trace.md; one-command report; scope review of the session's own commits; PR; clean-up.
+
 ## Next steps, in order
 
 1. When `ref-field` finishes: play a 2,000-game baseline on it with the tree's binary (records are forced on; delete them after), and check each bot's average place is near 4. If it is under 3.5, say so.
