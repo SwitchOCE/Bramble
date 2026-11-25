@@ -21,21 +21,17 @@ func _draw() -> void:
 		if not discs.has(stat):
 			continue
 		var shown: Dictionary = discs[stat]
-		var disc: Vector3 = GlassPieces.disc(tier, stat)
+		var disc: Vector3 = GlassCard.stat_disc(stat)
 		var grown: float = GlassPieces.as_float(shown["scale"])
-		var centre: Vector2 = Vector2(disc.x, disc.y) * _k()
-		draw_set_transform(centre * (1.0 - grown), 0.0, Vector2(grown, grown))
-		_draw_stat_setting(disc, stat == "health")
-		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
-		_draw_number(GlassPieces.as_int(shown["value"]), disc, false, grown, true)
+		_draw_stat(GlassPieces.as_int(shown["value"]), disc, false, grown, true)
 
 
 ## A disc's centre on the card, in the card's own pixels.
 func disc_centre(stat: String) -> Vector2:
-	var disc: Vector3 = GlassPieces.disc(tier, stat)
+	var disc: Vector3 = GlassCard.stat_disc(stat)
 	return Vector2(disc.x, disc.y) * _k()
 
 
 ## A disc's radius at rest, in the card's own pixels.
 func disc_radius(stat: String) -> float:
-	return GlassPieces.disc(tier, stat).z * _k()
+	return GlassCard.stat_disc(stat).z * _k()

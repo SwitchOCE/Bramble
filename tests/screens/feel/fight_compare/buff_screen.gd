@@ -167,9 +167,7 @@ func _disc_over(key: String, card: GlassCard) -> BuffDisc:
 	if over == null:
 		over = BuffDisc.new()
 		over.name = "BuffDisc_%s" % key
-		over.tier = card.tier
 		over.card_height = card.card_height
-		over.distinct_stats = card.distinct_stats
 		_front.add_child(over)
 		# under the tags
 		_front.move_child(over, _pieces.get_index())
@@ -309,12 +307,12 @@ func _disc_xy(card: GlassCard, stat: String) -> Vector2:
 
 
 static func _disc_local(card: GlassCard, stat: String) -> Vector2:
-	var disc: Vector3 = GlassPieces.disc(card.tier, stat)
-	return Vector2(disc.x, disc.y) * card.card_height / GlassPieces.card_units().y
+	var disc: Vector3 = GlassCard.stat_disc(stat)
+	return Vector2(disc.x, disc.y) * card.card_height / L1Layout.number("card.h")
 
 
 static func _disc_r(card: GlassCard, stat: String) -> float:
-	return GlassPieces.disc(card.tier, stat).z * card.card_height / GlassPieces.card_units().y
+	return GlassCard.stat_disc(stat).z * card.card_height / L1Layout.number("card.h")
 
 
 ## Where a stat's tag pins: TAG_ABOVE above the top of its disc at rest.
