@@ -21,7 +21,11 @@ extends RefCounted
 ##   and rule 7's speed-up (past 120 frames of queue, x1 to x1.5);
 ##   the turn (CB9 aim_lean): every attacker turns toward its target by FightMotion.TURN_AIM of
 ##   the path's angle, with the TURN_LEAN in-plane lean the same way, no tip (the owner, 24 Nov:
-##   "Every animation, I want to have the rotation included"; 25 Nov: the 4 degree lean).
+##   "Every animation, I want to have the rotation included"; 25 Nov: the 4 degree lean), and
+##   every jab turns the same way over its few frames.
+## Beyond the fixture's `best`, from best.md: Start of Combat plays as a queue after the rest;
+## an attacker whose target died before the hit settles back unstruck (8 f); pilers jab 5 f
+## apart, the target's burst re-popping with the total.
 ## Frames are 1/60 s of game time at playback speed 1; frame 0 is the boards at rest. Every
 ## motion is a function of the frame (pose), so a card node the keeper rebuilds keeps its motion,
 ## and any frame rate shows the same moments.
@@ -30,8 +34,7 @@ extends RefCounted
 ## _run_queue's "death" item), a single death's look (CB13 c: FightMotion's fall), stat gains
 ## flying to their stat (CB14 c: _item's buff beats), the winner's portrait striking (CB12 b:
 ## after the result in _make_steps), and the late-fight speed-ups (FAST: speed_at; GROUP:
-## _run_queue's beats). Start of Combat effects show at frame 0, as in the fixture (best.md
-## wants them as beats after the rest). No one has watched this move.
+## _run_queue's beats). No one has watched this move.
 
 ## One card height on the 1920 x 1080 stage.
 const H: float = 250.0
@@ -97,6 +100,10 @@ const JAB_TO: int = 10
 const JAB_PX: float = 20.0
 const JAB_SETTLE: int = 8
 const HOLD_PAST: int = 8
+## Pile-ons in the hold: each piler jabs this many frames after the one before (best.md).
+const PILE_GAP: int = 5
+## An attacker whose target died before the hit settles back unstruck over these frames.
+const SETTLE: int = 8
 const LAUNCH_PAST: int = 4
 const EFFECT_KILL: int = 20
 const FALL: int = 15
@@ -106,6 +113,8 @@ const DROP_LAND: int = 9
 const DROP_PX: float = 37.5
 const END_AFTER: int = 24
 const END_HOLD: int = 90
+## _exchange_at: the attack's target died before the hit.
+const UNSTRUCK: int = -2
 ## Glows that last until the card leaves (an attacker killed before it strikes).
 const FOREVER: int = 1 << 20
 ## The order of a frame's sound cues.
@@ -177,13 +186,8 @@ func build(events: Array, views: Array, place: Callable) -> void:
 			attack_at.append(i)
 		elif kind == "combat_end":
 			end_at = i
-	# Start of Combat effects show at frame 0, so their trigger sounds there, once
 	var first_attack: int = attack_at[0] if not attack_at.is_empty() else end_at
-	for i: int in first_attack:
-		if _kind(i) == "trigger":
-			_cue(0, "trigger", {})
-			break
-	var last: Dictionary = {}
+	var last: Dictionary = _start_of_combat(first_attack)
 	for k: int in attack_at.size():
 		var to: int = attack_at[k + 1] if k + 1 < attack_at.size() else end_at
 		last = _attack(attack_at[k], to, last)
@@ -198,6 +202,24 @@ func build(events: Array, views: Array, place: Callable) -> void:
 		)
 	_make_steps(result_frame)
 	_make_cues()
+
+
+## Start of Combat: what the log holds before the first attack plays after the REST as a queue
+## (beats, deaths, arrivals; rules 3 to 5), and the first attacker lifts as after any queue (CB6).
+## Returns the "last attack" the first one follows, {} when there is nothing to play.
+func _start_of_combat(first_attack: int) -> Dictionary:
+	var items: Array[Dictionary] = _items(1, first_attack)
+	if items.is_empty():
+		return {}
+	_attacker = ""
+	_commit = false
+	_tempo_on = false
+	var first_pass: int = _run_queue(items, REST, REST, REST)
+	_tempo_on = first_pass - REST > SPEEDUP_OVER
+	_commit = true
+	var queue_end: int = _run_queue(items, REST, REST, REST)
+	# CB6 from a moment with no contact: lift LIFT_LEAD before the queue ends, never before REST
+	return {"release": REST - LIFT_AFTER, "queue_end": queue_end, "knocked": []}
 
 
 ## How many schedule frames one frame of game time moves at schedule frame t: 1 throughout. The
@@ -229,7 +251,7 @@ func pose(key: String, n: float) -> Dictionary:
 				if up > lifted:
 					lifted = up
 					lift_way = seg["lift"]
-				part = {"offset": _jab_offset(seg, n)}
+				part = {"offset": _jab_offset(seg, n), "turn": _jab_turn(seg, n)}
 			"light":
 				var tint: Color = _light(seg, n)
 				light = Color(
@@ -259,8 +281,8 @@ func glowing(n: float) -> Dictionary:
 
 func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 	var event: Dictionary = _events[at]
-	var uid: int = _i(event.get("uid", _uid_at(at, "side", "slot")))
-	var target: int = _i(event.get("target_uid", _uid_at(at, "target_side", "target_slot")))
+	var uid: int = _i(event.get("uid", -1))
+	var target: int = _i(event.get("target_uid", -1))
 	_attacker = _key(uid)
 	var from_xy: Vector2 = _home(uid)
 	var line: Vector2 = _home(target) - from_xy
@@ -275,6 +297,10 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 	_pair = Vector2i(uid, target)
 	var items: Array[Dictionary] = _items(at + 1, to)
 	var hit: int = _exchange_at(items, uid)
+	# the defender died before the hit: the exchange is skipped and the attacker settles back
+	var settles: bool = hit == UNSTRUCK
+	if settles:
+		hit = -1
 	var before: Array[Dictionary] = []
 	var after: Array[Dictionary] = []
 	if hit >= 0:
@@ -291,9 +317,23 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 	# CB4 hold: what plays before the hit plays while the attacker is raised
 	var t: int = maxi(hold0, queue_was)
 	var last_land: int = -1
+	# pilers jab PILE_GAP apart, the target's burst re-popping with the total (best.md's hold)
+	var pile_at: int = -1
+	_totals = {}
 	for item: Dictionary in before:
-		var done: Dictionary = _item(item, t, 1.0)
-		t = _i(done["next"])
+		var pile: bool = _is_pile_on(item)
+		var chained: bool = pile_at >= 0 and (pile or str(item["kind"]) == "rider")
+		var start: int = t
+		if chained:
+			start = pile_at + PILE_GAP if pile else pile_at
+		elif not pile:
+			pile_at = -1
+		_total_on = pile
+		var done: Dictionary = _item(item, start, 1.0)
+		_total_on = false
+		if pile:
+			pile_at = start
+		t = maxi(t, _i(done["next"])) if pile or chained else _i(done["next"])
 		last_land = maxi(last_land, _i(done["land"]))
 	var hold_need: int = HOLD_LEAST
 	if last_land >= 0:
@@ -306,6 +346,8 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 		release = contact
 	else:
 		launch = -1
+		if settles:
+			release = maxi(last_land, hold0)
 	var stop: Vector2 = line - way * _stop_gap(d) * H
 	# the point facing the target leads: the top edge when the target is above, else the bottom
 	var lead: float = -1.0 if way.y > 0.0 else 1.0
@@ -314,26 +356,26 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 	var aim_ramp: int = maxi(1, LIFT + HOLD_LEAST + strike - AIM_FULL_BEFORE)
 	# the lean tips the leading point toward the target, the same way as the turn
 	var lean: float = FightMotion.TURN_LEAN * way.x * lead
-	_add(
-		_attacker,
-		{
-			"kind": "attack",
-			"from": lift,
-			"pull": -way * PULL_PX,
-			"lean": lean,
-			"launch": launch,
-			"strike": strike,
-			"contact": contact,
-			"stop": stop,
-			"release": release,
-			"back": back,
-			"aim": aim,
-			"aim_ramp": aim_ramp,
-		}
-	)
+	var seg: Dictionary = {
+		"kind": "attack",
+		"from": lift,
+		"pull": -way * PULL_PX,
+		"lean": lean,
+		"launch": launch,
+		"strike": strike,
+		"contact": contact,
+		"stop": stop,
+		"release": release,
+		"back": back,
+		"aim": aim,
+		"aim_ramp": aim_ramp,
+		"settle": -1,
+	}
+	_add(_attacker, seg)
 	# the return moves from C+1 (no frame held at contact) and is home at C + back
 	var home_at: int = release + back if hit >= 0 else FOREVER
-	glows.append({"key": _attacker, "from": lift, "to": home_at})
+	var glow: Dictionary = {"key": _attacker, "from": lift, "to": home_at}
+	glows.append(glow)
 	var knocked: Array[String] = []
 	if hit >= 0:
 		knocked = _exchange(items[hit], release, way)
@@ -355,6 +397,16 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 	var queue_end: int = maxi(
 		_run_queue(queue, queue_from, release, kill_land), release + NUMBERS_AT
 	)
+	if settles:
+		# it settles as its target's fall ends (or at once when it was already gone)
+		var settle_at: int = maxi(release, hold0 + HOLD_LEAST)
+		for fall: Dictionary in falls:
+			if str(fall["key"]) == _key(target):
+				settle_at = _i(fall["frame"]) + _i(fall["frames"])
+		seg["settle"] = settle_at
+		home_at = settle_at + SETTLE
+		glow["to"] = home_at
+		queue_end = maxi(queue_end, home_at)
 	(
 		attacks
 		. append(
@@ -365,7 +417,7 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 				"launch": launch,
 				"contact": contact,
 				"release": release,
-				"home": home_at if hit >= 0 else -1,
+				"home": home_at if hit >= 0 or settles else -1,
 				"queue_end": queue_end,
 			}
 		)
@@ -376,7 +428,8 @@ func _attack(at: int, to: int, last: Dictionary) -> Dictionary:
 ## Which item is the exchange: the first attack damage. An attack whose hits all did nothing (a
 ## shield on each side, no damage to strike back) has none in the log; its attacker still strikes,
 ## at the first prevented hit, else straight after what plays before it, unless it dies first.
-## -1 when it never strikes (killed by Thorns before the exchange).
+## -1 when it never strikes (killed by Thorns before the exchange), UNSTRUCK when its target
+## died before the hit (best.md: the attacker settles back unstruck).
 func _exchange_at(items: Array[Dictionary], uid: int) -> int:
 	var cut: int = items.size()
 	for j: int in items.size():
@@ -385,11 +438,16 @@ func _exchange_at(items: Array[Dictionary], uid: int) -> int:
 			return j
 		if kind == "death" and cut == items.size():
 			cut = j
+	var target_dead: bool = _dead.has(_pair.y)
 	for item: Dictionary in items:
 		if str(item["kind"]) == "death":
 			for value: Variant in item["events"]:
-				if _i(_at(_events, _i(value)).get("uid", -1)) == uid:
+				var dying: int = _i(_at(_events, _i(value)).get("uid", -1))
+				if dying == uid:
 					return -1
+				target_dead = target_dead or dying == _pair.y
+	if target_dead:
+		return UNSTRUCK
 	for j: int in cut:
 		var item: Dictionary = items[j]
 		var listed: Array = item["events"]
@@ -630,8 +688,15 @@ func _pulse(item: Dictionary, start: int, land: int) -> void:
 		if target != source and _where.has(target):
 			toward += _home(target)
 			count += 1
+	var aim: float = 0.0
+	var lean: float = 0.0
 	if count > 0:
-		jab = (toward / count - _home(source)).normalized() * JAB_PX
+		var way: Vector2 = (toward / count - _home(source)).normalized()
+		jab = way * JAB_PX
+		# the jab turns as a strike does (CB9 aim_lean), over the jab's few frames
+		var lead: float = -1.0 if way.y > 0.0 else 1.0
+		aim = FightMotion.TURN_AIM * rad_to_deg(Vector2(0.0, -lead).angle_to(way))
+		lean = FightMotion.TURN_LEAN * way.x * lead
 	_add(
 		key,
 		{
@@ -640,6 +705,8 @@ func _pulse(item: Dictionary, start: int, land: int) -> void:
 			"land": land,
 			"lift": up * PULSE_PX,
 			"jab": jab,
+			"aim": aim,
+			"lean": lean,
 		}
 	)
 	glows.append({"key": key, "from": start, "to": land + BEAT_GAP})
@@ -701,6 +768,16 @@ func _exchange_part(i: int) -> bool:
 	if _kind(i) == "prevented":
 		return true
 	return _kind(i) == "damage" and event.get("from_attack", false)
+
+
+## A pile-on's beat: a trigger whose effect is a `hit` on the attack's target.
+func _is_pile_on(item: Dictionary) -> bool:
+	if str(item["kind"]) != "beat":
+		return false
+	for value: Variant in item["events"]:
+		if _kind(_i(value)) == "hit":
+			return true
+	return false
 
 
 ## A trigger and the events it causes (up to the next trigger, death, attack or exchange).
@@ -867,7 +944,9 @@ func _aim_turn(seg: Dictionary, n: float) -> float:
 	var contact: int = seg["contact"]
 	var release: int = seg["release"]
 	var straight: int = unwind_frames()
-	if launch >= 0 and n > launch:
+	if launch < 0:
+		share = ramp * (1.0 - _settled(seg, n))
+	elif n > launch:
 		if n < contact:
 			var u: float = float(n - launch) / _i(seg["strike"])
 			share = ramp * lerpf(1.0, FightMotion.TURN_AT_CONTACT, u)
@@ -892,7 +971,16 @@ func _move_pose(seg: Dictionary, n: float) -> Dictionary:
 		return {}
 	var launch: int = seg["launch"]
 	if launch < 0 or n <= launch:
-		return _windup_pose(seg, n - start)
+		var pose_now: Dictionary = _windup_pose(seg, n - start)
+		var down: float = _settled(seg, n)
+		if down >= 1.0:
+			return {}
+		if down > 0.0:
+			var offset: Vector2 = pose_now["offset"]
+			pose_now["offset"] = offset * (1.0 - down)
+			pose_now["scale"] = lerpf(_f(pose_now["scale"]), 1.0, down)
+			pose_now["turn"] = _f(pose_now["turn"]) * (1.0 - down)
+		return pose_now
 	var contact: int = seg["contact"]
 	var stop: Vector2 = seg["stop"]
 	if n < contact:
@@ -906,6 +994,14 @@ func _move_pose(seg: Dictionary, n: float) -> Dictionary:
 	if n < contact + clock_step:
 		return {"offset": stop, "scale": POP}
 	return _return_pose(seg, n)
+
+
+## How far an unstruck attacker has settled back at frame n: 0 raised, 1 home.
+func _settled(seg: Dictionary, n: float) -> float:
+	var settle: int = _i(seg.get("settle", -1))
+	if settle < 0 or n <= settle:
+		return 0.0
+	return _cubic_out(minf(1.0, (n - settle) / SETTLE))
 
 
 func _windup_pose(seg: Dictionary, k: float) -> Dictionary:
@@ -973,6 +1069,34 @@ func _jab_offset(seg: Dictionary, n: float) -> Vector2:
 	if n <= land:
 		return jab * _quad_out(minf(1.0, float(k - JAB_FROM) / (JAB_TO - JAB_FROM)))
 	return jab * (1.0 - _cubic_out(minf(1.0, float(n - land) / JAB_SETTLE)))
+
+
+## A jab's turn (degrees), the strike's shape on the jab's frames: it ramps in with the pulse
+## (sine out, full at JAB_FROM) with the lean, eases to TURN_AT_CONTACT as the jab lands while
+## the lean goes, and unwinds as the jab comes back (JAB_SETTLE, smootherstep).
+func _jab_turn(seg: Dictionary, n: float) -> float:
+	var aim: float = _f(seg.get("aim", 0.0))
+	var lean: float = _f(seg.get("lean", 0.0))
+	var k: float = n - _i(seg["from"])
+	var land: float = _i(seg["land"]) - _i(seg["from"])
+	if k <= 0.0 or (is_zero_approx(aim) and is_zero_approx(lean)):
+		return 0.0
+	if k <= land:
+		var ramp: float = sin(PI / 2.0 * minf(1.0, k / JAB_FROM))
+		var u: float = clampf((k - JAB_FROM) / maxf(1.0, land - JAB_FROM), 0.0, 1.0)
+		return aim * ramp * lerpf(1.0, FightMotion.TURN_AT_CONTACT, u) + lean * ramp * (1.0 - u)
+	var back: float = minf(1.0, (k - land) / JAB_SETTLE)
+	return aim * FightMotion.TURN_AT_CONTACT * (1.0 - _smoother(back))
+
+
+## A card's jab turn at frame n, summed over its pulses (what `best` has not got).
+func jab_turn(key: String, n: float) -> float:
+	var out: float = 0.0
+	for value: Variant in segments.get(key, []):
+		var seg: Dictionary = value
+		if str(seg["kind"]) == "pulse":
+			out += _jab_turn(seg, n)
+	return out
 
 
 func _light(seg: Dictionary, n: float) -> Color:
@@ -1060,23 +1184,6 @@ func _find_places() -> void:
 		var uid: int = _i(event.get("uid", -1))
 		if uid >= 0 and not _where.has(uid) and event.has("side") and event.has("slot"):
 			_where[uid] = [_i(event["side"]), _i(event["slot"])]
-
-
-## The uid of the unit an attack event names by place (a log that leaves out its uids), from the
-## board as that event shows it; -1 for none.
-func _uid_at(at: int, side_field: String, slot_field: String) -> int:
-	var event: Dictionary = _events[at]
-	var view: Dictionary = _views[at] if at < _views.size() else {}
-	var boards: Array = view.get("boards", [])
-	var side: int = _i(event.get(side_field, -1))
-	var slot: int = _i(event.get(slot_field, -1))
-	if side < 0 or side >= boards.size():
-		return -1
-	var row: Array = boards[side]
-	if slot < 0 or slot >= row.size() or not row[slot] is Dictionary:
-		return -1
-	var unit: Dictionary = row[slot]
-	return _i(unit.get("uid", -1))
 
 
 func _home(uid: int) -> Vector2:
