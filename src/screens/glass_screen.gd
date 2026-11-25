@@ -225,7 +225,8 @@ func _want_card(
 	time: float = -1.0
 ) -> void:
 	var spell: bool = kind == "spell" or _is_spell(data)
-	var look: String = JSON.stringify([data, extra, spell, spell and kind == "hand"])
+	var disc: String = kind if spell and kind in ["hand", "spell"] else ""
+	var look: String = JSON.stringify([data, extra, spell, disc])
 	var numbers: Vector2i = Vector2i(_i(data.get("attack", 0)), _i(data.get("health", 0)))
 	var make: Callable = func() -> Control: return _make_card(kind, data, extra)
 	_keeper.want(key, str(data.get("id", "")), look, numbers, at, turn, make, time)
@@ -243,7 +244,7 @@ func _want_card(
 func _make_card(kind: String, data: Dictionary, _extra: Dictionary) -> Control:
 	var node: Control
 	if kind == "spell" or _is_spell(data):
-		node = _spell_card(data, _card_spell_size(kind), kind == "hand")
+		node = _spell_card(data, _card_spell_size(kind), kind == "hand", kind == "spell")
 	else:
 		node = _unit_card(data, _h())
 	node.name = "Card_" + str(data.get("id", ""))
@@ -428,7 +429,9 @@ func _slot_keyword_pill(card: GlassCard, keyword: String) -> void:
 	card.add_child(pill)
 
 
-func _spell_card(spell: Dictionary, spell_size: Vector2, hand_disc: bool = false) -> GlassSpell:
+func _spell_card(
+	spell: Dictionary, spell_size: Vector2, hand_disc: bool = false, shop_disc: bool = false
+) -> GlassSpell:
 	var node: GlassSpell = GlassSpell.new()
 	node.name = "Card_" + str(spell.get("id", ""))
 	node.art = GlassPieces.art(str(spell.get("art", "")))
@@ -436,6 +439,7 @@ func _spell_card(spell: Dictionary, spell_size: Vector2, hand_disc: bool = false
 	node.spell_size = spell_size
 	node.shoulder = _f(_g["SS"])
 	node.hand_disc = hand_disc
+	node.shop_disc = shop_disc
 	node.build()
 	return node
 
@@ -677,7 +681,8 @@ func _target_at(at: Vector2, cards_only: bool) -> Dictionary:
 
 func _target_contains(target: Dictionary, node: Control, at: Vector2) -> bool:
 	var local: Vector2 = _to_local_of(node, at)
-	if node is GlassSpell and (node as GlassSpell).hand_disc:
+	var spell: GlassSpell = node as GlassSpell
+	if spell != null and (spell.hand_disc or spell.shop_disc):
 		var centre: Vector2 = node.size / 2.0
 		return local.distance_squared_to(centre) <= centre.x * centre.x
 	var poly: PackedVector2Array = target["poly"]

@@ -55,3 +55,16 @@ static func stage_size() -> Vector2:
 static func middle() -> Rect2:
 	var column: float = number("column.w")
 	return Rect2(Vector2(column, 0), stage_size() - Vector2(2.0 * column, 0))
+
+
+static func shop_opening_x(i: int) -> float:
+	var opening: float = number("shop.arch.w")
+	var gap: float = number("shop.arch.gap")
+	var count: float = number("shop.arch.count")
+	var width: float = count * opening + (count - 1.0) * gap
+	return (stage_size().x - width) / 2.0 + i * (opening + gap)
+
+
+static func shop_tint(tier: int) -> Color:
+	var key: String = "shop.tint.%d." % clampi(tier, 1, GlassPieces.TIERS)
+	return Color(colour(key + "base_colour"), number(key + "strength"))

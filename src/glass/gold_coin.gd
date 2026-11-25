@@ -15,11 +15,13 @@ const PALETTES: Array[Array] = [
 ]
 
 static var _textures: Dictionary = {}
+static var _pewter: Texture2D
 
 var amount: int = -1
 var diameter: float = 44.0
 var poor: bool = false
 var candidate: int = SELECTED
+var painted: bool = false
 ## A reward coin shows what the balance is gaining.
 var show_plus: bool = false
 ## Cap-height figures, so a 0 reads as zero: an Active's cost (a 0 is common there).
@@ -35,6 +37,9 @@ func _ready() -> void:
 
 
 func _draw() -> void:
+	if painted:
+		_draw_painted()
+		return
 	draw_circle(Vector2(diameter * 0.5, diameter * 0.56), diameter * 0.47, Color(0, 0, 0, 0.5))
 	draw_texture_rect(texture(candidate, poor), Rect2(Vector2.ZERO, Vector2.ONE * diameter), false)
 	if amount < 0:
@@ -66,6 +71,55 @@ func _draw() -> void:
 		ink = SHORT_INK
 	draw_string_outline(font, at, words, HORIZONTAL_ALIGNMENT_LEFT, -1, px, 2, rim)
 	draw_string(font, at, words, HORIZONTAL_ALIGNMENT_LEFT, -1, px, ink)
+
+
+static func painted_cost(value: int, side: float, unaffordable: bool) -> GoldCoin:
+	var coin: GoldCoin = make(value, side, unaffordable)
+	coin.painted = true
+	return coin
+
+
+func _draw_painted() -> void:
+	var centre: Vector2 = Vector2.ONE * diameter / 2.0
+	var shadow: Vector2 = Vector2(0, L1Layout.number("shop.coin.shadow_y"))
+	draw_circle(centre + shadow, diameter / 2.0, Color(0, 0, 0, 0.6), true, -1.0, true)
+	draw_texture_rect(_painted_texture(poor), Rect2(Vector2.ZERO, Vector2.ONE * diameter), false)
+	var font: Font = GlassPieces.body_font(700, true)
+	var words: String = str(amount)
+	var px: int = roundi(diameter * L1Layout.number("shop.coin.font_share"))
+	var width: float = font.get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, px).x
+	var room: float = diameter * 0.65
+	if width > room:
+		px = maxi(8, floori(px * room / width))
+		width = font.get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, px).x
+	var baseline: float = centre.y + (font.get_ascent(px) - font.get_descent(px)) / 2.0
+	baseline -= diameter * L1Layout.number("shop.coin.rise")
+	var at: Vector2 = Vector2(centre.x - width / 2.0, baseline)
+	if not poor:
+		draw_string(
+			font, at + Vector2.DOWN, words, HORIZONTAL_ALIGNMENT_LEFT, -1, px, Color("ffe9a8")
+		)
+	var ink: Color = Color("1d1f20") if poor else Color("5a3606")
+	draw_string(font, at, words, HORIZONTAL_ALIGNMENT_LEFT, -1, px, ink)
+
+
+static func _painted_texture(dull: bool) -> Texture2D:
+	var gold: Texture2D = GlassPieces.texture("l1/l1p-coin.png")
+	if not dull:
+		return gold
+	if _pewter == null:
+		var image: Image = gold.get_image()
+		# All shop coins are 46 px or smaller at stage scale.
+		image.resize(128, 128, Image.INTERPOLATE_LANCZOS)
+		var brightness: float = L1Layout.number("shop.coin.poor_brightness")
+		var contrast: float = L1Layout.number("shop.coin.poor_contrast")
+		for y: int in image.get_height():
+			for x: int in image.get_width():
+				var pixel: Color = image.get_pixel(x, y)
+				var grey: float = (pixel.get_luminance() * brightness - 0.5) * contrast + 0.5
+				image.set_pixel(x, y, Color(grey, grey, grey, pixel.a))
+		_pewter = ImageTexture.create_from_image(image)
+	return _pewter
 
 
 ## `cost`: an Active's cost (cap-height figures).

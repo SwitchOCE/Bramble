@@ -82,8 +82,40 @@ func _pause_preview() -> void:
 
 
 func hover(here: Vector2) -> void:
-	if not _recruit._waiting.hover(here, self):
+	if _recruit._waiting.hover(here, self):
+		return
+	var drop: int = GlassPieces.as_int(_recruit.state.get("tier_up_drop", 0))
+	var target: Dictionary = _recruit.target_at(here, false)
+	if drop > 0 and target.get("id", "") == "tier" and not _recruit.is_discovering():
+		var button: Control = target["node"]
+		_show_discount(button, drop)
+	else:
 		super(here)
+
+
+func _show_discount(button: Control, drop: int) -> void:
+	if hot != button or not tip.visible:
+		clear()
+		var pane: GlassBox = GlassBox.new()
+		pane.name = "TierUpDrop"
+		pane.use_css("stage", "#tip .txt")
+		var words: GlassText = GlassText.from_rule("stage", "#tip .n", "−%d next turn" % drop)
+		words.name = "Value"
+		words.colour = GlassPieces.rule_colour("stage", "#tip .txt", "color")
+		words.refresh()
+		var pad: Array = GlassPieces.rule("stage", "#tip .txt", "padding")
+		words.position = Vector2(GlassPieces.as_float(pad[1]), GlassPieces.as_float(pad[0]))
+		words.position += Vector2.ONE * pane.border_width
+		pane.box_size = words.size + words.position * 2.0
+		pane.refresh()
+		pane.add_child(words)
+		tip.add_child(pane)
+		var gap: float = GlassPieces.number("stage.tip.gap")
+		tip.position = (
+			button.position + Vector2(-pane.size.x - gap, (button.size.y - pane.size.y) / 2.0)
+		)
+	set_hot(button)
+	tip.show()
 
 
 func fade() -> void:

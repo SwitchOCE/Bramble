@@ -251,17 +251,13 @@ func shop_xy(i: int) -> Vector2:
 	return RecruitShop.unit_xy(i)
 
 
-## The top left of the spell's L1 place. The current hexagonal art is contained in it.
+## The top left of the shop spell disc.
 func spell_xy(k: int) -> Vector2:
 	return L1Layout.point("shop.spell") + Vector2(0, k * L1Layout.number("shop.spell.step"))
 
 
 func _card_spell_size(kind: String) -> Vector2:
-	var original: Vector2 = _spell_size()
-	if kind != "spell":
-		return original
-	var box: Vector2 = L1Layout.rect("shop.spell").size
-	return original * minf(box.x / original.x, box.y / original.y)
+	return L1Layout.rect("shop.spell").size if kind == "spell" else super(kind)
 
 
 ## Four in front and three behind, with the back points nestled between the front cards.
@@ -409,7 +405,7 @@ func _want_shop() -> void:
 				"spell",
 				k,
 				spell,
-				spell_xy(k) + (L1Layout.rect("shop.spell").size - _card_spell_size("spell")) / 2.0,
+				spell_xy(k),
 				0.0,
 				{
 					"frost": frozen,
@@ -424,18 +420,20 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 	if kind == "waiting_pile":
 		var tint: float = _f(extra["waiting_tint"])
 		node.modulate = Color(tint, tint, tint)
-	if _b(extra.get("shop_price", false)):
-		# Unit controls size themselves in _ready; tags also need the size before entering the tree.
-		node.size = _card_spell_size(kind) if node is GlassSpell else card_box()
-		RecruitShop.dress_card(node, data, _b(extra["poor"]))
+	var shop_price: bool = _b(extra.get("shop_price", false))
+	if shop_price and node is GlassCard:
+		# A unit sizes itself in _ready.
+		node.size = card_box()
 	if _b(extra.get("frost", false)):
-		# STAND-IN: keep the existing frost, clipped to the new unit outline.
+		# STAND-IN: keep the existing frost, clipped to the offer's new outline.
 		var outline: PackedVector2Array
 		if node is GlassSpell:
-			outline = GlassBox.hexagon(Rect2(Vector2.ZERO, _card_spell_size(kind)), _f(_g["SS"]))
+			outline = GlassParts.round_poly(node.size)
 		else:
 			outline = L1CardFace.unit_outline(GlassCard.card_size(_h()))
 		GlassParts.add_frost(node, outline)
+	if shop_price:
+		RecruitShop.dress_card(node, data, _b(extra["poor"]))
 	if kind == "board" and _b(data.get("worked_this_turn", false)):
 		var side: float = maxf(KeywordStyle.CARD_MIN_SIDE, _h() * KeywordStyle.CARD_DIAMETER)
 		var mark: KeywordMark = KeywordMark.make({"name": "Worked", "words": "Worked"}, true, side)
