@@ -214,9 +214,8 @@ func _draw_stat(value: int, disc: Vector3, red: bool, pop: float, green: bool) -
 	draw_set_transform(centre, 0.0, Vector2(fit, 1.0) * pop)
 	var at: Vector2 = Vector2(-width / 2.0, baseline)
 	var colour: Color = Color("2a2118")
-	# STAND-IN: keep the existing red/green tints and dark outline on the new face.
 	if red or green:
-		colour = Color("ff9d8b") if red else Color("a6ef84")
+		colour = L1Layout.colour("card.stat.lowered_colour" if red else "card.stat.raised_colour")
 		draw_string_outline(
 			font, at, digits, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, 1, Color("120e0b")
 		)

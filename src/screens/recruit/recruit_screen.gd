@@ -215,8 +215,7 @@ func card_target_at(at: Vector2, kinds: Array) -> Dictionary:
 		var node: Control = target.get("node")
 		if node == null or not is_instance_valid(node) or node.is_queued_for_deletion():
 			continue
-		var poly: PackedVector2Array = target["poly"]
-		if Geometry2D.is_point_in_polygon(_to_local_of(node, at), poly):
+		if _target_contains(target, node, at):
 			return target
 	return {}
 

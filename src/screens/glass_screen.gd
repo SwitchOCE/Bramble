@@ -231,7 +231,6 @@ func _want_card(
 	_keeper.want(key, str(data.get("id", "")), look, numbers, at, turn, make, time)
 	var outline: PackedVector2Array
 	if spell:
-		# The hand disc keeps the same hexagonal pointer target as the old hand spell.
 		outline = GlassBox.hexagon(Rect2(Vector2.ZERO, _card_spell_size(kind)), _f(_g["SS"]))
 	else:
 		outline = L1CardFace.unit_outline(GlassCard.card_size(_h()))
@@ -671,10 +670,18 @@ func _target_at(at: Vector2, cards_only: bool) -> Dictionary:
 		var node: Control = target.get("node")
 		if node == null or not is_instance_valid(node) or not node.is_visible_in_tree():
 			continue
-		var poly: PackedVector2Array = target["poly"]
-		if Geometry2D.is_point_in_polygon(_to_local_of(node, at), poly):
+		if _target_contains(target, node, at):
 			return target
 	return {}
+
+
+func _target_contains(target: Dictionary, node: Control, at: Vector2) -> bool:
+	var local: Vector2 = _to_local_of(node, at)
+	if node is GlassSpell and (node as GlassSpell).hand_disc:
+		var centre: Vector2 = node.size / 2.0
+		return local.distance_squared_to(centre) <= centre.x * centre.x
+	var poly: PackedVector2Array = target["poly"]
+	return Geometry2D.is_point_in_polygon(local, poly)
 
 
 ## A stage point in a node's own space, through every parent up to the stage.

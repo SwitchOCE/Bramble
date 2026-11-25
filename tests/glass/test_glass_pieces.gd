@@ -80,12 +80,17 @@ func test_l1_layout_numbers_name_their_spec_sections() -> void:
 	assert_false(entries.is_empty())
 	for key: String in entries:
 		var entry: Dictionary = entries[key]
-		assert_true(entry.get("value") is float, "%s is numeric" % key)
+		if key.ends_with("_colour"):
+			assert_true(Color.html_is_valid(str(entry.get("value"))), "%s is a colour" % key)
+		else:
+			assert_true(entry.get("value") is float, "%s is numeric" % key)
 		assert_not_null(source.search(str(entry.get("from", ""))), "%s names a spec section" % key)
 
 
 func test_layout_values_match_the_l1_stat_template() -> void:
 	assert_eq(L1Layout.number("card.stat.font_px"), 20.0)
+	assert_eq(L1Layout.colour("card.stat.raised_colour"), Color("#1f6b34"))
+	assert_eq(L1Layout.colour("card.stat.lowered_colour"), Color("#b02a1c"))
 	assert_eq(L1Layout.number("card.stat.baseline_em"), 0.04)
 	assert_eq(L1Layout.number("card.stat.rim") + L1Layout.number("card.stat.outline"), 4.0)
 	assert_eq(GlassPieces.css_colour("0,0,0,.6"), Color(0, 0, 0, 0.6))

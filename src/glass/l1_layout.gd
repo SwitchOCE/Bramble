@@ -15,12 +15,25 @@ static func entries() -> Dictionary:
 	return _entries
 
 
-static func number(key: String) -> float:
+static func _value(key: String) -> Variant:
 	assert(entries().has(key), "L1 layout is missing %s" % key)
 	var entry: Dictionary = entries()[key]
 	assert(str(entry.get("from", "")).begins_with("buy-screen-l1.md §"))
-	assert(entry.get("value") is float, "L1 layout %s must be a number" % key)
-	return entry["value"]
+	return entry.get("value")
+
+
+static func number(key: String) -> float:
+	var value: Variant = _value(key)
+	assert(value is float, "L1 layout %s must be a number" % key)
+	return value
+
+
+static func colour(key: String) -> Color:
+	var value: Variant = _value(key)
+	assert(
+		value is String and Color.html_is_valid(str(value)), "L1 layout %s must be a colour" % key
+	)
+	return Color.html(str(value))
 
 
 static func point(key: String) -> Vector2:

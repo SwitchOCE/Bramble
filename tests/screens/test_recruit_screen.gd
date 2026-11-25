@@ -433,10 +433,13 @@ func test_a_hovered_hand_card_rises_and_its_words_stay_in_the_left_column() -> v
 	var card: Control = _find("Card_h2")
 	var rest: Vector2 = card.position
 	var turn: float = card.rotation
+	var rest_z: int = 3
+	card.z_index = rest_z
 	assert_gt(rest.y + card.size.y, 1080.0, "at rest a hand card is cut by the bottom")
 	_move(Vector2(rest.x + card.size.x / 2.0, 1060.0))
 	assert_almost_eq(card.position.y + card.size.y, 1072.0, 0.5, "its foot 8 px above the bottom")
 	assert_eq(card.rotation, 0.0, "unturned")
+	assert_gt(card.z_index, rest_z, "raised above its usual drawing order")
 	var tip: Control = _find("Tip")
 	assert_true(tip.visible)
 	assert_null(tip.get_node_or_null("Card"), "no enlarged copy: the words alone")
@@ -448,6 +451,26 @@ func test_a_hovered_hand_card_rises_and_its_words_stay_in_the_left_column() -> v
 	_move(Vector2(960, 300))
 	assert_eq(card.position, rest, "back to its rest")
 	assert_eq(card.rotation, turn)
+	assert_eq(card.z_index, rest_z, "back to its own drawing order")
+
+
+func test_the_hand_spell_disc_accepts_hover_and_drag_at_its_upper_left_edge() -> void:
+	var state: Dictionary = _mockup()
+	state["hand"] = [{"id": "spell", "spell": true, "art": "spell-1", "name": "Spell", "cost": 1}]
+	_make(state)
+	var spell: GlassSpell = _screen.node_for("hand", 0)
+	# This point is inside the circle and to the left of the old hexagon's sloped edge.
+	var edge: Vector2 = Vector2(26, 20)
+	var old_hex: PackedVector2Array = GlassBox.hexagon(
+		Rect2(Vector2.ZERO, spell.spell_size), spell.shoulder
+	)
+	assert_false(Geometry2D.is_point_in_polygon(edge, old_hex))
+	_move(spell.position + edge)
+	assert_same((_screen._tips as RecruitTips).standing, spell, "hover finds the disc")
+
+	watch_signals(_screen)
+	_drag(spell.position + edge, Vector2(960, 850))
+	assert_signal_emitted(_screen, "action_requested", "the disc edge starts a drag")
 
 
 func test_no_hand_card_covers_a_board_slot_at_rest() -> void:

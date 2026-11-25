@@ -13,6 +13,8 @@ var rest: Vector3 = Vector3.ZERO
 ## The card a click just put back: its detail shows while it settles.
 var put_back: Control
 
+var _hot_rest_z: int
+var _standing_rest_z: int
 var _recruit: RecruitScreen
 var _preview_node: GlassCard
 var _original: Dictionary = {}
@@ -125,6 +127,7 @@ func set_hot(node: Control) -> void:
 	var previous: Control = hot
 	if node != hot:
 		_reset_golden()
+		_hot_rest_z = node.z_index if is_instance_valid(node) else 0
 	super(node)
 	# Discover's choices belong above its veil even after the shared hover resets their z.
 	for option: Control in [previous, node]:
@@ -142,6 +145,7 @@ func stand(node: Control) -> void:
 	# a card still landing (a click puts a pressed card back) is at its place first
 	_recruit._keeper.finish(node)
 	standing = node
+	_standing_rest_z = _hot_rest_z if node == hot else node.z_index
 	rest = Vector3(node.position.x, node.position.y, node.rotation)
 	node.rotation = 0.0
 	node.z_index = int(L1Layout.number("hand.hover_z"))
@@ -156,14 +160,19 @@ func set_down() -> void:
 	if is_instance_valid(standing):
 		standing.position = Vector2(rest.x, rest.y)
 		standing.rotation = rest.z
-		_set_raised(false)
-	standing = null
+	_release_standing()
 
 
 ## The standing hand card is no longer this detail's (a press carries it from where it stands).
 func forget_standing() -> void:
 	_reset_golden()
-	_set_raised(false)
+	_release_standing()
+
+
+func _release_standing() -> void:
+	if is_instance_valid(standing):
+		standing.z_index = _standing_rest_z
+		_set_raised(false)
 	standing = null
 
 

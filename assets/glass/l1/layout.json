@@ -34,6 +34,8 @@
   "card.stat.outline": {"value": 1, "from": "buy-screen-l1.md §6"},
   "card.stat.font_px": {"value": 20, "from": "buy-screen-l1.md §6"},
   "card.stat.baseline_em": {"value": 0.04, "from": "buy-screen-l1.md §6"},
+  "card.stat.raised_colour": {"value": "#1f6b34", "from": "buy-screen-l1.md §6"},
+  "card.stat.lowered_colour": {"value": "#b02a1c", "from": "buy-screen-l1.md §6"},
   "card.edge.depth": {"value": 5, "from": "buy-screen-l1.md §6"},
   "card.edge.line": {"value": 3, "from": "buy-screen-l1.md §6"},
   "card.edge.line_alpha": {"value": 0.22, "from": "buy-screen-l1.md §6"},
