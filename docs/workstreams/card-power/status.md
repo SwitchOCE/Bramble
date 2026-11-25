@@ -42,11 +42,11 @@ Branch `balance/card-power`, pushed. Draft pull request to `dev`: https://github
 - `tools/league/card_report.sh <match dir>`: steps 1 and 2 in one command, ending in `card-report/cards.csv` (one row per card) from `analysis/card_summary.py`. 4 minutes 20 seconds on `r1`. A fresh review found no cut items; its two fixes and three questions are applied and logged in definitions.md (the three go to the owner as one line each).
 - This folder's docs and the bot versions document.
 
-Checks at last run: 45 Rust tests, 72 Python tests, clippy clean with `--no-deps`. A fresh review of the whole branch found no cut items; its fixes are applied. The owner answered the workers' two ask items "Yes to both".
+Checks at last run: 46 Rust tests, 76 Python tests, clippy clean with `--no-deps`. A fresh review of the whole branch found no cut items; its fixes are applied. The owner answered the workers' two ask items "Yes to both".
 
 **Before merge, two questions are with the owner:** keep or drop the plain refight's own statistics (`summary.tsv`; recommended keep), and whether this file goes to `dev` (recommended remove).
 
-Not built yet: stat worth of the text (definitions.md; extend text off with stat multipliers ×1.5 to ×8 and solve for the multiplier), and the add-a-fresh-copy fight test for ignored cards.
+Stat worth of the text is built (`league refight --stat-worth`, solved in `fight_text.py`, run by the card report: about 13 minutes with it on `r1`). Not yet scope-reviewed. Not built yet: the add-a-fresh-copy fight test for ignored cards.
 
 ## Data on `/data/card-power` (about 4 GB)
 
@@ -85,6 +85,8 @@ Raw matches are deleted once findings are written (storage rules: `docs/workstre
 
 **The strong field repeats the fight numbers** (`r1`, 105,198 fights; correlation with `m1` 0.97, 0.95, 0.86, 0.83 by stage). Sword-heir's text: +0.367, +0.273, +0.229, +0.151. Old Brock +0.203 from round 13, first. Squadron Leader is new: +0.197, +0.255, +0.186 from round 5, and the bots buy it on 1% to 5% of offers. Overrun: rounds 5 to 8, +0.139 against low-Health boards and +0.040 against high; from round 9, +0.071 and +0.010. A swing empties a board of three or more about 1 time in 150 (1 in 30 on the weak field). Brock Cub grows +1.8/+2.8 a turn to round 8; Territorial and Husk Sentry also grow fast for tier 1. 17 cards are marked worth a look on `r1`.
 
+**Stat worth** (`r1`): Sword-heir's text is worth ×3.6, ×5.0, ×6.7 and more than ×8 of its own stats by stage (+13/+28, +38/+63, +64/+114, +86/+158 or more). Old Brock more than ×8 from round 13. Brock Cub ×1.1 to ×1.2. Gleaner ×4.0 falling to ×2.1. Squadron Leader ×2.0 to ×3.0. Sentry ×1.0 (the check). Table on the results page.
+
 **Two tribes taken away** (`r1-no-badger-locust`, paired with `r1`): red 4.65 (0.79 worse, ±0.18), blue 5.57 (0.87 worse). Red ends on Pigeon 52% (place 4.44), Briar 36% (4.95), Mouse 12% (4.64); blue on Briar 60% (5.88), Pigeon 36% (5.01), Mouse 4%. Both bots finish better this way than with only Sword-heir left out (red by 0.32 ±0.16, blue by 0.67 ±0.14), so left out of the shop is an upper bound for a card a bot is built around. 16 cards of the other tribes are still bought on under 1 offer in 100, and red passes 8 Locust cards while playing Locusts (lists on the results page).
 
 **Called out to the owner, 25 Nov 10 p.m. (looks out of place):** the shop stays at tier 3 until about round 11 and games last a median 12 to 13 rounds. Reaching tier 4, 5, 6: red 82%, 60%, 2%; blue 51%, 43%, 38%. Tier 4 to 6 cards get little play. Not known whether tier prices or bot habits cause it.
@@ -102,7 +104,7 @@ Raw matches are deleted once findings are written (storage rules: `docs/workstre
 Done: the tribes-missing match, the full results page, the one-command report (scope-reviewed), [trace.md](trace.md), [proposals.md](proposals.md) and its page.
 
 1. Wait for the owner on: the three decisions on the proposals page; the PR's questions (keep the refight tool's `summary.tsv` statistics; remove this file before merge; confirm the three definitions the card report review asked about). Then edit the process documents listed in proposals.md for each yes, in a separate pull request, and merge PR 257.
-2. Stat worth of the text; an add-a-fresh-copy fight test (the blue team's `cardpower` does this) and a forced-in test for the refused cards; a cheaper whole-game step. Allowing records in a `--without` match would let the fight tests run on the tribes-missing boards.
+2. A scope review of the stat-worth commit. An add-a-fresh-copy fight test (the blue team's `cardpower` does this) and a forced-in test for the refused cards; a cheaper whole-game step. Allowing records in a `--without` match would let the fight tests run on the tribes-missing boards.
 3. Clean `/data/card-power` (keep `findings`, `pages`; `matches`, `ref-field`, `tree`, `target` go once nothing more is to be run); final disk report.
 4. Report the Hazel Coppicer with Blackthorn Sapling replay bug to whoever owns the fight record (37 fights on `m1`, 4 on `r1`).
 

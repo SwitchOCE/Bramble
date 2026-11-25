@@ -49,7 +49,7 @@ class CardSummary(unittest.TestCase):
                 bought("loner", 500, 0.0), {**bought("heir", 900, 0.5), "bot": "all"}])
             if with_fights:
                 text = {"card": "heir", "stage": "5-8", "status": "ok", "text_value": 0.27, "spreads": 6.1,
-                        "pointer": "worth a look"}
+                        "pointer": "worth a look", "stat_worth": 2.5}
                 write(report / "text_cards.csv", [text, {**text, "stage": "1-4", "status": "too few", "pointer": ""}])
                 write(report / "stat_growth.csv", [{"card": "heir", "stage": "5-8", "status": "ok",
                                                     "stats_per_turn": 4.0, "look": "worth a look"}])
@@ -67,6 +67,7 @@ class CardSummary(unittest.TestCase):
                                                "text (5-8); growth (5-8)")
         self.assertEqual((heir["held red-1 1-4"], heir["held red-1 5-8"], heir["held red-1 9-12"]), (1.0, 0.5, ""))
         self.assertEqual((heir["text 5-8"], heir["text 1-4"], heir["growth 5-8"]), ("0.27", "", "4.0"))
+        self.assertEqual((heir["stat worth 5-8"], heir["stat worth 1-4"]), ("2.5", ""))
         self.assertEqual((heir["bought-passed red-1"], heir["left out red-1"], heir["fight data"]), (0.4, 1.11, "yes"))
 
     def test_why_a_card_has_no_fight_data(self):

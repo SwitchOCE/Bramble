@@ -116,7 +116,7 @@ skipped or differed and writes any result differences to `verify_mismatch`.
 ### Switching one thing off (card power)
 
 ```
-league refight --match <dir> --out <dir> [--text-off] [--keyword-off <id>[,<id>...]]
+league refight --match <dir> --out <dir> [--text-off] [--stat-worth] [--keyword-off <id>[,<id>...]]
                [--overrun-swings] [--seeds 2] [--cap 500] [--threads N] [--verify]
 ```
 
@@ -137,6 +137,14 @@ start of one recorded fight. That unit keeps its stats, slot, counters and every
 it (grants, and what auras and its slot give it in the fight). Its own card's mechanics, printed
 keywords included, are removed for that fight. Because auras are worked out again in the fight,
 an aura the unit gives others goes too.
+
+**Stat worth** (`--stat-worth`, more fields in `text_off.jsonl`; implies `--text-off`). Each
+text-off observation is fought six more times with the plain unit's own Attack and Health at
+1.5, 2, 3, 4, 6 and 8 times what was recorded (rounded to nearest; "own" is printed plus what
+the unit holds itself, without auras or its slot's Renown). The row gets `own_attack`,
+`own_health` and `score_x150` to `score_x800`. `analysis/fight_text.py` finds, per card and
+stage, the multiplier at which the plain unit does as well as the card did. About three times
+the fights of text off alone.
 
 **Keyword off** (`--keyword-off`, `keyword_off.jsonl`). Takes mechanic ids from the card
 data: `badger_overrun`, `cleave`, `badger_fury`. One observation is one side that has the

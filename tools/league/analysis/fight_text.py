@@ -4,6 +4,9 @@ Definitions: docs/workstreams/card-power/definitions.md. The text-off number is 
 unit's fight power is in its own text. It is not the card's power: `pointer` marks a card as
 worth a look, never as too strong.
 
+With `league refight --stat-worth` the text table also gets the stat worth of each card's text:
+the multiplier on a plain unit's own Attack and Health at which it does as well as the card did.
+
 usage: fight_text.py <refight modes dir> --out <dir>
 Writes text_cards.csv, keywords.csv and overrun_swings.csv into --out.
 """
@@ -15,10 +18,17 @@ import statistics
 from collections import defaultdict
 from pathlib import Path
 
+import numpy as np
+
 STAGES = ("1-4", "5-8", "9-12", "13+")
 MIN_OBSERVATIONS = 200
 LOOK_SPREADS = 3.0
 LOOK_FLOOR = 0.05  # the text must turn at least 5 fights in 100, however tight the table is
+# Stat worth: the plain unit's score with its own stats at each multiplier (x1 is plain text off).
+RUNGS = (1.0, 1.5, 2.0, 3.0, 4.0, 6.0, 8.0)
+RUNG_FIELDS = ("score_off", "score_x150", "score_x200", "score_x300", "score_x400", "score_x600", "score_x800")
+BEYOND = 9.0  # stands for "more than the top rung"
+WORTH_COLUMNS = ("stat_worth", "stat_worth_low", "stat_worth_high", "adds_attack", "adds_health")
 
 
 def read(path):
@@ -57,7 +67,42 @@ def fmt(x, digits=3):
     return "" if x is None else round(x, digits)
 
 
+def solve(target, scores):
+    """The multiplier at which the plain unit's mean score reaches the card's mean score, read
+    between the two nearest rungs. 1 when plain text off already does as well; BEYOND when no
+    rung reaches it."""
+    if scores[0] >= target:
+        return RUNGS[0]
+    for i in range(1, len(RUNGS)):
+        if scores[i] >= target:
+            share = (target - scores[i - 1]) / (scores[i] - scores[i - 1])
+            return RUNGS[i - 1] + share * (RUNGS[i] - RUNGS[i - 1])
+    return BEYOND
+
+
+def stat_worth(obs, resamples=300, seed=1):
+    """Solved over the sample, not per fight; the interval resamples whole games and solves again."""
+    games = {game: i for i, game in enumerate(sorted({r["game"] for r in obs}, key=str))}
+    sums = np.zeros((len(games), 1 + len(RUNGS)))
+    counts = np.zeros(len(games))
+    for r in obs:
+        i = games[r["game"]]
+        sums[i] += [r["score_recorded"]] + [r[field] for field in RUNG_FIELDS]
+        counts[i] += 1
+    means = sums.sum(0) / counts.sum()
+    value = solve(means[0], means[1:])
+    weights = np.random.default_rng(seed).multinomial(len(games), np.full(len(games), 1 / len(games)), size=resamples)
+    again = (weights @ sums) / (weights @ counts)[:, None]
+    low, high = np.percentile([solve(row[0], row[1:]) for row in again], [2.5, 97.5])
+    show = lambda m: f">{RUNGS[-1]:g}" if m > RUNGS[-1] else round(float(m), 2)
+    adds = lambda field: (f">{(RUNGS[-1] - 1) * statistics.fmean(r[field] for r in obs):.0f}" if value > RUNGS[-1]
+                          else round((value - 1) * statistics.fmean(r[field] for r in obs), 1))
+    return {"stat_worth": show(value), "stat_worth_low": show(low), "stat_worth_high": show(high),
+            "adds_attack": adds("own_attack"), "adds_health": adds("own_health")}
+
+
 def text_table(rows):
+    with_worth = any(RUNG_FIELDS[-1] in row for row in rows)
     cells = defaultdict(list)
     for row in rows:
         cells[(row["card"], row["tier"], row["stage"])].append(row)
@@ -71,6 +116,9 @@ def text_table(rows):
                     "high": fmt(high) if enough else "", "damage_change": fmt(dealt, 2) if enough else "",
                     "results_changed": fmt(statistics.fmean(r["result_changed"] for r in obs)) if enough else "",
                     "tier_median": "", "spreads": "", "pointer": ""})
+        if with_worth:
+            measured = enough and all(RUNG_FIELDS[-1] in r for r in obs)
+            out[-1].update(stat_worth(obs) if measured else dict.fromkeys(WORTH_COLUMNS, ""))
     # Compare inside one stage. Worth a look: three or more spreads above the middle card of the
     # stage (spread = 1.4826 x the median distance from the middle), with the interval clear of it.
     for stage in STAGES:

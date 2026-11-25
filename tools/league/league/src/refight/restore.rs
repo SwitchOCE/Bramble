@@ -57,6 +57,9 @@ pub(super) struct Setup {
     pub seed: Option<i64>,
     /// Strip the own text of the unit at (pairing position, board slot): see `text_off`.
     pub text_off: Option<(usize, usize)>,
+    /// With `text_off`: that unit's own Attack and Health become this many hundredths of what
+    /// they were (stat worth): see `scale`.
+    pub scale_percent: Option<i64>,
     /// Keep the fight's event log.
     pub keep_events: bool,
 }
@@ -68,6 +71,9 @@ pub(super) struct Standing {
     pub golden: bool,
     pub tier: i64,
     pub health: i64,
+    /// Its own Attack and Health: printed plus what it holds itself, without auras or Renown.
+    pub own_attack: i64,
+    pub own_health: i64,
     /// Mechanic ids it holds: own text, given, and from an aura or its slot as recorded.
     pub mechanics: Vec<String>,
 }
@@ -114,6 +120,20 @@ fn text_off(unit: &UnitRef) {
     unit.mechanics = Array::from(given);
 }
 
+/// Stat worth: the unit's own Attack and Health (printed plus what it holds itself; not what
+/// auras or its slot's Renown add) are both multiplied by `percent` / 100, rounded to nearest.
+/// The extra goes on the permanent layer, which a fight keeps.
+fn scale(unit: &UnitRef, percent: i64) {
+    let unit = unit.borrow();
+    if let Some(stats) = &unit.stats {
+        let mut stats = stats.borrow_mut();
+        let extra = |own: i64| (own * (percent - 100) + 50).div_euclid(100);
+        let (attack, health) = (extra(stats.own_attack()), extra(stats.own_health()));
+        stats.perm_attack += attack;
+        stats.perm_health += health;
+    }
+}
+
 fn standing(board: &Array<Option<UnitRef>>, slots: &Array<SlotStateRef>) -> Vec<Standing> {
     board
         .to_vec()
@@ -138,6 +158,8 @@ fn standing(board: &Array<Option<UnitRef>>, slots: &Array<SlotStateRef>) -> Vec<
                 golden: unit.golden,
                 tier: def.tier,
                 health: unit.health(),
+                own_attack: unit.stats.as_ref().map_or(0, |s| s.borrow().own_attack()),
+                own_health: unit.stats.as_ref().map_or(0, |s| s.borrow().own_health()),
                 mechanics,
             })
         })
@@ -196,7 +218,11 @@ pub(super) fn fight_with(
         }
         if let Some((side, slot)) = setup.text_off {
             let unit = owners[side].borrow().board.get(slot).flatten();
-            text_off(&unit.ok_or_else(|| Skip::Payload(format!("no unit in slot {slot}")))?);
+            let unit = unit.ok_or_else(|| Skip::Payload(format!("no unit in slot {slot}")))?;
+            text_off(&unit);
+            if let Some(percent) = setup.scale_percent {
+                scale(&unit, percent);
+            }
         }
         let boards = [0, 1].map(|i| {
             let owner = owners[i].borrow();

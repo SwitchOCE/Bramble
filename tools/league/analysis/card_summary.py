@@ -117,6 +117,7 @@ def summary(match, report, left_out=None):
             tested = tested or ok
             row[f"text {name}"] = cell["text_value"] if ok else ""
             row[f"text spreads {name}"] = cell["spreads"] if ok else ""
+            row[f"stat worth {name}"] = cell.get("stat_worth", "") if ok else ""
             if ok and cell["pointer"]:
                 marks.append(f"text ({name})")
         for name in STAGES:

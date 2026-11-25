@@ -1,4 +1,4 @@
-//! Refight modes for card power: text off, keyword off and the Overrun swing count
+//! Refight modes for card power: text off, stat worth, keyword off and the Overrun swing count
 //! (docs/workstreams/card-power/definitions.md). One JSON line per observation; nothing is
 //! aggregated here.
 use super::input::{self, Fight, Game};
@@ -14,12 +14,17 @@ use std::fs::{self, File};
 use std::io::{BufWriter, Write};
 use std::path::Path;
 
+/// Stat worth: the plain unit's own Attack and Health, in hundredths of what was recorded.
+pub const RUNGS: [i64; 6] = [150, 200, 300, 400, 600, 800];
+
 /// The mechanic whose attacks the swing count follows.
 pub const OVERRUN: &str = "badger_overrun";
 
 #[derive(Debug, Clone)]
 pub struct Modes {
     pub text_off: bool,
+    /// With text off: also refight with the unit's own stats at each of `RUNGS`.
+    pub stat_worth: bool,
     /// Mechanic ids to switch off, one at a time, for one side.
     pub keywords: Vec<String>,
     pub swings: bool,
@@ -502,7 +507,41 @@ fn fight_modes(
                             r.insert("card".into(), json!(unit.card));
                             r.insert("golden".into(), json!(unit.golden));
                             r.insert("tier".into(), json!(unit.tier));
+                            let own = (unit.own_attack, unit.own_health);
                             observe(&mut row, side, &changed);
+                            if modes.stat_worth {
+                                let r = row.as_object_mut().unwrap();
+                                r.insert("own_attack".into(), json!(own.0));
+                                r.insert("own_health".into(), json!(own.1));
+                                let mut failed = None;
+                                for percent in RUNGS {
+                                    let scaled: Result<Vec<Detail>, Skip> = (0..baseline.len())
+                                        .map(|k| {
+                                            seeded(
+                                                k,
+                                                Setup {
+                                                    scale_percent: Some(percent),
+                                                    ..setup()
+                                                },
+                                            )
+                                        })
+                                        .collect();
+                                    match scaled {
+                                        Ok(scaled) => {
+                                            let score = means(&scaled, fight, side).score;
+                                            r.insert(format!("score_x{percent}"), json!(score));
+                                        }
+                                        Err(skip) => {
+                                            failed = Some(skip);
+                                            break;
+                                        }
+                                    }
+                                }
+                                if let Some(skip) = failed {
+                                    eprintln!("{where_}: {change:?}: {}", skip.message());
+                                    continue;
+                                }
+                            }
                             lines.text.push(row);
                         }
                         Change::Keyword(k, _) => {
@@ -848,6 +887,34 @@ mod tests {
         // The unit keeps its stats.
         assert_eq!(off[0].boards[0][0].health, base[0].boards[0][0].health);
         assert!(off[0].boards[0][0].mechanics.is_empty());
+    }
+
+    #[test]
+    fn stat_worth_scales_the_plain_unit_s_own_stats() {
+        let content = content();
+        // Heath Adder with its text off is a plain 1/1 and loses to a 2/5 Sentry. At eight
+        // times its stats it is an 8/8 and wins; at twice, a 2/2 still loses.
+        let p = payloads(&content, [&[("heath-adder", false)], &[("sentry", false)]]);
+        let at = |percent: i64| {
+            fought(
+                &content,
+                &p,
+                0,
+                Setup {
+                    text_off: Some((0, 0)),
+                    scale_percent: Some(percent),
+                    ..Setup::default()
+                },
+            )
+        };
+        let (twice, eight) = (at(200), at(800));
+        let unit = &eight.boards[0][0];
+        assert_eq!((unit.own_attack, unit.own_health), (8, 8));
+        assert!(unit.mechanics.is_empty());
+        assert_eq!(score(&twice, &fight(), 0), 0.0);
+        assert_eq!(score(&eight, &fight(), 0), 1.0);
+        // The enemy is untouched.
+        assert_eq!(eight.boards[1][0].own_attack, twice.boards[1][0].own_attack);
     }
 
     #[test]

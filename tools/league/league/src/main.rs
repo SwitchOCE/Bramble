@@ -14,7 +14,7 @@ const USAGE: &str = "usage:
   league analyze <dir>
   league refight --match <dir> [--repo-root <dir>] [--select tribe:<name>[:<min>]]
                  --out <dir> [--threads N] [--verify]
-  league refight --match <dir> --out <dir> [--text-off] [--keyword-off <id>[,<id>...]]
+  league refight --match <dir> --out <dir> [--text-off] [--stat-worth] [--keyword-off <id>[,<id>...]]
                  [--overrun-swings] [--seeds 2] [--cap 500] [--threads N] [--verify]
   league bench [--content all|standin|<folders>] [--games N] [--fight-records <dir>] [--fights N]
   league bots";
@@ -219,7 +219,7 @@ fn run(args: &[String]) -> Result<(), String> {
             Ok(())
         }
         "refight" => {
-            let o = Opts::parse(rest, &["verify", "text-off", "overrun-swings"]);
+            let o = Opts::parse(rest, &["verify", "text-off", "stat-worth", "overrun-swings"]);
             if !o.free.is_empty()
                 || o.flags.iter().any(|(name, value)| {
                     ![
@@ -248,7 +248,8 @@ fn run(args: &[String]) -> Result<(), String> {
             }
             let verify = o.has("verify");
             let modes = refight::Modes {
-                text_off: o.has("text-off"),
+                text_off: o.has("text-off") || o.has("stat-worth"),
+                stat_worth: o.has("stat-worth"),
                 keywords: o
                     .get("keyword-off")
                     .map(|list| list.split(',').map(str::to_owned).collect())

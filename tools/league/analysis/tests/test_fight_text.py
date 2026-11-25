@@ -28,6 +28,21 @@ class FightText(unittest.TestCase):
         self.assertEqual(table[("9-12", "few-5")]["text_value"], "")
         self.assertEqual(table[("13+", "late-5")]["pointer"], "")  # alone in its stage: nothing to compare with
 
+    def test_stat_worth_is_read_between_the_rungs_over_the_sample(self):
+        # The card scores 0.75. Plain, the unit scores 0.5 at x1 and x1.5, 0.7 at x2, 0.8 at x3, 1 above.
+        scaled = {"score_x150": 0.5, "score_x200": 0.7, "score_x300": 0.8, "score_x400": 1.0,
+                  "score_x600": 1.0, "score_x800": 1.0, "own_attack": 4, "own_health": 10}
+        rows = [{**r, **scaled} for r in obs("heir", 3, "9-12", 0.25)]
+        heir = fight_text.text_table(rows)[0]
+        self.assertEqual((heir["stat_worth"], heir["stat_worth_low"], heir["stat_worth_high"]), (2.5, 2.5, 2.5))
+        self.assertEqual((heir["adds_attack"], heir["adds_health"]), (6.0, 15.0))
+        self.assertEqual(fight_text.solve(0.4, [0.5] * 7), 1.0)   # plain text off already does as well
+        self.assertEqual(fight_text.solve(0.9, [0.5] * 7), fight_text.BEYOND)
+        beyond = fight_text.text_table([{**r, **scaled, "score_x400": 0.8, "score_x600": 0.8, "score_x800": 0.8}
+                                        for r in obs("aura", 3, "9-12", 0.45)])[0]
+        self.assertEqual((beyond["stat_worth"], beyond["adds_attack"]), (">8", ">28"))
+        self.assertNotIn("stat_worth", fight_text.text_table(obs("old", 3, "9-12", 0.25))[0])
+
     def test_interval_is_grouped_by_game(self):
         rows = [{"game": g, "v": v} for g, v in ((0, 1.0), (0, 1.0), (1, 0.0), (1, 0.0))]
         mean, low, high, n = fight_text.clustered(rows, lambda r: r["v"])

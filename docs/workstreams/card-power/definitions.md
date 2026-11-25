@@ -66,11 +66,13 @@ The owner, 25 Nov: "It doesn't tell you whether it's overpowered, but it does te
 
 The owner's idea, 25 Nov: "if I take away all of its abilities and keywords ... and replace it with a plain unit of stats, how much stats would I have to give that unit for the fight to have the same ... expected value ... it would give you a more precise measure of how powerful the [card's in-fight] effects are."
 
-- **The change:** as text off, and the unit's own Attack and Health as recorded are both multiplied by the same number, so it keeps its shape. Rungs: ×1 (plain text off), ×1.5, ×2, ×3, ×4, ×6, ×8.
+- **The change:** as text off, and the unit's own Attack and Health as recorded are both multiplied by the same number, so it keeps its shape. "Own" is its printed stats plus what the unit holds itself; what auras and its slot's Renown add in the fight is left as it is. Rungs: ×1 (plain text off), ×1.5, ×2, ×3, ×4, ×6, ×8.
 - **Number:** per card per stage, the multiplier at which the mean score over the card's observations equals the mean score as recorded, read between the two nearest rungs. Reported as the multiplier and as the Attack and Health it adds to the card's average recorded stats at that stage.
 - **Solved over the sample, not per fight:** one fight is a win, a draw or a loss, so only the average over many fights can be matched. Draw rates are not matched, only the average score.
 - **Edges:** ×1 when the plain unit already does as well. "More than ×8" when no rung reaches the recorded score; that happens for a unit whose text helps other units, or that stands where plain stats do little.
 - **Sample, seeds, interval, cannot see:** as text off. The interval comes from resampling games and solving again.
+- **Worth a look:** none of its own. It is the text-off number in another unit, so the mark stays on text off; a second line on the same fights would mark the same cards twice.
+- **Run with:** `league refight --stat-worth` (the card report does), about three times the fights of text off alone.
 
 ## Keyword off
 
@@ -147,3 +149,4 @@ The owner called replacing a unit with a made-up plain unit "pretty unrealistic"
 - 25 Nov: the card report's two context columns added (boards holding the card by stage; why a card has no fight data), after the Gleaner result showed a bot holding a card long after its text stopped paying, and the owner's remark that a bot ignoring a card is itself a finding.
 - 25 Nov, AFTER the tribes-missing match was read: left out of the shop is stated as an upper bound for a card a bot is built around. Reason: the comparison quoted in its section.
 - 25 Nov, AFTER the report was read, on a fresh reviewer's questions: the pick rate's 100-offer minimum is written into its definition (the code already had it); "refused" is reported for every card, not only for cards without fight data (29 refused cards on `r1` had fight data from opponents' boards and showed nothing); "seldom offered" now means seldom offered to the bots that play the tribe (tier 6 Locust cards had read "tribe not played" because only the Badger bot saw them 100 times); keyword off gets a fixed worth-a-look line.
+- 25 Nov, before any stat-worth number was read: "own" stats spelled out (auras and Renown are not multiplied), and no separate worth-a-look line for stat worth, for the reason in its section.
