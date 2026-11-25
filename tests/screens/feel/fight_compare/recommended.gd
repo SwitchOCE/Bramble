@@ -13,6 +13,8 @@ extends "res://tests/screens/feel/fight_compare/buffs.gd"
 ## CB8 "c" with CB14 "c": each of Old Brock's gains follows its death, and CB14's gain beats push
 ## two of the six falls (the 3rd and 5th) 2 and 3 frames later than CB8 schedules them (the
 ## plan's notes say which); the rest is as each option alone.
+## "CB13": "none" in a scenario's options leaves CB13 out (every death falls as best's do), for
+## comparing with the game before its single death is built.
 ## Exploratory (ideation/fight-animation): nothing here reaches the game.
 
 const PILOT_MOTION: GDScript = preload("res://tests/screens/feel/fight_compare/pilot_motion.gd")
@@ -33,11 +35,14 @@ const DEATH: String = "c"
 
 ## Keys ("u8") of units that die alone, filled by make_replay (pilot_motion.gd reads it).
 var solo: Dictionary = {}
+## Whether CB13 plays (a scenario's "CB13": "none" leaves it out).
+var single_death: bool = true
 
 
 func configure(chosen: Dictionary) -> void:
 	var merged: Dictionary = PICKED.duplicate()
 	merged.merge(chosen, true)
+	single_death = str(merged.get("CB13", DEATH)) != "none"
 	super(merged)
 
 
@@ -49,6 +54,8 @@ func make_replay(base: Dictionary, events: Array, catalog: Dictionary, damage: i
 
 
 func make_motion(cards: Control) -> FightMotion:
+	if not single_death:
+		return super(cards)
 	var motion: FightMotion = PILOT_MOTION.new(cards)
 	motion.set("option", DEATH)
 	motion.set("solo", solo)

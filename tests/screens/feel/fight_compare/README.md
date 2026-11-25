@@ -74,10 +74,15 @@ game's motion from before that, a full copy that later changes to `src/` don't r
 the port, `today`'s `cards.csv` equals the one filmed before it, frame for frame.
 
 `game` (`game.gd`, scenario `fight-compare-game.json`) is the game's own fight screen on the same
-fight: since plan step 1b it plays the schedule (`src/screens/fight/fight_timeline.gd`), which is
-`best` with the owner's picks (`{"CB2": "b", "CB3": "mild", "CB9": "aim_lean"}`), frame for frame
-(`tests/screens/test_fight_timeline.gd`). `compare_screen.gd` keeps the game's step playback from
-before that (b94a8021), so every other treatment plays as it did.
+fight: it plays the schedule (`src/screens/fight/fight_timeline.gd`), which is `recommended`
+with the owner's picks and both late-fight speed-ups, minus CB13 c (plan steps 1b, 3 to 5;
+`{"ROTATE": "off", "CB9": "aim_lean", "CB13": "none", "FAST": "a5", "GROUP": 3}`; recommended
+adds CB2 b, CB3 mild, CB8 c and CB14 c itself), frame for frame
+(`tests/screens/test_fight_timeline.gd`). `"CB13": "none"` leaves recommended's single death out.
+The game's stat gains are logged to `<stem>.buffs.csv` as `buffs` logs them. `compare_screen.gd`
+keeps the game's step playback from before 1b (b94a8021), so every other treatment plays as it did.
+`buff_screen.gd` draws the gains from the schedule's clock (`_t`), which is the drawn frame except
+under FAST.
 
 `turn_check.py` reads the logs: `same` (two films' `cards.csv` frame for frame, `--except` some
 columns), `turns` (every attacker turned toward its target by the game's numbers at contact, and
@@ -85,10 +90,11 @@ the core check), `sounds` (the cues at the same frames) and `cut` (the picks pag
 crop and scale):
 
 ```bash
-tools/feel/film tests/screens/feel/fight-compare-game.json /data/fight-anim-work/game-1b/films/game.mp4
-# best-picks.json: "treatment": "best", "options": {"CB2": "b", "CB3": "mild", "CB9": "aim_lean"}
-tools/feel/film best-picks.json /data/fight-anim-work/game-1b/films/best-picks.mp4
-python3 tests/screens/feel/fight_compare/turn_check.py same /data/fight-anim-work/game-1b/films/game /data/fight-anim-work/game-1b/films/best-picks
+tools/feel/film tests/screens/feel/fight-compare-game.json /data/fight-anim-work/game-2/films/game.mp4
+# recommended-picks.json: "treatment": "recommended", "options": {"ROTATE": "off",
+#   "CB9": "aim_lean", "CB13": "none", "FAST": "a5", "GROUP": 3}
+tools/feel/film recommended-picks.json /data/fight-anim-work/game-2/films/recommended-picks.mp4
+python3 tests/screens/feel/fight_compare/turn_check.py same /data/fight-anim-work/game-2/films/game /data/fight-anim-work/game-2/films/recommended-picks
 ```
 
 ## `best`: the best proposal, and its contested branches

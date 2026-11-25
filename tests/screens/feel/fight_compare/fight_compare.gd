@@ -321,6 +321,11 @@ func _log_frame() -> void:
 	if screen.has_method("buff_rows"):
 		for value: Variant in screen.call("buff_rows"):
 			_buff_rows.append("%d,%.4f,%d,%s" % [frame, frame / 60.0, step, str(value)])
+	elif screen._gains != null:
+		# the game's own screen (`game`): its stat gains' pieces, as buff_screen.gd writes them
+		for piece: Dictionary in screen._gains.drawn:
+			_buff_rows.append("%d,%.4f,%d,%s" % [frame, frame / 60.0, step, _gain_row(piece)])
+		screen._gains.drawn.clear()
 	_log_cards(frame, step)
 	_log_bursts(frame, step)
 	_log_heroes(frame, step)
@@ -331,6 +336,25 @@ func _log_frame() -> void:
 		_mark(
 			frame, step, "sound", "", str(cue["cue"]) + (" dropped:" + dropped if dropped else "")
 		)
+
+
+## One of the game's gain pieces (FightGains.drawn) as buff_screen.gd's row.
+static func _gain_row(piece: Dictionary) -> String:
+	var at: Vector2 = piece["at"]
+	return (
+		"%s,%s,%s,%.2f,%.2f,%.4f,%.3f,%d,%s"
+		% [
+			piece["key"],
+			piece["what"],
+			piece["stat"],
+			at.x,
+			at.y,
+			piece["scale"],
+			piece["alpha"],
+			piece["value"],
+			piece["text"],
+		]
+	)
 
 
 func _log_cards(frame: int, step: int) -> void:

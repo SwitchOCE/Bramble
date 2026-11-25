@@ -23,8 +23,9 @@ extends GlassScreen
 ##
 ## A fight plays from its schedule (FightTimeline, made from the replay): on a game clock, each
 ## step's view state shows from its frame, and every frame each card is posed from the schedule
-## (where it stands plus its offset, scale, turn and light), the damage bursts and glows are drawn,
-## and the sound cues play (SoundCues.for_fight_cue). The keeper still draws the boards, the
+## (where it stands plus its offset, scale, turn and light), the damage bursts, glows and stat
+## gains (FightGains) are drawn, and the sound cues play (SoundCues.for_fight_cue). Late in a fight
+## the clock runs faster (FightTimeline.advance, FAST). The keeper still draws the boards, the
 ## numbers, the deaths (FightMotion's fall) and the result. Shown on its own, a moment's lunge,
 ## splashes and trigger are drawn at rest, and a change of moment moves with FightMotion. Red
 ## Health and the result banner retain the glass mock-up's drawing.
@@ -77,6 +78,8 @@ var _rest_at: Dictionary = {}
 var _bursts_on: Array[Dictionary] = []
 ## card instance id -> whether it is drawn glowing
 var _glow_on: Dictionary = {}
+## The stat gains' pieces (CB14 c), drawn from the schedule.
+var _gains: FightGains
 ## Last visual beats: state refreshes must not replay an attack or recoil.
 var _shown_lunge: Dictionary = {}
 var _shown_splashes: Array = []
@@ -137,6 +140,7 @@ func play(replay: FightReplay) -> void:
 	if _keeper != null:
 		_keeper.clear()
 	_drop_bursts()
+	_gain_pieces().clear()
 	if replay.plan == null:
 		schedule(replay)
 	_replay = replay
@@ -153,6 +157,7 @@ func play(replay: FightReplay) -> void:
 	_running = true
 	_show_due()
 	_pose_all()
+	_gain_pieces().draw(_schedule, _clock)
 
 
 ## Makes a replay's schedule with the fight screen's own layout, from a screen never shown.
@@ -174,6 +179,7 @@ func skip() -> void:
 	_clock = _f(_schedule.steps[last]["frame"])
 	_step_due = last
 	_drop_bursts()
+	_gain_pieces().clear()
 	_burst_due = _schedule.bursts.size()
 	_shown_splashes = []
 	# what was still to sound is skipped; the result's cue plays
@@ -193,17 +199,19 @@ func _process(delta: float) -> void:
 	super(delta)
 	if not _running:
 		return
-	# game time, not drawn frames: the same fight at any frame rate
-	var step: float = delta * 60.0 * speed * _schedule.speed_at(_clock)
-	if absf(step - roundf(step)) < 1e-6:
-		step = roundf(step)
-	_schedule.clock_step = maxf(1.0, step)
-	_clock += step
+	# game time, not drawn frames: the same fight at any frame rate; FAST moves the schedule
+	# faster late in the fight (FightTimeline.advance)
+	var frames: float = delta * 60.0 * speed
+	if absf(frames - roundf(frames)) < 1e-6:
+		frames = roundf(frames)
+	_clock = _schedule.advance(_clock, frames)
+	_schedule.clock_step = maxf(1.0, frames * _schedule.speed_at(_clock))
 	_show_due()
 	_pose_all()
 	_show_bursts()
 	_age_bursts()
 	_glow_cards()
+	_gain_pieces().draw(_schedule, _clock)
 	_play_cues()
 
 
@@ -228,6 +236,12 @@ func _show_due() -> void:
 
 
 func show_state(new_state: Dictionary) -> void:
+	if _running and _step >= 0 and _step < _schedule.steps.size():
+		# a gain's card shows its numbers through the disc's count: no pop as it lands
+		var frame: int = _i(_schedule.steps[_step]["frame"])
+		for gain: Dictionary in _schedule.gains:
+			if _i(gain["land"]) == frame:
+				_keeper.quiet_numbers[str(gain["key"])] = true
 	super(new_state)
 	if _running:
 		_hand_over()
@@ -422,16 +436,31 @@ func _play_cues() -> void:
 		_cue_due += 1
 
 
-## Keeps the bursts over a redraw of the front layer.
+## The stat gains' pieces, made on first use.
+func _gain_pieces() -> FightGains:
+	if _gains == null:
+		_gains = FightGains.new(self)
+	return _gains
+
+
+## Keeps the bursts and the gains' pieces over a redraw of the front layer.
 func _layout() -> void:
-	var kept: Array[Control] = []
+	var kept: Array[Node] = []
 	for live: Dictionary in _bursts_on:
 		var node: Control = live["node"]
 		if is_instance_valid(node) and node.get_parent() == _front:
 			_front.remove_child(node)
 			kept.append(node)
+	var pieces: Array[Node] = []
+	if _gains != null:
+		pieces = _gains.nodes()
+	for node: Node in pieces:
+		if node.get_parent() == _front:
+			_front.remove_child(node)
 	super()
-	for node: Control in kept:
+	for node: Node in kept:
+		_front.add_child(node)
+	for node: Node in pieces:
 		_front.add_child(node)
 
 

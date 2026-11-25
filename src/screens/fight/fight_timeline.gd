@@ -21,17 +21,24 @@ extends RefCounted
 ##   and rule 7's speed-up (past 120 frames of queue, x1 to x1.5);
 ##   the turn (CB9 aim_lean): every attacker turns toward its target by FightMotion.TURN_AIM of
 ##   the path's angle, with the TURN_LEAN in-plane lean the same way, no tip (the owner, 24 Nov:
-##   "Every animation, I want to have the rotation included"; 25 Nov: the 4 degree lean).
+##   "Every animation, I want to have the rotation included"; 25 Nov: the 4 degree lean);
+##   several deaths at once (CB8 c, plan step 3): they fall one after another, 10/7/5/4/4 frames
+##   apart within 30 (FightOrder puts the log in that order), each death's own gain beside it;
+##   a stat gain (CB14 c; the owner's yes to the stand-in, 25 Nov): each +N is born at its cause
+##   (the dead unit's slot, or the giver), flies into the stat and adds up in a tally over it, and
+##   the changed disc swells and counts (FightGains draws them; the recruit screen's green gain
+##   pill, arc and amber ring stand in for a designed marker);
+##   the late-fight speed-ups (CB16; the owner's answer, 25 Nov: both): everything from the 5th
+##   attack's lift to the result plays x1.5 (FAST: speed_at, advance), and up to 3 different
+##   triggers in a row start together (GROUP: _run_queue).
 ## Frames are 1/60 s of game time at playback speed 1; frame 0 is the boards at rest. Every
 ## motion is a function of the frame (pose), so a card node the keeper rebuilds keeps its motion,
 ## and any frame rate shows the same moments.
 ##
-## Not here yet (later steps of the plan): several deaths one after another (CB8 c, step 3:
-## _run_queue's "death" item), a single death's look (CB13 c: FightMotion's fall), stat gains
-## flying to their stat (CB14 c: _item's buff beats), the winner's portrait striking (CB12 b:
-## after the result in _make_steps), and the late-fight speed-ups (FAST: speed_at; GROUP:
-## _run_queue's beats). Start of Combat effects show at frame 0, as in the fixture (best.md
-## wants them as beats after the rest). No one has watched this move.
+## Not here yet (later steps of the plan): a single death's look (CB13 c: FightMotion's fall) and
+## the winner's portrait striking (CB12 b: after the result in _make_steps). Start of Combat
+## effects show at frame 0, as in the fixture (best.md wants them as beats after the rest). No one
+## has watched this move.
 
 ## One card height on the 1920 x 1080 stage.
 const H: float = 250.0
@@ -110,6 +117,50 @@ const END_HOLD: int = 90
 const FOREVER: int = 1 << 20
 ## The order of a frame's sound cues.
 const CUE_ORDER: Array[String] = ["trigger", "hit", "death", "summon", "result"]
+## FAST (CB16; Battlegrounds 31.6: "combat animations will now accelerate as the battle rages
+## on"): from the lift of attack number FAST_ATTACK (1: the first) to the result, everything plays
+## FAST_SPEED times faster. The result's hold plays at x1. A fight with fewer attacks plays at x1
+## throughout.
+const FAST_ATTACK: int = 5
+const FAST_SPEED: float = 1.5
+## GROUP (CB16): up to this many single trigger beats in a row start together, at the first one's
+## start.
+const GROUP_MOST: int = 3
+## CB14 c, a stat gain (docs/workstreams/fight-animation-24-nov/buff-look/DESIGN.md, section 2).
+## A run of gains: the first gap, how each shrinks, its floor (each gap rounded: 18, 14, 10, 8, 6).
+const GAIN_GAP_FIRST: float = 18.0
+const GAIN_GAP_SHRINK: float = 0.75
+const GAIN_GAP_FLOOR: int = 5
+## The +N is born this many frames into a beat with a living cause (a giver, or a gain to
+## itself), and flies GAIN_FLY frames (a gain to itself rises GAIN_RISE). A gain caused by a death
+## is born at its beat's start, at the dead unit's slot.
+const GAIN_BORN_AT: int = 4
+const GAIN_FLY: int = 10
+const GAIN_RISE: int = 8
+## The changed disc: x2.0 at the landing L, held 3 f, back to x1.0 by L+14; digits count over 8 f.
+const SWELL: float = 2.0
+const SWELL_HOLD: int = 3
+const SWELL_BACK: int = 14
+const COUNT: int = 8
+## The tally over a disc: each gain re-pops it from x1.35 to x1.0 over 6 f with the running total;
+## it sinks from the last L+30 (0.1 h down, to x0.4, fading) over 6 f.
+const TAG_SETTLE: int = 6
+const TAG_REPOP: float = 1.35
+const TAG_HOLD: int = 30
+const TAG_SINK: int = 6
+const SINK_PX: float = 0.1 * H
+const SINK_SCALE: float = 0.4
+## The tally's centre stands this far above the top of its disc (at rest).
+const TAG_ABOVE: float = 38.0
+## A flying +N: born at x0.5, x0.9 after 3 f, x1.0 as it lands; a low arc at most 0.15 h high.
+const BORN_SCALE: float = 0.5
+const BORN_GROWN: float = 0.9
+const BORN_FRAMES: int = 3
+const ARC_LIFT: float = 0.15 * H
+## The disc's flare (the recruit's amber ring) lasts 8 f from L.
+const FLARE: int = 8
+## The source's light ends this long after its tally is gone.
+const LIGHT_PAST: int = 2
 
 ## [{state, hold, kind, frame, speed}]: the view state shown from each frame on (kind "lift" as an
 ## attack starts, "end" for the result, else "show"); speed is the card keeper's for that step.
@@ -133,6 +184,14 @@ var cues: Array[Dictionary] = []
 ## The result's frame, and the end of its hold.
 var result_frame: int = 0
 var end_frame: int = 0
+## FAST: the schedule's frames from which, and up to which, it plays faster (-1: never).
+var fast_from: int = -1
+var fast_to: int = -1
+## CB14 c, every gain by landing: {key, uid, run, k, start, land, born, fly, cause ({uid, side,
+## slot}, or {} for a giver or a gain to itself), source, stats: {attack: [from, to, delta]...}}.
+var gains: Array[Dictionary] = []
+## Every tally over a disc: {key, source, appear, lands, totals, sink, gone, stats}.
+var tallies: Array[Dictionary] = []
 ## Frames one drawn frame moves (FightScreen sets it): the contact pop shows at least this long,
 ## so every frame rate draws it once.
 var clock_step: float = 1.0
@@ -155,6 +214,12 @@ var _total_on: bool = false
 var _cue_at: Dictionary = {}
 ## The attack being grouped: its attacker's uid and its target's.
 var _pair: Vector2i = Vector2i(-1, -1)
+## The log's index of every death, for its sound cue on the frame it shows.
+var _deaths: Array[int] = []
+## The latest deaths' units, in the order they fell: [{uid, side, slot}], and how many of them a
+## gain has taken as its cause.
+var _causes: Array[Dictionary] = []
+var _taken: int = 0
 
 
 ## events: the rules core's log as played (FightReplay.played); views: the view state after each
@@ -189,6 +254,9 @@ func build(events: Array, views: Array, place: Callable) -> void:
 		last = _attack(attack_at[k], to, last)
 	result_frame = _i(last.get("queue_end", REST)) + END_AFTER
 	_reveal[end_at] = result_frame
+	if attacks.size() >= FAST_ATTACK:
+		fast_from = _i(attacks[FAST_ATTACK - 1]["lift"])
+		fast_to = result_frame
 	var ending: Dictionary = _events[end_at]
 	if _kind(end_at) == "combat_end":
 		_cue(
@@ -200,10 +268,29 @@ func build(events: Array, views: Array, place: Callable) -> void:
 	_make_cues()
 
 
-## How many schedule frames one frame of game time moves at schedule frame t: 1 throughout. The
-## late-fight speed-up (FAST, plan step 5) goes here.
-func speed_at(_t: float) -> float:
+## How many schedule frames one frame of game time moves at schedule frame t: FAST_SPEED from
+## the FAST_ATTACK-th attack's lift to the result, else 1.
+func speed_at(t: float) -> float:
+	if fast_from >= 0 and t >= fast_from and t < fast_to:
+		return FAST_SPEED
 	return 1.0
+
+
+## The schedule's frame `frames` frames of game time after t: x1 up to FAST's start, then
+## FAST_SPEED. It stops on the result's own frame, which then plays at x1, as the fixture's clock
+## does (best_timeline.gd advance; at 60 frames a second it lands on FAST's start too).
+func advance(t: float, frames: float) -> float:
+	if fast_from < 0 or t >= fast_to:
+		return t + frames
+	var left: float = frames
+	var at: float = t
+	if at < fast_from:
+		var plain: float = minf(left, fast_from - at)
+		at += plain
+		left -= plain
+	if left > 0.0:
+		at = minf(at + left * FAST_SPEED, float(fast_to))
+	return at
 
 
 ## Each card's pose at frame n, as offsets from where it stands: {offset, scale, turn, light}.
@@ -446,12 +533,23 @@ func _run_queue(queue: Array[Dictionary], from: int, at: int, kill_land: int) ->
 	var queue_end: int = at + NUMBERS_AT
 	var killed: int = kill_land
 	var j: int = 0
+	# GROUP: up to GROUP_MOST single beats in a row start together, at the first one's start
+	var group_at: int = -1
+	var grouped: int = 0
 	while j < queue.size():
 		var item: Dictionary = queue[j]
 		var tempo: float = _tempo(t - from)
 		var kind: String = item["kind"]
+		if kind != "beat":
+			group_at = -1
+		if kind == "stagger":
+			# CB8 c: the deaths of one pass fall one after another, each gain beside its death
+			var spread: Dictionary = _stagger(item, killed + roundi(EFFECT_KILL / tempo))
+			t = maxi(t, _i(spread["next"]))
+			queue_end = maxi(queue_end, _i(spread["end"]))
+			j += 1
+			continue
 		if kind == "death":
-			# the deaths of one pass fall together (CB8 c, plan step 3, staggers them here)
 			var fall: int = killed + roundi(EFFECT_KILL / tempo)
 			if item.get("exchange_kill", false):
 				fall = at + EXCHANGE_FALL
@@ -467,15 +565,22 @@ func _run_queue(queue: Array[Dictionary], from: int, at: int, kill_land: int) ->
 			var repeats: Array[Dictionary] = []
 			repeats.assign(queue.slice(j, j + run))
 			done = _combo(repeats, t, from)
+			group_at = -1
 			j += run
 		else:
-			# one beat after another (GROUP, plan step 5, starts a few together here)
-			done = _item(item, t, tempo)
+			var begin: int = t
+			if kind == "beat" and group_at >= 0 and grouped < GROUP_MOST:
+				begin = group_at
+				grouped += 1
+			elif kind == "beat":
+				group_at = t
+				grouped = 1
+			done = _item(item, begin, tempo)
 			j += 1
-		t = _i(done["next"])
+		t = maxi(t, _i(done["next"]))
 		queue_end = maxi(queue_end, _i(done["end"]))
 		if done.get("damage", false):
-			killed = _i(done["land"])
+			killed = maxi(killed, _i(done["land"]))
 	return queue_end
 
 
@@ -488,20 +593,72 @@ func _tempo(into: int) -> float:
 	return 1.0 + (SPEEDUP_TOP - 1.0) * share
 
 
+## Deaths falling from `at` for `length` frames; they are the causes of the gains that follow.
+## (In a staggered group each fall starts a new set, as in the fixture: see _cause_of.)
 func _fall(item: Dictionary, at: int, length: int) -> void:
+	_causes = []
+	_taken = 0
+	for value: Variant in item["events"]:
+		var event: Dictionary = _events[_i(value)]
+		(
+			_causes
+			. append(
+				{
+					"uid": _i(event.get("uid", -1)),
+					"side": _i(event.get("side", 0)),
+					"slot": _i(event.get("slot", 0)),
+				}
+			)
+		)
 	if not _commit:
 		return
 	_reveal_all(item, at)
 	_speeds[at] = float(FALL) / length
-	var count: int = 0
 	for value: Variant in item["events"]:
 		var event: Dictionary = _events[_i(value)]
 		var uid: int = _i(event.get("uid", -1))
 		_dead[uid] = true
+		_deaths.append(_i(value))
 		falls.append({"key": _key(uid), "frame": at, "frames": length})
-		count += 1
-	var was: Dictionary = _cue_of(at, "death", {"count": 0})
-	_cue(at, "death", {"count": _i(was["count"]) + count})
+
+
+## CB8 c: a group of deaths at once (FightOrder tagged each with stagger_at), each falling at base
+## + its stagger_at for FALL frames (no speed-up), each death's own gain landing beside it, the
+## source pulsing before it. Returns {next, end}.
+func _stagger(item: Dictionary, base: int) -> Dictionary:
+	var listed: Array = item["events"]
+	var last: int = _i(listed.back()) + 1
+	var fall_end: int = base
+	var lands: Array[int] = []
+	var k: int = 0
+	while k < listed.size():
+		var i: int = _i(listed[k])
+		var event: Dictionary = _events[i]
+		var at: int = base + _i(event["stagger_at"])
+		if _kind(i) == "trigger":
+			var beat: Dictionary = _beat(i, last)
+			var targets: Array = beat["targets"]
+			var source: int = _i(beat["source"])
+			var to_self: bool = (
+				targets.is_empty() or (targets.size() == 1 and _i(targets[0]) == source)
+			)
+			var done: Dictionary = _item(beat, at - (SELF_LAND if to_self else BEAT_LAND), 1.0)
+			lands.append(_i(done["land"]))
+			var caused: Array = beat["events"]
+			k += caused.size()
+			continue
+		if _kind(i) == "death":
+			_fall({"events": [i]}, at, FALL)
+			fall_end = maxi(fall_end, at + FALL)
+		elif _commit:
+			_reveal[i] = at
+		k += 1
+	if lands.is_empty():
+		return {"next": fall_end, "end": fall_end}
+	return {
+		"next": maxi(fall_end, _i(lands.max()) + BEAT_GAP),
+		"end": maxi(fall_end, _i(lands.max()) + COMBO_END),
+	}
 
 
 ## How many beats from j on are the same mechanic with the same effect, back to back.
@@ -525,6 +682,8 @@ func _run_length(queue: Array[Dictionary], j: int) -> int:
 ## Rule 5 (CB7): one trigger many times, each gap shorter than the last; from the 9th the rest land
 ## together, and a card hit again and again keeps one burst showing the running total.
 func _combo(run: Array[Dictionary], start: int, from: int) -> Dictionary:
+	if _is_gain(run[0]):
+		return _gains(run, start)
 	var t: float = float(start)
 	var lands: Array[int] = []
 	var together_at: int = -1
@@ -557,6 +716,9 @@ static func _combo_gap(k: int) -> float:
 ## One item at `start`: a trigger's beat (pulse, jab, landing), an arrival, or a rider. Returns
 ## {land, next, end, damage}.
 func _item(item: Dictionary, start: int, tempo: float) -> Dictionary:
+	if _is_gain(item):
+		var one: Array[Dictionary] = [item]
+		return _gains(one, start)
 	var kind: String = item["kind"]
 	if kind == "arrival":
 		return _arrive(item, start, tempo)
@@ -580,7 +742,6 @@ func _item(item: Dictionary, start: int, tempo: float) -> Dictionary:
 		_pulse(item, start, land)
 	var damage: bool = false
 	if _commit:
-		# a stat gain shows here, with its beat's landing (CB14 c, plan step 4, flies it in)
 		_reveal_all(item, land)
 		for value: Variant in item["events"]:
 			var i: int = _i(value)
@@ -646,6 +807,402 @@ func _pulse(item: Dictionary, start: int, land: int) -> void:
 	_cue(start, "trigger", {})
 
 
+# ---- stat gains (CB14 c) ----
+
+
+static func _is_gain(item: Dictionary) -> bool:
+	return str(item.get("kind", "")) == "beat" and str(item.get("effect", "")) == "buff"
+
+
+## The gap after the k-th gain of a run (0: after the first), rounded per gap.
+static func gain_gap(k: int) -> int:
+	return maxi(GAIN_GAP_FLOOR, roundi(GAIN_GAP_FIRST * pow(GAIN_GAP_SHRINK, k)))
+
+
+## The k-th gain's beat start, frames after the run's first.
+static func gain_start(k: int) -> int:
+	var at: int = 0
+	for j: int in k:
+		at += gain_gap(j)
+	return at
+
+
+## A run of gain beats (one or more) by DESIGN.md's beats (C), from `start`, without rule 7's
+## speed-up. Each +N is born at its cause and flies into its disc; a gain to itself rises from the
+## card. Returns {land, next, end, damage}.
+func _gains(run: Array[Dictionary], start: int) -> Dictionary:
+	var source: int = _i(run[0]["source"])
+	var alive: bool = source >= 0 and _where.has(source) and not _dead.has(source)
+	var lands: Array[int] = []
+	var all_self: bool = true
+	var rows: Array[Dictionary] = []
+	for k: int in run.size():
+		var item: Dictionary = run[k]
+		var targets: Array = item["targets"]
+		var to_self: bool = targets.is_empty() or (targets.size() == 1 and _i(targets[0]) == source)
+		all_self = all_self and to_self
+		var s: int = start + gain_start(k)
+		var cause: Dictionary = _cause_of(item)
+		var born: int = s + GAIN_BORN_AT
+		var fly: int = GAIN_RISE if to_self else GAIN_FLY
+		if not cause.is_empty():
+			born = s
+			fly = GAIN_FLY
+		var land: int = born + fly
+		if alive and not to_self:
+			# the +N's flight replaces the jab; the giver still pulses
+			_add(
+				_key(source),
+				{
+					"kind": "pulse",
+					"from": s,
+					"land": land,
+					"lift": _up(source) * PULSE_PX,
+					"jab": Vector2.ZERO,
+				}
+			)
+			_cue(s, "trigger", {})
+		lands.append(land)
+		if _commit:
+			_reveal_all(item, land)
+			# each row joins `gains` at once: the next gain's count carries on from it
+			var made: Array[Dictionary] = _gain_rows(item, k, s, land, born, fly, cause)
+			gains.append_array(made)
+			rows.append_array(made)
+	var last: int = lands.max()
+	# the queue goes on once the discs settle: a tally's tail runs under what plays next
+	# (DESIGN.md: "The next beat starts at f20, under the tag's tail")
+	var settle: int = last + SWELL_BACK
+	var light_to: int = last + TAG_HOLD + TAG_SINK + LIGHT_PAST
+	if alive and all_self:
+		# a gain to itself: the source lights once and stays lit through the run
+		_add(
+			_key(source),
+			{
+				"kind": "pulse",
+				"from": start,
+				"land": last,
+				"lift": _up(source) * PULSE_PX,
+				"jab": Vector2.ZERO,
+			}
+		)
+		_cue(start, "trigger", {})
+	if alive and _commit:
+		glows.append({"key": _key(source), "from": start, "to": light_to})
+	if _commit:
+		_tally(rows, _key(source), last)
+	return {"land": last, "next": last + BEAT_GAP, "end": settle, "damage": false}
+
+
+## A gain's cause: the latest death item's next unit on the gain's source's side (the k-th gain
+## after a group of deaths at once is that side's k-th death), else {} (a giver, a gain to itself
+## with no death behind it). KNOWN FAULT, kept from the fixture (buff_timeline.gd) so the game
+## matches the recommended film: in a staggered group (CB8 c) each fall starts a new set, so each
+## of Old Brock's gains takes the death that fell just before it, not its own, and once those run
+## out the rest rise from Brock himself. Waiting on the owner.
+func _cause_of(item: Dictionary) -> Dictionary:
+	var source: int = _i(item["source"])
+	if not _where.has(source):
+		return {}
+	var side: int = _i(_where[source][0])
+	var seen: int = 0
+	for cause: Dictionary in _causes:
+		if _i(cause["side"]) != side or _i(cause["uid"]) == source:
+			continue
+		if seen == _taken:
+			_taken += 1
+			return cause
+		seen += 1
+	return {}
+
+
+## One row per changed unit in a gain beat: what each stat counts from and to.
+func _gain_rows(
+	item: Dictionary, k: int, s: int, land: int, born: int, fly: int, cause: Dictionary
+) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for value: Variant in item["events"]:
+		var i: int = _i(value)
+		if _kind(i) != "buff":
+			continue
+		var event: Dictionary = _events[i]
+		var uid: int = _i(event.get("uid", -1))
+		var after: Vector2i = Vector2i(_i(event.get("attack", 0)), _i(event.get("health", 0)))
+		var before: Vector2i = _shown_before(i, uid, after)
+		var key: String = _key(uid)
+		var stats: Dictionary = {}
+		var delta: Vector2i = after - before
+		for stat: String in ["attack", "health"]:
+			var d: int = delta.x if stat == "attack" else delta.y
+			if d == 0:
+				continue
+			var was: int = before.x if stat == "attack" else before.y
+			var now: int = after.x if stat == "attack" else after.y
+			stats[stat] = [_count_from(key, stat, land, was), now, d]
+		if stats.is_empty():
+			continue
+		(
+			out
+			. append(
+				{
+					"key": key,
+					"uid": uid,
+					"k": k,
+					"start": s,
+					"land": land,
+					"born": born,
+					"fly": fly,
+					"cause": cause,
+					"source": _key(_i(item["source"])),
+					"stats": stats,
+				}
+			)
+		)
+	return out
+
+
+## A unit's Attack and Health just before log event i, from the log itself: the start boards (or
+## its summon), then every buff (its new numbers) and damage (the Health left) on it.
+func _shown_before(i: int, uid: int, fallback: Vector2i) -> Vector2i:
+	var stats: Vector2i = Vector2i(-1, -1)
+	var start: Dictionary = _events[0]
+	for row: Variant in start.get("boards", []):
+		var units: Array = row
+		for unit: Variant in units:
+			if not unit is Dictionary:
+				continue
+			var held: Dictionary = unit
+			if _i(held.get("uid", -1)) == uid:
+				stats = Vector2i(_i(held.get("attack", 0)), _i(held.get("health", 0)))
+	for j: int in range(1, i):
+		var event: Dictionary = _events[j]
+		if _i(event.get("uid", -1)) != uid:
+			continue
+		match _kind(j):
+			"buff", "summon":
+				stats = Vector2i(_i(event.get("attack", stats.x)), _i(event.get("health", stats.y)))
+			"damage":
+				stats.y = _i(event.get("health", stats.y))
+	return fallback if stats.x < 0 else stats
+
+
+## Where a stat's count starts at `land`: what the last gain on it shows then while it is still
+## counting (its count carries on), else the number before this gain.
+func _count_from(key: String, stat: String, land: int, was: int) -> int:
+	for j: int in range(gains.size() - 1, -1, -1):
+		var gain: Dictionary = gains[j]
+		var stats: Dictionary = gain["stats"]
+		if str(gain["key"]) != key or not stats.has(stat) or _i(gain["land"]) > land:
+			continue
+		var age: int = land - _i(gain["land"])
+		if age >= COUNT:
+			return was
+		var counted: Array = stats[stat]
+		return roll(_i(counted[0]), _i(counted[1]), age, COUNT)
+	return was
+
+
+## One tally per changed card and run of gains, showing the running total of each stat changed.
+## KNOWN FAULT, kept from the fixture (buff_timeline.gd) so the game matches the recommended
+## film: CB8 c plays each of Old Brock's gains as a run of its own, so his six +N pills don't add
+## up; each shows its own gain, over the one before. Waiting on the owner.
+func _tally(rows: Array[Dictionary], source: String, last: int) -> void:
+	var keys: Array[String] = []
+	for row: Dictionary in rows:
+		if not keys.has(str(row["key"])):
+			keys.append(str(row["key"]))
+	for key: String in keys:
+		var lands: Array[int] = []
+		var totals: Array = []
+		var sum: Dictionary = {"attack": 0, "health": 0}
+		var changed: Dictionary = {}
+		for row: Dictionary in rows:
+			if str(row["key"]) != key:
+				continue
+			var stats: Dictionary = row["stats"]
+			for stat: String in stats:
+				var counted: Array = stats[stat]
+				sum[stat] = _i(sum[stat]) + _i(counted[2])
+				changed[stat] = true
+			lands.append(_i(row["land"]))
+			totals.append(sum.duplicate())
+		(
+			tallies
+			. append(
+				{
+					"key": key,
+					"source": source,
+					"appear": lands[0],
+					"lands": lands,
+					"totals": totals,
+					"sink": last + TAG_HOLD,
+					"gone": last + TAG_HOLD + TAG_SINK,
+					"stats": changed.keys(),
+				}
+			)
+		)
+
+
+func _up(uid: int) -> Vector2:
+	var where: Array = _where[uid]
+	return Vector2.UP if _i(where[0]) == _you_side() else Vector2.DOWN
+
+
+## count.roll: the number shown `age` frames into a count from `from` to `to`, one step at a time,
+## the steps spread evenly over `frames` frames (the last step lands on the last frame).
+static func roll(from: int, to: int, age: float, frames: int) -> int:
+	if age < 0.0:
+		return from
+	var count: int = absi(to - from)
+	if count == 0 or age >= frames:
+		return to
+	var done: int = 0
+	for i: int in range(1, count + 1):
+		if age >= roundi(float(i) * frames / count):
+			done = i
+	return from + done * signi(to - from)
+
+
+# ---- what a gain shows at a frame (FightGains draws it) ----
+
+
+## A changed disc at frame n: {scale, value, to} while it swells or counts, else {}.
+func disc_at(key: String, stat: String, n: float) -> Dictionary:
+	for j: int in range(gains.size() - 1, -1, -1):
+		var gain: Dictionary = gains[j]
+		var stats: Dictionary = gain["stats"]
+		if str(gain["key"]) != key or not stats.has(stat) or _i(gain["land"]) > n:
+			continue
+		var age: float = n - _i(gain["land"])
+		if age >= SWELL_BACK:
+			return {}
+		var size: float = SWELL
+		if age >= SWELL_HOLD:
+			var p: float = (age - SWELL_HOLD) / (SWELL_BACK - SWELL_HOLD)
+			size = lerpf(SWELL, 1.0, _enter(p))
+		var counted: Array = stats[stat]
+		return {
+			"scale": size,
+			"value": roll(_i(counted[0]), _i(counted[1]), age, COUNT),
+			"to": _i(counted[1]),
+		}
+	return {}
+
+
+## The keys with a gain landing, swelling or counting at frame n.
+func swelling(n: float) -> Array[String]:
+	var out: Array[String] = []
+	for gain: Dictionary in gains:
+		var age: float = n - _i(gain["land"])
+		if age >= 0.0 and age < SWELL_BACK and not out.has(str(gain["key"])):
+			out.append(str(gain["key"]))
+	return out
+
+
+## Every tally at frame n: [{key, tally, stat, text, scale, alpha, drop}] (tally: its index).
+func tags_at(n: float) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for index: int in tallies.size():
+		var tally: Dictionary = tallies[index]
+		if n < _i(tally["appear"]) or n >= _i(tally["gone"]):
+			continue
+		var lands: Array = tally["lands"]
+		var totals: Array = tally["totals"]
+		var k: int = 0
+		for j: int in lands.size():
+			if _i(lands[j]) <= n:
+				k = j
+		var size: float = 1.0
+		var age: float = n - _i(lands[k])
+		if age < TAG_SETTLE:
+			size = lerpf(TAG_REPOP, 1.0, _enter(age / TAG_SETTLE))
+		var alpha: float = 1.0
+		var drop: float = 0.0
+		var sink: int = _i(tally["sink"])
+		if n >= sink:
+			var p: float = _exit((n - sink) / TAG_SINK)
+			drop = SINK_PX * p
+			size *= lerpf(1.0, SINK_SCALE, p)
+			alpha = 1.0 - p
+		var total: Dictionary = totals[k]
+		for stat: Variant in tally["stats"]:
+			(
+				out
+				. append(
+					{
+						"key": tally["key"],
+						"tally": index,
+						"stat": str(stat),
+						"text": "+%d" % _i(total[stat]),
+						"scale": size,
+						"alpha": alpha,
+						"drop": drop,
+					}
+				)
+			)
+	return out
+
+
+## Every +N in flight at frame n: [{gain, key, stat, text, cause, source, mix, scale, alpha}]. mix
+## is the share of the way travelled (the recruit's arrive curve: off gently, in at speed).
+func flights_at(n: float) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for j: int in gains.size():
+		var gain: Dictionary = gains[j]
+		var born: int = _i(gain["born"])
+		if born < 0 or n < born or n >= _i(gain["land"]):
+			continue
+		var age: float = n - born
+		var mix: float = RecruitTurnStart._arrive(age / _i(gain["fly"]))
+		var size: float = lerpf(BORN_GROWN, 1.0, mix)
+		if age < BORN_FRAMES:
+			size = lerpf(BORN_SCALE, BORN_GROWN, _enter(age / BORN_FRAMES))
+		var stats: Dictionary = gain["stats"]
+		for stat: String in stats:
+			var counted: Array = stats[stat]
+			(
+				out
+				. append(
+					{
+						"gain": j,
+						"key": gain["key"],
+						"stat": stat,
+						"text": "+%d" % _i(counted[2]),
+						"cause": gain["cause"],
+						"source": gain["source"],
+						"mix": mix,
+						"scale": size,
+						"alpha": minf(1.0, (age + 1.0) / BORN_FRAMES),
+					}
+				)
+			)
+	return out
+
+
+## Every disc flaring at frame n: [{gain, key, stat, age}].
+func flares_at(n: float) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for j: int in gains.size():
+		var gain: Dictionary = gains[j]
+		var age: float = n - _i(gain["land"])
+		if age < 0.0 or age >= FLARE:
+			continue
+		var stats: Dictionary = gain["stats"]
+		for stat: String in stats:
+			out.append({"gain": j, "key": gain["key"], "stat": stat, "age": age})
+	return out
+
+
+## ease.enter: decelerate, cubic-bezier(0, 0, 0.2, 1).
+static func _enter(p: float) -> float:
+	return GlassMotion.bezier(Vector4(0.0, 0.0, 0.2, 1.0), p)
+
+
+## ease.exit: accelerate, cubic-bezier(0.4, 0, 1, 1).
+static func _exit(p: float) -> float:
+	return GlassMotion.bezier(Vector4(0.4, 0.0, 1.0, 1.0), p)
+
+
 # ---- grouping the log ----
 
 
@@ -659,7 +1216,13 @@ func _items(from: int, to: int) -> Array[Dictionary]:
 		var listed: Array = [i]
 		var item: Dictionary = {"kind": "rider", "events": listed}
 		var j: int = i + 1
-		if _opens_exchange(i):
+		if _at(_events, i).has("stagger_at"):
+			# CB8 c: a group of deaths with their own gains, played by _stagger()
+			item["kind"] = "stagger"
+			while j < to and _at(_events, j).has("stagger_at"):
+				listed.append(j)
+				j += 1
+		elif _opens_exchange(i):
 			item["kind"] = "exchange"
 			while j < to and _exchange_part(j):
 				listed.append(j)
@@ -810,8 +1373,14 @@ func _cue_of(frame: int, kind: String, none: Dictionary) -> Dictionary:
 	return cue
 
 
-## The cues by frame, each frame's in CUE_ORDER; a frame's bursts make its hit cue.
+## The cues by frame, each frame's in CUE_ORDER: a frame's bursts make its hit cue, and the units
+## that start to fall on a frame (as the steps show them) its death cue. Each cue keeps the speed
+## the fight plays at on its frame (FAST), so a cue's own staggers speed up with the fight.
 func _make_cues() -> void:
+	for i: int in _deaths:
+		var shown: int = _reveal[i]
+		var fell: Dictionary = _cue_of(shown, "death", {"count": 0})
+		_cue(shown, "death", {"count": _i(fell["count"]) + 1})
 	for burst: Dictionary in bursts:
 		var frame: int = burst["frame"]
 		var was: Dictionary = _cue_of(frame, "hit", {"splashes": []})
@@ -835,7 +1404,9 @@ func _make_cues() -> void:
 		var at: Dictionary = _cue_at[frame]
 		for kind: String in CUE_ORDER:
 			if at.has(kind):
-				cues.append(at[kind])
+				var cue: Dictionary = at[kind]
+				cue["speed"] = speed_at(_i(frame))
+				cues.append(cue)
 
 
 # ---- poses ----

@@ -32,6 +32,8 @@ var _tags: Dictionary = {}
 var _rings: Dictionary = {}
 var _markers: Array = []
 var _rows: Array = []
+## The schedule's frame at the last drawn frame (markers fire on the frame the clock passes them).
+var _was: float = 0.0
 
 
 func take_markers() -> Array:
@@ -50,12 +52,12 @@ func buff_rows() -> Array:
 
 
 ## A gain's card shows its numbers through the timeline's count: the keeper's pop is held back on
-## the frame the gain lands.
+## the frame the gain lands (the step's own frame, which is the drawn frame unless FAST plays).
 func show_state(new_state: Dictionary) -> void:
-	if _keeper != null and _timeline != null:
+	if _keeper != null and _timeline != null and _step >= 0 and _step < _plan.size():
 		for value: Variant in _timeline.get("gains"):
 			var gain: Dictionary = value
-			if _i(gain["land"]) == _n:
+			if _i(gain["land"]) == _i(_plan[_step]["frame"]):
 				_keeper.quiet_numbers[str(gain["key"])] = true
 	super(new_state)
 
@@ -88,6 +90,7 @@ func _process(delta: float) -> void:
 	_draw_tags()
 	_draw_flights()
 	_draw_flares()
+	_was = _t
 
 
 func _mark_beats() -> void:
@@ -99,21 +102,26 @@ func _mark_beats() -> void:
 			var counted: Array = stats[stat]
 			parts.append("%s %d->%d +%d" % [stat, counted[0], counted[1], counted[2]])
 		var detail: String = "run %d k %d %s" % [gain["run"], gain["k"], " ".join(parts)]
-		if _i(gain["land"]) == _n:
+		if _passed(_i(gain["land"])):
 			_markers.append([gain["key"], "gain_land", detail])
-		if _i(gain["born"]) == _n:
+		if _passed(_i(gain["born"])):
 			_markers.append([gain["key"], "tag_born", detail])
-		if _i(gain["land"]) + BuffTimeline.SWELL_BACK == _n:
+		if _passed(_i(gain["land"]) + BuffTimeline.SWELL_BACK):
 			_markers.append([gain["key"], "disc_rest", detail])
 	for value: Variant in _timeline.get("tallies"):
 		var tally: Dictionary = value
 		for what: String in ["appear", "sink", "gone"]:
-			if _i(tally[what]) == _n:
+			if _passed(_i(tally[what])):
 				_markers.append([tally["key"], "tally_" + what, "run %d" % tally["run"]])
 
 
+## Whether the schedule's clock reached frame x on this drawn frame (with no FAST: x is it).
+func _passed(x: int) -> bool:
+	return _was < x and x <= _t
+
+
 func _draw_discs() -> void:
-	var active: Array[String] = _timeline.call("swelling", _n)
+	var active: Array[String] = _timeline.call("swelling", _t)
 	for key: Variant in _discs:
 		if not active.has(str(key)):
 			var idle: BuffDisc = _discs[key]
@@ -135,7 +143,7 @@ func _draw_discs() -> void:
 		var discs: Dictionary = {}
 		var numbers: Vector2i = Vector2i(card.attack, card.health)
 		for stat: String in ["attack", "health"]:
-			var shown: Dictionary = _timeline.call("disc_at", key, stat, _n)
+			var shown: Dictionary = _timeline.call("disc_at", key, stat, _t)
 			if shown.is_empty():
 				continue
 			discs[stat] = shown
@@ -171,7 +179,7 @@ func _disc_over(key: String, card: GlassCard) -> BuffDisc:
 
 func _draw_tags() -> void:
 	var seen: Dictionary = {}
-	for value: Variant in _timeline.call("tags_at", _n):
+	for value: Variant in _timeline.call("tags_at", _t):
 		var tag: Dictionary = value
 		var card: GlassCard = _node_of(str(tag["key"])) as GlassCard
 		if card == null:
@@ -189,7 +197,7 @@ func _draw_tags() -> void:
 
 func _draw_flights() -> void:
 	var seen: Dictionary = {}
-	for value: Variant in _timeline.call("flights_at", _n):
+	for value: Variant in _timeline.call("flights_at", _t):
 		var flight: Dictionary = value
 		var card: GlassCard = _node_of(str(flight["key"])) as GlassCard
 		if card == null:
@@ -220,7 +228,7 @@ func _draw_flights() -> void:
 
 func _draw_flares() -> void:
 	var seen: Dictionary = {}
-	for value: Variant in _timeline.call("flares_at", _n):
+	for value: Variant in _timeline.call("flares_at", _t):
 		var flare: Dictionary = value
 		var card: GlassCard = _node_of(str(flare["key"])) as GlassCard
 		if card == null:
@@ -243,7 +251,10 @@ func _draw_flares() -> void:
 		var ring_node: Node2D = entry["node"]
 		var stepped: Tween = entry["tween"]
 		ring_node.position = at
-		stepped.custom_step(RING_TIME / BuffTimeline.FLARE)
+		# stepped to its age: FLARE frames for the ring's own RING_TIME (its first drawn frame one in)
+		var due: float = clampf((_f(flare["age"]) + 1.0) / BuffTimeline.FLARE, 0.0, 1.0) * RING_TIME
+		stepped.custom_step(due - _f(entry.get("done", 0.0)))
+		entry["done"] = due
 		_row(
 			str(flare["key"]),
 			"flare",

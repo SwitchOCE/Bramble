@@ -376,13 +376,13 @@ func _up(uid: int) -> Vector2:
 
 
 ## A changed disc at frame n: {scale, value, green} while it swells or counts, else {}.
-func disc_at(key: String, stat: String, n: int) -> Dictionary:
+func disc_at(key: String, stat: String, n: float) -> Dictionary:
 	for j: int in range(gains.size() - 1, -1, -1):
 		var gain: Dictionary = gains[j]
 		var stats: Dictionary = gain["stats"]
 		if str(gain["key"]) != key or not stats.has(stat) or _i(gain["land"]) > n:
 			continue
-		var age: int = n - _i(gain["land"])
+		var age: float = n - _i(gain["land"])
 		if age >= SWELL_BACK:
 			return {}
 		var size: float = SWELL
@@ -392,24 +392,24 @@ func disc_at(key: String, stat: String, n: int) -> Dictionary:
 		var counted: Array = stats[stat]
 		return {
 			"scale": size,
-			"value": Tokens.roll(_i(counted[0]), _i(counted[1]), age, COUNT),
+			"value": Tokens.roll(_i(counted[0]), _i(counted[1]), floori(age), COUNT),
 			"to": _i(counted[1]),
 		}
 	return {}
 
 
 ## The keys with a gain landing, swelling or counting at frame n.
-func swelling(n: int) -> Array[String]:
+func swelling(n: float) -> Array[String]:
 	var out: Array[String] = []
 	for gain: Dictionary in gains:
-		var age: int = n - _i(gain["land"])
+		var age: float = n - _i(gain["land"])
 		if age >= 0 and age < SWELL_BACK and not out.has(str(gain["key"])):
 			out.append(str(gain["key"]))
 	return out
 
 
 ## Every tally tag at frame n: [{key, run, stat, text, scale, alpha, drop}].
-func tags_at(n: int) -> Array[Dictionary]:
+func tags_at(n: float) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for tally: Dictionary in tallies:
 		if n < _i(tally["appear"]) or n >= _i(tally["gone"]):
@@ -422,7 +422,7 @@ func tags_at(n: int) -> Array[Dictionary]:
 				k = j
 		var size: float = 1.0
 		var first: int = _i(lands[0])
-		var age: int = n - _i(lands[k])
+		var age: float = n - _i(lands[k])
 		if buff_option() == "b" and n < first + TAG_SETTLE:
 			# B's first: x0.5 at L-2, x1.25 at L+2, x1.0 by L+6
 			if n < first + TAG_PEAK_AT:
@@ -462,7 +462,7 @@ func tags_at(n: int) -> Array[Dictionary]:
 
 ## C: every tag in flight at frame n: [{gain, key, stat, text, cause, mix, scale, alpha}]. mix
 ## is the share of the way travelled (the recruit's arrive curve: off gently, in at speed).
-func flights_at(n: int) -> Array[Dictionary]:
+func flights_at(n: float) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	if buff_option() != "c":
 		return out
@@ -471,7 +471,7 @@ func flights_at(n: int) -> Array[Dictionary]:
 		var born: int = _i(gain["born"])
 		if born < 0 or n < born or n >= _i(gain["land"]):
 			continue
-		var age: int = n - born
+		var age: float = n - born
 		var t: float = float(age) / _i(gain["fly"])
 		var mix: float = RecruitTurnStart._arrive(t)
 		var size: float = lerpf(BORN_GROWN, 1.0, mix)
@@ -500,13 +500,13 @@ func flights_at(n: int) -> Array[Dictionary]:
 
 
 ## C: every disc flaring at frame n: [{gain, key, stat, age}].
-func flares_at(n: int) -> Array[Dictionary]:
+func flares_at(n: float) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	if buff_option() != "c":
 		return out
 	for j: int in gains.size():
 		var gain: Dictionary = gains[j]
-		var age: int = n - _i(gain["land"])
+		var age: float = n - _i(gain["land"])
 		if age < 0 or age >= FLARE:
 			continue
 		var stats: Dictionary = gain["stats"]
