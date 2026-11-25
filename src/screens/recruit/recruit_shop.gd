@@ -96,21 +96,10 @@ static func build_buttons(screen: RecruitScreen) -> void:
 
 
 static func refresh_step(state: Dictionary) -> Vector2i:
-	var left: int = GlassPieces.as_int(state.get("refreshes_left", 0))
-	# Older fixtures only carry the remaining count and price. Live state supplies the step
-	# length, which stays the same when a discount (including a free refresh) changes the price.
-	var total: int
-	if state.has("refresh_step_size"):
-		total = GlassPieces.as_int(state["refresh_step_size"])
-	else:
-		var defaults: GameConfig = GameConfig.new()
-		var cost: int = GlassPieces.as_int(state.get("refresh_cost", 0))
-		total = (
-			defaults.refresh_step_length
-			if cost > defaults.refresh_base_cost and left <= defaults.refresh_step_length
-			else defaults.refresh_first_step_after
-		)
-	return Vector2i(total, left)
+	return Vector2i(
+		GlassPieces.as_int(state.get("refresh_step_size", 0)),
+		GlassPieces.as_int(state.get("refreshes_left", 0))
+	)
 
 
 static func _build_gold(screen: RecruitScreen) -> void:
