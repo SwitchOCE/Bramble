@@ -122,3 +122,16 @@ It has the same gates as every step, plus its own reference film: the game befor
 An agent can't judge sound, so step S is done only when the owner has listened on his PC.
 
 The owner plays the build from steps 0–6 first, then a second build with B and S.
+
+## Merge order with the UI rework (owner, 25 Nov)
+
+The owner, in the merge coordinator's thread: "You have my yes on decision one. I agree with the plan that both go into dev first. And yeah, I agree that we merge dev to main after I've played the dev build."
+
+So the UI rework (`ui/l1`) goes into `dev` first. After the first fight build is on the owner's PC:
+1. Tag the last commit without `ui/l1` as `fight-anim/pre-l1` and push the tag. It is the fallback if the UI PR stalls.
+2. Merge `origin/ui/l1` at `0f967435`. If a newer head is wanted, ask the coordinator first.
+3. Cherry-pick `9c6a7ff1` from `coord/port-gain-discs`. It moves the gain discs onto the new card.
+4. Re-film the references on the new card, run the gates, and send the owner a short film of the +N gains on it.
+5. Then step B. Its number jitter uses `GlassCard.stat_disc` and `_draw_stat`, and draws over the card, not inside `glass_card.gd`.
+
+Tell the coordinator when step 4 is done and before opening any `dev` PR. The fight PR comes after the UI PR has merged. `dev` goes to `main` once, after the owner has played a build cut from `dev`.
