@@ -20,7 +20,7 @@ Agreed 17 Nov 2026 with the assurance session, on the owner's word: "As long as 
 
 | Mock-up | Brief | Drawn by | Approved | Status |
 |---|---|---|---|---|
-| [Shop](shop/index.html): coin, price tags, refresh counter, duplicates | [briefs 1, 3, 4](../../workstreams/backlog-briefs.md) | An agent, 17 Nov | 17 Nov: "I'm happy with the mock-ups ... There's tags in the shop are fine", with the coin addendum in brief 1 | Approved |
+| [Shop](shop/index.html): coin, price tags, refresh counter, duplicates | [briefs 1, 3, 4](../../workstreams/backlog-briefs.md) | An agent, 17 Nov | 17 Nov: "I'm happy with the mock-ups ... There's tags in the shop are fine", with the coin addendum in brief 1 | Approved. On the buy screen the L1 look replaces its coin, price tags and refresh counter ([look-l1](../look-l1/README.md)); its duplicate marks stand until the L1 look designs them (spec section 11, item 17). `tests/screens/shop_reference.html` still loads it |
 | [Keyword tooltips](tooltips/index.html) | [brief 2](../../workstreams/backlog-briefs.md) | An agent, 17 Nov | 17 Nov: "That's exactly how it should work. You've nailed it." | Approved |
 | [Card browser](card-browser/index.html) | [brief 9](../../workstreams/backlog-briefs.md) | An agent, 17 Nov | 17 Nov: "The card browser is great." | Approved |
 

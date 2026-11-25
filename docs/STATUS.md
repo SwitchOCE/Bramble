@@ -1,16 +1,16 @@
 # Status
 
-Last updated 21 November 2026.
+Last updated 25 November 2026.
 
 ## Where we are
 
-Pre-production. The look is decided, lead and stained glass, and is being dialled in. Tribes are being shaped from the species seeds. The rules and economy are drafted to v0.10. `main` holds a playable build: a whole game against ghosts (recorded runs of the league's Rust bots), with five tribes, in the glass look. Every build ships its own field of ghosts at its rules. It was built on the second ideation track and came to `main` on the owner's say-so (17 Nov 2026). Its content is not done and its unit numbers are not accepted: see "The playable build" below. The first balance pass, measured in the bot league, came to `main` on 19 Nov, and balance batch 1 (the owner's card picks) on 21 Nov; batch 1 is not yet measured by bots that pass the stopping test.
+Pre-production. The look is decided: lead and stained glass, with the card and the buy screen in the L1 look. Tribes are being shaped from the species seeds. The rules and economy are drafted to v0.10. `main` holds a playable build: a whole game against ghosts (recorded runs of the league's Rust bots), with five tribes, in the glass look. Every build ships its own field of ghosts at its rules. It was built on the second ideation track and came to `main` on the owner's say-so (17 Nov 2026). Its content is not done and its unit numbers are not accepted: see "The playable build" below. The first balance pass, measured in the bot league, came to `main` on 19 Nov, and balance batch 1 (the owner's card picks) on 21 Nov; batch 1 is not yet measured by bots that pass the stopping test.
 
 ## Live now
 
 | Work | Where | Plan or notes |
 |---|---|---|
-| Dialling in the glass look: card art from the recipe, screen mock-ups | `main`, and the branch `design/glass-mockups` for the mock-ups | [workstreams/glass-dial-in.md](workstreams/glass-dial-in.md) |
+| The L1 look: the buy screen and the card are built; the fight screen, calmer card art and about thirty undesigned states are still to come | The build (`src/glass/`, `src/screens/recruit/`, `assets/glass/l1/`) | [design/look-l1/](design/look-l1/README.md): the spec, the owner's decisions L1 to L51, and what is still two-sided |
 | Species seeds and tribe shells | Outside Git: the species seeds page, https://claude.ai/artifact/L7QD6ka8LzD22mnGsgA4SY, and its work folder on the owner's PC. A 16 Nov snapshot is in Cloudflare R2 ([tools/assets/README.md](../tools/assets/README.md)) | Design work uses the `bramble-design` skill |
 | Rules and economy | `main` | [workstreams/rules-and-budget.md](workstreams/rules-and-budget.md); waiting on the owner |
 | The playable build: five tribes, the glass look, a whole game against ghosts. The owner iterates on it from here | `main` (`src/`, `assets/`, `tests/`). Built on the second ideation track, which is finished | [ideation-track-2/README.md](ideation-track-2/README.md): what was accepted, the calls agents made, what is open. The plan it was built to: [workstreams/ideation-track-2.md](workstreams/ideation-track-2.md) |
@@ -19,7 +19,7 @@ Pre-production. The look is decided, lead and stained glass, and is being dialle
 
 The owner, 17 Nov 2026, after playing it: "I really like ideation. I'm willing to accept most of it. I do not think the content is done ... the tribe's most units are not balanced to my satisfaction, but I am happy with all of the card art and the mechanics so far and the UI. So I'm happy to move ideation onto main and then iterate on main to some of those changes."
 
-- **Accepted:** the card art, the mechanics so far, and the UI.
+- **Accepted:** the card art, the mechanics so far, and the UI. The UI accepted then had the earlier card and screen; the buy screen and the card are now the L1 look, which the owner chose and approved for building from mock-ups (24 and 25 Nov 2026, [design/look-l1/](design/look-l1/README.md)).
 - **Not accepted:** the content is not done. Most units' numbers and the balance are not to the owner's satisfaction.
 - **Balance pass 1 (19 Nov 2026)** changed Pigeons, Locusts, the Orchard Stripper and Badgers, measured in the bot league on the Rust engine. Some changes are the owner's calls and some are the pass's proposals: PRs #165 and #167, and the owner's notes `design/owner-notes/2026-11-19a`–`c`.
 - **Partly reconciled with the rulebook.** [ideation-track-2/](ideation-track-2/README.md) holds the build's own rules and notes, written by agents. The rulebook's rules of 17 Nov (v0.9, C15: free moving between hand and board, selling from the hand, recruit effects, the Triple Reward's timing) are now in the build, with a prototype Lock keyword (plan and answers: [workstreams/night-18-nov/rules-c15-plan.md](workstreams/night-18-nov/rules-c15-plan.md)). The rules of 19 Nov (v0.10, C16: no shared pool, fixed shop chances, async play against recorded runs) are not: the build still has a shared pool. That page lists the other known differences.
@@ -28,7 +28,7 @@ The owner, 17 Nov 2026, after playing it: "I really like ideation. I'm willing t
 
 ## Decided
 
-- **Art direction: lead and stained glass,** cards and the whole UI (owner, 15 Nov 2026: "That is the direction we're going with" and "this is authoritative"). See [design/art-direction/README.md](design/art-direction/README.md), which also lists what is still open, and the owner note [2026-11-15b](design/owner-notes/2026-11-15b-stained-glass-direction.md). The six card frames are done ([workstreams/glass-frames.md](workstreams/glass-frames.md)) and the card art recipe is approved ([design/art-direction/card-art-recipe.md](design/art-direction/card-art-recipe.md)).
+- **Art direction: lead and stained glass,** cards and the whole UI (owner, 15 Nov 2026: "That is the direction we're going with" and "this is authoritative"). See [design/art-direction/README.md](design/art-direction/README.md), which also lists what is still open, and the owner note [2026-11-15b](design/owner-notes/2026-11-15b-stained-glass-direction.md). The card and the buy screen are the **L1 look** (24 and 25 Nov 2026, [design/look-l1/](design/look-l1/README.md)): one lead frame drawn in code, the same at every tier, with tier shown by light in the shop. The card art recipe is approved and fits the new card ([design/art-direction/card-art-recipe.md](design/art-direction/card-art-recipe.md)); the art itself is unchanged for now: "I think card art replacement can happen later. We'll just replace the borders for now." (L51).
 - **Engine: Godot with GDScript,** typed as strictly as possible (2 Nov 2026; research in [archive/engine-language.md](archive/engine-language.md)). Confirmed on 16 Nov 2026 after the owner asked whether to leave Godot: "I think we stick with the Godot as well. ... HTML should be used for mockups, and we can then hopefully just copy HTML layouts and get them pixel accurate."
 - **Costing: the [tier guide](design/tier-guide.md)** (12 Nov 2026): one job per tier and rough targets as ratios, in place of strict per-card budgets. The earlier power budget and its review points B1–B7 are archived ([archive/power-budget/](archive/power-budget/ARCHIVED.md), 16 Nov 2026).
 - **Toolchain: built and proved in the cloud** (6 Nov 2026): the Godot project, the quality gate, exports for Windows, Android and Linux, and CI. See [CLOUD_SETUP.md](CLOUD_SETUP.md). What was not proved is in [the proof log](archive/cloud-toolchain-proof.md).
@@ -48,7 +48,7 @@ Research on Battlegrounds, Once Upon a Galaxy and the economy is in `research/`.
 The order, confirmed by the owner on 16 November 2026:
 
 1. **Progress the tribe shells with mechanic ideas.** "I'd be happy to have those shells progressed a bit more. Not to fully fleshed out yet, but like progressed a bit more with mechanic ideas and stuff."
-2. **Finish dialling in the glass look:** the card art recipe and the mock-ups. The frames are done.
+2. **Finish dialling in the glass look:** the card and the buy screen are done (the L1 look). Still to come: the fight screen in this look, and calmer card art with a colour guide per tribe (L6; later, L51).
 3. **The shop-odds talk** the owner asked for once the economy was set (rulebook 6.1.7; the pool question, 5.1.4, was settled on 19 Nov: no pool, fixed chances, rulebook 5.1).
 4. **Later:** the remaining rule defaults, rulebook v1, then game code. *[Game code arrived early: the playable build came to `main` on 17 Nov, and the owner said they will "iterate on main". How that changes this order is the owner's call.]*
 
@@ -58,7 +58,7 @@ The order, confirmed by the owner on 16 November 2026:
 
 - Everything in [design/review-queue.md](design/review-queue.md): the hand, the pillars page, and the remaining proposed defaults.
 - The playable build: the two lists in [ideation-track-2/README.md](ideation-track-2/README.md) (calls agents made without you; things left for you to decide), and how the build is brought in line with the rulebook.
-- The glass look: what the "few more things" in the UI are, which spacing to lock, and the open list in the art direction README.
+- The L1 look's open items: the L1 section of the [review queue](design/review-queue.md) and the open list in the [art direction README](design/art-direction/README.md).
 - Which woodland species make the cut, and the tribe list (fairies and oozes are in).
 - Whether to add a TFT-style trait system (the owner is leaning no).
 

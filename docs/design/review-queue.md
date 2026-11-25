@@ -46,3 +46,12 @@ See [the owner note](sources/2026-10-27f-power-budget-decisions.md).
 19. **What follows from free moving between hand and board** (rulebook 7.2.4, yours of 17 Nov). You decided on 17 Nov that play triggers resolve on recruit, not on play (7.2.3), and that they also fire for units gained without buying (7.2.6). Still open:
     - The keyword that locks a unit with a Recruit Phase advantage onto the board for the turn. It is not a rule yet and has no name.
 20. **The playable build** (on `main` since the second ideation track, 17 Nov). You accepted its card art, mechanics and UI, and not its unit numbers and balance. The calls agents made in it without you, and the things left for you to decide, are listed in [ideation-track-2/README.md](../ideation-track-2/README.md). The build also predates your 17 Nov rules (item 19), so it does not follow them yet.
+
+## 5. The L1 look
+
+The buy screen and the card are built to the L1 look ([look-l1/](look-l1/README.md)). These parts of it are not designed yet:
+
+21. **Tier without colour.** In the shop, tier is told by the colour and strength of the arch's light alone; off the shop, only by the hover's words. Both design skills (`design-critique`, `accessibility-review`) say colour should not be the only cue. ([spec](look-l1/buy-screen-l1.md) section 11, item 34)
+22. **About thirty states of the buy screen keep the earlier look as stand-ins:** frozen, empty arches and slots, keyword marks, carried cards, the sell area, Discover, the hand's count and the rest. The spec's section 11 lists each, with the pick an agent made where one was needed. Your picture-and-yes is needed before any of them changes on the card face.
+23. **The fight screen** keeps the earlier look's room with the new card. The fight at this card size is not designed (L35).
+24. **Calmer card art** with a colour guide per tribe (L6) is not started. You said it comes later: "I think card art replacement can happen later. We'll just replace the borders for now." (L51)
