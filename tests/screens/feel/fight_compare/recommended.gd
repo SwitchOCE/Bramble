@@ -83,8 +83,10 @@ func make_motion(cards: Control) -> FightMotion:
 	motion.set("option", DEATH)
 	motion.set("solo", solo)
 	motion.set("whole_frames", false)
+	# each single death from its fall's frame on the schedule (none yet: from the clock it shows)
 	var starts: Dictionary = {}
-	for value: Variant in timeline.get("_falls"):
+	var falls: Array = timeline.get("_falls") if timeline != null else []
+	for value: Variant in falls:
 		var fall: Dictionary = value
 		if solo.has(str(fall["key"])):
 			starts[str(fall["key"])] = GlassPieces.as_int(fall["frame"]) / 60.0

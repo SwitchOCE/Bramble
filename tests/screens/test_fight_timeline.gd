@@ -550,7 +550,9 @@ func test_the_same_fight_at_30_and_144_frames_a_second() -> void:
 		if slow_ages[k] < 0.0:
 			continue
 		struck += 1
-		assert_almost_eq(fast_ages[k], slow_ages[k], 0.7, "the strike's age at %d/6 s" % k)
+		# the strike's clock starts where the fight's stopped, on the result's frame (advance), so
+		# at 30 fps it can trail by up to one drawn frame's FAST share (3 schedule frames)
+		assert_almost_eq(fast_ages[k], slow_ages[k], 3.0, "the strike's age at %d/6 s" % k)
 		if slow_health[k] != fast_health[k]:
 			health_differ += 1
 	assert_gt(struck, 12, "the strike sampled over two seconds")
