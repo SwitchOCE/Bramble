@@ -58,7 +58,7 @@ Bots are built from their tags in a build tree of this session's own (`/data/car
 
 First: one match of 2,000 games, 1,000 with red-c14 in the live seat and 1,000 with blue-c17 (always Badger). About ten minutes. Fights between the field's ghosts are in the records too, so text off also sees boards from the 15,000 runs of earlier bots, of every tribe. More games are played only where a card reads "too few". Runs with a bot held to a tribe it plays badly are not planned: they measure the bot as much as the cards.
 
-Text off and Overrun on and off are run on this match. Left out of the shop is run for the Badger cards first (19 cards, 2,000 games each), then the rest. **First report to the owner:** the four cases, and every card with enough data, as one table and one chart.
+Text off and Overrun on and off are run on this match. Left out of the shop costs about ten minutes a card, so it is run on a short list: the cards the owner named, and any card the cheaper measures point at. **First report to the owner:** the four cases, and every card with enough data, as one table and one chart.
 
 Raw files are deleted once the findings are written; the per-card tables and the report stay (under 2 MB).
 
