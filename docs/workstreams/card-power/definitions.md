@@ -4,6 +4,19 @@ Fixed on 25 Nov 2026, before any of this session's match data was read for card 
 
 Already seen when these were written: the blue team's fight table of 18 Nov (a fresh copy of each card added to recorded boards), in which Old Brock ranks first, Sword-heir eighth and Brock Cub 93rd of 95 at rounds 7 to 9; and the league's 22 Nov final-board shares (Sword-heir 96%, Brock Cub 88%, Old Brock 51% of the Badger bot's boards).
 
+## The ladder: cheap first, costly only where pointed
+
+The owner, 25 Nov: "there should be some sort of escalation ladder ... if we ran [a 2,000-game test] for every card always, it would be extremely, extremely prohibitive in terms of development speed."
+
+| Step | What | Kind | Cost, measured 25 Nov | Run on |
+|---|---|---|---|---|
+| 1 | Pick rate, bought against passed, stat growth | Reading games already played | Under a minute for every card | Every card, after any match with records |
+| 2 | Abilities off, keyword on and off, Overrun swings, stat worth of the text | Experiment on recorded fights | About 5 minutes for every card | Every card, after any match with records |
+| 3 | Left out of the shop | Experiment over whole games | About 10 minutes a card | Only cards marked worth a look in steps 1 and 2, cards the owner names, and cards that are new or just changed |
+| 4 | A read of the card, then a line of explanation or a proposal to the owner | Judgement | Minutes | Cards that step 3 puts over the line, or that stay unexplained |
+
+Steps 1 and 2 need one match with records kept (2,000 games, 10 to 20 minutes), which a balance pass plays anyway. Step 3 is the only costly one, and it is spent only where a cheaper step points.
+
 ## Worth a look (every measure)
 
 The owner, 25 Nov: "there's going to be a statistically significant threshold where it's worth looking into for every measure we develop ... we might get some false positives, but we should figure out when we make a measure what exactly a threshold is where that single measure would be worth a look".
@@ -113,3 +126,4 @@ The owner called replacing a unit with a made-up plain unit "pretty unrealistic"
 - 25 Nov, AFTER the first tables were read: one worth-a-look rule for every measure (three spreads from the middle), on the owner's words quoted in its section. It replaces the text-off pointer (median two tiers up), which missed Sword-heir in rounds 1 to 8 because no tier 5 card was on a board that early.
 - 25 Nov: stat growth added, on the owner's idea quoted in its section, before its table was read.
 - 25 Nov, AFTER the growth table was read: a second worth-a-look line for stat growth, against cards of the same tier. Reason: "above its board-mates" cannot mark a card on a board where everything grows (Brock Cub on a Badger board), and the owner asked for the comparison with "the average unit of that tier".
+- 25 Nov: the ladder written down, on the owner's words quoted in its section. It states what definitions.md already did (left out of the shop on a short list only).
