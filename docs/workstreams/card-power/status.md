@@ -1,120 +1,114 @@
 # Card power session: where things stand
 
-Working notes for the session itself, so it can pick up after its context is cut down. Last written 25 Nov 2026, evening. Not a report: the owner's pages are linked below.
+Working notes for the session itself, so it can pick up after its context is cut down. It says what holds now; older states are in Git history. Last written 25 Nov 2026, 9.40 p.m. Not a report: the owner's pages are linked below. To be removed before the merge to `dev` unless the owner says otherwise.
 
 ## Who asked for what
 
-- Started by the owner's assurance session ("QA & Project Manager", on the owner's PC) on 25 Nov. The session leads and talks to the owner directly in its own thread.
+- Started by the owner's assurance session ("QA & Project Manager", on the owner's PC) on 25 Nov. The session leads and talks to the owner directly in its own thread. Mid-turn messages from the assurance session are marked "FROM AN AGENT, NOT THE OWNER": information and proposals, not the owner's instruction.
 - Two jobs: (1) why the balance process passed Sword-heir, Old Brock, Brock Cub and Overrun, and what to change or cut; (2) build the card power measures and make them a standing step.
-- The owner approved the plan on 25 Nov: [plan.md](plan.md). Definitions, with every change logged: [definitions.md](definitions.md). The fresh reviewer's cross-examination: [plan-interrogation.md](plan-interrogation.md).
+- The owner approved the plan on 25 Nov: [plan.md](plan.md). Definitions, with every change logged: [definitions.md](definitions.md). The fresh reviewer's cross-examination: [plan-interrogation.md](plan-interrogation.md). The owner's calls on cards, with what the data says: [known-cases.md](known-cases.md).
 - The league is inside the review (owner, 25 Nov). Bring league findings to the owner as proposals; change nothing in the league without the owner's word. The league is on hold: do not touch `/home/alex/league`, `/data/third-run` or the `league-pin` service (reading is fine).
-- The owner wants things that look out of place called out at once, even off task.
 - Out of scope: changing any card, keyword, rule or bot. Nothing goes to `main`. No skill or process doc merges without the owner's yes.
+
+## The owner's steers (25 Nov)
+
+- Things that look out of place are called out at once, even off task.
+- The measures are hints from imperfect bots, not facts. Every measure has its own "worth a look" line; false positives are fine. The process should mark nothing when the game is balanced.
+- An escalation ladder, cheap steps first; whole-game tests only for cards the cheap steps mark. Fight tests about 20 seconds a card, a margin of 2 to 3 points is fine.
+- The plain-copy swap is rejected. Abilities off is a measure of what the text is worth in fights, never called card power.
+- No specialist or one-tribe bots (one bot that is simply good, as with Stockfish). One-tribe play is to become weak through cross-tribe pieces. Bots must try to win.
+- Sword-heir is not up for debate: use it as the known strong case to test measures.
+- Highest-value changes first; clean processes with an escalation path for edge cases.
+- Rotate model families between runs; the owner asked for the bot versions document (done).
+- A bot ignoring a card is itself a finding. The roster idea is dropped; a bounty on ignored cards is held back unless the tribes-missing match still leaves cards with no data.
 
 ## Pages shown to the owner
 
-- Findings and plan: https://claude.ai/artifact/A38oUcVKdr9d7bJzFRuFRs (source: scratchpad `card-power-review.html`)
-- First fight numbers: https://claude.ai/artifact/PWf6WXnZVfX8XtdzKV7YGo (source: scratchpad `card-power-first-numbers.html`, generated from the CSVs in `/data/card-power/findings/m1`)
+- Findings and plan: https://claude.ai/artifact/A38oUcVKdr9d7bJzFRuFRs
+- First fight numbers: https://claude.ai/artifact/PWf6WXnZVfX8XtdzKV7YGo
 - Bot versions: [../bot-league/bot-versions.md](../bot-league/bot-versions.md)
 
-Pages follow the `house-style` skill. The scratchpad is on `/tmp` and can be lost; the first-numbers page can be rebuilt from the CSVs.
+Page sources are in the session scratchpad (on `/tmp`, lost on a reboot) and copied to `/data/card-power/pages`. Pages follow the `house-style` skill.
 
-## Code and where it is
+## Code
 
-Branch `balance/card-power` (pushed), from `origin/dev`:
-- `league refight` ported to today's engine (three commits). Reproduces recorded fights.
-- `tools/league/analysis/bought_passed.py` and `fight_text.py`, with tests.
-- This folder's docs and `docs/workstreams/bot-league/bot-versions.md`.
+Branch `balance/card-power`, pushed. Draft pull request to `dev`: https://github.com/SwitchOCE/Bramble/pull/257. Everything below is on the branch, both workers' commits included.
 
-Two worker branches, **not merged**, each scope-reviewed with no cut items and one ask item waiting on the owner:
-- `t3/card-power-refight-modes` (a46ecfc7, on c9a5b8c8): `league refight --text-off --keyword-off <ids> --overrun-swings --seeds N --cap N`. Ask: keep or drop the unused `taken_recorded` / `taken_off` fields (recommended: drop). Simplify: defaults should be `--seeds 2 --cap 500`.
-- `t3/ghost-match-card-exclusions` (410a2619, on f572a0c5): `league ghost-match --without <card>` (needs `--no-records`), `analysis/card_without.py` (pairing, `--control`), `analysis/card_without_run.py` (runner). Ask: must the two real-game checks (a never-bought card reads zero; a planted strong card is flagged) pass before merge or before the first full report (recommended: before the report). Simplify: runner timeout 1200 s; one card per `--without`.
+- `league refight`, ported to today's engine, with the modes `--text-off`, `--keyword-off <ids>`, `--overrun-swings` (defaults 2 seeds, cap 500).
+- `league ghost-match --without <id[,id...]>` (needs `--no-records`), `analysis/card_without.py` (pairing, `--control`), `analysis/card_without_run.py` (runner).
+- `analysis/bought_passed.py`, `fight_text.py`, `stat_growth.py`, with tests.
+- This folder's docs and the bot versions document.
 
-Not built: the owner's stat-worth idea (definitions.md, "Stat worth of the text"). It extends text off with stat multipliers ×1.5 to ×8 and solves for the multiplier over the sample. Build on the refight-modes branch once merged.
+Checks at last run: 45 Rust tests, 69 Python tests, clippy clean with `--no-deps`. A fresh review of the whole branch found no cut items; its fixes are applied. The owner answered the workers' two ask items "Yes to both".
 
-Before any merge to `dev`: project checks, a `scope-reviewer` agent on the session's own commits too (never reviewed in this context), a pull request. Merge alone only with no cut or ask items.
+**Before merge, two questions are with the owner:** keep or drop the plain refight's own statistics (`summary.tsv`; recommended keep), and whether this file goes to `dev` (recommended remove).
 
-## Data on `/data/card-power`
+Not built yet: stat worth of the text (definitions.md; extend text off with stat multipliers ×1.5 to ×8 and solve for the multiplier), the one-command report, the pick-rate-against-power chart.
 
-- `matches/m1`: 2,000-game ghost match on the climbing field, red-c14 and blue-c17 in the live seat (1,000 each), records kept. Seeds `matches/seeds-m1.txt`, secret `matches/secret-m1.txt`.
-- `matches/m1-control`: the same match replayed unchanged (records removed). Noise floor: blue −0.012, red −0.045 places over 1,000 games each.
-- `matches/m1-verify`, `m1-modes`, `m1-keywords`: refight outputs. `findings/m1/*.csv`: the tables (text_cards, keywords, overrun_swings, bought_passed).
-- `tree`: a git worktree used only to build the tagged bots (red-c14, blue-c17) with the `--without` patch applied. Its binary is `tree/tools/league/target/release/league` once `ref_field.sh` has rebuilt it; `target-match` is the older build output.
-- `worker-refight/target/release/league`: the binary with the refight modes. `worker-refight`, `worker-without`, `smoke`, `target`: can go once the branches are merged.
-- `ref-field` (being made, background task): about 12,000 runs from 1,500 live games of red-c14 against blue-c17, by the referee's `ref_field.sh` run with `TREE=/data/card-power/tree CORES=0-5` and no `CARGO_TARGET_DIR`. Log: `ref-field.log`.
+## Data on `/data/card-power` (about 5 GB)
+
+- `matches/m1`: 2,000 games on the league's climbing field, records kept. Seeds `seeds-m1.txt`, secret `secret-m1.txt`. `m1-control`, `m1-verify`, `m1-modes`, `m1-keywords`: its replay and refight outputs.
+- `ref-field`: the stronger field, 12,000 runs from 1,500 live games of red-c14 against blue-c17.
+- `matches/r1`: the 2,000-game baseline on `ref-field`, records kept (668 MB). Seeds `seeds-r1.txt`, secret `secret-r1.txt`.
+- `matches/r1-without/<card>/`: left out of the shop for sword-heir, old-brock, brock-cub, needle-sister (control), the four Grudge cards together, gleaner, fencing-master. The folder also holds `.log` files, so pair with `r1-without/*/`.
+- `matches/r1-no-badger-locust`: every Badger and Locust unit left out of both bots' shops (list in `matches/without-badger-locust.txt`). **Started 9.30 p.m.; log `matches/r1-no-badger-locust.log`.**
+- `findings/m1/*.csv`, `findings/r1/*.csv`: the tables. `pages/`: page sources and copies.
+- `tree`: a git worktree used only to build the tagged bots with the `--without` patch; binary `tree/tools/league/target/release/league`. `target`: this branch's build output (`CARGO_TARGET_DIR=/data/card-power/target`).
+- Can go now: `worker-refight`, `worker-without`, `smoke`, `target-match`.
 
 Raw matches are deleted once findings are written (storage rules: `docs/workstreams/league-data/README.md`).
 
-## What the numbers say so far
+## What the numbers say
 
-Fight tests only (101,061 fights, m1):
-- Sword-heir: text first or second of all cards at every stage (+0.34, +0.27, +0.195, +0.157; typical tier 3 about +0.04).
-- Old Brock: first from round 13 (+0.164; typical tier 6 +0.032). Too few boards before round 13.
-- Brock Cub: own text mid-table. With Overrun given to him he kills 2.1 to 2.3 units a swing, twice any other Overrun unit. His strength is gathered stats; needs the whole-game test.
-- Overrun: rounds 9–12, +0.083 against low-Health boards, +0.028 against high. Empties a board of three or more in about 3% of swings.
-- Checks passed: two halves agree (0.89–0.96), Sentry reads zero, typical margin ±1.6 points, 5 minutes for every card.
+**Why the cards passed (job 1).** The process flagged these cards four times and changed nothing: 16 Nov design note; 18 Nov the blue team's private fight table (Old Brock first); 20 Nov the fix round ("about 3x over late", rework recommended, overruled by the Badger pitch's round-11 test); 22 Nov a league flag held behind "tune only from passed bots". Overrun was never measured.
 
-Whole-game tests are **not usable yet**:
-- On the climbing field blue-c17 came first in 69% of games and red-c14 in 46%: the field is too weak (over half of it is the two starting bots).
-- Bought against passed read positive for almost every card: a bot that is ahead passes, a bot that is behind buys. The definition needs a control for how strong the board is. Fix it so the typical card reads zero, log the change in definitions.md, and only then read named cards.
+**Fight tests** (m1, 101,061 fights, 5 minutes for every card, halves agree 0.89 to 0.96, Sentry reads zero, typical margin ±1.6 points):
+- Sword-heir's text: +0.339, +0.270, +0.195, +0.157 by stage; first or second of all cards.
+- Old Brock: +0.164 from round 13, first. Too few boards before.
+- Brock Cub: own text mid-table. With Overrun he kills 2.1 to 2.3 units a swing, twice any other Overrun unit.
+- Overrun: +0.102 in rounds 5 to 8; in 9 to 12, +0.083 against low-Health boards and +0.028 against high. Empties a board of three or more in about 3% of swings.
+- Also marked: Gleaner, Squadron Leader, Fencing Master, Skin-shedder, Wheat Raider, Orchard Stripper, Sett Shield-bearer.
 
-Trace (job 1), early findings: the process flagged these cards four times (16, 18, 20, 22 Nov) and changed nothing. Details and quotes are on the first page. League findings given to the owner on 25 Nov: weak field; card knowledge kept private to teams; records deleted before any card reading; one-tribe bots can count as strong; rotate model families; the gate on card changes.
+**Stat growth.** Brock Cub gains +2.5/+3.5 a turn in rounds 5 to 8, the fastest tier 1 from round 5, and grows on every turn held. Golden Cubs hold a median +14/+22, +36/+50, +58/+81 by stage from round 5. Bigger growers: Fencing Master, Leafmould Carter, Gate Warden, Old Stump, Blackberry Sprawl, Colour Sergeant.
 
-## Update, 25 Nov late evening
+**The climbing field is too weak.** 8,000 of its 15,000 runs are from the two starting bots; on it blue-c17 came first in 69% of games and red-c14 in 46%. On `ref-field`: red 3.86, blue 4.71, places spread over 1 to 8.
 
-- Both worker commits are now on `balance/card-power` (cherry-picked), with the reviews' small fixes (refight defaults 2 seeds and 500; runner timeout 1200 s). 45 Rust and 68 Python tests pass. The two ask items are still unanswered by the owner, so nothing goes to `dev`.
-- New measures since the first write-up, all defined in definitions.md: one worth-a-look rule for every measure (three spreads from the middle); stat growth per turn held (`analysis/stat_growth.py`, the owner's idea; Brock Cub is the fastest-growing tier 1 from round 5, golden Cubs hold a median +58/+81 from round 13); bought against passed kept as a hint read against the typical card (it leans +0.12 to +0.27 against buying whatever is controlled for).
-- The stronger field is made: `/data/card-power/ref-field` (12,000 runs). Baseline on it: `matches/r1` (2,000 games, seeds `seeds-r1.txt`, secret `secret-r1.txt`): red-c14 averages 3.86, blue-c17 4.71, places spread over 1 to 8. So the field is strong enough.
-- Running: left out of the shop on r1 for sword-heir, old-brock, brock-cub and a never-bought control (needle-sister), into `matches/r1-without`; results to `findings/r1/left_out.csv`. Log `matches/r1-without.log`.
-- Known rough edge: stat growth's same-tier line over-marks tiers 4 to 6, where most cards do not grow at all and the spread is tiny. A floor (say three stats a turn) would fix it.
-- The planted-strong-card check cannot be run against a recorded field as planned, if changing a card changes the rules hash (to verify). Substitute to propose: leave out a whole set the bot depends on (every Badger unit for blue-c17) and confirm it finishes far worse.
-- Still to do from the earlier list: fight tests on r1's boards; stat worth of the text; full report page; process and league proposals; trace.md; one-command report; scope review of the session's own commits; PR; clean-up.
+**Left out of the shop** (r1, 1,000 games a bot, margin about ±0.17; the never-bought control reads −0.12 to −0.15, so read every number against about −0.13):
+- Sword-heir: red 1.11 places worse, blue 1.53 worse.
+- Old Brock: blue 0.07 worse (bought in 122 games; red never).
+- Brock Cub: blue 0.02 worse, red 0.13 better. The four Grudge cards together: blue 0.74 worse, red no loss.
+- Gleaner: red 0.32 better without it (bought in 883 games). Red holds it on 5%, 42%, 87%, 86% of boards by stage while its text falls from 0.42 to 0.09: red keeps a tempo card too long. The owner agrees it is a tempo card. Add "boards holding the card, by stage" as a standard report column.
+- Fencing Master: no effect.
 
-## Update, 25 Nov night
+**Bought against passed** leans +0.12 to +0.27 against buying whatever is controlled for. Kept as a hint, read against the bot's typical card.
 
-- **Left out of the shop on the strong field (r1), 1,000 games a bot:** Sword-heir: red 1.11 places worse, blue 1.53 worse (over the line). Old Brock: blue 0.07 worse (bought in 122 of 1,000 games; red never). Brock Cub: blue 0.02 worse, red 0.13 better (no loss). Control Needle Sister (never bought): 0.12 to 0.15 better, so read every number against about −0.13 (one less dead card in the shop). Margin about ±0.17. Table: `/data/card-power/findings/r1/left_out.csv`.
-- **Running:** left out for all four Grudge cards together (brock-cub, sett-shield-bearer, armsbearer, grudge-keeper), then gleaner, then fencing-master; log `matches/r1-without-2.log`; then re-pair with `analysis/card_without.py r1 r1-without/*/` (directories only, not the `.log` files).
-- **The owner's calls are recorded:** [known-cases.md](known-cases.md), with what the data says on each. Use it to test every measure and process change.
-- **The ladder** (definitions.md): readings of played games, then experiments on recorded fights, then the whole-game test only for marked cards, then a read. A fixed floor sits beside the three-spreads rule so a balanced game marks nothing.
-- **Order of value for process changes** (told to the owner): fix the climbing field; run the cheap steps after every kept bot; give teams' card measurements to balance; the known-cases set; a make-it-work test for ignored cards; rotate model families and run the restarts; a measured price for growing effects in the design method; drop made-up-board pitches as evidence, the generic power check, and the stopping test as a gate on card changes.
-- **Half the cards have no data** because neither kept bot buys them (bought under 1% of offers: Mouse 14 of 17, Briar 13 of 19, Pigeon 10 of 20, Locust 8 of 19, Badger 1 of 19, no tribe 7 of 8). Red ends on Locust in 78% of games, blue on Badger in all. The report must give the reason a card has no data: never offered, tribe not played, or offered and refused (only the last is a sign).
-- **The owner asked for a considered answer on how to get data on ignored cards** (forcing bots against running more bots). The session's answer, given 25 Nov: never change how the league's best bots play; get the data from separate runs. In order of cost: (1) an add-a-fresh-copy fight test for every card (the blue team's `cardpower` tool does this already); (2) a forced-in whole-game test, the mirror of left out, read as a lower bound; (3) one specialist bot per neglected tribe, forked from the best bot by a fresh agent of another model family, once per balance pass, with its games added to the field. Not random buying inside the league bots.
+**Half the cards have no data.** Bought on under 1% of offers: Mouse 14 of 17, Briar 13 of 19, Pigeon 10 of 20, Locust 8 of 19, Badger 1 of 19, no tribe 7 of 8. Red ends on Locust 78%, Badger 12%, Pigeon 6%, Briar 4%, Mouse 1%; blue on Badger in all. Red's place by tribe: Badger 3.53, Locust 3.68, Mouse 4.33, Briar 5.36, Pigeon 6.00. The report gives the reason a card has no data: never offered, tribe not played, or offered and refused (only the last is a sign).
 
-- **The owner's follow-up on ignored cards (25 Nov night):** change the rules the bot teams work under so they have to find uses for cards ("the value tables can't set a card to zero ... It's very hard to create a rule that can't be gamed"). The session's answer: rule on measured results, not on a bot's insides. Two proposals to write up with the league changes: (a) each team fields a roster, one bot per tribe or style, and the team's score counts all of them; (b) a bounty for any card bought on under 1 offer in 100: a team earns it with a bot variant that plays the card often and that the referee's left-out test shows really depends on it. A card no team can claim goes to design as weak.
+**Extra bodies in fights.** About 3.0 to 3.4 extra a side from round 5, about 10 bodies a side; 16 or more on about 1 side in 350; most seen 20. Counted as `deaths + survivors − starting`.
 
-## Update, 25 Nov, last of the day
+**A log failure to report (the owner asked for it in the output).** The match log's `summons` field counts only freshly summoned units and leaves out units that return (Molt, Root) and reserves stepping in. Nothing in the logs splits extra bodies by kind, so the session first told the owner "0.08 summons a side late". Proposal: the fight log records every body that joins a fight with its kind (summon, return, reserve) and its source card; LOGS.md says in each field's first line what it leaves out. The owner also said summons were cut too far by an earlier balance pass and may need adding back (the owner's design call).
 
-- The owner answered the two review questions "Yes to both"; the unused damage-taken fields are dropped. Draft pull request to `dev`: https://github.com/SwitchOCE/Bramble/pull/257. A fresh review of the whole branch found no cut items; its two small fixes are applied. Two questions are with the owner before merge: keep or drop the plain refight's own statistics (`summary.tsv`), and whether this status file goes to `dev` or is removed before merge.
-- More left-out results on r1: all four Grudge cards together, blue 0.74 places worse, red no loss; Gleaner, red 0.32 places BETTER without it (bought in 883 of 1,000 games), so red over-values it; Fencing Master, no effect.
-- The owner rejected specialist bots (the Stockfish point: one bot that is simply good). The session's revised advice: test generality by taking tribes away. Running: `matches/r1-no-badger-locust` (every Badger and Locust unit left out of both bots' shops; list in `matches/without-badger-locust.txt`). Read: each bot's average place, what it ends on, and then the per-card measures on the other three tribes.
-- Roster idea dropped; bounty on ignored cards held back unless the tribes-missing match still leaves cards with no data.
+## Output still owed, in order
 
-## Before compaction, 25 Nov
+1. Read `r1-no-badger-locust`: each bot's average place, what it ends on, then the per-card measures on the other three tribes' cards.
+2. Full results page: every card with data, the four cases, the known cases scored, the reason for each card with no data, boards holding the card by stage.
+3. Proposals page for the process and the league: one page for the common path, plus edge cases and what to drop. To include: the weak climbing field; tribes-missing scoring for generality; teams' card findings passed to balance; the card report run before records are deleted; the known-cases set; rotating model families and the two-strategy restarts; a flagged card may change before a bot passes (the owner said yes); the costing method needs a measured price for growing effects and a same-effect-across-tiers check; a first-sight read; the log failure above; drop made-up-board pitches as evidence, the generic power check, and the stopping test as a gate on card changes. Also `trace.md`.
+4. `tools/league/card_report.sh`, one command.
+5. Stat worth of the text and the pick-rate chart; a cheaper whole-game step (stop early, play only bots that buy the card, share a match); an add-a-fresh-copy fight test (the blue team's `cardpower` does this) and a forced-in test for ignored cards.
+6. Merge PR 257 once the owner has answered; clean `/data/card-power`; disk report.
+7. Report the Hazel Coppicer with Blackthorn Sapling replay bug to whoever owns the fight record.
 
-- **A log failure to report (owner asked for it in the output):** the match log's `summons` field counts only freshly summoned units and leaves out units that return (Molt, Root) and reserves stepping in. Nothing in the summary logs splits extra bodies by kind, so the session first told the owner "0.08 summons a side late" when the true count of extra bodies is about 3.3 a side (total about 10 bodies a side from round 5; 16 or more on about 1 side in 350; most seen 20). The recount used `result.deaths + survivors − starting`. Proposal for the write-up: the fight log records every body that joins a fight with its kind (summon, return, reserve) and its source card; and LOGS.md says in each field's first line what it leaves out. Also check a field's definition before reporting a number that looks too low.
-- **Gleaner:** red finishes 0.32 places better without it. Red holds it on 5% of boards in rounds 1 to 4, 42% in 5 to 8, 87% from round 9, and on 87% of final boards, while its text is worth 0.42, 0.24, 0.16, 0.09 by stage. The owner agrees it is a tempo card that falls off. Add "boards holding the card, by stage" as a standard report column. The owner also said summons were cut too far by an earlier balance pass and may need adding back (a design call for the owner).
-- **Still running when this was written:** `matches/r1-no-badger-locust` (background task; its result prints each bot's average place and what tribe it ends on). Read it first after restart.
-- **Open with the owner:** the two questions on draft PR 257 (keep the plain refight's `summary.tsv` statistics: recommended keep; status.md into `dev`: recommended remove before merge).
-- **Output still owed, in order:** (1) full results page: every card with data, the four cases, the known cases scored, the reason for each card with no data; (2) proposals page for the process and the league, one page for the common path plus edge cases and what to drop, including the log failure above, the weak field, tribes-missing scoring, card findings passed from teams to balance, the known-cases set, rotating model families; (3) `tools/league/card_report.sh`, one command; (4) stat worth of the text and the pick-rate chart; (5) merge PR 257, clean `/data/card-power` (about 5 GB), disk report.
-
-## Next steps, in order
-
-1. When `ref-field` finishes: play a 2,000-game baseline on it with the tree's binary (records are forced on; delete them after), and check each bot's average place is near 4. If it is under 3.5, say so.
-2. Left out of the shop on that baseline for sword-heir, old-brock and brock-cub, plus the two checks (a card the bots never buy; a planted strong card, which needs a copy of the card data and its own baseline). About ten minutes a card.
-3. Fix bought against passed (see above) and rerun on the new baseline.
-4. Get the owner's answers on the two ask items, apply the simplify items, merge the worker branches into `balance/card-power`, build stat worth.
-5. Full report page for the owner: every card with enough data, the four cases, what disagrees with the owner.
-6. Process proposals page (design stage and league), each with its evidence and what to drop; `trace.md`. Proposals only.
-7. The one-command report (`tools/league/card_report.sh`) and where it sits in the process.
-8. Pull request to `dev`; clean up `/data/card-power`; disk report.
+The planted-strong-card check probably cannot run against a recorded field (changing a card changes the rules hash; not verified). Sword-heir stands in as the known strong case.
 
 ## Things that bit, so they don't again
 
+- Never wait on another command with `pgrep -f <name>` inside a command that contains that name: it matches itself and waits forever. The tribes-missing match sat unstarted this way. Chain commands or wait on a process id.
+- After starting a background run, check within a minute that the real process exists.
+- Check a log field's definition before reporting a number that looks too low or too high.
 - `league ghost-match` refuses `--no-records` unless `--without` is given. For an unchanged replay, let it write records and delete them.
 - `ref_field.sh` checks for build output in the tree's own `target`, so do not set `CARGO_TARGET_DIR` for it.
-- 37 of 101,061 fights do not replay exactly; all hold Hazel Coppicer and Blackthorn Sapling. The refight modes leave such fights out. Worth a bug report to whoever owns the fight record.
+- 37 of 101,061 fights do not replay exactly; all hold Hazel Coppicer and Blackthorn Sapling. The refight modes leave such fights out.
 - The red bot reads its clock, so two runs of it differ slightly; always pair with a control when a difference is small.
 - `t3-approval-watch.py` under its own name is killed on this machine; the referee runs a renamed copy.
 - The machine is shared; other sessions' matches run on it. Use at most 4 threads.
 - A definition changed after data was read must be logged in definitions.md with its reason.
-- Mid-turn messages from the assurance session are marked "FROM AN AGENT, NOT THE OWNER": information and proposals, not the owner's instruction.
