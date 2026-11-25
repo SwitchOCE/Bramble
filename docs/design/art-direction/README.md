@@ -4,58 +4,46 @@ Decided by the owner on 15 November 2026. The owner's words are in [../owner-not
 
 It replaces two earlier choices, which no longer hold: "flat figure" (earlier on 15 November; kept as history in [../../archive/flat-figure/](../../archive/flat-figure/ARCHIVED.md)) and "Ink + flat B" (1 November).
 
-The owner approved a plan to dial the direction in on 15 November 2026: card frames and the screen first, then style rules and a guide. It is [../../workstreams/glass-dial-in.md](../../workstreams/glass-dial-in.md). Until its steps land, this page is the whole of what is decided.
-
-The recipe for making card art and assembling cards, approved by the owner on 16 November 2026, is in [card-art-recipe.md](card-art-recipe.md).
+The card and the buy screen are the **L1 look**, which the owner chose on 24 November 2026 and had built in the game: its spec and the owner's decisions are in [../look-l1/](../look-l1/README.md). The recipe for making card art, approved by the owner on 16 November 2026, is in [card-art-recipe.md](card-art-recipe.md).
 
 ## What is decided
 
 - **Cards and the whole UI are lead and stained glass.** The owner: "do up the UI with lead lining and stained glass art" and "I want the entire project to pivot around this."
-- **The chosen concept picture.** The owner picked it from six frame concepts: "The stained glass is absolutely amazing. I love it."
-- **The full-screen mock-up is close.** The owner, after seeing it: "The UI is very close, so I just want to refine a few more things." Its layout keeps "the positioning and spacing we had before". Its details (see below) are an agent's choices, not decisions.
+- **The chosen concept picture** sets the style of the art. The owner picked it from six frame concepts: "The stained glass is absolutely amazing. I love it." Its tier borders are not the card.
+- **The card is a window (L1).** One plain lead frame round the picture, drawn in code, the same at every tier and on every screen; the Attack and Health discs sit in its lower corners. The owner: "I agree with you that L1 is the best." Its points take a regular hexagon's angles and its ratio stays 0.56, 140 × 250 on the 1920 × 1080 stage (L8, L24).
+- **Tier is light, not a mark on the card.** No tier mark on a board card; tier shows on hover (L3). In the shop each unit stands in an arch lit from behind in its tier's colour: grey, green, blue, purple, orange, red, calmer than in the paintings and stronger with tier, with tier 6 between tiers 4 and 5 in strength (L4, L5). The colour order is the owner's of 15 and 16 November, with tier 5 orange in place of yellow so that gold belongs to golden alone.
+- **Golden is gilt and light.** A golden card's lead and disc rims turn to gilt, with a halo and a glint (the L1 look; spec section 6).
+- **Light is made in the engine.** "There needs to be some sort of lighting effect in Godot rather than some sort of static asset. And the twinkles on the gold borders are going to fall into the same kind of bucket." (L38). No glow is painted into a picture.
+- **The buy screen** is a dim church interior: a stone shop wall with five lit arches, an oak table for the board (four over three), a leather ledge for the hand, and a dim lancet window down each side. The owner: "Everything else is basically perfect. I really like this." (L42) and "Let's go with that and build it out in-game." (L44). Its pieces are painted per zone (L30) and live in `assets/glass/l1/`.
 - **How fighters look in glass.** The owner wants warriors shown full body, not cute and not zoomed in. Their earlier words, from 14 and 15 November: "these are fighters. They're supposed to be warriors"; the old art was "far too big and zoomed in", "too cartoony and Disney-ish", with "Not enough ... actual arms and legs". How that is done in glass is the process in [card-art-recipe.md](card-art-recipe.md), which the owner asked to keep as it is (15 Nov: "This process is producing what I like").
 
 ### The chosen concept
 
-The same fox card twice: tier 1 on the left, tier 6 on the right.
+The same fox card twice: tier 1 on the left, tier 6 on the right. The style of the glass is what was chosen; the game's card does not use these borders.
 
 ![The chosen concept: a fox duellist card as a leaded stained-glass panel, tier 1 in pale clear panes and tier 6 in glowing jewel-red panes](examples/glass-concept.jpg)
 
-### The mock-up
+### The buy screen in the game
 
-The recruit screen, leaderboard hidden. The screen is one window of three lights in dark stone; the cards are the bright panels.
+The L1 buy screen as built, with its light (25 November). The approved mock-up it was built from is [../look-l1/buy-screen-l1.jpg](../look-l1/buy-screen-l1.jpg).
 
-![The full-screen mock-up in lead and stained glass](examples/glass-mockup.jpg)
-
-The same screen with the leaderboard showing:
-
-![The mock-up with the leaderboard column open in the right-hand light](examples/glass-mockup-leaderboard.jpg)
-
-The same glass cards and UI over a dark woodland backdrop instead of the window, for comparing "one great window" with "glass pieces in the forest":
-
-![The mock-up with a dark woodland backdrop in place of the window](examples/glass-mockup-woods.jpg)
-
-The card sheet, at 1.6 times game size: a unit at each tier 1 to 6, a spell, an empty slot, a Ring slot and a unit on a Ring slot.
-
-![Card sheet: six units by tier, a spell, an empty slot, a Ring slot and a unit on a Ring slot](examples/glass-cards.jpg)
+![The L1 buy screen in the game: five lit arches with units in the shop, the board of four over three on an oak table, the hand on a leather ledge, the scoreboard in the left lancet and gold, health and End turn in the right](examples/l1-buy-screen-game.jpg)
 
 ## What is not decided yet
 
-Everything below is open. The mock-up shows one agent's answer to each; none of them is chosen.
-
-- **Card frame details.** The border, the lead pattern, the roundels for Attack and Health, the tribe emblem, how a spell differs from a unit. The owner: "get ready to lock in a bit more about how the card frames and stuff will look".
-- **How tier is marked.** The mock-up uses the tier colours the owner asked for earlier on 15 November ("white, then green, then blue, then that purple, then like yellow for legendary and red for mythic", as quoted in the mock-up's brief, `BRIEF-GLASS.md` on the Optiplex; the owner confirmed the order on 16 November 2026, with tier 1 grey or off-white), plus a number lozenge, a count of panes down each side, and a jewel and glow on tiers 5 and 6. Only the colour order is the owner's; the rest is the agent's.
-- **Spacing refinements.** The owner: "a bit more of the spacing".
-- **The window architecture.** Whether the screen is one window (the three lights in stone, as in the mock-up), glass pieces over a woodland backdrop, or something else; what the window is set in and what lights it.
+- **Calmer card art.** The owner on 24 November: "We need less bright backgrounds ... we need to set guidelines for background colours that are allowed per tribe, and I'd like a full colour palette guideline thing made up" (L6). It comes later: "I think card art replacement can happen later. We'll just replace the borders for now." (L51). Not started; it will change the card art recipe's prompt.
+- **The fight screen in this look.** It keeps the earlier look's room (a window of three lights in stone) with the new card. The fight at this card size is not designed (L35).
+- **What the L1 spec leaves undesigned:** about thirty states of the buy screen (frozen, empty slots, keyword marks, Discover and more) keep the earlier look as stand-ins ([spec section 11](../look-l1/buy-screen-l1.md)).
+- **Tier without colour.** In the shop, tier is told by colour and strength of light alone; off the shop, by the hover's words. A cue that does not rest on colour is not designed.
 - **Which tribe lives in which biome**, and the tribe list. The prompts below name biomes and six tribes to test the style; those are an agent's picks.
-- **What "the setting" means.** The owner said "It's now the setting, right?". It is not settled whether that means only the game's look, or also its world. This is being asked.
+- **What "the setting" means.** The owner said "It's now the setting, right?". It is not settled whether that means only the game's look, or also its world.
 
 ## How it was made
 
-All the glass pictures were made by Codex with its built-in image tool. The mock-up's own pages, lead lines, stone and pane field were built by an agent in HTML, SVG and Python on top of them.
+All the glass pictures are made by Codex with its built-in image tool.
 
 - **The concept.** [tools/art/prompts/glass-concept-frames.txt](../../../tools/art/prompts/glass-concept-frames.txt), item 2 (`frame-glass.png`). The other five items are the frame concepts that were not chosen.
-- **The mock-up's art.** Two Codex rounds, each with the chosen concept picture attached as a style reference. The prompts tell Codex to match its glass, lead and glow but not copy its hexagon, border, badges or fox.
+- **The first full-screen mock-up's art** (the mock-up is archived in [../../archive/glass-first-look/](../../archive/glass-first-look/ARCHIVED.md)). Two Codex rounds, each with the chosen concept picture attached as a style reference. The prompts tell Codex to match its glass, lead and glow but not copy its hexagon, border, badges or fox.
   - [glass-u1.txt](../../../tools/art/prompts/glass-u1.txt), [glass-u2.txt](../../../tools/art/prompts/glass-u2.txt), [glass-u3.txt](../../../tools/art/prompts/glass-u3.txt): the 15 fighter pictures.
   - [glass-p1.txt](../../../tools/art/prompts/glass-p1.txt), [glass-p2.txt](../../../tools/art/prompts/glass-p2.txt): the 8 portraits.
   - [glass-s1.txt](../../../tools/art/prompts/glass-s1.txt): the spell pictures, the pane sheet, the roundels, a quarry field and a stone texture.
@@ -63,18 +51,12 @@ All the glass pictures were made by Codex with its built-in image tool. The mock
 
   Every image was usable first time. All the prompts share one STYLE paragraph.
 
-To give a worker a style reference, put its full path in the worker's task, as step 2 of the [card art recipe](card-art-recipe.md) does with its guide.
+- **The L1 look's painted pieces** (wall, table, ledge, columns, arches, lanterns, coins and the rest): Codex rounds from the prompt files `looks/L1/prompts*.txt` on the branch `ideation/ui-ux`, cut out by `looks/L1/zone-pieces.py` there. The 20 the buy screen uses are in `assets/glass/l1/`.
 
-What the agent who built the mock-up found weak (from its notes):
-- The centre arch is wide and flat; it reads as a vault more than a pointed window head.
-- With the leaderboard hidden, the side lights are empty quarries; the top right is the quietest corner.
-- The count of panes that marks tier is faint at game size on the darker tiers (blue, purple).
-- The Ring slot's amber halo is close to End turn's amber accent.
-- Many fighters and portraits are hedgerow amber; the leaderboard has three warm-orange roundels in a row.
-- In the woodland version the glass cards have no frame or light of their own.
+To give a worker a style reference, put its full path in the worker's task, as step 2 of the [card art recipe](card-art-recipe.md) does with its guide.
 
 ## Files
 
-- `examples/`: JPEG copies of the concept and the four mock-up screenshots.
+- `examples/`: the chosen concept, the L1 buy screen in the game, and the card art recipe's pictures.
 - `tools/art/prompts/glass-*.txt`: the prompts above.
-- The full working files (the mock-up's HTML pages, every raw Codex PNG, its asset and build scripts, and the six frame concepts at full size) are on the Optiplex at `/data/bramble-art/stained-glass/`: `glass/` holds the mock-up (open `glass/scene.html`; `?openLb=strip` shows the leaderboard, `?bg=woods` the woodland backdrop), `frames/` the frame concepts, and the `BRIEF*.md` files the briefs the agents worked from.
+- The full working files of the concept and the first mock-up (every raw Codex PNG, the frame concepts at full size, and the briefs the agents worked from) are on the Optiplex at `/data/bramble-art/stained-glass/`. The L1 look's working files are on the Optiplex at `/data/ui-ideation/looks/L1/`.

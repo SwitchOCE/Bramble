@@ -8,7 +8,7 @@
 - **Waiting on you:** Nothing.
 <!-- /status -->
 
-Not on `main`: the option sheets and round prompts this plan names for the first ladders, the loose runs and the thin runs (`frame-lab/r1a` to `r1c`, `loose-a` to `loose-f`, `thin-a`, `thin-b`, the other takes of `thin-c`, and the frame lab page). They were taken out when the branch was prepared for `main` (16 Nov 2026) and are under the tag `archive/glass-frame-options-2026-11-16` at the same paths. So are the padded copies of the six frames (`final/*-padded.png`, the same frames with a 120 px margin; `tools/art/frame_cut.py` makes them) the guides for rounds that were removed, the measurements of takes that were not chosen, and one close-up sheet nothing linked to (`final/closeups-white.jpg`). The decided frames (`frame-lab/final/`), the locked design ([thin-c/take1.jpg](../design/art-direction/frame-lab/thin-c/take1.jpg)) and the guides they were drawn to stay.
+Not on `main`: the option sheets and round prompts this plan names for the first ladders, the loose runs and the thin runs (`frame-lab/r1a` to `r1c`, `loose-a` to `loose-f`, `thin-a`, `thin-b`, the other takes of `thin-c`, and the frame lab page). They were taken out when the branch was prepared for `main` (16 Nov 2026) and are under the tag `archive/glass-frame-options-2026-11-16` at the same paths. So are the padded copies of the six frames (`final/*-padded.png`, the same frames with a 120 px margin; `tools/art/frame_cut.py` makes them) the guides for rounds that were removed, the measurements of takes that were not chosen, and one close-up sheet nothing linked to (`final/closeups-white.jpg`). The decided frames (`frame-lab/final/`), the locked design ([thin-c/take1.jpg](frame-lab/thin-c/take1.jpg)) and the guides they were drawn to stay.
 
 Parent plan: [glass-dial-in.md](glass-dial-in.md), step 2 (card anatomy). This plan covers the unit frame by tier. The rest of step 2 follows once a frame is chosen: spells, the Ring slot, can and cannot afford, selected or held, and the contrast check.
 
@@ -16,7 +16,7 @@ Status: approved by the owner, 15 Nov 2026. Asked "Approve the frames-only plan?
 
 ## The problem, in the owner's words (15 Nov 2026)
 
-Said while comparing the chosen concept (two foxes, [glass-concept.jpg](../design/art-direction/examples/glass-concept.jpg)) with the mock-up's card sheet ([glass-cards.jpg](../design/art-direction/examples/glass-cards.jpg)):
+Said while comparing the chosen concept (two foxes, [glass-concept.jpg](../../design/art-direction/examples/glass-concept.jpg)) with the mock-up's card sheet ([glass-cards.jpg](examples/glass-cards.jpg)):
 
 > "I think the current ones don't capture the beauty of what the left did. I think that I really liked the idea of starting off pretty plain at the lower tiers and going with more segments and more color tinting as the tiers rose. But I do not feel that the ones on the right strike that correctly. And I want to improve and get a good set of options for all of the different tiers. I want to get the six card borders for every tier done. The key things it has to have is, just like on the left, has to have attack and health. And I liked that it was minimal. I liked that we didn't change the coloring and stuff to try and evoke it. It can just be attack and health. It doesn't need that. The left is better than the right in terms of the styling on that. ... So the other thing that the foxes do, the inspiration did, that the right doesn't, is it changed the aspect ratio of the cards to be a bit more narrow. I'm open to exploring that. So yeah, can we get some sort of way of experimenting with this stuff? What do you recommend in terms of me being able to see some options and get a feel for how things would look at various different choice levels?"
 
@@ -89,7 +89,7 @@ What the redraw (glass-frames-r1b.txt) changes:
 
 ## Code-drawn lead, Codex glass (owner, 15 Nov 2026)
 
-After the redraw, the owner asked whether frames could be drawn by code instead, for finer control: "I think the new shape is better. I don't want to go back to the old shape. ... Maybe we do some sort of programmatic stuff and use a gradient rather than relying on the image generation models, because it gives us more control to fine-tune things." A code-drawn version went into the frame lab ([comparison](../design/art-direction/frame-lab/code-vs-codex.jpg)). The owner's verdict:
+After the redraw, the owner asked whether frames could be drawn by code instead, for finer control: "I think the new shape is better. I don't want to go back to the old shape. ... Maybe we do some sort of programmatic stuff and use a gradient rather than relying on the image generation models, because it gives us more control to fine-tune things." A code-drawn version went into the frame lab ([comparison](frame-lab/code-vs-codex.jpg)). The owner's verdict:
 
 > "I think the textures that Codex does are way better. I think I really like the basic, the way you drew the lead lines in terms of having them all be diagonal and just increasing the number of the divisions was better Right. So can you tell Codex to use the positioning of the LED *[lead]* that you showed in your kind of programmatic only for 1 through to 5? I actually prefer Codex's 6 a little bit, or it can take inspiration from your 6, but your 6 is not better than its. And I like how it does the bottom and top diamonds more than how you've done it with the code. Those diamonds are far better. How it keeps them as one continuous shape and has it sit in the front, those are way cooler. I like that a lot on, and actually I kind of wonder if we should have that for every card, even the common, for the bottom only, maybe. Maybe bottom and top. I don't know. We can look at both."
 
@@ -97,23 +97,23 @@ What follows: Codex redraws tiers 1 to 5 with the code's lead layout and its own
 
 ## Card shape: 0.56, not yet locked (owner, 15 Nov 2026)
 
-After seeing the ratios side by side ([shapes](../design/art-direction/frame-lab/shapes.jpg), [0.50 to 0.56](../design/art-direction/frame-lab/aspects.jpg)), the owner said: "I think everything we want to do from now on is 0.56, and that's how the borders need to be." The card outline is 0.56 wide to 1 tall, the new shape from round 1b. Every frame prompt from here on attaches that outline and keeps it.
+After seeing the ratios side by side ([shapes](frame-lab/shapes.jpg), [0.50 to 0.56](frame-lab/aspects.jpg)), the owner said: "I think everything we want to do from now on is 0.56, and that's how the borders need to be." The card outline is 0.56 wide to 1 tall, the new shape from round 1b. Every frame prompt from here on attaches that outline and keeps it.
 
 The method isn't locked yet. The owner, later the same day: "We're not 100% sure yet. This stuff will still move, potentially. I mean, if it works and I'm happy with it, we can lock it in. But yeah, let's not be too rigid on anything yet until I'm absolutely certain that this method's going to work."
 
-The owner also asked about the art space inside it: "because we've got the borders being having this the shouldering being non-uniform at the top, the internal art space is less than it's shaped differently to the external border, and I want I want to know about that space." See [art-space.md](../design/art-direction/frame-lab/art-space.md).
+The owner also asked about the art space inside it: "because we've got the borders being having this the shouldering being non-uniform at the top, the internal art space is less than it's shaped differently to the external border, and I want I want to know about that space." See [art-space.md](frame-lab/art-space.md).
 
 ## Decided: take 1 (owner, 15 Nov 2026)
 
 After the size-locked runs (outline guide, then accent colours), the owner first said "Take three is clearly the best. ... I'm locking it in. We've decided that is the future", then corrected it: "Or I meant take one, not take three. My apologies. Can you rectify that?" The decision is **take 1** on the accent-colour sheet.
 
-Take 1 is `frame-lab/masters/loose-f1/accent-1.png` (JPEG: loose-f/f1-accent-1.jpg), from glass-frames-loose-f.txt with the outline-only guide [six-0.56-outline.png](../design/art-direction/frame-lab/guides/six-0.56-outline.png). What it is:
+Take 1 is `frame-lab/masters/loose-f1/accent-1.png` (JPEG: loose-f/f1-accent-1.jpg), from glass-frames-loose-f.txt with the outline-only guide [six-0.56-outline.png](frame-lab/guides/six-0.56-outline.png). What it is:
 - The 0.56 card with the spec border: the same shape and width at every tier, thickening into a wedge at the top and bottom points.
 - Tier 1 pearly white; tiers 2 to 6 green, blue, purple, gold, red. Tiers differ by colour depth, finer panes, and petals and a small jewel at the points.
 - One borrowed accent colour per tier: teal in the blue, small cyan jewels on the purple, green leaves on the gold, amber jewels with red and orange together at tier 6.
 - Roundels: a glowing gold disc with a dark numeral, ringed by small pieces of the tier's own glass.
 
-Each frame cut out on its own, in card space with a clear window: [frame-lab/final/](../design/art-direction/frame-lab/final/).
+Each frame cut out on its own, in card space with a clear window: [frame-lab/final/](frame-lab/final/).
 
 How the frames were prompted, for any later redraw: a short, loose prompt in the style of the first fox prompt, plus one strict rule, enforced with an outline-only size guide (thin lines on black, no fills). A grey-filled guide washed the colours out, and words like "calm" and "soft glow" flattened them.
 
@@ -122,36 +122,36 @@ How the frames were prompted, for any later redraw: a short, loose prompt in the
 On screen the take 1 frames looked too busy. The owner: "I think they're too busy now that I see them on screen. We need to reduce the width. ... I think it needs to come down by about 30% or so." Three more rounds, each attaching the previous chosen sheet as the look to keep (the owner chose that) beside a thinner outline guide:
 - thin-a: about 30% thinner. Take 4 was the thinnest at every tier.
 - thin-b: the owner asked to "go 20, 30% thinner again", give tier 1 "a little bit more detailing", and put the small crystal diamond "on everything ... in its correct color". The border came out about 13% thinner. The crystal was misread as one on the top point.
-- thin-c (tops close-up): the owner clarified that the diamond is the one hanging under the top accent into the window, as on tier 3, and the one "added to the top" should go. Prompt: [glass-frames-thin-c.txt](../../tools/art/prompts/glass-frames-thin-c.txt).
+- thin-c (tops close-up): the owner clarified that the diamond is the one hanging under the top accent into the window, as on tier 3, and the one "added to the top" should go. Prompt: [glass-frames-thin-c.txt](../../../tools/art/prompts/glass-frames-thin-c.txt).
 
-The owner then said: "Take one. Okay, let's lock take one in. I'm happy with it. Send it to the other session." **The decided frames are take 1 of thin-c**: `frame-lab/masters/thin-c1/drop-1.png` (JPEG: [thin-c/take1.jpg](../design/art-direction/frame-lab/thin-c/take1.jpg)). This replaces the earlier take 1 above. The six frames are cut into [frame-lab/final/](../design/art-direction/frame-lab/final/) with [tools/art/frame_cut.py](../../tools/art/frame_cut.py).
+The owner then said: "Take one. Okay, let's lock take one in. I'm happy with it. Send it to the other session." **The decided frames are take 1 of thin-c**: `frame-lab/masters/thin-c1/drop-1.png` (JPEG: [thin-c/take1.jpg](frame-lab/thin-c/take1.jpg)). This replaces the earlier take 1 above. The six frames are cut into [frame-lab/final/](frame-lab/final/) with [tools/art/frame_cut.py](tools/frame_cut.py).
 
-Its window is bigger than the [art-space](../design/art-direction/frame-lab/art-space.md) spec, which was for the thicker border. Art should be made to the thin guide's window, which contains the drawn window on every tier: in 560 x 1000 units, (280, 52.5), (529.1, 188.4), (529.1, 811.6), (280, 947.5), (30.9, 811.6), (30.9, 188.4).
+Its window is bigger than the [art-space](frame-lab/art-space.md) spec, which was for the thicker border. Art should be made to the thin guide's window, which contains the drawn window on every tier: in 560 x 1000 units, (280, 52.5), (529.1, 188.4), (529.1, 811.6), (280, 947.5), (30.9, 811.6), (30.9, 188.4).
 
 ## Sharper frames (owner, 15 Nov 2026)
 
-The first cut of the locked frames had "a lot of black stuff at the edges", so the cutter was rebuilt ([tools/art/frame_cut.py](../../tools/art/frame_cut.py)): the outer edge is the card outline fitted to the drawing, the window edge is smoothed, and soft edges take the frame's colour. The frames were still soft, because each was cut from a small slot on a six-card sheet and scaled up about 3.6 times. The owner: "If you can get a better result, try to do so and show it to me."
+The first cut of the locked frames had "a lot of black stuff at the edges", so the cutter was rebuilt ([tools/art/frame_cut.py](tools/frame_cut.py)): the outer edge is the card outline fitted to the drawing, the window edge is smoothed, and soft edges take the frame's colour. The frames were still soft, because each was cut from a small slot on a six-card sheet and scaled up about 3.6 times. The owner: "If you can get a better result, try to do so and show it to me."
 
-Each tier was then redrawn by Codex as one large card (about 1450 px tall instead of 560), with the locked sheet attached as the design to copy and a single-card outline guide ([prompt](../../tools/art/prompts/glass-frames-hires.txt)). Two takes; [close-ups](../design/art-direction/frame-lab/hires-closeups.jpg) and [overview](../design/art-direction/frame-lab/hires-overview.jpg). Take 1 matched the locked design most closely. The owner approved replacing the frames with it: "Yes, i approve".
+Each tier was then redrawn by Codex as one large card (about 1450 px tall instead of 560), with the locked sheet attached as the design to copy and a single-card outline guide ([prompt](../../../tools/art/prompts/glass-frames-hires.txt)). Two takes; [close-ups](frame-lab/hires-closeups.jpg) and [overview](frame-lab/hires-overview.jpg). Take 1 matched the locked design most closely. The owner approved replacing the frames with it: "Yes, i approve".
 
-The frames in [frame-lab/final/](../design/art-direction/frame-lab/final/) are now large take 1 (sources: `frame-lab/masters/hires1/tier1.png` to `tier6.png`, kept locally). Their windows sit inside the art window above, except tier 5's top corners, which reach about 5 units past it. *[Correction: the art's bleed was 4 units for the thin frames, not 18 as first said here, so tier 5 showed a gap; the art session raised its bleed to 12, which covers every tier.]*
+The frames in [frame-lab/final/](frame-lab/final/) are now large take 1 (sources: `frame-lab/masters/hires1/tier1.png` to `tier6.png`, kept locally). Their windows sit inside the art window above, except tier 5's top corners, which reach about 5 units past it. *[Correction: the art's bleed was 4 units for the thin frames, not 18 as first said here, so tier 5 showed a gap; the art session raised its bleed to 12, which covers every tier.]*
 
 ## Blank roundels (owner, 15 Nov 2026)
 
 The frames came with "3" and "5" painted on the roundels. The owner: "leave the backgrounds for the 3 and 5s. You need to mask over those so that we can draw whatever parent *[probably "power and"]* toughness that actually belong to the card there."
 
-[tools/art/frame_blank_roundels.py](../../tools/art/frame_blank_roundels.py) paints the numerals out of every frame in `final/` (both sizes): the middle of each gold disc takes a smooth fill of its own colour, fading back to the original glass towards the ring, so the disc keeps its glow and shows no outline of the old number. The ring and the rest of the frame are not touched. [roundels-check.jpg](../design/art-direction/frame-lab/final/roundels-check.jpg) shows the blank discs and sample numbers drawn on them.
+[tools/art/frame_blank_roundels.py](tools/frame_blank_roundels.py) paints the numerals out of every frame in `final/` (both sizes): the middle of each gold disc takes a smooth fill of its own colour, fading back to the original glass towards the ring, so the disc keeps its glow and shows no outline of the old number. The ring and the rest of the frame are not touched. [roundels-check.jpg](frame-lab/final/roundels-check.jpg) shows the blank discs and sample numbers drawn on them.
 
-[final/roundels.json](../design/art-direction/frame-lab/final/roundels.json) gives each disc's centre and radius per tier, in card px (1120 x 2000) and card units (560 x 1000). The game draws Attack on the left disc and Health on the right. The discs differ by a few units between tiers, so use each tier's own numbers.
+[final/roundels.json](frame-lab/final/roundels.json) gives each disc's centre and radius per tier, in card px (1120 x 2000) and card units (560 x 1000). The game draws Attack on the left disc and Health on the right. The discs differ by a few units between tiers, so use each tier's own numbers.
 
 ## Tier 5 redrawn to fit the art window (owner, 15 Nov 2026)
 
 Tier 5's opening reached 5.2 units past the art window along its two upper slopes, where its border was thinner than the other tiers'. The owner chose to have it redrawn rather than keep a wider art margin (asked in the art session): "Redraw tier 5".
 
-Codex drew three takes of tier 5 alone with the same attachments as the large redraw and one added line: the border reaches the guide's inner line along the upper slopes too ([prompt](../../tools/art/prompts/glass-frames-hires-t5.txt), [comparison](../design/art-direction/frame-lab/tier5-redraw.jpg)). All three fit. The owner chose take C: "Take C". Its opening sits 1.8 to 2.7 units inside the line on the upper slopes, like the other tiers (1.6 to 4). Its roundel rings are a little heavier, and its discs are slightly larger and higher (radius 65 units, centre y 751); `final/roundels.json` has its numbers. Source: `frame-lab/masters/hires-t5/tier5-c.png`, kept locally; `guides/hires1.json` now points tier 5 at it.
+Codex drew three takes of tier 5 alone with the same attachments as the large redraw and one added line: the border reaches the guide's inner line along the upper slopes too ([prompt](../../../tools/art/prompts/glass-frames-hires-t5.txt), [comparison](frame-lab/tier5-redraw.jpg)). All three fit. The owner chose take C: "Take C". Its opening sits 1.8 to 2.7 units inside the line on the upper slopes, like the other tiers (1.6 to 4). Its roundel rings are a little heavier, and its discs are slightly larger and higher (radius 65 units, centre y 751); `final/roundels.json` has its numbers. Source: `frame-lab/masters/hires-t5/tier5-c.png`, kept locally; `guides/hires1.json` now points tier 5 at it.
 
 ## Roundels: close enough (owner, 15 Nov 2026)
 
 Next to the other tiers, take C's roundels are a little bigger, and the owner then saw that every tier's roundels differ slightly in size and position. On tier 5: "Doesn't match, but it'll do for now." On all of them: "It'll do, just we need to account for the roundels being in slightly different positions with our fonting, our templating. As long as we get it close enough, it'll be fine. Like, I'm going to have a human artist do it eventually anyway, so they can have that precision."
 
-So the frames stay as they are. Anything that draws Attack and Health on a card reads that tier's disc centre and radius from [final/roundels.json](../design/art-direction/frame-lab/final/roundels.json), never one shared position.
+So the frames stay as they are. Anything that draws Attack and Health on a card reads that tier's disc centre and radius from [final/roundels.json](frame-lab/final/roundels.json), never one shared position.
