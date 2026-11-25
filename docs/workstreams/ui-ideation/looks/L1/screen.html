@@ -569,7 +569,7 @@ const PIECE_HEART = ZONES && Q.get("heart") !== "code";
 // c: red glass shield with swords; d: a bronze bell; arrow: the earlier amber roundel)
 const END = ZONES ? (Q.get("end") || "a") : "arrow";
 // counters=medallion|plate: how the player's counters are drawn (medallion: brief 37, the design two of three designers arrived at)
-const LVL = Q.get("lvl") || "off", LEVEL = +(Q.get("level") || 5);   // the shop's level shown on the wall (brief 38)
+const LVL = Q.get("lvl") || (Q.get("room") === "zones" ? "lantern" : "off"), LEVEL = +(Q.get("level") || 5);   // the shop's level shown on the wall (brief 38)
 const COUNTERS = Q.get("counters") || (ZONES ? "medallion" : "plate");
 // where the picture opening sits inside the painted hero frame, as shares of the piece (measured by zone-pieces.py)
 const HERO_PIECE = { l: 0.055, t: 0.088, w: 0.892, h: 0.826 };
