@@ -157,7 +157,7 @@ func test_the_cog_shows_in_a_game_and_opens_the_pause_panel() -> void:
 	start.play_requested.emit(PackedStringArray())
 	await wait_process_frames(2)
 	assert_true(cog.is_visible_in_tree(), "the cog in a game")
-	assert_eq(cog.position + cog.size / 2.0, Vector2(1850, 822), "the recruit cog is on the right")
+	assert_eq(cog.position + cog.size / 2.0, Vector2(1871, 821), "the recruit cog is on the right")
 	_real_click(_cog_middle(cog) + Vector2(cog.size.x, 0))
 	assert_null(_pause_of(main), "a click beside it does nothing")
 	_real_click(_cog_middle(cog))

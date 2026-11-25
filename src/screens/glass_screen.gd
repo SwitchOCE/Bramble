@@ -146,6 +146,10 @@ func _make_tips() -> GlassTips:
 
 
 ## A new state has come: drop anything the old one was in the middle of.
+func _make_counters() -> GlassCounters:
+	return GlassCounters.new(self)
+
+
 func _on_new_state() -> void:
 	pass
 
@@ -181,7 +185,7 @@ func _ensure_stage() -> void:
 	_front = _stage.get_node("Front")
 	_keeper = CardKeeper.new(_cards)
 	_tips = _make_tips()
-	_counters = GlassCounters.new(self)
+	_counters = _make_counters()
 	_stage.add_child(_counters)
 	tree_exiting.connect(_close_compost)
 	_fit()

@@ -87,9 +87,7 @@ func _assert_clear_geometry(source: Control, context: String, screen: GlassScree
 	if screen == null:
 		screen = _screen
 	var occupied: Array[Rect2] = [_stage_rect(source, screen)]
-	for control_name: String in [
-		"Hero", "HeroHealth", "EndTurn", "EndTurnWords", "Opponent", "OpponentHealth"
-	]:
+	for control_name: String in ["Hero", "HeroHealth", "EndTurn", "Opponent", "OpponentHealth"]:
 		var protected: Control = screen._stage.find_child(control_name, true, false) as Control
 		if protected != null and protected.is_visible_in_tree():
 			occupied.append(_stage_rect(protected, screen))
@@ -146,7 +144,7 @@ func test_shop_knight_and_grenadier_details_stay_on_the_left_and_leave_controls_
 		assert_gt(_screen._tips.details.size(), 1, card_id)
 		_assert_left_column(card_id)
 		_assert_clear_geometry(_screen.node_for("shop", 2), card_id)
-	for control_name: String in ["Hero", "EndTurn", "EndTurnWords"]:
+	for control_name: String in ["Hero", "EndTurn"]:
 		assert_not_null(_screen._stage.find_child(control_name, true, false), control_name)
 
 

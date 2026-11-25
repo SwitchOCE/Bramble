@@ -73,6 +73,10 @@ func _make_tips() -> GlassTips:
 	return RecruitTips.new(self)
 
 
+func _make_counters() -> GlassCounters:
+	return RecruitCounters.new(self)
+
+
 func _ready_line() -> String:
 	return READY_LINE
 
@@ -311,14 +315,6 @@ func _message_y() -> float:
 	return geom("sill") - L1Layout.number("room.edge.h") / 2.0
 
 
-func _layout_counter(plate: GlassBox, i: int) -> void:
-	var area: Rect2 = RecruitColumns.counter_area(i)
-	var step: float = L1Layout.number("right.counter.step")
-	var fit: float = minf(1.0, (step - 8.0) / plate.box_size.x)
-	plate.position = area.get_center() - plate.box_size * fit / 2.0
-	plate.scale = Vector2.ONE * fit
-
-
 func _build() -> void:
 	_add_window()
 	RecruitShop.build_slots(self)
@@ -336,10 +332,10 @@ func _build() -> void:
 	_counts.build_reserve_limit()
 	_waiting.build_count()
 	_build_hero()
-	_buttons.build_end_turn()
+	RecruitColumns.build_end_turn(self)
 	var cards_button: CardsButton = CardsButton.new()
 	cards_button.name = "CardsEntry"
-	cards_button.at = L1Layout.centre("right.library", Vector2.ONE * BrowserLook.BUTTON_SIDE)
+	cards_button.l1 = true
 	cards_button.held = is_holding
 	cards_button.pressed.connect(cards_requested.emit)
 	_front.add_child(cards_button)
@@ -364,15 +360,19 @@ func _leaving_places() -> Dictionary:
 				if not unit.is_empty() and _i(unit.get("uid", -1)) == _i(where["uid"]):
 					out[card_id] = slot_xy(i) + Vector2(_w(), _h()) / 2.0
 		elif str(where.get("to", "")) == "heap":
-			var shown: int = 0
-			# where its plate is drawn once the card arrives (the counters wait for it)
-			for value: Variant in state.get("counters", []):
-				var counter: Dictionary = value if value is Dictionary else {}
-				if counter_entry(counter).is_empty():
-					continue
-				if str(counter.get("id", "")) == str(where.get("id", "")):
-					out[card_id] = RecruitColumns.counter_area(shown).get_center()
-				shown += 1
+			var counters: RecruitCounters = _counters as RecruitCounters
+			var held: Array[Dictionary] = counters.ordered(_shown_counters())
+			var raw: Array = state.get("counters", [])
+			var next: Array[Dictionary] = counters.ordered(raw)
+			var id: String = str(where.get("id", ""))
+			var limit: int = int(L1Layout.number("right.counter.limit"))
+			for order: Array[Dictionary] in [held, next]:
+				for i: int in mini(order.size(), limit):
+					if str(order[i].get("id", "")) == id:
+						out[card_id] = RecruitCounters.counter_area(i).get_center()
+						break
+				if out.has(card_id):
+					break
 	return out
 
 

@@ -2,7 +2,6 @@ class_name RecruitShop
 extends RefCounted
 ## Shop offers, their roundels and the existing sell cue.
 
-const GOLD_SIZE: Vector2 = Vector2(176, 68)
 const BUTTON_INK: Color = Color("fbf3dc")
 const SELL_COIN: float = 58.0
 const SELL_CAPTION_WIDTH: float = 250.0
@@ -55,7 +54,7 @@ static func geometry() -> Dictionary:
 
 
 static func build_buttons(screen: RecruitScreen) -> void:
-	_build_gold(screen)
+	RecruitColumns.build_gold(screen)
 	var tier: int = GlassPieces.as_int(screen.state.get("tier", 1))
 	var upgrade_cost: Variant = screen.state.get("upgrade_cost")
 	if upgrade_cost != null or tier == GlassPieces.TIERS:
@@ -100,21 +99,6 @@ static func refresh_step(state: Dictionary) -> Vector2i:
 		GlassPieces.as_int(state.get("refresh_step_size", 0)),
 		GlassPieces.as_int(state.get("refreshes_left", 0))
 	)
-
-
-static func _build_gold(screen: RecruitScreen) -> void:
-	var box: GlassBox = GlassBox.new()
-	box.name = "Button_gold"
-	box.box_size = GOLD_SIZE
-	box.position = L1Layout.centre("right.gold", GOLD_SIZE)
-	box.use_css("stage", ".btn").use_css("stage", ".btn.gold")
-	box.radii = GlassBox.css_radii(GlassPieces.rule("stage", ".btn", "border-radius"), GOLD_SIZE)
-	box.refresh()
-	screen._back.add_child(box)
-	_add_target(screen, "gold", box, GOLD_SIZE)
-	var amount: GlassText = _text(str(screen._counts.gold()), 34, true)
-	amount.name = "GoldValue"
-	_row(box, [GoldCoin.make(-1, 40.0), amount])
 
 
 static func _roundel(screen: RecruitScreen, id: String, cost: Variant = null) -> Control:

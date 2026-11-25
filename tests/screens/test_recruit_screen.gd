@@ -128,7 +128,7 @@ func test_a_player_who_is_out_looks_out_on_the_leaderboard() -> void:
 	assert_null(_find("LeaderHealth_%d" % out), "no Health for a player who is out")
 	assert_not_null(_find("LeaderHealth_0"))
 	var port: Control = _find("LeaderPortrait_%d" % out)
-	assert_eq(port.modulate, Color(0.5, 0.5, 0.5), "dark")
+	assert_eq(port.modulate, Color(0.45, 0.45, 0.45), "dark")
 	var lit: Control = _find("LeaderPortrait_0")
 	assert_eq(lit.modulate, Color.WHITE)
 
@@ -357,15 +357,17 @@ func test_dragging_on_the_board_moves_and_up_into_the_shop_sells() -> void:
 
 func test_buttons_and_end_turn() -> void:
 	var state: Dictionary = _mockup()
-	state.merge({"next_turn_income": 13, "tier_up_drop": 3, "refreshes_left": 7})
+	state.merge(
+		{"next_turn_income": 13, "tier_up_drop": 3, "refresh_step_size": 10, "refreshes_left": 7}
+	)
 	_make(state)
 	watch_signals(_screen)
 	var positions: Dictionary = {
-		"Button_gold": Vector2(1710, 56),
+		"Button_gold": Vector2(1742, 34),
 		"Button_tier": Vector2(1538, 24),
 		"Button_refresh": Vector2(1538, 127),
 		"Button_freeze": Vector2(1538, 231),
-		"EndTurn": Vector2(1734, 902),
+		"EndTurn": Vector2(1726, 894),
 	}
 	for node_name: String in positions:
 		var button: Control = _find(node_name)
@@ -382,9 +384,9 @@ func test_buttons_and_end_turn() -> void:
 	var beads: L1RefreshBeads = _find("RefreshBeads")
 	assert_eq(beads.step, Vector2i(10, 7))
 	assert_eq(beads.position, Vector2(1582, 171))
-	var income: GlassBox = _find("NextTurnIncome")
+	var income: Control = _find("NextTurnIncome")
 	assert_eq(income.get_rect().get_center(), Vector2(1798, 169))
-	assert_eq(income.size.y, 30.0)
+	assert_eq(income.size.y, 34.0)
 	assert_lte(income.get_rect().end.x, _stage().size.x)
 	assert_eq((income.get_node("Value") as GlassText).words, "+13")
 	_click(income.position + income.size / 2.0)
@@ -669,12 +671,12 @@ func test_the_hover_keeps_reminders_in_keyword_details() -> void:
 	assert_false(" ".join(_texts(_find("Tip"))).contains("Mark"), "nothing for a hidden mark")
 
 
-func test_player_counters_show_name_and_value_with_a_reminder_on_hover() -> void:
+func test_player_counters_show_value_and_keep_the_name_and_reminder_on_hover() -> void:
 	_make(_display_state())
 	_move(_centre(0, "board"))
 	assert_gt(_screen._tips.details.size(), 0, "the unit's keyword boxes are open")
 	var chip: GlassBox = _find("Chip_0")
-	assert_eq(_texts(chip), ["Heap", "4"] as Array[String])
+	assert_eq(_texts(chip), ["4"] as Array[String])
 	assert_null(_find("Chip_1"), "the hidden counter is not drawn")
 	var frame: Control = _screen.get_node("Frame")
 	_move(chip.global_position - frame.global_position + chip.size / 2.0)
@@ -686,6 +688,28 @@ func test_player_counters_show_name_and_value_with_a_reminder_on_hover() -> void
 	assert_eq(_screen._tips.details.size(), 0, "the previous unit's keyword boxes are gone")
 	assert_has(_texts(tip), "Heap")
 	assert_string_contains(" ".join(_texts(tip)), "Every unit sold goes here.")
+
+
+func test_counter_overflow_appears_at_five_and_counts_all_visible_counters() -> void:
+	var state: Dictionary = _display_state()
+	var shown: Array = []
+	for i: int in 5:
+		var id: String = "counter_%d" % i
+		state["display"][id] = {"name": id, "reminder": ""}
+		shown.append({"id": id, "value": i + 1})
+	state["counters"] = shown.slice(0, 4)
+	_make(state)
+	assert_null(_find("AurasPlate"))
+	state = state.duplicate(true)
+	state["counters"] = shown
+	_screen.show_state(state)
+	assert_eq(_count("Chip_"), 4)
+	assert_eq(_texts(_find("AurasPlate")), ["5"] as Array[String])
+	assert_eq(_texts(_find("Chip_0")), ["5"] as Array[String], "highest first initially")
+	state = state.duplicate(true)
+	state["counters"][0]["value"] = 0
+	_screen.show_state(state)
+	assert_eq(_texts(_find("Chip_0")), ["0"] as Array[String], "recently changed first")
 
 
 func test_whole_numbers_from_json_drop_their_point() -> void:
@@ -720,7 +744,7 @@ func test_a_heap_plate_lists_its_entries_on_hover_and_pops_when_it_changes() -> 
 	state["counters"] = [{"id": "heap", "value": 3, "entries": [runner, hedge, runner]}]
 	_make(state)
 	var plate: Control = _find("Chip_0")
-	assert_almost_eq(plate.size.y, 44.0, 0.1, "a 44 px plate")
+	assert_eq(plate.size, Vector2(80, 80), "an 80 px medallion")
 	_move(plate.position + plate.size / 2.0)
 	var words: String = " ".join(_texts(_find("Tip")))
 	assert_string_contains(words, "HEAP · 3 UNITS")
@@ -730,7 +754,7 @@ func test_a_heap_plate_lists_its_entries_on_hover_and_pops_when_it_changes() -> 
 	more["counters"] = [{"id": "heap", "value": 4, "entries": [runner, hedge, runner, hedge]}]
 	_screen.show_state(more)
 	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
-	var popped: Control = _find("Chip_0")
+	var popped: Control = _find("Chip_0").get_node("Badge")
 	assert_gt(popped.scale.x, 1.0, "the changed number pops")
 
 
@@ -740,5 +764,5 @@ func test_counters_by_id_and_slot_keywords() -> void:
 	var slots: Array = state["slots"]
 	slots[2] = {"keywords": [{"id": "taunt"}]}
 	_make(state)
-	assert_eq(_texts(_find("Chip_0")), ["Heap", "2"] as Array[String])
+	assert_eq(_texts(_find("Chip_0")), ["2"] as Array[String])
 	assert_eq(_texts(_find("SlotKeyword_2")), ["Taunt"] as Array[String])

@@ -180,11 +180,7 @@ func _make_cog() -> void:
 
 
 func _place_cog(recruit: RecruitScreen) -> void:
-	cog.position = (
-		L1Layout.centre("right.settings", cog.size)
-		if recruit.is_visible_in_tree()
-		else SettingsCog.AT
-	)
+	cog.place(recruit.is_visible_in_tree())
 
 
 ## Whether a card is held on the recruit screen now (the cog then does nothing).

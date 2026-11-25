@@ -1,101 +1,289 @@
 class_name RecruitColumns
 extends RefCounted
-## The existing recruit HUD art, placed in L1's two window columns.
+## The turn, scoreboard, hero, and economy readouts in the L1 recruit columns.
+
+const SWORDS: String = (
+	'<path d="M5 4l12 12M19 4L7 16M14 18l4-4M10 18l-4-4' + 'M17.5 17.5l2 2M6.5 17.5l-2 2"/>'
+)
+const RIM_DARK: Color = Color("15191a")
+const HEART_INK: Color = Color("fff4ea")
 
 
 static func build_hero(screen: RecruitScreen) -> void:
-	var turn: GlassText = GlassText.from_rule(
-		"stage", ".lbl", "Turn %d" % GlassPieces.as_int(screen.state.get("turn", 1))
+	var plate: TextureRect = L1ColumnArt.piece("l1p-plate", L1Layout.rect("left.turn"))
+	var turn: GlassText = L1ColumnArt.text(
+		"Turn %d" % GlassPieces.as_int(screen.state.get("turn", 1)),
+		L1Layout.number("left.turn.font"),
+		L1ColumnArt.PLATE_INK
 	)
 	turn.name = "Turn"
-	turn.refresh()
-	turn.position = L1Layout.centre("left.turn", turn.size)
-	screen._front.add_child(turn)
+	turn.spacing = turn.font_px * L1Layout.number("left.turn.tracking")
+	turn.shadow = L1ColumnArt.shadow(
+		L1Layout.number("left.turn.shadow_y"), L1Layout.number("left.turn.shadow_blur"), "00000099"
+	)
+	turn.position = (plate.size - turn.refresh().size) / 2.0
+	plate.add_child(turn)
+	screen._front.add_child(plate)
 
 	var hero: Dictionary = screen.state.get("hero", {})
-	var port: GlassBox = GlassParts.make_portrait(
-		str(hero.get("portrait", "")), GlassPieces.number("stage.hero.port"), [".hero"]
+	var frame: Rect2 = L1Layout.rect("left.hero")
+	var target: Control = L1ColumnArt.area(frame)
+	target.name = "Hero"
+	var face: Control = L1ColumnArt.area(Rect2(Vector2.ZERO, frame.size))
+	target.add_child(face)
+	var opening: Rect2 = L1Layout.rect("left.hero.opening")
+	var portrait: GlassBox = GlassBox.new()
+	portrait.position = opening.position - frame.position
+	portrait.box_size = opening.size
+	portrait.radii = Vector4.ONE * L1Layout.number("left.hero.radius")
+	portrait.image_texture = GlassPieces.portrait(str(hero.get("portrait", "")))
+	portrait.layers = [
+		{"kind": "image", "size": "cover", "position": [50.0, L1Layout.number("left.hero.focus_y")]}
+	]
+	portrait.refresh()
+	face.add_child(portrait)
+	var shading: GlassBox = GlassBox.new()
+	shading.box_size = opening.size
+	shading.radii = portrait.radii
+	shading.border_width = L1Layout.number("left.hero.inset_edge")
+	shading.border_colour = Color("ffecbe40")
+	var shade_depth: float = (
+		L1Layout.number("left.hero.shade_up") + L1Layout.number("left.hero.shade_blur")
 	)
-	port.name = "Hero"
-	var hero_name: GlassText = GlassText.from_rule("stage", ".lbl", str(hero.get("name", "")))
-	hero_name.name = "HeroName"
-	hero_name.font_px = GlassPieces.number("stage.hero.name_size")
-	hero_name.refresh()
-	var area: Rect2 = L1Layout.rect("left.hero")
-	# STAND-IN: keep the hero's name beneath the portrait inside the hero's area.
-	var top: float = area.get_center().y - (port.box_size.y + hero_name.size.y) / 2.0
-	port.position = Vector2(area.get_center().x - port.box_size.x / 2.0, top)
-	hero_name.position = Vector2(
-		area.get_center().x - hero_name.size.x / 2.0, top + port.box_size.y
+	var foot: GradientTexture2D = L1ColumnArt.gradient(
+		[Color.TRANSPARENT, Color.TRANSPARENT, Color("00000059")],
+		[0.0, 1.0 - shade_depth / opening.size.y, 1.0],
+		Vector2.ZERO,
+		Vector2.DOWN
 	)
-	screen._front.add_child(port)
-	screen._front.add_child(hero_name)
+	var padding: Vector2 = shading.padding_rect().size
+	foot.width = roundi(padding.x)
+	foot.height = roundi(padding.y)
+	shading.image_texture = foot
+	shading.layers = [{"kind": "image", "size": "cover", "position": [50.0, 100.0]}]
+	shading.refresh()
+	portrait.add_child(shading)
+	face.add_child(L1ColumnArt.piece("l1h-hero-frame", Rect2(Vector2.ZERO, frame.size)))
+	screen._front.add_child(target)
+	_add_button(screen, "hero", target, face, GlassParts.rect_poly(target.size), "left.hero")
 
-	var hp: GlassBox = GlassParts.health_badge(
-		GlassPieces.as_int(screen.state.get("health", 0)), [".hp"]
+	# STAND-IN: the same heart and fitted text also hold health of three or more digits.
+	var health: int = GlassPieces.as_int(screen.state.get("health", 0))
+	var hp: TextureRect = _heart(
+		health,
+		L1Layout.rect("right.health"),
+		"right.health",
+		L1Layout.number("right.health.font") * L1Layout.number("right.health.rise_em")
 	)
 	hp.name = "HeroHealth"
-	hp.position = L1Layout.centre("right.health", hp.box_size)
 	screen._front.add_child(hp)
 	screen._counters.build(screen._shown_counters())
+
+
+static func build_gold(screen: RecruitScreen) -> void:
+	var gold: TextureRect = L1ColumnArt.piece("l1p-coin", L1Layout.rect("right.gold"))
+	gold.name = "Button_gold"
+	var value: GlassText = L1ColumnArt.text("", L1Layout.number("right.gold.font"), Color("5a3606"))
+	value.name = "GoldValue"
+	value.shadow = L1ColumnArt.shadow(1.0, 0.0, "ffe9a8")
+	gold.add_child(value)
+	screen._back.add_child(gold)
+	show_gold(value, screen._counts.gold())
+	screen._targets.append(
+		{
+			"kind": "button",
+			"index": 0,
+			"id": "gold",
+			"node": gold,
+			"poly": GlassParts.rect_poly(gold.size)
+		}
+	)
+	if not screen.state.has("next_turn_income"):
+		return
+	var income: Control = L1ColumnArt.area(L1Layout.rect("right.income"))
+	income.name = "NextTurnIncome"
+	var label: GlassText = L1ColumnArt.text(
+		"+%d" % GlassPieces.as_int(screen.state["next_turn_income"]),
+		L1Layout.number("right.income.font"),
+		Color("f0d68a")
+	)
+	label.name = "Value"
+	label.shadow = L1ColumnArt.shadow(
+		L1Layout.number("right.income.shadow_y"),
+		L1Layout.number("right.income.shadow_blur"),
+		"000000"
+	)
+	label.position = (income.size - label.size) / 2.0
+	income.add_child(label)
+	screen._front.add_child(income)
+
+
+static func show_gold(label: GlassText, amount: int) -> void:
+	var rect: Rect2 = L1Layout.rect("right.gold")
+	var center: Vector2 = rect.size / 2.0
+	center.y -= rect.size.y * L1Layout.number("right.gold.rise_share")
+	L1ColumnArt.fit_number(
+		label,
+		str(amount),
+		L1Layout.number("right.gold.font"),
+		center,
+		rect.size.x * L1Layout.number("right.gold.number_width_share")
+	)
+
+
+static func build_end_turn(screen: RecruitScreen) -> void:
+	var rect: Rect2 = L1Layout.rect("right.end_turn")
+	var target: Control = L1ColumnArt.area(rect)
+	target.name = "EndTurn"
+	# STAND-IN: steady swords for all states until the light pass.
+	var shadow: GlassBox = GlassBox.new()
+	shadow.box_size = rect.size
+	shadow.radii = Vector4.ONE * rect.size.x / 2.0
+	shadow.shadows = [
+		L1ColumnArt.shadow(
+			L1Layout.number("right.end_turn.shadow_y"),
+			L1Layout.number("right.end_turn.shadow_blur"),
+			"000000a6"
+		)
+	]
+	shadow.refresh()
+	target.add_child(shadow)
+	var face: TextureRect = L1ColumnArt.piece("l1h-end-swords", Rect2(Vector2.ZERO, rect.size))
+	face.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	target.add_child(face)
+	screen._front.add_child(target)
+	_add_button(
+		screen, "end_turn", target, face, GlassParts.round_poly(target.size), "right.end_turn"
+	)
+
+
+static func _add_button(
+	screen: RecruitScreen,
+	id: String,
+	node: Control,
+	face: Control,
+	poly: PackedVector2Array,
+	key: String
+) -> void:
+	screen._targets.append(
+		{
+			"kind": "button",
+			"id": id,
+			"index": 0,
+			"node": node,
+			"poly": poly,
+			"pressed_face": face,
+			"press_offset": L1Layout.number(key + ".press_y")
+		}
+	)
 
 
 static func build_leaderboard(screen: RecruitScreen) -> void:
 	var players: Array = screen.state.get("players", [])
 	if players.is_empty():
 		return
+	var pane: Control = L1ColumnArt.area(Rect2())
+	pane.name = "Leaderboard"
+	screen._front.add_child(pane)
 	var first: Rect2 = L1Layout.rect("left.player")
 	var health: Rect2 = L1Layout.rect("left.player_health")
 	var step: float = L1Layout.number("left.player.step")
-	var pane: GlassBox = GlassBox.new()
-	pane.name = "Leaderboard"
-	pane.box_size = Vector2(
-		GlassPieces.number("stage.leaderboard.pane_w"), (players.size() - 1) * step + step
-	)
-	pane.position = first.get_center() - Vector2(pane.box_size.x / 2.0, step / 2.0)
-	pane.use_css("stage", "#lbpane").refresh()
-	screen._front.add_child(pane)
-
-	var side: float = GlassPieces.number("stage.leaderboard.port")
 	for i: int in players.size():
 		var player: Dictionary = players[i]
-		var rules: Array = [".lb .port"]
-		if player.get("next", false):
-			rules.append(".lb .next .port")
-		elif player.get("you", false):
-			rules.append(".lb .you .port")
-		var out: bool = not player.get("alive", true)
-		var portrait: String = str(player.get("portrait", ""))
-		var port: GlassBox = (
-			GlassParts.out_portrait(portrait, side, rules)
-			if out
-			else GlassParts.make_portrait(portrait, side, rules)
-		)
 		var offset: Vector2 = Vector2(0, step * i)
+		var alive: bool = GlassPieces.as_bool(player.get("alive", true))
+		var port: GlassBox = _player_portrait(player, first.position + offset, first.size.x, alive)
 		port.name = "LeaderPortrait_%d" % i
-		port.position = first.get_center() + offset - port.box_size / 2.0
 		screen._front.add_child(port)
-		# STAND-IN: keep the place numeral on the left of the portrait.
-		var place: GlassText = GlassText.from_rule("stage", ".lb .pl", str(i + 1))
-		if out:
-			place.colour = GlassParts.OUT_PLACE
-		place.refresh()
-		place.position = Vector2(
-			port.position.x - 20.0, port.position.y + (side - place.size.y) / 2.0
+		screen._targets.append(
+			{
+				"kind": "player",
+				"index": i,
+				"node": port,
+				"card": player,
+				"poly": GlassParts.round_poly(port.size)
+			}
 		)
-		screen._front.add_child(place)
-		if not out:
-			var hp: GlassBox = GlassParts.health_badge(
-				GlassPieces.as_int(player.get("health", 0)), [".hp", ".lb .hp"]
+		if not alive:
+			continue
+		var hp: TextureRect = _heart(
+			GlassPieces.as_int(player.get("health", 0)),
+			Rect2(health.position + offset, health.size),
+			"left.player_health",
+			L1Layout.number("left.player_health.rise")
+		)
+		hp.name = "LeaderHealth_%d" % i
+		screen._front.add_child(hp)
+		if GlassPieces.as_bool(player.get("next", false)):
+			var mark: TextureRect = L1ColumnArt.icon(
+				SWORDS,
+				Color("e0866e"),
+				int(L1Layout.number("left.swords.icon")),
+				L1Layout.number("left.swords.stroke")
 			)
-			hp.name = "LeaderHealth_%d" % i
-			hp.position = health.get_center() + offset - hp.box_size / 2.0
-			screen._front.add_child(hp)
+			mark.name = "NextOpponentSwords"
+			mark.position = L1Layout.point("left.swords") + offset
+			screen._front.add_child(mark)
 
 
-static func counter_area(i: int) -> Rect2:
-	var area: Rect2 = L1Layout.rect("right.counter")
-	var step: float = L1Layout.number("right.counter.step")
-	# STAND-IN: keep every current counter available, using further rows for overflow.
-	area.position += Vector2(i % 2, floorf(i / 2.0)) * step
-	return area
+static func _player_portrait(player: Dictionary, at: Vector2, side: float, alive: bool) -> GlassBox:
+	var dark: float = L1Layout.number("left.player.ring_dark")
+	var trim: float = L1Layout.number("left.player.ring_trim")
+	var ring_width: float = dark + trim
+	var portrait_name: String = str(player.get("portrait", ""))
+	var port: GlassBox = GlassParts.make_portrait(portrait_name, side, [])
+	port.position = at - Vector2.ONE * ring_width
+	port.box_size = Vector2.ONE * (side + 2.0 * ring_width)
+	port.radii = Vector4.ONE * port.box_size.x / 2.0
+	var rim: Color = Color("4d5356")
+	if GlassPieces.as_bool(player.get("next", false)):
+		rim = Color("c4553c")
+	elif GlassPieces.as_bool(player.get("you", false)):
+		rim = Color("e8d49a")
+	port.border_width = ring_width
+	port.border_colour = RIM_DARK
+	port.shadows = [
+		L1ColumnArt.shadow(
+			L1Layout.number("left.player.shadow_y"),
+			L1Layout.number("left.player.shadow_blur"),
+			"000000aa"
+		)
+	]
+	port.refresh()
+	var outline: GlassBox = GlassBox.new()
+	outline.box_size = port.box_size
+	outline.radii = port.radii
+	outline.border_width = trim
+	outline.border_colour = rim
+	outline.refresh()
+	port.add_child(outline)
+	if not alive:
+		# Desaturate the sampled portrait, including its imported mip levels.
+		var material: ShaderMaterial = port.material as ShaderMaterial
+		material.set_shader_parameter("image_grayscale", true)
+		var dim: float = L1Layout.number("left.player.out_brightness")
+		port.modulate = Color(dim, dim, dim)
+	return port
+
+
+static func _heart(amount: int, rect: Rect2, key: String, rise: float) -> TextureRect:
+	var heart: TextureRect = L1ColumnArt.piece("l1h-heart", rect)
+	heart.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	var px: float = L1Layout.number(key + ".font")
+	var label: GlassText = L1ColumnArt.text("", px, HEART_INK)
+	label.name = "Value"
+	label.shadow = L1ColumnArt.shadow(
+		L1Layout.number("right.health.shadow_y"),
+		L1Layout.number("right.health.shadow_blur"),
+		"5a120a"
+	)
+	var center: Vector2 = rect.size / 2.0 - Vector2(0, rise)
+	L1ColumnArt.fit_number(
+		label,
+		str(maxi(0, amount)),
+		px,
+		center,
+		rect.size.x * L1Layout.number("right.health.number_width_share")
+	)
+	heart.add_child(label)
+	return heart

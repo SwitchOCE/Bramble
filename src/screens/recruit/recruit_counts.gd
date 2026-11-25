@@ -77,8 +77,7 @@ func _redraw() -> void:
 func show_gold(amount: int) -> void:
 	var label: GlassText = _screen._back.get_node_or_null("Button_gold/GoldValue")
 	if label != null and label.words != str(amount):
-		label.words = str(amount)
-		label.refresh()
+		RecruitColumns.show_gold(label, amount)
 
 
 ## STAND-IN: the hand count sits at the right end of the ledge.

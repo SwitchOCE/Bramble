@@ -132,6 +132,9 @@ func show(target: Dictionary, at: Vector2) -> void:
 		# no detail on a card still on its way (just dropped, say) until it is still
 		hide()
 		return
+	if str(target["kind"]) == "player":
+		_show_player(target)
+		return
 	if str(target["kind"]) == "discover":
 		_show_discover(target)
 		return
@@ -153,6 +156,28 @@ func show(target: Dictionary, at: Vector2) -> void:
 	stand(card_node)
 	tip.visible = true
 	open_details(target)
+
+
+## STAND-IN: the old scoreboard had no portrait tooltip. Use its existing player fields.
+func _show_player(target: Dictionary) -> void:
+	var node: Control = target["node"]
+	if hot != node or not tip.visible:
+		clear()
+		var player: Dictionary = target["card"]
+		var words: Dictionary = {
+			"name": str(player.get("name", "")),
+			"text": "Health %d" % maxi(0, GlassPieces.as_int(player.get("health", 0))),
+		}
+		if player.has("tier"):
+			words["kind_line"] = "Tier " + GlassScreen.number_words(player["tier"])
+		var box: GlassBox = GlassParts.tip_text(words, false, PackedStringArray())
+		tip.add_child(box)
+		tip.position = Vector2(
+			L1Layout.number("left.player_tip.x"),
+			clampf(node.position.y, 0.0, L1Layout.stage_size().y - box.size.y)
+		)
+	set_hot(node)
+	tip.show()
 
 
 func set_hot(node: Control) -> void:
