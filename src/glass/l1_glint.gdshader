@@ -20,5 +20,7 @@ void fragment() {
 	float centre = exp(-dot(p, p) * 30.0);
 	float halo = exp(-dot(p, p) * 5.0) * 0.35;
 	vec3 light = core.rgb * (centre + rays * 0.8) + glow.rgb * halo;
-	COLOR = vec4(light * shown, 1.0);
+	// COLOR comes in as the vertex colour times the inherited modulate: keep it, so the twinkle
+	// fades with its card (blend_add scales the colour by alpha).
+	COLOR = vec4(light * shown * COLOR.rgb, COLOR.a);
 }

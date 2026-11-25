@@ -223,7 +223,15 @@ func light_tier(node: Control, on: bool) -> void:
 	var face: Control = node.get_node_or_null("Face")
 	if card.is_empty() or face == null or not card.has("tier"):
 		return
-	var tint: Color = L1Layout.shop_tint(GlassPieces.as_int(card["tier"]))
+	var light: L1Light = tier_hug(node, GlassPieces.as_int(card["tier"]))
+	node.add_child(light)
+	node.move_child(light, face.get_index())
+
+
+## The tier's light hugging a card or hand spell, behind its face (not yet added to it).
+static func tier_hug(node: Control, tier: int) -> L1Light:
+	var face: Control = node.get_node("Face")
+	var tint: Color = L1Layout.shop_tint(tier)
 	var circle: bool = node is GlassSpell
 	var light: L1Light = L1Light.make(
 		L1Light.Shape.CIRCLE if circle else L1Light.Shape.CARD,
@@ -240,8 +248,7 @@ func light_tier(node: Control, on: bool) -> void:
 		)
 	)
 	light.blend(L1Layout.number("light.shop.additive"))
-	node.add_child(light)
-	node.move_child(light, face.get_index())
+	return light
 
 
 ## A hovered hand card stands up, unturned, at the L1 height for its kind.

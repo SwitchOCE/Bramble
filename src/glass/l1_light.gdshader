@@ -105,5 +105,7 @@ void fragment() {
 		float cover = 1.0 - smoothstep(-half_pixel, half_pixel, d - fill_grow);
 		light = mix(light, vec4(inside, 1.0) * max(base.a, lit), cover);
 	}
-	COLOR = light;
+	// COLOR comes in as the vertex colour times the node's (and its parents') modulate: keep it,
+	// so the light fades and tints with its card. Premultiplied, so alpha scales the colour too.
+	COLOR = light * vec4(COLOR.rgb * COLOR.a, COLOR.a);
 }
