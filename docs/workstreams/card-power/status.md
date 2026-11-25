@@ -1,6 +1,6 @@
 # Card power session: where things stand
 
-Working notes for the session itself, so it can pick up after its context is cut down. It says what holds now; older states are in Git history. Last written 25 Nov 2026, 10 p.m. Not a report: the owner's pages are linked below. To be removed before the merge to `dev` unless the owner says otherwise.
+Working notes for the session itself, so it can pick up after its context is cut down. It says what holds now; older states are in Git history. Last written 25 Nov 2026, 10.30 p.m. Not a report: the owner's pages are linked below. To be removed before the merge to `dev` unless the owner says otherwise.
 
 ## Who asked for what
 
@@ -27,6 +27,7 @@ Working notes for the session itself, so it can pick up after its context is cut
 - Findings and plan: https://claude.ai/artifact/A38oUcVKdr9d7bJzFRuFRs
 - First fight numbers: https://claude.ai/artifact/PWf6WXnZVfX8XtdzKV7YGo
 - Results, every card (25 Nov, 10 p.m.): https://claude.ai/artifact/EiM34sXPXawpkmDDHNocHr. Built by `/data/card-power/pages/gen_results.py results_prose.py <out.html>` from the tables in `findings`.
+- Process proposals, three decisions (25 Nov, 10.20 p.m.): https://claude.ai/artifact/Kh9RbQK9BqJCiK9zH6Ddfv. Built by `/data/card-power/pages/gen_proposals.py <out.html>`; the text is [proposals.md](proposals.md). **The owner has not answered the three decisions yet; no process document is changed until they do.**
 - Bot versions: [../bot-league/bot-versions.md](../bot-league/bot-versions.md)
 
 Page sources are in the session scratchpad (on `/tmp`, lost on a reboot) and copied to `/data/card-power/pages`. Pages follow the `house-style` skill.
@@ -47,16 +48,16 @@ Checks at last run: 45 Rust tests, 72 Python tests, clippy clean with `--no-deps
 
 Not built yet: stat worth of the text (definitions.md; extend text off with stat multipliers ×1.5 to ×8 and solve for the multiplier), and the add-a-fresh-copy fight test for ignored cards.
 
-## Data on `/data/card-power` (about 5 GB)
+## Data on `/data/card-power` (about 4 GB)
 
-- `matches/m1`: 2,000 games on the league's climbing field, records kept. Seeds `seeds-m1.txt`, secret `secret-m1.txt`. `m1-control`, `m1-verify`, `m1-modes`, `m1-keywords`: its replay and refight outputs.
+- `matches/m1`: 2,000 games on the league's climbing field, records kept. Seeds `seeds-m1.txt`, secret `secret-m1.txt`. Its replay and refight outputs are deleted; the tables are in `findings/m1`.
 - `ref-field`: the stronger field, 12,000 runs from 1,500 live games of red-c14 against blue-c17.
 - `matches/r1`: the 2,000-game baseline on `ref-field`, records kept (668 MB). Seeds `seeds-r1.txt`, secret `secret-r1.txt`.
 - `matches/r1-without/<card>/`: left out of the shop for sword-heir, old-brock, brock-cub, needle-sister (control), the four Grudge cards together, gleaner, fencing-master. The folder also holds `.log` files, so pair with `r1-without/*/`.
 - `matches/r1-no-badger-locust`: every Badger and Locust unit left out of both bots' shops (list in `matches/without-badger-locust.txt`). Done; no records (the tool refuses records with `--without`), so it has shop readings only.
 - `findings/m1/*.csv`, `findings/r1/*.csv`, `findings/r1-no-badger-locust/*.csv`: the tables; `cards.csv` in each is the one-row-per-card summary. `pages/`: page sources and copies.
 - `tree`: a git worktree used only to build the tagged bots with the `--without` patch; binary `tree/tools/league/target/release/league`. `target`: this branch's build output (`CARGO_TARGET_DIR=/data/card-power/target`).
-- Can go now: `worker-refight`, `worker-without`, `smoke`, `target-match`.
+- Deleted 25 Nov: `worker-refight`, `worker-without`, `smoke`, `target-match` and the m1 refight outputs (about 1 GB). T3's worktree for the refight-modes worker (`~/.t3/worktrees/Bramble/t3-ac439aeb-e988051adb3f73c9`) can go: its commit is on this branch.
 
 Raw matches are deleted once findings are written (storage rules: `docs/workstreams/league-data/README.md`).
 
@@ -98,13 +99,12 @@ Raw matches are deleted once findings are written (storage rules: `docs/workstre
 
 ## Output still owed, in order
 
-Done: the tribes-missing match, the full results page, the one-command report, [trace.md](trace.md) and [proposals.md](proposals.md) (three decisions for the owner; nothing changed yet).
+Done: the tribes-missing match, the full results page, the one-command report (scope-reviewed), [trace.md](trace.md), [proposals.md](proposals.md) and its page.
 
-1. Proposals page for the process and the league: one page for the common path, plus edge cases and what to drop. To include: the weak climbing field; tribes-missing scoring for generality; teams' card findings passed to balance; the card report run before records are deleted; the known-cases set; rotating model families and the two-strategy restarts; a flagged card may change before a bot passes (the owner said yes); the costing method needs a measured price for growing effects and a same-effect-across-tiers check; a first-sight read; the log failure above; tier pacing; test on a strong field; drop made-up-board pitches as evidence, the generic power check, and the stopping test as a gate on card changes. Also `trace.md`.
-2. A scope review of the card report commits (`card_report.sh`, `card_summary.py`), then merge PR 257 once the owner has answered its two questions.
-3. Stat worth of the text; an add-a-fresh-copy fight test (the blue team's `cardpower` does this) and a forced-in test for the 24 refused cards; a cheaper whole-game step (stop early, play only bots that buy the card, share a match). Allowing records in a `--without` match would let the fight tests run on the tribes-missing boards.
-4. Clean `/data/card-power`; disk report.
-5. Report the Hazel Coppicer with Blackthorn Sapling replay bug to whoever owns the fight record (37 fights on `m1`, 4 on `r1`).
+1. Wait for the owner on: the three decisions on the proposals page; the PR's questions (keep the refight tool's `summary.tsv` statistics; remove this file before merge; confirm the three definitions the card report review asked about). Then edit the process documents listed in proposals.md for each yes, in a separate pull request, and merge PR 257.
+2. Stat worth of the text; an add-a-fresh-copy fight test (the blue team's `cardpower` does this) and a forced-in test for the refused cards; a cheaper whole-game step. Allowing records in a `--without` match would let the fight tests run on the tribes-missing boards.
+3. Clean `/data/card-power` (keep `findings`, `pages`; `matches`, `ref-field`, `tree`, `target` go once nothing more is to be run); final disk report.
+4. Report the Hazel Coppicer with Blackthorn Sapling replay bug to whoever owns the fight record (37 fights on `m1`, 4 on `r1`).
 
 The planted-strong-card check probably cannot run against a recorded field (changing a card changes the rules hash; not verified). Sword-heir stands in as the known strong case.
 
