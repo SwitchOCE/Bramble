@@ -97,6 +97,22 @@ def tile(name):
     print(out, im.size)
 
 
+def head_glass(hue, rim=13):
+    """The window head with the column's own glass in it: the stone arch from the painted head, the panes from the
+    column tile, so the lead lattice runs unbroken from the head into the lights below (owner, 25 Nov).
+    The tile is drawn on screen from y = 244, so the head shows the tile's last 488 rows (of 732, at 2x)."""
+    from PIL import ImageFilter
+    head = Image.open(OUT + "l1z-head-%s.png" % hue).convert("RGBA").resize((488, 488), Image.LANCZOS)
+    tile = Image.open(OUT + "l1z-quarry-%s.jpg" % hue).convert("RGBA").crop((0, 244, 488, 732))
+    a = head.getchannel("A").point(lambda v: 255 if v > 128 else 0)
+    inner = a.filter(ImageFilter.MinFilter(2 * rim + 1)).filter(ImageFilter.GaussianBlur(1.2))
+    out = head.copy()
+    out.paste(tile, (0, 0), inner)
+    out.putalpha(head.getchannel("A"))
+    out.save(OUT + "l1z-headglass-%s.png" % hue)
+    print("l1z-headglass-%s.png" % hue, out.size)
+
+
 if __name__ == "__main__":
     for f, fn in [("l1z-arch.png", arch),
                   ("l1z-quarry-slate.png", lambda: tile("l1z-quarry-slate.png")),
@@ -116,3 +132,5 @@ if __name__ == "__main__":
             fn()
         else:
             print("missing", f)
+    for hue in ("slate", "moss"):
+        head_glass(hue)

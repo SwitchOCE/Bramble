@@ -96,3 +96,16 @@ Built in [screen.html](screen.html) (`?view=buy|fight|shapes&shape=a–e&depth=1
 - Refreshes left at this price is a small slate disc at the refresh button's upper right, a stand-in until the counter designs (brief `briefs/37-counter-display.md`, `looks/L1/counters/`) are judged.
 - The free-texture room stays in the page as `room=free` but is not being taken further.
 - Counters (brief 37; three designers' pages and notes in `looks/L1/counters/`, pictures in `/data/ui-ideation/looks/L1/counters/`): two of the three arrived at glass medallions with the number on a cream badge at the lower right, the same grammar as costs and health. Drawn in the screen as `counters=medallion` (default in `room=zones`; `counters=plate` is the earlier plates): four medallions, a heap as a hexagon and a level as a circle, and one plate below that opens all auras and shows how many there are. Refreshes left is a slate diamond at the refresh button's upper right. Picture: `/data/ui-ideation/looks/L1/c/c4-counters.png`. The owner has not chosen yet.
+
+### After the owner's review of the counters picture (25 Nov, decisions L35 to L42)
+
+Picture: `/data/ui-ideation/looks/L1/c/c5-fixes.png`.
+
+- **Light is the engine's job (L38).** Every glow in these pictures (the tier light in the arches and behind spells, the golden halo, the lit beads) and the twinkle on golden borders is a stand-in drawn with blurred shapes. In Godot each is a lighting effect (a light, a shader or particles), not a baked picture, and it will not look the same. A spec must list each as an effect with its purpose and colour, and leave its look to be judged in the engine, in motion. Painted pieces are ordered with no glow in them for this reason.
+- **Counters (L36).** Medallions stay. The rule for which show: at most four, the most recently changed first, then the highest; the rest are reached through the plate under them, which shows how many auras there are and opens a panel. The panel is not designed.
+- **Shop buttons (L37).** The three buttons sit on the tablet's centre line, evenly spaced down it; costs and counts hang off the circle without moving it. `refresh=pips` (default) shows refreshes left as beads on an arc over the button, lit while they are left; `refresh=top` is the number on a slate badge at twelve o'clock; `refresh=diamond` is the rejected first try. The struck old price by tier-up is gone.
+- **Column windows (L40).** The window heads now carry the column's own glass (`l1z-headglass-*.png`, made by `zone-pieces.py` from the painted head's stone and the column tile), so the lead lattice has one scale from top to bottom. The lead transoms sit on the tile joins.
+- **Gold (L41).** 112 px, was 132; coin numerals are raised a little because the coin picture's face sits above its middle.
+- **Shop level on the wall (L39).** The art director's answer is in `polish.md`: six carved bosses in the gaps between the arch heads, one more gilded per level; lanterns ordered to compare (`prompts-7.txt`, brief `briefs/38-l1-shop-level-on-the-wall.md`).
+- **Not designed in this look (L35):** the auras panel, the Compost panel, the card library, settings, a landing screen, and the fight screen at this card size.
+

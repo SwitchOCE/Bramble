@@ -41,3 +41,11 @@ Free textures from the internet (stone, oak) would be photographic and clash wit
 - **D. A bronze bell** (`l1h-end-bell`) that you ring for the fight. Gold left: still. Done: it glints. Fight: it swings. Part of the room, but less obvious as a button.
 
 **Pick: A**, with B's swords-over-face as its fight-starting moment. Clear at a glance, red for fight, and it matches the other glass buttons. The scoreboard already marks the opponent, so B repeats that.
+
+## Shop level on the wall
+
+**Ideas.** (1) The stonework grows more ornate per level: six steps of carving can't be told apart at a glance, and the detail would be noise behind the cards. (2) Six wall lanterns, one more lit per level: it reads, but small flames sit close to the tier light and add glow near the cards. (3) **Six carved bosses** in the six spandrels, one more gilded per level. I'd build (3): it is quiet, with no light of its own, it is a count rather than a colour, so it can't be confused with the tier light, and it uses the wall's own stone. Lanterns ordered too, to compare.
+
+**Pieces.** `l1s-rosette-stone` and `l1s-rosette-gilt`, 44 × 44, centred in each spandrel: above each colonnette and beside the outer arches, about y 34, with x on the six colonnettes. At level n, the n leftmost bosses are gilt. The tier-up numeral stays: 1–4 gilt bosses read at a glance, while 5 and 6 need a moment's look.
+
+**Level-up** (not judged): the next boss turns from stone to gold, and a single soft glint runs along the arch rims from left to right. Tier light is unchanged.

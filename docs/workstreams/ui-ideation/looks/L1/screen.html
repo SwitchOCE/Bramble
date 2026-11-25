@@ -633,7 +633,7 @@ function slab(x, y, g, u, raised = 0, parent = scr) {
 function coin(x, y, d, n, opts = {}) {
   const c = el("pcoin", x, y, d, d, scr, `background:url("${PIECES}l1p-coin.png") center/100% 100% no-repeat;display:grid;place-items:center;
     font-weight:700;font-size:${Math.round(d * 0.56)}px;color:#5a3606;text-shadow:0 1px 0 #ffe9a8;filter:drop-shadow(0 3px 3px rgba(0,0,0,0.6))${opts.pewter ? " grayscale(1) brightness(0.62) contrast(0.9)" : ""};`);
-  c.innerHTML = `<span style="position:relative;top:0.03em;${opts.pewter ? "color:#1d1f20;text-shadow:none" : ""}">${n}</span>`;
+  c.innerHTML = `<span style="position:relative;top:${(0.03 * parseFloat(c.style.fontSize) - d * (opts.rise ?? 0.02)).toFixed(1)}px;${opts.pewter ? "color:#1d1f20;text-shadow:none" : ""}">${n}</span>`;
   return c;
 }
 function roundel(x, y, d, kind = "slate") {
@@ -707,7 +707,7 @@ function polish() {
       el("", px, 0, PIER, H, scr, roomBg(px ? "colR" : "colL", "#1d2023") + "background-position:0 244px;background-repeat:repeat-y;filter:" + DIMGLASS);
       for (let ty = 244; ty < H; ty += 366) el("", px, ty - 5, PIER, 10, scr, "background:linear-gradient(#3a4043,#15191a 60%,#0c0e0f);box-shadow:0 2px 3px rgba(0,0,0,0.5)");
       el("", px, 0, PIER, 244, scr, bgImg("l1p-pier.jpg", "linear-gradient(#1d2023,#1d2023)") + "background-size:100% auto");
-      el("", px, 0, PIER, 244, scr, `background:url("${PIECES}l1z-head-${hue}.png") center/100% 100% no-repeat;filter:${DIMGLASS}`);
+      el("", px, 0, PIER, 244, scr, `background:url("${PIECES}l1z-headglass-${hue}.png") center/100% 100% no-repeat;filter:${DIMGLASS}`);
       for (const fx of [px, px + PIER - FR]) el("", fx, 244, FR, H - 244, scr, bgImg("l1p-pier.jpg", "linear-gradient(#1d2023,#1d2023)") + `background-size:244px auto;box-shadow:${fx === px ? "" : "-"}2px 0 4px rgba(0,0,0,0.6)`);
     } else
     el("", px, 0, PIER, H, scr, roomBg(px ? "colR" : "colL", "#1d2023") + (ROOM === "free" ? "filter:brightness(0.8)" : "background-repeat:repeat-y"));
@@ -849,26 +849,42 @@ function polish() {
     });
     // ---- shop right wing: the shop's three buttons, each cost on a coin overlapping the button's lower right ----
     const BD = 88, CD = 46, cellB = band / 3;
-    const bx0 = Math.round((ax0 + 5 * aw + 4 * ARCH_GAP + AR + RX) / 2 - BD / 2 - 8);
-    const by = i => Math.round(i * cellB + (cellB - BD) / 2 + 2);
+    // the tablet, and the buttons on its centre line, evenly spaced down it (owner, 25 Nov); costs and counts hang off the
+    // circle without moving it
+    const tabX = ax0 + 5 * aw + 4 * ARCH_GAP + AR + 26, tabW = RX - 14 - tabX, tabY = 8, tabH = band - 14;
+    const bx0 = Math.round(ZONES ? tabX + tabW / 2 - BD / 2 : (ax0 + 5 * aw + 4 * ARCH_GAP + AR + RX) / 2 - BD / 2 - 8);
+    const bgap = (tabH - 3 * BD) / 4;
+    const by = i => Math.round(ZONES ? tabY + bgap + i * (BD + bgap) : i * cellB + (cellB - BD) / 2 + 2);
     const note = (x, y, t, strike) => { el("", x, y, 60, 24, scr, `font-weight:700;font-size:${strike ? 20 : 16}px;color:#b8ad96;text-shadow:0 1px 2px #000;white-space:nowrap;${strike ? "text-decoration:line-through;text-decoration-thickness:2px" : ""}`).textContent = t; };
     if (ZONES) {   // the buttons sit on a slate tablet
       PART = "tablet";
-      const tx = ax0 + 5 * aw + 4 * ARCH_GAP + AR + 26, tw = RX - 14 - tx;
-      el("", tx, 8, tw, band - 14, scr, `background:url("${PIECES}l1z-board.png") center/100% 100% no-repeat;filter:drop-shadow(0 4px 5px rgba(0,0,0,0.6))`);
+      el("", tabX, tabY, tabW, tabH, scr, `background:url("${PIECES}l1z-board.png") center/100% 100% no-repeat;filter:drop-shadow(0 4px 5px rgba(0,0,0,0.6))`);
     }
     PART = "tierup";
     const tu = roundel(bx0, by(0), BD); tu.innerHTML = ICON.up.replace("<svg", "<svg width='40' height='40' style='margin-top:-10px'");
     el("", bx0, by(0) + 50, BD, 26, scr, "text-align:center;font-weight:700;font-size:22px;color:#fbf3dc;text-shadow:0 1px 3px #0b1a2a").textContent = "5";
     coin(...lowerRight(bx0, by(0), BD, CD), CD, 9);
-    note(bx0 + BD - 6, by(0) - 2, "10", true);
+    if (!ZONES) note(bx0 + BD - 6, by(0) - 2, "10", true);   // the price before the discount: dropped with the tablet, the coin is the price
     PART = "refresh";
     const rf = roundel(bx0, by(1), BD); rf.innerHTML = ICON.refresh.replace("<svg", "<svg width='42' height='42'");
     coin(...lowerRight(bx0, by(1), BD, CD), CD, 1);
-    // refreshes left at this price: a small slate diamond at the button's upper right, a different shape from a cost coin (brief 37)
-    { const d = 34, x = bx0 + BD / 2 + BD * 0.354 - d / 2, y = by(1) + BD / 2 - BD * 0.354 - d / 2;
-      el("", x + 3, y + 3, d - 6, d - 6, scr, `transform:rotate(45deg);border-radius:4px;background:radial-gradient(circle at 40% 30%, #5d6a74, #2a3238 70%);box-shadow:0 0 0 3px #15191a, 0 0 0 4px #6a6f70, 0 2px 4px #0009`);
-      el("", x, y, d, d, scr, `display:grid;place-items:center;font-weight:700;font-size:19px;color:#f1e9d6;text-shadow:0 1px 2px #000`).innerHTML = `<span style="position:relative;top:0.03em">7</span>`; }
+    // refreshes left at this price (brief 37; owner 25 Nov: no text, and centred on the big circle).
+    // refresh=pips (default): a bead for each one round the button's rim, lit while it is left; refresh=top: the number on a
+    // slate badge at twelve o'clock; refresh=diamond: the first try, a slate diamond at the upper right.
+    { const RF = Q.get("refresh") || "pips", cx = bx0 + BD / 2, cy = by(1) + BD / 2, LEFT = 7, OF = 8;
+      if (RF === "pips") {
+        const r = BD / 2 + 9, bd = 11, a0 = 195, a1 = 345;   // an arc over the top, centred on the button, clear of the coin
+        for (let i = 0; i < OF; i++) {
+          const a = (a0 + (a1 - a0) * i / (OF - 1)) * Math.PI / 180, on = i < LEFT;
+          el("", cx + r * Math.cos(a) - bd / 2, cy + r * Math.sin(a) - bd / 2, bd, bd, scr, `border-radius:50%;background:${on
+            ? "radial-gradient(circle at 38% 30%, #fff6d8, #f0c468 55%, #a9741f)" : "radial-gradient(circle at 38% 30%, #4a5258, #1c2124 70%)"};
+            box-shadow:0 0 0 2px #15191a${on ? ", 0 0 6px 1px rgba(255,214,130,0.7)" : ""}`);
+        }
+      } else {
+        const d = 34, top = RF === "top", x = top ? cx - d / 2 : cx + BD * 0.354 - d / 2, y = top ? by(1) - d / 2 + 2 : cy - BD * 0.354 - d / 2;
+        el("", x + 3, y + 3, d - 6, d - 6, scr, `transform:rotate(45deg);border-radius:4px;background:radial-gradient(circle at 40% 30%, #5d6a74, #2a3238 70%);box-shadow:0 0 0 3px #15191a, 0 0 0 4px #6a6f70, 0 2px 4px #0009`);
+        el("", x, y, d, d, scr, `display:grid;place-items:center;font-weight:700;font-size:19px;color:#f1e9d6;text-shadow:0 1px 2px #000`).innerHTML = `<span style="position:relative;top:0.03em">${LEFT}</span>`;
+      } }
     PART = "freeze";
     const fz = roundel(bx0, by(2), BD); fz.innerHTML = ICON.freeze.replace("<svg", "<svg width='42' height='42'");
     // ---- left column: turn, the scoreboard (health on a red circle at each portrait's lower right), your own health as a rectangle at the foot ----
@@ -896,8 +912,9 @@ function polish() {
       } }
     // ---- right column: gold, your health on a heart, counters, library and settings, End turn ----
     PART = "gold";
-    coin(RC - 66, 30, 132, GOLD).style.fontSize = "64px";
-    el("", RC - 60, 168, 120, 34, scr, "text-align:center;font-weight:700;font-size:26px;color:#f0d68a;text-shadow:0 2px 3px #000").textContent = "+12";
+    const GD = 112;   // a little smaller than before (owner, 25 Nov)
+    coin(RC - GD / 2, 34, GD, GOLD, { rise: 0.035 }).style.fontSize = "58px";
+    el("", RC - 60, 152, 120, 34, scr, "text-align:center;font-weight:700;font-size:26px;color:#f0d68a;text-shadow:0 2px 3px #000").textContent = "+12";
     PART = "health";
     const heroY = 232, HD = 132;
     { const hb = el("", RC - HD / 2, heroY, HD, HD, scr, `display:grid;place-items:center;font-weight:700;font-size:52px;color:#fff4ea;text-shadow:0 2px 3px #5a120a;filter:drop-shadow(0 4px 5px rgba(0,0,0,0.6))`);

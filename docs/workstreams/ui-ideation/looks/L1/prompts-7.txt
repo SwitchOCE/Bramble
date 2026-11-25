@@ -1,0 +1,11 @@
+You are making UI art pieces for the screens of a woodland card game in a lead-and-stained-glass style. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No text, letters, numerals, logos, watermarks or captions. Every design is original: do not depict or closely imitate any existing game's art. Reply with just the saved filenames.
+
+These are PIECES that will be cut out and placed by code, not finished screens. Each is ONE small object, seen straight on and centred, filling about 80 percent of the image, on a flat pure black background. Lighting is soft and even from the front, with no glow, halo or light rays: any glow is added later in the game engine. Keep shapes big and simple: these will be shown only about 44 pixels across, so no fine detail.
+
+Reference images for the look and materials: /data/bramble-art/uiid-looks/L1/l1z-arch.png, /data/bramble-art/uiid-looks/L1/l1r-wall.png and /data/bramble-art/uiid-looks/L1/l1p-coin.png. Open them first. Match their painted, stylised look with a hand-made feel, their cool grey stone and their warm polished gold. Do NOT copy any card, character or number from them.
+
+Items:
+1. l1s-rosette-stone.png -- Square 1:1. ONE round carved stone boss, like the bosses carved where the arches of a church meet: four broad oak leaves round a plain round centre, carved in cool grey stone matching the reference wall, plain and a little worn, softly shaded.
+2. l1s-rosette-gilt.png -- Exactly the same boss, same shape and same leaves, but gilded: warm polished gold leaf over the carving, with a soft highlight on the upper leaves.
+3. l1s-lantern-dark.png -- Tall 2:3. ONE small wrought-iron wall lantern hanging from a short curled bracket: a simple hexagonal iron cage with a pointed cap, its glass panes dark and unlit, a plain candle stub inside. Dark iron, quiet.
+4. l1s-lantern-lit.png -- Exactly the same lantern, same shape and size, but the candle is lit: its panes are warm pale yellow and the iron is lit from inside. No glow or rays outside the lantern itself.
