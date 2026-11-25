@@ -752,7 +752,7 @@ func _counter_values() -> Array[String]:
 	return values
 
 
-func test_counter_overflow_appears_at_five_and_counts_all_visible_counters() -> void:
+func test_counter_overflow_appears_at_five_and_counts_the_hidden_counters() -> void:
 	var state: Dictionary = _display_state()
 	var shown: Array = []
 	for i: int in 5:
@@ -766,7 +766,7 @@ func test_counter_overflow_appears_at_five_and_counts_all_visible_counters() -> 
 	state["counters"] = shown
 	_screen.show_state(state)
 	assert_eq(_count("Chip_"), 4)
-	assert_eq(_texts(_find("AurasPlate")), ["5"] as Array[String])
+	assert_eq(_texts(_find("AurasPlate")), ["+1"] as Array[String])
 	assert_eq(_counter_values(), ["2", "3", "4", "5"] as Array[String], "highest four in order")
 	state = state.duplicate(true)
 	state["counters"][0]["value"] = 0
