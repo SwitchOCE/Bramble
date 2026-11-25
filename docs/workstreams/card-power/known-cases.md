@@ -56,6 +56,6 @@ Matches, each 2,000 games: `m1` on the league's climbing field (too weak, as it 
 No call is contradicted. The two "leans" are tier 6 cards: red reaches tier 6 in 2% of its games and blue in 38%, so tier 6 is barely tested.
 
 What the list has taught about the measures:
-- Test on a strong field. The weak field over-read The Eighth Plague and made Overrun look four times as deadly (a board of three or more emptied 1 swing in 30, against 1 in 150).
+- Test on a strong field. The weak field over-read The Eighth Plague and made Overrun look five times as deadly (a board of three or more emptied 1 swing in 30, against 1 in 150).
 - Left out of the shop overstates for a card a bot is built around: both bots finish better with two whole tribes gone (red 4.65, blue 5.57) than with only Sword-heir gone (4.97, 6.24).
 - A card no bot buys is a finding. With two tribes gone, 16 cards of the other tribes are still bought on under 1 offer in 100, and red passes 8 Locust cards while playing Locusts.

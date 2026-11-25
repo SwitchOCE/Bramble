@@ -98,7 +98,7 @@ Raw matches are deleted once findings are written (storage rules: `docs/workstre
 
 ## Output still owed, in order
 
-Done: the tribes-missing match, the full results page, the one-command report.
+Done: the tribes-missing match, the full results page, the one-command report, [trace.md](trace.md) and [proposals.md](proposals.md) (three decisions for the owner; nothing changed yet).
 
 1. Proposals page for the process and the league: one page for the common path, plus edge cases and what to drop. To include: the weak climbing field; tribes-missing scoring for generality; teams' card findings passed to balance; the card report run before records are deleted; the known-cases set; rotating model families and the two-strategy restarts; a flagged card may change before a bot passes (the owner said yes); the costing method needs a measured price for growing effects and a same-effect-across-tiers check; a first-sight read; the log failure above; tier pacing; test on a strong field; drop made-up-board pitches as evidence, the generic power check, and the stopping test as a gate on card changes. Also `trace.md`.
 2. A scope review of the card report commits (`card_report.sh`, `card_summary.py`), then merge PR 257 once the owner has answered its two questions.
