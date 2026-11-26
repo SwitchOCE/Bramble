@@ -25,10 +25,7 @@ from card_summary import KEYWORD_FLOOR, table
 
 LEDGER = Path(__file__).resolve().parents[3] / "docs/workstreams/balance/marks.csv"
 COLUMNS = ("subject", "kind", "name", "measures", "first_marked", "source", "state", "holder", "since", "page", "note")
-# "cannot be read": neither bot buys the card and no test reads it yet; the note says what
-# would. It waits on no one, so it never goes stale; it is looked at again when that holds.
-STATES = ("new", "explained", "cannot be read", "with the owner", "change picked", "changed",
-          "measured again")
+STATES = ("new", "explained", "with the owner", "change picked", "changed", "measured again")
 # Days a row may sit in a state that waits on someone before the morning check says so. `changed`
 # waits on being measured again.
 STALE_DAYS = {"new": 1, "with the owner": 3, "change picked": 3, "changed": 3}
