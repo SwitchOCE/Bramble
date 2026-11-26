@@ -55,17 +55,12 @@ def live_games(match):
     return out
 
 
-# summary.json keys of the other card-power tools' matches: changed card data
-# (`card_trial.py`). A trial match pairs here only with a baseline played on the same trial rules.
-OTHER_TOOLS = ("trial_rules",)
-
-
-def refuse_other_tools(match, allowed=()):
-    """Refuse a match made with another tool's option, unless that option is `allowed`."""
-    for key in OTHER_TOOLS:
-        if key in match.summary and key not in allowed:
-            raise Refused(f"{match.path}: a ghost-match --{key.replace('_', '-')} match "
-                          f"({match.summary[key]}); it does not pair here")
+def refuse_trial(match):
+    """Refuse a `ghost-match --trial-rules` match (changed card data, `card_trial.py`) where a
+    match on the game's own rules is needed."""
+    if "trial_rules" in match.summary:
+        raise Refused(f"{match.path}: a ghost-match --trial-rules match "
+                      f"({match.summary['trial_rules']}); it does not pair here")
 
 
 def check_pair(base, other, control=False):
@@ -76,7 +71,8 @@ def check_pair(base, other, control=False):
     for match in (base, other):
         if match.summary.get("mode") != "async":
             raise Refused(f"{match.path}: not a ghost-match")
-        refuse_other_tools(match, allowed=("trial_rules",) if trial else ())
+        if not trial:
+            refuse_trial(match)
     if other.summary.get("trial_rules") != trial:
         raise Refused(f"{other.path}: trial rules {other.summary.get('trial_rules')!r}, "
                       f"the baseline has {trial!r}")

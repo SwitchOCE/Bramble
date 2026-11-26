@@ -39,14 +39,6 @@ pub struct Options {
     pub trial_rules: bool,
 }
 
-impl Options {
-    /// Changes that a record could not show (the draw list is not in the state hash), so such
-    /// a match writes no records.
-    fn placement_only(&self) -> Option<&'static str> {
-        (!self.without.is_empty()).then_some("--without")
-    }
-}
-
 /// `ghost-match --without <ids>`: see [`Options::without`]. Placement only: it writes no
 /// records (`args.records` must be false), and `summary.json` lists the cards under `without`.
 pub fn run_without(
@@ -97,20 +89,16 @@ fn run_with_factories(
     if args.games == 0 || !args.games.is_multiple_of(2) {
         return Err("usage: ghost-match --games must be a positive even number".into());
     }
-    match options.placement_only() {
-        // A trial's records are optional: they are for the card report, never for a field.
-        None if !args.records && !options.trial_rules => {
-            return Err("usage: ghost-match writes records for replay and cutting".into());
-        }
-        // A record cannot say which cards were left out, so it would neither
-        // replay nor cut into a field truthfully. Refuse up front.
-        Some(flag) if args.records => {
-            return Err(format!(
-                "usage: ghost-match {flag} is for placement only and writes no records; \
-                 add --no-records"
-            ));
-        }
-        _ => {}
+    // A record cannot say which cards were left out (the draw list is not in the state hash),
+    // so it would neither replay nor cut into a field truthfully. Refuse up front.
+    if !options.without.is_empty() && args.records {
+        return Err("usage: ghost-match --without is for placement only and writes no records; \
+                    add --no-records"
+            .into());
+    }
+    // A trial's records are optional: they are for the card report, never for a field.
+    if options.without.is_empty() && !args.records && !options.trial_rules {
+        return Err("usage: ghost-match writes records for replay and cutting".into());
     }
     crate::matchrun::run_match(args, red, blue, Some(field), debug_logs, options)
 }

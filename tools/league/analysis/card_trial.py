@@ -17,7 +17,7 @@ import csv
 import sys
 from pathlib import Path
 
-from card_without import CONTROL, SAME, Refused, live_games, refuse_other_tools, secret
+from card_without import CONTROL, SAME, Refused, live_games, refuse_trial, secret
 from match_data import Match, Stat
 
 COLUMNS = ("trial", "changes", "bot", "colour", "games", "place_base", "place_trial",
@@ -42,10 +42,10 @@ def check(base, other, control=False):
             raise Refused(f"{match.path}: not a ghost-match")
         if "without" in match.summary:
             raise Refused(f"{match.path}: has `without`; a trial pairs only plain matches")
-    refuse_other_tools(base)
+    refuse_trial(base)
     trial = other.summary.get("trial_rules")
     if control:
-        refuse_other_tools(other)
+        refuse_trial(other)
         if other.path.resolve() == base.path.resolve():
             raise Refused(f"{other.path}: a control must be a second run, not the baseline")
     else:

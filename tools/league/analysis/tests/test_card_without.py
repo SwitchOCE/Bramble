@@ -117,13 +117,13 @@ class CardWithout(unittest.TestCase):
             card_without.table(self.base, [one, two])
 
     def test_refuses_trial_matches(self):
-        for key, value in (("trial_rules", {"field_rules_hash": "r" * 64}),):
-            other = write_match(self.dir / key, self.places, without=["acorn"], extra={key: value})
-            with self.assertRaises(card_without.Refused, msg=key):
-                card_without.table(self.base, [other])
-            rerun = write_match(self.dir / f"{key}-rerun", self.places, extra={key: value})
-            with self.assertRaises(card_without.Refused, msg=key):
-                card_without.table(self.base, [], [rerun])
+        trial = {"trial_rules": {"field_rules_hash": "r" * 64}}
+        other = write_match(self.dir / "trial", self.places, without=["acorn"], extra=trial)
+        with self.assertRaises(card_without.Refused):
+            card_without.table(self.base, [other])
+        rerun = write_match(self.dir / "trial-rerun", self.places, extra=trial)
+        with self.assertRaises(card_without.Refused):
+            card_without.table(self.base, [], [rerun])
 
     def test_pairs_inside_one_trial_and_refuses_across_trials(self):
         trial = {"field_rules_hash": "r" * 64, "card_data": "/scratch/a"}
@@ -189,10 +189,6 @@ class Runner(unittest.TestCase):
         self.assertEqual(card_without_run.main(argv), 0)
         self.assertEqual(calls.read_text().split(), ["acorn", "beech", "beech"])
 
-
-if __name__ == "__main__":
-    unittest.main()
-
     def test_a_trial_baseline_is_replayed_on_its_own_card_data(self):
         scratch = tempfile.TemporaryDirectory()
         self.addCleanup(scratch.cleanup)
@@ -210,3 +206,6 @@ if __name__ == "__main__":
         self.assertEqual(card_without_run.main(argv), 0)
         self.assertEqual(card_without.table(base, [d / "out/acorn"])[0]["diff_mean"], 0)
 
+
+if __name__ == "__main__":
+    unittest.main()
