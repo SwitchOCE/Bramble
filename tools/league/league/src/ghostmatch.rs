@@ -124,6 +124,21 @@ pub(crate) fn check_rules(root: &Path, built: &str, trial: bool) -> Result<Strin
     Ok(played)
 }
 
+/// A live match has no `--trial-rules`: its card data must be this build's, or its records and
+/// summary would carry the build's rules hash for games played under other rules.
+pub(crate) fn check_live_rules(root: &Path, built: &str) -> Result<String, String> {
+    let played = RecordBuild::identity(root).get("rules_hash").as_text();
+    if played != built {
+        return Err(format!(
+            "usage: the card data at {} has rules {played}; this build has {built}. A live match \
+             plays only the build's own rules: undo the card data change, or refresh the \
+             league's pins for it (tools/league/PORTING.md) and rebuild",
+            root.display()
+        ));
+    }
+    Ok(played)
+}
+
 /// `trial_changes` against this build's checkout, or `null` when that checkout's rules are not
 /// the build's (then it is not the card data the field was cut at, and a diff would mislead).
 pub(crate) fn reference_changes(root: &Path, built: &str) -> Value {
@@ -419,6 +434,12 @@ mod tests {
         std::fs::write(&units, serde_json::to_string_pretty(&data).unwrap()).unwrap();
         let refused = super::check_rules(&dir, built, false).unwrap_err();
         assert!(refused.contains("--trial-rules"), "{refused}");
+        assert_eq!(super::check_live_rules(&root, built).as_deref(), Ok(built));
+        let live = super::check_live_rules(&dir, built).unwrap_err();
+        assert!(
+            live.contains("A live match plays only the build's own rules"),
+            "{live}"
+        );
         let played = super::check_rules(&dir, built, true).unwrap();
         assert_ne!(played, built);
 

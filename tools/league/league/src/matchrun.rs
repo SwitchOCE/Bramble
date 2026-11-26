@@ -119,11 +119,15 @@ pub(crate) fn run_match(
     let rules_hash = build["rules_hash"]
         .as_str()
         .ok_or("build.json: no rules_hash")?;
-    // The rules the games are played under: this build's, or with --trial-rules the changed
-    // card data's. Checked before touching the output folder or playing any game.
+    // The rules the games are played under: this build's, or in a ghost match with
+    // --trial-rules the changed card data's. Checked before touching the output folder or
+    // playing any game.
     let played_rules = match field {
         Some(_) => crate::ghostmatch::check_rules(&args.root, rules_hash, options.trial_rules)?,
-        None => rules_hash.to_owned(),
+        None if options.trial_rules => {
+            return Err("usage: --without and --trial-rules are ghost-match options".into());
+        }
+        None => crate::ghostmatch::check_live_rules(&args.root, rules_hash)?,
     };
     // What the trial changes against this build's checkout, for `summary.json` and to refuse a
     // tier move up front (it cannot be played against a recorded field).
