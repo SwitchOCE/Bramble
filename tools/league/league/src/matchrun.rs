@@ -124,9 +124,6 @@ pub(crate) fn run_match(
     // playing any game.
     let played_rules = match field {
         Some(_) => crate::ghostmatch::check_rules(&args.root, rules_hash, options.trial_rules)?,
-        None if options.trial_rules => {
-            return Err("usage: --without and --trial-rules are ghost-match options".into());
-        }
         None => crate::ghostmatch::check_live_rules(&args.root, rules_hash)?,
     };
     // What the trial changes against this build's checkout, for `summary.json` and to refuse a

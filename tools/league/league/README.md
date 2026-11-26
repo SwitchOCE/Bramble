@@ -308,6 +308,9 @@ proposed card change tried in whole games against the existing field, without cu
 one. `--trial-rules` without `--repo-root`, or with card data whose rules are the build's, is
 refused.
 
+A live `league match` has no trial mode: rules files that differ from the build's are always
+refused, so its records and summary never carry the build's hash for other rules.
+
 - **The live seat** plays the changed card data: its shop, its units and every fight.
 - **The recorded seats' boards** are restored as recorded through the changed library
   (`FightSnapshot::restore_unit`): a unit is built from the card's new definition, so it has

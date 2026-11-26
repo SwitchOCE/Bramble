@@ -130,9 +130,9 @@ pub(crate) fn check_live_rules(root: &Path, built: &str) -> Result<String, Strin
     let played = RecordBuild::identity(root).get("rules_hash").as_text();
     if played != built {
         return Err(format!(
-            "usage: the card data at {} has rules {played}; this build has {built}. A live match \
-             plays only the build's own rules: undo the card data change, or refresh the \
-             league's pins for it (tools/league/PORTING.md) and rebuild",
+            "usage: the rules files at {} hash to {played}; this build has {built}. A live match \
+             plays only the build's own rules: undo the change, or port it and refresh the \
+             league's pins (tools/league/README.md, \"Regenerating the GDScript oracles\")",
             root.display()
         ));
     }
