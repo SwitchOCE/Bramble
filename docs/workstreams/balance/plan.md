@@ -50,7 +50,7 @@ The owner, 26 Nov 2026: "Do we not have a new process that will create agents th
 
 - **Whoever runs the card report owns the marks it makes,** until each is explained in a line or in front of the owner. There is no hand-over and no standing balance session to wait for. The brief is the `card-step` skill (`.claude/skills/card-step/SKILL.md`); an agent that cannot load skills is given the file.
 - **The ledger of marks** is [marks.csv](marks.csv): one row per marked card or keyword, with its state and who holds it. It holds the measure that marked each one, where it was marked, and the owner's page. `card_report.sh` ends by listing marks the ledger does not hold, and `prune_match.py` refuses to prune a kept version's match, or a match balance reads, until the card report has run on it and every mark has a row. The ledger that counts is the one on `dev`; the prune tool reads the one in its own checkout, so a row has to be in both.
-- **A check each morning** tells the owner about any row that has sat: `new` for a day, or `with the owner`, `change picked` or `changed` for three. It is `tools/league/analysis/marks.py --stale --dev`, which reads the ledger on `dev`.
+- **A check each morning** tells the owner about any row that has sat: `new` for a day, or `with the owner`, `change picked` or `changed` for three. It is `tools/league/analysis/marks.py --stale --dev`, which reads the ledger on `dev`, run each morning by a scheduled task in T3 ("Marks nobody has acted on"). The task starts fresh each time, runs the script and writes to the owner only when a row has sat. A plain timer could not reach the owner; a standing session could drift.
 
 | What happens | Who acts | What makes it happen |
 |---|---|---|
