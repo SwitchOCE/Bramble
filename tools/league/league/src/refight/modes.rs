@@ -832,6 +832,7 @@ pub fn run(
     if modes.seeds == 0 || modes.cap == 0 {
         return Err("usage: --seeds and --cap must be positive".into());
     }
+    input::check_rules(dir, root)?;
     let input::Match { content, games } = input::read_match(dir, verify)?;
     let mut modes = modes.clone();
     {

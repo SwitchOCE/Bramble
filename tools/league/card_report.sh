@@ -7,19 +7,22 @@
 #
 # usage: card_report.sh <match dir> [--out <dir>] [--left-out <left_out.csv>] [--threads 4]
 #                       [--keywords badger_overrun,cleave,badger_fury] [--league <binary>]
-#                       [--field <the field the match was played against>]
+#                       [--field <the field the match was played against>] [--repo-root <card data>]
 # Tables land in <match dir>/card-report unless --out is given. Give --field for a ghost match:
-# its recorded seats then fight as recorded, and every fight reproduces.
+# its recorded seats then fight as recorded, and every fight reproduces. Give --repo-root for a
+# `ghost-match --trial-rules` match: the changed card data it was played on (refight refuses
+# any other).
 set -euo pipefail
-usage() { sed -n '8,12p' "${BASH_SOURCE[0]}" | cut -c3- >&2; exit 2; }
+usage() { sed -n '8,14p' "${BASH_SOURCE[0]}" | cut -c3- >&2; exit 2; }
 [ $# -ge 1 ] || usage
 match=$(cd "$1" && pwd); shift
-out=$match/card-report; left=; threads=4; keywords=badger_overrun,cleave,badger_fury; league=; field=()
+out=$match/card-report; left=; threads=4; keywords=badger_overrun,cleave,badger_fury; league=; field=(); root=()
 while [ $# -gt 0 ]; do
   [ $# -ge 2 ] || usage
   case $1 in
     --out) out=$2 ;; --left-out) left=$2 ;; --threads) threads=$2 ;;
-    --keywords) keywords=$2 ;; --league) league=$2 ;; --field) field=(--field "$2") ;; *) usage ;;
+    --keywords) keywords=$2 ;; --league) league=$2 ;; --field) field=(--field "$2") ;;
+    --repo-root) root=(--repo-root "$2") ;; *) usage ;;
   esac
   shift 2
 done
@@ -42,11 +45,11 @@ if compgen -G "$match/records/game-*.jsonl" > /dev/null; then
   # A fresh copy of every card, so a refused card (on few boards or none) is read against the
   # fresh copies of the others; cards.csv shows it for the refused cards.
   step "text off and stat worth (every card); fresh copy (every card)"
-  "$league" refight --match "$match" --out "$out/refight" --stat-worth --fresh-copy all --threads "$threads" "${field[@]}"
+  "$league" refight --match "$match" --out "$out/refight" --stat-worth --fresh-copy all --threads "$threads" "${field[@]}" "${root[@]}"
   # Keywords are read in thirds by the enemy's Health, so they need more fights than a card does.
   step "keyword off and Overrun swings"
   "$league" refight --match "$match" --out "$out/refight-keywords" --keyword-off "$keywords" \
-    --overrun-swings --cap 3000 --threads "$threads" "${field[@]}"
+    --overrun-swings --cap 3000 --threads "$threads" "${field[@]}" "${root[@]}"
   mv "$out/refight-keywords/keyword_off.jsonl" "$out/refight-keywords/overrun_swings.jsonl" "$out/refight/"
   python3 "$A/fight_text.py" "$out/refight" --out "$out"
   rm -r "$out/refight" "$out/refight-keywords"

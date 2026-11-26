@@ -295,6 +295,66 @@ same match differ in some games (4 of 40 on a busy machine, 25 Nov). That noise 
 paired difference. `--control` takes a second, flag-free run of the baseline; its `(control)`
 rows show the size of the noise.
 
+## Trying changed card data (trial rules)
+
+A ghost match plays the card data at `--repo-root` against a field cut at this build's rules
+(`build.json`'s `rules_hash`). It now checks that the two agree: card data whose rules hash
+(`RecordBuild::identity`, the hash `scripts/rules_hash.sh` prints) differs from the build's is
+refused before the output folder is touched. Before this check such a match played silently and
+its `summary.json` named the build's rules.
+
+`league ghost-match ... --trial-rules --repo-root <changed card data>` plays it on purpose: a
+proposed card change tried in whole games against the existing field, without cutting a new
+one. `--trial-rules` without `--repo-root`, or with card data whose rules are the build's, is
+refused.
+
+- **The live seat** plays the changed card data: its shop, its units and every fight.
+- **The recorded seats' boards** are restored as recorded through the changed library
+  (`FightSnapshot::restore_unit`): a unit is built from the card's new definition, so it has
+  the new text and keywords, and then takes the stat layers its record saved. A record saves
+  base Attack and Health only where they differed from the printed numbers (golden doubled), so
+  a recorded copy of a card whose printed stats changed takes the **new** printed stats, plus its
+  recorded gains (permanent, this turn and the rest). What the recorded players bought, kept and
+  where they put it is as recorded, chosen under the old card.
+- `summary.json`: `rules_hash` is the trial card data's; `trial_rules` holds `field_rules_hash`
+  (the build's, which the field was cut at), `card_data` (the folder) and `changes`, the
+  rules files and the card fields that differ from this build's checkout (`null` if that
+  checkout's rules are not the build's). Records are kept unless `--no-records` is given; each
+  record's header `build` is the trial data's identity, so it is never cut into a field at
+  the build's rules.
+- **Refight and the card report** work on a trial match when given the trial card data:
+  `league refight --match M --repo-root <changed card data> --field <field>` and
+  `tools/league/card_report.sh M --repo-root <changed card data> --field <field>`. Refight
+  refuses a trial match whose card data at `--repo-root` is not the one it was played on; for
+  any other match a different rules hash is a warning, as before.
+- **Pairing.** `card_without.py` pairs a trial match only with matches on the same trial rules
+  (a baseline and its `--without` matches played with the same `--trial-rules --repo-root`),
+  never with a plain match.
+  `python3 analysis/card_trial.py BASELINE TRIAL... [--control RERUN] [--out FILE]` writes one
+  row per trial per bot: place with the change minus place without, with a 95% interval over
+  seed lines, and the changed card fields. It pairs a trial only with a plain baseline whose
+  rules are the trial's `field_rules_hash`.
+- **A tier move cannot be tried this way**, and is refused before the output folder is touched.
+  The field's recorded runs save each card's tier, and the engine refuses a run whose saved
+  tier differs from the card data ("must be a unit with the saved tier"), so the match would
+  not start. Even with that check relaxed (tried in a scratch engine, 26 Nov), the recorded
+  boards hold the card they bought at its old tier and full strength while the live bots can
+  hardly get it: Sword-heir moved to tier 5 was offered to blue 49 times in 1,000 games, and
+  blue finished 1.6 places worse, red 1.4, which reads the field's head start, not the change.
+  A tier move needs a field cut under the changed rules. The check reads `changes` (above), so
+  it holds only when this build's checkout has the build's rules; otherwise the engine's own
+  refusal stands.
+
+A scratch card-data folder holds the files the rules hash reads, copied from the checkout:
+
+```sh
+T=/data/scratch/trial; mkdir -p $T/src/game/data
+cp -r src/core src/content $T/src/; cp src/game/game_content.gd $T/src/game/
+cp src/game/data/stand_in_units.json $T/src/game/data/; cp project.godot $T/
+# edit $T/src/content/<tribe>/units.json, then:
+league ghost-match <the baseline's flags> --out trial/m --trial-rules --repo-root $T
+```
+
 ## The clock
 
 Each seat has `--clock-ms` of **thread CPU time** per game (`clock_gettime(CLOCK_THREAD_CPUTIME_ID)`),

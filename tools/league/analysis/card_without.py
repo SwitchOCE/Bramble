@@ -5,6 +5,8 @@
 
 BASELINE is a `league ghost-match` folder with every card present. Each WITHOUT folder is the
 same match played with `--without <card>`: same seeds, secret, games, bots and field runs.
+To read a card inside a proposed change, give a `--trial-rules` baseline and WITHOUT matches
+played on the same trial rules.
 Writes one CSV row per card per bot (stdout without `--out`). `--control` takes a second run
 of the baseline with nothing left out; its rows (card `(control)`) show how far the bots' own
 CPU-clock noise moves places when no card is left out. The definition is fixed in
@@ -53,12 +55,27 @@ def live_games(match):
     return out
 
 
+def refuse_trial(match):
+    """Refuse a `ghost-match --trial-rules` match (changed card data, `card_trial.py`) where a
+    match on the game's own rules is needed."""
+    if "trial_rules" in match.summary:
+        raise Refused(f"{match.path}: a ghost-match --trial-rules match "
+                      f"({match.summary['trial_rules']}); it does not pair here")
+
+
 def check_pair(base, other, control=False):
     """Refuse unless `other` is `base` replayed with cards left out (or, as a control, with
     nothing left out). Returns the cards, or `["(control)"]`."""
+    # A card can be left out inside a trial: both matches then carry the same trial rules.
+    trial = base.summary.get("trial_rules")
     for match in (base, other):
         if match.summary.get("mode") != "async":
             raise Refused(f"{match.path}: not a ghost-match")
+        if not trial:
+            refuse_trial(match)
+    if other.summary.get("trial_rules") != trial:
+        raise Refused(f"{other.path}: trial rules {other.summary.get('trial_rules')!r}, "
+                      f"the baseline has {trial!r}")
     if "without" in base.summary:
         raise Refused(f"{base.path}: the baseline itself left out {base.summary['without']}")
     cards = other.summary.get("without")

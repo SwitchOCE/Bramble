@@ -14,6 +14,7 @@ Run these Python 3 commands from this directory. Report commands print Markdown 
 | `python3 ladder.py MATCH [MATCH ...] [--trends]` | `ladder.md`, `ladder.json` beside the first match |
 | `python3 card_without_run.py BASELINE OUT_ROOT --field STORE --seeds FILE CARD ...` | one `ghost-match --without CARD` folder per card in `OUT_ROOT` (see `../league/README.md`, "Leaving cards out of the shop") |
 | `python3 card_without.py BASELINE WITHOUT ... [--control RERUN] [--out FILE]` | CSV, one row per card per bot: place with and without the card, paired difference and interval |
+| `python3 card_trial.py BASELINE TRIAL ... [--control RERUN] [--out FILE]` | CSV, one row per `ghost-match --trial-rules` match per bot: place with the changed card data minus without, interval, the changed card fields (see `../league/README.md`, "Trying changed card data") |
 
 ## Referee retention
 

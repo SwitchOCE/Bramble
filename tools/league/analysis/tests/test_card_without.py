@@ -15,8 +15,9 @@ SEEDS = b"11\n12\n13\n"
 
 
 def write_match(folder, places, without=None, bought=(), secret="ab" * 32, seeds=SEEDS,
-                runs=None, red="red", rules="r" * 64):
-    """A minimal ghost-match folder: games alternate red (even) and blue (odd) in seat 0."""
+                runs=None, red="red", rules="r" * 64, extra=None):
+    """A minimal ghost-match folder: games alternate red (even) and blue (odd) in seat 0.
+    `extra` adds summary.json keys."""
     folder = Path(folder)
     (folder / "private").mkdir(parents=True, exist_ok=True)
     (folder / "private/secret.txt").write_text(secret + "\n")
@@ -26,6 +27,7 @@ def write_match(folder, places, without=None, bought=(), secret="ab" * 32, seeds
                    content="all", mode="async")
     if without:
         summary["without"] = list(without)
+    summary.update(extra or {})
     (folder / "summary.json").write_text(json.dumps(summary))
     (folder / "library.json").write_text(json.dumps([
         dict(id="acorn", tribes=["Mouse"], spell=False, token=False),
@@ -114,6 +116,30 @@ class CardWithout(unittest.TestCase):
         with self.assertRaises(card_without.Refused):
             card_without.table(self.base, [one, two])
 
+    def test_refuses_trial_matches(self):
+        trial = {"trial_rules": {"field_rules_hash": "r" * 64}}
+        other = write_match(self.dir / "trial", self.places, without=["acorn"], extra=trial)
+        with self.assertRaises(card_without.Refused):
+            card_without.table(self.base, [other])
+        rerun = write_match(self.dir / "trial-rerun", self.places, extra=trial)
+        with self.assertRaises(card_without.Refused):
+            card_without.table(self.base, [], [rerun])
+
+    def test_pairs_inside_one_trial_and_refuses_across_trials(self):
+        trial = {"field_rules_hash": "r" * 64, "card_data": "/scratch/a"}
+        base = write_match(self.dir / "t-base", self.places, bought={0, 2, 3},
+                           extra={"trial_rules": trial})
+        other = write_match(self.dir / "t-out", [2, 2, 3, 4, 5, 6], without=["acorn"],
+                            extra={"trial_rules": trial})
+        rows = {r["colour"]: r for r in card_without.table(base, [other])}
+        self.assertAlmostEqual(rows["red"]["diff_mean"], 1 / 3)
+        elsewhere = write_match(self.dir / "t-else", self.places, without=["acorn"],
+                                extra={"trial_rules": dict(trial, card_data="/scratch/b")})
+        plain = write_match(self.dir / "t-plain", self.places, without=["acorn"])
+        for wrong in (elsewhere, plain):
+            with self.assertRaises(card_without.Refused):
+                card_without.table(base, [wrong])
+
     def test_main_exits_2_on_refusal(self):
         other = write_match(self.dir / "o", self.places, without=["acorn"], secret="ef" * 32)
         self.assertEqual(card_without.main([str(self.base), str(other)]), 2)
@@ -128,7 +154,9 @@ get = lambda name: args[args.index("--" + name) + 1]
 assert "--no-records" in args and "--no-decisions" in args, args
 with open({calls!r}, "a") as f:
     f.write(get("without") + "\\n")
-write_match(get("out"), {places!r}, without=[get("without")], secret=get("secret"))
+trial = {{"card_data": get("repo-root")}} if "--trial-rules" in args else None
+write_match(get("out"), {places!r}, without=[get("without")], secret=get("secret"),
+            extra={{"trial_rules": trial}} if trial else None)
 """
 
 
@@ -160,6 +188,23 @@ class Runner(unittest.TestCase):
         (d / "out/beech").mkdir()
         self.assertEqual(card_without_run.main(argv), 0)
         self.assertEqual(calls.read_text().split(), ["acorn", "beech", "beech"])
+
+    def test_a_trial_baseline_is_replayed_on_its_own_card_data(self):
+        scratch = tempfile.TemporaryDirectory()
+        self.addCleanup(scratch.cleanup)
+        d = Path(scratch.name)
+        places = [1, 2, 3, 4, 5, 6]
+        base = write_match(d / "base", places, extra={"trial_rules": {"card_data": "/scratch/a"}})
+        seeds = d / "seeds.txt"
+        seeds.write_bytes(SEEDS)
+        league = d / "league"
+        league.write_text(FAKE_LEAGUE.format(tests=str(Path(__file__).parent),
+                                             calls=str(d / "calls.txt"), places=places))
+        league.chmod(league.stat().st_mode | stat.S_IEXEC)
+        argv = [str(base), str(d / "out"), "acorn", "--field", "f", "--seeds", str(seeds),
+                "--league", str(league), "--timeout", "60"]
+        self.assertEqual(card_without_run.main(argv), 0)
+        self.assertEqual(card_without.table(base, [d / "out/acorn"])[0]["diff_mean"], 0)
 
 
 if __name__ == "__main__":

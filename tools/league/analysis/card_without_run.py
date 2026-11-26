@@ -9,7 +9,8 @@ content and secret, `--no-records` and `--no-decisions`, one after another. `--s
 the file the baseline read (its SHA-256 is checked) and `--field` the store it drew runs from
 (each finished match's lobbies are checked against the baseline's). A card whose folder
 already holds a finished match that pairs with the baseline is skipped. Stops at the first
-failure or time-out. Then: `python3 card_without.py BASELINE OUT_ROOT/*`.
+failure or time-out. A `--trial-rules` baseline is replayed on its own trial card data (its
+`trial_rules.card_data`, or `--repo-root`). Then: `python3 card_without.py BASELINE OUT_ROOT/*`.
 """
 import argparse
 import hashlib
@@ -41,7 +42,10 @@ def command(a, base, card, out):
            "--secret", secret(base), "--clock-ms", str(s["clock_ms"]),
            "--content", s["content"], "--threads", str(a.threads), "--out", str(out),
            "--without", card, "--no-records", "--no-decisions"]
-    if a.repo_root:
+    trial = s.get("trial_rules")
+    if trial:
+        cmd += ["--trial-rules", "--repo-root", str(a.repo_root or trial["card_data"])]
+    elif a.repo_root:
         cmd += ["--repo-root", str(a.repo_root)]
     return cmd
 

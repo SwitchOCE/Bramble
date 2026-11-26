@@ -2,14 +2,15 @@
 use crate::{game::Engine, matchrun::MatchArgs};
 use bramble_engine::core::{
     ghosts::{ghost_run::RunsBySeat, ghost_store::GhostStore},
+    records::record_build::RecordBuild,
     util::rng::Rng,
 };
 use bramble_engine::{Array, ToState};
 use bramble_ghosts::{Band, FolderStore, GhostStore as _, LocalMatchmaker, Matchmaker};
-use serde_json::Value;
+use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::{
-    collections::BTreeSet,
+    collections::{BTreeMap, BTreeSet},
     path::{Path, PathBuf},
 };
 
@@ -22,23 +23,47 @@ pub fn run_with_debug_logs(
     field: &Path,
     debug_logs: bool,
 ) -> Result<Value, String> {
-    run_without(args, field, debug_logs, &[])
+    run_with(args, field, debug_logs, &Options::default())
 }
 
-/// `ghost-match --without <ids>`: the live seat is never offered these units, in the shop or in
-/// Discover; the shop draws other cards in their place by the normal weights. Seeds, secret,
-/// lobbies and bots are those of the same match without the flag, so the two pair by game index.
-/// Placement only: it writes no records (`args.records` must be false), and `summary.json`
-/// lists the cards under `without`.
+/// What a ghost match may change for its live seat, for the card-power tools. All empty for a
+/// normal match. Seeds, secret, lobbies and bots are those of the same match without them, so
+/// the two pair by game index.
+#[derive(Clone, Debug, Default)]
+pub struct Options {
+    /// `--without <ids>`: the live seat is never offered these units, in the shop or in
+    /// Discover; the shop draws other cards in their place by the normal weights.
+    pub without: Vec<String>,
+    /// `--trial-rules`: the card data at `--repo-root` differs from the rules this build and
+    /// the field were made for, on purpose (a proposed card change tried in whole games).
+    pub trial_rules: bool,
+}
+
+/// `ghost-match --without <ids>`: see [`Options::without`]. Placement only: it writes no
+/// records (`args.records` must be false), and `summary.json` lists the cards under `without`.
 pub fn run_without(
     args: &MatchArgs,
     field: &Path,
     debug_logs: bool,
     without: &[String],
 ) -> Result<Value, String> {
+    let options = Options {
+        without: without.to_vec(),
+        ..Options::default()
+    };
+    run_with(args, field, debug_logs, &options)
+}
+
+/// A ghost match with the card-power tools' options.
+pub fn run_with(
+    args: &MatchArgs,
+    field: &Path,
+    debug_logs: bool,
+    options: &Options,
+) -> Result<Value, String> {
     let red = crate::factory(&args.red)?;
     let blue = crate::factory(&args.blue)?;
-    run_with_factories(args, red, blue, field, debug_logs, without)
+    run_with_factories(args, red, blue, field, debug_logs, options)
 }
 
 /// `run` with the two bots given as constructors, as `matchrun::run_factories` is for live
@@ -50,7 +75,7 @@ pub fn run_factories(
     blue: league_api::Factory,
     field: &Path,
 ) -> Result<Value, String> {
-    run_with_factories(args, red, blue, field, false, &[])
+    run_with_factories(args, red, blue, field, false, &Options::default())
 }
 
 fn run_with_factories(
@@ -59,24 +84,170 @@ fn run_with_factories(
     blue: league_api::Factory,
     field: &Path,
     debug_logs: bool,
-    without: &[String],
+    options: &Options,
 ) -> Result<Value, String> {
     if args.games == 0 || !args.games.is_multiple_of(2) {
         return Err("usage: ghost-match --games must be a positive even number".into());
     }
-    if without.is_empty() && !args.records {
+    // A record cannot say which cards were left out (the draw list is not in the state hash),
+    // so it would neither replay nor cut into a field truthfully. Refuse up front.
+    if !options.without.is_empty() && args.records {
+        return Err("usage: ghost-match --without is for placement only and writes no records; \
+                    add --no-records"
+            .into());
+    }
+    // A trial's records are optional: they are for the card report, never for a field.
+    if options.without.is_empty() && !args.records && !options.trial_rules {
         return Err("usage: ghost-match writes records for replay and cutting".into());
     }
-    if !without.is_empty() && args.records {
-        // A record cannot say which cards were left out (the draw list is not in the state
-        // hash), so it would neither replay nor cut into a field truthfully. Refuse up front.
-        return Err(
-            "usage: ghost-match --without is for placement only and writes no records; \
-             add --no-records"
-                .into(),
-        );
+    crate::matchrun::run_match(args, red, blue, Some(field), debug_logs, options)
+}
+
+/// The rules hash of the card data a match plays (`RecordBuild::identity` of `--repo-root`)
+/// against the one this build and its field were made for. A ghost match refuses a difference
+/// unless `--trial-rules` asks for it, and `--trial-rules` refuses card data that is the same.
+pub(crate) fn check_rules(root: &Path, built: &str, trial: bool) -> Result<String, String> {
+    let played = RecordBuild::identity(root).get("rules_hash").as_text();
+    if played != built && !trial {
+        return Err(format!(
+            "usage: the card data at {} has rules {played}; this build and its fields have \
+             {built}. To try changed cards against this field, add --trial-rules",
+            root.display()
+        ));
     }
-    crate::matchrun::run_match(args, red, blue, Some(field), debug_logs, without)
+    if played == built && trial {
+        return Err(format!(
+            "usage: --trial-rules: the card data at {} is not changed (rules {built}); drop the flag",
+            root.display()
+        ));
+    }
+    Ok(played)
+}
+
+/// `trial_changes` against this build's checkout, or `null` when that checkout's rules are not
+/// the build's (then it is not the card data the field was cut at, and a diff would mislead).
+pub(crate) fn reference_changes(root: &Path, built: &str) -> Value {
+    let reference = crate::default_root();
+    if RecordBuild::identity(&reference)
+        .get("rules_hash")
+        .as_text()
+        == built
+    {
+        trial_changes(root, &reference)
+    } else {
+        Value::Null
+    }
+}
+
+/// A trial may not move a card to another tier. The field's recorded runs save each card's
+/// tier, and the engine refuses a run whose saved tier differs from the card data, so such a
+/// match would not start; and were it played, the recorded boards would hold the card at its
+/// old tier and full strength while the live seat can hardly reach it, so the result would
+/// read the field's head start, not the change. `changes` is `trial_changes`' output; a card
+/// new or removed in the trial is not a move.
+pub(crate) fn check_tier_moves(root: &Path, changes: &Value) -> Result<(), String> {
+    let moved: Vec<String> = changes["cards"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .filter_map(|card| {
+            let tier = &card["changed"]["tier"];
+            (tier["was"].is_number() && tier["now"].is_number()).then(|| {
+                format!(
+                    "{} tier {} to {}",
+                    card["id"].as_str().unwrap_or("?"),
+                    tier["was"],
+                    tier["now"]
+                )
+            })
+        })
+        .collect();
+    if moved.is_empty() {
+        return Ok(());
+    }
+    Err(format!(
+        "usage: --trial-rules: the card data at {} moves a card to another tier ({}). A tier \
+         move cannot be judged against a recorded field: its runs hold the card at the old tier. \
+         It needs a field cut under the changed rules",
+        root.display(),
+        moved.join(", ")
+    ))
+}
+
+/// For `summary.json`'s `trial_rules`: the card-data files and cards that differ between the
+/// trial's card data and `reference` (this build's checkout, when its rules are the build's).
+pub(crate) fn trial_changes(root: &Path, reference: &Path) -> Value {
+    // The files `RecordBuild::identity` hashes.
+    let mut paths: BTreeSet<PathBuf> = [
+        "src/game/game_content.gd",
+        "src/game/data/stand_in_units.json",
+    ]
+    .into_iter()
+    .map(PathBuf::from)
+    .collect();
+    for dir in ["src/core", "src/content"] {
+        for base in [root, reference] {
+            list_rule_files(&base.join(dir), Path::new(dir), &mut paths);
+        }
+    }
+    let files: Vec<String> = paths
+        .into_iter()
+        .filter(|path| {
+            std::fs::read(root.join(path)).ok() != std::fs::read(reference.join(path)).ok()
+        })
+        .map(|path| path.display().to_string())
+        .collect();
+    let mut cards = Vec::new();
+    for file in files.iter().filter(|f| f.ends_with("/units.json")) {
+        let read = |base: &Path| -> BTreeMap<String, Value> {
+            std::fs::read(base.join(file))
+                .ok()
+                .and_then(|bytes| serde_json::from_slice::<Value>(&bytes).ok())
+                .and_then(|data| data["cards"].as_array().cloned())
+                .unwrap_or_default()
+                .into_iter()
+                .filter_map(|card| Some((card["id"].as_str()?.to_owned(), card)))
+                .collect()
+        };
+        let (now, was) = (read(root), read(reference));
+        let ids: BTreeSet<&String> = now.keys().chain(was.keys()).collect();
+        for id in ids {
+            let (n, w) = (now.get(id), was.get(id));
+            if n == w {
+                continue;
+            }
+            let mut changed = serde_json::Map::new();
+            let keys: BTreeSet<&String> = n
+                .and_then(Value::as_object)
+                .into_iter()
+                .chain(w.and_then(Value::as_object))
+                .flat_map(|o| o.keys())
+                .collect();
+            for key in keys {
+                let (nv, wv) = (n.map(|c| &c[key.as_str()]), w.map(|c| &c[key.as_str()]));
+                if nv != wv {
+                    changed.insert(key.clone(), json!({"was": wv, "now": nv}));
+                }
+            }
+            cards.push(json!({"id": id, "changed": changed}));
+        }
+    }
+    json!({"files": files, "cards": cards})
+}
+
+fn list_rule_files(dir: &Path, rel: &Path, out: &mut BTreeSet<PathBuf>) {
+    let Ok(entries) = std::fs::read_dir(dir) else {
+        return;
+    };
+    for entry in entries.flatten() {
+        let name = entry.file_name();
+        let path = entry.path();
+        if path.is_dir() {
+            list_rule_files(&path, &rel.join(&name), out);
+        } else if path.extension().is_some_and(|e| e == "gd" || e == "json") {
+            out.insert(rel.join(&name));
+        }
+    }
 }
 
 /// Every `--without` id must be a unit the shop can draw: not unknown, a spell or a token.
@@ -187,6 +358,113 @@ impl Lobbies {
 
 #[cfg(test)]
 mod tests {
+    use std::path::Path;
+
+    fn copy_dir(from: &Path, to: &Path) {
+        std::fs::create_dir_all(to).unwrap();
+        for entry in std::fs::read_dir(from).unwrap().flatten() {
+            let target = to.join(entry.file_name());
+            if entry.path().is_dir() {
+                copy_dir(&entry.path(), &target);
+            } else {
+                std::fs::copy(entry.path(), target).unwrap();
+            }
+        }
+    }
+
+    /// A scratch copy of the rules files `RecordBuild::identity` reads.
+    pub(crate) fn scratch_rules(name: &str) -> std::path::PathBuf {
+        let root = crate::default_root();
+        let dir = std::env::temp_dir().join(format!("league-{name}-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        for sub in ["src/core", "src/content"] {
+            copy_dir(&root.join(sub), &dir.join(sub));
+        }
+        std::fs::create_dir_all(dir.join("src/game/data")).unwrap();
+        for file in [
+            "src/game/game_content.gd",
+            "src/game/data/stand_in_units.json",
+            "project.godot",
+        ] {
+            std::fs::copy(root.join(file), dir.join(file)).unwrap();
+        }
+        dir
+    }
+
+    #[test]
+    fn the_checkout_plays_the_builds_rules_and_a_changed_card_needs_trial_rules() {
+        let build: serde_json::Value = serde_json::from_str(crate::BUILD).unwrap();
+        let built = build["rules_hash"].as_str().unwrap();
+        let root = crate::default_root();
+        assert_eq!(
+            super::check_rules(&root, built, false).as_deref(),
+            Ok(built)
+        );
+        let same = super::check_rules(&root, built, true).unwrap_err();
+        assert!(same.contains("not changed"), "{same}");
+
+        let dir = scratch_rules("trial-rules");
+        assert_eq!(super::check_rules(&dir, built, false).as_deref(), Ok(built));
+        let units = dir.join("src/content/badger/units.json");
+        let text = std::fs::read_to_string(&units).unwrap();
+        let mut data: serde_json::Value = serde_json::from_str(&text).unwrap();
+        let card = data["cards"]
+            .as_array_mut()
+            .unwrap()
+            .iter_mut()
+            .find(|c| c["id"] == "sword-heir")
+            .unwrap();
+        assert_eq!(card["health"], 9);
+        card["health"] = 5.into();
+        std::fs::write(&units, serde_json::to_string_pretty(&data).unwrap()).unwrap();
+        let refused = super::check_rules(&dir, built, false).unwrap_err();
+        assert!(refused.contains("--trial-rules"), "{refused}");
+        let played = super::check_rules(&dir, built, true).unwrap();
+        assert_ne!(played, built);
+
+        let changes = super::trial_changes(&dir, &root);
+        assert_eq!(
+            changes["files"],
+            serde_json::json!(["src/content/badger/units.json"])
+        );
+        assert_eq!(
+            changes["cards"],
+            serde_json::json!([{"id": "sword-heir", "changed": {"health": {"was": 9, "now": 5}}}])
+        );
+        assert_eq!(super::check_tier_moves(&dir, &changes), Ok(()));
+        let _ = std::fs::remove_dir_all(dir);
+    }
+
+    #[test]
+    fn a_trial_that_moves_a_card_to_another_tier_is_refused() {
+        let build: serde_json::Value = serde_json::from_str(crate::BUILD).unwrap();
+        let built = build["rules_hash"].as_str().unwrap();
+        let dir = scratch_rules("tier-move");
+        let units = dir.join("src/content/badger/units.json");
+        let text = std::fs::read_to_string(&units).unwrap();
+        let mut data: serde_json::Value = serde_json::from_str(&text).unwrap();
+        let card = data["cards"]
+            .as_array_mut()
+            .unwrap()
+            .iter_mut()
+            .find(|c| c["id"] == "sword-heir")
+            .unwrap();
+        assert_eq!(card["tier"], 3);
+        card["tier"] = 5.into();
+        std::fs::write(&units, serde_json::to_string_pretty(&data).unwrap()).unwrap();
+        let changes = super::reference_changes(&dir, built);
+        let refused = super::check_tier_moves(&dir, &changes).unwrap_err();
+        assert!(refused.contains("sword-heir tier 3 to 5"), "{refused}");
+        assert!(
+            refused.contains("field cut under the changed rules"),
+            "{refused}"
+        );
+        // A new card is not a move.
+        let added = serde_json::json!({"cards": [{"id": "new", "changed": {"tier": {"was": null, "now": 2}}}]});
+        assert_eq!(super::check_tier_moves(&dir, &added), Ok(()));
+        let _ = std::fs::remove_dir_all(dir);
+    }
+
     #[test]
     fn without_takes_only_units_the_shop_draws() {
         let root = crate::default_root();

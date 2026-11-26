@@ -9,6 +9,7 @@ const USAGE: &str = "usage:
                      --out <dir> [--clock-ms 1000] [--threads K] [--secret <hex>] [--no-decisions]
                      [--red-label <tag>] [--blue-label <tag>] [--debug-logs]
                      [--without <card id>[,<card id>...] --no-records]
+                     [--trial-rules --repo-root <changed card data>]
   league selfcheck --records <dir>... [--bots flow-random|tribe] [--games N] [--threads K] [--keep <dir>]
   league check-crate <path> --name <red|blue> [--keep]
   league analyze <dir>
@@ -104,7 +105,10 @@ fn run(args: &[String]) -> Result<(), String> {
     let root = league::default_root();
     match command.as_str() {
         "match" | "ghost-match" => {
-            let o = Opts::parse(rest, &["no-records", "no-decisions", "debug-logs"]);
+            let o = Opts::parse(
+                rest,
+                &["no-records", "no-decisions", "debug-logs", "trial-rules"],
+            );
             let m = matchrun::MatchArgs {
                 red: o.need("red")?,
                 blue: o.need("blue")?,
@@ -137,12 +141,27 @@ fn run(args: &[String]) -> Result<(), String> {
                     ids
                 }
             };
+            let trial_rules = o.has("trial-rules");
+            if command != "ghost-match" && trial_rules {
+                return Err(format!(
+                    "usage: --trial-rules is a ghost-match option\n{USAGE}"
+                ));
+            }
+            if trial_rules && o.get("repo-root").is_none() {
+                return Err(format!(
+                    "usage: --trial-rules plays the changed card data at --repo-root; give it\n{USAGE}"
+                ));
+            }
             let result = if command == "ghost-match" {
-                ghostmatch::run_without(
+                let options = ghostmatch::Options {
+                    without,
+                    trial_rules,
+                };
+                ghostmatch::run_with(
                     &m,
                     &PathBuf::from(o.need("field")?),
                     o.has("debug-logs"),
-                    &without,
+                    &options,
                 )?
             } else {
                 matchrun::run_with_debug_logs(&m, o.has("debug-logs"))?

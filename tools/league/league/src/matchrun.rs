@@ -1,7 +1,9 @@
 //! `league match`: games in parallel, one per thread, outputs in game order.
 use crate::game::{self, GameOut, GamePlan, SeatPlan};
-use crate::ghostmatch::Lobbies;
+use crate::ghostmatch::{Lobbies, Options};
 use crate::watchdog::Watchdog;
+use bramble_engine::Variant;
+use bramble_engine::core::records::record_build::RecordBuild;
 use league_api::Factory;
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
@@ -94,14 +96,14 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
 pub fn run_with_debug_logs(args: &MatchArgs, debug_logs: bool) -> Result<Value, String> {
     let red = crate::factory(&args.red)?;
     let blue = crate::factory(&args.blue)?;
-    run_match(args, red, blue, None, debug_logs, &[])
+    run_match(args, red, blue, None, debug_logs, &Options::default())
 }
 
 /// `run` with the two bots given as constructors instead of registry names; `args.red` and
 /// `args.blue` are then only labels in the logs. A team's tools crate uses it to play two
 /// versions of its own bot: `run_factories(&args, red::new_bot, old_red::new_bot)`.
 pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Value, String> {
-    run_match(args, red, blue, None, false, &[])
+    run_match(args, red, blue, None, false, &Options::default())
 }
 
 pub(crate) fn run_match(
@@ -110,14 +112,33 @@ pub(crate) fn run_match(
     blue: Factory,
     field: Option<&Path>,
     debug_logs: bool,
-    without: &[String],
+    options: &Options,
 ) -> Result<Value, String> {
     league_api::harness::quiet_panics();
-    if !without.is_empty() {
+    let build: Value = serde_json::from_str(crate::BUILD).map_err(|e| e.to_string())?;
+    let rules_hash = build["rules_hash"]
+        .as_str()
+        .ok_or("build.json: no rules_hash")?;
+    // The rules the games are played under: this build's, or with --trial-rules the changed
+    // card data's. Checked before touching the output folder or playing any game.
+    let played_rules = match field {
+        Some(_) => crate::ghostmatch::check_rules(&args.root, rules_hash, options.trial_rules)?,
+        None => rules_hash.to_owned(),
+    };
+    // What the trial changes against this build's checkout, for `summary.json` and to refuse a
+    // tier move up front (it cannot be played against a recorded field).
+    let trial_changes = if options.trial_rules && field.is_some() {
+        let changes = crate::ghostmatch::reference_changes(&args.root, rules_hash);
+        crate::ghostmatch::check_tier_moves(&args.root, &changes)?;
+        changes
+    } else {
+        Value::Null
+    };
+    let without = options.without.as_slice();
+    if !without.is_empty() || options.trial_rules {
         if field.is_none() {
-            return Err("usage: --without is a ghost-match option".into());
+            return Err("usage: --without and --trial-rules are ghost-match options".into());
         }
-        // Check the ids before touching the output folder or playing any game.
         let engine = crate::engine_for(&args.root, &|| {
             crate::load_content(&args.root, args.content.as_deref())
         })?;
@@ -156,10 +177,6 @@ pub(crate) fn run_match(
         Some(s) => s.clone(),
         None => new_secret()?,
     };
-    let build: Value = serde_json::from_str(crate::BUILD).map_err(|e| e.to_string())?;
-    let rules_hash = build["rules_hash"]
-        .as_str()
-        .ok_or("build.json: no rules_hash")?;
     let lobbies = field
         .map(|field| Lobbies::pick(field, rules_hash, &secret, pairs).map(Arc::new))
         .transpose()?;
@@ -233,9 +250,10 @@ pub(crate) fn run_match(
         let seeds = seeds.clone();
         let lobbies = lobbies.clone();
         let without = without.to_vec();
+        let trial_rules = options.trial_rules;
         let labels = [args.red_label.clone(), args.blue_label.clone()];
         handles.push(std::thread::spawn(move || {
-            let engine = match crate::engine_for(&root, &|| {
+            let mut engine = match crate::engine_for(&root, &|| {
                 crate::load_content(&root, content.as_deref())
             }) {
                 Ok(e) => e,
@@ -244,6 +262,11 @@ pub(crate) fn run_match(
                     return;
                 }
             };
+            if trial_rules {
+                // Records name the card data they were played under, so they replay and refight
+                // against that data and are never cut into a field at this build's rules.
+                engine.build = Variant::Dictionary(RecordBuild::identity(&root));
+            }
             let watch = dog.register();
             loop {
                 let index = next.fetch_add(1, Ordering::SeqCst);
@@ -429,7 +452,7 @@ pub(crate) fn run_match(
         }
     };
     let mut summary = json!({
-        "schema": 1, "complete": true, "rules_hash": rules_hash, "git_sha": git_sha,
+        "schema": 1, "complete": true, "rules_hash": played_rules, "git_sha": git_sha,
         "inline_reports": true,
         "seeds_sha256": seeds_sha256,
         "red_label": args.red_label.as_ref().unwrap_or(&args.red),
@@ -444,6 +467,14 @@ pub(crate) fn run_match(
     if !without.is_empty() {
         // Placement only: the live seat's shop and Discover never offered these cards.
         summary["without"] = json!(without);
+    }
+    if options.trial_rules {
+        // `rules_hash` is the trial card data's; the field's runs were cut at the build's.
+        summary["trial_rules"] = json!({
+            "field_rules_hash": rules_hash,
+            "card_data": args.root.canonicalize().unwrap_or_else(|_| args.root.clone()).display().to_string(),
+            "changes": trial_changes,
+        });
     }
     let seconds = started.elapsed().as_secs_f64();
     let timing = json!({"seconds": seconds, "threads": args.threads, "seconds_per_game": seconds / written.max(1) as f64});
