@@ -10,7 +10,7 @@ import marks
 
 
 def row(subject, measures, state="new", since="2026-11-25", kind="card"):
-    return f"{subject},{kind},{subject.title()},{measures},2026-11-25,{state},the referee,{since},a note\n"
+    return f"{subject},{kind},{subject.title()},{measures},2026-11-25,a match,{state},the referee,{since},,a note\n"
 
 
 class Ledger(unittest.TestCase):
@@ -42,13 +42,25 @@ class Ledger(unittest.TestCase):
         self.assertEqual(marks.main([str(self.dir), "--ledger", str(self.ledger)]), 1)
         self.write(row("heir", "text; pick rate"), row("cub", "growth"), row("overrun", "keyword off", kind="keyword"))
         self.assertEqual(marks.main([str(self.dir), "--ledger", str(self.ledger)]), 0)
+        # A changed card that is marked on the new build is not held: it goes back to the owner.
+        self.write(row("heir", "text; pick rate", "changed"), row("cub", "growth"), row("overrun", "keyword off", kind="keyword"))
+        self.assertEqual([(s, m) for s, _, _, m in marks.unheld(self.dir, self.ledger)], [("heir", ["pick rate", "text"])])
 
     def test_rows_that_wait_too_long_are_stale(self):
         self.write(row("heir", "text", "new", "2026-11-25"), row("cub", "growth", "with the owner", "2026-11-25"),
-                   row("old", "text", "explained", "2026-11-01"))
+                   row("old", "text", "explained", "2026-11-01"), row("done", "text", "changed", "2026-11-25"))
         names = lambda day: [r["subject"] for r, _ in marks.stale(self.ledger, datetime.date.fromisoformat(day))]
-        self.assertEqual((names("2026-11-26"), names("2026-11-27"), names("2026-11-29")),
-                         ([], ["heir"], ["heir", "cub"]))
+        self.assertEqual((names("2026-11-25"), names("2026-11-26"), names("2026-11-28")),
+                         ([], ["heir"], ["heir", "cub", "done"]))
+
+    def test_a_missing_ledger_is_an_error_not_an_empty_one(self):
+        with self.assertRaisesRegex(ValueError, "no ledger"):
+            marks.stale(self.dir / "nowhere.csv", datetime.date(2026, 11, 26))
+
+    def test_the_repo_s_own_ledger_reads(self):
+        rows = marks.read_ledger(marks.LEDGER)
+        self.assertTrue(all(row["since"] and row["holder"] or row["state"] in ("explained", "measured again")
+                            for row in rows.values()))
 
     def test_an_unknown_state_is_refused(self):
         self.write(row("heir", "text", "parked"))

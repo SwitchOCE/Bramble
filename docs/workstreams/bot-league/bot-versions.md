@@ -61,6 +61,16 @@ A field is a store of recorded games ("runs") that a bot plays against as ghosts
 
 **Rule of thumb for any card test that reads final place:** check the bot's average place on the field first. A fair field gives about 4.5. Better than about 3.5 means the field is too weak and the test's numbers should not be trusted.
 
+## Playing a card-step match from nothing
+
+For the card step (`.claude/skills/card-step/SKILL.md`) when there is no match with records to hand, or after a rules change, when every field above stops matching. Done this way once, on 25 Nov; there is no single command for it yet. About 75 minutes of machine time. The league's folders are read only.
+
+1. A checkout of your own to build the bots in: `git worktree add --detach <tree> origin/dev`.
+2. A strong field from the two best kept versions (about 55 minutes): `TREE=<tree> THREADS=4 bash /data/third-run/referee-tree/tools/league/ref_field.sh red-c14 blue-c17 <field> 1500`. It copies the tagged bots into `<tree>`, builds them, plays 1,500 live games and cuts the field. Do not set `CARGO_TARGET_DIR` for it. After a card change the tagged bots were tuned on the old numbers, and nobody has yet tried building them against changed card data; say what happened in what you report.
+3. The match (about 10 minutes): `<tree>/tools/league/target/release/league ghost-match --red red --blue blue --red-label red-c14 --blue-label blue-c17 --field <field> --games 2000 --seeds <seeds file> --clock-ms 1000 --threads 4 --out <match> --no-decisions`. The seeds file is 1,000 lines, one whole number a line; keep it, because left out of the shop needs the same file.
+4. `tools/league/card_report.sh <match> --field <field> --league <tree>/tools/league/target/release/league`.
+5. Check the bots' average place on the field (the rule of thumb above) before trusting any number that reads final place.
+
 ## Where this comes from
 
 - Tags: `git -C /home/alex/league/red tag`, `git -C /home/alex/league/blue tag`. Each tag changes only the team's bot folder, `tools/league/bots/<colour>`.

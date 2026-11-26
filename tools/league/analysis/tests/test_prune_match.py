@@ -37,6 +37,8 @@ class Pruning(unittest.TestCase):
         (self.match / name).write_text("".join(json.dumps(row) + "\n" for row in entries), encoding="utf-8")
 
     def reading_logs(self):
+        (self.match / "card-report").mkdir(exist_ok=True)  # the card report ran and marked nothing
+        (self.match / "card-report/cards.csv").write_text("card,name,worth a look\n")
         self.write("library.json", [dict(id="acorn", tribes=["Mouse"], spell=False)])
         self.write("games.jsonl", *(dict(
             game=i, swapped=bool(i), red_seats=[] if i else [0], fights=[],
@@ -71,7 +73,7 @@ class Pruning(unittest.TestCase):
         ledger.write_text(",".join(marks.COLUMNS) + "\n")
         with self.assertRaisesRegex(ValueError, "1 marks have no row in the ledger.*Heir"):
             prune(self.match, "climb", verdict="kept", cut_verified=True, ledger=ledger)
-        ledger.write_text(",".join(marks.COLUMNS) + "\nheir,card,Heir,text,2026-11-25,new,the referee,2026-11-25,\n")
+        ledger.write_text(",".join(marks.COLUMNS) + "\nheir,card,Heir,text,2026-11-25,a match,new,the referee,2026-11-25,,\n")
         prune(self.match, "climb", verdict="kept", cut_verified=True, ledger=ledger)
         self.assertEqual({p.name for p in self.match.iterdir()},
                          {"summary.json", "analysis.json", "timing.json", "verdict.jsonl", "card-report"})

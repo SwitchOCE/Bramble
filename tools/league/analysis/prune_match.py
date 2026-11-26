@@ -82,15 +82,22 @@ def card_report(root):
     return {path for path in (root / CARD_REPORT).rglob("*") if path.is_file()}
 
 
+def card_step_started(root, ledger, what):
+    """Refuse to delete a match's records before the card report has run on it and every mark it
+    made has a row in the ledger (docs/workstreams/balance/plan.md, "Who acts on a mark")."""
+    if not (root / CARD_REPORT / "cards.csv").is_file():
+        raise ValueError(f"{what}: run tools/league/card_report.sh on the match first (it needs the records)")
+    if waiting := marks.unheld(root / CARD_REPORT, ledger):
+        names = ", ".join(name for _, _, name, _ in waiting)
+        raise ValueError(f"{what}: {len(waiting)} marks have no row in the ledger ({ledger}): {names}. "
+                         "Add a row for each (python3 marks.py <match>/card-report lists them), then prune")
+
+
 def climb(root, summary, verdict, cut_verified, ledger=marks.LEDGER):
     if verdict == "kept" and not cut_verified:
         raise ValueError("kept version: cut and verify its ghosts, then pass --cut-verified")
-    if verdict == "kept" and not (root / CARD_REPORT / "cards.csv").is_file():
-        raise ValueError("kept version: run tools/league/card_report.sh on the match first (it needs the records)")
-    if verdict == "kept" and (waiting := marks.unheld(root / CARD_REPORT, ledger)):
-        names = ", ".join(name for _, _, name, _ in waiting)
-        raise ValueError(f"kept version: {len(waiting)} marks have no row in the ledger ({ledger}): {names}. "
-                         "Add a row for each (python3 marks.py <match>/card-report lists them), then prune")
+    if verdict == "kept":
+        card_step_started(root, ledger, "kept version")
     files = {root / name for name in ("summary.json", "analysis.json", "timing.json")}
     if any(not path.is_file() for path in files):
         raise ValueError("climb requires summary.json, timing.json and analysis.json from league analyze")
@@ -329,6 +336,7 @@ def prune(root, kind, *, verdict=None, cut_verified=False, archive_dir=None, fin
             raise ValueError("climb requires --verdict kept or rejected")
         files = climb(root, summary, verdict, cut_verified, ledger)
     elif kind == "reading":
+        card_step_started(root, ledger, "a match balance reads")
         files = reading(root, summary)
     elif kind == "reading-done":
         files = reading_done(root, summary, findings)

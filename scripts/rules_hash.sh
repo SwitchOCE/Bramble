@@ -60,6 +60,8 @@ case "${1:-}" in
     echo "If this is an accident, undo those changes. If the rules change on purpose, run"
     echo "./scripts/rules_hash.sh --update and commit $EXPECTED_FILE with the change: ghost fields"
     echo "cut at the old hash no longer load, and the league's proof pins need refreshing (tools/league/PORTING.md)."
+    echo "A card or keyword change is not finished until it is measured again: the card-step skill"
+    echo "(.claude/skills/card-step/SKILL.md) says whom to tell before it merges and what to run after."
     exit 1
     ;;
   *)

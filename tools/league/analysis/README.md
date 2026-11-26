@@ -31,7 +31,8 @@ files and byte counts.
   too long. Who acts on a mark: `docs/workstreams/balance/plan.md`. The match keeps the manifest, analysis, timing and a one-line JSON
   verdict with bot tags, seeds SHA, game count, placement gap and 95% interval bounds.
 - **Balance reading.** Run `tools/league/card_report.sh MATCH` before the first prune (its
-  fight tests need plain records); `reading` keeps the `card-report/` folder. Run
+  fight tests need plain records); `reading` refuses without it, and while a mark has no
+  row in the ledger, and keeps the `card-report/` folder. Run
   `league analyze MATCH` before pruning if the match will go through `reading-done`. Use `--kind reading` to keep the gzip-compressed manifest,
   analysis (when present), library, games, shops, decisions, CPU data, records and
   any replayed event log. Decision rows
