@@ -1,0 +1,41 @@
+keyword,stage,enemy_health,health_cuts,n,status,keyword_value,low,high,results_changed
+badger_fury,1-4,all,6.5/8,3000,ok,0.152,0.143,0.162,0.238
+badger_fury,1-4,low,6.5/8,1234,ok,0.171,0.156,0.186,0.255
+badger_fury,1-4,middle,6.5/8,1061,ok,0.161,0.144,0.178,0.26
+badger_fury,1-4,high,6.5/8,705,ok,0.106,0.089,0.123,0.176
+badger_fury,5-8,all,12/18,3000,ok,0.091,0.083,0.099,0.156
+badger_fury,5-8,low,12/18,1162,ok,0.088,0.075,0.102,0.138
+badger_fury,5-8,middle,12/18,964,ok,0.11,0.094,0.125,0.187
+badger_fury,5-8,high,12/18,874,ok,0.074,0.06,0.088,0.146
+badger_fury,9-12,all,18/29,3000,ok,0.057,0.051,0.063,0.125
+badger_fury,9-12,low,18/29,1147,ok,0.055,0.045,0.066,0.126
+badger_fury,9-12,middle,18/29,905,ok,0.065,0.054,0.077,0.136
+badger_fury,9-12,high,18/29,948,ok,0.051,0.041,0.062,0.113
+badger_fury,13+,all,20/31,3000,ok,0.037,0.031,0.044,0.089
+badger_fury,13+,low,20/31,1206,ok,0.044,0.034,0.055,0.104
+badger_fury,13+,middle,20/31,740,ok,0.039,0.026,0.052,0.086
+badger_fury,13+,high,20/31,1054,ok,0.029,0.02,0.038,0.075
+badger_overrun,5-8,all,12/18,1613,ok,0.068,0.057,0.079,0.141
+badger_overrun,5-8,low,12/18,340,ok,0.139,0.109,0.169,0.229
+badger_overrun,5-8,middle,12/18,473,ok,0.064,0.044,0.083,0.133
+badger_overrun,5-8,high,12/18,800,ok,0.04,0.026,0.053,0.109
+badger_overrun,9-12,all,18/29,3000,ok,0.044,0.036,0.052,0.148
+badger_overrun,9-12,low,18/29,1173,ok,0.071,0.056,0.086,0.192
+badger_overrun,9-12,middle,18/29,834,ok,0.049,0.034,0.063,0.155
+badger_overrun,9-12,high,18/29,993,ok,0.01,-0.001,0.02,0.091
+badger_overrun,13+,all,20/31,3000,ok,0.019,0.013,0.026,0.088
+badger_overrun,13+,low,20/31,1232,ok,0.033,0.022,0.044,0.105
+badger_overrun,13+,middle,20/31,809,ok,0.017,0.005,0.03,0.093
+badger_overrun,13+,high,20/31,959,ok,0.003,-0.006,0.012,0.063
+cleave,5-8,all,12/18,421,ok,0.005,-0.006,0.016,0.069
+cleave,5-8,low,12/18,92,too few,,,,
+cleave,5-8,middle,12/18,129,too few,,,,
+cleave,5-8,high,12/18,200,ok,0.013,0.001,0.024,0.065
+cleave,9-12,all,18/29,576,ok,0.007,-0.004,0.018,0.054
+cleave,9-12,low,18/29,227,ok,0.006,-0.008,0.019,0.066
+cleave,9-12,middle,18/29,188,too few,,,,
+cleave,9-12,high,18/29,161,too few,,,,
+cleave,13+,all,20/31,50,too few,,,,
+cleave,13+,low,20/31,16,too few,,,,
+cleave,13+,middle,20/31,8,too few,,,,
+cleave,13+,high,20/31,26,too few,,,,
