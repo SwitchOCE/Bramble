@@ -137,3 +137,11 @@ Follow-up, same day, on the two open questions:
 ### 16. Simplify the rulebook
 
 > Another thing I think we really need to do is have a look at the rulebook again and really try and simplify it.
+
+## 26 Nov 2026
+
+### 17. Unit stances
+
+> I have an idea of unit stances, and swapping stances would change whether they give attack or health or invert the size of the attack and health buffs. It's a cool idea I just had, and I want to remember it for later.
+
+*[Said to the assurance session in chat. Recorded at the owner's request, for later; not scheduled.]*
