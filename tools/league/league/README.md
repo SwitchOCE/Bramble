@@ -360,6 +360,47 @@ cp src/game/data/stand_in_units.json $T/src/game/data/; cp project.godot $T/
 league ghost-match <the baseline's flags> --out trial/m --trial-rules --repo-root $T
 ```
 
+### A test field for a tier move
+
+A tier move needs a field cut under the changed rules, and a field is cut from live matches,
+which play only the build's own rules. So the change is tried in a scratch checkout whose own
+build stamp names the changed rules: everything in it then agrees, and no flag is needed. Run
+from the repository root, on the Optiplex (`/data` has the room):
+
+```sh
+T=/data/scratch/tier-trial
+git worktree add --detach $T HEAD && cd $T
+# edit src/content/<tribe>/units.json: the card's "tier", and any other card fields
+godot --headless --import
+H=$(scripts/rules_hash.sh)
+python3 -c "import json,sys; p='tools/league/league/build.json'; b=json.load(open(p)); \
+b['rules_hash']=sys.argv[1]; open(p,'w').write(json.dumps(b,separators=(',',':'))+'\n')" "$H"
+export CARGO_TARGET_DIR=/data/scratch/tier-target
+tools/league/proof/make_field.sh /data/scratch/tier-field 1000 8
+$CARGO_TARGET_DIR/release/league ghost-match --red red --blue blue --field /data/scratch/tier-field \
+  --games N --seeds <file> --clock-ms 1000 --threads 4 --out /data/scratch/tier-match
+```
+
+Then play the bots against that field with a plain `league ghost-match` (no `--trial-rules`)
+from the scratch checkout, and compare with the same match on the build's own field. The
+scratch checkout's matches and field carry the changed rules' hash, so nothing from it can be
+mistaken for the build's: the build's fields refuse its records, and its field refuses the
+build's.
+
+**How long** (Optiplex, 26 Nov): the import, the hash and the first build took about a minute
+(a 20-game field, cut and verified, took 86 s from an empty target). A 1,000-game field at 8
+threads takes about 26 minutes (21 Nov: 1,372 s of play, 1,564 s with the cut). The matches
+on it take what they take on any field (`docs/workstreams/third-run/third-run-brief.md`,
+section 9). So about half an hour before the first match.
+
+**What it skips.** Setting the stamp by hand skips the proof that the Rust engine plays the
+changed card data as the game does (`refresh_reference.sh` and `recheck.sh`, "Regenerating the
+GDScript oracles" above, several hours). For a change to card data only (tier, stats, the
+numbers in existing effects) the Rust engine reads the same JSON files the game does, so this
+is a test field, not a proven one. A change to `src/core` or a mechanic's script needs the Rust
+port first; this route is wrong for it. Remove the scratch worktree with `git worktree remove`
+and its field and target once the trial is read.
+
 ## The clock
 
 Each seat has `--clock-ms` of **thread CPU time** per game (`clock_gettime(CLOCK_THREAD_CPUTIME_ID)`),
