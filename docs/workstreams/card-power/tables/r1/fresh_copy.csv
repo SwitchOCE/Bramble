@@ -1,0 +1,328 @@
+stage,card,tier,boards,status,fresh_value,low,high,damage_change,results_changed,displaced,stage_middle,spreads,pointer,reading
+1-4,bramble-runner,1,500,ok,0.019,0.01,0.029,0.1,0.024,0.826,0.035,-0.3,,fight text worth under 5 in 100
+1-4,brock-cub,1,500,ok,0.031,0.021,0.041,0.14,0.054,0.82,0.035,-0.1,,fight text worth under 5 in 100
+1-4,bumblebee,1,500,ok,0.097,0.076,0.117,0.35,0.16,0.556,0.035,1.2,,has fight text worth
+1-4,green-recruit,1,500,ok,0.053,0.04,0.066,0.26,0.134,0.736,0.035,0.4,,has fight text worth
+1-4,hedge-knight,1,500,ok,0.03,0.013,0.047,0.09,0.126,0.824,0.035,-0.1,,fight text worth under 5 in 100
+1-4,hedgerow-scout,1,500,ok,0.015,0.008,0.021,0.08,0.03,0.624,0.035,-0.4,,fight text worth under 5 in 100
+1-4,husk-sentry,1,500,ok,0.082,0.063,0.101,0.45,0.164,0.756,0.035,0.9,,has fight text worth
+1-4,needle-page,1,500,ok,0.063,0.048,0.078,0.35,0.114,0.69,0.035,0.6,,has fight text worth
+1-4,nettle-sprout,1,500,ok,0.026,0.018,0.035,0.12,0.05,0.82,0.035,-0.2,,fight text worth under 5 in 100
+1-4,sentry,1,500,ok,0.0,0.0,0.0,0.0,0.0,0.906,0.035,-0.7,,no fight text
+1-4,territorial,1,500,ok,0.0,0.0,0.0,0.0,0.0,0.876,0.035,-0.7,,no fight text
+1-4,armsbearer,2,500,ok,0.105,0.081,0.129,0.53,0.158,0.85,0.035,1.4,,has fight text worth
+1-4,blackthorn-sapling,2,500,ok,0.067,0.051,0.082,0.38,0.134,0.83,0.035,0.6,,has fight text worth
+1-4,harvest-piper,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.654,0.035,-0.7,,no fight text
+1-4,hayloft-aunt,2,500,ok,0.019,0.012,0.026,0.06,0.032,0.67,0.035,-0.3,,fight text worth under 5 in 100
+1-4,heath-adder,2,500,ok,0.168,0.138,0.197,0.7,0.266,0.552,0.035,2.6,,has fight text worth
+1-4,hedge-layer,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.83,0.035,-0.7,,no fight text
+1-4,horde-runner,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.774,0.035,-0.7,,no fight text
+1-4,lance-corporal,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.864,0.035,-0.7,,no fight text
+1-4,old-campaigner,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.872,0.035,-0.7,,no fight text
+1-4,prophet-of-the-dust,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.766,0.035,-0.7,,no fight text
+1-4,recruiting-sergeant,2,500,ok,0.032,0.017,0.046,0.2,0.098,0.884,0.035,-0.0,,fight text worth under 5 in 100
+1-4,relic-seeker,2,500,ok,0.05,0.033,0.066,0.23,0.078,0.876,0.035,0.3,,has fight text worth
+1-4,sett-shield-bearer,2,500,ok,0.138,0.111,0.165,0.92,0.168,0.844,0.035,2.0,,has fight text worth
+1-4,shrew-cutpurse,2,500,ok,0.038,0.027,0.049,0.21,0.08,0.67,0.035,0.1,,fight text worth under 5 in 100
+1-4,sweetbriar,2,500,ok,0.013,0.007,0.019,0.05,0.028,0.824,0.035,-0.4,,fight text worth under 5 in 100
+1-4,wheat-raider,2,500,ok,0.211,0.185,0.238,1.09,0.308,0.752,0.035,3.5,worth a look,has fight text worth
+1-4,bell-ringer,3,500,ok,0.042,0.031,0.053,0.18,0.068,0.758,0.035,0.1,,fight text worth under 5 in 100
+1-4,blackberry-sprawl,3,337,ok,0.039,0.026,0.052,0.22,0.059,0.884,0.035,0.1,,fight text worth under 5 in 100
+1-4,brood-mother,3,500,ok,0.056,0.043,0.068,0.32,0.104,0.814,0.035,0.4,,has fight text worth
+1-4,colour-sergeant,3,500,ok,0.0,0.0,0.0,0.0,0.0,0.9,0.035,-0.7,,no fight text
+1-4,crab-apple,3,337,ok,0.102,0.079,0.124,0.52,0.169,0.884,0.035,1.3,,has fight text worth
+1-4,famine-caller,3,500,ok,0.033,0.023,0.042,0.14,0.062,0.824,0.035,-0.0,,fight text worth under 5 in 100
+1-4,fencing-master,3,500,ok,0.143,0.12,0.167,1.25,0.206,0.762,0.035,2.1,,has fight text worth
+1-4,gate-warden,3,500,ok,0.041,0.022,0.06,0.19,0.146,0.95,0.035,0.1,,fight text worth under 5 in 100
+1-4,gleaner,3,500,ok,0.237,0.206,0.269,1.94,0.274,0.812,0.035,4.0,worth a look,has fight text worth
+1-4,grenadier-guard,3,500,ok,0.0,0.0,0.0,0.0,0.0,0.924,0.035,-0.7,,no fight text
+1-4,grudge-keeper,3,500,ok,0.026,0.015,0.037,0.17,0.048,0.976,0.035,-0.2,,fight text worth under 5 in 100
+1-4,hedge-lancer,3,500,ok,0.122,0.101,0.143,0.73,0.154,0.954,0.035,1.7,,has fight text worth
+1-4,home-guard,3,500,ok,-0.015,-0.032,0.002,-0.13,0.122,0.924,0.035,-1.0,,no fight text
+1-4,master-at-arms,3,500,ok,0.0,0.0,0.0,0.0,0.0,0.928,0.035,-0.7,,no fight text
+1-4,needle-sister,3,500,ok,0.0,-0.011,0.011,0.04,0.048,0.708,0.035,-0.7,,no fight text
+1-4,nettle-skirmisher,3,337,ok,0.113,0.087,0.139,0.65,0.178,0.884,0.035,1.5,,has fight text worth
+1-4,old-stump,3,337,ok,0.071,0.052,0.09,0.34,0.122,0.884,0.035,0.7,,has fight text worth
+1-4,padre,3,500,ok,0.0,0.0,0.0,0.0,0.0,0.904,0.035,-0.7,,no fight text
+1-4,shrew-harrier,3,500,ok,0.002,-0.003,0.007,0.01,0.02,0.85,0.035,-0.6,,no fight text
+1-4,squadron-leader,3,500,ok,0.081,0.06,0.102,0.49,0.116,0.916,0.035,0.9,,has fight text worth
+1-4,sword-heir,3,500,ok,0.198,0.167,0.228,1.06,0.228,0.962,0.035,3.2,worth a look,has fight text worth
+1-4,thimble-captain,3,500,ok,0.036,0.023,0.049,0.2,0.098,0.764,0.035,0.0,,fight text worth under 5 in 100
+1-4,toothpick-ballista,3,500,ok,0.068,0.048,0.088,0.4,0.196,0.79,0.035,0.7,,has fight text worth
+5-8,bramble-runner,1,500,ok,0.009,0.003,0.014,0.08,0.016,0.998,0.017,-0.3,,fight text worth under 5 in 100
+5-8,brock-cub,1,500,ok,0.013,0.005,0.021,0.1,0.042,0.998,0.017,-0.2,,fight text worth under 5 in 100
+5-8,bumblebee,1,500,ok,0.012,0.005,0.019,0.14,0.044,0.998,0.017,-0.2,,has fight text worth
+5-8,green-recruit,1,500,ok,0.033,0.017,0.049,0.25,0.126,0.996,0.017,0.6,,has fight text worth
+5-8,hedge-knight,1,500,ok,0.0,-0.015,0.015,-0.03,0.094,1.0,0.017,-0.7,,fight text worth under 5 in 100
+5-8,hedgerow-scout,1,500,ok,0.017,0.009,0.025,0.11,0.034,0.978,0.017,0.0,,fight text worth under 5 in 100
+5-8,husk-sentry,1,500,ok,0.035,0.02,0.051,0.39,0.146,1.0,0.017,0.7,,has fight text worth
+5-8,needle-page,1,500,ok,0.019,0.011,0.028,0.18,0.036,0.984,0.017,0.1,,has fight text worth
+5-8,nettle-sprout,1,500,ok,0.004,0.0,0.008,0.01,0.012,1.0,0.017,-0.5,,fight text worth under 5 in 100
+5-8,sentry,1,500,ok,0.0,0.0,0.0,0.0,0.0,0.992,0.017,-0.7,,no fight text
+5-8,territorial,1,500,ok,0.0,0.0,0.0,0.0,0.0,0.996,0.017,-0.7,,no fight text
+5-8,armsbearer,2,500,ok,0.028,0.016,0.04,0.28,0.064,1.0,0.017,0.4,,has fight text worth
+5-8,blackthorn-sapling,2,500,ok,0.044,0.029,0.06,0.36,0.12,0.996,0.017,1.1,,has fight text worth
+5-8,harvest-piper,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.986,0.017,-0.7,,no fight text
+5-8,hayloft-aunt,2,500,ok,0.007,0.004,0.011,0.05,0.014,0.99,0.017,-0.4,,fight text worth under 5 in 100
+5-8,heath-adder,2,500,ok,0.096,0.074,0.118,0.84,0.204,0.996,0.017,3.1,worth a look,has fight text worth
+5-8,hedge-layer,2,500,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.017,-0.7,,no fight text
+5-8,horde-runner,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.99,0.017,-0.7,,no fight text
+5-8,lance-corporal,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.994,0.017,-0.7,,no fight text
+5-8,old-campaigner,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.992,0.017,-0.7,,no fight text
+5-8,prophet-of-the-dust,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.996,0.017,-0.7,,no fight text
+5-8,recruiting-sergeant,2,500,ok,0.032,0.019,0.045,0.26,0.086,0.998,0.017,0.6,,fight text worth under 5 in 100
+5-8,relic-seeker,2,500,ok,0.025,0.015,0.035,0.17,0.04,1.0,0.017,0.3,,has fight text worth
+5-8,sett-shield-bearer,2,500,ok,0.037,0.024,0.05,0.27,0.06,0.994,0.017,0.8,,has fight text worth
+5-8,shrew-cutpurse,2,500,ok,0.013,0.007,0.02,0.1,0.028,0.99,0.017,-0.2,,fight text worth under 5 in 100
+5-8,sweetbriar,2,500,ok,0.003,-0.0,0.006,0.03,0.01,0.998,0.017,-0.6,,fight text worth under 5 in 100
+5-8,wheat-raider,2,500,ok,0.096,0.078,0.113,0.87,0.178,0.992,0.017,3.1,worth a look,has fight text worth
+5-8,bell-ringer,3,500,ok,0.022,0.013,0.031,0.11,0.042,0.984,0.017,0.2,,fight text worth under 5 in 100
+5-8,blackberry-sprawl,3,500,ok,0.034,0.021,0.046,0.23,0.066,1.0,0.017,0.7,,fight text worth under 5 in 100
+5-8,brood-mother,3,500,ok,0.055,0.039,0.071,0.44,0.132,0.996,0.017,1.5,,has fight text worth
+5-8,colour-sergeant,3,500,ok,0.0,0.0,0.0,0.0,0.0,0.998,0.017,-0.7,,no fight text
+5-8,crab-apple,3,500,ok,0.039,0.024,0.054,0.33,0.112,0.996,0.017,0.9,,has fight text worth
+5-8,famine-caller,3,500,ok,0.013,0.007,0.019,0.09,0.024,0.998,0.017,-0.2,,fight text worth under 5 in 100
+5-8,fencing-master,3,500,ok,0.066,0.049,0.083,0.62,0.116,0.99,0.017,1.9,,has fight text worth
+5-8,gate-warden,3,500,ok,0.013,-0.006,0.031,0.09,0.132,1.0,0.017,-0.2,,fight text worth under 5 in 100
+5-8,gleaner,3,500,ok,0.185,0.158,0.213,1.66,0.256,0.998,0.017,6.7,worth a look,has fight text worth
+5-8,grenadier-guard,3,500,ok,0.0,0.0,0.0,0.0,0.0,0.988,0.017,-0.7,,no fight text
+5-8,grudge-keeper,3,500,ok,0.028,0.017,0.039,0.22,0.042,0.998,0.017,0.4,,fight text worth under 5 in 100
+5-8,hedge-lancer,3,500,ok,0.066,0.05,0.081,0.61,0.134,0.998,0.017,1.9,,has fight text worth
+5-8,home-guard,3,500,ok,-0.004,-0.018,0.011,-0.06,0.086,0.994,0.017,-0.8,,no fight text
+5-8,master-at-arms,3,500,ok,0.0,0.0,0.0,0.0,0.0,0.998,0.017,-0.7,,no fight text
+5-8,needle-sister,3,500,ok,-0.006,-0.015,0.003,-0.05,0.038,0.996,0.017,-0.9,,no fight text
+5-8,nettle-skirmisher,3,500,ok,0.056,0.038,0.074,0.47,0.136,1.0,0.017,1.5,,has fight text worth
+5-8,old-stump,3,500,ok,0.04,0.024,0.055,0.21,0.108,0.996,0.017,0.9,,has fight text worth
+5-8,padre,3,500,ok,0.0,0.0,0.0,0.0,0.0,0.994,0.017,-0.7,,no fight text
+5-8,shrew-harrier,3,500,ok,0.004,-0.004,0.012,0.02,0.03,0.998,0.017,-0.5,,no fight text
+5-8,squadron-leader,3,500,ok,0.096,0.075,0.117,0.81,0.156,0.996,0.017,3.1,worth a look,has fight text worth
+5-8,sword-heir,3,500,ok,0.154,0.129,0.179,1.22,0.188,1.0,0.017,5.4,worth a look,has fight text worth
+5-8,thimble-captain,3,500,ok,0.022,0.01,0.034,0.18,0.058,0.988,0.017,0.2,,fight text worth under 5 in 100
+5-8,toothpick-ballista,3,500,ok,0.068,0.044,0.091,0.49,0.178,0.996,0.017,2.0,,has fight text worth
+5-8,bitter-toad,4,500,ok,0.061,0.041,0.082,0.59,0.178,0.992,0.017,1.7,,has fight text worth
+5-8,bugler,4,500,ok,0.086,0.068,0.105,0.79,0.17,0.994,0.017,2.7,,has fight text worth
+5-8,dormouse-cook,4,444,ok,0.0,0.0,0.0,0.0,0.0,0.973,0.017,-0.7,,no fight text
+5-8,drill-sergeant,4,444,ok,0.051,0.036,0.067,0.49,0.113,0.973,0.017,1.3,,has fight text worth
+5-8,flying-ace,4,500,ok,0.015,0.006,0.024,0.11,0.038,0.99,0.017,-0.1,,fight text worth under 5 in 100
+5-8,gorger,4,500,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.017,-0.7,,no fight text
+5-8,granary-glutton,4,500,ok,0.0,0.0,0.0,0.0,0.0,0.994,0.017,-0.7,,no fight text
+5-8,grandmother-hob,4,444,ok,0.006,0.002,0.01,0.05,0.011,0.973,0.017,-0.4,,fight text worth under 5 in 100
+5-8,greatsword-bearer,4,500,ok,0.06,0.044,0.077,0.56,0.116,1.0,0.017,1.7,,has fight text worth
+5-8,hawthorn-warden,4,500,ok,0.031,0.013,0.049,0.21,0.122,1.0,0.017,0.6,,fight text worth under 5 in 100
+5-8,herald-of-the-charge,4,500,ok,0.038,0.024,0.053,0.39,0.078,1.0,0.017,0.8,,fight text worth under 5 in 100
+5-8,holly-knight,4,500,ok,0.017,0.009,0.024,0.14,0.028,1.0,0.017,0.0,,fight text worth under 5 in 100
+5-8,ivy-climber,4,500,ok,0.028,0.015,0.04,0.22,0.068,1.0,0.017,0.4,,fight text worth under 5 in 100
+5-8,leafmould-carter,4,500,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.017,-0.7,,no fight text
+5-8,lieutenant,4,500,ok,0.009,0.002,0.016,0.1,0.018,0.99,0.017,-0.3,,fight text worth under 5 in 100
+5-8,orchard-stripper,4,500,ok,0.094,0.076,0.112,0.76,0.144,0.996,0.017,3.1,worth a look,has fight text worth
+5-8,quartermaster,4,500,ok,0.002,-0.0,0.004,0.03,0.002,0.994,0.017,-0.6,,no fight text
+5-8,sett-sexton,4,500,ok,0.028,0.014,0.042,0.26,0.064,1.0,0.017,0.4,,fight text worth under 5 in 100
+5-8,skin-shedder,4,500,ok,0.091,0.073,0.109,0.99,0.168,0.996,0.017,2.9,,has fight text worth
+5-8,sky-darkener,4,500,ok,0.023,0.009,0.037,0.26,0.088,0.998,0.017,0.2,,fight text worth under 5 in 100
+5-8,stag-beetle,4,500,ok,0.015,0.007,0.023,0.15,0.026,0.998,0.017,-0.1,,fight text worth under 5 in 100
+5-8,thimble-sentinel,4,444,ok,-0.013,-0.03,0.005,-0.12,0.097,0.973,0.017,-1.2,,no fight text
+9-12,bramble-runner,1,500,ok,0.01,0.003,0.017,0.13,0.018,1.0,0.009,0.1,,fight text worth under 5 in 100
+9-12,brock-cub,1,500,ok,0.008,0.001,0.015,0.04,0.038,0.998,0.009,-0.1,,fight text worth under 5 in 100
+9-12,bumblebee,1,500,ok,0.006,-0.001,0.013,0.05,0.026,0.998,0.009,-0.2,,has fight text worth
+9-12,green-recruit,1,500,ok,0.043,0.028,0.058,0.43,0.158,0.998,0.009,2.5,,has fight text worth
+9-12,hedge-knight,1,500,ok,-0.007,-0.022,0.008,-0.14,0.148,1.0,0.009,-1.2,,fight text worth under 5 in 100
+9-12,hedgerow-scout,1,216,ok,0.007,0.001,0.013,0.02,0.014,0.949,0.009,-0.1,,fight text worth under 5 in 100
+9-12,husk-sentry,1,500,ok,0.056,0.03,0.081,0.65,0.22,0.998,0.009,3.5,worth a look,has fight text worth
+9-12,needle-page,1,216,ok,-0.005,-0.012,0.003,-0.07,0.014,0.949,0.009,-1.0,,has fight text worth
+9-12,nettle-sprout,1,500,ok,0.0,-0.004,0.004,-0.0,0.004,1.0,0.009,-0.7,,fight text worth under 5 in 100
+9-12,sentry,1,500,ok,0.0,0.0,0.0,0.0,0.0,0.99,0.009,-0.7,,no fight text
+9-12,territorial,1,500,ok,0.0,0.0,0.0,0.0,0.0,0.984,0.009,-0.7,,no fight text
+9-12,armsbearer,2,500,ok,0.007,-0.002,0.017,0.09,0.042,0.998,0.009,-0.1,,has fight text worth
+9-12,blackthorn-sapling,2,500,ok,0.025,0.012,0.038,0.41,0.088,1.0,0.009,1.2,,has fight text worth
+9-12,harvest-piper,2,216,ok,0.0,0.0,0.0,0.0,0.0,0.949,0.009,-0.7,,no fight text
+9-12,hayloft-aunt,2,216,ok,0.005,-0.001,0.01,0.02,0.005,0.949,0.009,-0.3,,fight text worth under 5 in 100
+9-12,heath-adder,2,500,ok,0.036,0.02,0.052,0.43,0.144,0.998,0.009,2.0,,has fight text worth
+9-12,hedge-layer,2,500,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.009,-0.7,,no fight text
+9-12,horde-runner,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.988,0.009,-0.7,,no fight text
+9-12,lance-corporal,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.982,0.009,-0.7,,no fight text
+9-12,old-campaigner,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.986,0.009,-0.7,,no fight text
+9-12,prophet-of-the-dust,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.994,0.009,-0.7,,no fight text
+9-12,recruiting-sergeant,2,500,ok,0.021,0.011,0.03,0.2,0.05,0.988,0.009,0.9,,fight text worth under 5 in 100
+9-12,relic-seeker,2,500,ok,0.008,0.002,0.014,0.07,0.024,0.996,0.009,-0.1,,has fight text worth
+9-12,sett-shield-bearer,2,500,ok,0.021,0.006,0.035,0.26,0.068,1.0,0.009,0.9,,has fight text worth
+9-12,shrew-cutpurse,2,216,ok,-0.001,-0.003,0.001,-0.02,0.0,0.949,0.009,-0.7,,fight text worth under 5 in 100
+9-12,sweetbriar,2,500,ok,-0.001,-0.001,0.0,0.0,0.002,1.0,0.009,-0.7,,fight text worth under 5 in 100
+9-12,wheat-raider,2,500,ok,0.056,0.038,0.074,0.61,0.164,1.0,0.009,3.5,worth a look,has fight text worth
+9-12,bell-ringer,3,216,ok,0.01,0.003,0.018,0.1,0.014,0.949,0.009,0.1,,fight text worth under 5 in 100
+9-12,blackberry-sprawl,3,500,ok,0.004,-0.005,0.013,0.06,0.042,1.0,0.009,-0.4,,fight text worth under 5 in 100
+9-12,brood-mother,3,500,ok,0.037,0.021,0.054,0.39,0.174,0.994,0.009,2.1,,has fight text worth
+9-12,colour-sergeant,3,500,ok,0.0,0.0,0.0,0.0,0.0,0.988,0.009,-0.7,,no fight text
+9-12,crab-apple,3,500,ok,0.026,0.011,0.042,0.29,0.124,1.0,0.009,1.3,,has fight text worth
+9-12,famine-caller,3,500,ok,0.004,-0.003,0.01,-0.0,0.024,0.996,0.009,-0.4,,fight text worth under 5 in 100
+9-12,fencing-master,3,216,ok,0.006,-0.007,0.018,0.04,0.046,0.949,0.009,-0.2,,has fight text worth
+9-12,gate-warden,3,500,ok,0.0,-0.019,0.019,-0.03,0.118,1.0,0.009,-0.7,,fight text worth under 5 in 100
+9-12,gleaner,3,500,ok,0.045,0.033,0.058,0.58,0.09,0.992,0.009,2.7,,has fight text worth
+9-12,grenadier-guard,3,500,ok,0.0,0.0,0.0,0.0,0.0,0.986,0.009,-0.7,,no fight text
+9-12,grudge-keeper,3,500,ok,0.005,-0.001,0.011,0.04,0.01,1.0,0.009,-0.3,,fight text worth under 5 in 100
+9-12,hedge-lancer,3,500,ok,0.011,-0.002,0.025,0.23,0.086,1.0,0.009,0.1,,has fight text worth
+9-12,home-guard,3,500,ok,-0.004,-0.019,0.011,-0.01,0.116,0.988,0.009,-1.0,,no fight text
+9-12,master-at-arms,3,500,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.009,-0.7,,no fight text
+9-12,needle-sister,3,216,ok,-0.002,-0.01,0.006,-0.02,0.009,0.949,0.009,-0.8,,no fight text
+9-12,nettle-skirmisher,3,500,ok,0.015,0.0,0.029,0.18,0.09,1.0,0.009,0.4,,has fight text worth
+9-12,old-stump,3,500,ok,0.036,0.023,0.049,0.48,0.088,1.0,0.009,2.0,,has fight text worth
+9-12,padre,3,500,ok,0.0,0.0,0.0,0.0,0.0,0.988,0.009,-0.7,,no fight text
+9-12,shrew-harrier,3,500,ok,0.004,-0.004,0.012,0.03,0.024,0.996,0.009,-0.4,,no fight text
+9-12,squadron-leader,3,500,ok,0.089,0.069,0.109,0.95,0.138,0.99,0.009,6.0,worth a look,has fight text worth
+9-12,sword-heir,3,500,ok,0.083,0.065,0.1,0.75,0.134,1.0,0.009,5.5,worth a look,has fight text worth
+9-12,thimble-captain,3,216,ok,0.016,0.005,0.028,0.16,0.042,0.949,0.009,0.5,,fight text worth under 5 in 100
+9-12,toothpick-ballista,3,500,ok,0.034,0.017,0.051,0.43,0.15,0.998,0.009,1.9,,has fight text worth
+9-12,bitter-toad,4,500,ok,0.056,0.033,0.078,0.68,0.196,0.996,0.009,3.5,worth a look,has fight text worth
+9-12,bugler,4,500,ok,0.068,0.049,0.087,0.74,0.124,0.98,0.009,4.4,worth a look,has fight text worth
+9-12,dormouse-cook,4,216,ok,0.0,0.0,0.0,0.0,0.0,0.949,0.009,-0.7,,no fight text
+9-12,drill-sergeant,4,216,ok,0.012,0.002,0.021,0.17,0.0,0.949,0.009,0.2,,has fight text worth
+9-12,flying-ace,4,500,ok,0.016,0.008,0.024,0.09,0.04,0.988,0.009,0.5,,fight text worth under 5 in 100
+9-12,gorger,4,500,ok,0.0,0.0,0.0,0.0,0.0,0.994,0.009,-0.7,,no fight text
+9-12,granary-glutton,4,500,ok,0.0,0.0,0.0,0.0,0.0,0.998,0.009,-0.7,,no fight text
+9-12,grandmother-hob,4,216,ok,0.006,-0.0,0.012,0.04,0.014,0.949,0.009,-0.2,,fight text worth under 5 in 100
+9-12,greatsword-bearer,4,500,ok,0.033,0.019,0.047,0.36,0.086,1.0,0.009,1.8,,has fight text worth
+9-12,hawthorn-warden,4,500,ok,0.009,-0.007,0.024,0.06,0.126,1.0,0.009,0.0,,fight text worth under 5 in 100
+9-12,herald-of-the-charge,4,500,ok,0.024,0.012,0.035,0.2,0.05,0.998,0.009,1.1,,fight text worth under 5 in 100
+9-12,holly-knight,4,500,ok,0.006,0.0,0.012,0.08,0.016,1.0,0.009,-0.2,,fight text worth under 5 in 100
+9-12,ivy-climber,4,500,ok,0.012,0.003,0.021,0.17,0.038,1.0,0.009,0.2,,fight text worth under 5 in 100
+9-12,leafmould-carter,4,500,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.009,-0.7,,no fight text
+9-12,lieutenant,4,500,ok,0.012,0.002,0.022,0.11,0.03,0.986,0.009,0.2,,fight text worth under 5 in 100
+9-12,orchard-stripper,4,500,ok,0.052,0.036,0.069,0.57,0.126,0.994,0.009,3.2,worth a look,has fight text worth
+9-12,quartermaster,4,500,ok,0.003,-0.0,0.006,0.02,0.008,0.984,0.009,-0.4,,no fight text
+9-12,sett-sexton,4,500,ok,0.02,0.01,0.03,0.22,0.04,0.998,0.009,0.8,,fight text worth under 5 in 100
+9-12,skin-shedder,4,500,ok,0.102,0.08,0.124,1.34,0.192,1.0,0.009,7.0,worth a look,has fight text worth
+9-12,sky-darkener,4,500,ok,0.021,0.009,0.032,0.2,0.072,0.994,0.009,0.9,,fight text worth under 5 in 100
+9-12,stag-beetle,4,500,ok,0.015,0.003,0.026,0.15,0.034,1.0,0.009,0.4,,fight text worth under 5 in 100
+9-12,thimble-sentinel,4,216,ok,-0.002,-0.024,0.019,-0.1,0.083,0.949,0.009,-0.8,,no fight text
+9-12,colour-ensign,5,307,ok,0.024,0.01,0.039,0.36,0.055,0.987,0.009,1.1,,fight text worth under 5 in 100
+9-12,dame-bodkin,5,50,too few,,,,,,1.0,,,,too few boards
+9-12,dame-of-the-old-sett,5,500,ok,0.046,0.027,0.066,0.67,0.172,1.0,0.009,2.8,,fight text worth under 5 in 100
+9-12,elder-mother,5,500,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.009,-0.7,,no fight text
+9-12,group-captain,5,307,ok,0.087,0.064,0.11,0.94,0.16,0.987,0.009,5.8,worth a look,has fight text worth
+9-12,hazel-coppicer,5,500,ok,0.025,0.015,0.036,0.28,0.058,1.0,0.009,1.2,,fight text worth under 5 in 100
+9-12,ironhide-berserker,5,500,ok,0.025,0.012,0.039,0.25,0.096,1.0,0.009,1.2,,fight text worth under 5 in 100
+9-12,lone-hawthorn,5,500,ok,0.0,-0.017,0.017,-0.02,0.102,1.0,0.009,-0.7,,no fight text
+9-12,marshal-of-the-red-mist,5,500,ok,0.014,0.005,0.023,0.16,0.046,0.998,0.009,0.4,,fight text worth under 5 in 100
+9-12,parish-standard-bearer,5,50,too few,,,,,,1.0,,,,too few boards
+9-12,the-eighth-plague,5,500,ok,0.05,0.032,0.068,0.51,0.136,1.0,0.009,3.1,worth a look,has fight text worth
+9-12,twice-shed-veteran,5,500,ok,0.05,0.033,0.067,0.51,0.138,1.0,0.009,3.1,worth a look,has fight text worth
+9-12,war-drummer,5,500,ok,0.0,0.0,0.0,0.0,0.0,0.998,0.009,-0.7,,no fight text
+9-12,weasel,5,500,ok,0.002,-0.002,0.006,0.02,0.012,0.996,0.009,-0.5,,no fight text
+9-12,widow-thimble,5,50,too few,,,,,,1.0,,,,too few boards
+9-12,wing-commander,5,307,ok,0.032,0.012,0.052,0.21,0.104,0.987,0.009,1.7,,fight text worth under 5 in 100
+9-12,air-marshal,6,3,too few,,,,,,1.0,,,,too few boards
+9-12,briar-king,6,19,too few,,,,,,1.0,,,,no fight text
+9-12,dirge-singer,6,343,ok,0.047,0.028,0.065,0.63,0.09,1.0,0.009,2.8,,fight text worth under 5 in 100
+9-12,hornet-queen,6,450,ok,0.032,0.012,0.051,0.48,0.14,1.0,0.009,1.7,,fight text worth under 5 in 100
+9-12,mother-midden,6,19,too few,,,,,,1.0,,,,no fight text
+9-12,mother-of-thousands,6,343,ok,0.0,-0.005,0.005,0.03,0.012,1.0,0.009,-0.7,,no fight text
+9-12,old-brock,6,135,too few,,,,,,1.0,,,,has fight text worth
+9-12,regimental-sergeant-major,6,3,too few,,,,,,1.0,,,,too few boards
+9-12,swarm-lord,6,343,ok,0.014,0.004,0.024,0.14,0.023,1.0,0.009,0.4,,fight text worth under 5 in 100
+9-12,the-colonel,6,3,too few,,,,,,1.0,,,,too few boards
+9-12,the-oakfeller,6,135,too few,,,,,,1.0,,,,fight text worth under 5 in 100
+9-12,the-old-hedge,6,19,too few,,,,,,1.0,,,,fight text worth under 5 in 100
+9-12,tourney-champion,6,135,too few,,,,,,1.0,,,,fight text worth under 5 in 100
+13+,bramble-runner,1,500,ok,0.005,0.0,0.01,0.07,0.014,1.0,0.007,-0.2,,fight text worth under 5 in 100
+13+,brock-cub,1,500,ok,0.007,-0.002,0.017,0.1,0.022,1.0,0.007,0.0,,fight text worth under 5 in 100
+13+,bumblebee,1,500,ok,0.002,-0.004,0.007,0.02,0.024,1.0,0.007,-0.5,,has fight text worth
+13+,green-recruit,1,500,ok,0.017,0.0,0.034,0.27,0.166,1.0,0.007,1.0,,has fight text worth
+13+,hedge-knight,1,500,ok,0.004,-0.012,0.02,0.07,0.098,1.0,0.007,-0.3,,fight text worth under 5 in 100
+13+,hedgerow-scout,1,41,too few,,,,,,1.0,,,,fight text worth under 5 in 100
+13+,husk-sentry,1,500,ok,0.025,0.005,0.046,0.22,0.212,0.998,0.007,1.7,,has fight text worth
+13+,needle-page,1,41,too few,,,,,,1.0,,,,has fight text worth
+13+,nettle-sprout,1,500,ok,0.002,-0.001,0.004,0.01,0.002,1.0,0.007,-0.5,,fight text worth under 5 in 100
+13+,sentry,1,185,too few,,,,,,0.968,,,,no fight text
+13+,territorial,1,185,too few,,,,,,0.968,,,,no fight text
+13+,armsbearer,2,500,ok,0.006,-0.004,0.016,0.05,0.042,1.0,0.007,-0.1,,has fight text worth
+13+,blackthorn-sapling,2,500,ok,0.004,-0.01,0.017,0.2,0.068,1.0,0.007,-0.3,,has fight text worth
+13+,harvest-piper,2,41,too few,,,,,,1.0,,,,no fight text
+13+,hayloft-aunt,2,41,too few,,,,,,1.0,,,,fight text worth under 5 in 100
+13+,heath-adder,2,500,ok,0.029,0.011,0.047,0.38,0.15,1.0,0.007,2.1,,has fight text worth
+13+,hedge-layer,2,500,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.007,-0.7,,no fight text
+13+,horde-runner,2,500,ok,0.0,0.0,0.0,0.0,0.0,0.998,0.007,-0.7,,no fight text
+13+,lance-corporal,2,185,too few,,,,,,0.968,,,,no fight text
+13+,old-campaigner,2,185,too few,,,,,,0.968,,,,no fight text
+13+,prophet-of-the-dust,2,500,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.007,-0.7,,no fight text
+13+,recruiting-sergeant,2,185,too few,,,,,,0.968,,,,fight text worth under 5 in 100
+13+,relic-seeker,2,500,ok,0.003,-0.002,0.007,0.03,0.014,1.0,0.007,-0.4,,has fight text worth
+13+,sett-shield-bearer,2,500,ok,0.004,-0.006,0.015,0.07,0.028,1.0,0.007,-0.3,,has fight text worth
+13+,shrew-cutpurse,2,41,too few,,,,,,1.0,,,,fight text worth under 5 in 100
+13+,sweetbriar,2,500,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.007,-0.7,,fight text worth under 5 in 100
+13+,wheat-raider,2,500,ok,0.03,0.011,0.05,0.34,0.154,1.0,0.007,2.2,,has fight text worth
+13+,bell-ringer,3,41,too few,,,,,,1.0,,,,fight text worth under 5 in 100
+13+,blackberry-sprawl,3,500,ok,0.007,-0.003,0.017,0.12,0.028,1.0,0.007,0.0,,fight text worth under 5 in 100
+13+,brood-mother,3,500,ok,0.025,0.008,0.041,0.33,0.142,1.0,0.007,1.7,,has fight text worth
+13+,colour-sergeant,3,185,too few,,,,,,0.968,,,,no fight text
+13+,crab-apple,3,500,ok,0.037,0.02,0.055,0.46,0.1,1.0,0.007,2.9,,has fight text worth
+13+,famine-caller,3,500,ok,0.003,-0.004,0.01,0.03,0.018,1.0,0.007,-0.4,,fight text worth under 5 in 100
+13+,fencing-master,3,41,too few,,,,,,1.0,,,,has fight text worth
+13+,gate-warden,3,500,ok,0.017,-0.001,0.035,0.07,0.138,1.0,0.007,1.0,,fight text worth under 5 in 100
+13+,gleaner,3,500,ok,0.017,0.005,0.029,0.22,0.056,1.0,0.007,1.0,,has fight text worth
+13+,grenadier-guard,3,185,too few,,,,,,0.968,,,,no fight text
+13+,grudge-keeper,3,500,ok,0.002,-0.004,0.007,0.02,0.02,1.0,0.007,-0.5,,fight text worth under 5 in 100
+13+,hedge-lancer,3,500,ok,0.004,-0.01,0.019,0.08,0.082,1.0,0.007,-0.3,,has fight text worth
+13+,home-guard,3,185,too few,,,,,,0.968,,,,no fight text
+13+,master-at-arms,3,500,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.007,-0.7,,no fight text
+13+,needle-sister,3,41,too few,,,,,,1.0,,,,no fight text
+13+,nettle-skirmisher,3,500,ok,0.003,-0.01,0.016,0.14,0.044,1.0,0.007,-0.4,,has fight text worth
+13+,old-stump,3,500,ok,0.01,-0.002,0.022,0.18,0.07,1.0,0.007,0.3,,has fight text worth
+13+,padre,3,185,too few,,,,,,0.968,,,,no fight text
+13+,shrew-harrier,3,500,ok,0.003,-0.004,0.009,0.01,0.006,1.0,0.007,-0.4,,no fight text
+13+,squadron-leader,3,185,too few,,,,,,0.968,,,,has fight text worth
+13+,sword-heir,3,500,ok,0.058,0.042,0.073,0.61,0.092,1.0,0.007,4.9,worth a look,has fight text worth
+13+,thimble-captain,3,41,too few,,,,,,1.0,,,,fight text worth under 5 in 100
+13+,toothpick-ballista,3,500,ok,0.021,0.002,0.041,0.25,0.13,1.0,0.007,1.3,,has fight text worth
+13+,bitter-toad,4,500,ok,0.048,0.028,0.068,0.52,0.15,1.0,0.007,4.0,,has fight text worth
+13+,bugler,4,185,too few,,,,,,0.968,,,,has fight text worth
+13+,dormouse-cook,4,41,too few,,,,,,1.0,,,,no fight text
+13+,drill-sergeant,4,41,too few,,,,,,1.0,,,,has fight text worth
+13+,flying-ace,4,185,too few,,,,,,0.968,,,,fight text worth under 5 in 100
+13+,gorger,4,500,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.007,-0.7,,no fight text
+13+,granary-glutton,4,500,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.007,-0.7,,no fight text
+13+,grandmother-hob,4,41,too few,,,,,,1.0,,,,fight text worth under 5 in 100
+13+,greatsword-bearer,4,500,ok,0.012,0.002,0.022,0.18,0.032,1.0,0.007,0.5,,has fight text worth
+13+,hawthorn-warden,4,500,ok,0.018,-0.002,0.037,0.19,0.106,1.0,0.007,1.1,,fight text worth under 5 in 100
+13+,herald-of-the-charge,4,500,ok,0.013,0.005,0.02,0.15,0.034,1.0,0.007,0.6,,fight text worth under 5 in 100
+13+,holly-knight,4,500,ok,0.001,-0.003,0.005,0.02,0.006,1.0,0.007,-0.6,,fight text worth under 5 in 100
+13+,ivy-climber,4,500,ok,0.007,-0.002,0.017,0.1,0.03,1.0,0.007,0.0,,fight text worth under 5 in 100
+13+,leafmould-carter,4,500,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.007,-0.7,,no fight text
+13+,lieutenant,4,185,too few,,,,,,0.968,,,,fight text worth under 5 in 100
+13+,orchard-stripper,4,500,ok,0.053,0.036,0.071,0.5,0.106,1.0,0.007,4.4,worth a look,has fight text worth
+13+,quartermaster,4,185,too few,,,,,,0.968,,,,no fight text
+13+,sett-sexton,4,500,ok,0.003,-0.005,0.011,0.06,0.022,1.0,0.007,-0.4,,fight text worth under 5 in 100
+13+,skin-shedder,4,500,ok,0.088,0.068,0.108,1.16,0.174,1.0,0.007,7.8,worth a look,has fight text worth
+13+,sky-darkener,4,500,ok,0.004,-0.007,0.016,0.05,0.076,1.0,0.007,-0.3,,fight text worth under 5 in 100
+13+,stag-beetle,4,500,ok,0.013,0.004,0.022,0.17,0.032,1.0,0.007,0.6,,fight text worth under 5 in 100
+13+,thimble-sentinel,4,41,too few,,,,,,1.0,,,,no fight text
+13+,colour-ensign,5,164,too few,,,,,,0.982,,,,fight text worth under 5 in 100
+13+,dame-bodkin,5,32,too few,,,,,,1.0,,,,too few boards
+13+,dame-of-the-old-sett,5,500,ok,0.044,0.025,0.064,0.63,0.152,1.0,0.007,3.6,,fight text worth under 5 in 100
+13+,elder-mother,5,487,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.007,-0.7,,no fight text
+13+,group-captain,5,164,too few,,,,,,0.982,,,,has fight text worth
+13+,hazel-coppicer,5,487,ok,0.012,0.004,0.02,0.14,0.021,1.0,0.007,0.5,,fight text worth under 5 in 100
+13+,ironhide-berserker,5,500,ok,0.028,0.016,0.039,0.28,0.088,1.0,0.007,2.0,,fight text worth under 5 in 100
+13+,lone-hawthorn,5,487,ok,0.004,-0.009,0.016,-0.04,0.099,1.0,0.007,-0.3,,no fight text
+13+,marshal-of-the-red-mist,5,500,ok,0.013,0.002,0.024,0.18,0.066,1.0,0.007,0.6,,fight text worth under 5 in 100
+13+,parish-standard-bearer,5,32,too few,,,,,,1.0,,,,too few boards
+13+,the-eighth-plague,5,500,ok,0.038,0.021,0.055,0.43,0.128,1.0,0.007,3.0,,has fight text worth
+13+,twice-shed-veteran,5,500,ok,0.025,0.012,0.038,0.3,0.086,0.996,0.007,1.7,,has fight text worth
+13+,war-drummer,5,500,ok,-0.001,-0.001,0.0,0.0,0.002,1.0,0.007,-0.8,,no fight text
+13+,weasel,5,500,ok,-0.001,-0.001,0.0,-0.01,0.002,1.0,0.007,-0.8,,no fight text
+13+,widow-thimble,5,32,too few,,,,,,1.0,,,,too few boards
+13+,wing-commander,5,164,too few,,,,,,0.982,,,,fight text worth under 5 in 100
+13+,air-marshal,6,86,too few,,,,,,1.0,,,,too few boards
+13+,briar-king,6,366,ok,0.012,-0.003,0.026,0.28,0.063,1.0,0.007,0.5,,no fight text
+13+,dirge-singer,6,500,ok,0.034,0.019,0.048,0.44,0.096,1.0,0.007,2.6,,fight text worth under 5 in 100
+13+,hornet-queen,6,500,ok,0.019,0.003,0.035,0.23,0.13,1.0,0.007,1.2,,fight text worth under 5 in 100
+13+,king-speck,6,26,too few,,,,,,1.0,,,,too few boards
+13+,mother-midden,6,366,ok,0.0,0.0,0.0,0.0,0.0,1.0,0.007,-0.7,,no fight text
+13+,mother-of-thousands,6,500,ok,0.001,-0.004,0.005,-0.0,0.006,1.0,0.007,-0.6,,no fight text
+13+,needle-pikeman,6,26,too few,,,,,,1.0,,,,too few boards
+13+,old-brock,6,500,ok,0.195,0.166,0.223,2.24,0.244,1.0,0.007,18.1,worth a look,has fight text worth
+13+,old-mother-needle,6,26,too few,,,,,,1.0,,,,too few boards
+13+,regimental-sergeant-major,6,86,too few,,,,,,1.0,,,,too few boards
+13+,swarm-lord,6,500,ok,0.01,0.003,0.017,0.09,0.026,1.0,0.007,0.3,,fight text worth under 5 in 100
+13+,the-colonel,6,86,too few,,,,,,1.0,,,,too few boards
+13+,the-oakfeller,6,500,ok,0.024,0.01,0.037,0.29,0.09,1.0,0.007,1.6,,fight text worth under 5 in 100
+13+,the-old-hedge,6,366,ok,0.046,0.023,0.07,0.65,0.117,1.0,0.007,3.8,,fight text worth under 5 in 100
+13+,tourney-champion,6,500,ok,0.026,0.008,0.044,0.31,0.134,1.0,0.007,1.8,,fight text worth under 5 in 100

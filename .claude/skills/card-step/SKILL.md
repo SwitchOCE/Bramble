@@ -22,6 +22,7 @@ The ledger is `docs/workstreams/balance/marks.csv`: one row per marked card or k
 3. **Left out of the shop** for each new mark, the same day: `tools/league/analysis/card_without_run.py <the match> <out folder> --field <field> --seeds <the match's seeds file> <card ids>` plays one match per card, then `card_without.py <the match> <out folder>/*/ --control <a second run of the match with nothing left out>` gives places worse without each card. The control run shows how far the bots' own noise moves the number; read every card against it. Use the league binary that played the match: one built from a later `dev` may be refused, because the pairing checks the rules hash. The control is the match's own command run again into another folder. Use at most 4 threads; the machine is shared. Skip this step for a card no bot buys: leaving that out measures nothing, and its route is the edge cases in `definitions.md`. A keyword has no left-out test: read it from its keyword-off numbers by enemy Health, and for Overrun the swings table. If the row's `source` names tables that already hold the card's left-out number, use that and do not play it again.
 4. **Read each mark** with the card's text in front of you, and choose one:
    - **Explained.** One line in the row's note saying why the card is fine or why the mark is the bot's habit and not the card. State `explained`.
+   - **Cannot be read yet.** Only for a card neither bot buys, where no test reads its worth: its tribe is not played, or it sits at tier 5 or 6 and too few games reach it. One line in the note saying what was tried and what would let it be read (a bot that plays the tribe, for example). State `cannot be read`. It is not a way to close a card you find hard: a card a bot buys is explained or goes to the owner.
    - **To the owner.** Anything over the line on left out of the shop, anything you cannot explain, and anything the owner named. State `with the owner`, with today's date.
 5. **Tell the owner the same day,** in your thread with them: one page, built as the `bramble-design` skill says ("Balancing existing cards": the card as in game, a defence of the card, the four kinds of change weighed, a recommendation), with the numbers that marked it. At most three decisions on a page. Put the page's link in the row's `page`. If you have no thread with the owner, hand the page to the session that started you the same day and say so in the row; that session sends it on at once. A card-step page is one of the things the referee stops and tells the owner about.
 
@@ -29,7 +30,7 @@ A mark means look, not change. The measures are hints from imperfect bots; say w
 
 ## Ledger states
 
-`new` → `explained` (closed), or `with the owner` → `change picked` (quote the owner) → `changed` (the pull request) → `measured again` (closed, or back to `with the owner` if the card is still marked).
+`new` → `explained` (closed), or `cannot be read` (waits on no one; look again when its note's condition holds), or `with the owner` → `change picked` (quote the owner) → `changed` (the pull request) → `measured again` (closed, or back to `with the owner` if the card is still marked).
 
 A scheduled check each morning tells the owner about any row that has sat: `new` for a day, or `with the owner`, `change picked` or `changed` for three (`marks.py --stale`).
 
