@@ -145,3 +145,63 @@ Follow-up, same day, on the two open questions:
 > I have an idea of unit stances, and swapping stances would change whether they give attack or health or invert the size of the attack and health buffs. It's a cool idea I just had, and I want to remember it for later.
 
 *[Said to the assurance session in chat. Recorded at the owner's request, for later; not scheduled.]*
+
+## 27 Nov 2026
+
+*[Entries 18 to 24 were said to the assurance session in chat, as things to add to the backlog. The owner's reason: "we need to do a lot of work on the gameplay now that a lot of the UI work has been progressed." None of this is scheduled.]*
+
+### 18. A more active hand in mechanic design, and a tribe design format the owner engages with
+
+> I need to take a more active hand in mechanic design. We need to firm up the rulebook and rules interactions. I have been skimming too much of the tribe designs. And I think it's because I don't like the output format, so I need to get it to the point where I'm way more engaged.
+
+*[Related: entry 16 (simplify the rulebook). The format the owner would engage with is not chosen.]*
+
+### 19. Briars: do more with the compost
+
+> Briars need to do more cool things with the compost. Magic: The Gathering does cool stuff with graveyard synergy. We need to take some inspiration. We can look at regrowth effects, reanimate effects, we can look at recursion effects, like a flashback type card. We can look at dredge type effects or something of the sort. We can do way more cool stuff with composting.
+
+*[The Magic terms, for a designer who doesn't know them:*
+- *Regrowth: return a card from your graveyard to your hand.*
+- *Reanimate: put a creature from a graveyard straight into play.*
+- *Flashback: a spell can be cast a second time from the graveyard, then it is gone for good.*
+- *Dredge: instead of drawing, put cards from your deck into your graveyard to take the dredge card back from it.*
+
+*The Briars' cards are in `src/content/thorn/`.]*
+
+### 20. Spells and keywords need a large amount of work
+
+> Spells need a large amount of work, and keywords need a large amount of work. It needs to be way more clear what keywords do, and players need to have more options to control interesting keywords.
+
+### 21. Locusts: more about summons, and more interesting on-death damage
+
+> I need to take a hand in the Locust stuff more, make it more about summons and less about on-death damage. But not less about on-death damage *[heard as "undeath damage"]*, but make the on-death damage stuff more interesting.
+
+*[Read as: on-death damage stays. The tribe's weight moves toward summons, and its on-death damage is made more interesting. The owner means to work on this in person.]*
+
+### 22. Mice need a look
+
+> Mice I need to take a look at as well.
+
+### 23. Horizontal design, and shared basic keywords for every tribe
+
+> I think in general, all the tribes need more set up for interpenetration *[as heard; probably "interaction between tribes"]*, horizontal design. We need to have some more bread and butter basic effects, shared global keywords that all tribes can use, such things as recruit, token, etc. And define those kind of global keywords better. Kind of bread and butter effects like Deathrattle and Battlecry from Battlegrounds, etc.
+
+*[Related: entry 12 (effects that sit off the board and link tribes) and entry 4 (Battlecry becomes "on recruit", now rulebook 7.2.3).]*
+
+### 24. Tier 1 has too few units, and triples there are too easy
+
+> Tier 1 currently has far too few units, and the tribes have differing amounts of units at different tiers, which is something that I want to avoid. And because of how I've structured the tavern, it's very easy to make triples on tier one, which is kind of warping the game currently. So I need to increase the tier one count. Or maybe make it so the tavern opens up to five slots at tier two, at least, so that it's not you only get three slots on tavern one. I don't know. But currently, there are some issues with that.
+
+*["Tavern" is the shop. The counts on `dev` on 27 Nov, tokens left out:*
+
+| | T1 | T2 | T3 | T4 | T5 | T6 | All |
+|---|---|---|---|---|---|---|---|
+| Badgers | 2 | 3 | 5 | 3 | 3 | 3 | 19 |
+| Locusts | 2 | 3 | 3 | 5 | 3 | 3 | 19 |
+| Mice | 2 | 3 | 4 | 4 | 3 | 3 | 19 |
+| Pigeons | 2 | 3 | 5 | 4 | 3 | 3 | 20 |
+| Briars | 2 | 3 | 4 | 4 | 3 | 3 | 19 |
+| Shared | 1 | 1 | 2 | 2 | 1 | 1 | 8 |
+| All | 11 | 16 | 23 | 22 | 16 | 16 | 104 |
+
+*The shop does not show three slots at tier 1. It shows 5 units and 2 spells at every tier, in the rulebook (6.1.1, the owner's rule of 12 and 13 Nov) and in the build (`src/core/rules/game_config.gd`). So tier 1 draws 5 offers from 11 units, and with no shared pool a copy bought does not leave the shop's draws. The assurance session told the owner this on 27 Nov. Related: the shop-odds talk the owner asked for (rulebook 6.1.7).]*
