@@ -60,7 +60,14 @@ The owner, 26 Nov 2026: "Do we not have a new process that will create agents th
 | A mark sits | Nobody has to notice | The morning check |
 | The owner picks a change | The session that sent the page makes it, or starts the session that does. It tells the Ghost Build Orchestrator and the merge coordinator before merging, and measures again after | The `card-step` skill, "When the owner picks a change" |
 
-**When this counts as working:** first, when a fresh agent given only the skill takes marks to a line each or a page for the owner; second, the first time a card is changed and measured again by a session the owner did not have to brief.
+**When this counts as working.** The owner, 26 Nov 2026: "the goal is to take a card that's causing problems and fix it. And the problems may also be underpowered ... the process at the end of this needs to show me tangibly that you can find cards that are not good enough and cards that are too good, that you are correct about them, and you can propose solutions to them that will actually fix the problems while keeping the game interesting and preserving the flavor of the card and the strategic and tactical usefulness of the intent of the design." So it is not working until all of these have been shown on real cards:
+
+1. It finds cards that are too strong, and cards that are too weak.
+2. Each call comes with why it should be believed.
+3. Each proposal says what the card is for, offers changes that were tried and measured before and after, and says what flavour and what tactical use it keeps.
+4. A card is changed and measured again by a session the owner did not have to brief.
+
+Whether a card is an issue matters more than how large the number is.
 
 ## How far the balance orchestrator goes without asking
 
