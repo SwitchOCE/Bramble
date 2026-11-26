@@ -6,7 +6,6 @@ pub mod bench;
 pub mod checkcrate;
 pub mod game;
 pub mod ghostmatch;
-pub mod grant;
 pub mod matchrun;
 pub mod refight;
 pub mod selfcheck;

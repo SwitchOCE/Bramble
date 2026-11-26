@@ -55,10 +55,9 @@ def live_games(match):
     return out
 
 
-# summary.json keys of the other card-power tools' matches: a card handed over
-# (`card_grant.py`) or changed card data (`card_trial.py`). A handed-over match never pairs
-# here; a trial match pairs only with a baseline played on the same trial rules.
-OTHER_TOOLS = ("grant", "trial_rules")
+# summary.json keys of the other card-power tools' matches: changed card data
+# (`card_trial.py`). A trial match pairs here only with a baseline played on the same trial rules.
+OTHER_TOOLS = ("trial_rules",)
 
 
 def refuse_other_tools(match, allowed=()):

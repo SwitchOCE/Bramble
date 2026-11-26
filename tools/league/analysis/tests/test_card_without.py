@@ -15,9 +15,9 @@ SEEDS = b"11\n12\n13\n"
 
 
 def write_match(folder, places, without=None, bought=(), secret="ab" * 32, seeds=SEEDS,
-                runs=None, red="red", rules="r" * 64, extra=None, seat_extra=None):
+                runs=None, red="red", rules="r" * 64, extra=None):
     """A minimal ghost-match folder: games alternate red (even) and blue (odd) in seat 0.
-    `extra` adds summary.json keys; `seat_extra(game)` adds keys to the live seat's line."""
+    `extra` adds summary.json keys."""
     folder = Path(folder)
     (folder / "private").mkdir(parents=True, exist_ok=True)
     (folder / "private/secret.txt").write_text(secret + "\n")
@@ -39,9 +39,8 @@ def write_match(folder, places, without=None, bought=(), secret="ab" * 32, seeds
         games.append(dict(game=g, seed=str(11 + g // 2), swapped=bool(g % 2),
                           red_seats=[] if g % 2 else [0], mode="async",
                           runs=(runs or {}).get(g, [f"run-{g // 2}-{i}" for i in range(7)]),
-                          rounds=12,
                           seats=[dict(seat=0, colour=colour, bot=bot, place=place,
-                                      main_tribe=None, **(seat_extra(g) if seat_extra else {}))]))
+                                      main_tribe=None)]))
         shops.append(dict(game=g, seat=0, colour=colour, bot=bot, round=1,
                           bought=[dict(card="acorn", spell=False, index=0)] if g in bought
                           else []))
@@ -117,9 +116,8 @@ class CardWithout(unittest.TestCase):
         with self.assertRaises(card_without.Refused):
             card_without.table(self.base, [one, two])
 
-    def test_refuses_handed_over_and_trial_matches(self):
-        for key, value in (("grant", {"card": "acorn", "round": 3, "keep": 1}),
-                           ("trial_rules", {"field_rules_hash": "r" * 64})):
+    def test_refuses_trial_matches(self):
+        for key, value in (("trial_rules", {"field_rules_hash": "r" * 64}),):
             other = write_match(self.dir / key, self.places, without=["acorn"], extra={key: value})
             with self.assertRaises(card_without.Refused, msg=key):
                 card_without.table(self.base, [other])

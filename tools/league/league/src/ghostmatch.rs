@@ -1,8 +1,5 @@
 //! Fixed, disjoint run lobbies drawn in seed order before game threads start.
-use crate::{
-    game::{Engine, Grant},
-    matchrun::MatchArgs,
-};
+use crate::{game::Engine, matchrun::MatchArgs};
 use bramble_engine::core::{
     ghosts::{ghost_run::RunsBySeat, ghost_store::GhostStore},
     records::record_build::RecordBuild,
@@ -37,25 +34,16 @@ pub struct Options {
     /// `--without <ids>`: the live seat is never offered these units, in the shop or in
     /// Discover; the shop draws other cards in their place by the normal weights.
     pub without: Vec<String>,
-    /// `--grant <id>@<round> [--keep <rounds>]`: the live seat is handed one fresh copy at the
-    /// start of that round's shop turn (see `grant.rs`).
-    pub grant: Option<Grant>,
     /// `--trial-rules`: the card data at `--repo-root` differs from the rules this build and
     /// the field were made for, on purpose (a proposed card change tried in whole games).
     pub trial_rules: bool,
 }
 
 impl Options {
-    /// Changes that a record could not show (the draw list and the handed-over copy are not
-    /// in the state hash), so such a match writes no records.
+    /// Changes that a record could not show (the draw list is not in the state hash), so such
+    /// a match writes no records.
     fn placement_only(&self) -> Option<&'static str> {
-        if !self.without.is_empty() {
-            Some("--without")
-        } else if self.grant.is_some() {
-            Some("--grant")
-        } else {
-            None
-        }
+        (!self.without.is_empty()).then_some("--without")
     }
 }
 
@@ -114,7 +102,7 @@ fn run_with_factories(
         None if !args.records && !options.trial_rules => {
             return Err("usage: ghost-match writes records for replay and cutting".into());
         }
-        // A record cannot say which cards were left out or handed over, so it would neither
+        // A record cannot say which cards were left out, so it would neither
         // replay nor cut into a field truthfully. Refuse up front.
         Some(flag) if args.records => {
             return Err(format!(
@@ -146,6 +134,56 @@ pub(crate) fn check_rules(root: &Path, built: &str, trial: bool) -> Result<Strin
         ));
     }
     Ok(played)
+}
+
+/// `trial_changes` against this build's checkout, or `null` when that checkout's rules are not
+/// the build's (then it is not the card data the field was cut at, and a diff would mislead).
+pub(crate) fn reference_changes(root: &Path, built: &str) -> Value {
+    let reference = crate::default_root();
+    if RecordBuild::identity(&reference)
+        .get("rules_hash")
+        .as_text()
+        == built
+    {
+        trial_changes(root, &reference)
+    } else {
+        Value::Null
+    }
+}
+
+/// A trial may not move a card to another tier. The field's recorded runs save each card's
+/// tier, and the engine refuses a run whose saved tier differs from the card data, so such a
+/// match would not start; and were it played, the recorded boards would hold the card at its
+/// old tier and full strength while the live seat can hardly reach it, so the result would
+/// read the field's head start, not the change. `changes` is `trial_changes`' output; a card
+/// new or removed in the trial is not a move.
+pub(crate) fn check_tier_moves(root: &Path, changes: &Value) -> Result<(), String> {
+    let moved: Vec<String> = changes["cards"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .filter_map(|card| {
+            let tier = &card["changed"]["tier"];
+            (tier["was"].is_number() && tier["now"].is_number()).then(|| {
+                format!(
+                    "{} tier {} to {}",
+                    card["id"].as_str().unwrap_or("?"),
+                    tier["was"],
+                    tier["now"]
+                )
+            })
+        })
+        .collect();
+    if moved.is_empty() {
+        return Ok(());
+    }
+    Err(format!(
+        "usage: --trial-rules: the card data at {} moves a card to another tier ({}). A tier \
+         move cannot be judged against a recorded field: its runs hold the card at the old tier. \
+         It needs a field cut under the changed rules",
+        root.display(),
+        moved.join(", ")
+    ))
 }
 
 /// For `summary.json`'s `trial_rules`: the card-data files and cards that differ between the
@@ -405,6 +443,37 @@ mod tests {
             changes["cards"],
             serde_json::json!([{"id": "sword-heir", "changed": {"health": {"was": 9, "now": 5}}}])
         );
+        assert_eq!(super::check_tier_moves(&dir, &changes), Ok(()));
+        let _ = std::fs::remove_dir_all(dir);
+    }
+
+    #[test]
+    fn a_trial_that_moves_a_card_to_another_tier_is_refused() {
+        let build: serde_json::Value = serde_json::from_str(crate::BUILD).unwrap();
+        let built = build["rules_hash"].as_str().unwrap();
+        let dir = scratch_rules("tier-move");
+        let units = dir.join("src/content/badger/units.json");
+        let text = std::fs::read_to_string(&units).unwrap();
+        let mut data: serde_json::Value = serde_json::from_str(&text).unwrap();
+        let card = data["cards"]
+            .as_array_mut()
+            .unwrap()
+            .iter_mut()
+            .find(|c| c["id"] == "sword-heir")
+            .unwrap();
+        assert_eq!(card["tier"], 3);
+        card["tier"] = 5.into();
+        std::fs::write(&units, serde_json::to_string_pretty(&data).unwrap()).unwrap();
+        let changes = super::reference_changes(&dir, built);
+        let refused = super::check_tier_moves(&dir, &changes).unwrap_err();
+        assert!(refused.contains("sword-heir tier 3 to 5"), "{refused}");
+        assert!(
+            refused.contains("field cut under the changed rules"),
+            "{refused}"
+        );
+        // A new card is not a move.
+        let added = serde_json::json!({"cards": [{"id": "new", "changed": {"tier": {"was": null, "now": 2}}}]});
+        assert_eq!(super::check_tier_moves(&dir, &added), Ok(()));
         let _ = std::fs::remove_dir_all(dir);
     }
 

@@ -40,9 +40,8 @@ def check(base, other, control=False):
     for match in (base, other):
         if match.summary.get("mode") != "async":
             raise Refused(f"{match.path}: not a ghost-match")
-        for key in ("without", "grant"):
-            if key in match.summary:
-                raise Refused(f"{match.path}: has `{key}`; a trial pairs only plain matches")
+        if "without" in match.summary:
+            raise Refused(f"{match.path}: has `without`; a trial pairs only plain matches")
     refuse_other_tools(base)
     trial = other.summary.get("trial_rules")
     if control:

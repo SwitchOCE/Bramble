@@ -9,7 +9,6 @@ const USAGE: &str = "usage:
                      --out <dir> [--clock-ms 1000] [--threads K] [--secret <hex>] [--no-decisions]
                      [--red-label <tag>] [--blue-label <tag>] [--debug-logs]
                      [--without <card id>[,<card id>...] --no-records]
-                     [--grant <card id>@<round> [--keep <rounds>] --no-records]
                      [--trial-rules --repo-root <changed card data>]
   league selfcheck --records <dir>... [--bots flow-random|tribe] [--games N] [--threads K] [--keep <dir>]
   league check-crate <path> --name <red|blue> [--keep]
@@ -142,17 +141,10 @@ fn run(args: &[String]) -> Result<(), String> {
                     ids
                 }
             };
-            let grant = match o.get("grant") {
-                None if o.get("keep").is_some() => {
-                    return Err(format!("usage: --keep needs --grant\n{USAGE}"));
-                }
-                None => None,
-                Some(text) => Some(league::grant::Grant::parse(&text, o.num("keep", 0i64)?)?),
-            };
             let trial_rules = o.has("trial-rules");
-            if command != "ghost-match" && (grant.is_some() || trial_rules) {
+            if command != "ghost-match" && trial_rules {
                 return Err(format!(
-                    "usage: --grant and --trial-rules are ghost-match options\n{USAGE}"
+                    "usage: --trial-rules is a ghost-match option\n{USAGE}"
                 ));
             }
             if trial_rules && o.get("repo-root").is_none() {
@@ -163,7 +155,6 @@ fn run(args: &[String]) -> Result<(), String> {
             let result = if command == "ghost-match" {
                 let options = ghostmatch::Options {
                     without,
-                    grant,
                     trial_rules,
                 };
                 ghostmatch::run_with(

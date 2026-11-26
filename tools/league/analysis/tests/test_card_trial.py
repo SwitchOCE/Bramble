@@ -4,6 +4,7 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # test_card_without, under pytest too
 import card_trial
 from card_without import Refused
 from test_card_without import write_match
@@ -46,10 +47,10 @@ class CardTrial(unittest.TestCase):
         secret = self.trial("secret", [1] * 6, secret="cd" * 32)
         with self.assertRaises(Refused):
             card_trial.table(self.base, [secret])
-        granted = write_match(self.dir / "granted", [1] * 6, rules="t" * 64,
-                              extra={"trial_rules": TRIAL, "grant": {"card": "a"}})
+        left_out = write_match(self.dir / "left-out", [1] * 6, rules="t" * 64,
+                               extra={"trial_rules": TRIAL, "without": ["a"]})
         with self.assertRaises(Refused):
-            card_trial.table(self.base, [granted])
+            card_trial.table(self.base, [left_out])
         # A trial is never a baseline, nor a control.
         t = self.trial("t", [1] * 6)
         with self.assertRaises(Refused):
