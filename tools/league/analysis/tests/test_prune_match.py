@@ -83,6 +83,19 @@ class Pruning(unittest.TestCase):
         self.assertEqual(json.loads(verdict)["red"], "candidate")
         self.assertEqual(json.loads(verdict)["gap_ci95"], [-1, -1])
 
+    def test_reading_refuses_before_the_card_report_and_while_a_mark_has_no_row(self):
+        self.reading_logs()
+        ledger = self.scratch / "marks.csv"
+        ledger.write_text(",".join(marks.COLUMNS) + "\n")
+        shutil.rmtree(self.match / "card-report")
+        with self.assertRaisesRegex(ValueError, "card_report.sh"):
+            prune(self.match, "reading", ledger=ledger)
+        (self.match / "card-report").mkdir()
+        (self.match / "card-report/cards.csv").write_text("card,name,worth a look\nheir,Heir,text (5-8)\n")
+        with self.assertRaisesRegex(ValueError, "1 marks have no row in the ledger.*Heir"):
+            prune(self.match, "reading", ledger=ledger)
+        self.assertTrue(self.record.is_file())
+
     def test_reading_keeps_choices_and_raw_record(self):
         self.reading_logs()
         self.write("reports.jsonl", {"debug": True})

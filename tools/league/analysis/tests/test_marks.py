@@ -48,10 +48,11 @@ class Ledger(unittest.TestCase):
 
     def test_rows_that_wait_too_long_are_stale(self):
         self.write(row("heir", "text", "new", "2026-11-25"), row("cub", "growth", "with the owner", "2026-11-25"),
-                   row("old", "text", "explained", "2026-11-01"), row("done", "text", "changed", "2026-11-25"))
+                   row("old", "text", "explained", "2026-11-01"), row("done", "text", "changed", "2026-11-25"),
+                   row("picked", "text", "change picked", "2026-11-25"))
         names = lambda day: [r["subject"] for r, _ in marks.stale(self.ledger, datetime.date.fromisoformat(day))]
         self.assertEqual((names("2026-11-25"), names("2026-11-26"), names("2026-11-28")),
-                         ([], ["heir"], ["heir", "cub", "done"]))
+                         ([], ["heir"], ["heir", "cub", "done", "picked"]))
 
     def test_a_missing_ledger_is_an_error_not_an_empty_one(self):
         with self.assertRaisesRegex(ValueError, "no ledger"):

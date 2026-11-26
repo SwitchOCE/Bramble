@@ -2,7 +2,8 @@
 """The ledger of marks: which cards and keywords a card report marked, and who holds each.
 
     python3 marks.py REPORT_DIR [--ledger FILE]   marks in a card report that the ledger does not hold
-    python3 marks.py --stale [--ledger FILE]      rows that have waited too long on someone
+    python3 marks.py --stale [--ledger FILE | --dev]   rows that have waited too long on someone
+                                                  (--dev: fetch and read the ledger on origin/dev)
 
 The ledger is docs/workstreams/balance/marks.csv, one row per marked card or keyword. A mark is
 "held" when the ledger has a row for the subject that lists the measure (the measure, not its
@@ -15,7 +16,9 @@ docs/workstreams/balance/plan.md.
 import argparse
 import csv
 import datetime
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 from card_summary import KEYWORD_FLOOR, table
@@ -80,16 +83,28 @@ def stale(ledger, today):
     return out
 
 
+def dev_ledger():
+    """The ledger as it stands on origin/dev, the one that counts, in a temporary file."""
+    root = LEDGER.parents[3]
+    subprocess.run(["git", "-C", str(root), "fetch", "-q", "origin", "dev"], check=True)
+    text = subprocess.run(["git", "-C", str(root), "show", f"origin/dev:{LEDGER.relative_to(root)}"],
+                          check=True, capture_output=True, text=True).stdout
+    with tempfile.NamedTemporaryFile("w", suffix=".csv", delete=False) as copy:
+        copy.write(text)
+    return Path(copy.name)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("report", nargs="?")
     parser.add_argument("--ledger", default=LEDGER)
     parser.add_argument("--stale", action="store_true")
+    parser.add_argument("--dev", action="store_true", help="with --stale: read the ledger on origin/dev")
     args = parser.parse_args(argv)
     if args.stale == bool(args.report):
         parser.error("give a report folder, or --stale")
     if args.stale:
-        rows = stale(args.ledger, datetime.date.today())
+        rows = stale(dev_ledger() if args.dev else args.ledger, datetime.date.today())
         for row, days in rows:
             print(f"{row['name']} ({row['kind']}): {row['state']} for {days} days, held by {row['holder']}. "
                   f"Marked by {row['measures']}. {row['note']}")

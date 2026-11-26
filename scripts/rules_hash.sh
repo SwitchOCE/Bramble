@@ -32,6 +32,8 @@ case "${1:-}" in
     hash="$(current)" || exit 1
     echo "$hash" >"$EXPECTED_FILE"
     echo "rules_hash: $EXPECTED_FILE now holds $hash; commit it with the rules change"
+    echo "If a card or keyword changed: it is not finished until it is measured again. The card-step"
+    echo "skill (.claude/skills/card-step/SKILL.md) says whom to tell before it merges and what to run after."
     ;;
   --check)
     hash="$(current)" || exit 1
