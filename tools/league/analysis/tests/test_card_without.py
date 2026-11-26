@@ -15,8 +15,9 @@ SEEDS = b"11\n12\n13\n"
 
 
 def write_match(folder, places, without=None, bought=(), secret="ab" * 32, seeds=SEEDS,
-                runs=None, red="red", rules="r" * 64):
-    """A minimal ghost-match folder: games alternate red (even) and blue (odd) in seat 0."""
+                runs=None, red="red", rules="r" * 64, extra=None, seat_extra=None):
+    """A minimal ghost-match folder: games alternate red (even) and blue (odd) in seat 0.
+    `extra` adds summary.json keys; `seat_extra(game)` adds keys to the live seat's line."""
     folder = Path(folder)
     (folder / "private").mkdir(parents=True, exist_ok=True)
     (folder / "private/secret.txt").write_text(secret + "\n")
@@ -26,6 +27,7 @@ def write_match(folder, places, without=None, bought=(), secret="ab" * 32, seeds
                    content="all", mode="async")
     if without:
         summary["without"] = list(without)
+    summary.update(extra or {})
     (folder / "summary.json").write_text(json.dumps(summary))
     (folder / "library.json").write_text(json.dumps([
         dict(id="acorn", tribes=["Mouse"], spell=False, token=False),
@@ -37,8 +39,9 @@ def write_match(folder, places, without=None, bought=(), secret="ab" * 32, seeds
         games.append(dict(game=g, seed=str(11 + g // 2), swapped=bool(g % 2),
                           red_seats=[] if g % 2 else [0], mode="async",
                           runs=(runs or {}).get(g, [f"run-{g // 2}-{i}" for i in range(7)]),
+                          rounds=12,
                           seats=[dict(seat=0, colour=colour, bot=bot, place=place,
-                                      main_tribe=None)]))
+                                      main_tribe=None, **(seat_extra(g) if seat_extra else {}))]))
         shops.append(dict(game=g, seat=0, colour=colour, bot=bot, round=1,
                           bought=[dict(card="acorn", spell=False, index=0)] if g in bought
                           else []))
@@ -113,6 +116,16 @@ class CardWithout(unittest.TestCase):
         two = write_match(self.dir / "two", self.places, without=["acorn"])
         with self.assertRaises(card_without.Refused):
             card_without.table(self.base, [one, two])
+
+    def test_refuses_handed_over_and_trial_matches(self):
+        for key, value in (("grant", {"card": "acorn", "round": 3, "keep": 1}),
+                           ("trial_rules", {"field_rules_hash": "r" * 64})):
+            other = write_match(self.dir / key, self.places, without=["acorn"], extra={key: value})
+            with self.assertRaises(card_without.Refused, msg=key):
+                card_without.table(self.base, [other])
+            rerun = write_match(self.dir / f"{key}-rerun", self.places, extra={key: value})
+            with self.assertRaises(card_without.Refused, msg=key):
+                card_without.table(self.base, [], [rerun])
 
     def test_main_exits_2_on_refusal(self):
         other = write_match(self.dir / "o", self.places, without=["acorn"], secret="ef" * 32)

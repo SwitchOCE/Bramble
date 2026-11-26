@@ -53,12 +53,26 @@ def live_games(match):
     return out
 
 
+# summary.json keys of the other card-power tools' matches: a card handed over
+# (`card_grant.py`) or changed card data (`card_trial.py`). Neither pairs here.
+OTHER_TOOLS = ("grant", "trial_rules")
+
+
+def refuse_other_tools(match, allowed=()):
+    """Refuse a match made with another tool's option, unless that option is `allowed`."""
+    for key in OTHER_TOOLS:
+        if key in match.summary and key not in allowed:
+            raise Refused(f"{match.path}: a ghost-match --{key.replace('_', '-')} match "
+                          f"({match.summary[key]}); it does not pair here")
+
+
 def check_pair(base, other, control=False):
     """Refuse unless `other` is `base` replayed with cards left out (or, as a control, with
     nothing left out). Returns the cards, or `["(control)"]`."""
     for match in (base, other):
         if match.summary.get("mode") != "async":
             raise Refused(f"{match.path}: not a ghost-match")
+        refuse_other_tools(match)
     if "without" in base.summary:
         raise Refused(f"{base.path}: the baseline itself left out {base.summary['without']}")
     cards = other.summary.get("without")

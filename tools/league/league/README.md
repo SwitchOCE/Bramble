@@ -295,6 +295,120 @@ same match differ in some games (4 of 40 on a busy machine, 25 Nov). That noise 
 paired difference. `--control` takes a second, flag-free run of the baseline; its `(control)`
 rows show the size of the noise.
 
+## Handing a card over
+
+`league ghost-match ... --grant <card id>@<round> [--keep <rounds>] --no-records` plays a ghost
+match in which the live seat is handed one fresh copy of the card at the start of its shop turn
+in that round, after the shop fills and before the bot first acts. It measures "Handed a copy"
+in `docs/workstreams/card-power/definitions.md`: a card's worth when the bot holds it, whether
+or not the bot would buy it.
+
+- **How the copy enters.** The way a bought card does when it is played from the hand, without
+  the price: a new unit marked bought (`bought_copies` 1) goes through the engine's own gain
+  (`Recruit::_gain`: the hand, a triple if it completes one, its Recruit effect) and is then
+  played with an ordinary play action into the lowest free board slot. On a full board the
+  weakest unit (lowest own Attack plus Health, the lower slot on a tie) leaves the game first,
+  with no gold and no sell effects, as for the fresh copy in `league refight`. The engine's
+  rules code is unchanged.
+- **Refused before the output folder is touched:** an unknown id, a spell, a token, a card the
+  shop never draws, a card whose own Recruit effect needs a target (the harness would have to
+  choose it for the bot), a card also given to `--without`, a round past the game's limit,
+  `--keep` without `--grant`, and `--grant` without `--no-records`.
+- **Not handed over** in a game where the live seat is out before the round, or its hand is
+  full (the copy would wait in the waiting pile). The game line says why.
+- **`--keep N`** (default 0): for N rounds counting the grant round, the bot is not shown the
+  actions that would take the copy off its board: selling it, returning it to the hand, and
+  playing a hand card into its slot (a swap). The engine still offers them; the harness takes
+  them out of the list in `BotView::legal` (`league_api::harness::retain_legal`), so a bot
+  cannot choose them, and nothing it chooses is refused. What it does not hold: moving the copy
+  to another slot (allowed; it stays on the board); a triple, which merges the copy into a
+  golden (the golden is then followed and held); and any card effect that removes, eats or
+  transforms a unit (rules, not the bot; the game line records it). The bot's own sandbox
+  (`Sim`) still offers selling it, so a bot that plans with the sandbox may plan a sale it
+  then cannot make.
+- **What holding does to a bot that does not want the card** (26 Nov, `r1`'s bots): neither
+  bot sells another unit instead. Both buy into the hand until it is full (7) and then bank
+  their gold: holding Shrew Harrier or Bumblebee for three rounds left them 10 to 15 more gold
+  a round than the same games without it. With `--keep 0` both sold Shrew Harrier in the
+  round it was handed over, in every game. `card_grant.py` reports the extra gold and hand
+  cards and does not read a card whose bots stalled.
+- **What the copy did**, in each game's live seat line under `grant`: `granted` and `reason`,
+  `slot`, `displaced` (the card that left the board for it), `held` (the rounds it stood on the
+  board when the fights began) and `held_rounds`, `kept_through` (on the board in every round
+  of the keep window that the seat played), `left` (each time it left the board: round, the
+  action that did it, and whether it went to the hand or was gone), `merged_round`, and
+  `hidden` (entries taken out of the bot's action lists, summed over every view; each view
+  lists the copy's sell, return and swaps again, so this is not a count of attempts).
+  `summary.json` has `grant` (card, round, keep) and `grant_outcome`, the same totals per
+  colour.
+- **Placement only**, like `--without`: a record could not say what was handed over.
+
+`python3 analysis/card_grant.py BASELINE --reference REF CARD... [--control RERUN] [--out FILE]`
+pairs the matches by game index and writes one row per match per bot: places better with the
+copy than with nothing, and than with the reference card, each with a 95% interval over seed
+lines, over the games where the copy was handed over; how long the copy stayed (mean held
+rounds, the share kept through the window, the share displacing a unit, the share sold after
+the window); the extra gold and hand cards at the end of the keep rounds against the same
+games with nothing handed over (a bot that stalls); and the definition's reading. It refuses matches whose summary fields, secret,
+seeds, lobbies or live seats differ, a CARD with a different round or keep from REF, and any
+`--without` or `--trial-rules` match.
+
+```sh
+# The three matches on the baseline's seeds: nothing (the baseline itself), the card, a reference.
+league ghost-match <the baseline's flags> --out grant/sword-heir --grant sword-heir@7 --keep 3 --no-records
+league ghost-match <the baseline's flags> --out grant/gate-warden --grant gate-warden@7 --keep 3 --no-records
+python3 analysis/card_grant.py BASELINE grant/sword-heir --reference grant/gate-warden --control RERUN
+```
+
+## Trying changed card data (trial rules)
+
+A ghost match plays the card data at `--repo-root` against a field cut at this build's rules
+(`build.json`'s `rules_hash`). It now checks that the two agree: card data whose rules hash
+(`RecordBuild::identity`, the hash `scripts/rules_hash.sh` prints) differs from the build's is
+refused before the output folder is touched. Before this check such a match played silently and
+its `summary.json` named the build's rules.
+
+`league ghost-match ... --trial-rules --repo-root <changed card data>` plays it on purpose: a
+proposed card change tried in whole games against the existing field, without cutting a new
+one. `--trial-rules` without `--repo-root`, or with card data whose rules are the build's, is
+refused.
+
+- **The live seat** plays the changed card data: its shop, its units and every fight.
+- **The recorded seats' boards** are restored as recorded through the changed library
+  (`FightSnapshot::restore_unit`): a unit is built from the card's new definition, so it has
+  the new text and keywords, and then takes the stat layers its record saved. A record saves
+  base Attack and Health only where they differed from the printed numbers (golden doubled), so
+  a recorded copy of a card whose printed stats changed takes the **new** printed stats, plus its
+  recorded gains (permanent, this turn and the rest). What the recorded players bought, kept and
+  where they put it is as recorded, chosen under the old card.
+- `summary.json`: `rules_hash` is the trial card data's; `trial_rules` holds `field_rules_hash`
+  (the build's, which the field was cut at), `card_data` (the folder) and `changes`, the
+  rules files and the card fields that differ from this build's checkout (`null` if that
+  checkout's rules are not the build's). Records are kept unless `--no-records` is given; each
+  record's header `build` is the trial data's identity, so it is never cut into a field at
+  the build's rules.
+- **Refight and the card report** work on a trial match when given the trial card data:
+  `league refight --match M --repo-root <changed card data> --field <field>` and
+  `tools/league/card_report.sh M --repo-root <changed card data> --field <field>`. Refight
+  refuses a trial match whose card data at `--repo-root` is not the one it was played on; for
+  any other match a different rules hash is a warning, as before.
+- **Pairing.** A trial's `rules_hash` differs from the baseline's, so `card_without.py` never
+  pairs it; `card_without.py` and `card_grant.py` refuse `trial_rules` outright.
+  `python3 analysis/card_trial.py BASELINE TRIAL... [--control RERUN] [--out FILE]` writes one
+  row per trial per bot: place with the change minus place without, with a 95% interval over
+  seed lines, and the changed card fields. It pairs a trial only with a plain baseline whose
+  rules are the trial's `field_rules_hash`.
+
+A scratch card-data folder holds the files the rules hash reads, copied from the checkout:
+
+```sh
+T=/data/scratch/trial; mkdir -p $T/src/game/data
+cp -r src/core src/content $T/src/; cp src/game/game_content.gd $T/src/game/
+cp src/game/data/stand_in_units.json $T/src/game/data/; cp project.godot $T/
+# edit $T/src/content/<tribe>/units.json, then:
+league ghost-match <the baseline's flags> --out trial/m --trial-rules --repo-root $T
+```
+
 ## The clock
 
 Each seat has `--clock-ms` of **thread CPU time** per game (`clock_gettime(CLOCK_THREAD_CPUTIME_ID)`),

@@ -267,6 +267,7 @@ pub fn run(
     threads: usize,
     verify: bool,
 ) -> Result<Report, String> {
+    input::check_rules(dir, root)?;
     let input::Match { content, games } = input::read_match(dir, verify)?;
     let selector = selection.map(|s| Selector::load(s, dir)).transpose()?;
     let chunk_size = games.len().div_ceil(threads.max(1));

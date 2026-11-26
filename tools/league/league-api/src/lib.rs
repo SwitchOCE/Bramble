@@ -160,6 +160,18 @@ pub mod harness {
         let typed = view::typed_legal_of(game, player_id);
         build_view(game, player_id, past, library, clock_left_ns, typed)
     }
+    /// Tool-only (`league ghost-match --grant ... --keep`): take actions out of the list the bot
+    /// is shown, so it cannot choose them. Keeps the engine's order of the rest. The list is
+    /// left as it was if nothing would remain.
+    pub fn retain_legal(view: &mut BotView, keep: impl FnMut(&Action) -> bool) -> usize {
+        let before = view.legal.clone();
+        view.legal.retain(keep);
+        if view.legal.is_empty() {
+            view.legal = before;
+            return 0;
+        }
+        before.len() - view.legal.len()
+    }
     fn build_view(
         game: &GameSessionRef,
         player_id: i64,

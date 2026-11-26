@@ -1,6 +1,7 @@
 //! The fight log supplies each round's ordered pairings and original results.
 use crate::matchrun;
 use bramble_engine::core::records::game_record::GameRecord;
+use bramble_engine::core::records::record_build::RecordBuild;
 use bramble_engine::core::session::matchmaking::Matchmaking;
 use bramble_engine::util::godot_json;
 use bramble_engine::{Array, Dictionary, Variant};
@@ -51,6 +52,34 @@ fn lines(path: &Path) -> Result<impl Iterator<Item = Result<String, String>> + '
         .lines()
         .enumerate()
         .map(move |(i, line)| line.map_err(|e| format!("{}:{}: {e}", path.display(), i + 1))))
+}
+
+/// Fights are restored with the card data at `root`, so it must be the data the match was
+/// played under. A `ghost-match --trial-rules` match was played on changed card data: refuse
+/// any other. For other matches a different rules hash is only warned about, as before.
+pub(super) fn check_rules(dir: &Path, root: &Path) -> Result<(), String> {
+    let manifest = read_json(&dir.join("summary.json"))?;
+    let played = manifest["rules_hash"].as_str().unwrap_or_default();
+    let here = RecordBuild::identity(root).get("rules_hash").as_text();
+    if played == here {
+        return Ok(());
+    }
+    if !manifest["trial_rules"].is_null() {
+        return Err(format!(
+            "refight: {} was played on trial card data (rules {played}, from {}); the card data \
+             at {} has rules {here}. Pass --repo-root <that card data>",
+            dir.display(),
+            manifest["trial_rules"]["card_data"].as_str().unwrap_or("?"),
+            root.display()
+        ));
+    }
+    eprintln!(
+        "refight: {} was played under rules {played}; the card data at {} has rules {here}, so \
+         restored units may differ from the recorded ones",
+        dir.display(),
+        root.display()
+    );
+    Ok(())
 }
 
 pub(super) fn read_match(dir: &Path, verify: bool) -> Result<Match, String> {

@@ -1,6 +1,8 @@
 //! One game: the turn loop of `tools/checks/records.gd` and `Bot.take_turn`, with every bot call
 //! timed on its seat's CPU clock, the record written in GDScript's format, and the logs.
 use crate::baselines::SimpleBot;
+pub use crate::grant::Grant;
+use crate::grant::GrantState;
 use crate::watchdog::Watch;
 use bramble_engine::core::{
     ghosts::ghost_run::RunsBySeat,
@@ -148,7 +150,15 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         .content
         .borrow()
         .new_session(plan.seed, &Array::new());
-    play_session(engine, plan, watch, game)
+    play_session(engine, plan, watch, game, None)
+}
+
+/// Tool-only changes a ghost match makes for its live seat (`ghost-match --without`,
+/// `--grant`). Empty for a normal match.
+#[derive(Clone, Debug, Default)]
+pub(crate) struct Tools {
+    pub without: Vec<String>,
+    pub grant: Option<Grant>,
 }
 
 pub(crate) fn play_async(
@@ -156,16 +166,22 @@ pub(crate) fn play_async(
     plan: GamePlan,
     watch: &Watch,
     runs: RunsBySeat,
-    without: &[String],
+    tools: &Tools,
 ) -> Result<GameOut, String> {
     let game = engine
         .content
         .borrow()
         .new_async_session(plan.seed, runs, &Array::new())?;
-    if !without.is_empty() {
-        leave_out(&game, without);
+    if !tools.without.is_empty() {
+        leave_out(&game, &tools.without);
     }
-    Ok(play_session(engine, plan, watch, game))
+    Ok(play_session(
+        engine,
+        plan,
+        watch,
+        game,
+        tools.grant.as_ref(),
+    ))
 }
 
 /// Tool-only (`ghost-match --without`): rebuild the session's unit draw list without these cards,
@@ -203,7 +219,13 @@ pub(crate) fn unit_odds_without(game: &GameSessionRef, without: &[String]) -> Sh
     ShopOdds::create(&cards, &weights, &Array::new())
 }
 
-fn play_session(engine: &Engine, plan: GamePlan, watch: &Watch, game: GameSessionRef) -> GameOut {
+fn play_session(
+    engine: &Engine,
+    plan: GamePlan,
+    watch: &Watch,
+    game: GameSessionRef,
+    grant: Option<&Grant>,
+) -> GameOut {
     game.borrow_mut().keep_fight_events = false;
     // The harness writes the record itself (same lines as GameRecord), so the session must not.
     let recipe = std::mem::take(&mut game.borrow_mut().record_recipe);
@@ -302,6 +324,7 @@ fn play_session(engine: &Engine, plan: GamePlan, watch: &Watch, game: GameSessio
         decisions: Vec::new(),
         log_decisions: plan.log_decisions,
         debug_logs: plan.debug_logs,
+        grant: grant.map(GrantState::new),
     };
     let round_limit = engine.library.config("round_limit").unwrap_or(50);
     let mut fight_log: Vec<Value> = Vec::new();
@@ -321,6 +344,9 @@ fn play_session(engine: &Engine, plan: GamePlan, watch: &Watch, game: GameSessio
             if let Some(seat) = seats.get_mut(id as usize) {
                 take_turn(&mut ctx, seat, &mut rec);
             }
+        }
+        if let Some(grant) = ctx.grant.as_mut() {
+            grant.at_fight(&game, 0, round);
         }
         // _eliminate in finish_round can replace the ghost for the NEXT round.
         let ghost_of = game.borrow().ghost_of;
@@ -416,6 +442,9 @@ fn play_session(engine: &Engine, plan: GamePlan, watch: &Watch, game: GameSessio
         }));
         cpu.push(json!({"seat": seat.id, "cpu_ms": seat.used_ns as f64 / 1e6}));
     }
+    if let Some(grant) = &ctx.grant {
+        seat_lines[0]["grant"] = grant.line();
+    }
     let mut game_line = json!({
         "game": plan.index, "seed": plan.seed.to_string(), "swapped": plan.swapped,
         "red_seats": (0..seats.len()).filter(|&s| plan.red_seats[s] != plan.swapped).collect::<Vec<_>>(),
@@ -452,6 +481,8 @@ struct Ctx<'a> {
     decisions: Vec<Value>,
     log_decisions: bool,
     debug_logs: bool,
+    /// `ghost-match --grant`: the live seat's (seat 0's) handed-over copy.
+    grant: Option<GrantState>,
 }
 
 impl Seat {
@@ -584,12 +615,18 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
     let mut first = true;
     let mut last: Option<Action> = None;
     let mut ended_early = false;
+    if id == 0
+        && let Some(grant) = ctx.grant.as_mut()
+        && grant.grant.round == round
+    {
+        grant.hand_over(&game, id);
+    }
     for step in 0..MAX_ACTIONS {
         if player.borrow().turn_ended || !player.borrow().alive {
             ended_early = true;
             break;
         }
-        let view = timed(1, || {
+        let mut view = timed(1, || {
             harness::view_typed(
                 &game,
                 id,
@@ -598,6 +635,12 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
                 ctx.clock_ns - seat.used_ns,
             )
         });
+        if id == 0
+            && let Some(grant) = ctx.grant.as_mut()
+        {
+            grant.filter(&game, id, round, &mut view);
+            grant.before_act(&game, id);
+        }
         seat.gold_start.get_or_insert(view.me().gold);
         let picking = view.legal().iter().any(|a| a.kind() == "pick");
         let mut discover_report = None;
@@ -667,6 +710,11 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
         // action needs a Godot dictionary (for act and the record), in its original order.
         let action = harness::action_dict_for(&game, id, &typed);
         let result = timed(2, || GameSession::act(&game, id, &action));
+        if id == 0
+            && let Some(grant) = ctx.grant.as_mut()
+        {
+            grant.after_act(&game, id, round, typed.kind());
+        }
         let me = view.me();
         if ctx.log_decisions {
             let mut decision = json!({
