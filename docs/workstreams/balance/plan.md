@@ -35,14 +35,39 @@ How one card's power is measured, cheap steps first. The owner said yes to it on
 |---|---|---|
 | 0 | First-sight read: the owner, or a fresh agent, marks any card that looks too strong or too weak on sight. The pitch records it | When a card is designed or changed |
 | 1–2 | The card report, `tools/league/card_report.sh <match dir>` (about 13 minutes). It marks cards worth a look, and says "nothing marked" when nothing is | After every kept bot version, and on every balance match, before the match's records are deleted |
-| 3 | Left out of the shop (about 10 minutes a card), for every marked card, every card the owner names, and every new or changed card | The same day |
-| 4 | A read: one line that explains the mark, or a proposal to the owner with the card shown as in game | The same day |
+| 3 | Left out of the shop (about 10 minutes a card), for every marked card, every card the owner names, and every new or changed card | The same day, by whoever ran the report |
+| 4 | A read: one line that explains the mark, or a proposal to the owner with the card shown as in game | The same day, by whoever ran the report |
 
 - The measures are hints from imperfect bots. A mark means look, not change.
 - A card no bot buys, a card a bot is built around, and a tier the bots rarely reach each have their own route: [the edge cases in definitions.md](../card-power/definitions.md#edge-cases).
 - The owner's calls on cards are a test set: [card-power/known-cases.md](../card-power/known-cases.md). A new measure or a change to this process is run against it first.
 - When a design estimate and a measurement disagree, the measurement on a strong field wins, and the owner sees both.
 - The teams hand balance their own card measurements ([third-run brief, section 8](../third-run/third-run-brief.md)).
+
+## Who acts on a mark
+
+The owner, 26 Nov 2026: "Do we not have a new process that will create agents that own changing them? ... if we don't have agents being able to catch stuff and change it, then we haven't yet succeeded." Asked the three decisions on this section, the owner said: "I agree with your recommendations on who acts on a mark in terms of decision one. You may write the plan, yes, and yeah, I agree with decision three."
+
+- **Whoever runs the card report owns the marks it makes,** until each is explained in a line or in front of the owner. There is no hand-over and no standing balance session to wait for. The brief is the `card-step` skill (`.claude/skills/card-step/SKILL.md`); an agent that cannot load skills is given the file.
+- **The ledger of marks** is [marks.csv](marks.csv): one row per marked card or keyword, with its state and who holds it. It holds the measure that marked each one, where it was marked, and the owner's page. `card_report.sh` ends by listing marks the ledger does not hold, and `prune_match.py` refuses to prune a kept version's match, or a match balance reads, until the card report has run on it and every mark has a row. The ledger that counts is the one on `dev`; the prune tool reads the one in its own checkout, so a row has to be in both.
+- **A check each morning** tells the owner about any row that has sat: `new` for a day, or `with the owner`, `change picked` or `changed` for three. It is `tools/league/analysis/marks.py --stale --dev`, which reads the ledger on `dev`, run each morning by a scheduled task in T3 ("Marks nobody has acted on"). The task starts fresh each time, runs the script and writes to the owner only when a row has sat. A plain timer could not reach the owner; a standing session could drift.
+
+| What happens | Who acts | What makes it happen |
+|---|---|---|
+| A bot version is kept (league running) | The referee runs the card report. If it lists marks, the referee starts one worker with the `card-step` skill and carries on refereeing | The prune tool refuses without the report, and without a ledger row for each mark |
+| A card or keyword changes in `dev` | The session that made the change plays a match on the new build and runs the card step on it | The quality gate fails on any rules change made without `scripts/rules_hash.sh --update`; both the failure and the update print a pointer to the `card-step` skill. That is a reminder, not a block. What catches a change nobody measured again is its ledger row: it sits as `changed`, and the morning check says so after three days |
+| The owner names a card | The session the owner said it to; it adds the row and runs steps 3 and 4 | The ledger row |
+| A mark sits | Nobody has to notice | The morning check |
+| The owner picks a change | The session that sent the page makes it, or starts the session that does. It tells the Ghost Build Orchestrator and the merge coordinator before merging, and measures again after | The `card-step` skill, "When the owner picks a change" |
+
+**When this counts as working.** The owner, 26 Nov 2026: "the goal is to take a card that's causing problems and fix it. And the problems may also be underpowered ... the process at the end of this needs to show me tangibly that you can find cards that are not good enough and cards that are too good, that you are correct about them, and you can propose solutions to them that will actually fix the problems while keeping the game interesting and preserving the flavor of the card and the strategic and tactical usefulness of the intent of the design." So it is not working until all of these have been shown on real cards:
+
+1. It finds cards that are too strong, and cards that are too weak.
+2. Each call comes with why it should be believed.
+3. Each proposal says what the card is for, offers changes that were tried and measured before and after, and says what flavour and what tactical use it keeps.
+4. A card is changed and measured again by a session the owner did not have to brief.
+
+Whether a card is an issue matters more than how large the number is.
 
 ## How far the balance orchestrator goes without asking
 

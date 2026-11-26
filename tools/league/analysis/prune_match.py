@@ -12,6 +12,7 @@ import subprocess
 from tempfile import TemporaryDirectory
 from urllib.parse import quote
 
+import marks
 from cards import card_stats
 from match_data import BANDS, Match, chosen_action, sale_eaters
 from tribes import final_tribes
@@ -81,11 +82,22 @@ def card_report(root):
     return {path for path in (root / CARD_REPORT).rglob("*") if path.is_file()}
 
 
-def climb(root, summary, verdict, cut_verified):
+def card_step_started(root, ledger, what):
+    """Refuse to delete a match's records before the card report has run on it and every mark it
+    made has a row in the ledger (docs/workstreams/balance/plan.md, "Who acts on a mark")."""
+    if not (root / CARD_REPORT / "cards.csv").is_file():
+        raise ValueError(f"{what}: run tools/league/card_report.sh on the match first (it needs the records)")
+    if waiting := marks.unheld(root / CARD_REPORT, ledger):
+        names = ", ".join(name for _, _, name, _ in waiting)
+        raise ValueError(f"{what}: {len(waiting)} marks have no row in the ledger ({ledger}): {names}. "
+                         "Add a row for each (python3 marks.py <match>/card-report lists them), then prune")
+
+
+def climb(root, summary, verdict, cut_verified, ledger=marks.LEDGER):
     if verdict == "kept" and not cut_verified:
         raise ValueError("kept version: cut and verify its ghosts, then pass --cut-verified")
-    if verdict == "kept" and not (root / CARD_REPORT / "cards.csv").is_file():
-        raise ValueError("kept version: run tools/league/card_report.sh on the match first (it needs the records)")
+    if verdict == "kept":
+        card_step_started(root, ledger, "kept version")
     files = {root / name for name in ("summary.json", "analysis.json", "timing.json")}
     if any(not path.is_file() for path in files):
         raise ValueError("climb requires summary.json, timing.json and analysis.json from league analyze")
@@ -314,7 +326,7 @@ def archive(root, summary, archive_dir, supplied):
     return build
 
 
-def prune(root, kind, *, verdict=None, cut_verified=False, archive_dir=None, findings=()):
+def prune(root, kind, *, verdict=None, cut_verified=False, archive_dir=None, findings=(), ledger=marks.LEDGER):
     root = physical_path(root)
     checked_entries(root)
     summary = read_summary(root)
@@ -322,8 +334,9 @@ def prune(root, kind, *, verdict=None, cut_verified=False, archive_dir=None, fin
     if kind == "climb":
         if verdict not in ("kept", "rejected"):
             raise ValueError("climb requires --verdict kept or rejected")
-        files = climb(root, summary, verdict, cut_verified)
+        files = climb(root, summary, verdict, cut_verified, ledger)
     elif kind == "reading":
+        card_step_started(root, ledger, "a match balance reads")
         files = reading(root, summary)
     elif kind == "reading-done":
         files = reading_done(root, summary, findings)
@@ -351,6 +364,7 @@ def main():
     parser.add_argument("--verdict", choices=("kept", "rejected"), help="referee decision for climb")
     parser.add_argument("--cut-verified", action="store_true", help="confirm ghost cut and verify passed")
     parser.add_argument("--archive-dir", type=Path, help="parent of the per-build archives")
+    parser.add_argument("--ledger", type=Path, default=marks.LEDGER, help="the ledger of marks a kept version is checked against")
     parser.add_argument("--finding", type=Path, action="append", default=[], help="findings report to keep, repeatable")
     args = parser.parse_args()
     if args.verdict and args.kind != "climb":
@@ -361,7 +375,7 @@ def main():
         parser.error("--finding applies to reading-done and old-build")
     try:
         kept = prune(args.match, args.kind, verdict=args.verdict, cut_verified=args.cut_verified,
-                     archive_dir=args.archive_dir, findings=args.finding)
+                     archive_dir=args.archive_dir, findings=args.finding, ledger=args.ledger)
         print(f"Kept in {kept}")
         total = 0
         for path in sorted(kept.rglob("*")):

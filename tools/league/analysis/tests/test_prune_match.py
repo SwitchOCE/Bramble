@@ -10,6 +10,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from behaviours import sale_counts
 from cards import card_stats
+import marks
 from match_data import Match
 from prune_match import prune
 from tribes import tribe_stats
@@ -36,6 +37,8 @@ class Pruning(unittest.TestCase):
         (self.match / name).write_text("".join(json.dumps(row) + "\n" for row in entries), encoding="utf-8")
 
     def reading_logs(self):
+        (self.match / "card-report").mkdir(exist_ok=True)  # the card report ran and marked nothing
+        (self.match / "card-report/cards.csv").write_text("card,name,worth a look\n")
         self.write("library.json", [dict(id="acorn", tribes=["Mouse"], spell=False)])
         self.write("games.jsonl", *(dict(
             game=i, swapped=bool(i), red_seats=[] if i else [0], fights=[],
@@ -65,8 +68,13 @@ class Pruning(unittest.TestCase):
             prune(self.match, "climb", verdict="kept", cut_verified=True)
         self.assertTrue(self.record.is_file())
         (self.match / "card-report").mkdir()
-        (self.match / "card-report/cards.csv").write_text("card\n")
-        prune(self.match, "climb", verdict="kept", cut_verified=True)
+        (self.match / "card-report/cards.csv").write_text("card,name,worth a look\nheir,Heir,text (5-8)\n")
+        ledger = self.scratch / "marks.csv"
+        ledger.write_text(",".join(marks.COLUMNS) + "\n")
+        with self.assertRaisesRegex(ValueError, "1 marks have no row in the ledger.*Heir"):
+            prune(self.match, "climb", verdict="kept", cut_verified=True, ledger=ledger)
+        ledger.write_text(",".join(marks.COLUMNS) + "\nheir,card,Heir,text,2026-11-25,a match,new,the referee,2026-11-25,,\n")
+        prune(self.match, "climb", verdict="kept", cut_verified=True, ledger=ledger)
         self.assertEqual({p.name for p in self.match.iterdir()},
                          {"summary.json", "analysis.json", "timing.json", "verdict.jsonl", "card-report"})
         self.assertTrue((self.match / "card-report/cards.csv").is_file())
@@ -74,6 +82,19 @@ class Pruning(unittest.TestCase):
         self.assertEqual(len(verdict.splitlines()), 1)
         self.assertEqual(json.loads(verdict)["red"], "candidate")
         self.assertEqual(json.loads(verdict)["gap_ci95"], [-1, -1])
+
+    def test_reading_refuses_before_the_card_report_and_while_a_mark_has_no_row(self):
+        self.reading_logs()
+        ledger = self.scratch / "marks.csv"
+        ledger.write_text(",".join(marks.COLUMNS) + "\n")
+        shutil.rmtree(self.match / "card-report")
+        with self.assertRaisesRegex(ValueError, "card_report.sh"):
+            prune(self.match, "reading", ledger=ledger)
+        (self.match / "card-report").mkdir()
+        (self.match / "card-report/cards.csv").write_text("card,name,worth a look\nheir,Heir,text (5-8)\n")
+        with self.assertRaisesRegex(ValueError, "1 marks have no row in the ledger.*Heir"):
+            prune(self.match, "reading", ledger=ledger)
+        self.assertTrue(self.record.is_file())
 
     def test_reading_keeps_choices_and_raw_record(self):
         self.reading_logs()

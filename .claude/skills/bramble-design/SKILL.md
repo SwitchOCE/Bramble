@@ -35,7 +35,7 @@ Make design calls freely and mark them as yours, not decided. What makes a desig
 
 The owner's method (19 Nov 2026). Their words are in `docs/design/owner-notes/2026-11-19a-balance-reads-bot-preferences.md`, `2026-11-19b-balance-pass-aims-and-method.md` and `2026-11-19c-double-tap-nerfs.md`; read them before a balance pass, and follow them over this summary where the two differ.
 
-- **Measure before you tune.** The card step in `docs/workstreams/balance/plan.md` says how one card's power is measured and when a marked card may be changed.
+- **Measure before you tune, and again after.** The `card-step` skill says how one card's power is measured, who owns a marked card, and whom to tell before a card change merges. A card change is not finished until the card step has run on the new build.
 - **Read what the bots prefer, not only how they place.** Buy rates when a card is on offer, and the values the bots give cards, show what a strong player wants. Placement by tribe hides which cards carried a board.
 - **Weigh four kinds of change for every card:** numbers, economy (its tier), replace it, or rework it. Pick the best of the four, not the first that works.
 - **Check the support before the card.** A card can be strong only because of another card that feeds it (the Flying Ace through the Wing Commander's free attacks). Fix the cause.
