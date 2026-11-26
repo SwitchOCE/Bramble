@@ -309,7 +309,9 @@ one. `--trial-rules` without `--repo-root`, or with card data whose rules are th
 refused.
 
 A live `league match` has no trial mode: rules files that differ from the build's are always
-refused, so its records and summary never carry the build's hash for other rules.
+refused, so its records and summary never carry the build's hash for other rules. `ladder.sh` and
+`practice_setup.sh` build the league's frozen engine (`league-engine-v1`), which predates this
+check.
 
 - **The live seat** plays the changed card data: its shop, its units and every fight.
 - **The recorded seats' boards** are restored as recorded through the changed library
