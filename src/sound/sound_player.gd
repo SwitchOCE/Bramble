@@ -77,6 +77,13 @@ func fight_step(step: Dictionary, before: Dictionary = {}) -> void:
 		play(str(cue["cue"]), _num(cue["delay_s"]), _num(cue["gain_db"]))
 
 
+## The fight screen calls this as each moment of a fight's schedule comes (FightTimeline cues).
+func fight_cue(cue: Dictionary) -> void:
+	_step_takes.clear()
+	for each: Dictionary in SoundCues.for_fight_cue(cue, table):
+		play(str(each["cue"]), _num(each["delay_s"]), _num(each["gain_db"]))
+
+
 ## Plays a cue now, or after delay_s, with gain_db on top of the table's loudness.
 func play(cue: String, delay_s: float = 0.0, gain_db: float = 0.0) -> void:
 	if delay_s > 0.0:

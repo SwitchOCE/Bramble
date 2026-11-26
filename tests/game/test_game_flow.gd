@@ -118,3 +118,28 @@ func _matched(seed_value: int) -> GameFlow:
 	var made: Dictionary = GameFlow.create(_content, seed_value, _store)
 	assert_true(made["ok"], str(made.get("message", "")))
 	return made["flow"]
+
+
+## The fight screen's loss parts (GameFlow, outside the rules core) agree with the damage the core
+## dealt: base, then a big loss's extra. The player recruits nothing, so loses most fights.
+func test_loss_parts_add_up_to_the_core_damage() -> void:
+	var flow := FlowFixture.live(GameContent.load_default(), 4)
+	var config := GameConfig.new()
+	var bigs: int = 0
+	var losses: int = 0
+	while not flow.is_over() and flow.human_alive():
+		flow.start_round()
+		var fight: Dictionary = flow.finish_round()
+		var loss: Dictionary = fight["loss"]
+		var damage: int = CoreUtil.to_int(fight["damage"])
+		if CoreUtil.to_int(fight["loser"]) != GameFlow.HUMAN:
+			continue
+		losses += 1
+		var big: bool = loss["big"] == true
+		bigs += 1 if big else 0
+		var extra: int = config.big_loss_extra if big else 0
+		assert_eq(
+			CoreUtil.to_int(loss["base"]) + extra, damage, "round %d" % flow.session.round_number
+		)
+	assert_gt(losses, 2, "the player lost")
+	assert_gt(bigs, 0, "a big loss came up")

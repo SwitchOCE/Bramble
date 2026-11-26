@@ -76,6 +76,7 @@ func start(matched: GameFlow) -> void:
 	fight.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	fight.result_shown.connect(_on_playback_finished)
 	fight.playback_finished.connect(_on_playback_finished)
+	fight.health_counted.connect(_on_health_counted)
 	fight.skip_requested.connect(_skip_fight)
 	var tools: Control = GlassUi.stage(self)
 	tools.z_index = 8
@@ -133,7 +134,7 @@ func _end_round() -> void:
 	_fight_age = 0.0
 	ViewAdapter.add_fight_cards(flow.content, events, _catalog)
 	var replay: FightReplay = FightReplay.build(
-		base, events, _catalog, CoreUtil.to_int(record["damage"])
+		base, events, _catalog, CoreUtil.to_int(record["damage"]), CoreUtil.to_dict(record["loss"])
 	)
 	_past_boards.append(replay.steps[0]["state"])
 	_show_only(fight)
@@ -150,24 +151,42 @@ func _on_playback_finished() -> void:
 	phase = Phase.AFTER_FIGHT
 	_after_wait = AFTER_FIGHT
 	_result_age = 0.0
-	# the round is over: everyone's Health now, on the leaderboard
+	_show_round_health()
+
+
+## The loser's Health has landed on the fight screen (the portrait strike's count, or a skip):
+## the leaderboard's numbers follow.
+func _on_health_counted() -> void:
+	if phase == Phase.AFTER_FIGHT:
+		_show_round_health()
+
+
+## The round is over: everyone's Health now, on the leaderboard; while the portrait strike still
+## counts, the loser's old Health (FightScreen.held_health), until health_counted.
+func _show_round_health() -> void:
+	var held: Dictionary = fight.held_health()
+	var last: Dictionary = flow.last_fight
+	var seat: int = CoreUtil.to_int(last.get("opponent", -1)) if not last.is_empty() else -1
+	var held_rows: Dictionary = {}
+	if not held.is_empty():
+		held_rows[GameFlow.HUMAN if held["you"] == true else seat] = held["health"]
 	var state: Dictionary = fight.state.duplicate()
-	state["players"] = ViewAdapter.players(flow)
-	state["health"] = maxi(0, flow.human().health)
+	state["players"] = ViewAdapter.players(flow, held_rows)
+	state["health"] = held_rows.get(GameFlow.HUMAN, maxi(0, flow.human().health))
 	# the counters and heaps after the fight and its after-fight effects
 	state["counters"] = ViewAdapter.counters(flow.content, flow.session.view_for(GameFlow.HUMAN))
 	var opponent: Dictionary = CoreUtil.to_dict(state.get("opponent", {})).duplicate()
-	var last: Dictionary = flow.last_fight
-	if not last.is_empty():
-		var seat: int = CoreUtil.to_int(last["opponent"])
-		if seat >= 0:
-			opponent["health"] = flow.opponent_health(seat)
+	if seat >= 0:
+		opponent["health"] = held_rows.get(seat, flow.opponent_health(seat))
 	state["opponent"] = opponent
 	fight.show_leaderboard = true
 	fight.show_state(state)
 
 
 func _after_fight() -> void:
+	# moving on before the portrait strike's count has landed: it lands now, so what follows
+	# carries the round's final Health
+	fight.land_strike()
 	if flow.is_over() or not flow.human_alive():
 		phase = Phase.OVER
 		if not flow.is_over():
@@ -309,6 +328,8 @@ func _input(event: InputEvent) -> void:
 	elif phase == Phase.AFTER_FIGHT:
 		# handled first: the game's end takes this controller out of the tree
 		get_viewport().set_input_as_handled()
+		# Space during the portrait strike lands it at once (the final Health), then moves on
+		fight.land_strike()
 		if _result_age >= RESULT_GUARD:
 			_after_fight()
 

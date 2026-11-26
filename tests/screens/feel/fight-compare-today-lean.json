@@ -1,0 +1,6 @@
+{
+  "scene": "res://tests/screens/feel/fight_compare/fight_compare.tscn",
+  "treatment": "today",
+  "options": {"ROTATE": "lean"},
+  "steps": [{"move": "1900,1000", "time": 0.0}, {"wait": 15.0}]
+}

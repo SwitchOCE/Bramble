@@ -158,11 +158,45 @@ func finish_round() -> Dictionary:
 			"opponent": opponent,
 			"opponent_seat": opponent_seat,
 			"damage": CoreUtil.to_int(fight["damage"]),
+			"loss": _loss_parts(fight),
 			"loser": CoreUtil.to_int(fight["loser"]),
 			"result": fight["result"],
 			"before": before,
 		}
 	return last_fight
+
+
+## 10.1.2: the winner lost fewer than half the units it started with. Worked out here from the
+## fight's result, not in the core, so the rules hash (RecordBuild) stays the ghost field's.
+func _big_loss(fight: Dictionary) -> bool:
+	var result: Dictionary = fight["result"]
+	var winner: int = CoreUtil.to_int(result.get("winner", -1))
+	if winner < 0:
+		return false
+	var starting: Array = result["starting"]
+	var killed: Array = result["killed"]
+	return CoreUtil.to_int(killed[winner]) * 2 < CoreUtil.to_int(starting[winner])
+
+
+func _has_winner(fight: Dictionary) -> bool:
+	var result: Dictionary = fight["result"]
+	return CoreUtil.to_int(result.get("winner", -1)) >= 0
+
+
+## A loss's parts for the fight screen's two landings on a big loss (FightStrike): {big, base},
+## base being round + 1 up to 10 (10.1.1), before a big loss's extra (10.1.3) or any effect. Empty
+## on a draw or when the loser is the ghost, as GameSession takes no damage then.
+func _loss_parts(fight: Dictionary) -> Dictionary:
+	var loser: int = CoreUtil.to_int(fight["loser"])
+	if not _has_winner(fight) or loser == Matchmaking.GHOST:
+		return {}
+	var big: bool = _big_loss(fight)
+	var config: GameConfig = session.config
+	var round_number: int = CoreUtil.to_int(fight["round"])
+	return {
+		"big": big,
+		"base": mini(round_number + config.loss_round_offset, config.loss_cap),
+	}
 
 
 ## After the human is out, play the remaining rounds to settle all eight places.
