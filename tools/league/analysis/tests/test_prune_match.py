@@ -10,6 +10,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from behaviours import sale_counts
 from cards import card_stats
+import marks
 from match_data import Match
 from prune_match import prune
 from tribes import tribe_stats
@@ -65,8 +66,13 @@ class Pruning(unittest.TestCase):
             prune(self.match, "climb", verdict="kept", cut_verified=True)
         self.assertTrue(self.record.is_file())
         (self.match / "card-report").mkdir()
-        (self.match / "card-report/cards.csv").write_text("card\n")
-        prune(self.match, "climb", verdict="kept", cut_verified=True)
+        (self.match / "card-report/cards.csv").write_text("card,name,worth a look\nheir,Heir,text (5-8)\n")
+        ledger = self.scratch / "marks.csv"
+        ledger.write_text(",".join(marks.COLUMNS) + "\n")
+        with self.assertRaisesRegex(ValueError, "1 marks have no row in the ledger.*Heir"):
+            prune(self.match, "climb", verdict="kept", cut_verified=True, ledger=ledger)
+        ledger.write_text(",".join(marks.COLUMNS) + "\nheir,card,Heir,text,2026-11-25,new,the referee,2026-11-25,\n")
+        prune(self.match, "climb", verdict="kept", cut_verified=True, ledger=ledger)
         self.assertEqual({p.name for p in self.match.iterdir()},
                          {"summary.json", "analysis.json", "timing.json", "verdict.jsonl", "card-report"})
         self.assertTrue((self.match / "card-report/cards.csv").is_file())

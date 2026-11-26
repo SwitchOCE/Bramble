@@ -59,3 +59,8 @@ fi
 
 step "one row per card"
 python3 "$A/card_summary.py" "$match" "$out" ${left:+--left-out "$left"}
+
+# A mark the ledger does not hold is yours until it is explained or with the owner
+# (docs/workstreams/balance/plan.md, "Who acts on a mark").
+step "marks not in the ledger"
+python3 "$A/marks.py" "$out" || true
