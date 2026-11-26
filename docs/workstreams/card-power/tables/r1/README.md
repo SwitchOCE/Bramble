@@ -2,7 +2,9 @@
 
 The numbers behind the ledger of marks (`docs/workstreams/balance/marks.csv`) and the two pages for the owner. Each measure is defined in [definitions.md](../../definitions.md). The matches themselves were deleted once these were written.
 
-One reading in `trials_26nov.csv` is kept as a warning and is not evidence about the card: Heath Adder with blue valuing it as Sett Shield-bearer. That peer stands in the back row, so blue stood a Venomous 1/1 where it does nothing. A peer has to stand in the same row and do the same kind of job as the card.
+Two Heath Adder readings in `trials_26nov.csv` are kept as warnings and are not evidence about the card. In the first run blue's patch had not taken, so only red's row counts. In the second, blue valued it as Sett Shield-bearer, the card its whole plan stands on: it bought the Adder in 878 games, kept it like a Shield-bearer, and finished 0.63 worse. A peer has to be a card the bot values in an ordinary way, standing in the same row and doing the same kind of job.
+
+The three rows named "blue told to stay on" a tribe are a test that did not work: blue's own `stay_tribe` knob gives a bot that finishes about 7th of 8, so the left-out rows played on it (Sweetbriar, Leafmould Carter, Lieutenant, Colour Sergeant, Group Captain, Needle Pikeman) say nothing about those cards.
 
 **The match.** 2,000 games, bots red-c14 and blue-c17 against the reference field cut from their own games, rules hash `fa1d51ec`, played 25 Nov 2026 and replayed with records on 26 Nov. Places are finishing places out of 8; a positive difference means the bot finishes worse.
 
